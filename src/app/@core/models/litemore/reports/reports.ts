@@ -1,0 +1,1 @@
+export type reportType = "invoices" | "proformas" | "collections"

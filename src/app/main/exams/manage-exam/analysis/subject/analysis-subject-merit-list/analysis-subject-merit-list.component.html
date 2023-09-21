@@ -1,0 +1,191 @@
+<section class="content mt-config">
+    <div *ngIf="data?.list?.length > 0" class="col-md-12 m-t-md" style="padding: 0;float: none; margin: 0 auto">
+        <p class="fw-600">
+            {{ "exams.analysisSubjectMeritList.subjectMeritListTitle" | translate:{formoryear:
+            schoolTypeData?.formoryear, form:data?.form, stream:data?.stream, subject:data?.subject,
+            examname:data?.exam_name } }}
+        </p>
+        <div class="box text-left">
+
+
+            <div class="box-body">
+                <div class="col-md-12 col-xs-12 table-responsive">
+                    <table class="table table-hover table-striped table-bordered" style="margin: 0; padding: 0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th class="td-fit-nowrap">
+                                    <!-- Admno -->
+                                    {{ "exams.analysisSubjectMeritList.admNo" | translate }}
+                                </th>
+                                <th>
+                                    <!-- Name -->
+                                    {{ "exams.analysisSubjectMeritList.name" | translate }}
+                                </th>
+                                <ng-container *ngIf="data.list[0].papers">
+                                    <th *ngFor="let d of data.list[0].papers" class="td-fit-nowrap">{{d.label}}</th>
+                                </ng-container>
+                                <th>
+                                    <!-- Total -->
+                                    {{"exams.analysisSubjectMeritList.total" | translate }}
+                                </th>
+
+								<ui-kenyan-school [template]="gradeTHTemplate"></ui-kenyan-school>
+								<ui-ghana-school [template]="gradeTHTemplate"></ui-ghana-school>
+								<ui-tanzania-school [template]="gradeTHTemplate"></ui-tanzania-school>
+								<ui-zimbabwe-school [template]="gradeTHTemplate"></ui-zimbabwe-school>
+								<ui-zambia-school [template]="gradeTHTemplate"></ui-zambia-school>
+
+								<ng-template #gradeTHTemplate>
+									<th>
+										<!-- Grade -->
+										{{ "exams.analysisSubjectMeritList.grade" | translate }}
+									</th>
+								</ng-template>
+
+								<ui-guinea-school [template]="mentionTHTemplate"></ui-guinea-school>
+								<ui-ivory-coast-school [template]="mentionTHTemplate"></ui-ivory-coast-school>
+
+								<ng-template #mentionTHTemplate>
+									<th>
+										<!-- Mention -->
+										{{ "exams.mentions.mention" | translate }}
+									</th>
+								</ng-template>
+
+								<ui-south-africa-school [template]="achievementLevelTHTemplate"></ui-south-africa-school>
+
+								<ng-template #achievementLevelTHTemplate>
+									<th>
+										<!-- Achievement Level -->
+										{{ "exams.analysisSubjectMeritList.achievementLevel" | translate }}
+									</th>
+								</ng-template>
+                                <th *ngIf="data.show_target_grades" class="td-fit-nowrap">
+                                    <!-- Target Grade -->
+                                    {{ "exams.analysisSubjectMeritList.targetGrade" | translate }}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let d of data.list;let i = index" style="cursor: pointer"
+                                (click)="goStudentAnalytics(d)">
+                                <td class="td-fit-nowrap">{{ count + i + 1}}</td>
+                                <td class="td-fit-nowrap">{{ d.admno}}</td>
+                                <td class="td-fit-nowrap">{{ d.name}}</td>
+                                <ng-container *ngIf="d.papers">
+                                    <td class="td-fit-nowrap" *ngFor="let x of d.papers">{{x.score}}</td>
+                                </ng-container>
+                                <td class="td-fit-nowrap">{{ d.score}}</td>
+
+								<ui-kenyan-school [template]="gradeTDTemplate"></ui-kenyan-school>
+								<ui-ghana-school [template]="gradeTDTemplate"></ui-ghana-school>
+								<ui-tanzania-school [template]="gradeTDTemplate"></ui-tanzania-school>
+								<ui-zimbabwe-school [template]="gradeTDTemplate"></ui-zimbabwe-school>
+								<ui-zambia-school [template]="gradeTDTemplate"></ui-zambia-school>
+
+								<ng-template #gradeTDTemplate>
+									<td><strong>{{ d.grade}}</strong></td>
+								</ng-template>
+
+								<ui-guinea-school [template]="mentionTDTemplate"></ui-guinea-school>
+								<ui-ivory-coast-school [template]="mentionTDTemplate"></ui-ivory-coast-school>
+
+								<ng-template #mentionTDTemplate>
+									<td><strong>{{ d.mention}}</strong></td>
+								</ng-template>
+
+								<ui-south-africa-school [template]="achievementLevelTDTemplate"></ui-south-africa-school>
+
+								<ng-template #achievementLevelTDTemplate>
+									<td><strong>{{ d?.["achievement level"] }}</strong></td>
+								</ng-template>
+
+                                <td *ngIf="data.show_target_grades" class="td-fit-nowrap">
+                                    <span class="font-bold" style="padding-right: 20px">{{ d.tg.grade}}</span>
+                                    <span *ngIf="d.tg.trend > 0" class="pull-right"><i
+                                            class="fa fa-level-up text-success"></i></span>
+                                    <span *ngIf="d.tg.trend < 0" class="pull-right"><i
+                                            class="fa fa-level-down text-warning"></i></span>
+                                    <span *ngIf="d.tg.trend == 0" class="pull-right"><i
+                                            class="fa fa-long-arrow-right text-info"></i></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12 mt-10">
+                    <div style="display: flex; justify-content: space-between;">
+                        <button type="button" class="btn btn-info btn-sm" (click)="exportToExcel()">
+                            <span class='visible-xs'>
+                                <!-- Download as spreadsheet -->
+                                {{ "exams.analysisSubjectMeritList.btnTextDownloadAsSpreedsheet" | translate }}
+                            </span>
+                        </button>
+                        <div style="display:inline-block" class="text-end">
+                            <button [disabled]="page == 0 " (click)="navigatePage('prev')"
+                            [ngStyle]="{'cursor':(page == 0) ? 'not-allowed' : 'pointer'}"
+                                class="btn btn-secondary waves-effect waves-light btn-sm">
+                                <i class="fa fa-arrow-left"></i>
+                            </button>
+                            <span>
+                                {{page+1}} of {{pages}}
+                            </span>
+                            <button [disabled]="page+1 == pages " (click)="navigatePage('next')"
+                                [ngStyle]="{'cursor':(page+1 == pages) ? 'not-allowed' : 'pointer'}"
+                                class="btn btn-secondary waves-effect waves-light btn-sm">
+                                <i class="fa fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- <span class="col-md-6 col-sm-12 pull-right"> -->
+                    <!-- <nav aria-label="Page navigation example">
+                            <ul class="pagination pagination-sm mb-0 justify-content-end">
+                              <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                              </li>
+                              <li class="page-item"><a class="page-link" href="#">1</a></li>
+                              <li class="page-item"><a class="page-link" href="#">2</a></li>
+                              <li class="page-item"><a class="page-link" href="#">3</a></li>
+                              <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                              </li>
+                            </ul>
+                        </nav> -->
+                    <!-- <ul class="pagination pagination-sm">
+                            <li class="page-item text-sm mt-1 me-2">{{ 'finance.feeBalance.table.fPagination' |
+                                translate:{start: student_data?.firstRecord, last: (student_data?.firstRecord + student_data?.total)} }}</li>
+                            <li class="page-item" [ngClass]="{'disabled': !student_data?.previousPageAvailable }">
+                                <a (click)="filterFeeBalanceSubmit(false, true)" class="page-link" aria-label="Previous">
+                                    <span aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                            class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+                                        </svg>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link disabled">{{student_data?.currentPage}}</a></li>
+                            <li class="page-item" [ngClass]="{'disabled': !student_data?.nextPageAvailable }">
+                                <a (click)="filterFeeBalanceSubmit(true)" class="page-link" aria-label="Next">
+                                    <span aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                            class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
+                                        </svg>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul> -->
+                    <!-- </span>
+                    <span class="col-md-6 col-sm-12">
+
+                    </span> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

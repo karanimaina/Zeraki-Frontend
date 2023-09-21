@@ -1,0 +1,793 @@
+<section class="content mt-config">
+  <ng-container *ngIf="isLoading;then loading else loadingComplete"></ng-container>
+
+  <ng-template #loading>
+    <div class="box">
+      <div class="box-body">
+        <app-loader-div [height]="40"></app-loader-div>
+      </div>
+      <div class="box-body">
+        <app-loader-div [height]="100"></app-loader-div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #loadingComplete>
+    <div class="box" *ngIf="upload_results_success_status">
+      <div class="box-body">
+        <div style="padding-bottom: 16px; display:  inline-block;">
+          <!-- The results have been successfully uploaded -->
+          {{"exams.uploadedExamsSubject.textResultsUploadSuccess"|translate}}
+        </div>
+        <span class="pull-right">
+          <button (click)="goBack()" class="btn btn-info btn-sm">
+            <!-- Back -->
+            {{"exams.uploadedExamsSubject.btnTextBack"|translate}}
+          </button>
+        </span>
+      </div>
+    </div>
+    <!-- <pre>{{exam|json}}</pre> -->
+
+    <div *ngIf="!upload_results_success_status">
+      <!-- <pre>{{routeParams|json}}</pre> -->
+      <p class="fw-600">
+        <!-- Upload Results  -->
+        {{"exams.uploadedExamsSubject.textUploadResults"|translate}} - {{schoolTypeData?.formoryear| formOrYear}} {{class_info?.form}} {{class_info?.stream}} - {{class_info?.subject}}
+      </p>
+      <form #uploadForm="ngForm" id="uploadResultsForm" name="uploadResultsForm" (ngSubmit)="processFile(uploadForm)">
+        <div class="box" style="padding: 0;float: none; margin: 0 auto;">
+          <!-- form section -->
+          <div class='box-body'>
+            <div class="form-group">
+              <label class="form-label" for="term">
+                <!-- Upload Type -->
+                {{"exams.uploadedExamsSubject.textUploadType"|translate}}
+              </label>
+              <div class="radio-button">
+                <input name="addTeacherType" type="radio" id="radio_7" (click)="onUploadTypeChange('key')"
+                  class="radio-col-info with-gap" [checked]="keyInMarks">
+                <label for="radio_7">
+                  <!-- Key in marks -->
+                  {{"exams.uploadedExamsSubject.textKeyInMarks"|translate}}
+                </label>
+
+
+                <input name="addTeacherType" type="radio" id="radio_9" (click)="onUploadTypeChange('upload')"
+                  class="radio-col-info with-gap" [checked]="upload_from_sheet">
+                <label for="radio_9">
+                  <!-- Upload results from a spreedsheet -->
+                  {{"exams.uploadedExamsSubject.textUploadResultsFromSpreadsheet"|translate}}
+                </label>
+              </div>
+
+            </div>
+            <div class="form-group" *ngIf="all_index_numbers_available">
+              <label class="form-label" for="term">
+                <!-- Upload By -->
+                {{"exams.uploadedExamsSubject.textUploadBy"|translate}}
+              </label>
+              <div class="radio-button">
+                <input name="uploadBy" type="radio" value="2" id="radio_17" (change)="onUploadByChange()"
+                  [(ngModel)]="uploadBy" class="radio-col-info with-gap" checked="">
+                <label for="radio_17">
+                  <!-- Index Number -->
+                  {{"exams.uploadedExamsSubject.textIndexNumber"|translate}}
+                </label>
+
+
+                <input name="uploadBy" type="radio" value="1" id="radio_19" [(ngModel)]="uploadBy"
+                  (change)="onUploadByChange()" class="radio-col-info with-gap">
+                <label for="radio_19">
+                  <!-- Admission Number -->
+                  {{"exams.uploadedExamsSubject.textAdmissionNumber"|translate}}
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group row" style="padding: 0">
+              <div *ngIf="!lock_exam" class="col-md-6 form-parallel-padding-left">
+                <label class="form-label" for="term">
+                  <!-- Exam -->
+                  {{"exams.uploadedExamsSubject.textExam"|translate}}
+                </label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate" placeholder="Select Exam"
+                  [items]="examSeries" bindLabel="exam_menu_name" groupBy="term_menu_name" name="exam"
+                  [(ngModel)]="exam.series" (ngModelChange)="onExamChange()" required>
+                  <ng-template ng-optgroup-tmp let-item="item">
+                    {{item.term_menu_name || "exams.uploadedExamsSubject.textUnamedTerm"|translate}}
+                  </ng-template>
+                </ng-select>
+              </div>
+              <div *ngIf="lock_exam" class="col-md-6 form-parallel-padding-left">
+                <label class="form-label" for="term">
+                  <!-- Exam -->
+                  {{"exams.uploadedExamsSubject.textExam"|translate}}
+                </label>
+                <input style="cursor:text" [disabled]="true" type="text" [(ngModel)]="exam.series.exam_menu_name"
+                  name="termtext" id="termtext" class="form-control">
+                <!--  -->
+              </div>
+              <div class="col-md-6 form-parallel-padding-right">
+                <label class="form-label" for="seriesmax">
+                  <!-- Maximum Marks -->
+                  {{"exams.uploadedExamsSubject.textMaximumMarks"|translate}}
+                  <span class="text-danger">*</span>
+                </label>
+                <input type="number" required min="1" max="1000"
+                  placeholder='{{"exams.uploadedExamsSubject.inputPlaceHolderMaximumMarks"|translate}}'
+                  title="Please enter the maximum marks" name="seriesmax" #seriesmax="ngModel" id="seriesMax"
+                  [(ngModel)]="max" class="form-control"
+                  [ngClass]="{ 'is-invalid': uploadForm.submitted && seriesmax.invalid }">
+                <div *ngIf="uploadForm.submitted && seriesmax.errors?.required" class="form-control-feedback text-danger">
+                  <small>
+                    <!-- Maximum Marks cannot be empty. -->
+                    {{"exams.uploadedExamsSubject.textMaximumNotEmpty"|translate}}
+                  </small>
+                </div>
+                <div *ngIf="uploadForm.submitted && seriesmax.errors?.max" class="form-control-feedback text-danger">
+                  <small>
+                    <!-- Maximum Marks cannot be > 1000. -->
+                    {{"exams.uploadedExamsSubject.textMaximumNotGreaterThan1000"|translate}}
+                  </small>
+                </div>
+              </div>
+              <!---->
+            </div>
+
+
+            <div class="form-group" style="padding: 16px 0 0 0"
+            *ngIf="exam?.series?.subject_papers?.length > 0">
+            <label class="form-label" for="term">
+                <!-- Subject Paper  -->
+                {{"exams.uploadedExamsSubject.textSubjectPaper"|translate}}
+            </label>
+            <!-- <select name="paper" (change)="onSubjectPaperChange()" [(ngModel)]="exam.subject_paper" id="paperId" class="form-select">
+                   <option value="">Select Paper</option>
+                    <option *ngFor="let p of exam.subject_papers" >{{p.papername}}</option>
+                </select> -->
+            <ng-select [notFoundText]="'common.noItemsFound' | translate" placeholder="Subject Paper"
+                [items]="exam.series.subject_papers | paperName" bindLabel="papername" name="paper" #paper="ngModel"
+                [(ngModel)]="exam.subject_paper" (ngModelChange)="onSubjectPaperChange()"
+                [ngClass]="{ 'is-invalid': uploadForm.submitted && paper.invalid }" required>
+            </ng-select>
+            <div *ngIf="uploadForm.submitted && paper.errors?.required"
+                class="form-control-feedback text-danger">
+                <small>
+                    <!-- Subject Paper cannot be empty. -->
+                    {{"exams.uploadedExamsSubject.textSubjectPaperNotEmpty"|translate}}
+                </small>
+            </div>
+        </div>
+
+          </div>
+
+          <!-- students with results section -->
+          <div class="col-12" *ngIf="exam?.series?.results?.length > 0 || exam?.subject_paper?.results?.length > 0">
+            <div class='col-md-12 col-xs-12 no-padding'>
+              <div class="col-xs-12 col-md-12 no-padding">
+                <div class="hpanel">
+                  <div class="panel-body text-left">
+                    <div class="col-xs-12 col-md-12 no-padding"
+                      *ngIf="exam?.series?.results?.length > 0 && exam?.subject_paper?.results == undefined">
+                      <div class="col-xs-12 col-md-12" style="padding: 0 0 0 0">
+                        <label>
+                          <!-- Students with results -->
+                          {{"exams.uploadedExamsSubject.textStudentsWithResults"|translate}}
+                        </label>
+                      </div>
+                      <div class="col-12" style="padding: 0 0 0 0">
+                        <div class="table-responsive" style="margin: 0 0 16px 0">
+                          <table class="table table-bordered table-striped table-hover">
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th *ngIf="uploadBy == uploadByAdmno">
+                                  <!-- Admno -->
+                                  {{"exams.uploadedExamsSubject.textAdmno"|translate}}
+                                </th>
+                                <th *ngIf="uploadBy == uploadByIndexno">
+                                  <!-- Index No -->
+                                  {{"exams.uploadedExamsSubject.textIndexNumber"|translate}}
+                                </th>
+                                <th>
+                                  <!-- Name -->
+                                  {{"exams.uploadedExamsSubject.textName"|translate}}
+                                </th>
+                                <th>
+                                  <!-- Marks -->
+                                  {{"exams.uploadedExamsSubject.textMarks"|translate}}
+                                </th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody style="text-transform: capitalize">
+                              <tr *ngFor="let d of exam.series.results; index as i">
+                                <td>{{i + 1}}</td>
+                                <td *ngIf="uploadBy == uploadByAdmno">
+                                  {{d.admno}}</td>
+                                <td *ngIf="uploadBy == uploadByIndexno">{{d.indexno}}</td>
+                                <td>{{d.name}}</td>
+                                <td>
+                                  <div>
+                                    <span *ngIf="d.grade == undefined">{{d.score}}</span>
+                                    <span *ngIf="d.grade != undefined">{{d.grade}}</span>
+                                  </div>
+                                </td>
+                                <td class="text-center">
+                                  <button class="btn btn-sm btn-secondary waves-effect waves-light btn-sm" type="button">
+                                    <!-- Edit -->
+                                    {{"exams.publishSubjectStatus.textEdit"|translate}}
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-md-12 no-padding" *ngIf="exam?.subject_paper?.results?.length > 0">
+                      <div class="col-xs-12 col-md-12" style="padding: 0 0 0 0">
+                        <label>
+                          <!-- Students with results  -->
+                          {{"exams.uploadedExamsSubject.textStudentsWithResults" | translate}}
+                          - {{exam.subject_paper.papername}}
+                        </label>
+                      </div>
+                      <div class="col-xs-12 col-md-12" style="padding: 0 0 0 0">
+                        <div class="table-responsive" style="margin: 0">
+                          <table class="table table-striped table-hover table-bordered mb-0">
+                            <thead>
+                              <tr>
+                                <th class="td-fit-nowrap">#</th>
+                                <th class="td-fit-nowrap" *ngIf="uploadBy == uploadByAdmno">
+                                  <!-- Admno -->
+                                  {{"exams.uploadedExamsSubject.textAdmno"|translate}}
+                                </th>
+                                <th class="td-fit-nowrap" *ngIf="uploadBy == uploadByIndexno">
+                                  <!-- Index No -->
+                                  {{"exams.uploadedExamsSubject.textIndexNumber"|translate}}
+                                </th>
+                                <th class="td-fit-nowrap">
+                                  <!-- Name -->
+                                  {{"exams.uploadedExamsSubject.textName"|translate}}
+                                </th>
+                                <th>
+                                  <!-- Marks -->
+                                  {{"exams.uploadedExamsSubject.textMarks"|translate}}
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody style="text-transform: capitalize">
+                              <tr *ngFor="let d of exam.subject_paper.results; index as i">
+                                <td class="td-fit-nowrap">{{i + 1}}</td>
+                                <td class="td-fit-nowrap" *ngIf="uploadBy == uploadByAdmno">
+                                  {{d.admno}}</td>
+                                <td class="td-fit-nowrap" *ngIf="uploadBy == uploadByIndexno">{{d.indexno}}</td>
+                                <td class="td-fit-nowrap">{{d.name}}</td>
+                                <td>
+                                  <div>
+                                    <span *ngIf="d.grade == undefined">{{d.score}}</span>
+                                    <span *ngIf="d.grade != undefined">{{d.grade}}</span>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <pre>{{uploadType|json}}</pre> -->
+          <!-- section students without results -->
+
+          <div class="col-12"
+            *ngIf="upload_from_sheet || (keyInMarks && data.length > 0 && (data_visibility_stats.classmembers > 0 || non_class_members.length > 0))">
+            <div class="col-xs-12 col-md-12 no-padding"
+              *ngIf="upload_from_sheet || (keyInMarks && data.length > 0 && data_visibility_stats.classmembers > 0)">
+              <div class="hpanel">
+                <div class="panel-body text-start">
+                  <div class="col-xs-12 col-md-12 no-padding">
+                    <div class="col-xs-12 col-md-12" style="padding: 0 0 16px 0" *ngIf="upload_from_sheet">
+
+                      <app-excel-download-template
+                              [fileName]="'exams.uploadedExamsSubject.excelTemplateDownload.fileName' | translate"
+                              [templateHeaders]="excelTemplateHeaders"
+                              [entries]="defaultExcelEntries"
+                              (uploadedEntries)="readUploadedStudentMarks($event)">
+                      </app-excel-download-template>
+
+                    </div>
+
+                    <div class="col-xs-12 col-md-12" style="margin: 0;padding: 0"
+                      *ngIf="keyInMarks && data.length > 0 && data_visibility_stats.classmembers > 0">
+                      <div class="col-md-12 col-xs-12 no-padding"
+                        *ngIf="subject_teachers.length >= 3 && subject_class_students.length > 0">
+                        <div class="col-md-12 col-xs-12" style="padding: 0 0 16px 0">
+                          <div class="col-md-12 col-xs-12" style="padding: 0 0 8px 0" *ngFor="let st of subject_teachers">
+
+                            <input name="group5" type="radio" id="radio_32{{st.teacherid}}" value="{{st.teacherid}}"
+                              [(ngModel)]="class_info.selected_teacher_id" (change)="onSelectedTeacherChange()"
+                              class="with-gap radio-col-info">
+                            <label for="radio_32{{st.teacherid}}">{{st.displayname}}</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-xs-12" *ngIf="data_visibility_stats.classmembers > 0" style="padding: 0">
+                        <label [hidden]='exam?.subject_paper?.papername != undefined'>
+                          <!-- Students without results -->
+                          {{"exams.uploadedExamsSubject.textStudentWithoutResults"|translate}}
+                        </label>
+                        <label *ngIf='exam?.subject_paper?.papername != undefined'>
+                          <!-- Students without results  -->
+                          {{"exams.uploadedExamsSubject.textStudentWithoutResults"|translate}}
+                          - {{exam.subject_paper.papername}}
+                        </label>
+                      </div>
+                      <div class="col-md-12 col-xs-12" style="padding: 0"
+                        *ngIf="data_visibility_stats.teacherstudents == 0">
+                        <!-- All students have results -->
+                        {{"exams.uploadedExamsSubject.textAllStudentsHaveResults"|translate}}
+                      </div>
+                      <div class="col-12" style="padding: 0" *ngIf="data_visibility_stats.teacherstudents > 0">
+                        <div class="col-md-12 col-xs-12 no-padding hidden-md-down table-responsive">
+                          <table class="table table-striped table-bordered mb-0">
+                            <thead>
+                              <tr>
+                                <th class="td-fit-nowrap" *ngIf="uploadBy == uploadByAdmno">
+                                  <!-- Admno -->
+                                  {{"exams.uploadedExamsSubject.textAdmno"|translate}}
+                                </th>
+                                <th class="td-fit-nowrap" *ngIf="uploadBy == uploadByIndexno">
+                                  <!-- Index No -->
+                                  {{"exams.uploadedExamsSubject.textIndexNumber"|translate}}
+                                </th>
+                                <th class="td-fit-nowrap">
+                                  <!-- Name -->
+                                  {{"exams.uploadedExamsSubject.textName"|translate}}
+                                </th>
+                                <th>
+                                  <!-- Marks -->
+                                  {{"exams.uploadedExamsSubject.textMarks"|translate}}
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody style="text-transform: capitalize">
+                              <tr *ngFor="let r of data; index as idx">
+                                <ng-container *ngIf='r.visible'>
+                                  <td class="td-fit-nowrap" *ngIf="uploadBy == uploadByAdmno"
+                                    style="vertical-align: middle">{{r.ADMNO}}</td>
+                                  <td class="td-fit-nowrap" *ngIf="uploadBy == uploadByIndexno"
+                                    style="vertical-align: middle">{{r.INDEXNO}}</td>
+                                  <td class="td-fit-nowrap"
+                                    style="vertical-align: middle;word-wrap:break-word !important">
+                                    {{r.NAME}}
+                                  </td>
+                                  <td style="vertical-align: middle">
+                                    <div [ngSwitch]="r.grade === 'X' || r.grade === 'Y'">
+                                      <div class="form-group mb-0" *ngSwitchCase="false">
+                                        <div class="input-group">
+                                          <input style="min-width: 4.5em" step="0.1" type="number" min="0" max="{{max}}"
+                                            [(ngModel)]="r.MARKS" name="s_{{idx}}" class="form-control"
+                                            (keyup.enter)="invokeTabKey($event)">
+                                          <button tabindex="10000" data-bs-toggle="dropdown"
+                                            class="btn btn-success btn-sm" type="button">
+                                            <i class="fa fa-cog"></i>
+                                          </button>
+                                          <div class="dropdown-menu dropdown-menu-end">
+                                            <a class="dropdown-item" (click)="r.grade = 'X'">
+                                              {{"exams.uploadedExamsSubject.textGradeX"|translate}}
+                                            </a>
+                                            <div class="dropdown-divider">
+                                            </div>
+                                            <a class="dropdown-item" (click)="r.grade = 'Y'">
+                                              {{"exams.uploadedExamsSubject.textGradeY"|translate}}
+                                            </a>
+                                          </div>
+                                        </div>
+                                        <!-- <div class="form-group"
+                                              *ngSwitchCase="true">
+                                              <div class="input-group">
+                                                  <input
+                                                      style="min-width: 4.5em; z-index: inherit"
+                                                      type="text"
+                                                      [(ngModel)]="r.grade"
+                                                      name="r_{{r.grade}}"
+                                                      [disabled]="true"
+                                                      class="form-control">
+                                                  <button tabindex="10000"
+                                                      (click)="r.grade = undefined"
+                                                      class="btn btn-primary btn-sm"
+                                                      type="button">
+                                                      <i class="fa fa-trash-o"></i>
+                                                  </button>
+                                              </div>
+                                          </div> -->
+                                      </div>
+                                      <div class="form-group mb-0" *ngSwitchCase="true">
+                                        <div class="input-group">
+                                          <input style="min-width: 4.5em" step="0.1" type="text" [(ngModel)]="r.grade"
+                                            name="r_{{idx}}" [disabled]="true" class="form-control">
+                                          <button tabindex="10000" (click)="r.grade = undefined"
+                                            class="btn btn-warning btn-sm" type="button">
+                                            <i class="fa fa-trash-o"></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </ng-container>
+
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12 col-xs-12 no-padding hidden-lg-up table-responsive">
+                        <table class="table table-striped table-bordered mb-0">
+                          <thead>
+                            <tr>
+                              <th *ngIf="uploadBy == uploadByAdmno">
+                                <!-- Admno -->
+                                {{"common.adm"|translate}}
+                              </th>
+                              <th *ngIf="uploadBy == uploadByIndexno">
+                                <!-- Index No -->
+                                {{"exams.uploadedExamsSubject.textIndexNumber"|translate}}
+                              </th>
+                              <th>
+                                <!-- Name -->
+                                {{"exams.uploadedExamsSubject.textName"|translate}}
+                              </th>
+                              <th style="min-width: 90px;">
+                                <!-- Marks -->
+                                {{"exams.uploadedExamsSubject.textMarks"|translate}}
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody style="text-transform: capitalize">
+                            <tr *ngFor=" let r of data; index as idx">
+                              <ng-container *ngIf='r.visible'>
+                                <td class="td-fit-nowrap" *ngIf="uploadBy == uploadByAdmno"
+                                  style="vertical-align: middle">{{r.ADMNO}}</td>
+                                <td class="td-fit-nowrap" *ngIf="uploadBy == uploadByIndexno"
+                                  style="vertical-align: middle">{{r.INDEXNO}}</td>
+                                <td style="vertical-align: middle;">{{r.NAME}}</td>
+                                <td>
+                                  <div [ngSwitch]="r.grade === 'X' || r.grade === 'Y'">
+                                    <div *ngSwitchCase="false" class="input-group dropdown">
+                                      <input type="number" min="0" max="{{max}}" name="s_{{idx}}" [(ngModel)]="r.MARKS"
+                                        class="form-control" matInput #input (keydown.enter)="invokeTabKey($event)">
+                                      <button data-bs-toggle="dropdown" class="btn btn-success btn-sm"><i
+                                          class="fa fa-cog"></i></button>
+
+                                      <div class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item" (click)="r.grade = 'X'">
+                                          <!-- Grade X -->
+                                          {{"exams.uploadedExamsSubject.textGradeX"|translate}}
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" (click)="r.grade = 'Y'">
+                                          <!-- Grade Y -->
+                                          {{"exams.uploadedExamsSubject.textGradeY"|translate}}
+                                        </a>
+                                      </div>
+                                    </div>
+                                    <div *ngSwitchCase="true">
+                                      <div class="input-group">
+                                        <input type="text" [(ngModel)]="r.grade" name="r_{{idx}}" [disabled]="true"
+                                          class="form-control">
+                                        <button (click)="r.grade = undefined" class="btn btn-warning btn-sm"
+                                          type="button">
+                                          <i class="fa fa-trash-o"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+
+                                    <!-- <div
+                                                                              [ngSwitch]="r.grade === 'X' || r.grade === 'Y'">
+                                                                              <div class="form-group" *ngSwitchCase="false">
+                                                                                  <div class="input-group">
+                                                                                      <input step="0.1" type="number" min="0"
+                                                                                          max="{{max}}" name="r_marks"
+                                                                                          [(ngModel)]="r.MARKS"
+                                                                                          class="form-control"
+                                                                                          inputenterastab>
+                                                                                      <button type="button"
+                                                                                          class="btn btn-success btn-sm btn-sm dropdown-toggle"
+                                                                                          data-bs-toggle="dropdown"><i
+                                                                                              class="fa fa-cog"></i></button>
+                                                                                      <div
+                                                                                          class="dropdown-menu dropdown-menu-end">
+                                                                                          <a class="dropdown-item"
+                                                                                              (click)="r.grade = 'X'">Grade
+                                                                                              X</a>
+                                                                                          <a class="dropdown-item"
+                                                                                              (click)="r.grade = 'Y'">Grade
+                                                                                              Y</a>
+                                                                                      </div>
+                                                                                  </div>
+                                                                              </div>
+                                                                              <div class="form-group" *ngSwitchCase="true">
+                                                                                  <div class="input-group">
+                                                                                      <input type="text" [(ngModel)]="r.grade"
+                                                                                          name="rGrade" [disabled]="true"
+                                                                                          class="form-control">
+                                                                                          <button tabindex="10000"
+                                                                                          (click)="r.grade = undefined"
+                                                                                          class="btn btn-primary btn-sm"
+                                                                                          type="button">
+                                                                                          <i class="fa fa-trash-o"></i>
+                                                                                      </button>
+                                                                                  </div>
+                                                                              </div>
+                                                                          </div> -->
+                                  </div>
+                                </td>
+                              </ng-container>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Working from here -->
+        <div class="box" *ngIf="newStudents.length > 0">
+
+          <div class="box-body">
+            <h4 class="form-label">
+              <!-- New Students -->
+              {{"exams.uploadedExamsSubject.textNewStudents"|translate}}
+            </h4>
+            <div class="col-12">
+              <div class="table-responsive" style="padding: 0">
+                <table class="table table-bordered table-striped mb-0">
+                  <thead>
+                    <tr>
+                      <th *ngIf="uploadBy == uploadByAdmno">
+                        <!-- Admno -->
+                        {{"exams.uploadedExamsSubject.textAdmno"|translate}}
+                      </th>
+                      <th *ngIf="uploadBy == uploadByIndexno">
+                        <!-- Index No -->
+                        {{"exams.uploadedExamsSubject.textIndexNumber"|translate}}
+                      </th>
+                      <th>
+                        <!-- Name -->
+                        {{"exams.uploadedExamsSubject.textName"|translate}}
+                      </th>
+                      <th>
+                        <!-- Marks -->
+                        {{"exams.uploadedExamsSubject.textMarks"|translate}}
+                      </th>
+                      <th>{{"common.actions"|translate}}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let r of newStudents; index as index">
+                      <td style="vertical-align: middle" *ngIf="uploadBy == uploadByAdmno">
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate" appendTo="body" placeholder="Select"
+                          [items]="non_class_members" bindLabel="admno" name="admno" [(ngModel)]="r.student" required>
+                        </ng-select>
+                      </td>
+                      <td style="vertical-align: middle" *ngIf="uploadBy == uploadByIndexno">
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate" appendTo="body" placeholder="Select"
+                          [items]="non_class_members" bindLabel="indexno" name="indexno" [(ngModel)]="r.student" required>
+                        </ng-select>
+                      </td>
+                      <td>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate" appendTo="body" placeholder="Select"
+                          [items]="non_class_members" bindLabel="name" name="name" [(ngModel)]="r.student" required>
+                        </ng-select>
+                      </td>
+                      <td>
+                        <div [ngSwitch]="r.grade === 'X' || r.grade === 'Y'">
+                          <div class="form-group mb-0" *ngSwitchCase="false">
+                            <!-- ---------------------------------------- -->
+                            <!-- <input style="min-width: 4.5em" required step="0.1"
+                                                              type="number" min="0" max="{{max}}" name="rMarks"
+                                                              [(ngModel)]="r.marks" class="form-control"
+                                                              inputenterastab>
+                                                          <div class="input-group-btn alwaysdropdown" dropdown>
+                                                              <button data-toggle="dropdown"
+                                                                  class="btn btn-primary btn-sm dropdown-toggle"
+                                                                  dropdown-toggle type="button">
+                                                                  <i class="fa fa-cog"></i>
+                                                              </button>
+                                                              <ul class="dropdown-menu dropdown-menu-right">
+                                                                  <li>
+                                                                      <a (click)="r.grade = 'X'">Grade X</a>
+                                                                  </li>
+                                                                  <li></li>
+                                                                  <li>
+                                                                      <a (click)="r.grade = 'Y'">Grade Y</a>
+                                                                  </li>
+                                                              </ul>
+                                                          </div> -->
+                            <!-- ---------------------------------------- -->
+                            <div class="input-group dropdown">
+                              <input style="min-width: 4.5em" required step="0.1" type="number" min="0" max="{{max}}"
+                                name="rMarks" [(ngModel)]="r.marks" class="form-control" inputenterastab>
+                              <button tabindex="10000" data-bs-toggle="dropdown" class="btn btn-success btn-sm"
+                                type="button">
+                                <i class="fa fa-cog"></i>
+                              </button>
+
+                              <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" (click)="r.grade = 'X'">
+                                  <!-- Grade X -->
+                                  {{"exams.uploadedExamsSubject.textGradeX"|translate}}
+                                </a>
+                                <div class="dropdown-divider">
+                                </div>
+                                <a class="dropdown-item" (click)="r.grade = 'Y'">
+                                  <!-- Grade Y -->
+                                  {{"exams.uploadedExamsSubject.textGradeY"|translate}}
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="input-group" *ngSwitchCase="true">
+                            <input style="min-width: 4.5em;" type="text" name="{{index}}-grade" [(ngModel)]="r.grade"
+                              [disabled]="true" class="form-control">
+                            <button (click)="r.grade = undefined" class="btn btn-warning btn-sm" type="button">
+                              <i class="fa fa-trash-o"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </td>
+                      <td style="vertical-align: middle">
+                        <button (click)="deleteNewStudent(index)" class="btn btn-danger btn-sm" type="button">
+                          <!-- Delete -->
+                          {{"exams.uploadedExamsSubject.btnTextDelete"|translate}}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-12">
+              <span class="pull-right mt-10" *ngIf="non_class_members.length > 0">
+                <button type="button" class="btn btn-success btn-sm btn-sm" (click)="addNewStudent()">
+                  <!-- Add Student -->
+                  {{"exams.uploadedExamsSubject.btnTextAddStudent"|translate}}
+                </button>
+              </span>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="col-xs-12 col-md-12 text-left" style="padding: 0 0 16px 0" *ngIf="error_exam">
+          <span class="help-block small" style="color:#d62c1a">
+            {{error_msg}}
+          </span>
+        </div>
+        <div class="col-xs-12 col-md-12 form-group"
+          style="display: flex; justify-content: space-between; padding: 0 15px;">
+          <span class="btn-group">
+            <button *ngIf="(data_visibility_stats.teacherstudents > 0 || newStudents.length > 0)" type="button"
+              class="btn btn-sm btn-secondary hidden-xs" (click)="goBack()">
+              <!-- Back -->
+              {{"exams.uploadedExamsSubject.btnTextBack"|translate}}
+            </button>
+            <button
+              *ngIf="userRoles?.isSchoolAdmin && keyInMarks && non_class_members.length > 0 && !(newStudents.length > 0)"
+              type="button" class="btn btn-primary btn-sm btn-sm" (click)="addNewStudent()">
+              <!-- Add Student -->
+              {{"exams.uploadedExamsSubject.btnTextAddStudent"|translate}}
+            </button>
+          </span>
+          <span *ngIf='data_visibility_stats.teacherstudents > 0 || newStudents.length > 0'>
+            <button [disabled]="showLoading" type="submit" class="btn btn-info btn-sm">
+              <!-- Upload Subject Results -->
+              {{"exams.uploadedExamsSubject.btnTextUploadSubjectResults"|translate}}
+            </button>
+            <img *ngIf="showLoading" style="height: 35px" src="../../../../assets/img/loading-bars.svg"
+              alt="Processing. Please wait.">
+          </span>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+</section>
+
+<!-- Control Sidebar  -->
+<aside class="control-sidebar control-sidebar-open" [ngClass]="{'control-sidebar-open':rightSidebar}">
+
+
+  <div>
+    <span class="font-bold no-margins text-danger">
+      <!-- Error -->
+      {{"exams.kcseExams.textError"|translate}}
+    </span>
+    <br>
+    <small>
+      <!-- The following errors were encountered  -->
+      {{"exams.kcseExams.textFollowingErrors"|translate}}
+    </small>
+    <button style="margin-top: -19px;" (click)="rightSidebar = false"
+      class="pull-right btn waves-effect waves-light btn-sm btn-danger">
+      <i class="text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+        </svg>
+      </i>
+    </button>
+  </div>
+  <hr>
+  <div *ngIf="rightSidebar && custom_errors.length> 0  ">
+
+    <div class="media-list mt-20" *ngFor="let error of custom_errors">
+      <!--
+            ================================
+            Forbidden columns Section
+            ================================
+            -->
+      <div *ngIf="error.title == 'Forbidden Columns'" class="media py-10 px-0">
+        <div class="media-body">
+          <p class="fs-16">
+            <strong>{{error.title}}</strong>
+          </p>
+          <p *ngFor="let msg of error.msg">{{msg}}</p>
+
+          <strong>
+            <!-- Allowed Columns -->
+            {{"exams.gradingSystem.textAllowedColumns"|translate}}
+          </strong>
+          <table class="table table-bordered mb-0">
+            <thead>
+              <tr>
+                <th>
+                  <!-- Column -->
+                  {{"exams.gradingSystem.textColumn"|translate}}
+                </th>
+                <th>
+                  <!-- Meaning -->
+                  {{"exams.gradingSystem.textMeaning"|translate}}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let t of error.allowed_headers">
+                <td>{{t.column}}</td>
+                <td>{{t.meaning}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!--
+            ================================
+            Data Error Section
+            ================================
+            -->
+      <div *ngIf="error.title != 'Forbidden Columns'" class="media py-10 px-0">
+        <div class="media-body">
+          <p class="fs-16">
+            <strong>{{error.title}}</strong>
+          </p>
+          <p *ngFor="let msg of error.msg">{{msg}}</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- <pre>{{custom_errors|json}}</pre> -->
+</aside>
+<!-- /.control-sidebar -->

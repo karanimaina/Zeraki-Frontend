@@ -1,0 +1,12 @@
+export { PrintoutsComponent } from "./printouts.component";
+export { AnalysisReportComponent } from "./analysis-report/analysis-report.component";
+export { ClassListsComponent } from "./class-lists/class-lists.component";
+export { LeavingCertsComponent } from "./leaving-certs/leaving-certs.component";
+export { MeritListComponent } from "./merit-list/merit-list.component";
+export { ReportFormsComponent } from "./report-forms/report-forms.component";
+export { TranscriptsComponent } from "./transcripts/transcripts.component";
+export { PrintTopNavComponent } from "./print-top-nav/print-top-nav.component";
+export { EvaluationReportComponent } from "./olevels/evaluation-report/evaluation-report.component";
+export { OLevelReportFormsComponent } from "./olevels/olevel-report-forms/olevel-report-forms.component";
+export { AssessmentsComponent } from "./olevels/assessments/assessments.component";
+export { TzReportFormsComponent } from "./tanzania/tz-report-forms/tz-report-forms.component";

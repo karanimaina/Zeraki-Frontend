@@ -1,0 +1,107 @@
+<div class="title">Make Payment</div>
+<app-submit-form [formGroup]="paymentForm" (onSubmit)="makePayment()">
+    <div class="form-group">
+        <label class="form-label" for="payment-source">Payment Source*</label>
+        <ng-select id="payment-source" placeholder="Select payment source" class="form-control-dropdown"
+            [ngClass]="{ 'is-invalid': (paymentForm.isSubmitted && paymentSource?.invalid)}"
+            [items]="paymentSources" [clearable]="false" formControlName="paymentSource" required></ng-select>
+    </div>
+    <div class="form-group" *ngIf="paymentSource?.value == 'Mpesa'">
+        <label class="form-label" for="payment-source"></label>
+        <div class="row mt-3" style="flex: 3;">
+            <div class="col-12 col-md-6 mb-3">
+                <input id="all_students" type="checkbox" class="filled-in chk-col-primary"
+                    (change)="togglePaymentNumber('primary')" name="all_students" [checked]="myNumber" [disabled]="!primaryPhone" />
+                <label for="all_students">My number</label>
+
+                <div style="margin-inline-start: 2rem;">
+                    <input type="text" formControlName="phoneNumber" class="form-control" placeholder="07...">
+                    <app-field-errors class="form-error" [control]="phoneNumber!" [label]="'Phone number'">
+                    </app-field-errors>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <input id="other_number" type="checkbox" class="filled-in chk-col-success"
+                    (change)="togglePaymentNumber('other')" name="other_number" [checked]="!myNumber">
+                <label for="other_number">Other number</label>
+
+                <div style="margin-inline-start: 2rem;">
+                    <input type="text" formControlName="otherNumber" class="form-control" placeholder="07...">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group my-3" *ngIf="paymentSource?.value == 'Bank'">
+        <label class="form-label" for="bank-payment"></label>
+        <div id="bank-payment" class="form-control" style="flex: 3; margin-inline-start: 0.5rem;">
+            <div class="px-3">How to make an Mpesa to Bank Transaction</div>
+
+            <div class="mt-3 px-3">
+                This is service is available via PayBill.
+                Go to M-PESA menu on your phone.
+                Go to Lipa na M-PESA, PayBill option.
+                Enter the banks business number
+                Enter account number which is your bank
+                account number.
+                Enter amount.
+                Enter M-PESA pin.
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="payment-to">Payment to *</label>
+        <ng-select 
+            id="payment-to" placeholder="Select Recipient" class="form-control-dropdown"
+            [items]="stkData?.list"
+            [clearable]="false" 
+            formControlName="paymentTo" 
+            bindLabel="account.name" 
+            bindValue="account.accountNo"
+            [compareWith]="compareAccounts"
+            required
+            [ngClass]="{ 'is-invalid': (paymentForm.isSubmitted && paymentTo?.invalid)}">
+            <!-- <ng-template ng-optgroup-tmp let-item="item">
+                {{item.paymentMode}}
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item">
+                {{item.name}}
+            </ng-template> -->
+        </ng-select>
+    </div>
+    <div class="form-group" style="margin-bottom: 1em;">
+        <label class="form-label"></label>
+        <app-field-errors class="form-error" [control]="paymentTo!" [label]="'Payment To'">
+        </app-field-errors>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="amount">Amount *</label>
+        <input style="max-width: 41.2rem;" type="text" class="form-control" formControlName="amount" placeholder="0" id="amount"
+            [ngClass]="{ 'is-invalid': (paymentForm.isSubmitted && amount?.invalid)}">
+    </div>
+    <div class="form-group" style="margin-bottom: 1em;">
+        <label class="form-label"></label>
+        <app-field-errors class="form-error" [control]="amount!" [label]="'Amount'">
+        </app-field-errors>
+    </div>
+    <div>
+        <h6>
+            Incase of enquiries contact: 
+            <a href="tel:{{ (userInit$| async)?.customer_care_number || 0798666000 }}"  target="_blank" class="text-bold">
+                {{ (userInit$| async)?.customer_care_number || 0798666000 }}
+            </a>
+        </h6>
+    </div>
+    <div>
+        <button type="button" class="btn btn-outline btn-danger" (click)="cancel()">
+            Cancel
+        </button>
+        <button type="submit" class="btn btn-outline btn-success pull-right">
+            Next
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
+            </svg>
+        </button>
+    </div>
+</app-submit-form>

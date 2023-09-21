@@ -1,0 +1,39 @@
+<div class="mt-20" *ngIf="showStudentOptions">
+	<div class="text-muted h6">{{ "messages.compose.optional" | translate }}</div>
+	<form [formGroup]="allStudentsOptionsFormGroup">
+		<div class="row">
+			<div class="col-md-4" *ngIf="schoolInfo?.boardingStatus == boardingStatus.Mixed">
+				<div class="form-group">
+					<label for="boardingStatus" class="pb-2">{{ "messages.compose.boardingStatus" | translate }}</label>
+					<ng-select id="boardingStatus" [placeholder]="'messages.compose.optional' | translate"
+						[formControlName]="'boardingStatus'">
+						<ng-option value="Boarding">{{ "settings.schoolInfoProfile.boardingStatus.boarding" | translate
+							}}</ng-option>
+						<ng-option value="Day">{{ "settings.schoolInfoProfile.boardingStatus.day" | translate
+							}}</ng-option>
+					</ng-select>
+				</div>
+			</div>
+			<div class="col-md-4" *ngIf="schoolInfo?.genderType == schoolGenderTypes.Mixed">
+				<div class="form-group">
+					<label for="gender" class="pb-2">{{ "students.gender" | translate }}</label>
+					<ng-select id="gender" [placeholder]="'messages.compose.optional' | translate"
+						[formControlName]="'gender'">
+						<ng-option [value]="1">{{ "classes.manage.table.boys" | translate }}</ng-option>
+						<ng-option [value]="2">{{ "classes.manage.table.girls" | translate }}</ng-option>
+					</ng-select>
+				</div>
+			</div>
+			<div class="col-md-4"
+				*ngIf="schoolInfo?.boardingStatus == boardingStatus.Mixed || schoolInfo?.boardingStatus == boardingStatus.Boarding">
+				<div class="form-group">
+					<label for="residenceIds" class="pb-2">{{ "messages.compose.residence" | translate }}</label>
+					<ng-select [items]="studentResidences" [placeholder]="'messages.compose.optional' | translate"
+						id="residenceIds" [loading]="loadingStudentResidences" [formControlName]="'residenceIds'"
+						[multiple]="true" bindLabel="name" bindValue="id">
+					</ng-select>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

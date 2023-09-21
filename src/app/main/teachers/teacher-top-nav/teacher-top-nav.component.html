@@ -1,0 +1,95 @@
+<div class="navbar-light top-wrapper fixed-top bg-primary">
+    <!-- Admin View -->
+    <ul class="nav nav-pill customtab2 nav-filled text-center">
+        <!-- <ul class="nav nav-tabs " role="tablist"> -->
+        <li  class="nav-item text-center">
+            <a [routerLink]="['/main/teachers/manage']" class="nav-link" routerLinkActive="active"
+                #manageTeachers="routerLinkActive" [ngClass]="{'active' : manageTeachers.isActive}"
+                data-bs-toggle="tab" role="tab" aria-selected="true">
+                <span class="me-2 hidden-xs-down">
+                    <i class="fa fa-cog"></i>
+                </span>
+                <div class="hidden-sm-up text-center">
+                    <i class="fa fa-cog"></i>
+                </div>
+                <span class="hidden-xs-down">
+                    <!-- <ng-container *ngIf="userRoles?.isSchoolAdmin">{{ 'teachers.topNav.manage' | translate }}</ng-container>
+                    <ng-container *ngIf="!userRoles?.isSchoolAdmin">{{ 'teachers.topNav.view' | translate }}</ng-container>
+                    {{ 'teachers.topNav.teachers' | translate }} -->
+
+                    <ng-container *ngIf="userRoles?.isSchoolAdmin">
+                      {{ 'teachers.topNav.manageTeachers' | translate }}
+                    </ng-container>
+                    <ng-container *ngIf="!userRoles?.isSchoolAdmin">
+                      <ng-container *ngFor="let item of 'teachers.topNav.viewTeachers' | translate | splitNavText">
+                        {{ item }}
+                      </ng-container>
+                    </ng-container>
+
+                </span>
+
+                <span class="hidden-sm-up fs-11 fw-bold">
+                  <!-- <ng-container *ngIf="userRoles?.isSchoolAdmin">
+                      <div>
+                          {{ 'teachers.topNav.manage' | translate }}
+                      </div>
+                  </ng-container>
+                  <ng-container *ngIf="!userRoles?.isSchoolAdmin">
+                      <div>
+                          {{ 'teachers.topNav.view' | translate }}
+                      </div>
+                </ng-container>
+                <div>{{ 'teachers.topNav.teachers' | translate }}</div> -->
+
+                  <ng-container *ngIf="userRoles?.isSchoolAdmin">
+                    <div *ngFor="let item of 'teachers.topNav.manageTeachers' | translate | splitNavText">
+                      {{ item }}
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="!userRoles?.isSchoolAdmin">
+                    <div *ngFor="let item of 'teachers.topNav.viewTeachers' | translate | splitNavText">
+                      {{ item }}
+                    </div>
+                  </ng-container>
+                </span>
+            </a>
+        </li>
+        <li *ngIf="userRoles?.isSchoolAdmin" class="nav-item text-center">
+            <a [routerLink]="['/main/teachers/add/']" class="nav-link" routerLinkActive="active" data-bs-toggle="tab"
+                #addTeacher="routerLinkActive" [ngClass]="addTeacher.isActive ? 'active' : ''" role="tab"
+                aria-selected="true">
+                <span class="me-2 hidden-xs-down">
+                    <i class="fa fa-plus"></i>
+                </span>
+                <div class="hidden-sm-up text-center">
+                    <i class="fa fa-plus"></i>
+                </div>
+                <span class="hidden-xs-down">{{ 'teachers.topNav.addNewTeacher' | translate }}</span>
+                <span class="hidden-sm-up fs-11 fw-bold">
+                    <div *ngFor="let item of 'teachers.topNav.addNewTeacher' | translate | splitNavText:2">
+                      {{ item }}
+                    </div>
+                </span>
+            </a>
+        </li>
+        <li  *ngIf="userRoles?.isSchoolAdmin" class="nav-item text-center">
+            <a [routerLink]="['/main/teachers/groups/']" class="nav-link" routerLinkActive="active" data-bs-toggle="tab"
+                #teacherGroup="routerLinkActive" [ngClass]="teacherGroup.isActive ? 'active' : ''" role="tab"
+                aria-selected="true">
+                <span class="me-2 hidden-xs-down">
+                    <span class="icon-Group"><span class="path1"></span><span class="path2"></span></span>
+                </span>
+                <div class="hidden-sm-up text-center">
+                    <span class="icon-Group"><span class="path1"></span><span class="path2"></span></span>
+                </div>
+                <span class="hidden-xs-down">{{ 'teachers.topNav.teachersGroups' | translate }}</span>
+                <span class="hidden-sm-up fs-11 fw-bold">
+                  <div *ngFor="let item of 'teachers.topNav.teachersGroups' | translate | splitNavText">
+                    {{ item }}
+                  </div>
+                </span>
+            </a>
+        </li>
+    </ul>
+
+</div>

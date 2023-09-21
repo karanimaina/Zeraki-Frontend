@@ -1,0 +1,174 @@
+<div *ngIf="isLoading; then showLoading else showContent"></div>
+
+<ng-template #showLoading>
+   <div class="box">
+       <div class="box-header">
+           <app-loader-div style="width: 100px;" [height]="35"></app-loader-div>
+       </div>
+       <div class="box-body">
+           <app-loader-div [height]="250"></app-loader-div>
+       </div>
+   </div>
+</ng-template>
+<ng-template #showContent>
+    <div *ngIf="hasError; then showHasError else showData">
+        An error occured.
+    </div>
+
+    <!-- This is the error section -->
+    <ng-template #showHasError>
+        <div class="box">
+            <div class="box-body">
+                an unexpected error occured
+            </div>
+        </div>
+    </ng-template>
+
+    <!-- This is the data section -->
+    <ng-template #showData>
+
+        <!-- <pre>{{school_profile|json}}</pre> -->
+
+            <div class="row">
+                <div *ngIf="data?.list?.length > 0" class="col-md-12 text-center m-t-md" style="float: none; margin: 0 auto">
+                    <!--<div class='col-md-12 col-xs-12 no-padding' *ngIf="
+                        .length > 0">-->
+                    <div class="box text-start">
+                        <div class="box-header">
+                            <div class="box-title">{{data.examname}}</div> 
+                        </div>
+                        <div class="box-body">
+                            <div class="table-responsive" style="margin: 0">
+                                <table id="table" class="table table-bordered table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th *ngFor="let l of data.labels">{{l.header}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let d of dataForDisplay; let i = index" style="cursor: pointer">
+                                            <td>{{ count + i + 1}}</td>
+                                            <td *ngFor="let l of data.labels">
+                                                <div *ngIf="!d[l.label]?.isSubjectMarks">
+                                                    {{d[l.label]}}
+                                                </div>
+                                                <div *ngIf="d[l.label]?.isSubjectMarks">
+                                                    <div>{{ d[l.label]['score']}}</div>
+                                                    <div class="success">{{ d[l.label]['grade']}}</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row px-10">
+                                <div class="col-md-6 col-sm-6 col-xs-6" style="padding: 16px 0 0 0">
+                                    <div class="text-xs-center">
+
+                                        <div *ngIf="!isMobileApp" class="btn-group">
+                                            <button class="btn btn-sm waves-effect waves-light btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">Actions</button>
+                                            <div class="dropdown-menu">
+                                              <a class="dropdown-item" (click)="exportToExcel()">Download as Spreadsheet</a>
+                                              <a class="dropdown-item" (click)="viewPrintFormat()">View Print Format</a>
+                                            </div>
+                                          </div>
+
+                                        <button *ngIf="isMobileApp" type="button" class="btn btn-primary btn-sm" ng-click="exportToExcel()">Download as Spreadsheet</button>        
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6 text-end" style="padding: 16px 0 0 0">
+                                    <!--<div class="text-center">
+                                        <div style="display: inline-block">
+                                            <pagination style="margin: 0" class="hidden-xs" total-items="totalStudents"  items-per-page="20" ng-model="qCurrentItem" ng-change="getPerformanceList(qCurrentItem - 1)" max-size="5" class="pagination-sm" boundary-links="true" rotate="false" previous-text="&lsaquo;" next-text="&rsaquo;"></pagination>
+                                            <pagination style="margin: 0" class="visible-xs" total-items="totalStudents"  items-per-page="20" ng-model="qCurrentItem" ng-change="getPerformanceList(qCurrentItem - 1)" max-size="1" class="pagination-sm" boundary-links="true" rotate="false" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                                        </div>
+                                    </div>-->
+                                    <button *ngIf="showMoreButton" type="button" (click)="showMore()" 
+                                    class="btn btn-secondary waves-effect waves-light btn-sm ">Show More Results</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div [hidden]="data?.list?.length > 0" class="text-center m-t-md" style="float: none; margin: 0 auto;width: 35px; height: 35px">
+                    <img style="height: 35px" src="assets_new/images/loader_blue.svg" alt="Processing. Please wait.">
+                </div>
+            </div>
+
+            <div class="row" *ngIf="showPrintFormat" style="padding-bottom: 16px">
+                <div class="col-sm-12 col-md-12" style="float: none; margin: 0 auto;">
+                    <button class="btn btn-secondary waves-effect waves-light btn-sm pull-left" (click)="hidePrintFormat()">Hide Print Format</button>
+                    <button class="btn btn-primary btn-sm pull-right waves-effect waves-light" (click)="printPage('printthis')">Print</button>
+                </div>
+            </div>
+
+            <div *ngIf="showPrintFormat" id="printthis">
+                <div class="zreport-page">
+                    <div class="zreportcontent">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12" style="float: none; margin: 0 auto;">
+                                <div class="col-md-12 col-sm-12 no-padding" style="font-size: 13pt">
+                                    <div style="padding: 0px 16px 0px 10px">
+                                        <div class="col-sm-3 no-padding">
+                                            <img class="pull-left" *ngIf="school_profile?.logo !== undefined  && school_profile?.logo.length > 5" style="height: 120px;width: auto;margin-bottom: 0.2cm" src="{{school_profile?.logo}}">
+                                        </div>
+                                        <div class="col-sm-6 text-center" style="padding: 0 15px 0 15px">
+                                            <h2 class="font-bold" style="margin-top: 0">{{school_profile?.name}}</h2>
+                                            <h4 class="font-bold">
+                                                <span>{{data.examname}}</span>
+                                            </h4>
+                                        </div>
+                                        <div class="col-sm-3 text-right no-padding">
+                                            <div *ngIf="school_profile?.address?.trim()?.length > 0" class="font-bold">{{school_profile?.address}}</div>
+                                            <div *ngIf="school_profile?.phone?.trim()?.length > 0" class="font-bold">{{school_profile?.phone}}</div>
+                                            <div *ngIf="school_profile?.email?.trim()?.length > 0" class="font-bold" style="padding-bottom: 0.8cm">{{school_profile?.email}}</div>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12" style="float: none; margin: 0 auto;">
+                                <div style="padding: 0px 16px 0px 10px; font-size: 12pt" class="table-responsive">
+                                    <table class="table table-bordered table-striped" style="padding-bottom: 0px;margin-bottom: 0px;">
+                                        <thead>
+                                            <tr style='border-width: 0 !important'>
+                                                <th style='border-width: 0 !important' colspan="8">
+                                                    <div class="text-center transparent_text">
+                                                        <span>_</span>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                            <tr style="border-bottom: 1px solid #ddd">
+                                                <th class="text-center" [attr.colspan]="data.labels.length" style="padding: 3px;font-size: 13pt">
+                                                    <span class="zreport-table-contents">{{data.examname}}</span>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th *ngFor="let l of data.labels" style="padding: 3px;font-size: 13pt">
+                                                    <span class="zreport-table-contents">{{l.header}}</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let d of data.list">
+                                                <td *ngFor="let l of data.labels" style="padding: 3px;font-size: 13pt">
+                                                    <span *ngIf="!d[l.label]?.isSubjectMarks" class="zreport-table-contents td-fit-nowrap">
+                                                        {{d[l.label]}}
+                                                    </span>
+                                                    <span *ngIf="d[l.label]?.isSubjectMarks" class="zreport-table-contents td-fit-nowrap">
+                                                        <span>{{d[l.label]['score_grade']}}</span>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </ng-template>
+</ng-template>

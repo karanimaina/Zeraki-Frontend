@@ -1,0 +1,145 @@
+<!-- Main content -->
+<section class="content mt-config">
+    <div class="row px-lg-90">
+        <div class="col-lg-12">
+            <app-submit-form [formGroup]="userProfileForm" class="form" (onSubmit)="updateUserProfile()">
+                <div class="box">
+                    <div class="row">
+                        <div class="col-12 col-lg-4">
+                            <div class="box-body mb-0 text-center d-flex flex-column justify-content-center no-shadow">
+                                <div class="mx-auto w-h-15">
+                                    <!-- <div *ngIf="uploadingImage.logo"
+                                        class="img-placeholder mx-auto mb-2 d-flex justify-content-center align-items-center"
+                                        style="height: 150px; width: 150px; object-fit: cover; object-position: center;">
+                                        <div class="spinner-border text-secondary" style="width: 3rem; height: 3rem;"
+                                            role="status">
+                                        </div>
+                                    </div> -->
+                                    <img src="assets/img/avatar/p_avatar_blue.png"
+                                        id="profile-image" class="img-fluid rounded-circle mb-15 mx-auto w-h-15" alt=""
+                                        style="object-fit: cover; object-position: center;" />
+
+                                    <!-- <button *ngIf="!uploadingImage.logo && userInfo.url" [hidden]="isDisabled"
+                                        (click)="deleteProfilePic()" type="button"
+                                        class="btn-xs btn btn-danger fw-bolder"
+                                        style="margin-top: 119.5px; margin-left: -37.5px; position: absolute;">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button> -->
+                                </div>
+                                <!-- <div>
+                                    <button [hidden]="isDisabled" (click)="changeImageBtnClick()"
+                                        class="btn my-3 btn-xs btn-dark max-w-150 p-1" [disabled]="uploadingImage.logo"
+                                        type="button">
+                                        {{ uploadingImage.logo
+                                        ? ('settings.userProfile.uploading' | translate)
+                                        : ('settings.userProfile.changeImage' | translate)
+                                        }}
+                                    </button>
+                                </div>
+
+                                <input hidden #fileUpload type="file" class="mt-10" id="file"
+                                    accept="image/jpeg, image/png" [(ngModel)]="logoFile.img"
+                                    (change)="uploadLogo($event, false, utForm)" imageValidator name="file"> -->
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-8">
+                            <div class="box-body">
+
+                                <h4><b>{{ 'settings.userProfile.updateForm.headerText' | translate }}</b></h4>
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label">{{ 'settings.userProfile.updateForm.name' | translate
+                                            }}<span class="text-danger">*</span></label>
+
+                                        <input type="text" title="Name"
+                                            [placeholder]="'settings.userProfile.updateForm.name' | translate"
+                                            class="form-control" id="name" formControlName="name"
+                                            [ngClass]="{ 'is-invalid': (userProfileForm.isSubmitted && name?.invalid)}"
+                                            required>
+
+                                        <app-field-errors [control]="name!" [label]="'Name'"></app-field-errors>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label">{{ 'common.email' | translate }}<span
+                                                class="text-danger">*</span></label>
+
+                                        <input type="text" title="Name" [placeholder]="'common.email' | translate"
+                                            class="form-control" id="name" formControlName="email"
+                                            [ngClass]="{ 'is-invalid': (userProfileForm.isSubmitted && email?.invalid)}"
+                                            required>
+
+                                        <app-field-errors [control]="email!" [label]="'Username'"></app-field-errors>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label">{{ 'settings.userProfile.updateForm.phoneNumber' |
+                                            translate }}<span class="text-danger">*</span></label>
+
+                                        <input type="text" title="Name"
+                                            [placeholder]="'settings.userProfile.updateForm.phoneNumberPlaceholderText' | translate"
+                                            class="form-control" id="name" formControlName="phoneNumber"
+                                            [ngClass]="{ 'is-invalid': (userProfileForm.isSubmitted && phoneNumber?.invalid)}"
+                                            required>
+
+                                        <app-field-errors [control]="phoneNumber!" [label]="'Username'">
+                                        </app-field-errors>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label" for="role">{{'litemore.litemoreProfile.role'|translate}}</label>
+                                        <ng-select id="role" title="Role" placeholder="{{'litemore.litemoreProfile.selectRole'|translate}}"
+                                            [clearable]="false" [multiple]="true"
+                                            [ngClass]="{ 'is-invalid': (userProfileForm.isSubmitted && role?.invalid)}"
+                                            formControlName="role"></ng-select>
+                                        <app-field-errors [control]="role!" [label]="'litemore.litemoreProfile.role'|translate"></app-field-errors>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label" for="country">{{'litemore.litemoreProfile.country'|translate}}</label>
+                                        <ng-select
+                                            id="country"
+                                            title="Country"
+                                            [items]="countries"
+                                            bindLabel="name"
+                                            bindValue="name"
+                                            placeholder="{{'litemore.litemoreProfile.selectCountry'|translate}}"
+                                            [clearable]="false"
+                                            [ngClass]="{ 'is-invalid': (userProfileForm.isSubmitted && country?.invalid)}"
+                                            formControlName="country"></ng-select>
+                                        <app-field-errors [control]="country!" [label]="'litemore.litemoreProfile.country'|translate"></app-field-errors>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="form-label" for="region">{{'litemore.litemoreProfile.region'|translate}}</label>
+                                        <ng-select id="region" title="Region" placeholder="{{'litemore.litemoreProfile.selectGenderType'|translate}}"
+                                            [clearable]="false"
+                                            [ngClass]="{ 'is-invalid': (userProfileForm.isSubmitted && region?.invalid)}"
+                                            formControlName="region"></ng-select>
+                                        <app-field-errors [control]="region!" [label]="'Region'"></app-field-errors>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-0 mt-10"
+                                    style="display: flex; justify-content: space-between;">
+                                    <div style="display:inline-block"></div>
+                                    <div display="inline-block">
+                                        <button type="submit" class="btn btn-sm btn-info">
+                                            <ng-container *ngIf="!saving">
+                                                <i class="ti-save-alt"></i>
+                                                {{ 'settings.userProfile.updateForm.saveBtn' | translate }}
+                                            </ng-container>
+                                            <ng-container *ngIf="saving">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
+                                                {{ 'settings.userProfile.updateForm.saving' | translate }}
+                                            </ng-container>
+                                        </button>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </app-submit-form>
+        </div>
+    </div>
+</section>

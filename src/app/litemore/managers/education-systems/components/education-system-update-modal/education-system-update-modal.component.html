@@ -1,0 +1,158 @@
+<!-- action button -->
+<ng-container>
+	<ng-container *ngIf="isNewRecord; else newRecordBtn">
+		<button
+			class="btn btn-success btn-sm waves-effect waves-light mx-1"
+			data-bs-toggle="modal"
+			[attr.data-bs-target]="'#education-system-update-modal-0'"
+			(click)="resetUpdateForm()">
+			<i>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="18"
+					height="18"
+					fill="currentColor"
+					class="bi bi-plus"
+					viewBox="0 0 16 16">
+					<path
+						d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+				</svg>
+			</i>
+			<span>
+				{{
+					"litemore.managers.educationSystems.components.educationSystemUpdateModal.educationSystem"
+						| translate
+				}}
+			</span>
+		</button>
+	</ng-container>
+
+	<ng-template #newRecordBtn>
+		<button
+			type="button"
+			class="waves-effect waves-light btn btn-success btn-sm mx-1"
+			data-bs-toggle="modal"
+			[attr.data-bs-target]="'#education-system-update-modal-' + modalUpdateId"
+			(click)="prefillUpdateForm()">
+			<i class="bi bi-pen"></i>
+		</button>
+	</ng-template>
+</ng-container>
+
+<div
+	class="modal fade"
+	[id]="'education-system-update-modal-' + modalUpdateId"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+	aria-labelledby="education-system-update-modalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content rounded-3 text-body">
+			<div class="modal-header">
+				<h5 class="modal-" id="extra-act-update-modalLabel">
+					{{
+						isNewRecord
+							? ("litemore.managers.educationSystems.components.educationSystemUpdateModal.add"
+							  | translate)
+							: ("litemore.managers.educationSystems.components.educationSystemUpdateModal.update"
+							  | translate)
+					}}
+					{{
+						"litemore.managers.educationSystems.components.educationSystemUpdateModal.educationSystem"
+							| translate
+					}}
+				</h5>
+				<button
+					type="button"
+					[id]="'btn-education-system-update-modal-' + modalUpdateId"
+					class="btn-close"
+					data-bs-dismiss="modal"></button>
+			</div>
+
+			<div class="modal-body">
+				<form
+					[formGroup]="updateForm"
+					(ngSubmit)="onUpdateEducationSystemSubmit()">
+					<div class="row">
+						<!-- name -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<app-input
+									[label]="'common.name' | translate"
+									[placeholder]="'common.name' | translate"
+									type="text"
+									formControlName="name">
+								</app-input>
+							</div>
+						</div>
+
+						<!-- code -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<app-input
+									[label]="'common.code' | translate"
+									[placeholder]="'common.code' | translate"
+									type="text"
+									formControlName="code">
+								</app-input>
+							</div>
+						</div>
+
+						<!-- class type -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<app-input
+									[label]="'litemore.classLabel' | translate"
+									[placeholder]="'litemore.classLabel' | translate"
+									type="text"
+									formControlName="classLabel">
+								</app-input>
+							</div>
+						</div>
+
+						<!-- max class number -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<app-input
+									[label]="'common.educationSystem.maxClassNumber' | translate"
+									[placeholder]="
+										'common.educationSystem.maxClassNumber' | translate
+									"
+									type="number"
+									formControlName="maxClassNumber">
+								</app-input>
+							</div>
+						</div>
+
+						<!-- actions -->
+						<div class="modal-footer d-flex justify-content-center">
+							<button
+								type="submit"
+								class="btn btn-primary"
+								[disabled]="isUpdatingEducationSystem">
+								<span
+									*ngIf="isUpdatingEducationSystem"
+									class="spinner-border spinner-border-sm"
+									role="status"
+									aria-hidden="true">
+								</span>
+								<span [class.ms-2]="isUpdatingEducationSystem">{{
+									"common.submit" | translate
+								}}</span>
+							</button>
+
+							<button
+								type="button"
+								class="btn btn-secondary"
+								data-bs-dismiss="modal"
+								aria-label="Close">
+								<span>{{ "common.cancel" | translate }}</span>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

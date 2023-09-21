@@ -1,0 +1,1127 @@
+<!-- Main content -->
+<section class="content mt-config">
+    <!-- Step wizard -->
+    <div *ngIf="!showSuccessMessageCard" class="box">
+        <div class="box-header with-border">
+          <h4 class="box-title">{{ 'messages.compose.completeMessage' | translate }}</h4>
+          <!-- <h6 class="box-subtitle">Box subtitle</h6>-->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <!-- <button mat-raised-button (click)="isEditable = !isEditable">
+                {{!isEditable ? 'Enable edit mode' : 'Disable edit mode'}}
+              </button> -->
+
+              <mat-stepper orientation="vertical" linear #stepper>
+                <mat-step>
+                    <form>
+                        <ng-template matStepLabel>{{ 'messages.compose.recipients.title' | translate }}: <span class="text-primary">{{selected_recipients}}</span></ng-template>
+                        <div class="row mt-10">
+                            <div class="col-lg-2 col-sm-3">
+                                <input (click)="toggleRecipient('students')" type="radio" id="student_radio" class="with-gap radio-col-primary" name="students_radio" [checked]="students_option" required/>
+                                <label for="student_radio">{{ 'messages.compose.recipients.students' | translate }}</label>
+                            </div>
+                            <div class="col-lg-2 col-sm-3">
+                                <input matStepperNext (click)="toggleRecipient('teachers')" type="radio" id="teachers_radio" class="with-gap radio-col-primary" name="teachers_radio" [checked]="teachers_option" />
+                                <label for="teachers_radio">{{ 'messages.compose.recipients.teachers' | translate }}</label>
+                            </div>
+                            <div class="col-lg-2 col-sm-3">
+                                <input matStepperNext (click)="toggleRecipient('bom')" type="radio" id="bom_radio" class="with-gap radio-col-primary" name="bom_radio" [checked]="bom_option"/>
+                                <label for="bom_radio">{{ countrySpecificTranslations?.["common.bom"] }}</label>
+                            </div>
+                            <div class="col-lg-2 col-sm-3">
+                                <input matStepperNext (click)="toggleRecipient('staff')"
+                                type="radio" id="staff_radio" class="with-gap radio-col-primary" name="staff_radio" [checked]="staff_option" />
+                                <label for="staff_radio">{{ 'messages.compose.recipients.staff' | translate }}</label>
+                            </div>
+                            <div *ngIf="forms_graduated.length > 0" class="col-lg-2 col-sm-3">
+                                <input matStepperNext (click)="toggleRecipient('alumni')" type="radio" id="alumni_radio" class="with-gap radio-col-primary" name="alumni_radio" [checked]="alumni_option" />
+                                <label for="alumni_radio">{{ 'messages.compose.recipients.alumni' | translate }}</label>
+                            </div>
+                            <div class="col-lg-2 col-sm-3">
+                                <input matStepperNext (click)="toggleRecipient('others')" type="radio" id="other_radio" class="with-gap radio-col-primary" name="other_radio" [checked]="others_option"/>
+                                <label for="other_radio">{{ 'messages.compose.recipients.others' | translate }}</label>
+                            </div>
+                        </div>
+                        <div class="mt-10">
+                            <button matStepperNext type="submit" class="btn btn-sm btn-primary">
+                              {{ 'messages.compose.next' | translate }}
+                                <span *ngIf="getting_data"><i class="fa fa-spinner fa-spin"></i></span>
+                            </button>
+                        </div>
+                    </form>
+                </mat-step>
+                <mat-step *ngIf="actStep2">
+                    <ng-template matStepLabel>{{ 'messages.compose.messageType' | translate }}: <span class="text-primary">{{selected_msgtype}}</span></ng-template>
+                    <div class="row mt-10">
+                        <div class="col-12">
+                            <div class="box">
+                                <div *ngIf="students_option">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <input (ngModelChange)="toggleMsgType('learn_cred', $event)" type="checkbox" id="learn_cred" class="filled-in chk-col-primary" name="learn_cred" [(ngModel)]="studentsRecipientsCategories.zlCredentials" />
+                                                <label for="learn_cred">{{ 'messages.compose.sendCredentials' | translate }}</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <input (ngModelChange)="toggleMsgType('all_students', $event)" type="checkbox" id="all_students" class="filled-in chk-col-primary" name="all_students" [(ngModel)]="studentsRecipientsCategories.allStudents" />
+                                                <label for="all_students">{{ 'messages.compose.allStudents' | translate }}</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <input (ngModelChange)="toggleMsgType('spec_stud', $event)" type="checkbox" id="spec_students" class="filled-in chk-col-primary" name="spec_stud" [(ngModel)]="studentsRecipientsCategories.specificStudents" />
+                                                <label for="spec_students">{{ 'messages.compose.specificStudents' | translate }}</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <input (ngModelChange)="toggleMsgType('spec_class', $event)" type="checkbox" id="spec-classes" class="filled-in chk-col-primary" name="spec_class" [(ngModel)]="studentsRecipientsCategories.specificClass" />
+                                                <label for="spec-classes">{{ 'messages.compose.specificClasses' | translate }}</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <input (ngModelChange)="toggleMsgType('exam_res', $event)" type="checkbox" id="exam-results" class="filled-in chk-col-primary" name="exam_res" [(ngModel)]="studentsRecipientsCategories.examResults" />
+                                                <label for="exam-results">{{ 'messages.compose.examResults' | translate }}</label>
+                                            </div>
+                                            <div class="col-lg-3" *ngIf="(stkData$ | async)?.list?.length > 0">
+                                                <input (ngModelChange)="toggleMsgType('fee_payment', $event)" type="checkbox" id="fee_payment" class="filled-in chk-col-primary" name="fee_payment" [(ngModel)]="studentsRecipientsCategories.feePayment" />
+                                                <label for="fee_payment">{{ 'messages.compose.feePaymentInstructions' | translate }}</label>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="studentsRecipientsCategories.zlCredentials">
+                                            <div class="row mt-20" *ngIf="!loadingZlIntakeMessages">
+                                                <div *ngIf="zlIntakeMessages.length > 0">
+                                                    <div class="fw-bold mb-10">{{ 'messages.compose.sendTo' | translate }}</div>
+                                                    <form [formGroup]="zlIntakeMessagesForm">
+                                                        <div class="row">
+                                                            <ng-container formArrayName="zlIntakeMessages">
+                                                                <div class="col-md-2" *ngFor="let zlIntakeMessage of zlIntakeMessages; let zlIntakeMessageIndex = index">
+                                                                    <ng-container [formGroupName]="zlIntakeMessageIndex">
+                                                                        <input type="checkbox"
+                                                                               [id]="zlIntakeMessage.intakeId"
+                                                                               class="filled-in chk-col-primary"
+                                                                               formControlName="checked"/>
+                                                                        <label [for]="zlIntakeMessage.intakeId">
+                                                                            {{ schoolTypeData?.formoryear | formOrYear }} {{ zlIntakeMessage.form }}
+                                                                        </label>
+                                                                    </ng-container>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div *ngIf="zlIntakeMessages.length == 0">
+                                                    <div class="alert alert-danger">
+                                                        {{ 'messages.compose.noIntakes' | translate }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+										<div *ngIf="studentsRecipientsCategories.allStudents">
+											<app-all-students-options (allStudentsOptionsUpdated)="updateAllStudentsOptions($event)"></app-all-students-options>
+										</div>
+                                        <div *ngIf="studentsRecipientsCategories.specificStudents">
+                                            <div class="row mt-20">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ schoolTypeData?.formoryear | formOrYear }}</label>
+                                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                        [placeholder]="'messages.compose.levelPlaceholder' | translate:{level: schoolTypeData?.formoryear | formOrYear}"
+                                                        class=" form-control-dropdown"
+                                                        appendTo="body"
+                                                        [dropdownPosition]="'bottom'"
+                                                        [clearable]="false"
+                                                        [items]="form_streams.intakes"
+                                                        name="form_selected"
+                                                        [(ngModel)]="specific_details.intake"
+                                                        (ngModelChange)="fetchIntakeStudents(specific_details?.intake?.intakeid)"
+                                                        bindLabel="label">
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="no_students_found" class="row mt-20">
+                                              {{ 'messages.compose.noStudents' | translate }} {{ schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) : schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) : schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' | translate) }} {{specific_details?.intake?.label}}
+                                            </div>
+                                            <div *ngIf="specific_details?.students?.length > 0" class="row mt-20">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ 'messages.compose.students' | translate }}</label>
+                                                    <ng-select
+                                                        [notFoundText]="'common.noItemsFound' | translate"
+                                                        [placeholder]="'messages.compose.studentsPlaceholder' | translate"
+                                                        class="form-control-dropdown"
+                                                        [dropdownPosition]="'bottom'"
+                                                        appendTo="body"
+                                                        [items]="specific_details.students"
+                                                        name="specific_selected_students"
+                                                        [(ngModel)]="specific_details.selected_students"
+                                                        (ngModelChange)="onSelectedStudentsChange_SpecificStudents()"
+                                                        [virtualScroll]="true"
+                                                        [loading]="peopleLoading"
+                                                        [searchFn]="customSearchFn"
+                                                        [multiple]="true"
+                                                        [closeOnSelect]="false"
+                                                        [hideSelected]="true"
+                                                        (scroll)="onScroll($event)"
+                                                        (scrollToEnd)="onScrollToEnd()"
+                                                        bindLabel="name">
+                                                        <ng-template ng-option-tmp let-item="item">
+                                                            {{item.admno}}-{{item.name}}
+                                                        </ng-template>
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="studentsRecipientsCategories.specificClass">
+                                            <div class="row mt-20">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) : schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) : schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' | translate) }}</label>
+                                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                        [placeholder]="'messages.compose.levelPlaceholder' | translate:{level: schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) : schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) : schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' | translate)}"
+                                                        class="form-control-dropdown"
+                                                        [dropdownPosition]="'bottom'"
+                                                        appendTo="body"
+                                                        [clearable]="false"
+                                                        [items]="form_streams.intakes"
+                                                        name="form_selected_cl"
+                                                        [(ngModel)]="specific_details.intake"
+                                                        (ngModelChange)="onSelectedFormChange_SpecificClasses()">
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="specific_details?.intake?.streams?.length > 0" class="row mt-20">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ 'messages.compose.selectStreams' | translate }}</label>
+                                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                        [placeholder]="'messages.compose.streamsPlaceholder' | translate"
+                                                        class="form-control-dropdown"
+                                                        [dropdownPosition]="'bottom'"
+                                                        appendTo="body"
+                                                        name="specific_selected_streams"
+                                                        [(ngModel)]="specific_details.selected_streams"
+                                                        [items]="specific_details.intake.streams"
+                                                        bindLabel="name"
+                                                        [multiple]="true"
+                                                        [closeOnSelect]="false"
+                                                        [hideSelected]="true">
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="studentsRecipientsCategories.examResults">
+                                            <div class="row mt-20">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) : schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) : schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' | translate) }}</label>
+                                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                        [placeholder]="'messages.compose.levelPlaceholder' | translate:{level: schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) : schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) : schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' | translate)}"
+                                                        class="form-control-dropdown"
+                                                        [dropdownPosition]="'bottom'"
+                                                        appendTo="body"
+                                                        [clearable]="false"
+                                                        [items]="form_streams.intakes"
+                                                        name="form_selected_exam"
+                                                        [(ngModel)]="specific_details.intake"
+                                                        (ngModelChange)="fetchIntakeExams(specific_details.intake.intakeid)">
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="no_exams_found" class="row mt-20">
+                                                <h4>{{ 'messages.compose.noExams' | translate }}</h4>
+                                            </div>
+                                            <div *ngIf="selected_intake_exams.length > 0 && students_option && studentsRecipientsCategories.examResults" class="row mt-20">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ 'messages.compose.exam' | translate }}</label>
+                                                    <!-- track by exam.type + '_' + exam.examid" -->
+                                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                        [placeholder]="'messages.compose.examPlaceholder' | translate"
+                                                        class="form-control-dropdown"
+                                                        [dropdownPosition]="'bottom'"
+                                                        appendTo="body"
+                                                        [items]="selected_intake_exams"
+                                                        bindLabel="name"
+                                                        groupBy="term"
+                                                        name="selectedExam"
+                                                        [(ngModel)]="specific_details.selected_exam"
+                                                        (ngModelChange)="onSelectedExamChange()">
+                                                        <ng-template ng-optgroup-tmp let-item="item">
+                                                            {{item.term || ('common.unnamedTerm' | translate)}}
+                                                        </ng-template>
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="studentsRecipientsCategories.feePayment">
+                                            <div class="row mt-20">
+                                                <div *ngIf="form_streams.intakes.length">
+                                                    <div class="fw-bold mb-10">{{ 'messages.compose.sendTo' | translate }}</div>
+                                                    <form [formGroup]="zfFeeMessagesForm">
+                                                        <div class="row">
+                                                            <ng-container formArrayName="zfFeeMessages">
+                                                                <div class="col-md-2" *ngFor="let intake of form_streams.intakes; let zfFeeMessageIndex = index">
+                                                                    <ng-container [formGroupName]="zfFeeMessageIndex">
+                                                                        <input type="checkbox"
+                                                                                [id]="intake.intakeid"
+                                                                                class="filled-in chk-col-primary"
+                                                                                formControlName="checked"/>
+                                                                        <label [for]="intake.intakeid">
+                                                                            {{ schoolTypeData?.formoryear | formOrYear }} {{ intake.class_level }}
+                                                                        </label>
+                                                                    </ng-container>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div *ngIf="form_streams.intakes.length == 0">
+                                                    <div class="alert alert-danger">
+                                                        {{ 'messages.compose.noIntakes' | translate }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer d-flex justify-content-between justify-content-lg-start">
+                                        <div>
+                                            <button matStepperPrevious type="submit" class="btn btn-sm btn-secondary me-lg-20">
+                                                {{ 'messages.commonAttr.back' | translate }}
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button matStepperNext type="submit" class="btn btn-sm btn-primary ">
+                                              {{ 'messages.compose.next' | translate }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form class="form" *ngIf="teachers_option">
+                                    <div *ngIf="(!(teachers.length > 0) && teachers_fetched)" class="box-body">
+                                        <h4>{{ 'messages.compose.noTeachers' | translate }}</h4>
+                                    </div>
+                                    <div *ngIf="teachers.length > 0" class="box-body">
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <input (ngModelChange)="toggleMsgType('all_teachers', $event)" type="checkbox" id="all_teachers" class="filled-in chk-col-primary" name="all_teachers" [(ngModel)]="teachersRecipientsCategories.all_teachers" />
+                                                <label for="all_teachers">{{ 'messages.compose.allTeachers' | translate }}</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <input (ngModelChange)="toggleMsgType('spec_teachers', $event)" type="checkbox" id="spec_teachers" class="filled-in chk-col-primary" name="spec_teachers" [(ngModel)]="teachersRecipientsCategories.spec_teachers" />
+                                                <label for="spec_teachers">{{ 'messages.compose.specificTeachers' | translate }}</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <input (ngModelChange)="toggleMsgType('teacher_groups', $event)" type="checkbox" id="teacher_groups" class="filled-in chk-col-primary" name="teacher_groups" [(ngModel)]="teachersRecipientsCategories.teacher_groups" />
+                                                <label for="teacher_groups">{{ 'messages.compose.teacherGroups' | translate }}</label>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="teachersRecipientsCategories.spec_teachers" class="row mt-20">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ 'messages.compose.teachers' | translate }}</label>
+                                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                        [placeholder]="'messages.compose.teachersPlaceholder' | translate"
+                                                        class=" form-control-dropdown"
+                                                        [dropdownPosition]="'bottom'"
+                                                        appendTo="body"
+                                                        [items]="teachers"
+                                                        name="specific_selected_teacherids"
+                                                        [(ngModel)]="specific_details.selected_teacherids"
+                                                        bindLabel="name"
+                                                        bindValue="userid"
+                                                        [virtualScroll]="true"
+                                                        [multiple]="true"
+                                                        [closeOnSelect]="false"
+                                                        [hideSelected]="true">
+                                                        <!-- <ng-template ng-option-tmp let-item="item">
+                                                            id - {{item.name}}
+                                                        </ng-template> -->
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="teachersRecipientsCategories.teacher_groups" class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ 'messages.compose.teacherGroups' | translate }}</label>
+                                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                        [placeholder]="'messages.compose.teacherGroupsPlaceholder' | translate"
+                                                        class=" form-control-dropdown"
+                                                        [dropdownPosition]="'bottom'"
+                                                        appendTo="body"
+                                                        [items]="teachers_groups"
+                                                        bindLabel="name"
+                                                        bindValue="staffgroupid"
+                                                        name="specific_selected_teachergroupid"
+                                                        [(ngModel)]="specific_details.selected_teachergroupids"
+                                                        [virtualScroll]="true"
+                                                        [multiple]="true"
+                                                        [closeOnSelect]="false"
+                                                        [hideSelected]="true">
+                                                        <!-- <ng-template ng-option-tmp let-item="item">
+                                                            id - {{item.name}}
+                                                        </ng-template> -->
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer d-flex justify-content-between justify-content-lg-start">
+                                        <div>
+                                            <button matStepperPrevious type="submit" class="btn btn-sm btn-secondary me-lg-20">
+                                                {{ 'messages.commonAttr.back' | translate }}
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button matStepperNext type="submit" class="btn btn-sm btn-primary ">
+                                                {{ 'messages.compose.next' | translate }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form class="form" *ngIf="bom_option">
+                                    <div *ngIf="officials.length == 0" class="box-body">
+                                        <h4>{{ 'messages.compose.noBom' | translate }}</h4>
+                                    </div>
+                                    <div *ngIf="officials.length > 0" class="box-body">
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <input (ngModelChange)="toggleMsgType('all_bom', $event)" type="checkbox" id="all_bom" class="filled-in chk-col-primary" name="all_bom" [(ngModel)]="officialsRecipientsCategories.all_bom" />
+												<label for="all_bom">{{ countrySpecificTranslations?.['messages.compose.allBom'] }}</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <input (ngModelChange)="toggleMsgType('spec_bom', $event)" type="checkbox" id="spec_bom" class="filled-in chk-col-primary" name="spec_bom" [(ngModel)]="officialsRecipientsCategories.spec_bom" />
+                                                <label for="spec_bom">{{ countrySpecificTranslations?.['messages.compose.specificBom'] }}</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <input (ngModelChange)="toggleMsgType('bom_groups', $event)" type="checkbox" id="bom_groups" class="filled-in chk-col-primary" name="bom_groups" [(ngModel)]="officialsRecipientsCategories.bom_groups" />
+                                                <label for="bom_groups">{{ countrySpecificTranslations?.['messages.compose.bomGroups'] }}</label>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="officialsRecipientsCategories.spec_bom" class="row mt-20">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ countrySpecificTranslations?.['messages.compose.bomMembers'] }}</label>
+                                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                        [placeholder]="countrySpecificTranslations ? countrySpecificTranslations['messages.compose.bomMembersPlaceholder'] : ''"
+                                                        class=" form-control-dropdown"
+                                                        [dropdownPosition]="'bottom'"
+                                                        appendTo="body"
+                                                        [items]="officials"
+                                                        bindLabel="name"
+                                                        bindValue="userid"
+                                                        name="specific_selected_officialids"
+                                                        [(ngModel)]="specific_details.selected_officialids"
+                                                        [virtualScroll]="true"
+                                                        [multiple]="true"
+                                                        [closeOnSelect]="false"
+                                                        [hideSelected]="true">
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="officialsRecipientsCategories.bom_groups" class="row mt-20">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ countrySpecificTranslations?.['messages.compose.bomGroups'] }}</label>
+                                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                        [placeholder]="countrySpecificTranslations ? countrySpecificTranslations['messages.compose.bomGroupsPlaceholder'] : ''"
+                                                        class=" form-control-dropdown"
+                                                        [dropdownPosition]="'bottom'"
+                                                        appendTo="body"
+                                                        [items]="officials_groups"
+                                                        bindLabel="name"
+                                                        bindValue="staffgroupid"
+                                                        name="specific_selected_officialgroupids"
+                                                        [(ngModel)]="specific_details.selected_officialgroupids"
+                                                        [virtualScroll]="true"
+                                                        [multiple]="true"
+                                                        [closeOnSelect]="false"
+                                                        [hideSelected]="true">
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer d-flex justify-content-between justify-content-lg-start">
+                                        <div>
+                                            <button matStepperPrevious type="submit" class="btn btn-sm btn-secondary me-lg-20">
+                                                {{ 'messages.commonAttr.back' | translate }}
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button matStepperNext type="submit" class="btn btn-sm btn-primary ">
+                                                {{ 'messages.compose.next' | translate }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form class="form" *ngIf="staff_option">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-lg-2">
+                                                <input (ngModelChange)="toggleMsgType('all_staff', $event)" type="checkbox" id="all_staff" class="filled-in chk-col-primary" name="all_staff" [(ngModel)]="workersRecipientsCategories.all_staff" />
+                                                <label for="all_staff">{{ 'messages.compose.allStaff' | translate }}</label>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <input (ngModelChange)="toggleMsgType('spec_staff', $event)" type="checkbox" id="spec_staff" class="filled-in chk-col-primary" name="spec_staff" [(ngModel)]="workersRecipientsCategories.spec_staff" />
+                                                <label for="spec_staff">{{ 'messages.compose.specificStaff' | translate }}</label>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <input (ngModelChange)="toggleMsgType('staff_groups', $event)" type="checkbox" id="staff_groups" class="filled-in chk-col-primary" name="staff_groups" [(ngModel)]="workersRecipientsCategories.staff_groups" />
+                                                <label for="staff_groups">{{ 'messages.compose.staffGroups' | translate }}</label>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="workersRecipientsCategories.spec_staff" class="row mt-20">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ 'messages.compose.staffMembers' | translate }}</label>
+                                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                        [placeholder]="'messages.compose.staffMembersPlaceholder' | translate"
+                                                        class="form-control-dropdown"
+                                                        [dropdownPosition]="'bottom'"
+                                                        appendTo="body"
+                                                        [items]="workers"
+                                                        bindLabel="name"
+                                                        bindValue="userid"
+                                                        name="specific_selected_workerids"
+                                                        [(ngModel)]="specific_details.selected_workerids"
+                                                        [virtualScroll]="true"
+                                                        [multiple]="true"
+                                                        [closeOnSelect]="false"
+                                                        [hideSelected]="true">
+                                                        <!-- <ng-template ng-option-tmp let-item="item">
+                                                            id - {{item.name}}
+                                                        </ng-template> -->
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="workersRecipientsCategories.staff_groups" class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ 'messages.compose.staffGroups' | translate }}</label>
+                                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                        [placeholder]="'messages.compose.staffGroupsPlaceholder' | translate"
+                                                        class=" form-control-dropdown"
+                                                        [dropdownPosition]="'bottom'"
+                                                        appendTo="body"
+                                                        [items]="workers_groups"
+                                                        bindLabel="name"
+                                                        bindValue="staffgroupid"
+                                                        name="specific_selected_workergroupids"
+                                                        [(ngModel)]="specific_details.selected_workergroupids"
+                                                        [virtualScroll]="true"
+                                                        [multiple]="true"
+                                                        [closeOnSelect]="false"
+                                                        [hideSelected]="true">
+                                                        <!-- <ng-template ng-option-tmp let-item="item">
+                                                            id - {{item.name}}
+                                                        </ng-template> -->
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer d-flex justify-content-between justify-content-lg-start">
+                                        <div>
+                                            <button matStepperPrevious type="submit" class="btn btn-sm btn-secondary me-lg-20">
+                                                {{ 'messages.commonAttr.back' | translate }}
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button matStepperNext type="submit" class="btn btn-sm btn-primary ">
+                                                {{ 'messages.compose.next' | translate }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form class="form" *ngIf="alumni_option">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ 'messages.compose.graduationClass' | translate }} </label>
+                                                    <ng-select
+                                                        [notFoundText]="'common.noItemsFound' | translate"
+                                                        [placeholder]="'messages.compose.graduationClassPlaceholder' | translate"
+                                                        [dropdownPosition]="'bottom'"
+                                                        appendTo="body"
+                                                        [items]="forms_graduated"
+                                                        [(ngModel)]="specific_details.graduated_intake"
+                                                        name="selected_gradClass"
+                                                        (ngModelChange)="toggleMsgType('grad_class', $event)"
+                                                        bindLabel="label"
+                                                        [virtualScroll]="true"
+                                                        [hideSelected]="true">
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer d-flex justify-content-between justify-content-lg-start">
+                                        <div>
+                                            <button matStepperPrevious type="submit" class="btn btn-sm btn-secondary me-lg-20">
+                                                {{ 'messages.commonAttr.back' | translate }}
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button matStepperNext type="submit" class="btn btn-sm btn-primary ">
+                                                {{ 'messages.compose.next' | translate }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </mat-step>
+                <mat-step *ngIf="actStep3">
+                  <ng-template matStepLabel>{{ 'messages.compose.finalStep' | translate }}</ng-template>
+                    <div class="row mt-10">
+                        <div class="col-12">
+                            <div class="box">
+                                <form #lForm="ngForm" class="form" *ngIf="studentsRecipientsCategories.zlCredentials" (ngSubmit)="lForm.form.valid && sendZerakiLearningCredentials()">
+                                    <div class="box-body">
+                                        <h5 class="box-title fw-bold mb-0 text-muted">{{ 'messages.compose.info1' | translate }}</h5>
+                                        <div class="row p-20 m-10 bs-groove">
+                                            <p>
+                                                {{ 'messages.compose.info2' | translate }}
+                                            </p>
+                                            <p>
+                                                {{ 'messages.compose.info3' | translate }}
+                                            </p>
+                                            <p>
+                                                {{ 'messages.compose.info4' | translate }}
+                                                <br />{{ 'messages.compose.username' | translate }}
+                                                <br />{{ 'messages.compose.password' | translate }}
+                                            </p>
+                                            <p>
+                                                {{ 'messages.compose.info5' | translate }}
+                                            </p>
+                                        </div>
+                                        <!-- <div *ngIf="error_status" class="row mt-10 text-danger">
+                                            {{error_msg}}
+                                        </div> -->
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <div class="box-footer">
+                                        <button matStepperPrevious type="button" class="btn btn-sm btn-secondary me-1 me-lg-20">{{ 'messages.commonAttr.back' | translate }}</button>
+                                        <!-- <button type="submit" class="d-none d-lg-inline-block btn btn-sm btn-primary">Send</button> -->
+                                        <button type="submit" [disabled]="showLoading" class="btn btn-sm btn-primary pull-right">
+                                            <span *ngIf="!showLoading">{{ 'messages.compose.send' | translate }}</span>
+                                            <span *ngIf="showLoading">{{ 'messages.compose.processing' | translate }}</span>
+                                            <span *ngIf="showLoading" class="ms-1"><i class="fa fa-spinner fa-spin"></i></span>
+                                        </button>
+                                    </div>
+                                </form>
+                                <form #zfForm="ngForm" class="form" *ngIf="studentsRecipientsCategories.feePayment" (ngSubmit)="zfForm.form.valid && sendZerakiFinanceFeeMessages()">
+                                    <div class="box-body">
+                                        <h5 class="box-title fw-bold mb-0 text-muted">{{ 'messages.compose.info1' | translate }}</h5>
+                                        <div class="row p-20 m-10 bs-groove">
+                                            <p>
+                                                {{ 'messages.compose.feeInfo' | translate }}
+                                            </p>
+                                            <p>
+                                                {{ 'messages.compose.feeInfo2' | translate }}
+                                            </p>
+                                            <p>
+                                                {{ 'messages.compose.info4' | translate }}
+                                                <br />{{ 'messages.compose.username' | translate }}
+                                                <br />{{ 'messages.compose.password' | translate }}
+                                            </p>
+                                            <p>
+                                                {{ 'messages.compose.info5' | translate }}
+                                            </p>
+                                        </div>
+                                        <!-- <div *ngIf="error_status" class="row mt-10 text-danger">
+                                            {{error_msg}}
+                                        </div> -->
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <div class="box-footer">
+                                        <button matStepperPrevious type="button" class="btn btn-sm btn-secondary me-1 me-lg-20">{{ 'messages.commonAttr.back' | translate }}</button>
+                                        <!-- <button type="submit" class="d-none d-lg-inline-block btn btn-sm btn-primary">Send</button> -->
+                                        <button type="submit" [disabled]="showLoading" class="btn btn-sm btn-primary pull-right">
+                                            <span *ngIf="!showLoading">{{ 'messages.compose.send' | translate }}</span>
+                                            <span *ngIf="showLoading">{{ 'messages.compose.processing' | translate }}</span>
+                                            <span *ngIf="showLoading" class="ms-1"><i class="fa fa-spinner fa-spin"></i></span>
+                                        </button>
+                                    </div>
+                                </form>
+                                <form class="form" #sForm="ngForm" (ngSubmit)="sForm.form.valid && sendMessage(sForm)" *ngIf="studentsRecipientsCategories.allStudents || studentsRecipientsCategories.specificStudents || studentsRecipientsCategories.specificClass">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                <label class="form-label">{{ 'messages.compose.subject' | translate }}</label>
+                                                <input type="text" class="form-control" name="s-subject" [(ngModel)]="message.title" [placeholder]="'messages.compose.subjectPlaceholder' | translate">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ 'messages.compose.category' | translate }}</label>
+                                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                        [selectOnTab]="true"
+                                                        [dropdownPosition]="'bottom'"
+                                                        appendTo="body"
+                                                        [items]="message_categories"
+                                                        bindLabel="name"
+                                                        bindValue="id"
+                                                        name="s-category"
+                                                        [(ngModel)]="message.category"
+                                                        [placeholder]="'messages.compose.categoryPlaceholder' | translate">
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">{{ 'messages.compose.message' | translate }}</label>
+                                            <textarea rows="5" class="form-control" maxlength="918" (ngModelChange)="updateCharacterCount()" name="s-msg" [(ngModel)]="message.text" placeholder="Message Content"></textarea>
+                                            <div class="form-control-feedback text-end {{msg_count_class}}"><small>{{ 'messages.compose.messageCount' | translate:{msgCount: msg_count, msgCharacterCount: msg_character_count} }}</small></div>
+                                            <div *ngIf="!school_sender_profile.unique_sender_id" class="form-control-feedback text-end"><small>{{ 'messages.compose.senderIDError' | translate }}</small></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input type="checkbox" id="send-text" class="filled-in chk-col-primary" name="send-text" [(ngModel)]="sendTextMessage" />
+                                                <label for="send-text">{{ 'messages.compose.sendTextMessage' | translate }}</label>
+                                            </div>
+                                            <div class="col-12">
+                                                <input type="checkbox" id="send-email" class="filled-in chk-col-primary" name="send-email" [(ngModel)]="sendEmail" />
+                                                <label for="send-email">{{ 'messages.compose.sendEmail' | translate }}</label>
+                                            </div>
+                                        </div>
+                                        <!-- <div *ngIf="error_status" class="p-10 bg-danger text-danger">
+                                            {{error_msg}}
+                                        </div> -->
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <div class="box-footer">
+                                        <button matStepperPrevious type="button" class="btn btn-sm btn-secondary me-1 me-lg-20">{{ 'messages.commonAttr.back' | translate }}</button>
+                                        <!-- <button type="submit" class="d-none d-lg-inline-block btn btn-sm btn-primary">Send</button> -->
+                                        <button type="submit" [disabled]="showLoading" class="btn btn-sm btn-primary pull-right">
+                                            <span *ngIf="!showLoading">{{ 'messages.compose.send' | translate }}</span>
+                                            <span *ngIf="showLoading">{{ 'messages.compose.processing' | translate }}</span>
+                                            <span *ngIf="showLoading" class="ms-1"><i class="fa fa-spinner fa-spin"></i></span>
+                                        </button>
+                                    </div>
+                                </form>
+                                <form class="form" *ngIf="studentsRecipientsCategories.examResults" #erForm="ngForm" (ngSubmit)="erForm.form.valid && sendResults()">
+                                    <div *ngIf="isFetchingGrades">
+                                        <img src="assets/img/loading-bars.svg" height="70" width="100" alt="Loading-bars">
+                                    </div>
+                                    <div *ngIf="exam_data.intakeid > 0 && !isFetchingGrades && exam_data.students.length == 0">
+                                        <h4>{{ 'messages.compose.noStudentsFound' | translate }}</h4>
+                                    </div>
+                                    <div *ngIf="exam_data.intakeid == 0 && !isFetchingGrades">
+                                        <h4>{{ 'messages.compose.noExamResults' | translate }}</h4>
+                                    </div>
+                                    <div *ngIf="exam_data.intakeid > 0 && !isFetchingGrades && exam_data.students.length > 0" class="box-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ 'messages.compose.sendResultsTo' | translate }}</label>
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-sm-3">
+                                                            <input (click)="toggleResultsTo('allStud_res')" type="radio" id="allRes_radio" class="with-gap radio-col-primary" name="allRes_radio" [checked]="allStud_res" />
+                                                            <label for="allRes_radio">{{ 'messages.compose.specificClass' | translate: {level: schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) : schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) : schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' | translate) + exam_data.form} }}</label>
+                                                        </div>
+                                                        <div class="col-lg-3 col-sm-3">
+                                                            <input (click)="toggleResultsTo('stream_res')" type="radio" id="streamRes_radio" class="with-gap radio-col-primary" name="streamRes_radio" [checked]="stream_res" />
+                                                            <label for="streamRes_radio">{{ 'messages.compose.specificStream' | translate }}</label>
+                                                        </div>
+                                                        <div class="col-lg-3 col-sm-3">
+                                                            <input (click)="toggleResultsTo('specStud_res')" type="radio" id="studentRes_radio" class="with-gap radio-col-primary" name="studentRes_radio" [checked]="specStud_res"/>
+                                                            <label for="studentRes_radio">{{ 'messages.compose.specificStudent' | translate }}</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="stream_res" class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ 'messages.compose.selectStream' | translate }}</label>
+                                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                        [placeholder]="'messages.compose.selectStream' | translate"
+                                                        class=" form-control-dropdown"
+                                                        [dropdownPosition]="'bottom'"
+                                                        appendTo="body"
+                                                        [items]="exam_data.streams"
+                                                        name="se-stream"
+                                                        [(ngModel)]="send_exam_options.streamid"
+                                                        bindLabel="name"
+                                                        bindValue="streamid"
+                                                        required>
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="specStud_res" class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ 'messages.compose.students' | translate }}</label>
+                                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                        [placeholder]="'messages.compose.studentsPlaceholder' | translate"
+                                                        class=" form-control-dropdown"
+                                                        [items]="exam_data.students"
+                                                        bindLabel="name"
+                                                        bindValue="userid"
+                                                        name="se-student"
+                                                        [(ngModel)]="send_exam_options.userid"
+                                                        [virtualScroll]="true"
+                                                        [loading]="peopleLoading"
+                                                        [searchFn]="customSearchFn"
+                                                        [multiple]="true"
+                                                        [closeOnSelect]="false"
+                                                        [hideSelected]="true"
+                                                        (scroll)="onScroll($event)"
+                                                        (scrollToEnd)="onScrollToEnd()">
+                                                        <ng-template ng-option-tmp let-item="item">
+                                                            {{item.name}}
+                                                        </ng-template>
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="allStud_res || stream_res" class="col-12">
+                                                <div *ngIf="exam_data.grades.length == 0">
+                                                    <h4>{{ 'messages.compose.noExamGrades' | translate }}</h4>
+                                                </div>
+                                                <div *ngIf="exam_data.grades.length > 0" class="form-group">
+                                                    <label class="form-label">{{ 'messages.compose.sendWithSelectedGrade' | translate }}</label>
+
+													<ui-kenyan-school [template]="grades"></ui-kenyan-school>
+													<ui-guinea-school [template]="mentions"></ui-guinea-school>
+
+													<ng-template #grades>
+														<div class="row">
+															<div class="col-lg-2 1" *ngFor="let g of exam_data.grades">
+																<input type="checkbox" [id]="g.grade" class="filled-in chk-col-primary" [name]="g.grade" [(ngModel)]="g.selected" />
+																<label for="{{g.grade}}">{{g.grade}}</label>
+															</div>
+														</div>
+													</ng-template>
+													<ng-template #mentions>
+														<div class="row">
+															<div class="col-lg-2" *ngFor="let mention of exam_data.mentions">
+																<input type="checkbox" [id]="mention.mention" class="filled-in chk-col-primary" [name]="mention.mention" [(ngModel)]="mention.selected" />
+																<label for="{{mention.mention}}">{{mention.mention}}</label>
+															</div>
+														</div>
+													</ng-template>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">{{ 'messages.compose.optionalMessage' | translate }}</label>
+                                            <textarea rows="5" class="form-control" name="optional_msg" [(ngModel)]="optional_msg" [placeholder]="'messages.compose.optionalMessagePlaceholder' | translate "></textarea>
+                                            <!-- <div class="form-control-feedback text-end"><small>Message Count: 0 (0 characters)</small></div> -->
+                                            <!-- <div class="form-control-feedback text-end"><small>(The school's name shall be appended to the end of each message because the school does not have a unique Sender ID)</small></div> -->
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input type="checkbox" id="send-text" class="filled-in chk-col-primary" name="send-text" [(ngModel)]="onlySendAdditionalText" />
+                                                <label for="send-text">{{'messages.compose.onlySendOptionalMessage' | translate }}</label>
+                                            </div>
+                                        </div>
+                                        <!-- <div *ngIf="error_status" class="row mt-10 text-danger">
+                                            {{error_msg}}
+                                        </div> -->
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <div *ngIf="!isFetchingGrades" class="box-footer">
+                                        <button matStepperPrevious type="button" class="btn btn-sm btn-secondary me-1 me-lg-20">{{ 'messages.commonAttr.back' | translate  }}</button>
+                                        <!-- <button type="submit" class="d-none d-lg-inline-block btn btn-sm btn-primary">Send</button> -->
+                                        <button type="submit" [disabled]="showLoading" class="btn btn-sm btn-primary pull-right">
+                                            <span *ngIf="!showLoading">{{ 'messages.compose.send' | translate }}</span>
+                                            <span *ngIf="showLoading">{{ 'messages.compose.processing' | translate }}</span>
+                                            <span *ngIf="showLoading" class="ms-1"><i class="fa fa-spinner fa-spin"></i></span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                    </div>
+                </mat-step>
+                <mat-step *ngIf="(teachersRecipientsCategories.all_teachers || teachersRecipientsCategories.spec_teachers || teachersRecipientsCategories.teacher_groups || officialsRecipientsCategories.all_bom || officialsRecipientsCategories.spec_bom || officialsRecipientsCategories.bom_groups || workersRecipientsCategories.all_staff || workersRecipientsCategories.spec_staff || workersRecipientsCategories.staff_groups)">
+                    <ng-template matStepLabel>{{ 'messages.compose.finalStep' | translate }}</ng-template>
+                    <div class="row mt-10">
+                        <div class="col-12">
+                            <div class="box">
+                                <form class="form" #tForm="ngForm" (ngSubmit)="tForm.form.valid && sendMessage(tForm)">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ 'messages.compose.subject' | translate }}</label>
+                                                    <input type="text" class="form-control" name="t-subject" [(ngModel)]="message.title" [placeholder]="'messages.compose.subjectPlaceholder' | translate "
+                                                        required #tSubject="ngModel"
+                                                        [ngClass]="{ 'is-invalid': tForm.submitted && tSubject.invalid }">
+                                                    <div *ngIf="tForm.submitted && tSubject.errors?.required" class="form-control-feedback text-danger">
+                                                        <small>{{ 'messages.compose.subjectError' | translate }}.</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">{{ 'messages.compose.message' | translate }}</label>
+                                            <textarea rows="5" class="form-control" (ngModelChange)="updateCharacterCount()" name="tMessage" [(ngModel)]="message.text" #tMessage="ngModel" [placeholder]="'messages.compose.messagePlaceholder' | translate " maxlength="918" required
+                                                [ngClass]="{ 'is-invalid': tForm.submitted && tMessage.invalid }"></textarea>
+                                            <div *ngIf="tForm.submitted && tMessage.errors?.required" class="form-control-feedback text-danger">
+                                                <small>{{ 'messages.compose.messageError' | translate }}</small>
+                                            </div>
+                                            <div class="form-control-feedback text-end {{msg_count_class}}"><small>{{ 'messages.compose.messageCount' | translate:{msgCount: msg_count, msgCharacterCount: msg_character_count} }}</small></div>
+                                            <div *ngIf="!school_sender_profile.unique_sender_id" class="form-control-feedback text-end"><small>{{ 'messages.compose.senderIDError' | translate }}</small></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input type="checkbox" id="send-text" class="filled-in chk-col-primary" name="send-text" [(ngModel)]="sendTextMessage" />
+                                                <label for="send-text">{{ 'messages.compose.sendTextMessage' | translate }}</label>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="error_status" class="row mt-10 text-danger">
+                                            {{error_msg}}
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <div class="box-footer">
+                                        <button matStepperPrevious type="button" class="btn btn-sm btn-secondary me-1 me-lg-20">{{ 'messages.commonAttr.back' | translate }}</button>
+                                        <!-- <button type="submit" class="d-none d-lg-inline-block btn btn-sm btn-primary">Send</button> -->
+                                        <button type="submit" [disabled]="showLoading" class="btn btn-sm btn-primary pull-right">
+                                            <span *ngIf="!showLoading">{{ 'messages.compose.send' | translate }}</span>
+                                            <span *ngIf="showLoading">{{ 'messages.compose.processing' | translate }}</span>
+                                            <span *ngIf="showLoading" class="ms-1"><i class="fa fa-spinner fa-spin"></i></span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                    </div>
+                </mat-step>
+                <mat-step *ngIf="others_option">
+                    <ng-template matStepLabel>{{ 'messages.compose.finalStep' | translate }}</ng-template>
+                    <div class="row mt-10">
+                        <div class="col-12">
+                            <div class="box">
+                                <form class="form" #oForm="ngForm" (ngSubmit)="oForm.form.valid && sendMessage(oForm)">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                <label class="form-label">{{ 'messages.compose.subject' | translate }}:</label>
+                                                <input type="text" class="form-control" name="oTitle" [(ngModel)]="message.title" [placeholder]="'messages.compose.subjectPlaceholder' | translate"
+                                                    #oTitle="ngModel"
+                                                    [ngClass]="{'b-1 border-danger': oForm.submitted && oTitle.invalid}" required>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="sendTextMessage" [ngClass]="{'col-md-6': (sendTextMessage && sendEmail), 'col-md-12': (sendTextMessage && !sendEmail)}">
+                                                <div class="form-group">
+                                                <!-- <label class="form-label">{{ 'messages.compose.phoneNumber' | translate }}:</label> -->
+                                                <!-- <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="[]"
+                                                    [addTag]="true"
+                                                    [multiple]="true"
+                                                    [selectOnTab]="true"
+                                                    name="oNumber"
+                                                    [(ngModel)]="message.phone"
+                                                    [isOpen]="false"
+                                                    #oNumber="ngModel"
+                                                    [ngClass]="{'b-1 border-danger': oForm.submitted && oNumber.invalid}"
+                                                    required>
+                                                </ng-select>
+                                                <div class="form-control-feedback">
+                                                    <small class="fst-italic fw-lighter">{{ 'messages.compose.phoneNumberError' | translate }}</small>
+                                                </div>
+                                                <div *ngIf="oForm.submitted && oNumber.invalid" class="text-danger">
+                                                    <small>{{ 'messages.compose.phoneNumberRequired' | translate }}</small>
+                                                </div> -->
+                                                <!-- <input type="text" class="form-control" name="o-number" [(ngModel)]="message.phone" placeholder="0712345678"> -->
+                                                <mat-form-field class="example-chip-list" appearance="fill">
+                                                    <mat-label>{{ 'messages.compose.phoneNumber' | translate }}</mat-label>
+                                                    <mat-chip-list #chipList>
+                                                      <mat-chip *ngFor="let phone of phoneNumbers" (removed)="removePhone(phone)">
+                                                        {{phone}}
+                                                        <button matChipRemove>
+                                                          <mat-icon>cancel</mat-icon>
+                                                        </button>
+                                                      </mat-chip>
+                                                      <input placeholder="New phone..."
+                                                                type="number"
+                                                             [matChipInputFor]="chipList"
+                                                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                             [matChipInputAddOnBlur]="addOnBlur"
+                                                             (matChipInputTokenEnd)="addPhone($event)"
+                                                             name="oNumber"
+                                                             required>
+                                                    </mat-chip-list>
+                                                </mat-form-field>
+                                                <div *ngIf="oForm.submitted && phoneNumbers.length == 0" class="text-danger">
+                                                    <small>{{ 'messages.compose.phoneNumberRequired' | translate }}</small>
+                                                </div>
+
+                                                <!-- <mat-form-field class="example-chip-list" appearance="fill">
+                                                    <mat-label>Favorite Fruits</mat-label>
+                                                    <mat-chip-list #chipList aria-label="Fruit selection">
+                                                      <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
+                                                        {{fruit.name}}
+                                                        <button matChipRemove>
+                                                          <mat-icon>cancel</mat-icon>
+                                                        </button>
+                                                      </mat-chip>
+                                                      <input placeholder="New fruit..."
+                                                             [matChipInputFor]="chipList"
+                                                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                             [matChipInputAddOnBlur]="addOnBlur"
+                                                             (matChipInputTokenEnd)="add($event)">
+                                                    </mat-chip-list>
+                                                  </mat-form-field> -->
+                                                </div>
+                                            </div>
+                                            <div *ngIf="sendEmail" [ngClass]="(sendTextMessage && sendEmail) ? 'col-md-6' : 'col-md-12'">
+                                                <div class="form-group">
+                                                <!-- <label class="form-label">{{ 'messages.compose.email' | translate }}:</label>
+                                                <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="[]"
+                                                    [addTag]="true"
+                                                    [multiple]="true"
+                                                    [selectOnTab]="true"
+                                                    name="oMail"
+                                                    [(ngModel)]="message.email"
+                                                    [isOpen]="false"
+                                                    #oMail="ngModel"
+                                                    [ngClass]="{'b-1 border-danger': oForm.submitted && oMail.invalid}"
+                                                    required>
+                                                </ng-select>
+                                                <div class="form-control-feedback">
+                                                    <small class="fst-italic fw-lighter">{{ 'messages.compose.emailError' | translate }}</small>
+                                                </div>
+                                                <div *ngIf="oForm.submitted && oMail.invalid" class="text-danger">
+                                                    <small>{{ 'messages.compose.emailRequired' | translate }}</small>
+                                                </div> -->
+                                                <!-- <input type="email" data-role="tagsinput" class="form-control" name="o-mail" [(ngModel)]="message.email" placeholder="john.doe@gmail.com"> -->
+
+                                                <!-- CHIPS EMAIL -->
+                                                <mat-form-field class="example-chip-list" appearance="fill">
+                                                    <mat-label>{{ 'messages.compose.email' | translate }}</mat-label>
+                                                    <mat-chip-list #chipList>
+                                                      <mat-chip *ngFor="let email of emails" (removed)="removeEmail(email)">
+                                                        {{email}}
+                                                        <button matChipRemove>
+                                                          <mat-icon>cancel</mat-icon>
+                                                        </button>
+                                                      </mat-chip>
+                                                      <input placeholder="New email..."
+                                                             [matChipInputFor]="chipList"
+                                                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                             [matChipInputAddOnBlur]="addOnBlur"
+                                                             (matChipInputTokenEnd)="addEmail($event)"
+                                                             name="oMail"
+                                                             required>
+                                                    </mat-chip-list>
+                                                </mat-form-field>
+                                                <div *ngIf="oForm.submitted && emails.length == 0" class="text-danger">
+                                                    <small>{{ 'messages.compose.emailRequired' | translate }}</small>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">{{ 'messages.compose.message' | translate }}</label>
+                                            <textarea rows="5" class="form-control" (ngModelChange)="updateCharacterCount()" name="o-message" [(ngModel)]="message.text" #oMessage="ngModel" [placeholder]="'messages.compose.messagePlaceholder' | translate " maxlength="918" required
+                                                [ngClass]="{ 'is-invalid': oForm.submitted && oMessage.invalid }"></textarea>
+                                            <div *ngIf="oForm.submitted && oMessage.errors?.required" class="form-control-feedback text-danger">
+                                                <small>{{ 'messages.compose.messageError' | translate }}</small>
+                                            </div>
+                                            <div class="form-control-feedback text-end {{msg_count_class}}"><small>{{ 'messages.compose.messageCount' | translate:{msgCount: msg_count, msgCharacterCount: msg_character_count} }}</small></div>
+                                            <div *ngIf="!school_sender_profile?.unique_sender_id" class="form-control-feedback text-end"><small>{{ 'messages.compose.senderIDError' | translate }}</small></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input type="checkbox" id="send-text" class="filled-in chk-col-primary" name="send-text" [(ngModel)]="sendTextMessage" />
+                                                <label for="send-text">{{ 'messages.compose.sendTextMessage' | translate }}</label>
+                                            </div>
+                                            <div class="col-12">
+                                                <input type="checkbox" id="send-email" class="filled-in chk-col-primary" name="send-email" [(ngModel)]="sendEmail" />
+                                                <label for="send-email">{{ 'messages.compose.sendEmail' | translate }}</label>
+                                            </div>
+                                        </div>
+                                        <!-- <div *ngIf="error_status" class="row mt-10 text-danger">
+                                            {{error_msg}}
+                                        </div> -->
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <div class="box-footer">
+                                        <button matStepperPrevious type="button" class="btn btn-sm btn-secondary me-1 me-lg-20">{{ 'messages.commonAttr.back' | translate }}</button>
+                                        <!-- <button type="submit" class="d-none d-lg-inline-block btn btn-sm btn-primary">Send</button> -->
+                                        <button type="submit" [disabled]="showLoading" class="btn btn-sm btn-primary pull-right">
+                                            <span *ngIf="!showLoading">{{ 'messages.compose.send' | translate }}</span>
+                                            <span *ngIf="showLoading">{{ 'messages.compose.processing' | translate }}</span>
+                                            <span *ngIf="showLoading" class="ms-1"><i class="fa fa-spinner fa-spin"></i></span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                    </div>
+                </mat-step>
+                <mat-step *ngIf="alumni_option">
+                    <ng-template matStepLabel>{{ 'messages.compose.finalStep' | translate }}</ng-template>
+                    <div class="row mt-10">
+                        <div class="col-12">
+                            <div class="box">
+                                <form class="form" #aForm="ngForm" (ngSubmit)="aForm.form.valid && sendMessage(aForm)">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                <label class="form-label">{{ 'messages.compose.subject' | translate }}</label>
+                                                <input type="text" class="form-control" name="a-subject" [(ngModel)]="message.title" [placeholder]="'messages.compose.subjectPlaceholder' | translate ">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">{{ 'messages.compose.category' | translate }}</label>
+                                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                        [selectOnTab]="true"
+                                                        [dropdownPosition]="'bottom'"
+                                                        appendTo="body"
+                                                        [items]="message_categories"
+                                                        bindLabel="name"
+                                                        bindValue="id"
+                                                        name="a-category"
+                                                        [(ngModel)]="message.category"
+                                                        [placeholder]="'messages.compose.categoryPlaceholder' | translate ">
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">{{ 'messages.compose.message' | translate }}</label>
+                                            <textarea rows="5" class="form-control" maxlength="918" (ngModelChange)="updateCharacterCount()" name=a-msg [(ngModel)]="message.text" [placeholder]="'messages.compose.messagePlaceholder' | translate "></textarea>
+                                            <div class="form-control-feedback text-end {{msg_count_class}}"><small>{{ 'messages.compose.messageCount' | translate:{msgCount: msg_count, msgCharacterCount: msg_character_count} }}</small></div>
+                                            <div class="form-control-feedback text-end"><small>{{ 'messages.compose.senderIDError' | translate }}</small></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input type="checkbox" id="send-text" class="filled-in chk-col-primary" name="send-text" [(ngModel)]="sendTextMessage" />
+                                                <label for="send-text">{{ 'messages.compose.sendTextMessage' | translate }}</label>
+                                            </div>
+                                            <div class="col-12">
+                                                <input type="checkbox" id="send-email" class="filled-in chk-col-primary" name="send-email" [(ngModel)]="sendEmail" />
+                                                <label for="send-email">{{ 'messages.compose.sendEmail' | translate }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <div class="box-footer">
+                                        <button matStepperPrevious type="button" class="btn btn-sm btn-secondary me-1 me-lg-20">{{ 'messages.commonAttr.back' | translate }}</button>
+                                        <!-- <button type="submit" class="d-none d-lg-inline-block btn btn-sm btn-primary">Send</button> -->
+                                        <button type="submit" [disabled]="showLoading" class="btn btn-sm btn-primary pull-right">
+                                            <span *ngIf="!showLoading">{{ 'messages.compose.send' | translate }}</span>
+                                            <span *ngIf="showLoading">{{ 'messages.compose.processing' | translate }}</span>
+                                            <span *ngIf="showLoading" class="ms-1"><i class="fa fa-spinner fa-spin"></i></span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                    </div>
+                </mat-step>
+            </mat-stepper>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <app-message-sent
+        *ngIf="showSuccessMessageCard"
+        (closeSuccessDialog)="closeSuccessMessageCard()">
+    </app-message-sent>
+</section>

@@ -1,0 +1,10 @@
+.unselectable{
+    color: #172b4c;
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+button.btn.dropdown-toggle:after {
+    display: none;
+}

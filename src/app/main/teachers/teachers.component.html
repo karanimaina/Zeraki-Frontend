@@ -1,0 +1,2 @@
+<router-outlet *ngIf="!networkService.isNetworkStopped"></router-outlet>
+<app-connection-lost *ngIf="networkService.isNetworkStopped"></app-connection-lost>

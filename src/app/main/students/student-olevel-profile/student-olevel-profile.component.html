@@ -1,0 +1,149 @@
+<div class="box">
+  <div class="row my-4">
+    <div class="col-md-3">
+      <div class="d-flex flex-column justify-content-center align-items-center text-center">
+        <div>
+          <img src="assets/img/avatar/p_avatar_blue.png" style="height: 100px; width: 100px; border-radius: 50%">
+        </div>
+        <div><h3>{{ studentDetails.value.studentName }}</h3></div>
+        <div><h5>{{ studentDetails.value.studentAdmNo }}</h5></div>
+        <div><h5>{{ schoolTypeData?.formoryear | formOrYear }} {{ studentDetails.value.currentStream }}</h5></div>
+        <div class="row g-3 mt-10 mb-5">
+          <div class=" text-center">
+            <div class="btn-group">
+              <!-- profile -->
+              <button *appNormalTeacherHidden="true" routerLink="../../prof/{{studentId}}" type="button" class="waves-effect waves-light btn btn-secondary btn-xs">
+                <i>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                    <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+                  </svg>
+                </i>
+                {{ 'common.profile' | translate }}
+              </button>
+              <!-- message -->
+              <button type="button" routerLink="../../msg/{{studentId}}" class="waves-effect waves-light btn btn-secondary btn-xs">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-chat-right-text" viewBox="0 0 16 16">
+                  <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+                  <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+                {{ 'common.message' | translate }}
+              </button>
+              <!-- notes -->
+              <div class="btn-group">
+                <button type="button" *ngIf="!userRoles?.isStudent || userRoles?.can_add_extracurricular" class="waves-effect waves-light btn btn-secondary dropdown-toggle btn-sm" data-bs-toggle="dropdown">
+                  {{ 'common.notes' | translate }}
+                </button>
+                <div class="dropdown-menu">
+                  <!-- note categories -->
+                  <app-student-notes-items [studentID]="studentId"></app-student-notes-items>
+                  <!-- extracurricular activities -->
+                  <a class="dropdown-item" routerLink="../../act/{{studentId}}">{{ 'students.exActs' | translate }}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="text-dark d-flex flex-column align-items-center mb-3">
+        <span>{{ 'students.ol-profile.avgPoints' | translate }}</span>
+        <span class="h3 fw-bolder">
+          <app-loader-pulse *ngIf="loading"></app-loader-pulse>
+          <span *ngIf="!loading && evaluationSeriesExist" class="text-primary">{{ studentAverage.value ? studentAverage.value : 'N/A' }}</span>
+        </span>
+      </div>
+      <div class="form-group mt-2 p-10 bg-secondary-light">
+        <label for="academicYear" class="form-label">{{ 'students.ol-profile.changeAcYear' | translate }}:</label>
+        <ng-select [notFoundText]="'common.noItemsFound' | translate"
+          id="academicYear"
+          class="form-control-dropdown"
+          placeholder="{{ 'common.selectYear' | translate }}"
+          [items]="academicYears"
+          groupBy="term"
+          bindLabel="name"
+          bindValue="ayid"
+          [(ngModel)]="selectedYear"
+          (ngModelChange)="changeSelectedYear($event)"
+          [clearable]="false">
+        </ng-select>
+      </div>
+      <div class="form-group mt-2 p-10 bg-secondary-light">
+        <label for="term" class="form-label">{{ 'common.changeTerm' | translate }}:</label>
+        <ng-select [notFoundText]="'common.noItemsFound' | translate"
+          id="term"
+          class="form-control-dropdown"
+          placeholder="{{ 'common.selectTerm' | translate }}"
+          [items]="academicTerms"
+          groupBy="term"
+          bindLabel="label"
+          bindValue="value"
+          [(ngModel)]="selectedTerm"
+          (ngModelChange)="selectedTermUpdated($event)"
+          [clearable]="false">
+        </ng-select>
+      </div>
+      <div class="text-center" *ngIf="loading">
+        <div><img src="../../../../assets/img/loading-bars.svg" alt="Loading-bars"></div>
+        <div>{{ 'students.ol-profile.genReport' | translate }}...</div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h5 class="text-center fw-bolder">{{ 'common.term' | translate }} {{ evaluationReportForms?.term }} {{ 'students.ol-profile.attReport' | translate }}</h5>
+      <highcharts-chart
+        [Highcharts]="Highcharts"
+        [options]="chartOptions"
+        [(update)]="updateFlag"
+        style="width: 95%; height: 300px; display: block;"
+      ></highcharts-chart>
+    </div>
+  </div>
+</div>
+
+<div class="box p-4" style="margin-bottom: 0rem;">
+  <div class="text-warning text-center" *ngIf="!evaluationSeriesExist && !loading">
+    {{ 'students.ol-profile.noAnalysis' | translate }} {{ studentDetails.value.studentName }} {{ 'students.ol-profile.forTerm' | translate }} {{ evaluationReportForms?.term }} - {{ evaluationReportForms?.year }}
+  </div>
+  <div *ngIf="evaluationSeriesExist" class="text-dark h3 my-auto">{{ schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) :
+    schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) :
+    schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' |
+    translate) }} {{ studentDetails.value.currentStream }} {{ 'students.ol-profile.asstResults' | translate }} (Term {{ evaluationReportForms?.term }} {{ evaluationReportForms?.year }}) </div>
+
+  <app-student-report
+    *ngIf="evaluationSeriesExist"
+    [fromReportForms]="false"
+    [reportForms]="evaluationReportForms"
+    [studentDetails]="studentDetails"
+    [studentAverage]="studentAverage"
+    [showExamsSlot]="true"
+    [showCompetencyAreas]="true"
+    [showAttendanceReport]="true"
+    [showSubjectTeacherComments]="true"
+    [showRawScore]="true"
+  ></app-student-report>
+</div>
+<div *ngIf="evaluationSeriesExist && userRoles?.isSchoolAdmin" class="d-flex flex-row justify-content-end">
+  <div class="btn-group mt-20 mb-10 rounded pull-right dropup">
+    <button
+      type="button"
+      class="btn btn-dark dropdown-toggle btn-sm"
+      data-bs-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false">
+      {{ 'common.rforms' | translate }}
+    </button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" (click)="viewReportForm(null!)">{{ 'students.currStudent' | translate }}</a>
+      <div class="dropdown-divider"></div>
+      <a *ngFor="let str of streams" class="dropdown-item" (click)="viewReportForm(str)">{{str.streamName}}</a>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="evaluationSeriesExist && userRoles?.isStudent"
+	 class="d-flex flex-row justify-content-end mt-3">
+	<button type="button" class="btn btn-dark btn-sm"
+			(click)="viewReportForm(null!)">
+		{{ 'students.ol-profile.viewFullReport' | translate }}
+	</button>
+</div>

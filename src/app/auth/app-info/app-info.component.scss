@@ -1,0 +1,56 @@
+.color-line {
+    background: 50% 100%/100% 6px no-repeat #f7f9fa;
+    height: 6px;
+    background-image: linear-gradient(to right,#34495e,#34495e 25%,#9b59b6 25%,#9b59b6 35%,#3498db 35%,#3498db 45%,#62cb31 45%,#62cb31 55%,#ffb606 55%,#ffb606 65%,#e67e22 65%,#e67e22 75%,#e74c3c 85%,#e74c3c 85%,#c0392b 85%,#c0392b 100%);
+}
+
+.alert-success {
+    background-color: #43ab49;
+}
+
+.alert-danger {
+    background-color: #f2dede;
+}
+
+.splashCentre {
+    height: 90%;
+    display: flex;
+    // align-items: center;
+    justify-content: center;
+}
+
+// @import "~swiper/css";
+// @import "~swiper/css/pagination";
+
+// .swiper {
+//     width: 100%;
+//     height: 100%;
+//   }
+  
+// .swiper-slide {
+//     text-align: center;
+//     font-size: 18px;
+//     background: #fff;
+
+//     /* Center slide text vertically */
+//     display: -webkit-box;
+//     display: -ms-flexbox;
+//     display: -webkit-flex;
+//     display: flex;
+//     -webkit-box-pack: center;
+//     -ms-flex-pack: center;
+//     -webkit-justify-content: center;
+//     justify-content: center;
+//     -webkit-box-align: center;
+//     -ms-flex-align: center;
+//     -webkit-align-items: center;
+//     align-items: center;
+// }
+
+// .swiper-slide img {
+//     display: block;
+//     width: 100%;
+//     height: 100%;
+//     object-fit: cover;
+// }
+  

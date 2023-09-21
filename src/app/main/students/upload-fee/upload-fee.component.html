@@ -1,0 +1,170 @@
+<!-- Student Top Nav -->
+<app-students-top-nav></app-students-top-nav>
+
+
+
+<!-- Main content -->
+<section class="content mt-config">
+    <div class="col-12">
+        <form #uploadFm="ngForm" class="form" (ngSubmit)="uploadFm.form.valid && uploadFeeStatements(uploadFm)">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h4 class="box-title">{{ 'students.up_fee.title' | translate }}</h4>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        <label>{{ 'common.term' | translate }}</label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate" [selectOnTab]="true" placeholder="{{ 'common.selectTerm' | translate }}" name="term" [(ngModel)]="fees.term" required>
+                            <ng-option [value]="1">{{ 'common.one' | translate }}</ng-option>
+                            <ng-option [value]="2">{{ 'common.two' | translate }}</ng-option>
+                            <ng-option [value]="3">{{ 'common.three' | translate }}</ng-option>
+                        </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        <label>{{ 'common.year' | translate }}</label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                            name="fees_year"
+                            class="form-control-dropdown"
+                            required
+                            placeholder="{{ 'common.selYear' | translate }}"
+                            [items]="valid_years"
+                            #fees_year="ngModel"
+                            [(ngModel)]="fees.year">
+                        </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>{{ 'students.up_fee.feeSum' | translate }}</label>
+                            <input type="datetime-local" class="form-control" name="date" [ngModel]="fees.date | date:'yyyy-MM-ddThh:mm:ss'"  (ngModelChange)="fees.date=$event">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="pb-2">{{ 'students.up_fee.feeOptions' | translate }}</label>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input name="group1" type="radio" name="radio_3" (click)="toggleFeeChange('current')" class="with-gap radio-col-info" id="radio_3" [checked]="isFeeBalance" />
+                                    <label for="radio_3">{{ 'students.up_fee.curFeeBal' | translate }}</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input name="group1" type="radio" id="radio_4" name="radio_4" (click)="toggleFeeChange('next_term')" [checked]="!isFeeBalance" class="with-gap radio-col-info" />
+                                    <label for="radio_4">{{ 'students.up_fee.upcomingFees' | translate }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="pb-2">{{ 'students.up_fee.sendSummary' | translate }}</label>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <input type="checkbox" name="checkbox_123" [(ngModel)]="fees.sms" id="checkbox_123" class="filled-in chk-col-info">
+                                    <label for="checkbox_123" class="block">{{ 'students.up_fee.sendFees' | translate }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="fees.sms" class="col-md-12">
+                        <div class="form-group">
+                            <label>{{ 'common.optMes' | translate }}</label>
+                            <textarea rows="4" name="fees_message" [(ngModel)]="fees.message" class="form-control" placeholder="{{ 'students.up_fee.feePlaceholder' | translate }}"></textarea>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.top box -->
+
+            <div class="box">
+                <div class="box-body">
+                    <h6 class="box-title mb-15"><span (click)="downloadTemplate()" class="text-info" style="cursor: pointer;">{{ 'common.download' | translate }}<i class="ti-download ms-1 me-10"></i></span>{{ 'students.instructions1' | translate }}</h6>
+                    <!-- <hr class="my-15"> -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="formFile" class="form-label">{{ 'common.chooseFile' | translate }} <span class="text-danger">*</span></label>
+                                <input class="form-control" type="file" id="formFile" name="results_file" [(ngModel)]="results_file" required data-validation-required-message="This field is required" (change)="detectFiles($event)">
+                            </div>
+                        </div>
+                        <div *ngIf="isFileSelected" class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered table-striped table-hover mb-0">
+                                    <thead class="thead-dark">
+                                      <tr>
+                                        <th>#</th>
+                                        <th scope="col" *ngFor="let header of sheet_headers_template">{{ header }}</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let student of fees.students; index as i">
+                                            <th scope="row">{{ i+1 }}</th>
+                                            <td *ngFor="let h of sheet_headers_template">{{ student[h.toLowerCase()] }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer text-end">
+                    <button type="submit" class="btn btn-sm btn-info">
+                        <i class="me-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                            </svg>
+                        </i>
+                        {{ 'common.submit' | translate }}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Control Sidebar  -->
+<aside class="control-sidebar" [ngClass]="{'control-sidebar-open':rightSidebar}">
+
+
+    <div>
+        <span class="font-bold no-margins text-danger">
+            <!-- Error -->
+            {{"exams.kcseExams.textError"|translate}}
+         </span>
+        <br />
+        <small>
+            <!-- The following errors were encountered  -->
+            {{"exams.kcseExams.textFollowingErrors"|translate}}
+        </small>
+        <button style="margin-top: -19px;" (click)="initItems()"
+            class="pull-right btn waves-effect waves-light btn-sm btn-danger">
+            <i class="text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+              </i>
+        </button>
+    </div>
+    <hr>
+    <div>
+        <div class="media-list media-list-hover mt-20 bg-secondary">
+            <div *ngFor="let error of custom_errors; first as isFirst" class="media py-10 px-0" [ngClass]="{'bt-2': !isFirst}">
+                <div class="media-body">
+                  <p class="fs-16">
+                    <a class="hover-primary"><strong>{{ error.title }}</strong></a>
+                  </p>
+                  <p *ngFor="let msg of error.msg" class="fs-12">{{ msg }}</p>
+                </div>
+            </div>
+  
+          </div>
+    </div>
+</aside>
+<!-- /.control-sidebar -->

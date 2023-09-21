@@ -1,0 +1,14 @@
+.view-toggle {
+    margin-left: -180px;
+}
+
+
+@media(max-width:767px) {
+    .view-toggle {
+        margin-left: 0;
+    }
+
+    .fixed .content-wrapper {
+        padding-top: 45px;
+    }
+}

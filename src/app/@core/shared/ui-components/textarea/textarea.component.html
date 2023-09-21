@@ -1,0 +1,16 @@
+<div class="form-group">
+	<label *ngIf="label" class="form-label">
+		{{ label }}
+		<span *ngIf="control?.hasValidator(requiredValidator)" class="text-danger">*</span>
+	</label>
+	<textarea rows="3"
+	          class="form-control"
+	          [formControl]="control!"
+	          [placeholder]="placeholder"
+	          [ngClass]="{ 'is-invalid': hasErrors }">
+	</textarea>
+	<app-input-error-message
+	  [control]="control!"
+	  [labelText]="label">
+	</app-input-error-message>
+</div>

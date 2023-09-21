@@ -1,0 +1,273 @@
+<div class="box">
+	<div class="box-header">
+		<div class="row">
+			<div class="col-sm-6">
+				<p class="mb-0 box-title">
+					{{
+						"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.proformaInvoices"
+							| translate
+					}}
+				</p>
+			</div>
+			<div class="col-sm-6 text-end">
+				<button class="btn btn-xs btn-success" (click)="showCreateInvoice()">
+					{{
+						"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.createProforma"
+							| translate
+					}}
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="box-body">
+		<!--<pre>{{kpi|json}}</pre>-->
+		<div *ngIf="schoolProfomas.proformaInvoices.length > 0" class="row">
+			<div class="col-sm-12">
+				<div class="table-responsive">
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th style="min-width: 3rem">#</th>
+								<th>
+									{{
+										"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.proformaNumber"
+											| translate
+									}}
+								</th>
+								<th>
+									{{
+										"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.mainItem"
+											| translate
+									}}
+								</th>
+								<th>
+									{{
+										"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.createdBy"
+											| translate
+									}}
+								</th>
+								<th>
+									{{
+										"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.creationDate"
+											| translate
+									}}
+								</th>
+								<th>
+									{{
+										"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.dueDate"
+											| translate
+									}}
+								</th>
+								<th>
+									{{
+										"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.extensionDate"
+											| translate
+									}}
+								</th>
+								<th>Amount</th>
+								<th>
+									{{
+										"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.grossAmount"
+											| translate
+									}}
+								</th>
+								<th>
+									{{
+										"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.balance"
+											| translate
+									}}
+								</th>
+								<th>
+									{{
+										"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.status"
+											| translate
+									}}
+								</th>
+								<th>
+									{{
+										"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.invoices"
+											| translate
+									}}
+								</th>
+								<th>
+									{{
+										"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.daysLeft"
+											| translate
+									}}
+								</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody
+							*ngFor="
+								let proforma of schoolProfomas.proformaInvoices;
+								index as proformaIndex
+							"
+							[ngClass]="{ striped: proformaIndex % 2 == 0 }">
+							<tr *ngFor="let item of proforma.proformaItems; index as pidx">
+								<td
+									[attr.rowspan]="proforma.proformaItems.length"
+									*ngIf="pidx == 0">
+									{{ proformaIndex + 1 }}
+								</td>
+								<td>{{ item.proformaNumber }}</td>
+								<td style="min-width: 180px">{{ item.item }}</td>
+								<td
+									[attr.rowspan]="proforma.proformaItems.length"
+									*ngIf="pidx == 0">
+									{{ proforma.createdBy }}
+								</td>
+								<td
+									[attr.rowspan]="proforma.proformaItems.length"
+									*ngIf="pidx == 0">
+									{{ proforma.creationDate }}
+								</td>
+								<td
+									[attr.rowspan]="proforma.proformaItems.length"
+									*ngIf="pidx == 0">
+									{{ proforma.dueDate }}
+								</td>
+								<td
+									[attr.rowspan]="proforma.proformaItems.length"
+									*ngIf="pidx == 0">
+									{{ proforma.extensionDate }}
+								</td>
+								<td>
+									{{ item.grossAmount | currency:(proforma.currency || "KES") }}
+								</td>
+								<td
+									[attr.rowspan]="proforma.proformaItems.length"
+									*ngIf="pidx == 0">
+									{{ proforma.grossAmount | currency:(proforma.currency || "KES") }}
+								</td>
+								<td
+									[attr.rowspan]="proforma.proformaItems.length"
+									*ngIf="pidx == 0">
+									{{ proforma.balance | currency:(proforma.currency || "KES") }}
+								</td>
+								<td
+									[attr.rowspan]="proforma.proformaItems.length"
+									*ngIf="pidx == 0">
+									<span
+										*ngIf="proforma.completionStatus == 1"
+										class="text-success"
+										>{{ "litemore.bdevs.invoices.complete" | translate }}</span
+									>
+									<span
+										*ngIf="proforma.completionStatus == 0"
+										class="text-danger"
+										>{{
+											"litemore.bdevs.invoices.incomplete" | translate
+										}}</span
+									>
+								</td>
+								<td
+									[attr.rowspan]="proforma.proformaItems.length"
+									*ngIf="pidx == 0">
+									{{ proforma.invoices }}
+								</td>
+								<td
+									[attr.rowspan]="proforma.proformaItems.length"
+									*ngIf="pidx == 0">
+									{{ proforma.daysLeft }}
+								</td>
+								<td
+									*ngIf="pidx == 0"
+									[attr.rowspan]="proforma.proformaItems.length">
+									<div class="btn-group position-static">
+										<button
+											class="btn btn-secondary waves-effect waves-light btn-sm dropdown-toggle"
+											type="button"
+											data-bs-toggle="dropdown"
+											aria-expanded="false">
+											Action
+										</button>
+										<div class="dropdown-menu">
+											<a
+												class="dropdown-item"
+												*ngIf="!(proforma.invoices > 0)"
+												[ngClass]="{ disabled: proforma.completionStatus == 1 }"
+												(click)="sendReminder(proforma)"
+												>Send Reminder</a
+											>
+											<a
+												class="dropdown-item"
+												*ngIf="!proforma.edit"
+												(click)="showUpdateProforma(proforma)"
+												>Edit</a
+											>
+											<a
+												class="dropdown-item"
+												*ngIf="proforma.edit"
+												(click)="initiateProformaEdit(proforma, false)"
+												><span class="text-primary">Done</span></a
+											>
+											<a
+												class="dropdown-item"
+												(click)="showProformaPrint(proforma)"
+												>Print</a
+											>
+											<a
+												class="dropdown-item"
+												(click)="
+													viewInvoices(
+														proforma.proformaId,
+														item.proformaNumber,
+														true
+													)
+												"
+												>View Invoices</a
+											>
+											<a
+												class="dropdown-item"
+												(click)="deleteProformaInvoice(proforma)"
+												*ngIf="!(proforma.invoices > 0)"
+												>Delete</a
+											>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="text-end">
+					<span>
+						{{
+							"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.page"
+								| translate
+						}}
+						{{ schoolProfomas.currentPage }}
+						{{
+							"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.of"
+								| translate
+						}}
+						{{ schoolProfomas.totalPages }}
+					</span>
+					<button
+						class="btn btn-sm btn-secondary waves-effect waves-light"
+						style="margin-right: 5px"
+						(click)="profomaPrevClicked()">
+						&lsaquo;
+					</button>
+					<button
+						class="btn btn-sm btn-secondary waves-effect waves-light"
+						(click)="profomaNextClicked()">
+						&rsaquo;
+					</button>
+				</div>
+			</div>
+		</div>
+		<div *ngIf="schoolProfomas.proformaInvoices.length == 0" class="row">
+			<div class="col-sm-12">
+				<p class="mb-0">
+					{{
+						"litemore.bdevs.invoices.proforma.components.sectionProformaInvoices.noProformaInvoices"
+							| translate
+					}}
+				</p>
+			</div>
+		</div>
+	</div>
+</div>

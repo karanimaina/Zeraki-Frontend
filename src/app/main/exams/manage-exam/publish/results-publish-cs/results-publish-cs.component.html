@@ -1,0 +1,118 @@
+<!-- Main content -->
+<section class="content mt-config ">
+    <div *ngIf="isLoadingExams;then loadingData else loadingComplete"></div>
+
+    <ng-template #loadingData>
+        <app-loader-div [height]="25"></app-loader-div>
+
+        <div class="mt-20">
+            <app-loader-div [height]="150"></app-loader-div>
+        </div>
+    </ng-template>
+
+    <ng-template #loadingComplete>
+        <div class="box" *ngIf="examsToPublish?.length > 0">
+            <div class="box-header pb-0">
+                <h4>
+                    <!-- Publish Results - {{schooldata?.formoryear + classInfo?.form}} {{classInfo?.name}} -->
+                    {{ 'exams.publishResults' | translate }} - {{schooldata?.formoryear + classInfo?.form}} {{classInfo?.name}}
+                </h4>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <!-- <label>Exam</label> -->
+                            <label>{{ 'exams.exam' | translate }}</label>
+                            <!-- <ng-select [notFoundText]="'common.noItemsFound' | translate" placeholder="Select exam" class="form-control-dropdown" [name]="selectedListExam.exam_menu_name" [(ngModel)]="selectedListExam" groupBy="term_menu_name" (change)="initSSTREandReminders()"
+                                [items]="list.list" bindLabel="exam_menu_name">
+                                <ng-template ng-optgroup-tmp let-item="item">
+                                    <span class="fw-bolder">
+                                        {{item.term_menu_name || ''}}
+                                    </span>
+                                </ng-template>
+                            </ng-select> -->
+                            <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                            [items]="examsToPublish"
+                            bindLabel="exam_menu_name"
+                            placeholder="{{ 'exams.selectExam' | translate }}"
+                            #examName="ngModel"
+                            [(ngModel)]="exam"
+                            groupBy="term_menu_name"
+                            disabled>
+                            <ng-template ng-optgroup-tmp let-item="item">
+                                <span class="fw-bolder">
+                                    {{item.term_menu_name || ''}}
+                                </span>
+                            </ng-template>
+                            </ng-select>
+                            <!-- <select [disabled]="lock_exam" class="form-control m-b" required name="term" (change)="onExamChange()" id="term" [(ngModel)]="exam" ng-options="exam as exam.exam_menu_name group by exam.term_menu_name for exam in examsToPublish track by exam.examid">
+                                <option value="" style="color: #999">Select Exam</option>
+                            </select> -->
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-12" *ngIf="exam.examid !== undefined" >
+                        <div class="form-group">
+                            <label>{{ 'common.streams' | translate }}</label>
+                            <div class="table-responsive col-xs-12 col-md-12 no-padding" style="margin: 0">
+                                <table class="table table-striped table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 20%;">{{ 'common.class' | translate }}</th>
+                                            <th style="width: 30%;">{{ 'exams.status' | translate }}</th>
+                                            <th class="text-end" style="width: 50%;">{{ 'common.actions' | translate }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let c of exam.classes" class="pointer" ui-sref="home.admin.exams.manage.publish_status({streamid:c.streamid,seriesid:exam.examid,viewonly:viewonly_int})">
+                                            <td class="td-fit-nowrap" style="vertical-align: middle">{{c.name}}</td>
+                                            <td style="vertical-align: middle;border-right: 0">
+                                                <code class="success" *ngIf="c.completed_action">{{c.msg}}</code>
+                                                <code class="default" [hidden]="c.completed_action">{{c.msg}}</code>
+                                            </td>
+                                            <td style="vertical-align: middle" (click)="$event.stopPropagation()">
+                                                <button [hidden]="c.no_action || c.analyze" class="btn btn-xs btn-default pull-right" [routerLink]="['/main/exams/manage/publish/status', c.streamid, exam.examid]" ui-sref="home.admin.exams.manage.publish_status({streamid:c.streamid,seriesid:exam.examid,viewonly:viewonly_int})"> View</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-12" style="padding: 0 0 16px 0" *ngIf="error_exam">
+                        <span class="help-block small" style="color:#d62c1a" ng-cloak="">
+                            {{error_msg}}
+                        </span>
+                    </div>
+                    <div class="col-xs-12 col-md-12" style="padding: 0" *ngIf="exam.examid !== undefined" >
+                        <span class="pull-left">
+                            <button *ngIf="classInfo.streamid != undefined" type="button" class="btn btn-dark btn-sm" [routerLink]="['/main/exams/manage/publish/status/marklist', exam.examid, -1, -1, classInfo.streamid, -1]" ui-sref="home.marklist({seriesid:exam.examid,streamid:classInfo.streamid})">{{ 'exams.downloadResults' | translate }}</button>
+                            <button *ngIf="classInfo.streamid == undefined" type="button" class="btn btn-dark btn-sm" [routerLink]="['/main/exams/manage/publish/status/marklist', exam.examid, -1, classInfo.intakeid, -1, -1]" ui-sref="home.marklist({seriesid:exam.examid,intakeid:classInfo.intakeid})">{{ 'exams.downloadResults' | translate }}</button>
+                        </span>
+                        <span class="pull-right" *ngIf="exam.publish">
+                            <button [disabled]="!exam.publish" type="button" class="btn btn-success btn-sm" (click)="publishSeries()" >{{ 'exams.publishResults' | translate }}</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box" *ngIf="examsToPublish.length === 0 || examsToPublish.length === undefined">
+            <div class="box-body mt-10" style="padding: 0;float: none; margin: 0 auto;">
+                <div class="col-md-12 text-center m-t-md" style="padding: 0;float: none; margin: 0 auto;">
+                    <div class="hpanel text-left">
+                        <div class="alert alert-success">
+                            <i class="fa fa-bolt"></i> {{ 'exams.noResultsToPub' | translate }}
+                        </div>
+                        <div class="panel-body">
+                            <div style="padding-bottom: 16px">{{ 'exams.noResultsToPub2' | translate }}</div>
+                            <span class="pull-right">
+                                <button (click)="_location.back()" class="btn btn-dark btn-sm">{{ 'common.back' | translate }}</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+</section>

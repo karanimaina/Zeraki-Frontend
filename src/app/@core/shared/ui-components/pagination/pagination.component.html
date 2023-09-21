@@ -1,0 +1,26 @@
+<div class="my-10">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-sm mb-0 justify-content-end">
+            <li class="page-item">
+                <a class="page-link" (click)="onFirstPage()" tabindex="-1">{{
+                    'printouts.meritList.firstPage' | translate }}</a>
+            </li>
+            <li class="page-item" [ngClass]="{'disabled': currentPage == 1}">
+                <a class="page-link" (click)="onPreviousPage()" aria-label="Previous"
+                    aria-disabled="true">
+                    <span aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link">{{ currentPage }}</a></li>
+            <li class="page-item" [ngClass]="{'disabled': currentPage === totalPages}">
+                <a class="page-link" (click)="onNextPage()" aria-label="Next">
+                    <span aria-hidden="true"><i class="fa fa-arrow-right"></i></span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" (click)="onLastPage()">{{
+                    'printouts.meritList.lastPage' | translate }}</a>
+            </li>
+        </ul>
+    </nav>
+</div>

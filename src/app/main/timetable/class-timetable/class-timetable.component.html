@@ -1,0 +1,110 @@
+<section class="mt-config content">
+    <!--
+    ============================================
+    Select teacher section
+    ============================================
+    -->
+    <div class="box">
+        <div class="box-body">
+            <form #ctForm="ngForm" class="form" (ngSubmit)="ctForm.form.valid && loadClassTimeTable()">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="select_form_intake" class="form-label fw-600">{{ 'timetable.classTimetable.ctForm.form.placeholder' | translate }}</label>
+                            <!-- <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                [items]="streams"
+                                [closeOnSelect]="true"
+                                [searchable]="true"
+                                appendTo="body"
+                                [dropdownPosition]="'bottom'"
+                                [(ngModel)]="select_form"
+                                (ngModelChange)="form_change()"
+                                bindValue="class_level"
+                                placeholder="Select Form">
+                            </ng-select> -->
+                            <select name="select_form_intake" id="select_form_intake" [(ngModel)]="select_form" (change)="form_change()" class="form-select">
+                                <option>{{ 'timetable.classTimetable.ctForm.form.placeholder' | translate }}</option>
+                                <ng-container *ngFor="let form of streams; let i = index;">
+                                    <option *ngIf="!form.is_graduated" [value]="form">{{form.label}}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="select_stream" class="form-label fw-600">{{ 'timetable.classTimetable.ctForm.stream.placeholder' | translate }}</label>
+                            <select name="select_stream" id="select_stream" class="form-select" [(ngModel)]="select_stream">
+                                <option>{{ 'timetable.classTimetable.ctForm.stream.placeholder' | translate }}</option>
+                                <ng-container *ngFor="let stream of selected_intake_stream">
+                                    <option *ngIf="selected_intake_stream.length > 0" value="{{stream.streamid}}" style="color: #999"> {{stream.name}} </option>
+                                </ng-container>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-0 text-end">
+                    <button type="submit" class="btn btn-sm btn-info waves-effect waves-light">
+                      {{ 'timetable.commonAttr.showTTBtn' | translate }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--
+    ============================================
+    Teacher Timetable section
+    ============================================
+    -->
+
+    <div class="box">
+        <!-- <pre>{{streamList|json}}</pre> -->
+        <div class="box-header with-border" style="padding:1rem">
+          {{ 'timetable.classTimetable.timetable' | translate }}: <b>{{selected_school}}</b>
+        </div>
+        <div *ngIf="!loadingTable" class="box-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;"></th>
+                            <th style="width: 80px;" class="text-center" *ngFor='let x of timeslots_array'>
+                                <p style="font-size: 18px">{{x.displayNumber}}</p>
+                                <p style="width: 80px;margin-left: auto;margin-right: auto;">{{x.time}}</p>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--Days-->
+                        <tr *ngFor="let day of days">
+                            <td>
+                                <p style="font-size: 18px;font-weight: bold"
+                                   class="m-b-none text-center text-uppercase">{{day.day}}</p>
+                            </td>
+
+                            <td *ngFor="let x of day.data" [style.background-color]="x.lessonContent.subjectCodes.color">
+                                <p *ngIf="x.type === 'CLASS' && x.lessonContent.teacherCodes !== undefined">{{x.lessonContent.teacherCodes}}</p>
+                                <div style="color: #000" *ngIf="x.type === 'CLASS' && x.lessonContent.teacherCodes !== undefined" class="table-data">
+                                    <!--{{x.lessonContent.subjectCodes.names}}-->
+                                    <span *ngFor="let subject of x.lessonContent.subjectCodes.names; let $index = index">
+                                        {{subject}}<span *ngIf="$index !==(x.lessonContent.subjectCodes.names.length-1)">/</span>
+                                        <br *ngIf="($index+1)%2 === 0"/>
+                                    </span>
+                                </div>
+                                <p *ngIf="x.type !== 'CLASS'" style="visibility: hidden">14</p>
+                                <p *ngIf="x.type !== 'CLASS'" class="table-data">{{x.lessonContent.content}}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div *ngIf="loadingTable" class="box-body">
+            <div class="text-center" *ngIf="!loadingFailed">
+                <p>{{ 'timetable.commonAttr.loading' | translate }}</p>
+                <img src="../../../../assets/img/loading-bars.svg" height="70" width="100" alt="Loading-bars">
+            </div>
+
+            <div *ngIf="loadingFailed">{{class_error_message}}</div>
+        </div>
+    </div>
+</section>

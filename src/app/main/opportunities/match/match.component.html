@@ -1,0 +1,301 @@
+<section class="content mt-config">
+    <div class="row">
+        <div class="col-12">
+            <!-- <div class="pull-right mb-20">
+                <button class="btn btn-sm btn-dark waves-effect waves-light" type="button" (click)="addSwap=true">
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                    </i>
+                    Add
+                </button>
+            </div> -->
+            <!-- <div class="box">
+                <div class="box-header with-border">
+                    <h4 class="box-title d-none">Match</h4>
+                    <div class="box-controls pull-right">
+                        <div class="box-header-actions">
+                            <div class="lookup lookup-sm lookup-right mx-20 d-none d-md-inline-block">
+                                <input type="text" name="s" placeholder="Search" class="bg-secondary-light" #input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- <div class="mb-10">
+                <div class="row">
+                    <div class="col-md-4">
+                        <button class="dropdown-toggle btn btn-sm btn-secondary px-10" data-bs-toggle="dropdown">From: Nairobi</button>
+                        <div class="dropdown-menu dropdown-menu-start">
+                            <a class="dropdown-item active" href="#">Nakuru</a>
+                            <a class="dropdown-item active" href="#">Mombasa</a>
+                            <a class="dropdown-item active" href="#">Kisumu</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <button class="dropdown-toggle btn btn-sm btn-secondary px-10" data-bs-toggle="dropdown">To: Kisumu</button>
+                        <div class="dropdown-menu dropdown-menu-start">
+                            <a class="dropdown-item active" href="#">Nakuru</a>
+                            <a class="dropdown-item active" href="#">Mombasa</a>
+                            <a class="dropdown-item active" href="#">Kisumu</a>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <!-- <div *ngIf="teacherListError">
+            <div class="box div box-body">
+                <p class="mb-0">We couldn't find any vacancies</p>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-xl-4 col-12">
+                <div class="mb-10">
+                    <button class="dropdown-toggle btn btn-sm btn-secondary px-10" data-bs-toggle="dropdown">{{ 'opportunities.match.fromNairobiBtn.text' | translate }}</button>
+                    <div class="dropdown-menu dropdown-menu-start bg-active">
+                        <a class="dropdown-item active" href="#">{{ 'opportunities.match.fromNairobiBtn.option1' | translate }}</a>
+                        <a class="dropdown-item active" href="#">{{ 'opportunities.match.fromNairobiBtn.option2' | translate }}</a>
+                        <a class="dropdown-item active" href="#">{{ 'opportunities.match.fromNairobiBtn.option3' | translate }}</a>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">{{ 'opportunities.match.requestsFromNairobi' | translate }}</h4>
+                        <!-- <ul class="box-controls pull-right d-md-flex d-none">
+                            <li>
+                                <button class="btn btn-primary-light px-10">Scheduled</button>
+                            </li>
+                        </ul> -->
+                    </div>
+                    <div class="box-body p-0">
+                    <div class="media-list media-list-hover">
+                        <div class="media bar-0">
+                        <a class="align-self-start" href="#"><img class="avatar avatar-lg bg-success-light rounded" src="../../../../assets/img/avatar/p_avatar_blue.png" alt="..."></a>
+                        <div class="media-body">
+                            <p class="mb-0">
+                                <a class="hover-success font-size-16" href="#">{{ 'opportunities.match.johnDoe' | translate }}</a>
+                                <a class="pull-right" style="cursor: pointer;">
+                                    {{ 'opportunities.match.pick' | translate }}
+                                    <i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                                        </svg>
+                                    </i>
+                                </a>
+                            </p>
+                            <h6 class="text-fade my-10">{{ 'opportunities.match.date1' | translate }} &#8226; {{ 'opportunities.match.date2' | translate }}</h6>
+                            <h6>{{ 'opportunities.match.has' | translate }} : <span class="text-success">{{ 'opportunities.match.twoSubjects' | translate }}</span></h6>
+                        </div>
+                        </div>
+
+                        <div class="media bar-0">
+                        <a class="align-self-start" href="#"><img class="avatar avatar-lg bg-success-light rounded" src="../../../../assets/img/avatar/p_avatar_blue.png" alt="..."></a>
+                        <div class="media-body">
+                            <p class="mb-0">
+                                <a class="hover-success font-size-16" href="#">{{ 'opportunities.match.mollyDoe' | translate }}</a>
+                                <a class="pull-right" style="cursor: pointer;">
+                                    {{ 'opportunities.match.pick' | translate }}
+                                    <i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                                        </svg>
+                                    </i>
+                                </a>
+                            </p>
+                            <h6 class="text-fade my-10">{{ 'opportunities.match.date3' | translate }} &#8226; {{ 'opportunities.match.date2' | translate }}</h6>
+                            <h6>{{ 'opportunities.match.has' | translate }} : <span class="text-success">{{ 'opportunities.match.fourSubjects' | translate }}</span></h6>
+                        </div>
+                        </div>
+
+                        <div class="media bar-0">
+                        <a class="align-self-start" href="#"><img class="avatar avatar-lg bg-success-light rounded" src="../../../../assets/img/avatar/p_avatar_blue.png" alt="..."></a>
+                        <div class="media-body">
+                            <p class="mb-0">
+                                <a class="hover-success font-size-16" href="#">Akon doe</a>
+                                <a class="pull-right" style="cursor: pointer;">
+                                    {{ 'opportunities.match.pick' | translate }}
+                                    <i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                                        </svg>
+                                    </i>
+                                </a>
+                            </p>
+                            <h6 class="text-fade my-10">{{ 'opportunities.match.date4' | translate }} &#8226; {{ 'opportunities.match.date2' | translate }}</h6>
+                            <h6>{{ 'opportunities.match.has' | translate }} : <span class="text-success">{{ 'opportunities.match.oneSubject' | translate }}</span></h6>
+                        </div>
+                        </div>
+
+                        <div class="media bar-0">
+                        <a class="align-self-start" href="#"><img class="avatar avatar-lg bg-success-light rounded" src="../../../../assets/img/avatar/p_avatar_blue.png" alt="..."></a>
+                        <div class="media-body">
+                            <p class="mb-0">
+                                <a class="hover-success font-size-16" href="#">{{ 'opportunities.match.maicalDoe' | translate }}</a>
+                                <a class="pull-right" style="cursor: pointer;">
+                                    {{ 'opportunities.match.pick' | translate }}
+                                    <i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                                        </svg>
+                                    </i>
+                                </a>
+                            </p>
+                            <h6 class="text-fade mt-10 mb-15">{{ 'opportunities.match.date5' | translate }} &#8226; {{ 'opportunities.match.date2' | translate }}</h6>
+                            <h6>{{ 'opportunities.match.has' | translate }} : <span class="text-success">{{ 'opportunities.match.threeSubjects' | translate }}</span></h6>
+                        </div>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-xl-4 col-12">
+                <div class="box mt-xl-50">
+                    <div class="box-body p-50 text-center">
+                        <div class="align-self-center">
+                            <i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z"/>
+                                </svg>
+                            </i>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="col-xl-4 col-12">
+                <div class="box mt-xl-50">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-4 fw-bold text-center">
+                                <div>{{ 'opportunities.match.molly.name' | translate }}</div>
+                                <div>{{ 'opportunities.match.molly.tscNumber' | translate }}</div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <i>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left-right" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z"/>
+                                    </svg>
+                                </i>
+                            </div>
+                            <div class="col-4 fw-bold text-center">
+                                <div>{{ 'opportunities.match.johen.name' | translate }}</div>
+                                <div>{{ 'opportunities.match.johen.tscNumber' | translate }}</div>
+                            </div>
+                        </div>
+                        <div class="row mt-20">
+                            <div class="text-center">
+                                <button type="button" class="btn btn-sm btn-info">
+                                  {{ 'opportunities.match.approveBtn' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-12">
+                <div class="mb-10">
+                    <button class="dropdown-toggle btn btn-sm btn-secondary px-10" data-bs-toggle="dropdown">{{ 'opportunities.match.toKisumuBtn.text' | translate }}</button>
+                    <div class="dropdown-menu dropdown-menu-start bg-active">
+                        <a class="dropdown-item" href="#">{{ 'opportunities.match.toKisumuBtn.option1' | translate }}</a>
+                        <a class="dropdown-item" href="#">{{ 'opportunities.match.toKisumuBtn.option2' | translate }}</a>
+                        <a class="dropdown-item" href="#">{{ 'opportunities.match.toKisumuBtn.option3' | translate }}</a>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">{{ 'opportunities.match.requestsToKisumu' | translate }}</h4>
+                        <!-- <ul class="box-controls pull-right d-md-flex d-none">
+                            <li>
+                                <button class="btn btn-primary-light px-10">Scheduled</button>
+                            </li>
+                        </ul> -->
+                    </div>
+                    <div class="box-body p-0">
+                    <div class="media-list media-list-hover">
+                        <div class="media bar-0">
+                        <a class="align-self-start" href="#"><img class="avatar avatar-lg bg-success-light rounded" src="../../../../assets/img/avatar/p_avatar_blue.png" alt="..."></a>
+                        <div class="media-body">
+                            <p class="mb-0">
+                                <a class="hover-success font-size-16" href="#">
+                                    {{ 'opportunities.match.johenDoe' | translate }}
+                                </a>
+                                <a class="pull-right" style="cursor: pointer;">
+                                    {{ 'opportunities.match.pick' | translate }}
+                                    <i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                                        </svg>
+                                    </i>
+                                </a>
+                            </p>
+                            <h6 class="text-fade my-10">{{ 'opportunities.match.date1' | translate }} &#8226; {{ 'opportunities.match.date2' | translate }}</h6>
+                            <h6>{{ 'opportunities.match.has' | translate }} : <span class="text-success">{{ 'opportunities.match.twoSubjects' | translate }}</span></h6>
+                        </div>
+                        </div>
+
+                        <div class="media bar-0">
+                        <a class="align-self-start" href="#"><img class="avatar avatar-lg bg-success-light rounded" src="../../../../assets/img/avatar/p_avatar_blue.png" alt="..."></a>
+                        <div class="media-body">
+                            <p class="mb-0">
+                                <a class="hover-success font-size-16" href="#">{{ 'opportunities.match.mollyDoe' | translate }}</a>
+                                <a class="pull-right" style="cursor: pointer;">
+                                    {{ 'opportunities.match.pick' | translate }}
+                                    <i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                                        </svg>
+                                    </i>
+                                </a>
+                            </p>
+                            <h6 class="text-fade my-10">{{ 'opportunities.match.date3' | translate }} &#8226; {{ 'opportunities.match.date2' | translate }}</h6>
+                            <h6>{{ 'opportunities.match.has' | translate }} : <span class="text-success">{{ 'opportunities.match.fourSubjects' | translate }}</span></h6>
+                        </div>
+                        </div>
+
+                        <div class="media bar-0">
+                        <a class="align-self-start" href="#"><img class="avatar avatar-lg bg-success-light rounded" src="../../../../assets/img/avatar/p_avatar_blue.png" alt="..."></a>
+                        <div class="media-body">
+                            <p class="mb-0">
+                                <a class="hover-success font-size-16" href="#">{{ 'opportunities.match.akonDoe' | translate }}</a>
+                                <a class="pull-right" style="cursor: pointer;">
+                                    {{ 'opportunities.match.pick' | translate }}
+                                    <i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                                        </svg>
+                                    </i>
+                                </a>
+                            </p>
+                            <h6 class="text-fade my-10">22 Dec &#8226; {{ 'opportunities.match.date2' | translate }}</h6>
+                            <h6>{{ 'opportunities.match.has' | translate }} : <span class="text-success">{{ 'opportunities.match.oneSubject' | translate }}</span></h6>
+                        </div>
+                        </div>
+
+                        <div class="media bar-0">
+                        <a class="align-self-start" href="#"><img class="avatar avatar-lg bg-success-light rounded" src="../../../../assets/img/avatar/p_avatar_blue.png" alt="..."></a>
+                        <div class="media-body">
+                            <p class="mb-0">
+                                <a class="hover-success font-size-16" href="#">{{ 'opportunities.match.maicalDoe' | translate }}</a>
+                                <a class="pull-right" style="cursor: pointer;">
+                                    {{ 'opportunities.match.pick' | translate }}
+                                    <i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                                        </svg>
+                                    </i>
+                                </a>
+                            </p>
+                            <h6 class="text-fade mt-10 mb-15">{{ 'opportunities.match.date5' | translate }} &#8226; {{ 'opportunities.match.date2' | translate }}</h6>
+                            <h6>{{ 'opportunities.match.has' | translate }} : <span class="text-success">{{ 'opportunities.match.threeSubjects' | translate }}</span></h6>
+                        </div>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,67 @@
+<section class="mt-config content">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- <pre>{{timeLine|json}}</pre> -->
+            <div class="box">
+                <div class="box-header with-border bg-success" style="padding: 1rem;">
+                    <p class="mb-0 fw-600">{{selectedYearLabel}} - 
+                        <!-- Term -->
+                        {{"behaviour.residenceBehaviour.textTerm"|translate}}
+                        {{selectedTerm}}</p>
+                    <ul class="box-controls pull-right">
+                        <li><a class="box-btn-slide" href="#"></a></li>
+                    </ul>
+                </div>
+                <div class="box-body">
+                    <form class="row">
+                        <div class="col-sm-6 form-group">
+                            <label for="" class="form-label fw-600">
+                                <!-- Academic Year -->
+                                {{"behaviour.residenceBehaviour.textAcademicYear"|translate}}
+                            </label>
+                            <select name="academiYears" id="academiyYearId" [(ngModel)]="selectedYear"
+                                (change)="academicYearChange()" class="form-select">
+                                <option *ngFor="let ay of timeLine?.academic_years" [value]="ay.ayid">
+                                    {{ay.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="" class="form-label fw-600">
+                                <!-- Term -->
+                                {{"behaviour.residenceBehaviour.textTerm"|translate}}
+                            </label><select name="selectTerm" id="selectTermId" [(ngModel)]="selectedTerm"
+                                (change)="termChange()" class="form-select">
+                                <option *ngFor="let t of selectedTerms">{{t}}</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3" *ngFor="let a of residenceBehaviour?.list">
+            <div class="box" style="cursor: pointer;"
+             [routerLink]="['/main/behaviour/residence/students',a.residenceid,selectedYear,selectedTerm]">
+                <div class="box-header with-border {{a.bg_color}}" style="padding: 0.75rem;">
+                    <span class="fw-600 text-white">{{a.label}}</span>
+                </div>
+                <div class="box-body text-center">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <!-- Mean Points -->
+                            {{"behaviour.residenceBehaviour.textMeanPoints"|translate}}
+                            <h3 class="mb-0 {{a.text_color}}">{{a.points}}</h3>
+                        </div>
+                        <div class="col-xs-6">
+                            <!-- Students -->
+                            {{"behaviour.residenceBehaviour.textStudents"|translate}}
+                            <h3 class="mb-0">{{a.population}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

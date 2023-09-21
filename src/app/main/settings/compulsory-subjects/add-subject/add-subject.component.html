@@ -1,0 +1,69 @@
+<section class="content mt-config">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box">
+				<div class="box-header">
+					<div>
+						<h4 class="box-title">{{ 'settings.subjectsList.addCompulsorySubject' | translate }}</h4>
+					</div>
+				</div>
+				<div class="box-body">
+					<ng-container *ngIf="fetchingSubjects; else showPageData">
+						<app-loader-div [height]="100"></app-loader-div>
+					</ng-container>
+
+					<ng-template #showPageData>
+						<form [formGroup]="compulsorySubjectsFormGroup" (ngSubmit)="addCompulsorySubjects()">
+							<div class="table-responsive">
+								<table class="table table-bordered table-striped">
+									<thead>
+									<tr>
+										<th>#</th>
+										<th>{{ 'settings.subjectsList.subject' | translate }}</th>
+										<th>{{ 'settings.subjectsList.textCode' | translate }}</th>
+										<th>{{ 'settings.subjectsList.code' | translate }}</th>
+										<th>{{ 'settings.subjectsList.category' | translate }}</th>
+									</tr>
+									</thead>
+									<tbody>
+									<ng-container formArrayName="subjects">
+										<ng-container *ngFor="let subject of subjects ; let subjectIndex = index">
+											<tr [formGroupName]="subjectIndex">
+												<td>
+													<input formControlName="selected"
+														   type="checkbox"
+														   [id]="subject.subjectId"
+														   class="filled-in chk-col-info">
+													<label [for]="subject.subjectId" class="p-0 m-0" style="height: 15px"></label>
+												</td>
+												<td class="p-2">{{subject.name}}</td>
+												<td>{{subject.textCode}}</td>
+												<td>{{subject.intCode}}</td>
+												<td>{{subject.category?.name}}</td>
+											</tr>
+										</ng-container>
+									</ng-container>
+									</tbody>
+								</table>
+							</div>
+
+							<div>
+								<button type="button" class="btn btn-secondary btn-sm" (click)="navigateBack()">{{ 'common.back' | translate }}</button>
+								<button type="submit" class="btn btn-primary btn-sm pull-right">
+									<ng-container *ngIf="addingCompulsorySubjects; else showButtonLabel">
+										<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+										<span>{{ 'settings.subjectsList.addingSubjects' | translate }}</span>
+									</ng-container>
+
+									<ng-template #showButtonLabel>
+										<span>{{ 'settings.subjectsList.addSelected' | translate }}</span>
+									</ng-template>
+								</button>
+							</div>
+						</form>
+					</ng-template>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

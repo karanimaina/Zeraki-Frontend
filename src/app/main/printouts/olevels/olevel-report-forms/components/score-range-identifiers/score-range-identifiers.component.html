@@ -1,0 +1,45 @@
+<div class="my-3 mx-auto d-flex flex-row justify-content-center">
+	<div class="table-responsive">
+		<table class="table table-bordered print-table fw-bolder" style="font-size: 13px">
+			<thead>
+			<tr>
+				<th>{{ 'printouts.studentReport.identifier' | translate }}</th>
+				<th>{{ 'printouts.studentReport.scoreRange' | translate }}</th>
+				<th>{{ 'printouts.studentReport.descriptor' | translate }}</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td class="text-center">3</td>
+				<td class="text-center">2.5-3.0</td>
+				<td><b>{{ 'printouts.studentReport.outstanding' | translate }}:</b> {{ 'printouts.studentReport.keyWordsList.score3' | translate }}</td>
+			</tr>
+			<tr>
+				<td class="text-center">2</td>
+				<td class="text-center">1.5-2.49</td>
+				<td><b>{{ 'printouts.studentReport.moderate' | translate }}:</b> {{ 'printouts.studentReport.keyWordsList.score2' | translate }} </td>
+			</tr>
+			<tr>
+				<td class="text-center">1</td>
+				<td class="text-center">0.9-1.49</td>
+				<td><b>{{ 'printouts.studentReport.basic' | translate }}:</b> {{ 'printouts.studentReport.keyWordsList.score1' | translate }}</td>
+			</tr>
+			<tr>
+				<td colspan="3" class="text-center">
+					<div class="d-flex flex-row flex-wrap justify-content-evenly">
+						<div *ngFor="let abbr of reportFormIdentifiers.abbreviations; let i = index">
+							<span>{{ abbr.abbreviation }} - {{ abbr.meaning }}</span>
+						</div>
+						<div>
+							<span>TP - Total Points</span>
+						</div>
+						<div>
+							<span>AVR - Average</span>
+						</div>
+					</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

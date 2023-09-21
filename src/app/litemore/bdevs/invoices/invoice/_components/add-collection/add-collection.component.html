@@ -1,0 +1,99 @@
+<app-submit-form [formGroup]="addCollectionForm" (onSubmit)="addCollection()">
+	<!-- <div *ngIf="showOverPaymentDialog" class="pb-5">
+        <input type="checkbox" class="filled-in chk-col-success" formControlName="userOverPayment" [checked]="true"
+            id="user-overpayment" />
+        <label for="user-overpayment">Use Overpayment</label>
+    </div> -->
+	<div class="px-0 py-10">
+		<div class="row">
+			<div class="col-md-6 form-group">
+				<label class="form-label">
+					<!--Payment Received By  -->
+					{{
+						"litemore.bdevs.invoices.invoice.components.addCollection.paymentReceivedBy"
+							| translate
+					}}
+				</label>
+				<p disabled="true" class="form-control form-control-static">
+					{{ loggedInUser.name }}
+				</p>
+			</div>
+			<div class="col-md-6 form-group">
+				<label class="form-label">
+					<!--Enter Amount -->
+					{{
+						"litemore.bdevs.invoices.invoice.components.addCollection.enterAmount"
+							| translate
+					}}
+				</label>
+				<input
+					type="number"
+					class="form-control"
+					id="collection_amount"
+					formControlName="collectionAmount"
+					placeholder="{{
+						'litemore.bdevs.invoices.invoice.components.addCollection.enterAmount'
+							| translate
+					}}"
+					[ngClass]="{
+						'is-invalid':
+							addCollectionForm.isSubmitted && collectionAmount?.invalid
+					}"
+					required />
+				<app-field-errors
+					[control]="collectionAmount!"
+					[label]="'collectionAmount'"></app-field-errors>
+			</div>
+			<div class="col-md-6 form-group">
+				<label class="form-label">
+					<!--Additional Information -->
+					{{
+						"litemore.bdevs.invoices.invoice.components.addCollection.additionalInformation"
+							| translate
+					}}
+				</label>
+				<input
+					type="text"
+					class="form-control"
+					id="collection_method"
+					formControlName="collectionMethod"
+					placeholder="{{
+						'litemore.bdevs.invoices.invoice.components.addCollection.additionalInformation'
+							| translate
+					}}" />
+			</div>
+			<div class="col-md-6 form-group">
+				<label class="form-label">
+					{{
+						"litemore.bdevs.invoices.invoice.components.addCollection.collectionDate"
+							| translate
+					}}
+				</label>
+				<input
+					type="date"
+					class="form-control"
+					id="collection_date"
+					[max]="today"
+					[ngClass]="{
+						'is-invalid':
+							addCollectionForm.isSubmitted && collectionDate?.invalid
+					}"
+					formControlName="collectionDate" />
+				<app-field-errors
+					[control]="collectionDate!"
+					[label]="'collectionDate'"></app-field-errors>
+			</div>
+			<div class="col-12 text-end">
+				<div class="form-group text-end mb-0">
+					<button type="submit" class="btn btn-success">
+						<!--	Save Collection -->
+						{{
+							"litemore.bdevs.invoices.invoice.components.addCollection.saveCollection"
+								| translate
+						}}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</app-submit-form>

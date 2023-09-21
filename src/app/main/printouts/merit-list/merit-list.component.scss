@@ -1,0 +1,43 @@
+.pagination li a {
+    min-width: 40px;
+    color: #000;
+    border: 1px solid #b7c1d1;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #2ea5de;
+    // border-color: #2ea5de;
+}
+
+// .page-link:hover {
+//     z-index: 2;
+//     color: #fff;
+//     background-color: #2ea5de;
+//     border-color: #dee2e6;
+// }
+
+.table > tbody > tr > td, .table > tbody > tr > th {
+    padding: 0.5rem 0.1rem;
+    vertical-align: middle;
+}
+
+.table > thead > tr > td, .table > thead > tr > th {
+    padding: 0.5rem 0.3rem;
+    vertical-align: middle;
+}
+
+//Table Condenced css
+.table-condensed>tbody>tr>td,
+.table-condensed>tbody>tr>th,
+.table-condensed>tfoot>tr>td,
+.table-condensed>tfoot>tr>th,
+.table-condensed>thead>tr>td,
+.table-condensed>thead>tr>th {
+  padding: 4px !important;
+}
+
+.fixed-top{
+    z-index: 5;
+}

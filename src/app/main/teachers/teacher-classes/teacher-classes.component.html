@@ -1,0 +1,257 @@
+<!-- Student Top Nav -->
+<div class="navbar-light top-wrapper fixed-top bg-primary">
+  <ul class="nav nav-pill customtab2 nav-filled text-center">
+    <li class="nav-item">
+      <a class="nav-link active">
+        <span class="me-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person"
+            viewBox="0 0 16 16">
+            <path
+              d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+          </svg>
+        </span>
+        <span>{{ 'teachers.teacherClasses.headerText' | translate }}</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+<section class="content mt-config">
+
+  <div *ngIf="isLoading; then showLoading else showContent"></div>
+
+
+  <ng-template #showLoading>
+    <div class="box">
+      <div class="box-header">
+        <div class="d-flex align-items-center">
+          <div class="flex-shrink-0" style="width: 90px;">
+            <app-loader-div [height]="90" style="width: 90px;" class="rounded-circle"></app-loader-div>
+          </div>
+          <div class="flex-grow-1 ms-3">
+            <div style="margin-bottom: 10px; width: calc(60%);">
+              <app-loader-div [height]="35"></app-loader-div>
+            </div>
+            <div style=" width: calc(40%);">
+              <app-loader-div [height]="25"></app-loader-div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #showContent>
+    <div class="box">
+      <div class="box-header">
+        <div class="d-flex align-items-center">
+          <div class="flex-shrink-0">
+            <img [src]="teacher?.imageUrl"
+              (error)="teacher.imageUrl = '../../../../assets/img/avatar/p_avatar_blue.png'" class="rounded-circle"
+              width="90" height="90" alt="teacher picture">
+          </div>
+          <div class="flex-grow-1 ms-3">
+            <h3 class="box-title text-dark text-capitalize">{{teacher?.name.toLowerCase()}}<small
+                class="subtitle text-lowercase">{{teacher?.email}}</small></h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12" *ngIf="!teacher?.roles?.isSubjectTeacher">
+      <div class="alert alert-danger ">
+        {{ teacher?.name }} {{ 'teachers.teacherClasses.noClassesAssigned' | translate }}
+      </div>
+    </div>
+
+    <div *ngIf="teacher?.roles?.isSubjectTeacher" class="row">
+      <div *ngFor="let cls of teacher.st" class="col-xl-3 col-md-6 col-12">
+        <div class="box" [style.pointer-events]="(schoolData && schoolData.isOLevelSchool ? 'none' : null)"
+          (click)="analyzeSubjectClass(cls)">
+          <div class="box-body">
+            <div class="flex-grow-1">
+              <div class="d-flex align-items-center pe-2 justify-content-center">
+                <div class="d-flex">
+                  <span class="fw-bold fm me-5 fs-18">{{schoolData?.formoryear + cls.form + " " + cls.stream + " - " +
+                    cls.subject}}</span>
+                </div>
+              </div>
+              <ng-container *ngIf="schoolData && !schoolData.isOLevelSchool">
+                <div class="d-flex justify-content-center mt-10" [hidden]="cls.aggregate_stats != null">
+                  <span class="text-muted text-center">{{ cls?.no_exams_msg }}</span>
+                </div>
+                <div class="d-flex justify-content-center mt-10" *ngIf="cls.aggregate_stats != null">
+                  <span class="text-muted text-center">{{ cls?.examname }}</span>
+                </div>
+                <hr *ngIf="cls.aggregate_stats != null">
+                <div *ngIf="cls.aggregate_stats != null"
+                  class="d-flex align-items-center justify-content-between mt-25 mb-5">
+                  <div *ngIf="cls.aggregate_stats.first != undefined" class="text-center">
+                    <div class="fs-6">{{ cls?.aggregate_stats?.first?.label }}</div>
+                    <div class="fs-20" [ngClass]="cls?.aggregate_stats?.first?.color"><strong>{{
+                        cls?.aggregate_stats?.first?.value }}</strong></div>
+                    <div class="fs-8 text-muted">
+                      {{ cls?.aggregate_stats?.first?.change }}
+                      <i *ngIf="cls?.aggregate_stats?.first?.change < 0" class="fa fa-level-down text-danger"></i>
+                      <i *ngIf="cls?.aggregate_stats?.first?.change === 0"
+                        class="fa fa-fw fa-long-arrow-right text-primary"></i>
+                      <i *ngIf="cls?.aggregate_stats?.first?.change > 0" class="fa fa-level-up text-success"></i>
+                      <!-- <i [ngClass]="{'fa fa-level-down text-danger': cls?.aggregate_stats?.first?.change < 0, 'fa fa-fw fa-long-arrow-right text-primary': cls?.aggregate_stats?.first?.change == 0, 'fa fa-level-up text-success': cls?.aggregate_stats?.first?.change > 0}" aria-hidden="true"></i> -->
+                    </div>
+                  </div>
+                  <div *ngIf="cls.aggregate_stats.second != undefined" class="text-center">
+                    <div class="fs-6">{{ cls?.aggregate_stats?.second?.label }}</div>
+                    <div class="fs-20" [ngClass]="cls?.aggregate_stats?.second?.color"><strong>{{
+                        cls?.aggregate_stats?.second?.value }}{{ cls?.aggregate_stats?.second?.suffix }}</strong></div>
+                    <div class="fs-8 text-fade">
+                      {{ cls?.aggregate_stats?.second?.change }}
+                      <i *ngIf="cls?.aggregate_stats?.second?.change < 0" class="fa fa-level-down text-danger"></i>
+                      <i *ngIf="cls?.aggregate_stats?.second?.change === 0"
+                        class="fa fa-fw fa-long-arrow-right text-primary"></i>
+                      <i *ngIf="cls?.aggregate_stats?.second?.change > 0" class="fa fa-level-up text-success"></i>
+                    </div>
+                  </div>
+                </div>
+                <hr *ngIf="cls.aggregate_stats != null">
+                <div *ngIf="cls.aggregate_stats != null"
+                  class="d-flex align-items-center justify-content-between mt-25 mb-5">
+                  <div *ngIf="cls.aggregate_stats.third != undefined" class="text-center">
+                    <div class="fs-6">{{ cls?.aggregate_stats?.third?.label }}</div>
+                    <div class="fs-20 text-success"><strong>{{ cls?.aggregate_stats?.third?.value }}</strong></div>
+                  </div>
+                  <div *ngIf="cls.aggregate_stats.fourth != undefined" class="text-center">
+                    <div class="fs-6">{{ cls?.aggregate_stats?.fourth?.label }}</div>
+                    <div class="fs-20 text-success"><strong>{{ cls?.aggregate_stats?.fourth?.value }}</strong></div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row"
+      *ngIf="(schoolData && !schoolData.isOLevelSchool) && (teacher?.roles?.isClassTeacher || teacher?.roles?.isClassSupervisor)">
+      <div *ngFor="let cls of teacher?.ct" class="col-xl-3 col-md-6 col-12">
+        <div class="box" (click)="goToStreamAnalysis(cls)">
+          <div class="box-body">
+            <div class="flex-grow-1">
+              <div class="bg-info rounded">
+                <h6 class="text-white text-center p-10">{{schoolData?.formoryear + cls.form + " " + cls.stream}} </h6>
+              </div>
+              <div class="d-flex justify-content-center mt-10" [hidden]="cls.aggregate_stats != null">
+                <span class="text-muted text-center">{{ cls?.no_exams_msg }}</span>
+              </div>
+              <div class="d-flex justify-content-center mt-10" *ngIf="cls.aggregate_stats != null">
+                <span class="text-muted text-center">{{ cls?.examname }}</span>
+              </div>
+              <hr *ngIf="cls.aggregate_stats != null">
+              <div *ngIf="cls.aggregate_stats != null"
+                class="d-flex align-items-center justify-content-between mt-25 mb-5">
+                <div class="text-center" *ngIf="cls?.aggregate_stats?.first != undefined">
+                  <div class="fs-6">{{ cls?.aggregate_stats?.first?.label }}</div>
+                  <div class="fs-20" [ngClass]="cls?.aggregate_stats?.first?.color"><strong>{{
+                      cls?.aggregate_stats?.first?.value }}</strong></div>
+                  <div class="fs-8 text-muted">
+                    {{ cls?.aggregate_stats?.first?.change }}
+                    <i *ngIf="cls?.aggregate_stats?.first?.change < 0" class="fa fa-level-down text-danger"></i>
+                    <i *ngIf="cls?.aggregate_stats?.first?.change === 0"
+                      class="fa fa-fw fa-long-arrow-right text-primary"></i>
+                    <i *ngIf="cls?.aggregate_stats?.first?.change > 0" class="fa fa-level-up text-success"></i>
+                  </div>
+                </div>
+                <div class="text-center" *ngIf="cls.aggregate_stats.second != undefined">
+                  <div class="fs-6">{{ cls?.aggregate_stats?.second?.label }}</div>
+                  <div class="fs-20" [ngClass]="cls?.aggregate_stats?.second?.color"><strong>{{
+                      cls?.aggregate_stats?.second?.value }}</strong></div>
+                  <div class="fs-8 text-fade">
+                    {{ cls?.aggregate_stats?.second?.change }}
+                    <i *ngIf="cls?.aggregate_stats?.second?.change < 0" class="fa fa-level-down text-danger"></i>
+                    <i *ngIf="cls?.aggregate_stats?.second?.change === 0"
+                      class="fa fa-fw fa-long-arrow-right text-primary"></i>
+                    <i *ngIf="cls?.aggregate_stats?.second?.change > 0" class="fa fa-level-up text-success"></i>
+                  </div>
+                </div>
+              </div>
+              <hr *ngIf="cls.aggregate_stats != null">
+              <div *ngIf="cls.aggregate_stats != null"
+                class="d-flex align-items-center justify-content-between mt-25 mb-5">
+                <div *ngIf="cls.aggregate_stats.third != undefined" class="text-center">
+                  <div class="fs-6">{{ cls?.aggregate_stats?.third?.label }}</div>
+                  <div class="fs-20 text-info"><strong>{{ cls?.aggregate_stats?.third?.value }}</strong></div>
+                </div>
+                <div *ngIf="cls.aggregate_stats.fourth != undefined" class="text-center">
+                  <div class="fs-6">{{ cls?.aggregate_stats?.fourth?.label }}</div>
+                  <div class="fs-20 text-info"><strong>{{ cls?.aggregate_stats?.fourth?.value }}</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngFor="let cls of teacher?.cs" class="col-xl-3 col-md-6 col-12">
+        <div class="box" [style.pointer-events]="(schoolData && schoolData.isOLevelSchool ? 'none' : null)"
+          (click)="goToFormAnalysis(cls)">
+          <div class="box-body">
+            <div class="flex-grow-1">
+              <div class="bg-purple rounded">
+                <h6 class="text-white text-center p-10">{{ schoolData.formoryear + cls.form }}</h6>
+              </div>
+              <div class="d-flex justify-content-center mt-10" [hidden]="cls.aggregate_stats != null">
+                <span class="text-muted text-center">{{ cls?.no_exams_msg }}</span>
+              </div>
+              <div class="d-flex justify-content-center mt-10" *ngIf="cls.aggregate_stats != null">
+                <span class="text-muted text-center">{{ cls?.examname }}</span>
+              </div>
+              <hr *ngIf="cls.aggregate_stats != null">
+              <div *ngIf="cls.aggregate_stats != null"
+                class="d-flex align-items-center justify-content-between mt-25 mb-5">
+                <div *ngIf="cls.aggregate_stats.first != undefined" class="text-center">
+                  <div class="fs-6">{{ cls?.aggregate_stats?.first?.label }}</div>
+                  <div class="fs-20" [ngClass]="cls?.aggregate_stats?.first?.color"><strong>{{
+                      cls?.aggregate_stats?.first?.value }}</strong></div>
+                  <div class="fs-8 text-muted">
+                    {{ cls?.aggregate_stats?.first?.change }}
+                    <i *ngIf="cls?.aggregate_stats?.first?.change < 0" class="fa fa-level-down text-danger"></i>
+                    <i *ngIf="cls?.aggregate_stats?.first?.change === 0"
+                      class="fa fa-fw fa-long-arrow-right text-primary"></i>
+                    <i *ngIf="cls?.aggregate_stats?.first?.change > 0" class="fa fa-level-up text-success"></i>
+                  </div>
+                </div>
+                <div *ngIf="cls.aggregate_stats.second != undefined" class="text-center">
+                  <div class="fs-6">{{ cls?.aggregate_stats?.second?.label }}</div>
+                  <div class="fs-20" [ngClass]="cls?.aggregate_stats?.second?.color"><strong>{{
+                      cls?.aggregate_stats?.second?.value }}</strong></div>
+                  <div class="fs-8 text-fade">
+                    {{ cls?.aggregate_stats?.second?.change }}
+                    <i *ngIf="cls?.aggregate_stats?.second?.change < 0" class="fa fa-level-down text-danger"></i>
+                    <i *ngIf="cls?.aggregate_stats?.second?.change === 0"
+                      class="fa fa-fw fa-long-arrow-right text-primary"></i>
+                    <i *ngIf="cls?.aggregate_stats?.second?.change > 0" class="fa fa-level-up text-success"></i>
+                  </div>
+                </div>
+              </div>
+              <hr *ngIf="cls.aggregate_stats != null">
+              <div *ngIf="cls.aggregate_stats != null"
+                class="d-flex align-items-center justify-content-between mt-25 mb-5">
+                <div *ngIf="cls.aggregate_stats.third != undefined" class="text-center">
+                  <div class="fs-6">{{ cls?.aggregate_stats?.third?.label }}</div>
+                  <div class="fs-20" style="color: purple;"><strong>{{ cls?.aggregate_stats?.third?.value }}</strong>
+                  </div>
+                </div>
+                <div *ngIf="cls.aggregate_stats.fourth != undefined" class="text-center">
+                  <div class="fs-6">{{ cls?.aggregate_stats?.fourth?.label }}</div>
+                  <div class="fs-20" style="color: purple;"><strong>{{ cls?.aggregate_stats?.fourth?.value }}</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+
+</section>

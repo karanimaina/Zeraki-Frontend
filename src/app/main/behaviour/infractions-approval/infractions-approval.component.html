@@ -1,0 +1,256 @@
+<section class="content mt-config">
+    <div class="box">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <input (click)="toggleView()" [checked]="!allPending" type="radio" name="pending_approval"
+                            class="with-gap radio-col-success" id="pending_approvals_myclass">
+                        <label for="pending_approvals_myclass"> 
+                            <!-- My Class's Pending Approvals -->
+                            {{"behaviour.infractionsApproval.textMyPendingApproval"|translate}}
+                         </label>
+
+                        <input (click)="toggleView()" [checked]="allPending" name="pending_approval" type="radio"
+                            class="with-gap radio-col-success" id="pending_approvals_all">
+                        <label for="pending_approvals_all"> 
+                            <!-- All Pending Approvals -->
+                            {{"behaviour.infractionsApproval.textAllPendingApproval"|translate}}
+                         </label>
+                    </div>
+                </div>
+                <!-- pagination my classes -->
+                <div *ngIf="!allPending && myClassesApprovals.list.length>0" class="col-sm-6 text-end">
+                    <span class="m-1"> {{myClassesApprovals?.first+ " - "+myClassesApprovals?.last}} 
+                        <!-- of -->
+                        {{"behaviour.infractionsApproval.textOf"|translate}}
+                        {{myClassesApprovals?.total}}</span>
+
+                    <button type="button" [disabled]="!myClassesApprovals?.previous"
+                        (click)="loadClassApproval(myClassesApprovals?.page-1)"
+                        class="waves-effect waves-light btn btn-outline btn-success-light btn-sm mb-5 "
+                        style="margin-right: 3.5px;">
+                        <i class="fa fa-arrow-left"></i>
+                    </button>
+                    <button type="button" [disabled]="!myClassesApprovals?.next"
+                        (click)="loadClassApproval(myClassesApprovals?.page+1)"
+                        class="waves-effect waves-light btn btn-outline btn-success-light btn-sm mb-5">
+                        <i class="fa fa-arrow-right "></i>
+                    </button>
+                </div>
+                <!-- pagination all -->
+                <div *ngIf="allPending && pendingApprovals != undefined && pendingApprovals != null && pendingApprovals.list != undefined && pendingApprovals?.list.length>0" class="col-sm-6 text-end">
+                    <span class="m-1"> {{pendingApprovals?.first+ " - "+pendingApprovals?.last}} 
+                        <!-- of -->
+                        {{"behaviour.infractionsApproval.textOf"|translate}}
+                        {{pendingApprovals?.total}}</span>
+
+                    <button type="button" [disabled]="!pendingApprovals?.previous"
+                        (click)="loadPendingApproval(pendingApprovals?.page-1)"
+                        class="waves-effect waves-light btn btn-outline btn-success-light btn-sm mb-5 "
+                        style="margin-right: 3.5px;">
+                        <i class="fa fa-arrow-left"></i>
+                    </button>
+                    <button type="button" [disabled]="!pendingApprovals?.next"
+                        (click)="loadPendingApproval(pendingApprovals?.page+1)"
+                        class="waves-effect waves-light btn btn-outline btn-success-light btn-sm mb-5">
+                        <i class="fa fa-arrow-right "></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- section table content -->
+            <div class="row">
+
+                <!-- my classes view -->
+                <div *ngIf="!allPending" class="col-sm-12">
+                    <p class="fw-600 mb-0" *ngIf="myClassesApprovals.list.length == 0">
+                        <!-- No Records Found -->
+                        {{"behaviour.infractionsApproval.textOf"|translate}}
+                    </p>
+                    <div *ngIf="myClassesApprovals.list.length>0" class="table-responsive">
+                        <table class="table table-sm table-bordered table-striped table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>
+                                        <!-- Admno -->
+                                        {{"behaviour.infractionsApproval.textAdmno"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Name -->
+                                        {{"behaviour.infractionsApproval.textName"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Details -->
+                                        {{"behaviour.infractionsApproval.textDetails"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Points -->
+                                        {{"behaviour.infractionsApproval.textPoints"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Class -->
+                                        {{"behaviour.infractionsApproval.textClass"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Residence -->
+                                        {{"behaviour.infractionsApproval.textResidence"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Added On -->
+                                        {{"behaviour.infractionsApproval.textAddedOn"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Added By -->
+                                        {{"behaviour.infractionsApproval.textAddedBy"|translate}}
+                                    </th>
+                                    <th colspan="3"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let s of myClassesApprovals.list;let i = index">
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{myClassesApprovals.first
+                                        + i}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.admno}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.name}}</td>
+                                    <td style="vertical-align: middle">
+                                        <div>{{s.description}}</div>
+                                        <div *ngIf="s.comment.length > 0">
+                                            <span class="badge badge-secondary"
+                                                style="margin-right: 4px">
+                                                <!-- comment -->
+                                                {{"behaviour.infractionsApproval.textComment"|translate}}
+                                            </span><br><span
+                                                style="font-weight: 700; font-size: 90%">{{s.comment}}</span>
+                                        </div>
+                                    </td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.points}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.class_label}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.residence}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.added_on}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.added_by}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">
+                                        <button (click)="actOnApproval(s.approvalid, 2)" class="waves-effect waves-light btn btn-danger btn-sm"
+                                            type="button">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">
+                                        <button type="button" class="waves-effect waves-light btn btn-sm btn-info"
+                                            (click)="actOnApproval(s.approvalid, 1)">
+                                            <!-- Approve -->
+                                            {{"behaviour.infractionsApproval.btnTextApprove"|translate}}
+                                        </button>
+                                    </td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">
+                                        <button type="button" 
+                                        [routerLink]="['/main/behaviour/student',s.userid]"
+                                        class="waves-effect waves-light btn btn-sm btn-secondary">
+                                        <!-- View -->
+                                        {{"behaviour.infractionsApproval.btnTextView"|translate}}
+                                    </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- all pending view -->
+                <div *ngIf="allPending" class="col-sm-12">
+                    <p class="fw-600 mb-0" *ngIf=" pendingApprovals != undefined && pendingApprovals != null && pendingApprovals.list != undefined && pendingApprovals?.list.length>0">
+                        No Records Found
+                    </p>
+                    <div *ngIf="pendingApprovals?.list.length>0" class="table-responsive">
+                        <table class="table table-sm table-bordered table-striped table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>
+                                        <!-- Admno -->
+                                        {{"behaviour.infractionsApproval.textAdmno"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Name -->
+                                        {{"behaviour.infractionsApproval.textName"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Details -->
+                                        {{"behaviour.infractionsApproval.textDetails"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Points -->
+                                        {{"behaviour.infractionsApproval.textPoints"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Class -->
+                                        {{"behaviour.infractionsApproval.textClass"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Residence -->
+                                        {{"behaviour.infractionsApproval.textResidence"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Added On -->
+                                        {{"behaviour.infractionsApproval.textAddedOn"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Added By -->
+                                        {{"behaviour.infractionsApproval.textAddedBy"|translate}}
+                                    </th>
+                                    <th colspan="3"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let s of pendingApprovals.list;let i = index">
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{pendingApprovals.first +
+                                        i}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.admno}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.name}}</td>
+                                    <td style="vertical-align: middle; text-align: left;">
+                                        <div>{{s.description}}</div>
+                                        <div *ngIf="s.comment.length > 0">
+                                            <span class="badge badge-secondary"
+                                                style="margin-right: 4px">
+                                                <!-- comment -->
+                                                {{"behaviour.infractionsApproval.textComment"|translate}}
+                                            </span><br><span
+                                                style="font-weight: 700; font-size: 90%">{{s.comment}}</span>
+                                        </div>
+                                    </td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.points}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.class_label}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.residence}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.added_on}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.added_by}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">
+                                        <button (click)="actOnApproval(s.approvalid, 2)" class="waves-effect waves-light btn btn-danger btn-sm"
+                                            type="button">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">
+                                        <button type="button" class="waves-effect waves-light btn btn-sm btn-info"
+                                            (click)="actOnApproval(s.approvalid, 1)">
+                                            <!-- Approve -->
+                                            {{"behaviour.infractionsApproval.btnTextApprove"|translate}}
+                                        </button>
+                                    </td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">
+                                        <button type="button" 
+                                         [routerLink]="['/main/behaviour/student',s.userid]"
+                                        class="waves-effect waves-light btn btn-sm btn-secondary">
+                                        <!-- View -->
+                                        {{"behaviour.infractionsApproval.btnTextView"|translate}}
+                                    </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

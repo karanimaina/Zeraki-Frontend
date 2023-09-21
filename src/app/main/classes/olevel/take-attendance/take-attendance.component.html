@@ -1,0 +1,80 @@
+<!-- Classes Top Nav -->
+<app-classes-top-nav></app-classes-top-nav>
+
+<section class="content mt-config">
+  <div class="h4 fw-bold">{{ schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) : schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) : schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' | translate) }} {{ classAttendance?.form }} {{ classAttendance?.stream }} - {{ 'classes.takeAttendance.subTitle' | translate }}</div>
+  <div class="box">
+    <div class="box-body">
+      <div>
+        <button *ngIf="streamId" class="btn btn-dark btn-sm mb-3" [routerLink]="['/main/classes/myclass/attendance-report/'+streamId]">
+          <i class="si si-book-open"></i>
+          {{ 'classes.takeAttendance.title' | translate }}
+        </button>
+        <button class="btn btn-secondary btn-sm pull-right" (click)="navigateBack()">
+          <i class="si si-arrow-left-circle"></i>
+          {{ 'classes.commonAttr.back' | translate }}
+        </button>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <ng-select [notFoundText]="'common.noItemsFound' | translate" [(ngModel)]="selectedTerm"
+                       bindLabel="label"
+                       bindValue="value"
+                       placeholder="Select Term"
+                       id="term"
+                       [items]="terms" >
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <input [value]="classAttendance?.date" disabled id="date" class="form-control" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <input [value]="'Session '+ classAttendance?.session_number" disabled id="session" class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-sm table-striped table-bordered mb-0">
+            <thead>
+            <tr>
+              <th scope="col" style="width: 10%;">#</th>
+              <th scope="col" style="width: 15%;">{{ 'classes.takeAttendance.table.admNo' | translate }}</th>
+              <th scope="col">{{ 'classes.takeAttendance.table.name' | translate }}</th>
+              <th class="text-center" style="width: 5%" [matTooltip]="'Select All'" [matTooltipPosition]="'above'">
+                <input type="checkbox" id="addon_Checkbox_1" [checked]="allStudentsSelected()" (change)="toggleAllStudents($event)" class="filled-in chk-col-info" >
+                <label for="addon_Checkbox_1" style="padding-left: 20px;height: 17px;"></label>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let stud of classAttendance?.students; index as i" class="{{selectedStudents.includes(stud)?'selected':''}}">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ stud.admno }}</td>
+              <td>{{ stud.name }}</td>
+              <td class="text-center">
+                <input type="checkbox" [id]="stud.userid" class="filled-in chk-col-info" [checked]="selectedStudents.includes(stud)" (change)="selectStudent(stud, $event)">
+                <label [for]="stud.userid" style="padding-left: 20px;height: 17px;"></label>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div>
+            <button class="btn btn-primary btn-sm pull-right mt-3" type="button" (click)="confirmSave()">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              {{ loading ? ('classes.takeAttendance.saving' | translate ): ('classes.takeAttendance.saveBtn' | translate )}}
+              <i *ngIf="!loading" class="si si-check"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

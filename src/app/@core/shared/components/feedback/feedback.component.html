@@ -1,0 +1,96 @@
+<!-- FEEDBACK CHAT BOX -->
+<div id="chat-box-body">
+
+    <div class="chat-box">
+            <div class="chat-box-header p-15 d-flex">
+                <!-- <a href="#" class="btn btn-circle btn-primary-light h-50 w-50 rounded-circle l-h-45">
+                  <img src="../../../../assets/img/logos/z-ws-logo.jpg" class="avatar rounded-circle" alt="z-ws-logo">
+                  <span class="badge badge-dot badge-primary badge-place"></span>
+                </a> -->
+                <!-- <div>
+                  <a href="#" class="btn btn-circle btn-app">
+                      <span class="badge badge-sm badge-dot badge-primary"></span>
+                      <img src="../../../../assets/img/logos/z-ws-logo.jpg" height="50" width="50" class="rounded-circle" alt="z-ws-logo">
+                  </a>
+                </div> -->
+                <div class="text-start flex-grow-1 ms-2">
+                    <div class="text-white fs-22">
+                        {{ 'shared.feedback.headerText' | translate }}
+                    </div>
+                    <!-- <div>
+                        <span class="text-white fs-12">Always active 😊</span>
+                    </div> -->
+                </div>
+                <div class="chat-box-toggle pull-right">
+                    <i id="chat-box-toggle">
+                      <span class="fs-14 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                      </span>
+                    </i>
+                </div>
+            </div>
+            <div class="chat-box-body overflow-auto">
+                <div class="chat-box-overlay">
+                </div>
+                <div class="chat-logs overflow-auto">
+                    <div class="chat-msg user">
+                        <!-- <div class="d-flex align-items-center">
+                            <span class="msg-avatar">
+                                <img src="../../../../assets/img/avatar/1.jpg" class="avatar avatar-lg">
+                            </span>
+                            <div class="mx-10">
+                                <a href="#" class="text-dark hover-primary fw-bold">Zeraki</a>
+                                <p class="text-muted fs-12 mb-0">2 Hours</p>
+                            </div>
+                        </div> -->
+                        <div class="cm-msg-text">
+                          <p>
+                            {{ 'shared.feedback.message.greetings' | translate }} 👋
+                          </p>
+                          <p>
+                            {{ 'shared.feedback.message.body' | translate }}
+                          </p>
+                        </div>
+                    </div>
+                    <!-- <div class="chat-msg self">
+                        <div class="d-flex align-items-center justify-content-end">
+                            <div class="mx-10">
+                                <a href="#" class="text-dark hover-primary fw-bold">You</a>
+                                <p class="text-muted fs-12 mb-0">3 minutes</p>
+                            </div>
+                            <span class="msg-avatar">
+                                <img src="../../../../assets/img/avatar/7.jpg" class="avatar avatar-lg">
+                            </span>
+                        </div>
+                        <div class="cm-msg-text">
+                          ...
+                        </div>
+                    </div> -->
+                    <!-- <div class="chat-msg user">
+                        <div class="d-flex align-items-center">
+                            <span class="msg-avatar">
+                                <img src="../images/avatar/2.jpg" class="avatar avatar-lg">
+                            </span>
+                            <div class="mx-10">
+                                <a href="#" class="text-dark hover-primary fw-bold">Mayra Sibley</a>
+                                <p class="text-muted fs-12 mb-0">40 seconds</p>
+                            </div>
+                        </div>
+                        <div class="cm-msg-text">
+                            Nice to meet you Anne.<br>How can i help you?
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="chat-input">
+                <form #fbForm="ngForm" (ngSubmit)="sendFeedback(fbForm)">
+                    <input type="text" id="chat-input" [(ngModel)]="feedback.text" name="f_text" [placeholder]="'shared.feedback.inputFieldPlaceholderText' | translate"/>
+                    <button type="submit" class="chat-submit" id="chat-submit" required>
+                        <span class="icon-Send fs-22"></span>
+                    </button>
+                </form>
+            </div>
+    </div>
+</div>

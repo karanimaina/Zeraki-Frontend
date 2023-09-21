@@ -1,0 +1,23 @@
+.show-on-large-screen{
+    display: initial;
+}
+
+.show-on-small-screen{
+    display: none;
+}
+
+@media (max-width:767px) {
+    .show-on-large-screen{
+        display: none;
+    }
+    
+    .show-on-small-screen{
+        display: initial;
+    }
+}
+
+@media (max-width:425px) {
+    .fs-only-on-small{
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,46 @@
+<div class="form-group">
+	<div class="form-label">
+		<a class="text-info cursor-pointer" (click)="downloadTemplate()">
+			{{"evaluation.uploadResults.textDownload"|translate}}
+			<i class="bi bi-download ms-1 me-10"></i>
+		</a>
+		{{ labelText || "evaluation.uploadResults.textFillTemplate" | translate }}
+	</div>
+	<input type="file" id="formFile" (change)="detectFiles($event)" [formControl]="inputFile" class="form-control"
+		[ngClass]="{ 'is-invalid': hasErrors }">
+	<div *ngIf="hasErrors" class="form-control-feedback text-danger">
+		<div class="form-control-feedback text-danger">
+			<small>{{ 'common.fileEmpty' | translate }}.</small>
+		</div>
+	</div>
+</div>
+
+<ng-container *ngIf="isFileSelected">
+	<div class="table-responsive">
+		<table class="table table-sm table-bordered table-striped table-hover">
+			<thead class="thead-dark">
+				<tr>
+					<th>#</th>
+					<th *ngFor="let column of filteredTranslatedHeaders">
+						{{ column.displayValue }}
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr
+					*ngFor="let entry of formattedUploadedEntries | slice: (currentPage * pageSize) - pageSize :currentPage * pageSize; index as i">
+					<th scope="row">{{ ((currentPage-1)*pageSize) + (i + 1) }}</th>
+					<td *ngFor="let column of filteredTranslatedHeaders">
+						{{(entry[column.value])}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<app-pagination *ngIf="formattedUploadedEntries.length > pageSize"
+		[itemsPerPage]="pageSize"
+		[totalItems]="formattedUploadedEntries.length"
+		(pageChanged)="setCurrentPage($event)">
+	</app-pagination>
+</ng-container>

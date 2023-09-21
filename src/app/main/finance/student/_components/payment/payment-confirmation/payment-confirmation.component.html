@@ -1,0 +1,36 @@
+<div class="p-3">
+    <h4>
+        You're about to make a fee payment of 
+        <span class="text-bold">
+            {{payment.amount | currency}}
+        </span>
+            to 
+        <span class="text-bold">
+            {{(schoolInfo$ | async)?.name}}.
+        </span>
+        <br/>Convenience fee: 
+        <span class="text-bold">
+            {{convenienceFee| currency}}
+        </span>
+    </h4>
+</div>
+<div class="text-end">
+    <button type="button" class="btn btn-outline btn-danger pull-left" (click)="previousPage()">
+        <i class="bi bi-arrow-left-short"></i>
+        Back
+    </button>
+    <button type="button" [disabled]="saving" class="btn btn-outline btn-success pull-right" (click)="confirmPayment()">
+        <div *ngIf="saving; else save">
+            <div class="spinner-border me-2" role="status" style="max-width: 18px; max-height: 18px;">
+            </div>
+        </div>
+        <ng-template #save>
+            Confirm
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
+            </svg>
+        </ng-template>
+    </button>
+</div>

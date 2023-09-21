@@ -1,0 +1,32 @@
+/** Customize scrollbar with the css variables **/
+
+ng-scrollbar {
+  --scrollbar-size: 8px;
+  --scrollbar-thumb-color: #28df93;
+  --scrollbar-thumb-hover-color: rgb(231, 46, 46);
+  --scrollbar-border-radius: 4px;
+  border: 1px solid gray;
+}
+
+@media (max-width: 767px) {
+    .content-wrapper {
+      padding-top: 75px; 
+      padding-bottom: 50px;
+    }
+}
+
+@media (min-width: 768px) {
+  .mt-topNav {
+    margin-top: 40px;
+  }
+}
+
+.dark-skin .main-footer {
+  background-color: body-dark;
+  color: #ffffff; 
+  margin-top: 25rem;
+}
+
+.fixed .content-wrapper {
+  padding-top: 40px;
+}

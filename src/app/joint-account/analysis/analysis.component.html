@@ -1,0 +1,437 @@
+<div *ngIf="isLoading;then showLoading else showContent"></div>
+<!-- show loader -->
+<ng-template #showLoading>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-body">
+                    <app-loader-div [height]="220"></app-loader-div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-5">
+            <div class="box">
+                <div class="box-body">
+                    <app-loader-div [height]="240"></app-loader-div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-7">
+            <div class="box">
+                <div class="box-body">
+                    <app-loader-div [height]="240"></app-loader-div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ng-template>
+<!-- show content -->
+<ng-template #showContent>
+
+    <div *ngIf="hasError; then showError else showView"></div>
+    <!-- show this if fetch api fails -->
+    <ng-template #showError>
+        <div class="box">
+            <div class="box-body">
+                An unexpected error occured
+            </div>
+        </div>
+    </ng-template>
+    <!-- show this on success view load -->
+    <ng-template #showView>
+        <!--
+=================================================================================
+        OVERALL EXAM ANALYSIS
+=================================================================================
+-->
+        <div *ngIf="!showReport && show_data">
+            <div class="row">
+                <!--
+        ==============================
+            Large screen view
+        ==============================
+        -->
+                <div class="col-lg-12 hidden-xs">
+                    <div class="box">
+                        <div class="box-header hidden-xs">
+                            <div class="box-title"> {{classData?.classname + " - " + classData?.examname}}</div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-3 text-center list ">
+                                    <div class="col-xs-12 text-center">
+                                        <i class="fa fa-institution fa-5x"></i>
+                                        <div class="zreport-name">{{classData.classname}}</div>
+                                        <div class="text-muted fw-600 m-b-xs">{{classData.examname}}</div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="row" style="overflow: hidden;">
+                                            <div class="col-6" *ngIf="classData.aggregate_stats.first != undefined">
+                                                <div class="small"> {{classData.aggregate_stats.first.name}} </div>
+                                                <h3 class="no-margins font-extra-bold text-success">
+                                                    {{classData.aggregate_stats.first.value}}<span
+                                                        *ngIf="classData.aggregate_stats.first.suffix != undefined">{{classData.aggregate_stats.first.suffix}}</span>
+                                                </h3>
+                                                <div class="fw-600"
+                                                    *ngIf="classData.aggregate_stats.first.change != undefined">
+                                                    {{classData.aggregate_stats.first.change}}
+                                                    <i *ngIf="classData.aggregate_stats.first.change > 0"
+                                                        class="fa fa-level-up text-success"></i>
+                                                    <i *ngIf="classData.aggregate_stats.first.change < 0"
+                                                        class="fa fa-level-down text-warning"></i>
+                                                    <i *ngIf="classData.aggregate_stats.first.change == 0"
+                                                        class="fa fa-long-arrow-right text-info"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-6" *ngIf="classData.aggregate_stats.second != undefined">
+                                                <div class="small"> {{classData.aggregate_stats.second.name}} </div>
+                                                <h3 class="no-margins font-extra-bold text-success">
+                                                    {{classData.aggregate_stats.second.value}}<span
+                                                        *ngIf="classData.aggregate_stats.second.suffix != undefined">{{classData.aggregate_stats.second.suffix}}</span>
+                                                </h3>
+                                                <div class="fw-600"
+                                                    *ngIf="classData.aggregate_stats.second.change != undefined">
+                                                    {{classData.aggregate_stats.second.change}}
+                                                    <i *ngIf="classData.aggregate_stats.second.change > 0"
+                                                        class="fa fa-level-up text-success"></i>
+                                                    <i *ngIf="classData.aggregate_stats.second.change < 0"
+                                                        class="fa fa-level-down text-warning"></i>
+                                                    <i *ngIf="classData.aggregate_stats.second.change == 0"
+                                                        class="fa fa-long-arrow-right text-info"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-10 pt-10" style="border-top: 1px solid #e4e5e7">
+                                            <div class="col-6">
+                                                <div class="small"> Mean Grade </div>
+                                                <h3 class="no-margins font-extra-bold">
+                                                    {{classData.aggregate_stats.mean_grade}}
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6  text-center">
+                                    <div style="display: inline-block" class="text-center small"> <i
+                                            class="fa fa-bar-chart-o"></i> Performance of schools </div>
+                                    <highcharts-chart style="width: 100%; display: block" *ngIf="isHighcharts"
+                                        [Highcharts]="HighchartStreams" [options]="highchart_stream_comparison">
+                                    </highcharts-chart>
+                                    <div class="col-md-12 text-start hidden-xs"
+                                        style="padding-left: 25px;padding-right: 9px">
+                                        <table class="table table-striped table-bordered">
+                                            <thead></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="col-md-12 text-start">
+                                                            <div class="col-md-12  form-group my-5">
+                                                                 <label class="control-label col-sm-12 "
+                                                                    for="exam">Change Stream</label>
+                                                                <select class="form-select m-b col-sm-12 " name="stream"
+                                                                    id="stream" [(ngModel)]="selected_stream_value"
+                                                                    (change)="change_selected_stream();">
+                                                                    <!-- ng-options="stream as stream.text for stream in streams track by stream.value" -->
+                                                                    <option *ngFor="let stream of streams"
+                                                                        [value]="stream.value" [selected]="selected_stream_value == stream.value">
+                                                                        {{stream.text}}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 text-center ">
+                                    <div class="small hidden-xs"> <i class="fa fa-user"></i> Students </div>
+                                    <div>
+                                        <h1 class="font-extra-bold m-t-xl m-b-xs"> {{classData.aggregate_stats.entries}}
+                                            Students </h1> <small>Students who sat for the exam</small>
+                                    </div>
+                                    <div class="small mt-40">
+                                        <div class="col-md-12">
+                                            <button type="button" style="width: 150px"
+                                                class="btn btn-primary btn-sm text-center"
+                                                (click)="viewMeritList()">Merit
+                                                List</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--
+        ==============================
+            Mobile view
+        ==============================
+        -->
+                <div class="col-lg-12 visible-xs">
+                    <div class="box shake-this" style="margin-bottom: 0">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-xs-12 text-center">
+                                    <i class="fa fa-institution fa-5x"></i>
+                                    <div class="zreport-name">{{classData.classname}}</div>
+                                    <div class="text-muted fw-600 m-b-xs">{{classData.examname}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="box ">
+                <div class="box-body" style="margin: 0;padding: 0;background: transparent;border: 1px transparent">
+                    <div *ngIf="true" class="col-xs-12 col-sm-12 col-md-12  header_sticky_part">
+                        <div *ngIf='false' class="col-xs-12 col-sm-12 col-md-12 " id="header_main">
+                            <div class='col-xs-12 alert alert-success text-center' style="border-radius: 0">
+                                <div>
+                                    <label>{{classData.classname}}</label>
+                                </div>
+                                <label class="sticky_label_2">{{classData.examname}}</label>
+                            </div>
+                        </div>
+                        *ngIf="headervisibility.status"
+                        <div class="col-xs-12 col-sm-12 col-md-12  sticky" id="header_sticky">
+                            <div class='col-xs-12 alert alert-success text-center' style="border-radius: 0">
+                                <div>
+                                    <label>{{classData.classname}}</label>
+                                </div>
+                                <label class="sticky_label_2">{{classData.examname}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+                    <div class="box shake-this" id="header_main" style="margin-top: 25px">
+                        <div class="box-body" style="background: #f9f9f9;">
+                            <div class="col-md-12  form-group my-5">
+                                <label class="control-label col-sm-12 " for="exam">Change
+                                    Stream</label>
+                                <!-- <pre>{{streams|json}}</pre> -->
+                                <select class="form-select m-b col-sm-12 " name="stream" id="stream"
+                                    (change)="change_selected_stream();" [(ngModel)]="selected_stream">
+                                    <!-- ng-options="stream as stream.text for stream in streams track by stream.value" -->
+                                    <option *ngFor="let stream of streams" [value]="stream">
+                                        {{stream.text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box shake-this">
+                        <div class="box-header">
+                            <div class="box-title"> Class Averages</div>
+                        </div>
+                        <div class="box-body">
+                            <div class="col-xs-12 text-center">
+                                <div class="row" style="overflow: hidden;">
+                                    <div class="col-6" *ngIf="classData.aggregate_stats.first != undefined">
+                                        <div class="small"> {{classData.aggregate_stats.first.name}} </div>
+                                        <h3 class="no-margins font-extra-bold text-success">
+                                            {{classData.aggregate_stats.first.value}}<span
+                                                *ngIf="classData.aggregate_stats.first.suffix != undefined">{{classData.aggregate_stats.first.suffix}}</span>
+                                        </h3>
+                                        <div class="fw-600" *ngIf="classData.aggregate_stats.first.change != undefined">
+                                            {{classData.aggregate_stats.first.change}}
+                                            <i *ngIf="classData.aggregate_stats.first.change > 0"
+                                                class="fa fa-level-up text-success"></i>
+                                            <i *ngIf="classData.aggregate_stats.first.change < 0"
+                                                class="fa fa-level-down text-warning"></i>
+                                            <i *ngIf="classData.aggregate_stats.first.change == 0"
+                                                class="fa fa-long-arrow-right text-info"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-6" *ngIf="classData.aggregate_stats.second != undefined">
+                                        <div class="small"> {{classData.aggregate_stats.second.name}} </div>
+                                        <h3 class="no-margins font-extra-bold text-success">
+                                            {{classData.aggregate_stats.second.value}}<span
+                                                *ngIf="classData.aggregate_stats.second.suffix != undefined">{{classData.aggregate_stats.second.suffix}}</span>
+                                        </h3>
+                                        <div class="fw-600"
+                                            *ngIf="classData.aggregate_stats.second.change != undefined">
+                                            {{classData.aggregate_stats.second.change}}
+                                            <i *ngIf="classData.aggregate_stats.second.change > 0"
+                                                class="fa fa-level-up text-success"></i>
+                                            <i *ngIf="classData.aggregate_stats.second.change < 0"
+                                                class="fa fa-level-down text-warning"></i>
+                                            <i *ngIf="classData.aggregate_stats.second.change == 0"
+                                                class="fa fa-long-arrow-right text-info"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-10 pt-10" style="border-top: 1px solid #e4e5e7">
+                                    <div class="col-6">
+                                        <div class="small"> Mean Grade </div>
+                                        <h3 class="no-margins font-extra-bold">{{classData.aggregate_stats.mean_grade}}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box shake-this">
+                        <div class="box-header">
+                            <div class="box-title">Stream Comparison</div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-6  text-center">
+                                    <highcharts-chart style="width: 100%; display: block" *ngIf="isHighcharts"
+                                        [Highcharts]="HighchartStreams" [options]="highchart_stream_comparison">
+                                    </highcharts-chart>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box shake-this">
+                        <div class="box-header">
+                            <div class="box-title">Students who sat for the exam</div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-3 text-center ">
+                                    <div>
+                                        <h1 class="font-extra-bold m-t-xl m-b-xs" style="margin: 0;padding: 0">
+                                            {{classData.aggregate_stats.entries}} Students </h1>
+                                    </div>
+                                    <div class="small m-t-xl" style='margin-top: 20px'>
+                                        <div class="col-md-12">
+                                            <button type="button" style="width: 150px"
+                                                class="btn btn-primary btn-sm text-center"
+                                                (click)="viewMeritList()">Merit
+                                                List</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="box shake-this">
+                        <div class="box-header">
+                            <div class="box-title">Subject Performance</div>
+                        </div>
+                        <div class="box-body list">
+                            <div class="project-list col-md-12 " style="margin: 0">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th><a style="display: inline-block" class="unselectable"
+                                                    (click)="sortdata.type = 'subject'; sortdata.reverse = !sortdata.reverse">
+                                                    <div style="display: block;white-space: nowrap">
+                                                        <span>Name</span>
+                                                        <span *ngIf="sortdata.type == 'subject' && sortdata.reverse"
+                                                            class="fa fa-caret-down"></span>
+                                                        <span *ngIf="sortdata.type == 'subject' && !sortdata.reverse"
+                                                            class="fa fa-caret-up"></span>
+                                                        <span *ngIf="sortdata.type == 'int_code'"
+                                                            class="fa fa-caret-down"></span>
+                                                    </div>
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a class="unselectable"
+                                                    (click)="sortdata.type = 'value'; sortdata.reverse = !sortdata.reverse">
+                                                    <div style="display: block;white-space: nowrap">
+                                                        <span>{{classData.subjects.value_type}}</span>
+                                                        <span *ngIf="sortdata.type == 'value' && sortdata.reverse"
+                                                            class="fa fa-caret-down"></span>
+                                                        <span *ngIf="sortdata.type == 'value' && !sortdata.reverse"
+                                                            class="fa fa-caret-up"></span>
+                                                    </div>
+                                                </a>
+                                            </th>
+                                            <th><a style="display: inline-block" class="unselectable"
+                                                    (click)="sortdata.type = 'value'; sortdata.reverse = !sortdata.reverse">
+                                                    <div style="display: block;white-space: nowrap">
+                                                        <span>Grade</span>
+                                                        <span *ngIf="sortdata.type == 'value' && sortdata.reverse"
+                                                            class="fa fa-caret-down"></span>
+                                                        <span *ngIf="sortdata.type == 'value' && !sortdata.reverse"
+                                                            class="fa fa-caret-up"></span>
+                                                    </div>
+                                                </a>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let s of classData.subjects.list" style="cursor: pointer"
+                                            (click)="viewMeritList(s.subjectid)">
+                                            <td>{{s.subject}}</td>
+                                            <td><strong>{{s.value}}<span
+                                                        *ngIf="classData.subjects.suffix != null">{{classData.subjects.suffix}}</span></strong>
+                                            </td>
+                                            <td><strong>{{s.grade}}</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="box shake-this">
+                        <div class="box-header">
+                            <div class="box-title">Performance Of Streams</div>
+                        </div>
+                        <div class="box-body" style="padding-bottom: 0">
+                            <div class="row">
+                                <!-- <highchart style="width: 100%; display: block" id="chart4" config="highchart_time_series">
+                        </highchart> -->
+                                <highcharts-chart style="width: 100%; display: block" *ngIf="isHighcharts"
+                                    [Highcharts]="HighchartTimeSeries" [options]="highchart_time_series">
+                                </highcharts-chart>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row hidden-xs" [hidden]="isMobileApp || showReport">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary btn-sm pull-right" (click)="viewPrintFormat()">View
+                        Print
+                        Format</button>
+                </div>
+            </div>
+        </div>
+        <!--
+=================================================================================
+        SECTION SHOW CLASS REPORT
+=================================================================================
+-->
+
+
+        <div id="printablereport" *ngIf="showReport">
+            <!-- ng-include="'./partials/jointexams/class_report.html'" -->
+            <app-class-report
+            [classData]="classData"
+            [show_top_students]="show_top_students"
+            [selected_kcse_mean]="selected_kcse_mean"
+            [school_profile]="school_profile"
+            [highchart_stream_comparison]="highchart_stream_comparison"
+            [sortdata]="sortdata" 
+            [highchart_subject_mean]="highchart_subject_mean"
+            [highchart_students_per_grade]="highchart_students_per_grade"
+            [selected_stream_value]="selected_stream_value"
+            [selected_stream]="selected_stream"
+            [sorthouses]="sorthouses"
+            [highchart_time_series]="highchart_time_series"
+            (showReportEvt)="hidePrintFormat()"
+             (printPageEvt)="printPage($event)"
+             (onTopStudentsSubjectsChangeEvt)="onTopStudentsSubjectsChange()"
+             (onTopStudentsOnlyChangeEvt) = "onTopStudentsOnlyChange()"
+             (onKcseMeanChangeEvt) = "onKcseMeanChange()"
+            ></app-class-report>
+
+        </div>
+    </ng-template>
+</ng-template>

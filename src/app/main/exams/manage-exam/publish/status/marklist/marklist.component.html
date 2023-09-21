@@ -1,0 +1,125 @@
+<section class="mt-config content">
+    <div class="row">
+        <div class="col-sm-12 text-end mb-10">
+            <div class="btn-group">
+                <button class="btn btn-sm waves-effect waves-light btn-primary dropdown-toggle" type="button"
+                    data-bs-toggle="dropdown">
+                    <!-- Download -->
+                    {{"exams.markList.btnTextDownload"|translate}}
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" (click)="downloadAsPdf('thisSection')"
+                    ><i class="fa fa-file-pdf-o"></i>
+                    <!-- Pdf -->
+                    {{"exams.markList.btnTextPdf"|translate}}
+                </a>
+                    <a class="dropdown-item" (click)="downloadAsSpreedSheet()">
+                        <i class="fa fa-file-excel-o"></i>
+                         <!-- Spreedsheet -->
+                         {{"exams.markList.btnTextSpreadsheet"|translate}}
+                        </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-body">
+
+
+                    <div class="col-9 mx-auto" id="thisSection">
+                        <!--
+                        ------------------
+                            SECTION HEADER
+                        ------------------
+                        -->
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <img [src]="school?.logo" style=" height: 120px;" alt="">
+                            </div>
+                            <div class="col-sm-5 text-center">
+                                <h3><b>{{school?.name}}</b></h3>
+                                <h4><b>{{ examname }}</b></h4>
+                                <h4>
+                                  <b>
+                                    {{ schoolInfo?.formoryear | formOrYear }}
+                                    {{class_full_name}} -
+                                     <!-- Mark List -->
+                                     {{"exams.markList.textMarkList"|translate}}
+                                  </b>
+                                </h4>
+                            </div>
+
+                            <div class="col-sm-4 text-end">
+                                <p><b>{{school?.address}}</b></p>
+                                <p><b>{{school?.phone}}</b></p>
+                                <p><b>{{school?.email}}</b></p>
+                            </div>
+                        </div>
+                        <p class="mb-25"></p>
+                        <!--
+                        ------------------
+                            SECTION Table-body
+                        ------------------
+                        -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-hover bm-0">
+                                        <thead class="text-uppercase">
+                                            <tr>
+                                                <th [attr.colspan]="cols">
+                                                    <div class="text-center">
+                                                        <label>
+                                                            {{ schoolInfo?.formoryear | formOrYear }}
+                                                            {{class_full_name}} - {{examname}}
+                                                        </label>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>#</th>
+                                                <th class="no-wrap">
+                                                    <!-- ADMNO -->
+                                                    {{"exams.markList.textAdmno"|translate}}
+                                                </th>
+                                                <th>
+                                                    <!-- NAME -->
+                                                    {{"exams.markList.textName"|translate}}
+                                                </th>
+                                                <th>
+                                                    <!-- STREAM -->
+                                                    {{"exams.markList.textStream"|translate}}
+                                                </th>
+                                                <th *ngFor="let t of titles">   {{t}}</th>
+                                                <th *ngIf="marklisttype === 2"> </th>
+                                                <th *ngIf="marklisttype === 2"></th>
+                                                <th *ngIf="marklisttype === 2"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let d of data; let index = index">
+                                                <td class='td-fit-nowrap'><span class="">{{index + 1}}</span></td>
+                                                <td class='td-fit-nowrap'><span class="">{{d.admno}}</span></td>
+                                                <td class='td-fit-nowrap'><span class="">{{d.name}}</span></td>
+                                                <td class='td-fit-nowrap'><span class="">{{d.stream}}</span></td>
+                                                <td *ngFor="let t of titles" class='td-fit-nowrap'>
+                                                    <span *ngIf="d[t]?.grade != 'X' && d[t]?.grade != 'Y'" class="">{{d[t]?.raw}}</span>
+                                                    <span *ngIf="d[t]?.grade == 'X' || d[t]?.grade == 'Y'" class="">{{d[t]?.grade}}</span>
+                                                </td>
+                                                <td *ngIf="marklisttype === 2"><span class=""></span></td>
+                                                <td *ngIf="marklisttype === 2"><span class=""></span></td>
+                                                <td *ngIf="marklisttype === 2"><span class=""></span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

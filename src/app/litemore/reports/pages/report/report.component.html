@@ -1,0 +1,94 @@
+<!-- Main content -->
+<section class="content mt-config">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <app-filters
+                    (reportTypeOutput)="changeReportType($event)"
+                    (filterFormOutput)="bindFilterForm($event)">
+                </app-filters>
+                <div class="box-body">
+                    <form [formGroup]="reportsForm" (ngSubmit)="fetchReports()">
+                        <div class="row">
+                            <div class="col-md-6 form-group" [hidden]="!filterForm?.value.checkArray.includes('startDate')">
+                                <app-input
+                                    [label]="'events.manage.startDate' | translate"
+                                    [type]="'date'" class="form-control" formControlName="startDate"
+                                    [placeholder]="'events.manage.startDate' | translate"
+                                    [required]="filterForm?.value.checkArray.includes('startDate')">
+                                </app-input>
+                            </div>
+                            <div class="col-md-6 form-group" [hidden]="!filterForm?.value.checkArray.includes('startDate')">
+                                <app-input
+                                    [label]="'events.manage.endDate' | translate"
+                                    type="date" class="form-control" formControlName="endDate"
+                                    [placeholder]="'events.manage.endDate' | translate"
+                                    [required]="filterForm?.value.checkArray.includes('startDate')">
+                                </app-input>
+                            </div>
+                            <div class="col-md-6 form-group" [hidden]="!filterForm?.value.checkArray.includes('dueDate')">
+                                <app-input
+                                    [label]="'litemore.reports.components.filters.dueDate'|translate"
+                                    type="date"
+                                    class="form-control"
+                                    formControlName="dueDate"
+                                    placeholder="Due date"
+                                    [required]="filterForm?.value.checkArray.includes('dueDate')">
+                                </app-input>
+                            </div>
+                            <div class="col-md-6 form-group" [hidden]="!filterForm?.value.checkArray.includes('itemType')">
+                                <app-ng-select
+                                    [label]="'litemore.reports.components.filters.itemType'|translate"
+                                    [items]="voteHeads$ | async"
+                                    bindLabel="name"
+                                    bindValue="typeId"
+                                    formControlName="itemType"
+                                    class="form-control"
+                                    placeholder="Item"
+                                    [required]="filterForm?.value.checkArray.includes('itemType')">
+                                </app-ng-select>
+                            </div>
+                            <div class="col-md-6 form-group" [hidden]="!filterForm?.value.checkArray.includes('schoolSignUpDate')">
+                                <app-input
+                                    [label]="'litemore.reports.components.filters.signUpDate'|translate"
+                                    type="date"
+                                    class="form-control"
+                                    formControlName="schoolSignUpDate"
+                                    placeholder="Sign up date"
+                                    [required]="filterForm?.value.checkArray.includes('schoolSignUpDate')">
+                                </app-input>
+                            </div>
+                            <div class="col-md-6 form-group" [hidden]="!filterForm?.value.checkArray.includes('product')">
+                                <app-ng-select
+                                    [label]="'litemore.reports.components.filters.product'|translate"
+                                    [items]="(schoolsTypes$ | async)?.zerakiProducts"
+                                    formControlName="product"
+                                    class="form-control"
+                                    placeholder="Product"
+                                    [required]="filterForm?.value.checkArray.includes('product')">
+                                </app-ng-select>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <app-ng-select
+                                    [label]="'litemore.reports.components.filters.paid'|translate"
+                                    [items]="paymentStatuses"
+                                    formControlName="paymentStatus"
+                                    class="form-control"
+                                    placeholder="Payment Status"
+                                    required>
+                                </app-ng-select>
+                            </div>
+                            <div class="col-md-12 text-end">
+                                <button type="submit" [disabled]="reportsForm.invalid" class="btn btn-success text-white waves-effect waves-light btn-sm bt-sm">
+                                    <i class="me-2 bi bi-cloud-download"></i>
+									{{'litemore.reports.components.filters.download'|translate}}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

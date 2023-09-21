@@ -1,0 +1,1271 @@
+<!-- Main content -->
+<section class="content mt-config">
+	<!--
+    ********************
+    TOP Section
+    ********************
+    -->
+
+	<div class="row mb-20">
+		<!-- <div class="col-sm-12">
+            <pre>
+                {{userInit|json}}
+            </pre>
+        </div> -->
+		<div class="col-sm-12">
+			<h4>{{ schoolInfo?.school?.schoolName }}</h4>
+		</div>
+
+		<div class="col-sm-3 panel-widget">
+			<div class="panel">
+				<div class="panel-body p-xs">
+					<table style="width: 100%">
+						<tr>
+							<td>
+								<i class="widget-icon fa fa-money"></i>
+							</td>
+							<td class="text-end">
+								<p class="widget-title">
+									{{ "litemore.bdevs.invoices.totalBalance" | translate }}
+								</p>
+								<p class="widget-content mb-0">
+									{{ schoolInfo?.balance | currency: schoolInfo?.currency }}
+								</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-3 panel-widget">
+			<div class="panel">
+				<div class="panel-body p-xs">
+					<table style="width: 100%">
+						<tr>
+							<td class="">
+								<i class="widget-icon fa fa-user-circle-o"></i>
+							</td>
+							<td class="text-end">
+								<p class="widget-title">
+									{{
+										"litemore.bdevs.invoices.relationshipManager" | translate
+									}}
+								</p>
+								<p class="widget-content mb-0">
+									{{ schoolInfo?.relationshipManager?.name }}
+								</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-3 panel-widget">
+			<div class="panel">
+				<div class="panel-body p-xs">
+					<table style="width: 100%">
+						<tr>
+							<td>
+								<i class="widget-icon fa fa-file-o"></i>
+							</td>
+							<td class="text-end">
+								<p class="widget-title">
+									{{ "litemore.bdevs.invoices.proformaInvoices" | translate }}
+								</p>
+								<p class="widget-content mb-0">
+									{{ schoolInfo?.miniStatement?.proformaInvoices }}
+								</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-3 panel-widget">
+			<div class="panel">
+				<div class="panel-body p-xs">
+					<table style="width: 100%">
+						<tr>
+							<td>
+								<i class="widget-icon fa fa-file-o"></i>
+							</td>
+							<td class="text-end">
+								<p class="widget-title">
+									{{ "litemore.bdevs.invoices.invoices" | translate }}
+								</p>
+								<p class="widget-content mb-0">
+									{{ schoolInfo?.miniStatement?.invoices }}
+								</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--
+     ********************
+         Table Section
+     ********************
+    -->
+	<div class="row" *ngIf="isInvoiceTable">
+		<!--
+        ****************************************************************************
+        Display this section only if the invoice has some old invoices
+        ****************************************************************************
+        -->
+		<div class="col-sm-12" *ngIf="schoolProfomas?.oldInvoices?.length > 0">
+			<ul class="nav nav-tabs customtab" role="tablist">
+				<li class="nav-item">
+					<a
+						class="nav-link active"
+						data-bs-toggle="tab"
+						href="#proforma-invoices"
+						role="tab"
+						aria-selected="true">
+						{{ "litemore.bdevs.invoices.proformaInvoices" | translate }}
+					</a>
+				</li>
+				<li class="nav-item">
+					<a
+						class="nav-link"
+						data-bs-toggle="tab"
+						href="#old-invoices"
+						role="tab">
+						{{ "litemore.bdevs.invoices.oldInvoices" | translate }}
+					</a>
+				</li>
+			</ul>
+
+			<div class="tab-content">
+				<!--include the content here-->
+				<div id="proforma-invoices" class="tab-pane active">
+					<!-- Load the proforma view here! -->
+					<app-section-proforma-invoices
+						[schoolProfomas]="schoolProfomas"
+						[isUpdatingProformaInvoice]="isUpdatingProformaInvoice"
+						[isUpdatingProformaExtensionDate]="isUpdatingProformaExtensionDate"
+						(isUpdateProforma)="initProformaEdit($event)"
+						(isShowCreateInvoice)="showCreateInvoice()"
+						(isInitiateProformaInvoiceExtensionDate)="
+							initiateProformaInvoiceExtensionDate($event)
+						"
+						(isSendReminder)="showUpdatePInvoice($event)"
+						(isViewInvoices)="viewInvoices($event)"
+						(isShowProformaPrint)="showProformaPrint($event)"
+						(isDeleteProforma)="deleteProformaInvoice($event)"
+						(isUpdateProformaExtensionDate)="
+							updateProformaExtensionDate($event)
+						"
+						(isUpdateProformaInvoiceAmount)="
+							updateProformaInvoiceAmount($event)
+						"
+						(isProfomaPrevClicked)="profomaPrevClicked()"
+						(isProfomaNextClicked)="profomaNextClicked()">
+					</app-section-proforma-invoices>
+					<!-- <div ng-include="'partials/litemore_proforma_invoices/section_proforma_invoices.html'"></div> -->
+				</div>
+				<div id="old-invoices" class="tab-pane">
+					<!-- Load the old invoice view here! -->
+					<app-section-old-invoices
+						[schoolProfomas]="schoolProfomas"
+						[isCollectOldInvoice]="isCollectOldInvoice"
+						[schoolInfo]="schoolInfo"
+						[userInit]="userInit"
+						[loggedInUser]="loggedInUser"
+						(isCloseCollectOldInvoice)="closeCollectOldInvoice()"
+						(isupdateOldInvoiceDate)="updateOldInvoiceDate($event)"
+						(isupdateOldInvoiceAmount)="updateOldInvoiceAmount($event)"
+						(isInitEditExtensionDate)="initEditExtensionDate($event)"
+						(isInitEditGrossAmount)="initEditGrossAmount($event)"
+						(isMakeCollectionOldInvoice)="makeCollectionOldInvoice($event)"
+						(isShowOldInvoicePrint)="showOldInvoicePrint($event)"
+						(isEditOldInvoice)="editOldInvoice($event)"
+						(isSendReminder)="showUpdatePInvoice($event)"
+						(isProfomaPrevClicked)="profomaPrevClicked()"
+						(isProfomaNextClicked)="profomaNextClicked()"
+						(isRecordCollection)="
+							recordCollection($event)
+						"></app-section-old-invoices>
+				</div>
+			</div>
+		</div>
+
+		<!--
+        ****************************************************************************
+        Display this section if the school doesn't have any old invoices
+        ****************************************************************************
+        -->
+		<div *ngIf="schoolProfomas?.oldInvoices?.length == 0">
+			<!-- Load the proforma view here -->
+			<app-section-proforma-invoices
+				[schoolProfomas]="schoolProfomas"
+				[isUpdatingProformaInvoice]="isUpdatingProformaInvoice"
+				[isUpdatingProformaExtensionDate]="isUpdatingProformaExtensionDate"
+				(isUpdateProforma)="initProformaEdit($event)"
+				(isShowCreateInvoice)="showCreateInvoice()"
+				(isInitiateProformaInvoiceExtensionDate)="
+					initiateProformaInvoiceExtensionDate($event)
+				"
+				(isSendReminder)="showUpdatePInvoice($event)"
+				(isViewInvoices)="viewInvoices($event)"
+				(isShowProformaPrint)="showProformaPrint($event)"
+				(isDeleteProforma)="deleteProformaInvoice($event)"
+				(isUpdateProformaExtensionDate)="updateProformaExtensionDate($event)"
+				(isUpdateProformaInvoiceAmount)="updateProformaInvoiceAmount($event)"
+				(isProfomaPrevClicked)="profomaPrevClicked()"
+				(isProfomaNextClicked)="profomaNextClicked()">
+			</app-section-proforma-invoices>
+		</div>
+	</div>
+
+	<!--
+        ********************
+            Create Section
+        ********************
+    -->
+	<ng-container *ngIf="isCreateProforma || isUpdateInvoice">
+		<app-create-proforma
+			[isUpdateProforma]="isUpdateInvoice"
+			[proforma]="newSelectedProforma"
+			[routeParams]="routeParams"
+			(closeCreate)="showProformaTable()"
+			(createSuccess)="createProformaSuccess()"></app-create-proforma>
+	</ng-container>
+
+	<!--
+      ********************
+          Reminder Section
+      ********************
+    -->
+	<div
+		class="row"
+		*ngIf="isSendReminder"
+		data-animate-panel
+		data-child="hpanel">
+		<div class="col-sm-12">
+			<div class="box">
+				<div class="box-header">
+					<div class="row">
+						<div class="col-sm-6">
+							<p class="mb-0 box-title">
+								PRM{{ selected_profoma?.proformaId }} :
+								{{ "litemore.bdevs.invoices.sendReminder" | translate }}
+							</p>
+						</div>
+						<div class="col-sm-6 text-end">
+							<button
+								class="btn btn-xs btn-success"
+								(click)="showProformaTable()">
+								Close
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<form
+						#reminderForm="ngForm"
+						(ngSubmit)="sendSmsReminder(reminderForm)">
+						<div class="row">
+							<div class="form-group col-sm-12">
+								<label>Message Note</label>
+								<textarea
+									class="form-control"
+									rows="7"
+									id="sms_reminder"
+									required
+									name="sms_template"
+									[(ngModel)]="sms_template"></textarea>
+							</div>
+							<div class="col-sm-12">
+								<input
+									type="checkbox"
+									name="sms_to_principal"
+									[(ngModel)]="sms_to_principal"
+									id="to_principal"
+									class="filled-in chk-col-success"
+									[checked]="sms_to_principal" />
+								<label for="to_principal" style="margin-right: 10px">{{
+									"litemore.bdevs.invoices.sendToPrincipal" | translate
+								}}</label>
+								<input
+									type="checkbox"
+									name="sms_to_relationship_manager"
+									[(ngModel)]="sms_to_relationship_manager"
+									class="filled-in chk-col-success"
+									id="to_relationship_manager"
+									[checked]="sms_to_relationship_manager" />
+								<label
+									for="to_relationship_manager"
+									style="margin-right: 10px"
+									>{{
+										"litemore.bdevs.invoices.sendToRelationshipManager"
+											| translate
+									}}</label
+								>
+								<input
+									type="checkbox"
+									name="sms_to_contact_person"
+									class="filled-in chk-col-success"
+									[(ngModel)]="sms_to_contact_person"
+									id="to_contact_person"
+									[checked]="sms_to_contact_person" />
+								<label for="to_contact_person">{{
+									"litemore.bdevs.invoices.sendToContactPerson" | translate
+								}}</label>
+							</div>
+
+							<div class="form-group col-sm-12 text-end mb-0">
+								<button class="btn btn-success">
+									{{ "litemore.bdevs.invoices.sendMessage" | translate }}
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--
+      ******************************
+          Print Proforma Section
+      ******************************
+    -->
+	<div class="row" *ngIf="isShowProformaDocument">
+		<app-proforma-print-preview
+			[userInit]="userInit"
+			[schoolInfo]="schoolInfo"
+			[companyInfo]="schoolProfomas.companyInfo"
+			[paymentInfo]="schoolProfomas.paymentInfo"
+			[proforma]="newSelectedProforma"
+			(closePreview)="showProformaTable()">
+		</app-proforma-print-preview>
+	</div>
+
+	<!--
+      ******************************
+          Old invoices Section. To be deleted on obsoletion
+      ******************************
+    -->
+	<div class="row" *ngIf="isShowOldInvoice">
+		<div class="col-sm-12">
+			<div class="box">
+				<div class="box-header hbuilt">
+					<div class="row">
+						<div class="col-sm-6">
+							<p class="mb-0" *ngIf="selected_profoma.invoiceNumber">
+								{{ selected_profoma.invoiceNumber }} :
+								{{ "litemore.bdevs.invoices._invoice" | translate }}
+							</p>
+							<p class="mb-0" *ngIf="selected_profoma.proformaNumber">
+								{{ selected_profoma.proformaNumber }} :
+								{{ "litemore.bdevs.invoices.proformaInvoice" | translate }}
+							</p>
+						</div>
+						<div class="col-sm-6 text-end">
+							<button
+								class="btn btn-xs btn-success"
+								(click)="showProformaTable()">
+								Close
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="box-body">
+					<!--<pre>{{selected_profoma|json}}</pre>-->
+					<div style="display: flex; justify-content: space-between">
+						<button
+							class="btn btn-secondary waves-effect waves-light mb-10"
+							(click)="downloadAsPdf()">
+							{{ "litemore.bdevs.invoices.downloadPdf" | translate }}
+						</button>
+						<button
+							class="btn btn-secondary waves-effect waves-light mb-10"
+							*ngIf="!selected_profoma.isProformaInvoice"
+							(click)="toggleCollectionView()">
+							<span *ngIf="!listCollections">{{
+								"litemore.bdevs.invoices.manageCollections" | translate
+							}}</span>
+							<span *ngIf="listCollections">{{
+								"litemore.bdevs.invoices.hideCollections" | translate
+							}}</span>
+						</button>
+					</div>
+					<!--//PDF VIEW-->
+					<div *ngIf="!listCollections" style="overflow-x: scroll">
+						<div class="zreport-page" style="min-width: 21cm">
+							<div
+								class="zreportcontent"
+								style="color: black; padding-top: 50px; margin-bottom: 0">
+								<div class="row">
+									<div
+										class="col-sm-12 col-md-11 no-padding"
+										style="float: none; margin: 0px auto">
+										<div class="col-md-12 col-xs-12 col-sm-12 no-padding">
+											<div style="padding: 0px 16px 0px 10px; font-size: 16pt">
+												<table style="width: 100%">
+													<tbody>
+														<tr>
+															<td>
+																<div
+																	class="col-md-12 text-left"
+																	style="padding: 0 15px 0 0">
+																	<div
+																		class="col-md-12 col-xs-12"
+																		style="padding: 0">
+																		<span
+																			style="
+																				font-family: Roboto Condensed, Arial,
+																					Helvetica, sans-serif;
+																				font-size: 60px;
+																				color: rgb(0, 50, 101);
+																				font-weight: bold;
+																				font-style: normal;
+																				text-decoration: none;
+																			"
+																			class="ng-binding">
+																			<span
+																				*ngIf="
+																					selected_profoma.isProformaInvoice
+																				"
+																				>{{
+																					"litemore.bdevs.invoices.template.proformaInvoice"
+																						| translate
+																				}}</span
+																			>
+																			<span
+																				*ngIf="
+																					!selected_profoma.isProformaInvoice
+																				"
+																				>{{
+																					"litemore.bdevs.invoices.template.invoice"
+																						| translate
+																				}}</span
+																			>
+																		</span>
+																	</div>
+																	<div
+																		class="col-md-12 col-xs-12"
+																		style="padding: 0">
+																		<div
+																			class="col-md-12 col-xs-12"
+																			style="padding: 0">
+																			<span class="font-bold ng-binding">{{
+																				"litemore.bdevs.invoices.template.litemoreLimited"
+																					| translate
+																			}}</span>
+																		</div>
+																		<div
+																			class="col-md-12 col-xs-12"
+																			style="padding: 0">
+																			<span class="ng-binding"
+																				>{{
+																					"litemore.bdevs.invoices.template.pOBox"
+																						| translate
+																				}}
+																				51235-00100</span
+																			>
+																		</div>
+																		<div
+																			class="col-md-12 col-xs-12"
+																			style="padding: 0">
+																			<span class="ng-binding"
+																				>Nairobi, Kenya</span
+																			>
+																		</div>
+																		<div
+																			class="col-md-12 col-xs-12"
+																			style="padding: 0">
+																			<!-- <span
+                                                                                    class="ng-binding">{{user_init?.customer_care_number}}</span> -->
+																		</div>
+																		<div
+																			class="col-md-12 col-xs-12"
+																			style="padding: 0">
+																			<span class="ng-binding"
+																				>info@litemore.co.ke</span
+																			>
+																		</div>
+																		<div
+																			class="col-md-12 col-xs-12"
+																			style="padding: 20px 0 0 0">
+																			<span class="font-bold ng-binding"
+																				>{{
+																					"litemore.bdevs.invoices.template.kraPin"
+																						| translate
+																				}}: P051523925C</span
+																			>
+																		</div>
+																	</div>
+																</div>
+															</td>
+															<td>
+																<div class="col-md-12 no-padding">
+																	<img
+																		class="pull-right"
+																		style="
+																			height: 170px;
+																			width: auto;
+																			background-color: #ffffff;
+																			margin-bottom: 0.2cm;
+																		"
+																		src="assets/img/litemore_logo_cropped.png" />
+																</div>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div class="col-md-12 col-xs-12 col-sm-12 no-padding">
+											<div style="padding: 60px 16px 0px 10px; font-size: 16pt">
+												<table style="width: 100%">
+													<tbody>
+														<tr>
+															<td>
+																<div
+																	class="col-md-12 text-left"
+																	style="padding: 0 8px 0 0">
+																	<div
+																		class="col-md-12 col-xs-12"
+																		style="padding: 0">
+																		<span
+																			style="
+																				font-family: Roboto Condensed, Arial,
+																					Helvetica, sans-serif;
+																				font-size: 18.1px;
+																				color: rgb(0, 50, 101);
+																				font-weight: bold;
+																				font-style: normal;
+																				text-decoration: none;
+																			">
+																			{{
+																				"litemore.bdevs.invoices.template.billTo"
+																					| translate
+																			}}
+																		</span>
+																	</div>
+																	<div
+																		class="col-md-12 col-xs-12"
+																		style="padding: 0">
+																		<span class="ng-binding">{{
+																			schoolInfo?.school?.schoolName
+																		}}</span>
+																	</div>
+																	<div
+																		class="col-md-12 col-xs-12"
+																		style="padding: 0">
+																		<span class="ng-binding"></span>
+																	</div>
+																</div>
+															</td>
+															<td>
+																<div
+																	class="col-md-12 text-left"
+																	style="padding: 0 0 0 8px">
+																	<table class="pull-right">
+																		<tbody>
+																			<tr>
+																				<td class="text-left">
+																					<span
+																						style="
+																							font-family: Roboto Condensed,
+																								Arial, Helvetica, sans-serif;
+																							font-size: 18.1px;
+																							color: rgb(0, 50, 101);
+																							font-weight: bold;
+																							font-style: normal;
+																							text-decoration: none;
+																							padding-left: 100px;
+																						"
+																						class="ng-binding">
+																						<span
+																							*ngIf="
+																								!selected_profoma.isProformaInvoice
+																							">
+																							{{
+																								"litemore.bdevs.invoices.template.invoice"
+																									| translate
+																							}}
+																						</span>
+																						#
+																					</span>
+																				</td>
+																				<td
+																					class="text-end ng-binding"
+																					style="padding-left: 60px">
+																					{{ selected_profoma?.invoiceNumber }}
+																				</td>
+																			</tr>
+																			<tr>
+																				<td class="text-left">
+																					<span
+																						style="
+																							font-family: Roboto Condensed,
+																								Arial, Helvetica, sans-serif;
+																							font-size: 18.1px;
+																							color: rgb(0, 50, 101);
+																							font-weight: bold;
+																							font-style: normal;
+																							text-decoration: none;
+																							padding-left: 100px;
+																						"
+																						class="no-wrap ng-binding">
+																						<span
+																							*ngIf="
+																								!selected_profoma.isProformaInvoice
+																							"
+																							>{{
+																								"litemore.bdevs.invoices.template.invoice"
+																									| translate
+																							}}</span
+																						>
+																						{{
+																							"litemore.bdevs.invoices.template.date"
+																								| translate
+																						}}
+																					</span>
+																				</td>
+																				<td
+																					class="text-end ng-binding"
+																					style="padding-left: 60px">
+																					{{ selected_profoma?.creationDate }}
+																				</td>
+																			</tr>
+																			<tr>
+																				<td class="text-left">
+																					<span
+																						style="
+																							font-family: Roboto Condensed,
+																								Arial, Helvetica, sans-serif;
+																							font-size: 18.1px;
+																							color: rgb(0, 50, 101);
+																							font-weight: bold;
+																							font-style: normal;
+																							text-decoration: none;
+																							padding-left: 100px;
+																						"
+																						class="no-wrap">
+																						<span
+																							*ngIf="
+																								!selected_profoma.isProformaInvoice
+																							"
+																							>{{
+																								"litemore.bdevs.invoices.template.invoice"
+																									| translate
+																							}}</span
+																						>
+																						{{
+																							"litemore.bdevs.invoices.template.dueDate"
+																								| translate
+																						}}
+																					</span>
+																				</td>
+																				<td
+																					class="text-end ng-binding"
+																					style="padding-left: 60px">
+																					{{ selected_profoma?.dueDate }}
+																				</td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</div>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div class="col-md-12 col-xs-12 col-sm-12 no-padding">
+											<div style="padding: 60px 16px 0px 10px; font-size: 16pt">
+												<div
+													class="col-md-12 text-left"
+													style="padding: 0 0 0 0">
+													<table
+														class="table table-striped pull-right"
+														style="width: 100%">
+														<thead>
+															<tr style="background: #dff0d8">
+																<th
+																	style="
+																		border-top: 3px solid #62cb31;
+																		border-bottom: 3px solid #62cb31;
+																		vertical-align: middle;
+																	"
+																	class="text-left">
+																	<span
+																		style="
+																			font-family: Roboto Condensed, Arial,
+																				Helvetica, sans-serif;
+																			font-size: 18.1px;
+																			color: rgb(0, 50, 101);
+																			font-weight: bold;
+																			font-style: normal;
+																			text-decoration: none;
+																		">
+																		{{
+																			"litemore.bdevs.invoices.template.description"
+																				| translate
+																		}}
+																	</span>
+																</th>
+																<th
+																	style="
+																		border-top: 3px solid #62cb31;
+																		border-bottom: 3px solid #62cb31;
+																		vertical-align: middle;
+																		padding-left: 50px;
+																		word-wrap: break-word;
+																	"
+																	class="text-end">
+																	<span
+																		style="
+																			font-family: Roboto Condensed, Arial,
+																				Helvetica, sans-serif;
+																			font-size: 18.1px;
+																			color: rgb(0, 50, 101);
+																			font-weight: bold;
+																			font-style: normal;
+																			text-decoration: none;
+																		">
+																		{{
+																			"litemore.bdevs.invoices.template.netAmount"
+																				| translate
+																		}}
+																	</span>
+																</th>
+																<th
+																	style="
+																		border-top: 3px solid #62cb31;
+																		border-bottom: 3px solid #62cb31;
+																		vertical-align: middle;
+																		padding-left: 50px;
+																		word-wrap: break-word;
+																	"
+																	class="text-end">
+																	<span
+																		style="
+																			font-family: Roboto Condensed, Arial,
+																				Helvetica, sans-serif;
+																			font-size: 18.1px;
+																			color: rgb(0, 50, 101);
+																			font-weight: bold;
+																			font-style: normal;
+																			text-decoration: none;
+																		">
+																		{{
+																			"litemore.bdevs.invoices.template.vat16"
+																				| translate
+																		}}
+																	</span>
+																</th>
+																<th
+																	style="
+																		border-top: 3px solid #62cb31;
+																		border-bottom: 3px solid #62cb31;
+																		vertical-align: middle;
+																		padding-left: 50px;
+																		word-wrap: break-word;
+																	"
+																	class="text-end">
+																	<span
+																		style="
+																			font-family: Roboto Condensed, Arial,
+																				Helvetica, sans-serif;
+																			font-size: 18.1px;
+																			color: rgb(0, 50, 101);
+																			font-weight: bold;
+																			font-style: normal;
+																			text-decoration: none;
+																		">
+																		{{
+																			"litemore.bdevs.invoices.template.grossAmount"
+																				| translate
+																		}}
+																	</span>
+																</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr *ngFor="let item of selected_profoma.items">
+																<td
+																	class="text-left"
+																	style="width: 100%; vertical-align: middle">
+																	<span class="ng-binding">{{
+																		item?.item
+																	}}</span>
+																</td>
+																<td
+																	class="text-end"
+																	style="
+																		padding-left: 50px;
+																		vertical-align: middle;
+																	">
+																	<span class="ng-binding">{{
+																		item?.grossAmount / 1.16 | currency
+																	}}</span>
+																</td>
+																<td
+																	class="text-end"
+																	style="
+																		padding-left: 50px;
+																		vertical-align: middle;
+																	">
+																	<span class="ng-binding">{{
+																		item.grossAmount - item?.grossAmount / 1.16
+																			| currency
+																	}}</span>
+																</td>
+																<td
+																	class="text-end"
+																	style="
+																		padding-left: 50px;
+																		vertical-align: middle;
+																	">
+																	<span class="ng-binding">{{
+																		item?.grossAmount | currency
+																	}}</span>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+											<!--<pre>{{current_invoice|json}}</pre>-->
+										</div>
+										<div
+											class="row"
+											style="padding: 16px 16px 0px 10px; font-size: 16pt">
+											<div class="col-6 text-start"></div>
+											<div class="col-6 text-end">
+												<div class="fw-bold title-color text-end">
+													{{
+														"litemore.bdevs.invoices.template.total"
+															| translate
+													}}:
+													{{
+														selected_profoma?.grossAmount | currency : "Ksh "
+													}}
+												</div>
+											</div>
+										</div>
+										<div
+											class="col-md-12 col-xs-12 col-sm-12 no-padding"
+											*ngIf="selected_profoma?.collections?.length > 0">
+											<div style="padding: 16px 16px 0px 10px; font-size: 16pt">
+												<div
+													class="col-md-12 text-left"
+													style="padding: 0 0 0 0">
+													<table
+														class="table table-striped pull-right"
+														style="width: 100%">
+														<thead>
+															<tr style="background: #dff0d8">
+																<th
+																	style="
+																		border-top: 3px solid #62cb31;
+																		border-bottom: 3px solid #62cb31;
+																		vertical-align: middle;
+																	"
+																	class="text-left">
+																	<span
+																		style="
+																			font-family: Roboto Condensed, Arial,
+																				Helvetica, sans-serif;
+																			font-size: 18.1px;
+																			color: rgb(0, 50, 101);
+																			font-weight: bold;
+																			font-style: normal;
+																			text-decoration: none;
+																		">
+																		{{
+																			"litemore.bdevs.invoices.template.paymentDate"
+																				| translate
+																		}}
+																	</span>
+																</th>
+																<th
+																	style="
+																		border-top: 3px solid #62cb31;
+																		border-bottom: 3px solid #62cb31;
+																		vertical-align: middle;
+																		padding-left: 50px;
+																		word-wrap: break-word;
+																	"
+																	class="text-end">
+																	<span
+																		style="
+																			font-family: Roboto Condensed, Arial,
+																				Helvetica, sans-serif;
+																			font-size: 18.1px;
+																			color: rgb(0, 50, 101);
+																			font-weight: bold;
+																			font-style: normal;
+																			text-decoration: none;
+																		">
+																		{{
+																			"litemore.bdevs.invoices.template.amount"
+																				| translate
+																		}}
+																	</span>
+																</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr
+																*ngFor="
+																	let collection of selected_profoma.collections
+																"
+																class="ng-scope">
+																<td
+																	class="text-left"
+																	style="width: 100%; vertical-align: middle">
+																	<span class="ng-binding">{{
+																		collection?.collectionDate
+																	}}</span>
+																</td>
+																<td
+																	class="text-end"
+																	style="
+																		padding-left: 50px;
+																		vertical-align: middle;
+																	">
+																	<span class="ng-binding">{{
+																		collection?.amount | currency : "Ksh "
+																	}}</span>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+											<!--<pre>{{current_invoice|json}}</pre>-->
+										</div>
+
+										<div
+											class="row"
+											style="padding: 16px 16px 0px 10px; font-size: 16pt"
+											*ngIf="selected_profoma?.collections?.length > 0">
+											<div class="col-md-6 text-start"></div>
+											<div class="col-md-6 text-end">
+												<div class="fw-bold text-danger text-end">
+													{{
+														"litemore.bdevs.invoices.template.balance"
+															| translate
+													}}:
+													{{
+														selected_profoma?.amountRemaining
+															| currency : "Ksh "
+													}}
+												</div>
+											</div>
+										</div>
+										<!-- ngIf: invoice_data.invoice_info.collection.length > 0 -->
+										<div class="col-md-12 col-xs-12 col-sm-12 no-padding">
+											<!--<highchart style="width: 100%; display: inline-block" id="chart3" config="highchart_print_holder"></highchart>-->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--<pre>{{selected_profoma|json}}</pre>-->
+					<!--Collection list-->
+					<div *ngIf="listCollections">
+						<div class="table-responsive">
+							<table
+								*ngIf="selected_profoma.collections.length > 0"
+								class="table table-bordered table-hover table-striped mb-0">
+								<thead>
+									<tr>
+										<th>
+											{{
+												"litemore.bdevs.invoices.template.collectionDate"
+													| translate
+											}}
+										</th>
+										<th>
+											{{
+												"litemore.bdevs.invoices.template.receivedBy"
+													| translate
+											}}
+										</th>
+										<th>
+											{{
+												"litemore.bdevs.invoices.template.additionalInformation"
+													| translate
+											}}
+										</th>
+										<th>
+											{{
+												"litemore.bdevs.invoices.template.amount" | translate
+											}}
+										</th>
+										<th>
+											{{
+												"litemore.bdevs.invoices.template.action" | translate
+											}}
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										*ngFor="
+											let collection of selected_profoma.collections;
+											let i = index
+										">
+										<td>
+											<form
+												#cDateForm="ngForm"
+												(ngSubmit)="
+													updateCollectionDate(cDateForm, collection)
+												">
+												<table style="width: 100%">
+													<tbody>
+														<tr
+															*ngIf="
+																!collection.editStatus ||
+																!collection.editingCollectionDate
+															">
+															<td>{{ collection?.collectionDate }}</td>
+															<td>
+																<button
+																	class="btn btn-xs btn-secondary waves-effect waves-light"
+																	*ngIf="collection.editStatus"
+																	(click)="initEditCollectionDate(collection)">
+																	<i class="fa fa-edit"></i>
+																</button>
+															</td>
+														</tr>
+														<tr
+															*ngIf="
+																collection.editStatus &&
+																collection.editingCollectionDate
+															">
+															<td>
+																<input
+																	required
+																	name="collectionDate"
+																	class="form-control"
+																	[(ngModel)]="collection.collectionDateTemp"
+																	#cDate="ngModel"
+																	[ngClass]="{
+																		'is-invalid':
+																			cDateForm.submitted && cDate.invalid
+																	}"
+																	type="date" />
+															</td>
+														</tr>
+														<tr
+															*ngIf="
+																collection.editStatus &&
+																collection.editingCollectionDate
+															">
+															<td>
+																<button
+																	class="btn btn-success btn-sm waves-effect waves-light"
+																	style="width: 100%">
+																	{{
+																		"litemore.bdevs.invoices.template.updateDate"
+																			| translate
+																	}}
+																</button>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</form>
+										</td>
+										<td>
+											{{ collection.updatedBy }}
+										</td>
+										<td>
+											<form
+												#cAddInfoForm="ngForm"
+												(ngSubmit)="
+													updateCollectionAdditionalInfo(
+														cAddInfoForm,
+														collection
+													)
+												">
+												<table style="width: 100%">
+													<tbody>
+														<tr
+															*ngIf="
+																!collection.editStatus ||
+																!collection.editingAdditionalInfo
+															">
+															<td>
+																<span
+																	*ngIf="collection.additionalInfo !== null"
+																	>{{ collection.additionalInfo }}</span
+																>
+															</td>
+															<td>
+																<button
+																	class="btn btn-xs btn-secondary waves-effect waves-light"
+																	*ngIf="collection.editStatus"
+																	(click)="
+																		initEditCollectionAdditionalInfo(collection)
+																	">
+																	<i class="fa fa-edit"></i>
+																</button>
+															</td>
+														</tr>
+														<tr
+															*ngIf="
+																collection.editStatus &&
+																collection.editingAdditionalInfo
+															">
+															<td>
+																<input
+																	class="form-control"
+																	name="additional_info"
+																	[(ngModel)]="collection.additionalInfoTemp"
+																	type="text"
+																	#addInfoTemp="ngModel"
+																	[ngClass]="{
+																		'is-invalid':
+																			cAddInfoForm.submitted &&
+																			addInfoTemp.invalid
+																	}" />
+															</td>
+														</tr>
+														<tr
+															*ngIf="
+																collection.editStatus &&
+																collection.editingAdditionalInfo
+															">
+															<td>
+																<button
+																	class="btn btn-success btn-sm"
+																	style="width: 100%">
+																	{{
+																		"litemore.bdevs.invoices.template.updateAdditionalInfo"
+																			| translate
+																	}}
+																</button>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</form>
+										</td>
+										<td>
+											<form
+												#cStatusForm="ngForm"
+												(ngSubmit)="
+													updateCollectionAmount(cStatusForm, collection)
+												">
+												<table style="width: 100%">
+													<tbody>
+														<tr
+															*ngIf="
+																!collection.editStatus ||
+																!collection.editingAmount
+															">
+															<td>
+																{{ collection.amount | currency : "Ksh " }}
+															</td>
+															<td>
+																<button
+																	class="btn btn-xs btn-secondary waves-effect waves-light"
+																	*ngIf="collection.editStatus"
+																	(click)="
+																		initEditCollectionAmount(collection)
+																	">
+																	<i class="fa fa-edit"></i>
+																</button>
+															</td>
+														</tr>
+														<tr
+															*ngIf="
+																collection.editStatus &&
+																collection.editingAmount
+															">
+															<td>
+																<input
+																	required
+																	class="form-control"
+																	name="amount"
+																	[(ngModel)]="collection.amountTemp"
+																	type="text"
+																	#amntTemp="ngModel"
+																	[ngClass]="{
+																		'is-invalid':
+																			cStatusForm.submitted && amntTemp.invalid
+																	}" />
+															</td>
+														</tr>
+														<tr
+															*ngIf="
+																collection.editStatus &&
+																collection.editingAmount
+															">
+															<td>
+																<button
+																	class="btn btn-success btn-sm waves-effect waves-light"
+																	style="width: 100%">
+																	{{
+																		"litemore.bdevs.invoices.template.updateAmount"
+																			| translate
+																	}}
+																</button>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</form>
+										</td>
+										<td>
+											<button
+												class="btn btn-sm btn-secondary waves-effect waves-light"
+												[hidden]="collection.editStatus"
+												(click)="initEditCollection(collection, true)">
+												{{
+													"litemore.bdevs.invoices.template.edit" | translate
+												}}
+											</button>
+											<button
+												class="btn btn-sm btn-primary waves-effect waves-light"
+												*ngIf="collection.editStatus"
+												(click)="initEditCollection(collection, false)">
+												{{
+													"litemore.bdevs.invoices.template.done" | translate
+												}}
+											</button>
+											<button
+												class="btn btn-sm btn-info waves-effect waves-light"
+												(click)="printCollection(collection)"
+												style="margin-left: 5px; margin-right: 5px">
+												{{
+													"litemore.bdevs.invoices.template.print" | translate
+												}}
+											</button>
+											<button
+												class="btn btn-sm btn-danger waves-effect waves-light"
+												(click)="deleteCollection(collection, i)">
+												{{
+													"litemore.bdevs.invoices.template.delete" | translate
+												}}
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<p class="mb-0" *ngIf="selected_profoma.collections.length == 0">
+								{{
+									"litemore.bdevs.invoices.template.noCollectionsFound"
+										| translate
+								}}
+							</p>
+							<!--<pre>{{current_invoice|json}}</pre>-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

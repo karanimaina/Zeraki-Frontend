@@ -1,0 +1,29 @@
+/** Customize scrollbar with the css variables **/
+$zeraki-blue: #2ea5de;
+$zeraki-green: #43ab49;
+
+ng-scrollbar {
+    --scrollbar-size: 4px;
+}
+
+.sidebar-menu > li > a {
+    padding: 1.5px 0px;
+}
+
+.sidebar-menu li.header {
+    padding: 15px 25px 10px 25px;
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+.sidebar-menu {
+    padding: 10px 0px 50px 0px;
+}
+
+.sidebar-menu li > a > .pull-right-container {
+    margin-top: -5px;
+}
+
+.treeview-menu > li > a > i {
+    padding-right: 10px;
+}

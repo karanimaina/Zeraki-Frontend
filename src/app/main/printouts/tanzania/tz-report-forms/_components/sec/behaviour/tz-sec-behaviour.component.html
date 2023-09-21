@@ -1,0 +1,52 @@
+<div class="col-12">
+    <span class="text-uppercase">
+      {{ 'printouts.tzReportForm.parts.b' | translate }}: {{
+      'printouts.tzReportForm.assessmentType.characterAndBehaviour' | translate }}
+    </span>
+  </div>
+
+  <div class="col-12">
+    <div class="table-responsive">
+      <table class="table table-bordered table-condensed print-table fw-bold"
+        style="padding-bottom: 0px;margin-bottom: 0px;border-collapse: collapse;border: 2px solid black!important;">
+        <thead>
+          <tr>
+            <th class="td-fit-nowrap" style="border-right: 2px solid black!important">
+              <span class="text-uppercase zreport-table-contents">
+                {{ 'printouts.tzReportForm.behaviourTable.character' | translate }}
+              </span>
+            </th>
+            <th class="td-fit-nowrap" style="border-right: 2px solid black!important">
+              <span class="text-uppercase zreport-table-contents">
+                {{ 'common.grade' | translate }}
+              </span>
+            </th>
+            <th class="td-fit-nowrap" style="border-right: 2px solid black!important">
+              <span class="text-uppercase zreport-table-contents">
+                {{ 'common.remarks' | translate }}
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let behaviour of behavioursSecondarySch; index as i">
+            <td class="td-fit-nowrap" style="border: 2px solid black!important">
+              <span class="text-uppercase zreport-table-contents">
+                {{ i + 1 }}. {{ behaviour.character }}
+              </span>
+            </td>
+            <td class="td-fit-nowrap" style="border: 2px solid black!important">
+              <span class="text-uppercase zreport-table-contents">
+                {{ behaviour.grade }}
+              </span>
+            </td>
+            <td class="td-fit-nowrap" style="border: 2px solid black!important">
+              <span class="text-uppercase zreport-table-contents">
+                {{ behaviour.remarks }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

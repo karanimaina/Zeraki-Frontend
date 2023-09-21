@@ -1,0 +1,177 @@
+<!-- Content Header (Page header) -->
+<div class="content-header d-md-none">
+  <div class="d-flex align-items-center">
+    <div class="me-auto">
+      <h3 class="page-title">
+		  {{'litemore.managers.users.pages.usersList.users'|translate}}
+	  </h3>
+      <div class="d-inline-block align-items-center">
+        <nav>
+          <ol class="breadcrumb text-dark">
+            <li class="breadcrumb-item" aria-current="page">{{'litemore.managers.users.pages.usersList.users'|translate}}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{'litemore.managers.users.pages.usersList.list'|translate}}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div class="d-md-none">
+      <button type="button" class="btn btn-success btn-sm pull-right" (click)="clearCache()">
+        {{ 'litemore.clearCache' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+  <!-- title, search input, clear cache btn -->
+  <div class="row">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-header with-border">
+          <div class="row justify-content-between align-items-center">
+            <!-- header text -->
+            <div class="col-12 col-md-6">
+              <h4 class="box-title d-none d-md-inline-block">{{'litemore.managers.users.pages.usersList.users'|translate}}</h4>
+            </div>
+
+            <div class="col-12 col-md-6 d-md-flex justify-content-end align-items-center">
+              <!-- search -->
+              <form [formGroup]="searchForm" (ngSubmit)="submitSearchForm()">
+                <div class="input-group">
+                  <input formControlName="searchTerm" type="text" class="form-control"
+                    [placeholder]="'common.searchByName' | translate" />
+                  <span class="input-group-text" style="cursor: pointer;" (click)="resetSearchForm()">
+                    <i class="fa fa-times"></i>
+                  </span>
+                </div>
+              </form>
+
+              <!-- clear cache -->
+              <div class="d-none d-md-inline-block ms-md-10">
+                <button type="button" class="btn btn-success btn-sm pull-right no-wrap" (click)="clearCache()">
+                  {{ 'litemore.clearCache' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- filters -->
+  <div class="row">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-body">
+          <app-users-filter
+            [userSearchTerm]="searchTerm?.value">
+          </app-users-filter>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- users list -->
+  <div class="row">
+    <div *ngIf="(getSchoolsDataStatus$ | async) === APIStatus.LOADING; then showLoadingSection else showDataSection">
+    </div>
+
+    <ng-template #showLoadingSection>
+      <!-- For Top Section -->
+      <!-- <div class="col-12">
+        <div class="box">
+          <div class="box-body">
+            <app-loader-div [height]="50"></app-loader-div>
+          </div>
+        </div>
+      </div> -->
+      <!-- For Middle Section -->
+      <div class="col-12">
+        <div class="box">
+          <div class="box-body">
+            <app-loader-div [height]="250"></app-loader-div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template #showDataSection>
+      <div class="col-12">
+        <div class="box">
+          <div class="box-body pb-0 pt-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="fw-600">User Management</span>
+
+              <app-user-addition-modal></app-user-addition-modal>
+            </div>
+          </div>
+
+          <div *ngIf="dataSource.filteredData.length > 0" class="box-body pt-3">
+            <div class="table-responsive">
+              <table class="table table-sm table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col" class="w-30">#</th>
+                    <th scope="col" class="text-uppercase">
+                      {{ 'common.name' | translate }}
+                    </th>
+                    <th scope="col" class="text-uppercase">
+                      {{ 'common.email' | translate }}
+                    </th>
+                    <th scope="col" class="text-uppercase">
+                      {{ 'common.phone' | translate }}
+                    </th>
+                    <th scope="col" class="text-uppercase">
+                      {{ 'common.region' | translate }}
+                    </th>
+                    <th scope="col" class="text-uppercase">
+                      {{ 'common.county' | translate }}
+                    </th>
+                    <th scope="col" class="text-uppercase">
+                      {{ 'common.role' | translate }}
+                    </th>
+                    <th scope="col" class="text-uppercase text-center">
+                      {{ 'common.action' | translate }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of dataSource?.filteredData; index as index">
+                    <th scope="row">{{ index | paginatedListIndex:pageInfo?.currentPage }}</th>
+                    <td scope="row">{{ user.name }}</td>
+                    <td scope="row">{{ user.email }}</td>
+                    <td scope="row">{{ user.phoneNumber }}</td>
+                    <td scope="row">{{ user.regionName }}</td>
+                    <td scope="row">{{ user.countyName }}</td>
+                    <td scope="row">{{ user.litemoreRoles }}</td>
+                    <!-- actions -->
+                    <td scope="row" class="d-flex justify-content-center">
+                      <app-user-update-modal [user]="user"></app-user-update-modal>
+                      <button type="button" class="waves-effect waves-light btn btn-danger btn-sm"
+                        (click)="confirmUserDeletion(user, index)">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+						<!-- pagination -->
+						<app-litemore-list-pagination
+							[pageInfo]="pageInfo"
+							(onPageChange)="onPageChanged($event)">
+						</app-litemore-list-pagination>
+          </div>
+
+          <!-- empty list -->
+          <div *ngIf="dataSource?.filteredData?.length === 0" class="box-body text-center">
+            <h4>{{ 'common.noResultsFound' | translate }}</h4>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</section>

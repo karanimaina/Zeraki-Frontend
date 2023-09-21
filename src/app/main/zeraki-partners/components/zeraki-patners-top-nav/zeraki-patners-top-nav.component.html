@@ -1,0 +1,24 @@
+<div class="navbar-light top-wrapper fixed-top bg-primary">
+    <!-- Admin View -->
+    <ul class="nav nav-pill customtab2 nav-filled text-center">
+        <li class="nav-item text-center">
+            <a class="nav-link" 
+             data-bs-toggle="tab" role="tab"
+            [ngClass]="{'active':showMySchools}"
+            (click)="myMenuClicked()">
+                <i class="fa fa-institution"></i>
+                <!-- My Schools -->
+                {{'zerakiPartner.zerakiPartnerTopNav.mySchools'|translate}}
+            </a>
+        </li>
+        <li class="nav-item text-center">
+            <a class="nav-link"
+            [ngClass]="{'active':showAccountDetails}"
+            (click)="myMenuClicked()" routerLinkActive="active" data-bs-toggle="tab" role="tab" aria-selected="true">
+                <i class="fa fa-money"></i>
+                <!-- Account Details -->
+                {{'zerakiPartner.zerakiPartnerTopNav.accountDetails'|translate}}
+            </a>
+        </li>
+    </ul>
+</div>

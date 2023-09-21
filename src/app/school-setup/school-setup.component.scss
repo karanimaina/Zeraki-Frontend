@@ -1,0 +1,9 @@
+.content-wrapper {
+    margin-left: unset !important;
+}
+
+@media (max-width: 767px){
+    .fixed .content-wrapper {
+        padding-top: 2rem !important;
+    }
+}

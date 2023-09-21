@@ -1,0 +1,15 @@
+.back-btn {
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.back-btn:hover {
+  color: rgba(23, 43, 76, 0.8)
+}
+
+.evaluation-types div{
+  margin-bottom: 1em;
+}
+
+.evaluation-types div:not(first-child){
+  margin-right: 3em;
+}

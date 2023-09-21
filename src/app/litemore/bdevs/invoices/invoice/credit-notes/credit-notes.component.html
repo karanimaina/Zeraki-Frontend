@@ -1,0 +1,56 @@
+<div class="box">
+	<div class="box-header">
+		<span class="fw-bold">
+			{{
+				createCreditNote
+					? ("litemore.bdevs.invoices.invoice.creditNotes.createCreditNote"
+					  | translate)
+					: ("litemore.bdevs.invoices.invoice.creditNotes.creditNote"
+					  | translate)
+			}}
+		</span>
+		<button
+			*ngIf="loggedInUser?.canEditCreditNotes && !invoice?.paymentStatus"
+			class="btn btn-sm pull-right btn-success"
+			(click)="setCreditNote()">
+			{{
+				createCreditNote
+					? ("litemore.bdevs.invoices.invoice.creditNotes.cancel" | translate)
+					: ("litemore.bdevs.invoices.invoice.creditNotes.createNew"
+					  | translate)
+			}}
+		</button>
+		<button class="btn btn-sm pull-right btn-default mx-2" (click)="back()">
+			<i class="bi bi-arrow-left-short"></i>
+			{{ "litemore.bdevs.invoices.invoice.creditNotes.back" | translate }}
+		</button>
+	</div>
+	<div class="box-body">
+		<ng-container *ngIf="showCreditNotes">
+			<app-credit-notes-list
+				[creditNotes]="creditNotes"
+				(creditNoteUpdated)="getCreditNotes()"
+				(showPrintCreditNotePreview)="printSelectedCreditNote($event)">
+			</app-credit-notes-list>
+		</ng-container>
+
+		<ng-container *ngIf="showCreateCreditNote">
+			<app-create-credit-note
+				[invoice]="invoice"
+				(creditNoteCreated)="updateCreditNoteList()">
+			</app-create-credit-note>
+		</ng-container>
+
+		<ng-container *ngIf="showCreditNotePrintPreview">
+			<app-credit-note-print-preview
+				[invoice]="invoice"
+				[schoolInfo]="schoolInfo"
+				[creditNote]="selectedCreditNote"
+				[kraPin]="kraPin"
+				[vatRate]="vatRate"
+				[companyInfo]="invoices?.companyInfo"
+				(closeCreditNotePreview)="closeCreditNotePreview()">
+			</app-credit-note-print-preview>
+		</ng-container>
+	</div>
+</div>

@@ -1,0 +1,72 @@
+<div class="col-12">
+    <span class="text-uppercase">
+      {{ 'common.key' | translate }}:
+      {{ 'common.academicGrades' | translate }}
+    </span>
+  </div>
+
+  <div class="col-12">
+    <div class="table-responsive">
+      <table class="table table-bordered table-condensed print-table fw-bold"
+        style="padding-bottom: 0px;margin-bottom: 0px;border-collapse: collapse;border: 2px solid black!important;">
+        <thead>
+          <tr>
+            <th class="td-fit-nowrap" style="">
+              <span class="text-uppercase zreport-table-contents">
+                {{ 'common.grade' | translate }}
+              </span>
+            </th>
+            <th class="td-fit-nowrap" style="">
+              <span class="text-uppercase zreport-table-contents">
+                {{ 'printouts.tzReportForm.academicGrades.oLevelRange' | translate }}
+              </span>
+            </th>
+            <th class="td-fit-nowrap" style="">
+              <span class="text-uppercase zreport-table-contents">
+                {{ 'common.meaning' | translate }}
+              </span>
+            </th>
+            <th class="td-fit-nowrap" style="">
+              <span class="text-uppercase zreport-table-contents">
+                {{ 'printouts.tzReportForm.academicGrades.aLevelRange' | translate }}
+              </span>
+            </th>
+            <th class="td-fit-nowrap" style="">
+              <span class="text-uppercase zreport-table-contents">
+                {{ 'common.meaning' | translate }}
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let comment of secondarySchAcademicGrades">
+            <td class="td-fit-nowrap" style="border: 2px solid black!important">
+              <span class="text-uppercase zreport-table-contents">
+                {{ comment.grade }}
+              </span>
+            </td>
+            <td class="td-fit-nowrap" style="border: 2px solid black!important">
+              <span class="text-uppercase zreport-table-contents">
+                {{ comment.olevelRange }}
+              </span>
+            </td>
+            <td class="td-fit-nowrap" style="border: 2px solid black!important">
+              <span class="text-uppercase zreport-table-contents">
+                {{ comment.olevelRangeMeaning }}
+              </span>
+            </td>
+            <td class="td-fit-nowrap" style="border: 2px solid black!important">
+              <span class="text-uppercase zreport-table-contents">
+                {{ comment.alevelRange }}
+              </span>
+            </td>
+            <td class="td-fit-nowrap" style="border: 2px solid black!important">
+              <span class="text-uppercase zreport-table-contents">
+                {{ comment.alevelRangeMeaning }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

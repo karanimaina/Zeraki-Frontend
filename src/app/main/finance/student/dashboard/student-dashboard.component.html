@@ -1,0 +1,33 @@
+<!-- FINANCE Top Nav -->
+<app-finance-top-nav></app-finance-top-nav>
+
+<!-- Main content -->
+<section class="content mt-config px-lg-70">
+    <ng-container *ngIf="isLoading; then showLoadingSection else showDataSection"></ng-container>
+    <ng-template #showLoadingSection>
+
+        <!-- For top section -->
+        <div class="row">
+            <div class="col-12">
+                <div class="box">
+                    <div class="box-body">
+                        <app-loader-div [height]="180"></app-loader-div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <!-- Display this data after loading -->
+    <ng-template #showDataSection>
+        <ng-container>
+            <div class="row">
+                <div class="col-12">
+                    <app-student-balance
+                    [studentData]="studentData"
+                    [fromStudents]="true"></app-student-balance>
+                </div>
+            </div>
+        </ng-container>
+    </ng-template>
+</section>

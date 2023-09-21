@@ -1,0 +1,160 @@
+<!-- Content Header (Page header) -->
+<div class="content-header d-md-none">
+  <div class="d-flex align-items-center">
+    <div class="me-auto">
+      <h3 class="page-title">{{ 'litemore.shopPayments.title' | translate }}</h3>
+      <div class="d-inline-block align-items-center">
+        <nav>
+          <ol class="breadcrumb text-dark">
+            <li class="breadcrumb-item" aria-current="page">{{ 'litemore.shopPayments.title' | translate }}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+  <div class="row">
+    <div *ngIf="shopPaymentListLoading; then showLoadingSection else showDataSection"></div>
+  </div>
+</section>
+
+<!-- loading section -->
+<ng-template #showLoadingSection>
+  <div class="row">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-body">
+          <app-loader-div [height]="50"></app-loader-div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-body">
+          <app-loader-div [height]="250"></app-loader-div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- data section -->
+<ng-template #showDataSection>
+  <div class="col-12">
+    <div class="box">
+      <div class="box-header with-border">
+        <h4 class="box-title d-none d-md-inline-block">{{ 'litemore.shopPayments.title' | translate }}</h4>
+
+        <div class="mt-2">
+          <form [formGroup]="searchForm" (ngSubmit)="submitSearchForm()">
+            <div class="row">
+              <!-- phone number -->
+              <div class="col-12 col-md-4">
+                <div class="form-group">
+                  <input formControlName="phoneNumber" type="number" class="form-control ps-15"
+                    [placeholder]="'litemore.shopPayments.searchForm.phoneNumberPlaceholder' | translate">
+                </div>
+              </div>
+              <!-- transaction code -->
+              <div class="col-12 col-md-4">
+                <div class=" form-group">
+                  <input formControlName="transCode" type="text" class="form-control ps-15"
+                    [placeholder]="'litemore.shopPayments.searchForm.transactionCodePlaceholder' | translate">
+                </div>
+              </div>
+              <!-- order number -->
+              <div class="col-12 col-md-4">
+                <div class="form-group">
+                  <input formControlName="orderID" type="text" class="form-control ps-15"
+                    [placeholder]="'litemore.shopPayments.searchForm.orderNumberPlaceholder' | translate">
+                </div>
+              </div>
+
+              <!-- action buttons -->
+              <div class="col-12">
+                <!-- search -->
+                <button type="submit" class="btn btn-primary btn-sm">
+                  <i class="fa fa-search"></i>
+                  <span class="ms-1">{{ 'litemore.shopPayments.searchForm.submitBtn' | translate }}</span>
+                </button>
+                <!-- reset -->
+                <button type="button" class="btn btn-secondary btn-sm ms-1" (click)="resetSearchForm()">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="box">
+        <div *ngIf="dataSource.filteredData.length == 0" class="box-body text-center">
+          <h4>{{ 'litemore.shopPayments.emptyList' | translate }}</h4>
+        </div>
+
+        <div *ngIf="dataSource.filteredData.length > 0" class="box-body">
+          <div class="table-responsive">
+            <table class="table table-sm table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col" style="min-width: 100px;">
+                    {{ 'litemore.shopPayments.tableHeaders.orderId' | translate }}
+                  </th>
+                  <th scope="col" class="text-uppercase" style="min-width: 125px;">
+                    {{ 'litemore.shopPayments.tableHeaders.transactionCode' | translate }}
+                  </th>
+                  <th scope="col" class="text-uppercase" style="min-width: 125px;">
+                    {{ 'common.phone' | translate }}
+                  </th>
+                  <th scope="col" class="text-uppercase" style="min-width: 125px;">
+                    {{ 'common.amount' | translate }}
+                  </th>
+                  <th scope="col" class="text-uppercase" style="min-width: 275px;">
+                    {{ 'litemore.shopPayments.tableHeaders.paymentTime' | translate }}
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let payment of dataSource?.filteredData; first as isFirst; index as i">
+                  <td>{{ payment.orderId }}</td>
+                  <td>{{ payment.mpesaTransactionCode }}</td>
+                  <td>{{ payment.phoneNumber }}</td>
+                  <td>{{ payment.amount | number }}</td>
+                  <td>{{ payment.paymentTime }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- pagination -->
+          <span *ngIf="totalPages > 0">
+            <ul class="pagination pagination-sm pull-right mb-0">
+              <li class="page-item text-sm mt-1 me-2">
+                {{ 'common.paginationInfo' | translate:{ currentPage, totalPages } }}
+              </li>
+              <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+                <a (click)="retrievePageResults(currentPage - 1)" class="page-link" aria-label="Previous">
+                  <i class="fa fa-arrow-left"></i>
+                </a>
+              </li>
+              <li class="page-item" [ngClass]="{'disabled': currentPage === totalPages}">
+                <a (click)="retrievePageResults(currentPage + 1)" class="page-link" aria-label="Next">
+                  <i class="fa fa-arrow-right"></i>
+                </a>
+              </li>
+            </ul>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,12 @@
+.pagination li a {
+  min-width: 40px;
+  color: #000;
+  border: 1px solid #b7c1d1;
+}
+
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: #2ea5de;
+  // border-color: #2ea5de;
+}

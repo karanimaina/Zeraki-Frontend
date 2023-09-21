@@ -1,0 +1,165 @@
+<div class="mt-3">
+	<div class="mx-auto table-responsive">
+		<table class="table table-bordered print-table fw-bold">
+			<thead>
+			<tr class="text-uppercase" style="font-size: 13px">
+				<th>{{ 'printouts.studentReport.subject' | translate }}</th>
+				<th *ngIf="showCompetencyAreas">{{ 'printouts.studentReport.chapter' | translate }}</th>
+				<th *ngIf="showCompetencyAreas">{{ 'printouts.studentReport.competencies' | translate }}</th>
+				<ng-container *ngIf="!showCompetencyAreas">
+					<th *ngFor="let evalSeries of evaluationSeries;" style="width: 4%" class="text-center">
+						{{ evalSeries.seriesName.split(' ')[0].charAt(0) }}{{ evalSeries.seriesName.split(' ')[1] }}
+					</th>
+				</ng-container>
+				<th>
+					{{ 'printouts.studentReport.cbcScore' | translate }}
+				</th>
+				<th *ngIf="showRawScore">
+					{{ 'printouts.studentReport.rawMarks' | translate }} <span class="text-lowercase">(x/{{ evaluationMark }})</span>
+				</th>
+				<th *ngIf="showScoreDescriptor">{{ 'printouts.studentReport.descriptor' | translate }}</th>
+				<th *ngIf="showSubjectTeacherComments">
+					{{ 'printouts.studentReport.genericSkills' | translate }}
+				</th>
+				<th *ngIf="showSubjectTeacherComments">
+					{{ 'printouts.studentReport.facilitatorRemarks' | translate }}
+				</th>
+				<ng-container *ngIf="showExamsSlot">
+					<th>
+						{{ 'printouts.studentReport.exam' | translate }}
+						<span class="text-lowercase">(x/80)</span>
+					</th>
+					<th class="text-center">{{ 'printouts.studentReport.examComment' | translate }}</th>
+				</ng-container>
+				<th>{{ 'printouts.studentReport.teacher' | translate }}</th>
+			</tr>
+			</thead>
+			<tbody>
+			<ng-container *ngFor="let subject of subjects; let subjectIndex = index">
+				<ng-container *ngIf="!subject.totalCompetencyAreas || !showCompetencyAreas">
+					<tr>
+						<td class="text-uppercase" style="font-size: 13px" >{{ subject.subjectName }}</td>
+						<td *ngIf="showCompetencyAreas"></td>
+						<td *ngIf="showCompetencyAreas"></td>
+						<ng-container *ngIf="!showCompetencyAreas">
+							<td *ngFor="let eval of subject.evaluations" class="text-center">
+								{{ eval.score }}
+							</td>
+						</ng-container>
+						<td>{{ subject.cbcSubjectAverage }}</td>
+						<td *ngIf="showRawScore">{{ subject.rawSubjectAverage }}</td>
+						<td *ngIf="showScoreDescriptor" [style]="{'font-size': printFontSize+'px'}">{{ subject.comment }}</td>
+						<td [style]="{'font-size': printFontSize+'px'}" *ngIf="showSubjectTeacherComments">{{ subject.generalComment }}</td>
+						<td [style]="{'font-size': printFontSize+'px'}" *ngIf="showSubjectTeacherComments">{{ subject.subjectComment }}</td>
+						<!--              Exam score and comment-->
+						<ng-container *ngIf="showExamsSlot">
+							<td class="text-center">
+								{{ subject.exams.score }}
+							</td>
+							<td class="no-wrap">
+								{{ subject.exams.comment }}
+							</td>
+						</ng-container>
+						<td style="font-size: 13px">{{ subject.teacherName }}</td>
+					</tr>
+				</ng-container>
+				<ng-container *ngIf="showCompetencyAreas && subject.topics.length > 0">
+					<ng-container *ngFor="let topic of subject.topics; let topicIndex = index">
+						<ng-container *ngFor="let competency of topic.competencyAreas; let cIndex = index">
+							<tr>
+								<!--  Subject Name-->
+								<td class="text-uppercase" *ngIf="topicIndex == 0 && cIndex == 0"
+									style="font-size: 13px"
+									[attr.rowspan]="subject.totalCompetencyAreas + (subject.cbcSubjectAverage && subject.totalCompetencyAreas > 1 ? 1 : 0)">
+									{{ subject.subjectName }}
+								</td>
+
+								<!--  Topic Name-->
+								<td *ngIf="cIndex == 0"
+									[attr.rowspan]="topic.competencyAreas.length"
+									style="font-weight: bold; font-size: 14px">
+									{{ topic.name }}
+								</td>
+
+								<!--  Competency Name-->
+								<td [style]="{'font-size': printFontSize+'px'}">{{ competency.name }}</td>
+
+								<!--  Competency Raw Score-->
+								<td class="p-0 competency-areas text-center">
+									<div *ngFor="let cScore of competency.evaluations">
+										{{ cScore.score}}
+									</div>
+								</td>
+
+								<!--  Competency Area Score-->
+								<td *ngIf="showRawScore" class="p-0 competency-areas text-center">
+									<div *ngFor="let cScore of competency.evaluations">
+										{{ cScore.rawScore}}
+									</div>
+								</td>
+
+								<!--  General Comment-->
+								<td [style]="{'font-size': printFontSize+'px'}" *ngIf="topicIndex == 0 && cIndex == 0 && showScoreDescriptor"
+									[attr.rowspan]="subject.totalCompetencyAreas + (subject.cbcSubjectAverage && subject.totalCompetencyAreas > 1 ? 1 : 0)">
+									{{ subject.comment }}
+								</td>
+
+								<!--  General Comment-->
+								<td [style]="{'font-size': printFontSize+'px'}" *ngIf="topicIndex == 0 && cIndex == 0 && showSubjectTeacherComments"
+									[attr.rowspan]="subject.totalCompetencyAreas + (subject.cbcSubjectAverage && subject.totalCompetencyAreas > 1 ? 1 : 0)">
+									{{ subject.generalComment }}
+								</td>
+
+								<!--  Subject Comment-->
+								<td [style]="{'font-size': printFontSize+'px'}" *ngIf="topicIndex == 0 && cIndex == 0 && showSubjectTeacherComments"
+									[attr.rowspan]="subject.totalCompetencyAreas + (subject.cbcSubjectAverage && subject.totalCompetencyAreas > 1 ? 1 : 0)">
+									{{ subject.subjectComment }}
+								</td>
+
+								<!--  Exam score and comment-->
+								<ng-container *ngIf="showExamsSlot">
+
+									<!-- Score -->
+									<td *ngIf="topicIndex == 0 && cIndex == 0"
+										class="text-center"
+										[attr.rowspan]="subject.totalCompetencyAreas + (subject.cbcSubjectAverage && subject.totalCompetencyAreas > 1 ? 1 : 0)">
+										{{ subject.exams.score }}
+									</td>
+
+									<!-- Comment -->
+									<td *ngIf="topicIndex == 0 && cIndex == 0"
+										class="no-wrap"
+										[attr.rowspan]="subject.totalCompetencyAreas + (subject.cbcSubjectAverage && subject.totalCompetencyAreas > 1 ? 1 : 0)">
+										{{ subject.exams.comment }}
+									</td>
+								</ng-container>
+
+								<!--  Teacher Comment-->
+								<td *ngIf="topicIndex == 0 && cIndex == 0"
+									style="font-size: 13px"
+									[attr.rowspan]="subject.totalCompetencyAreas + (subject.cbcSubjectAverage && subject.totalCompetencyAreas > 1 ? 1 : 0)">
+									{{ subject.teacherName }}
+								</td>
+
+							</tr>
+						</ng-container>
+					</ng-container>
+					<tr *ngIf="subject.cbcSubjectAverage && subject.totalCompetencyAreas > 1"
+						[style]="{'background-color': primaryColour, filter: 'brightness(1.5)'}"
+						class="fw-bolder text-dark">
+						<td colspan="2" class="text-center text-uppercase">
+							{{ 'printouts.studentReport.average' | translate }}
+						</td>
+						<td class="text-center">
+							{{ subject.cbcSubjectAverage }}
+						</td>
+						<td *ngIf="showRawScore" class="text-center">
+							{{ subject.rawSubjectAverage }}
+						</td>
+					</tr>
+				</ng-container>
+			</ng-container>
+			</tbody>
+		</table>
+	</div>
+</div>

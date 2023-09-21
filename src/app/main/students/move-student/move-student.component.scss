@@ -1,0 +1,21 @@
+a {
+    cursor: pointer;
+}
+
+.pagination-sm .page-link {
+    padding: 0.25rem 0rem;
+}
+
+.pagination li a {
+    border: 1px solid;
+}
+
+@media (min-width: 768px) {
+    .dl-horizontal dd {
+        margin-left: 0px;
+    }
+    .dl-horizontal dt {
+        width: 100px;
+        text-align: left;
+    }
+}

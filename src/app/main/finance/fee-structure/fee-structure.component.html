@@ -1,0 +1,191 @@
+<!-- FINANCE Top Nav -->
+<app-finance-top-nav></app-finance-top-nav>
+
+<!-- Main content -->
+<section class="content mt-config px-lg-70">
+    <div class="box">
+        <div class="box-header d-flex align-items-center">
+            <div class="form-group">
+                <label class="form-label">Academic Year</label>
+
+                <ng-select [formControl]="yearSelection" class="form-control-dropdown" [clearable]="false">
+                    <ng-option *ngFor="let year of (academicYears$ | async)?.list" [value]="year.id">
+                        {{ year.beginDate | date: 'yyyy'}}
+                    </ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div class="box-body no-padding" style="overflow-x: auto;">
+            <div *ngIf="feeStructures && feeStructures?.length > 0; else noFeeStructures"
+                class="media-list media-list-divided media-list-hover">
+                <div class="media align-items-center" *ngFor="let feeStructure of feeStructures" style="cursor: pointer;"
+                    [routerLink]="['../fee-str', feeStructure.id]">
+                    <span
+                        class="avatar avatar-lg rounded bg-secondary d-flex align-items-center justify-content-center">
+                        <i class="icon-Clipboard-list fs-32">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                            <span class="path3"></span>
+                            <span class="path4"></span>
+                            <span class="path5"></span>
+                            <span class="path6"></span>
+                            <span class="path7"></span>
+                            <span class="path8"></span>
+                        </i>
+                    </span>
+                    <div class="media-body">
+                        <p class="d-inline d-md-block" *ngIf="(feeStructure?.termId | term | async); let term">
+                            <strong>
+                                {{ term?.name }}
+                            </strong>
+                            <small class="d-none d-md-inline">
+                                ({{ term?.termBeginDate | date }} - {{ term?.termEndDate | date }})
+                            </small>
+                        </p>
+                        <p class="d-inline d-md-block">
+                            <small>
+                                <span *ngFor="let intake of feeStructure?.feeStructureIntakes; let i = index" class="text-fade">
+                                    {{ intake.intakeName }}
+                                    <span *ngIf="i < feeStructure?.feeStructureIntakes?.length - 1"> | </span>
+                                </span>
+                            </small>
+                        </p>
+                        <p *ngIf="!roles?.isStudent">
+                            <span *ngIf="feeStructure.totalInvoiced + 1" class="badge badge-success-light me-2">
+                                <small>
+                                    <span *ngFor="let intake of feeStructure?.invoicedIntakes; let i = index">
+                                        {{ intake.name }}
+                                        <span *ngIf="i < feeStructure?.invoicedIntakes?.length - 1">, </span>
+                                    </span>
+                                    Invoiced: <b>{{ feeStructure.totalInvoiced | currency }}</b>
+                                </small>
+                            </span>
+                            <span *ngIf="feeStructure.totalCollected + 1" class="badge badge-info-light">
+                                <small>
+                                    Collected: <b>{{ feeStructure.totalCollected | currency }}</b>
+                                </small>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <ng-template #noFeeStructures>
+                <app-no-data-refresh [data]="feeStructures" (retry)="getAcademicYears()">
+                    <h4 *ngIf="feeStructures?.noYears; else noFeeStructuresInYear">
+                        Select academic year to view fee structures
+                    </h4>
+                    <ng-template #noFeeStructuresInYear>
+                        <h4>No fee Structures in selected academic year</h4>
+                    </ng-template>
+                </app-no-data-refresh>
+            </ng-template>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<!-- <section class="content mt-config px-70">
+    <div class="box">
+        <form #stForm="ngForm" (ngSubmit)="stForm.form.valid && filterFeeStructureFormSubmit()" class="form">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">{{ 'finance.feeStructure.searchForm.year.label' | translate }}<span class="text-danger">*</span></label>
+                            <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                [items]="fee_structure"
+                                class="form-control-dropdown"
+                                name="year"
+                                appendTo="body"
+                                [dropdownPosition]="'bottom'"
+                                [(ngModel)]="filter_form_data.year"
+                                (ngModelChange)="feeStructureYearChange()"
+                                bindLabel="year"
+                                placeholder="{{ 'finance.feeStructure.searchForm.year.placeholder' | translate }}"
+                                required>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">{{ 'finance.feeStructure.searchForm.term.label' | translate }}<span class="text-danger">*</span></label>
+                            <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                [items]="selected_year_terms"
+                                [selectOnTab]="true"
+                                appendTo="body"
+                                [dropdownPosition]="'bottom'"
+                                name="term"
+                                [(ngModel)]="filter_form_data.term"
+                                placeholder="{{ 'finance.feeStructure.searchForm.term.placeholder' | translate }}"
+                                required>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer text-end">
+                <button type="submit" class="btn btn-sm btn-info">
+                    <i class="me-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                        </svg>
+                    </i>
+                    {{ 'finance.feeStructure.searchForm.searchBtn' | translate }}
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="box">
+        <div *ngIf="fee_structure_objects.length===0 && fee_structure_filter" class="box-body">
+           {{ 'finance.feeStructure.noData' | translate }}
+        </div>
+        <ng-container *ngFor="let fee_structure of fee_structure_objects">
+            <div class="box-header without-border">
+                <h2 class="text-center">
+                    {{ 'finance.feeStructure.form' | translate}} <span *ngFor="let form of fee_structure.intakes; index as index"> {{form.form}} <span *ngIf="(index + 1) !== fee_structure.intakes.length">,</span>  </span>
+                </h2>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-12 mb-20">
+                        <div class="d-flex justify-content-between">
+                            <div class="text-start">
+                                <h5>{{'finance.feeStructure.term' | translate }}: {{fee_structure.term}}</h5>
+                                <h5>{{ 'finance.feeStructure.bTotal' | translate }}: {{ 'currency.code' | translate}}. {{fee_structure.border_total | number: '1.2-2'}}</h5>
+                                <h5>{{ 'finance.feeStructure.beginDate' | translate }}: {{stringToDate(fee_structure.termBeginDate)}}</h5>
+                            </div>
+                            <div class="text-end">
+                                <h5>{{ 'finance.feeStructure.bTotal' | translate }}: {{ 'currency.code' | translate}} {{fee_structure.day_schooler_total | number: '1.2-2'}}</h5>
+                                <h5>{{ 'finance.feeStructure.endDate' | translate }}: {{stringToDate(fee_structure.termEndDate)}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped table-bordered mb-0">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">{{ 'finance.feeStructure.voteHead' | translate}}</th>
+                                    <th scope="col">{{ 'finance.feeStructure.amount' | translate }}</th>
+                                    <th scope="col">{{ 'finance.feeStructure.boardingOrDay' | translate }}</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of fee_structure.fee_structure_items">
+                                        <th scope="row">{{item.vote_head}}</th>
+                                        <td>{{ 'currency.code' | translate}}. {{item.amount | number: '1.2-2'}}</td>
+                                        <td>
+                                            <span *ngIf="item.is_boarding === 0 || item.is_boarding === null">{{ 'finance.feeStructure.all' | translate }}</span>
+                                            <span *ngIf="item.is_boarding === 1">{{ 'finance.feeStructure.dayScholars' | translate }}</span>
+                                            <span *ngIf="item.is_boarding === 2">{{ 'finance.feeStructure.boarding' | translate }}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</section> -->

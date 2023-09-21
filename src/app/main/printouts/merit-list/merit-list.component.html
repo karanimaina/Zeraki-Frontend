@@ -1,0 +1,577 @@
+<!--  For KCSE and other schools-->
+<ng-container *ngIf="
+		schoolTypeData &&
+		!schoolTypeData.isOLevelSchool &&
+		!(userRoles$ | async)?.isSchoolAdmin
+	">
+	<!-- PRINTOUTS TOP NAV FOR NON-ADMINS -->
+	<div class="navbar-light top-wrapper fixed-top bg-primary">
+		<ul class="nav nav-pill customtab2 nav-filled text-center">
+			<li class="nav-item">
+				<a class="nav-link active">
+					<span class="me-2">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							class="bi bi-list-ol" viewBox="0 0 16 16">
+							<path fill-rule="evenodd"
+								d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z" />
+							<path
+								d="M1.713 11.865v-.474H2c.217 0 .363-.137.363-.317 0-.185-.158-.31-.361-.31-.223 0-.367.152-.373.31h-.59c.016-.467.373-.787.986-.787.588-.002.954.291.957.703a.595.595 0 0 1-.492.594v.033a.615.615 0 0 1 .569.631c.003.533-.502.8-1.051.8-.656 0-1-.37-1.008-.794h.582c.008.178.186.306.422.309.254 0 .424-.145.422-.35-.002-.195-.155-.348-.414-.348h-.3zm-.004-4.699h-.604v-.035c0-.408.295-.844.958-.844.583 0 .96.326.96.756 0 .389-.257.617-.476.848l-.537.572v.03h1.054V9H1.143v-.395l.957-.99c.138-.142.293-.304.293-.508 0-.18-.147-.32-.342-.32a.33.33 0 0 0-.342.338v.041zM2.564 5h-.635V2.924h-.031l-.598.42v-.567l.629-.443h.635V5z" />
+						</svg>
+					</span>
+					<span>{{ "printouts.topNav.merit" | translate }}
+						{{ "printouts.topNav.lists" | translate }}
+					</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</ng-container>
+
+<section class="content mt-config">
+	<div class="row">
+		<div class="col-12">
+			<div class="box box-widget" [ngClass]="{ 'box-slided-up': paramsPresent == true }">
+				<div class="box-header with-border">
+					<!-- p-header -->
+					<div class="user-block">
+						<h4 class="box-title">
+							{{ isSouthAfricanSchool ? ("printouts.meritList.titleMarkSheet" | translate) : ("printouts.meritList.title" | translate) }}
+						</h4>
+					</div>
+					<ul class="box-controls pull-right">
+						<li><a class="box-btn-slide text-dark fs-16" href="#"></a></li>
+					</ul>
+				</div>
+				<div class="box-body">
+					<form #mlForm="ngForm" class="form" (ngSubmit)="mlForm.form.valid && getMeritList()">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="form-label">{{
+										schoolTypeData?.formoryear | formOrYear
+										}}</label>
+									<ng-select [notFoundText]="'common.noItemsFound' | translate"
+										[items]="schoolTypeData?.current_forms_list || []" [selectOnTab]="true"
+										appendTo="body" [dropdownPosition]="'bottom'" [disabled]="
+											fetching_examsList_inprogress ||
+											fetchingExamsDataInProgress
+										" required name="sform" [(ngModel)]="selected.intake" (ngModelChange)="
+											invalidateStreams();
+											fetchIntakeStreamExams(selected.intake, null)
+										" bindLabel="classlevel" [placeholder]="
+											'printouts.meritList.mlForm.class.placeholder'
+												| translate
+													: { class: schoolTypeData?.formoryear | formOrYear }
+										">
+									</ng-select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="form-label">{{
+										"printouts.meritList.mlForm.stream.label" | translate
+										}}</label>
+									<ng-select [notFoundText]="'common.noItemsFound' | translate"
+										[items]="selected?.intake?.streams" [selectOnTab]="true" appendTo="body"
+										[dropdownPosition]="'bottom'" [disabled]="
+											fetching_examsList_inprogress ||
+											fetchingExamsDataInProgress
+										" required name="stream" [(ngModel)]="selected.streamID" (ngModelChange)="
+											fetchIntakeStreamExams(selected.intake, selected.streamID)
+										" (clear)="selected.streamID = 0" bindLabel="name" bindValue="streamid" [placeholder]="
+											'printouts.meritList.mlForm.stream.placeholder'
+												| translate
+										">
+									</ng-select>
+								</div>
+							</div>
+							<div *ngIf="!fetching_examsList_inprogress && exams?.length > 0" class="col-md-12">
+								<div class="form-group">
+									<label class="form-label">{{
+										"printouts.meritList.mlForm.exam.label" | translate
+										}}</label>
+									<ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="exams"
+										bindLabel="name" name="selectedExam" appendTo="body"
+										[dropdownPosition]="'bottom'" groupBy="term"
+										[disabled]="fetchingExamsDataInProgress" [(ngModel)]="selected.exam"
+										[placeholder]="
+											'printouts.meritList.mlForm.exam.placeholder' | translate
+										">
+										<ng-template ng-optgroup-tmp let-item="item">
+											{{ item.term || "Unnamed group" }}
+										</ng-template>
+									</ng-select>
+								</div>
+							</div>
+						</div>
+						<div *ngIf="!(exams.length > 0) && no_exams_msg.length > 0" class="row bg-warning">
+							<h5>{{ no_exams_msg }}</h5>
+						</div>
+						<div *ngIf="fetching_examsList_inprogress" class="pull-right">
+							<img src="assets/img/loading-bars.svg" alt="Loading-bars" />
+							<!-- <img src="../../../../assets/css/vendors_css.css" alt="Loading-bars"> -->
+						</div>
+						<button *ngIf="
+								selected?.exam?.name?.length > 0 &&
+								(selected.intake.intakeid > 0 || selected.streamID > 0) &&
+								!fetchingExamsDataInProgress
+							" type="submit" class="btn btn-sm btn-info pull-right box-btn-slide-close">
+							{{ isSouthAfricanSchool ? ("printouts.meritList.mlForm.markSheetBtn" | translate) : "printouts.meritList.mlForm.meritListBtn" | translate }}
+						</button>
+					</form>
+				</div>
+			</div>
+
+			<div *ngIf="fetchingExamsDataInProgress" class="mt-40 text-center">
+				<div>
+					<img src="assets/img/loading-bars.svg" height="70" width="100" alt="Loading-bars" />
+				</div>
+			</div>
+
+			<div *ngIf="!(data?.list?.length > 0) && gettingDataComplete" class="animated bounceInLeft">
+				<div class="box bg-warning">
+					<div class="box-header">
+						<h4 class="text-center">
+							{{ "printouts.meritList.noData" | translate }}
+						</h4>
+					</div>
+				</div>
+			</div>
+
+			<!-- DOWNLOAD BTN -->
+			<div *ngIf="data?.list?.length > 0" class="d-flex justify-content-end">
+				<div *ngIf="finally.show" class="btn-group">
+					<button class="btn btn-sm btn-dark me-5 show-on-large-screen" type="button"
+						(click)="viewPrintFormat()">
+						{{ "printouts.meritList.printFormat" | translate }}
+					</button>
+					<button class="btn btn-sm btn-dark rounded-3" type="button" data-bs-toggle="dropdown">
+						<i>
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+								<path
+									d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+							</svg>
+						</i>
+						{{ "printouts.commonAttr.download.title" | translate }}
+					</button>
+					<div class="dropdown-menu bg-active">
+						<a class="dropdown-item" (click)="exportToExcel(true)">
+							<i class="me-1">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+									class="bi bi-table" viewBox="0 0 16 16">
+									<path
+										d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z" />
+								</svg>
+							</i>
+							{{ "printouts.meritList.asSpreadSheet" | translate }}
+						</a>
+						<a class="dropdown-item my-0" (click)="downloadAsPdf()">
+							<i class="fa fa-file-pdf-o me-1" style="font-size: 1.25rem"></i>
+							{{ "printouts.meritList.asPdf" | translate }}
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div *ngIf="data?.list?.length > 0" class="row mt-20 animated bounceInUp">
+				<div class="box">
+					<div class="box-body">
+						<h6 class="col-12">{{ data.examname }}</h6>
+						<div class="col-12 mt-20">
+							<div class="table-responsive">
+								<table class="table table-sm table-bordered table-condensed mb-0">
+									<tbody>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col" style="min-width: 10px" *ngFor="let label of data.labels">
+												{{ label.header }}
+											</th>
+										</tr>
+									</tbody>
+									<tbody>
+										<tr *ngFor="let stud of data?.list; index as i" style="cursor: pointer">
+											<th [routerLink]="['/main/students/analytics', stud.userid]" scope="row">
+												{{ count + i + 1 }}
+											</th>
+											<td [routerLink]="['/main/students/analytics', stud.userid]"
+												*ngFor="let l of data.labels">
+												<span *ngIf="!stud[l.label]?.isSubjectMarks" class="td-fit-nowrap">
+													<ng-container *ngIf="
+															l.label == 'improvement' ||
+																l.label == 'mean' ||
+																l.label == 'vap';
+															then withDecimals;
+															else withoutDecmials
+														"></ng-container>
+													<ng-template #withDecimals>
+														{{ stud[l.label] | number : "1.2-2" }}
+													</ng-template>
+													<ng-template #withoutDecmials>
+														{{ stud[l.label] }}
+													</ng-template>
+												</span>
+												<span *ngIf="stud[l.label]?.isSubjectMarks">
+													<span>{{ stud[l.label]["score"] }}</span>
+													<span class="mx-1">{{ stud[l.label]["grade"] }}</span>
+												</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- PAGINATION -->
+							<div class="clearfix"></div>
+							<div class="mt-20">
+								<nav aria-label="Page navigation example">
+									<ul class="pagination pagination-sm mb-0 justify-content-end">
+										<li class="page-item">
+											<a class="page-link" (click)="page = 0; getPerformanceList(page)"
+												tabindex="-1">{{ "printouts.meritList.firstPage" | translate }}</a>
+										</li>
+										<li class="page-item" [ngClass]="{ disabled: page == 0 }">
+											<a class="page-link" (click)="page = page - 1; getPerformanceList(page)"
+												aria-label="Previous" aria-disabled="true">
+												<span aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
+											</a>
+										</li>
+										<li class="page-item">
+											<a class="page-link">{{ page + 1 }}</a>
+										</li>
+										<li class="page-item" [ngClass]="{ disabled: page == getPage() }">
+											<a class="page-link" (click)="page = page + 1; getPerformanceList(page)"
+												aria-label="Next">
+												<span aria-hidden="true"><i class="fa fa-arrow-right"></i></span>
+											</a>
+										</li>
+										<li class="page-item">
+											<a class="page-link" (click)="page = getPage(); getPerformanceList(page)">{{
+												"printouts.meritList.lastPage" | translate }}</a>
+										</li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- PRINT BTN -->
+			<div *ngIf="showPrintFormat" class="animated bounceInUp" #scrollHere>
+				<!-- <div class="row"> -->
+				<button class="btn btn-sm btn-dark me-5" type="button" (click)="hidePrintFormat()">
+					{{ "printouts.meritList.hidePrintFormat" | translate }}
+				</button>
+				<button class="btn btn-sm btn-dark me-5 pull-right d-none d-md-inline-block" type="button"
+					(click)="printPage2('printthis')" [disabled]="isPrinting">
+					<span *ngIf="!isPrinting">
+						<i>
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-printer" viewBox="0 0 16 16">
+								<path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+								<path
+									d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
+							</svg>
+						</i>
+						{{ "printouts.commonAttr.printBtn" | translate }}
+					</span>
+					<span *ngIf="isPrinting">{{
+						"printouts.commonAttr.printing" | translate
+						}}</span>
+				</button>
+				<!-- </div> -->
+			</div>
+
+			<!-- PRINT FORMAT -->
+			<div *ngIf="showPrintFormat" class="mt-20 animated bounceInUp">
+				<div id="printthis">
+					<div class="zreport-page" animate-panel child="zreportcontent">
+						<div class="zreportcontent">
+							<div class="row">
+								<!-- header -->
+								<div class="col-sm-12 col-md-12" style="float: none; margin: 0 auto">
+									<div class="row no-padding" style="font-size: 10pt; padding: 0px 16px 0px 10px">
+										<div class="col-3">
+											<img class="pull-left" *ngIf="schoolLogoPath"
+												style="height: 120px; width: auto; margin-bottom: 0.2cm"
+												src="{{ schoolLogoPath }}" />
+										</div>
+										<div class="col-6 text-center" style="padding: 0 15px 0 15px">
+											<h2 class="fw-bold" style="margin-top: 0">
+												{{ schoolProfile.name }}
+											</h2>
+											<h4 class="fw-bold">
+												<span>{{ completeList.examname }}</span>
+											</h4>
+										</div>
+										<div class="col-3 text-right no-padding">
+											<div *ngIf="schoolProfile.address.trim().length > 0" class="fw-bold">
+												{{ schoolProfile.address }}
+											</div>
+											<div *ngIf="schoolProfile.phone.trim().length > 0" class="fw-bold">
+												{{ schoolProfile.phone }}
+											</div>
+											<div *ngIf="schoolProfile.email.trim().length > 0" class="fw-bold"
+												style="padding-bottom: 0.8cm">
+												{{ schoolProfile.email }}
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-12 col-md-12" style="float: none; margin: 0 auto">
+									<!-- student merit -->
+									<div style="
+											padding: 0px 16px 0px 10px;
+											margin-bottom: 20px;
+											font-size: 12pt;
+											overflow-x: auto;
+										"
+										class="mt-40">
+										<table
+											class="table table-bordered table-custom-border table-striped table-condensed"
+											style="padding-bottom: 0px; margin-bottom: 0px">
+											<thead>
+												<tr>
+													<th class="text-center"
+														attr.colspan="{{ completeList.labels.length }}" style="
+															padding: 3px;
+															font-size: 10pt;
+															border: 1.25px solid black !important;
+														">
+														<span class="zreport-table-contents">{{
+															completeList.examname
+															}}</span>
+													</th>
+												</tr>
+												<tr>
+													<th *ngFor="let l of completeList.labels" style="
+															padding: 3px;
+															font-size: 10pt;
+															border: 1.25px solid black !important;
+														">
+														<span class="zreport-table-contents">{{
+															l.header
+															}}</span>
+													</th>
+												</tr>
+											</thead>
+											<tbody class="fw-bold">
+												<tr *ngFor="let d of completeList.list">
+													<td *ngFor="let l of completeList.labels" style="
+															padding: 3px !important;
+															font-size: 10pt;
+															border: 1.25px solid black !important;
+														">
+														<span *ngIf="!d[l.label]?.isSubjectMarks"
+															class="zreport-table-contents td-fit-nowrap" style="
+																font-size: 10pt;
+																width: 1%;
+																white-space: nowrap !important;
+															">
+															<ng-container *ngIf="
+																	l.label == 'improvement' ||
+																		l.label == 'mean' ||
+																		l.label == 'vap';
+																	then withDecimals;
+																	else withoutDecmials
+																"></ng-container>
+															<ng-template #withDecimals>
+																{{ d[l.label] | number : "1.2-2" }}
+															</ng-template>
+															<ng-template #withoutDecmials>
+																{{ d[l.label] }}
+															</ng-template>
+														</span>
+														<span *ngIf="d[l.label]?.isSubjectMarks"
+															class="zreport-table-contents td-fit-nowrap" style="
+																font-size: 10pt;
+																width: 1%;
+																white-space: nowrap !important;
+															">
+															<ui-kenyan-school [template]="
+																	gradeScoreTemplate
+																"></ui-kenyan-school>
+															<ui-ghana-school [template]="gradeScoreTemplate"></ui-ghana-school>
+															<ui-tanzania-school [template]="
+																	gradeScoreTemplate
+																"></ui-tanzania-school>
+															<ui-zimbabwe-school [template]="
+																	gradeScoreTemplate
+																"></ui-zimbabwe-school>
+															<ui-zambia-school [template]="gradeScoreTemplate"></ui-zambia-school>
+
+															<ng-template #gradeScoreTemplate>
+																<span>{{ d[l.label]["score_grade"] }}</span>
+															</ng-template>
+
+															<ui-guinea-school
+																[template]="scoreTemplate"></ui-guinea-school>
+															<ui-ivory-coast-school [template]="
+																	scoreTemplate
+																"></ui-ivory-coast-school>
+															<ui-south-africa-school [template]="scoreTemplate"></ui-south-africa-school>
+
+															<ng-template #scoreTemplate>
+																<span>{{ d[l.label]["score"] }}</span>
+															</ng-template>
+														</span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+									<!-- grade breakdown -->
+									<div class="col-sm-12 col-md-12 mt-40" *ngIf="data.merit_summary_list.length > 0"
+										style="padding-left: 10px; padding-right: 15px">
+										<table class="table table-custom-border table-striped table-condensed">
+											<thead style="text-transform: capitalize">
+												<tr style="border: 1.25px solid black">
+													<th class="text-center" [attr.colspan]="
+															data.merit_summary_list_labels.length
+														" style="
+															padding: 3px;
+															font-size: 10pt;
+															border: 1.25px solid black !important;
+														">
+														<span class="zreport-table-contents">{{
+															"printouts.meritList.gradeBreakdown" | translate
+															}}</span>
+													</th>
+												</tr>
+												<tr>
+													<th *ngFor="let label of data.merit_summary_list_labels" style="
+															padding: 3px;
+															font-size: 10pt;
+															border: 1.25px solid black !important;
+														">
+														<span class="zreport-table-contents">{{
+															label
+															}}</span>
+													</th>
+												</tr>
+											</thead>
+											<tbody class="fw-bold">
+												<tr *ngFor="let d of data.merit_summary_list" style="
+														padding: 3px;
+														font-size: 10pt;
+														border: 1.25px solid black !important;
+													">
+													<td *ngFor="let label of data.merit_summary_list_labels" style="
+															padding: 3px;
+															font-size: 10pt;
+															border: 1.25px solid black !important;
+														">
+														{{ d[label] }}
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+									<!-- gender grade summary -->
+									<div class="col-sm-12 col-md-12 mt-40" *ngIf="data?.gender_data?.length > 0"
+										style="padding-left: 10px; padding-right: 15px">
+										<table class="table table-custom-border table-striped table-condensed">
+											<thead style="text-transform: capitalize">
+												<tr style="border: 1.25px solid black">
+													<th class="text-center"
+														attr.colspan="{{ data.gender_data_labels.length }}" style="
+															padding: 3px;
+															font-size: 10pt;
+															border: 1.25px solid black !important;
+														">
+														<span class="zreport-table-contents">{{
+															"printouts.meritList.genderGradeSummary"
+															| translate
+															}}</span>
+													</th>
+												</tr>
+												<tr>
+													<th *ngFor="let label of data.gender_data_labels" style="
+															padding: 3px;
+															font-size: 10pt;
+															border: 1.25px solid black !important;
+														">
+														<span class="zreport-table-contents">{{
+															label
+															}}</span>
+													</th>
+												</tr>
+											</thead>
+											<tbody class="fw-bold">
+												<tr *ngFor="let d of data.gender_data" style="
+														padding: 3px;
+														font-size: 10pt;
+														border: 1.25px solid black !important;
+													">
+													<td *ngFor="let label of data.gender_data_labels" style="
+															padding: 3px;
+															font-size: 10pt;
+															border: 1.25px solid black !important;
+														">
+														{{ d[label] }}
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+									<!-- class grade summary -->
+									<div class="col-sm-12 col-md-12 mt-40" *ngIf="data.current_class_summary_list.length > 0"
+										style="padding-left: 10px; padding-right: 15px">
+										<table class="table table-custom-border table-striped table-condensed">
+											<thead style="text-transform: capitalize">
+												<tr style="border: 1.25px solid black">
+													<th class="text-center" [attr.colspan]="
+															data.current_class_summary_list_labels.length
+														" style="
+															padding: 3px;
+															font-size: 10pt;
+															border: 1.25px solid black !important;
+														">
+														<span class="zreport-table-contents">{{
+															"printouts.meritList.classGradeSummary"
+															| translate
+															}}</span>
+													</th>
+												</tr>
+												<tr>
+													<th *ngFor="
+															let label of data.current_class_summary_list_labels
+														" style="
+															padding: 3px;
+															font-size: 10pt;
+															border: 1.25px solid black !important;
+														">
+														<span class="zreport-table-contents">{{
+															label
+															}}</span>
+													</th>
+												</tr>
+											</thead>
+											<tbody class="fw-bold">
+												<tr *ngFor="let s of data.current_class_summary_list">
+													<td *ngFor="
+															let label of data.current_class_summary_list_labels
+														" style="
+															padding: 3px;
+															font-size: 10pt;
+															border: 1.25px solid black !important;
+														">
+														{{ s[label] }}
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,5 @@
+<!-- Printouts Top Nav -->
+<app-print-top-nav></app-print-top-nav>
+
+<router-outlet *ngIf="!networkService.isNetworkStopped"></router-outlet>
+<app-connection-lost *ngIf="networkService.isNetworkStopped"></app-connection-lost>

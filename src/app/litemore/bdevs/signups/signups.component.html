@@ -1,0 +1,697 @@
+<!-- Content Header (Page header) -->
+<div class="content-header d-md-none" >
+  <div class="d-flex align-items-center">
+    <div class="me-auto">
+      <h3 class="page-title">{{'litemore.bdevs.signUps.signUps'|translate}}</h3>
+      <div class="d-inline-block align-items-center">
+        <nav>
+          <ol class="breadcrumb text-dark">
+            <li class="breadcrumb-item" aria-current="page">{{'litemore.bdevs.signUps.signUps'|translate}}</li>
+            <!-- <li class="breadcrumb-item" aria-current="page">{{ 'litemore.selfSignup.verified' | translate }}</li> -->
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+  <div class="row">
+    <div *ngIf="false; then showLoadingSection else showDataSection"></div>
+  </div>
+</section>
+
+<!-- loading section -->
+<ng-template #showLoadingSection>
+  <div class="row">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-body">
+          <app-loader-div [height]="50"></app-loader-div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-body">
+          <app-loader-div [height]="250"></app-loader-div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- data section -->
+<ng-template #showDataSection>
+  <div class="col-12"  >
+    <div class="box d-none d-md-block" *ngIf="![105].includes(user_init?.role) ">
+      <div class="box-header with-border">
+        <h4 class="box-title d-none d-md-inline-block">{{ 'litemore.selfSignup.title' | translate }}</h4>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col-6">
+        <div class="btn-group">
+          <button type="button" [disabled]="dataoptions.verified_isCurrent" class="btn btn-sm"
+            [ngClass]="{'btn-dark':dataoptions.verified_isCurrent, 'btn-default':!dataoptions.verified_isCurrent}"
+            (click)="showItem(1)">
+			  {{'litemore.bdevs.signUps.unverified'|translate}}
+          </button>
+          <button type="button" [disabled]="dataoptions.unverified_isCurrent" class="btn btn-sm"
+            [ngClass]="{'btn-dark':dataoptions.unverified_isCurrent, 'btn-default':!dataoptions.unverified_isCurrent}"
+            (click)="showItem(2)">
+			  {{'litemore.bdevs.signUps.verified'|translate}}
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="user_init" class="col-6 d-flex justify-content-end">
+        <button [hidden]="[105].includes(user_init?.role)" type="button" class="btn btn-success btn-sm pull-right"
+          [routerLink]="['/litemore']">
+          {{ 'litemore.selfSignup.verifiedSchools' | translate }}
+        </button>
+        <button [hidden]="![105].includes(user_init?.role)" type="button" class="btn btn-success btn-sm pull-right"
+          [routerLink]="['/litemore/am']">
+          {{ 'litemore.selfSignup.myAccount' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="box">
+        <!-- <div *ngIf="faqCategoryList.length === 0" class="box-body text-center">
+          <h4>{{ 'litemore.selfSignup.emptyList' | translate }}</h4>
+        </div> -->
+
+        <div style='padding: 0' *ngIf="!school_details.complete">
+          <div class="hpanel" style="margin-top: 16px">
+            <div class="panel-body">
+              <div *ngIf="dataoptions.verified_firstShown" class="col-md-12 col-xs-12" style="padding: 0">
+                <div *ngIf="dataoptions.verified_isCurrent" class="col-md-12 col-xs-12" style="padding: 0">
+                  <div *ngIf="verified_ss_schools && verified_ss_schools.length === 0" class="col-md-12 col-xs-12"
+                    style="padding: 0">
+                    {{ 'litemore.selfSignup.noVerifiedSchools' | translate }}
+                  </div>
+                  <div *ngIf="verified_ss_schools && verified_ss_schools.length > 0" class="col-md-12 col-xs-12"
+                    style="padding: 0">
+                    <div class="col-md-12 col-xs-12" style="padding: 0">
+                      <div class="table-responsive" style="margin: 0;padding: 0">
+                        <table class="table table-striped table-hover table-bordered" style="margin: 0;padding: 0">
+                          <thead>
+                            <tr>
+                              <th class="td-fit-nowrap">
+                                <div class="pointer" style="display: block;white-space: nowrap"
+                                  (click)="dataoptions.valid_sortType = 'schoolid'; dataoptions.valid_sortReverse = !dataoptions.valid_sortReverse">
+                                  <span>#</span>
+                                  <span
+                                    *ngIf="dataoptions.valid_sortType == 'schoolid' && dataoptions.valid_sortReverse"
+                                    class="fa fa-caret-down"></span>
+                                  <span
+                                    *ngIf="dataoptions.valid_sortType == 'schoolid' && !dataoptions.valid_sortReverse"
+                                    class="fa fa-caret-up"></span>
+                                </div>
+                              </th>
+                              <th class="td-fit-nowrap">{{ 'common.name' | translate }}</th>
+                              <th class="td-fit-nowrap">{{ 'common.county' | translate }}</th>
+                              <th class="td-fit-nowrap">{{ 'litemore.selfSignup.tableHeaders.contactPersonName' |
+                                translate }}</th>
+                              <th>{{ 'litemore.selfSignup.tableHeaders.contactPersonPhone' | translate }}</th>
+                              <th class="td-fit-nowrap">{{ 'litemore.selfSignup.tableHeaders.accountManager' | translate
+                                }}</th>
+                              <th class="td-fit-nowrap">{{ 'litemore.selfSignup.tableHeaders.accountOwner' | translate
+                                }}</th>
+                              <th class="td-fit">{{ 'litemore.selfSignup.tableHeaders.verify' | translate }}</th>
+                              <th class="td-fit">{{ 'litemore.selfSignup.tableHeaders.invalidate' | translate }}</th>
+                              <th *ngIf="can_edit" class="td-fit"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <!-- <tr
+                              *ngFor="let s of verified_ss_schools | orderBy:dataoptions.verfied_sortType:dataoptions.verfied_sortReverse; let index = index"
+                              class="single-row"> -->
+                            <tr *ngFor="let s of verified_ss_schools; let index = index" class="single-row">
+                              <td class="td-fit-nowrap" style="vertical-align: middle">{{index + 1}}</td>
+                              <td class="td-fit-nowrap" style="vertical-align: middle">{{s.name}}</td>
+                              <td class="td-fit-nowrap" style="vertical-align: middle">
+                                <div *ngIf="!s.county_edit">
+                                  <table style="width: 100%">
+                                    <tbody>
+                                      <tr>
+                                        <td>{{s.county}}</td>
+                                        <td *ngIf="s.edit">
+                                          <button (click)="s.county_edit = true" style="margin-left: 8px"
+                                            class="btn btn-default btn-xs pull-right" type="button"><i
+                                              class="fa fa-edit"></i></button>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                                <div *ngIf="s.county_edit && s.edit">
+                                  <div class="d-flex justify-content-center flex-nowrap input-group"
+                                    style="margin: 0; min-width: 200px;">
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="counties"
+                                      [placeholder]="'common.selectCounty' | translate" class="form-control-dropdown"
+                                      appendTo="body" [dropdownPosition]="'bottom'" [searchable]="true"
+                                      name="county_temp" #county_temp="ngModel" [(ngModel)]="s.county_temp"
+                                      (change)="updateSchoolCounty(s, false)" bindLabel="name"
+                                      [ngClass]="{ 'b-1 && border-danger': county_temp.invalid }" [disabled]="disabled">
+                                    </ng-select>
+                                    <!-- <ui-select append-to-body="true" style="min-width: 150px"
+                                      (change)="updateSchoolCounty(s, false)" [(ngModel)]="s.county_temp"
+                                      theme="bootstrap" ng-disabled="disabled">
+                                      <ui-select-match placeholder="Select the county">{{$select.selected.name}}
+                                      </ui-select-match>
+                                      <ui-select-choices style="top: auto;bottom: 100%;" data-container="body"
+                                        repeat="am in counties | propsFilter: {name: $select.search}">
+                                        <div [innerHtml]="am.name | highlight: $select.search"></div>
+                                      </ui-select-choices>
+                                    </ui-select> -->
+                                    <button type="button" class="btn btn-sm btn-warning"
+                                      (click)="s.county_edit = false">
+                                      <i class="fa fa-times"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </td>
+                              <td class="td-fit-nowrap" style="vertical-align: middle">{{s.contact_person_name}}</td>
+                              <td style="vertical-align: middle">{{s.contact_person_phone}}</td>
+                              <td style="vertical-align: middle">
+                                <div *ngIf="!s.account_manager_edit">
+                                  <div [innerHtml]="s.account_manager"></div>
+                                  <div class="btn-group" style="padding-top: 0px" *ngIf="can_edit && s.edit">
+                                    <button (click)="s.account_manager_edit = true"
+                                      class="btn btn-default btn-xs pull-right" type="button"><i
+                                        class="fa fa-edit"></i></button>
+                                    <button (click)="updateSchoolAccountManager(s, true)"
+                                      class="btn btn-default btn-xs pull-right" type="button"><i
+                                        class="fa fa-trash-o"></i></button>
+                                  </div>
+                                </div>
+                                <div *ngIf="s.account_manager_edit && s.edit">
+                                  <div class="d-flex justify-content-center flex-nowrap input-group"
+                                    style="margin: 0; min-width: 200px;">
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                      [items]="account_managers"
+                                      [placeholder]="'litemore.selfSignup.selectAccountManager' | translate"
+                                      class="form-control-dropdown" appendTo="body" [dropdownPosition]="'bottom'"
+                                      [searchable]="true" name="account_manager_temp" #account_manager_temp="ngModel"
+                                      [(ngModel)]="s.account_manager_temp"
+                                      (change)="updateSchoolAccountManager(s, false)" bindLabel="name"
+                                      [ngClass]="{ 'b-1 && border-danger': account_manager_temp.invalid }"
+                                      [disabled]="disabled">
+                                    </ng-select>
+                                    <!-- <ui-select append-to-body="true" style="min-width: 150px"
+                                      (change)="updateSchoolAccountManager(s, false)"
+                                      [(ngModel)]="s.account_manager_temp" theme="bootstrap" ng-disabled="disabled">
+                                      <ui-select-match placeholder="Select the account manager">
+                                        {{$select.selected.name}}</ui-select-match>
+                                      <ui-select-choices style="top: auto;bottom: 100%;" data-container="body"
+                                        repeat="am in account_managers | propsFilter: {name: $select.search}">
+                                        <div [innerHtml]="am.name | highlight: $select.search"></div>
+                                      </ui-select-choices>
+                                    </ui-select> -->
+                                    <button type="button" class="btn btn-sm btn-warning"
+                                      (click)="s.account_manager_edit = false">
+                                      <i class="fa fa-times"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </td>
+
+                              <td style="vertical-align: middle">
+                                <div *ngIf="!s.account_owner_edit">
+                                  <div [innerHtml]="s.account_owner"></div>
+                                  <div class="btn-group" style="padding-top: 0px" *ngIf="can_edit && s.edit">
+                                    <button (click)="s.account_owner_edit = true"
+                                      class="btn btn-default btn-xs pull-right" type="button"><i
+                                        class="fa fa-edit"></i></button>
+                                    <button (click)="updateSchoolAccountOwner(s, true)"
+                                      class="btn btn-default btn-xs pull-right" type="button"><i
+                                        class="fa fa-trash-o"></i></button>
+                                  </div>
+                                </div>
+                                <div *ngIf="s.account_owner_edit && s.edit">
+                                  <div class="d-flex justify-content-center flex-nowrap input-group"
+                                    style="margin: 0; min-width: 200px;">
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                      [items]="account_managers"
+                                      [placeholder]="'litemore.selfSignup.selectAccountOwner' | translate"
+                                      class="form-control-dropdown" appendTo="body" [dropdownPosition]="'bottom'"
+                                      [searchable]="true" name="account_owner_temp" #account_owner_temp="ngModel"
+                                      [(ngModel)]="s.account_owner_temp" (change)="updateSchoolAccountOwner(s, false)"
+                                      bindLabel="name"
+                                      [ngClass]="{ 'b-1 && border-danger': account_owner_temp.invalid }"
+                                      [disabled]="disabled">
+                                    </ng-select>
+                                    <!-- <ui-select append-to-body="true" style="min-width: 150px"
+                                      (change)="updateSchoolAccountOwner(s, false)" [(ngModel)]="s.account_owner_temp"
+                                      theme="bootstrap" ng-disabled="disabled">
+                                      <ui-select-match placeholder="Select the account owner">{{$select.selected.name}}
+                                      </ui-select-match>
+                                      <ui-select-choices style="top: auto;bottom: 100%;" data-container="body"
+                                        repeat="am in account_managers | propsFilter: {name: $select.search}">
+                                        <div [innerHtml]="am.name | highlight: $select.search"></div>
+                                      </ui-select-choices>
+                                    </ui-select> -->
+                                    <button type="button" class="btn btn-sm btn-warning"
+                                      (click)="s.account_owner_edit = false"><i class="fa fa-times"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </td>
+                              <td class="td-fit" style="vertical-align: middle">
+                                <button type="button" class="btn btn-dark btn-sm" (click)="verifySelfSignUpSchool(s)">{{
+                                  'common.validate' | translate }}</button>
+                              </td>
+                              <td class="td-fit" style="vertical-align: middle">
+                                <button type="button" class="btn btn-default btn-sm" (click)="invalidateSchool(s)">{{
+                                  'common.invalidate' | translate }}</button>
+                              </td>
+                              <td *ngIf="can_edit" class="td-fit-nowrap" style="vertical-align: middle">
+                                <button [hidden]="s.edit" type="button" class="btn btn-sm btn-default"
+                                  (click)="initiateSchoolEdit(s, true)">{{ 'common.edit' | translate }}</button>
+                                <button [hidden]="!s.edit" type="button" class="btn btn-sm btn-dark"
+                                  (click)="initiateSchoolEdit(s, false)">{{ 'common.done' | translate }}</button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="dataoptions.unverified_firstShown" class="col-md-12 col-xs-12" style="padding: 0">
+                <div *ngIf="dataoptions.unverified_isCurrent" class="col-md-12 col-xs-12" style="padding: 0">
+                  <div *ngIf="unverified_ss_schools.length == 0" class="col-md-12 col-xs-12" style="padding: 0">
+                    {{ 'litemore.selfSignup.noUnverifiedSchools' | translate }}
+                  </div>
+                  <div *ngIf="unverified_ss_schools.length > 0" class="col-md-12 col-xs-12" style="padding: 0">
+                    <div class="col-md-12 col-xs-12" style="padding: 0">
+                      <div class="table-responsive" style="margin: 0;padding: 0">
+                        <table class="table table-striped table-hover table-bordered" style="margin: 0;padding: 0">
+                          <thead>
+                            <tr>
+                              <th class="td-fit-nowrap">
+                                <div class="pointer" style="display: block;white-space: nowrap"
+                                  (click)="dataoptions.invalid_sortType = 'schoolid'; dataoptions.invalid_sortReverse = !dataoptions.invalid_sortReverse">
+                                  <span>#</span>
+                                  <span
+                                    *ngIf="dataoptions.invalid_sortType == 'schoolid' && dataoptions.invalid_sortReverse"
+                                    class="fa fa-caret-down"></span>
+                                  <span
+                                    *ngIf="dataoptions.invalid_sortType == 'schoolid' && !dataoptions.invalid_sortReverse"
+                                    class="fa fa-caret-up"></span>
+                                </div>
+                              </th>
+                              <th class="td-fit-nowrap">{{ 'common.name' | translate }}</th>
+                              <th class="td-fit-nowrap">{{ 'common.county' | translate }}</th>
+                              <th class="td-fit-nowrap">{{ 'litemore.selfSignup.tableHeaders.contactPersonName' |
+                                translate }}</th>
+                              <th>{{ 'litemore.selfSignup.tableHeaders.contactPersonPhone' | translate }}</th>
+                              <th class="td-fit">{{ 'common.verify' | translate }}</th>
+                              <th class="td-fit">{{ 'common.delete' | translate }}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <!-- <tr
+                              *ngFor="let school of unverified_ss_schools| orderBy:dataoptions.verfied_sortType:dataoptions.verfied_sortReverse"
+                              class="single-row"> -->
+                            <tr *ngFor="let school of unverified_ss_schools; let index = index" class="single-row">
+                              <td class="td-fit-nowrap">{{index + 1}}</td>
+                              <td class="td-fit-nowrap">{{school.name}}</td>
+                              <td class="td-fit-nowrap">{{school.county_name}}</td>
+                              <td class="td-fit-nowrap">{{school.contact_person_name}}</td>
+                              <td>{{school.contact_person_phone}}</td>
+                              <td class="td-fit">
+                                <button type="button" class="btn btn-dark btn-sm" (click)="verify_ss_School(school)">
+                                  {{ 'common.verify' | translate }}
+                                </button>
+                              </td>
+                              <td class="td-fit">
+                                <button type="button" class="btn btn-default btn-sm" (click)="rejectSchool(school)">
+                                  {{ 'common.delete' | translate }}
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="hpanel col-md-12 col-xs-12 no-padding" *ngIf="school_details.complete">
+          <div class="panel-heading">
+            <div class="mx-15 my-10 ps-1 fw-bold">
+              {{ 'litemore.selfSignup.schoolDetails.form.headerText' | translate }}
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="col-md-12 col-xs-12" style="padding: 0">
+              <div class="col-md-12 col-xs-12" style="padding: 0">
+                <form id="registerSchoolForm" name="registerSchoolForm" [formGroup]="registerSchoolForm"
+                  (ngSubmit)="register_ss_School()">
+                  <div class="row">
+                    <!-- school name -->
+                    <div class="col-12 col-md-6 form-parallel-padding-left">
+                      <label class="form-label" for="name">
+                        {{ 'common.schoolName' | translate }}
+                        <span *ngIf="schoolName?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                      </label>
+                      <div class="form-group" [class.error]="fieldHasErrors(schoolName!)">
+                        <div class="input-group">
+                          <input formControlName="schoolName" type="text" title="Please enter your school name"
+                            [placeholder]="'common.schoolNamePlaceholderText' | translate" required
+                            pattern="[\s\S]*\S[\s\S]*" name="name" id="name" class="form-control"
+                            [class]="{ 'border-danger': fieldHasErrors(schoolName!) }">
+                        </div>
+                        <div *ngIf="fieldHasErrors(schoolName!)" class="help-block">
+                          <ul role="alert">
+                            <li *ngIf="schoolName?.errors?.['required']">{{ 'common.formErrors.requiredError' |
+                              translate }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- gender type -->
+                    <div class="col-12 col-md-6 form-group" [class.error]="fieldHasErrors(genderType!)">
+                      <label class="form-label" for="gendertype">
+                        {{ 'common.genderType' | translate }}
+                        <span *ngIf="genderType?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                      </label>
+                      <div class="controls">
+                        <select formControlName="genderType" class="form-select" id="gendertype">
+                          <option [ngValue]="null" disabled>{{ 'common.genderTypePlaceholderText' | translate }}
+                          </option>
+                          <ng-container *ngFor="let gender of gender_types">
+                            <option [ngValue]="gender.code">
+                              {{gender.name}}
+                            </option>
+                          </ng-container>
+                        </select>
+                        <div *ngIf="fieldHasErrors(genderType!)" class="help-block">
+                          <ul role="alert">
+                            <li *ngIf="genderType?.errors?.['required']">
+                              {{ 'common.formErrors.requiredError' | translate }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <!-- school type -->
+                    <div class="col-12 col-md-6 form-group" [class.error]="fieldHasErrors(schoolType!)">
+                      <label class="form-label" for="schooltype">
+                        {{ 'common.schoolType' | translate }}
+                        <span *ngIf="schoolType?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                      </label>
+                      <select formControlName="schoolType" class="form-select" name="schooltype" id="schooltype">
+                        <option [ngValue]="null" disabled>{{ 'common.schoolTypePlaceholderText' | translate }}</option>
+                        <ng-container *ngFor="let school of school_types">
+                          <option [ngValue]="school.code">
+                            {{school.name}}
+                          </option>
+                        </ng-container>
+                      </select>
+                      <div *ngIf="fieldHasErrors(schoolType!)" class="help-block">
+                        <ul role="alert">
+                          <li *ngIf="schoolType?.errors?.['required']">
+                            {{ 'common.formErrors.requiredError' | translate }}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <!-- school code -->
+                    <div class="col-12 col-md-6 form-parallel-padding-left">
+                      <label class="form-label" for="schoolcode">
+                        {{ 'common.schoolCode' | translate }}
+                        <span *ngIf="schoolCode?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                      </label>
+                      <div class="form-group" [class.error]="fieldHasErrors(schoolCode!)">
+                        <div class="input-group">
+                          <input formControlName="schoolCode" type="text" title="Please enter your school name"
+                            [placeholder]="'common.schoolCodePlaceholderText' | translate" required
+                            pattern="[\s\S]*\S[\s\S]*" name="name" id="schoolcode" class="form-control"
+                            [class]="{ 'border-danger': fieldHasErrors(schoolCode!) }">
+                        </div>
+                        <div *ngIf="fieldHasErrors(schoolCode!)" class="help-block">
+                          <ul role="alert">
+                            <li *ngIf="schoolCode?.errors?.['required']">{{ 'common.formErrors.requiredError' |
+                              translate }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- <div class="col-md-6 form-parallel-padding-right" style="padding-left: 0"
+                      [ngClass]="{'has-error is-focused' : error_registration}">
+                      <label class="control-label" for="registration">School Code</label>
+                      <input type="text" title="Please enter school registration code" placeholder="zerakischool"
+                        required pattern="[\s\S]*\S[\s\S]*" value="" name="registration" id="registration"
+                        [(ngModel)]="ss_school.registration" class="form-control">
+                      <span *ngIf="error_registration" class="help-block small" ng-cloak="">
+                        {{error_msg}}
+                      </span>
+                    </div> -->
+                  </div>
+                  <div class="row">
+                    <!-- school population category -->
+                    <div class="col-12 form-group" [class.error]="fieldHasErrors(schoolPopulationCategory!)">
+                      <label class="form-label" for="schoolpopulationcategory">
+                        {{ 'common.schoolPopulationCategory' | translate }}
+                        <span *ngIf="schoolPopulationCategory?.hasValidator(requiredValidator)"
+                          class="text-danger">*</span>
+                      </label>
+                      <select formControlName="schoolPopulationCategory" class="form-select"
+                        name="schoolpopulationcategory" id="schoolpopulationcategory">
+                        <option [ngValue]="null" disabled>{{ 'common.schoolPopulationCategoryPlaceholderText' |
+                          translate }}</option>
+                        <ng-container *ngFor="let category of ss_school_population_categories">
+                          <option [ngValue]="category.value">
+                            {{category.name}}
+                          </option>
+                        </ng-container>
+                      </select>
+                      <div *ngIf="fieldHasErrors(schoolPopulationCategory!)" class="help-block">
+                        <ul role="alert">
+                          <li *ngIf="schoolPopulationCategory?.errors?.['required']">
+                            {{ 'common.formErrors.requiredError' | translate }}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <!-- <div class="col-12 form-parallel-padding-left">
+                      <label class="control-label" for="schoolpopulationcategory">School Population Category</label>
+                      <select style="margin: 0" class="form-control m-b" required name="schoolpopulationcategory"
+                        id="schoolpopulationcategory" [(ngModel)]="population.category"
+                        ng-options="c.value as c.name for c in ss_school_population_categories">
+                        <option value="" style="color: #999">Select School Population Category</option>
+                      </select>
+                    </div> -->
+                  </div>
+                  <div class="row">
+                    <!-- email -->
+                    <div class="col-12 col-md-6 form-parallel-padding-left">
+                      <label class="form-label" for="email">
+                        {{ 'common.email' | translate }}
+                        <span *ngIf="email?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                      </label>
+                      <div class="form-group" [class.error]="fieldHasErrors(email!)">
+                        <div class="input-group">
+                          <input formControlName="email" type="text" id="email" class="form-control ps-15"
+                            [placeholder]="'common.emailPlaceholderText' | translate"
+                            [class]="{ 'border-danger': fieldHasErrors(email!) }">
+                        </div>
+                        <div *ngIf="fieldHasErrors(email!)" class="help-block">
+                          <ul role="alert">
+                            <li *ngIf="email?.errors?.['required']">
+                              {{ 'common.formErrors.requiredError' | translate }}
+                            </li>
+                            <li *ngIf="email?.errors?.['email']">
+                              {{ 'common.formErrors.invalidEmail' | translate }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="col-12 col-md-6 form-parallel-padding-left" [ngClass]="{'has-error is-focused' : error_email}">
+                      <label class="control-label" for="email">Email</label>
+                      <input type="email" placeholder="example@zerakischool.ac.ke" title="Please enter your username"
+                        required value="" name="email" id="email" [(ngModel)]="ss_school.email" class="form-control">
+                    </div> -->
+                    <!-- phone number -->
+                    <div class="col-12 col-md-6 form-parallel-padding-left">
+                      <label class="form-label" for="phonenumber">
+                        {{ 'common.phone' | translate }}
+                        <span *ngIf="phoneNumber?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                      </label>
+                      <div class="form-group" [class.error]="fieldHasErrors(phoneNumber!)">
+                        <div class="input-group">
+                          <input formControlName="phoneNumber" type="text" id="phonenumber" class="form-control ps-15"
+                            [placeholder]="'common.phonePlaceholderText2' | translate"
+                            [class]="{ 'border-danger': fieldHasErrors(phoneNumber!) }">
+                        </div>
+                        <div *ngIf="fieldHasErrors(phoneNumber!)" class="help-block">
+                          <ul role="alert">
+                            <li *ngIf="phoneNumber?.errors?.['required']">
+                              {{ 'common.formErrors.requiredError' | translate }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <!-- county -->
+                    <div class="col-12 col-md-6 form-group" [class.error]="fieldHasErrors(county!)">
+                      <label class="form-label" for="county">
+                        {{'litemore.bdevs.signUps.county'|translate}}
+                        <span *ngIf="county?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                      </label>
+                      <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                        [placeholder]="'common.selectCounty' | translate" class="form-control-dropdown" appendTo="body"
+                        [dropdownPosition]="'bottom'" [searchable]="true" name="county" id="county"
+                        formControlName="county">
+                        <ng-option *ngFor="let county of counties" [value]="county.countyid">
+                          {{county.countyid}} - {{county.name}}
+                        </ng-option>
+                      </ng-select>
+                      <div *ngIf="fieldHasErrors(county!)" class="help-block">
+                        <ul role="alert">
+                          <li *ngIf="county?.errors?.['required']">
+                            {{ 'common.formErrors.requiredError' | translate }}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <!-- <div class="col-md-6 form-parallel-padding-left">
+                      <label class="control-label" for="county">County</label>
+                      <ui-select prevent-enter-submit [(ngModel)]="ss_school.county" theme="bootstrap"
+                        name="register_county" id="register_county">
+                        <ui-select-match prevent-enter-submit placeholder="Select County...">{{$select.selected.code}} -
+                          {{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices prevent-enter-submit
+                          repeat="c.countyid as c in counties | propsFilter: {name: $select.search, code: $select.search} | orderBy: 'name'">
+                          <div [innerHtml]="c.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                      </ui-select>
+                    </div> -->
+
+                    <!-- account manager -->
+                    <div class="col-12 col-md-6 form-group" [class.error]="fieldHasErrors(accountManager!)">
+                      <label class="form-label" for="accountmanager">
+                        {{ 'litemore.selfSignup.schoolDetails.form.zerakiAccManager' | translate }}
+                        <span *ngIf="accountManager?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                      </label>
+                      <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                        [placeholder]="'litemore.selfSignup.schoolDetails.form.zerakiAccManagerPlaceholderText' | translate"
+                        class="form-control-dropdown" appendTo="body" [dropdownPosition]="'bottom'" [searchable]="true"
+                        name="accountmanager" id="accountmanager" formControlName="accountManager">
+                        <ng-option *ngFor="let accountManager of account_managers" [value]="accountManager.managerid">
+                          {{accountManager.name}}
+                        </ng-option>
+                      </ng-select>
+                      <div *ngIf="fieldHasErrors(accountManager!)" class="help-block">
+                        <ul role="alert">
+                          <li *ngIf="accountManager?.errors?.['required']">
+                            {{ 'common.formErrors.requiredError' | translate }}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <!-- <div class="col-md-6 form-parallel-padding-right" style="padding-left: 0"
+                      [ngClass]="{'has-error is-focused' : error_partner}">
+                      <label class="control-label" for="accountmanager">Zeraki Account Manager</label>
+                      <ui-select prevent-enter-submit [(ngModel)]="ss_school.accountManager" theme="bootstrap"
+                        *ngIf="counties.length > 0" name="account_manager" id="account_manager">
+                        <ui-select-match prevent-enter-submit placeholder="Select Account Manager...">
+                          {{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices prevent-enter-submit
+                          repeat="am.managerid as am in account_managers | propsFilter: {name: $select.search}">
+                          <div [innerHtml]="am.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                      </ui-select>
+                    </div> -->
+                  </div>
+                  <div class="row">
+                    <!-- contact person name -->
+                    <div class="col-12 col-md-6 form-parallel-padding-left">
+                      <label class="form-label" for="name">
+                        {{ 'litemore.selfSignup.schoolDetails.form.contactPersonsName' | translate }}
+                        <span *ngIf="contactPersonName?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                      </label>
+                      <div class="form-group" [class.error]="fieldHasErrors(contactPersonName!)">
+                        <div class="input-group">
+                          <input formControlName="contactPersonName" type="text" class="form-control ps-15"
+                            [placeholder]="'common.namePlaceholderText' | translate"
+                            [class]="{ 'border-danger': fieldHasErrors(contactPersonName!) }">
+                        </div>
+                        <div *ngIf="fieldHasErrors(contactPersonName!)" class="help-block">
+                          <ul role="alert">
+                            <li *ngIf="contactPersonName?.errors?.['required']">
+                              {{ 'common.formErrors.requiredError' | translate }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- contact person phone number -->
+                    <div class="col-12 col-md-6 form-parallel-padding-left">
+                      <label class="form-label" for="name">
+                        {{ 'litemore.selfSignup.schoolDetails.form.contactPersonsPhone' | translate }}
+                        <span *ngIf="contactPersonPhone?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                      </label>
+                      <div class="form-group" [class.error]="fieldHasErrors(contactPersonPhone!)">
+                        <div class="input-group">
+                          <input formControlName="contactPersonPhone" type="text" class="form-control ps-15"
+                            [placeholder]="'common.phonePlaceholderText' | translate"
+                            [class]="{ 'border-danger': fieldHasErrors(contactPersonPhone!) }">
+                        </div>
+                        <div *ngIf="fieldHasErrors(contactPersonPhone!)" class="help-block">
+                          <ul role="alert">
+                            <li *ngIf="contactPersonPhone?.errors?.['required']">
+                              {{ 'common.formErrors.requiredError' | translate }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- action buttons -->
+                  <div class="">
+                    <button type="button" class="btn btn-default btn-sm pull-left"
+                      (click)="school_details.complete = false">
+                      {{ 'common.cancel' | translate }}
+                    </button>
+                    <button type="submit" class="btn btn-success btn-sm pull-right">
+                      {{ 'common.verify' | translate }}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ng-template>

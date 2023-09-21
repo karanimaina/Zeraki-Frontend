@@ -1,0 +1,610 @@
+<!-- Student Top Nav -->
+<div class="navbar-light top-wrapper fixed-top bg-primary">
+  <ul class="nav nav-pill customtab2 nav-filled text-center">
+    <li class="nav-item">
+      <a [routerLink]="['/main/students/act']" class="nav-link" routerLinkActive="active"
+        #rlaSearchStudent="routerLinkActive" [ngClass]="rlaSearchStudent.isActive ? 'active' : ''">
+        <span class="me-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trophy"
+            viewBox="0 0 16 16">
+            <path
+              d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935zm10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935zM3.504 1c.007.517.026 1.006.056 1.469.13 2.028.457 3.546.87 4.667C5.294 9.48 6.484 10 7 10a.5.5 0 0 1 .5.5v2.61a1 1 0 0 1-.757.97l-1.426.356a.5.5 0 0 0-.179.085L4.5 15h7l-.638-.479a.501.501 0 0 0-.18-.085l-1.425-.356a1 1 0 0 1-.757-.97V10.5A.5.5 0 0 1 9 10c.516 0 1.706-.52 2.57-2.864.413-1.12.74-2.64.87-4.667.03-.463.049-.952.056-1.469H3.504z" />
+          </svg>
+        </span>
+        <span>{{ 'students.activities.title' | translate }}</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+  <div class="row px-lg-40">
+    <ng-container *ngIf="!student; then showLoadingSection else showDataSection"></ng-container>
+
+    <ng-template #showLoadingSection>
+      <!-- For top section -->
+      <div class="row">
+        <div class="col-12">
+          <div class="box">
+            <div class="box-body">
+              <app-loader-div [height]="130"></app-loader-div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- For Middle Section -->
+      <div class="row">
+        <div class="col-12">
+          <div class="box">
+            <div class="box-body">
+              <app-loader-div [height]="130"></app-loader-div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template #showDataSection>
+      <div class="col-12">
+        <div *ngIf="student?.admno == undefined" class="box box-solid bg-warning-light">
+          <div class="box-body">
+            <h3 class="text-dark">
+              {{ 'students.activities.studentLeft' | translate }}
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="student?.admno != undefined" class="col-12">
+        <!-- header section 1 -->
+        <div class="box bg-primary-light">
+          <div class="box-header with-border">
+            <h6 class="text-dark">{{ 'students.activities.studActs' | translate }}</h6>
+
+            <div class="d-flex bd-highlight mb-3">
+              <div class="p-2 bd-highlight">
+                <img src="{{image_path}}" (error)="image_path = '../../../../assets/img/avatar/p_avatar_blue.png'" class="rounded-circle" width="70" height="70" alt="dp">
+              </div>
+              <div class="p-2 bd-highlight">
+                <h3 class="box-title text-dark text-capitalize">{{student?.name.toLowerCase()}}
+                  <small class="subtitle">{{student?.admno}}, {{schoolTypeData?.formoryear | formOrYear}}
+                    {{student?.current_class_name}}</small>
+                </h3>
+              </div>
+              <div class="ms-auto p-2 bd-highlight d-none d-lg-inline-block">
+                <div class="btn-group">
+                  <button *appNormalTeacherHidden="true" routerLink="../../prof/{{student?.userid}}" type="button"
+                    class="waves-effect waves-light btn btn-secondary">
+                    <i>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                        <path
+                          d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z" />
+                      </svg>
+                    </i>
+                    {{ 'common.profile' | translate }}
+                  </button>
+                  <button type="button" routerLink="../../analytics/{{student?.userid}}"
+                    class="waves-effect waves-light btn btn-secondary">
+                    <i>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                        class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+                        <path
+                          d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                      </svg>
+                    </i>
+                    {{ 'common.analytics' | translate }}
+                  </button>
+                  <button type="button" routerLink="../../msg/{{student?.userid}}"
+                    class="waves-effect waves-light btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                      class="bi bi-chat-right-text" viewBox="0 0 16 16">
+                      <path
+                        d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z" />
+                      <path
+                        d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                    </svg>
+                    {{ 'common.message' | translate }}
+                  </button>
+                  <div class="btn-group">
+                    <button type="button" class="waves-effect waves-light btn btn-secondary dropdown-toggle"
+                      data-bs-toggle="dropdown">
+                      {{ 'common.notes' | translate }}
+                    </button>
+                    <div class="dropdown-menu">
+                      <app-student-notes-items [studentID]="student?.userid" [showDivider]="false"></app-student-notes-items>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-lg-none text-center">
+              <div class="btn-group">
+                <button *appNormalTeacherHidden="true" routerLink="../../prof/{{student?.userid}}" type="button"
+                  class="waves-effect waves-light btn btn-secondary btn-xs">
+                  <i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                      <path
+                        d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z" />
+                    </svg>
+                  </i>
+                  {{ 'common.profile' | translate }}
+                </button>
+                <button type="button" routerLink="../../analytics/{{student?.userid}}"
+                  class="waves-effect waves-light btn btn-secondary btn-xs">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                    class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+                    <path
+                      d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                  </svg>
+                  {{ 'common.analytics' | translate }}
+                </button>
+                <button type="button" routerLink="../../msg/{{student?.userid}}"
+                  class="waves-effect waves-light btn btn-secondary btn-xs">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                    class="bi bi-chat-right-text" viewBox="0 0 16 16">
+                    <path
+                      d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z" />
+                    <path
+                      d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                  </svg>
+                  {{ 'common.message' | translate }}
+                </button>
+                <div class="btn-group">
+                  <button type="button" class="waves-effect waves-light btn btn-secondary dropdown-toggle btn-sm"
+                    data-bs-toggle="dropdown">
+                    {{ 'common.notes' | translate }}
+                  </button>
+                  <div class="dropdown-menu">
+                    <app-student-notes-items [studentID]="student?.userid"></app-student-notes-items>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-container *ngIf="action === 1 || action === 3">
+          <div class="box">
+            <!-- header section 2 -->
+            <div class="box-header with-border">
+              <div class="row">
+                <div class="col-md-3 me-auto">
+                  <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="academicYears"
+                    [selectOnTab]="true" [searchable]="false" [clearable]="false"
+                    bindLabel="name"
+                    (change)="onAcademicYearChange($event)" [placeholder]="'common.selectYear' | translate"
+                    [(ngModel)]="currentActivityYear">
+                  </ng-select>
+                </div>
+                <div class="col-md-3 mt-10 mt-md-0"
+                  [ngClass]="[action === 3 ? 'text-center text-md-end' : 'text-center text-md-start']">
+                  <button *ngIf="(user_roles?.isSchoolAdmin || user_roles?.can_add_extracurricular) && !isBackup"
+                    (click)="showNewActivityView()" type="button" class="btn btn-dark btn-sm">
+                    {{ 'students.activities.new' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <ng-container *ngIf="action === 1">
+              <div class="box-body text-center text-md-start">
+                {{ 'students.activities.noActs' | translate }}
+              </div>
+            </ng-container>
+          </div>
+
+          <!-- ext. curr. activity list -->
+          <ng-container *ngIf="action === 3">
+            <ng-container *ngFor="let studentActivity of student.studentActivities">
+              <div class="box box-slided-up">
+                <div class="box-header with-border">
+                  <h4 class="box-title">{{ 'common.term' | translate }} {{studentActivity.term}}</h4>
+
+                  <ul class="box-controls pull-right">
+                    <li><a class="box-btn-slide" href="#"></a></li>
+                    <li><a class="box-btn-fullscreen" href="#"></a></li>
+                  </ul>
+                </div>
+                <div class="box-body p-0">
+                  <ul class="todo-list">
+                    <li *ngFor="let studentActivityData of studentActivity.activities" class="p-15">
+                      <div class="box p-15 mb-0 d-block bt-2 border-dark">
+                        <div class="table-responsive">
+                          <table class="table table-sm table-bordered">
+                            <thead>
+                              <tr class="text-left">
+                                <th [attr.colspan]="4">{{studentActivityData.activityName}}</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let activityDetails of studentActivityData.activities; index as i">
+                                <td style="width: 5%;">
+                                  {{ i+1 }}
+                                </td>
+                                <td style="width: 90%;">
+                                  <ng-container *ngIf="schoolTypeData && !schoolTypeData.isOLevelSchool">
+                                    <a href="#" class="text-dark font-weight-600 hover-primary font-size-16">{{
+                                      'students.activities.actName' | translate }}</a>
+                                    <span class="text-fade d-block">{{ activityDetails.name }}</span>
+
+                                    <a href="#" class="text-dark font-weight-600 hover-primary font-size-16">{{
+                                      'students.activities.posHeld' | translate }}</a>
+                                    <span class="text-fade d-block">{{ activityDetails.honors
+                                      }}</span>
+                                  </ng-container>
+
+                                  <a href="#" class="text-dark font-weight-600 hover-primary font-size-16">
+                                    {{ 'students.activities.actDesc' | translate }}
+                                  </a>
+                                  <span class="text-fade d-block pre-wrap">{{ activityDetails.description }}</span>
+                                </td>
+                                <!-- update -->
+                                <ng-container *ngIf="user_roles?.isSchoolAdmin || user_roles?.can_add_extracurricular"
+                                  style="width: 5%;">
+                                  <ng-container [ngTemplateOutlet]="extracurricularUpdate"
+                                    [ngTemplateOutletContext]="{term: studentActivity.term, activity: studentActivityData, activityDetails: activityDetails}">
+                                  </ng-container>
+                                </ng-container>
+                                <!-- delete -->
+                                <td *ngIf="user_roles?.isSchoolAdmin || user_roles?.can_add_extracurricular"
+                                  style="width: 5%;" class="text-right">
+                                  <a (click)="deleteActivityConfirmation(activityDetails.id)" [title]="'common.delete' | translate"
+                                    class="waves-effect waves-light btn btn-danger-light btn-circle btn-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                      class="bi bi-trash" viewBox="0 0 16 16">
+                                      <path
+                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                      <path fill-rule="evenodd"
+                                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                    </svg>
+                                  </a>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+
+        <!-- new ext. curr. activity -->
+        <div *ngIf="action == 2" class="box">
+          <ng-container [ngTemplateOutlet]="extracurricularAddition"></ng-container>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</section>
+
+<!-- extracurricular addition -->
+<ng-template #extracurricularAddition>
+  <div class="box-header with-border">
+    <h4>{{ 'students.activities.new' | translate }}</h4>
+  </div>
+
+  <form [formGroup]="addForm" (ngSubmit)="onAdditionSubmit()">
+    <div class="box-body">
+      <div class="row">
+        <!-- year -->
+        <div class="col-12 col-md-4">
+          <div class="form-group mb-3">
+            <label for="year" class="form-label">
+              {{ 'common.year' | translate }}
+              <span *ngIf="yearToAdd?.hasValidator(requiredValidator)" class="text-danger">*</span>
+            </label>
+            <ng-select formControlName="year" [notFoundText]="'common.noItemsFound' | translate" [items]="academicYears"
+              bindLabel="name" bindValue="ayid" [selectOnTab]="true" id="year" name="year"
+              [loading]="isLoadingAcademicYears"
+              [loadingText]="'common.loading' | translate"
+              [placeholder]="'common.selectYear' | translate"
+              [clearable]="false"
+              [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(yearToAdd!) }" required>
+            </ng-select>
+            <ng-container *ngIf="fieldHasErrors(yearToAdd!)">
+              <small *ngIf="yearToAdd?.errors?.['required']" class="text-danger">
+                {{ 'students.activities.form.yearRequiredError' | translate }}
+              </small>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- term -->
+        <div class="col-12 col-md-4">
+          <div class="form-group mb-3">
+            <label for="term" class="form-label">
+              {{ 'common.term' | translate }}
+              <span *ngIf="termToAdd?.hasValidator(requiredValidator)" class="text-danger">*</span>
+            </label>
+            <ng-select formControlName="term" [notFoundText]="'common.noItemsFound' | translate" [selectOnTab]="true"
+              [searchable]="false" [items]="academicTerms" id="term" name="term"
+              [placeholder]="'common.selectTerm' | translate" bindLabel="label" bindValue="value"
+              [clearable]="false"
+              [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(termToAdd!) }" required>
+            </ng-select>
+            <ng-container *ngIf="fieldHasErrors(termToAdd!)">
+              <small *ngIf="termToAdd?.errors?.['required']" class="text-danger">
+                {{ 'students.activities.form.termRequiredError' | translate }}
+              </small>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- activity type -->
+        <div class="col-12 col-md-4">
+          <div class="form-group mb-3">
+            <label for="type" class="form-label">
+              {{ 'students.activities.actType' | translate }}
+              <span *ngIf="typeToAdd?.hasValidator(requiredValidator)" class="text-danger">*</span>
+            </label>
+            <ng-select formControlName="type" [notFoundText]="'common.noItemsFound' | translate"
+              [items]="student.activities" [selectOnTab]="true" id="type" name="type"
+              [placeholder]="'students.activities.selectActType' | translate"
+              [clearable]="false"
+              bindLabel="name"
+              bindValue="activityId" [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(typeToAdd!) }" required>
+            </ng-select>
+            <ng-container *ngIf="fieldHasErrors(typeToAdd!)">
+              <small *ngIf="typeToAdd?.errors?.['required']" class="text-danger">
+                {{ 'students.activities.form.typeRequiredError' | translate }}
+              </small>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- activity name & position held -->
+        <ng-container *ngIf="schoolTypeData && !schoolTypeData.isOLevelSchool">
+          <!-- activity name -->
+          <div class="col-md-12">
+            <div class="form-group mb-3">
+              <label for="name" class="form-label">
+                {{ 'students.activities.actName' | translate}}
+                <span *ngIf="nameToAdd?.hasValidator(requiredValidator)" class="text-danger">*</span>
+              </label>
+              <input formControlName="name" id="name" type="text" class="form-control"
+                placeholder="{{ 'students.activities.actName' | translate }}" name="a_name"
+                [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(nameToAdd!) }" required>
+              <ng-container *ngIf="fieldHasErrors(nameToAdd!)">
+                <small *ngIf="nameToAdd?.errors?.['required']" class="text-danger">
+                  {{ 'students.activities.form.nameRequiredError' | translate }}
+                </small>
+              </ng-container>
+            </div>
+          </div>
+          <!-- position held -->
+          <div class="col-md-12">
+            <div class="form-group mb-3">
+              <label for="position-held" class="form-label">
+                {{ 'students.activities.posHeld' | translate}}
+                <span *ngIf="positionHeldToAdd?.hasValidator(requiredValidator)" class="text-danger">*</span>
+              </label>
+              <textarea formControlName="positionHeld" id="position-held" rows="4" class="form-control"
+                placeholder="{{ 'students.activities.posPlaceholder' | translate }}" name="a_honors"
+                [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(positionHeldToAdd!) }" required>
+                          </textarea>
+              <ng-container *ngIf="fieldHasErrors(positionHeldToAdd!)">
+                <small *ngIf="positionHeldToAdd?.errors?.['required']" class="text-danger">
+                  {{ 'students.activities.form.positionHeldRequiredError' | translate }}
+                </small>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- activity description -->
+        <div class="col-12">
+          <div class="form-group">
+            <label class="form-label">
+              {{ 'students.activities.actDesc' | translate}}
+              <span *ngIf="descriptionToAdd?.hasValidator(requiredValidator)" class="text-danger">*</span>
+            </label>
+            <textarea rows="4" class="form-control" formControlName="description"
+              placeholder="{{ 'students.activities.descPlaceholder' | translate }}" name="n_Desc"
+              [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(descriptionToAdd!) }" required>
+                    </textarea>
+            <ng-container *ngIf="fieldHasErrors(descriptionToAdd!)">
+              <small *ngIf="descriptionToAdd?.errors?.['required']" class="text-danger">
+                {{ 'students.activities.form.descriptionRequiredError' | translate }}
+              </small>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- actions -->
+        <div class="box-footer">
+          <button type="button" class="btn btn-dark btn-sm me-1" (click)="loadView()">
+            <span>{{ 'common.cancel' | translate }}</span>
+          </button>
+
+          <button type="submit" class="btn btn-info btn-sm pull-right" [disabled]="isAdding">
+            <span *ngIf="isAdding" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span [class.ms-2]="isAdding">{{ 'students.activities.save' | translate }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<!-- extracurricular update -->
+<ng-template #extracurricularUpdate let-term="term" let-activity="activity" let-activityDetails="activityDetails">
+  <td class="text-right">
+    <a [title]="'common.update' | translate" class="waves-effect waves-light btn btn-primary-light btn-circle btn-sm"
+      data-bs-toggle="modal" [attr.data-bs-target]="'#extra-act-update-modal' + activityDetails.id"
+      (click)="prefillUpdateForm(term, activity, activityDetails)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square"
+        viewBox="0 0 16 16">
+        <path
+          d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+        <path fill-rule="evenodd"
+          d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+      </svg>
+    </a>
+  </td>
+
+  <div class="modal fade" [id]="'extra-act-update-modal' + activityDetails.id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="extra-act-update-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-3 text-body">
+        <div class="modal-header">
+          <h5 class="modal-" id="extra-act-update-modalLabel">
+            {{ 'students.activities.update.textHeader' | translate }}
+          </h5>
+          <button type="button" [id]="'btn-extra-act-update-modal-' + activityDetails.id" class="btn-close" data-bs-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form [formGroup]="updateForm" (ngSubmit)="onUpdateSubmit(activity.activityId, activityDetails.id)">
+            <div class="row">
+              <!-- year -->
+              <div class="col-12 col-md-6">
+                <div class="form-group mb-3">
+                  <label for="year" class="form-label">
+                    {{ 'common.year' | translate }}
+                    <span *ngIf="yearToUpdate?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                  </label>
+                  <ng-select formControlName="year" [notFoundText]="'common.noItemsFound' | translate" [items]="academicYears"
+                    bindLabel="name" bindValue="ayid" [selectOnTab]="true" id="year" name="year"
+                    [loading]="isLoadingAcademicYears"
+                    [loadingText]="'common.loading' | translate"
+                    [placeholder]="'common.selectYear' | translate"
+                    [clearable]="false"
+                    [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(yearToUpdate!) }" required>
+                  </ng-select>
+                  <ng-container *ngIf="fieldHasErrors(yearToUpdate!)">
+                    <small *ngIf="yearToUpdate?.errors?.['required']" class="text-danger">
+                      {{ 'students.activities.form.yearRequiredError' | translate }}
+                    </small>
+                  </ng-container>
+                </div>
+              </div>
+
+              <!-- term -->
+              <div class="col-12 col-md-6">
+                <div class="form-group mb-3">
+                  <label for="term" class="form-label">
+                    {{ 'common.term' | translate }}
+                    <span *ngIf="termToUpdate?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                  </label>
+                  <ng-select formControlName="term" [notFoundText]="'common.noItemsFound' | translate" [selectOnTab]="true"
+                    [searchable]="false" [items]="academicTerms" id="term" name="term"
+                    [placeholder]="'common.selectTerm' | translate" bindLabel="label" bindValue="value"
+                    [clearable]="false"
+                    [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(termToUpdate!) }" required>
+                  </ng-select>
+                  <ng-container *ngIf="fieldHasErrors(termToUpdate!)">
+                    <small *ngIf="termToUpdate?.errors?.['required']" class="text-danger">
+                      {{ 'students.activities.form.termRequiredError' | translate }}
+                    </small>
+                  </ng-container>
+                </div>
+              </div>
+
+              <!-- activity type -->
+              <div class="col-12 col-md-12">
+                <div class="form-group mb-3">
+                  <label for="type" class="form-label">
+                    {{ 'students.activities.actType' | translate }}
+                    <span *ngIf="typeToAdd?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                  </label>
+                  <ng-select formControlName="type" [notFoundText]="'common.noItemsFound' | translate"
+                    [items]="student.activities" bindLabel="name" bindValue="activityId" [selectOnTab]="true" id="type" name="type"
+                    [placeholder]="'students.activities.selectActType' | translate"
+                    [clearable]="false"
+                    [ngClass]="{ 'b-1 border-danger rounded': typeToUpdate?.invalid }" required>
+                  </ng-select>
+                  <ng-container *ngIf="fieldHasErrors(typeToUpdate!)">
+                    <small *ngIf="typeToUpdate?.errors?.['required']" class="text-danger">
+                      {{ 'students.activities.form.typeRequiredError' | translate }}
+                    </small>
+                  </ng-container>
+                </div>
+              </div>
+
+              <!-- activity name & position held -->
+              <ng-container *ngIf="schoolTypeData && !schoolTypeData.isOLevelSchool">
+                <!-- activity name -->
+                <div class="col-md-12">
+                  <div class="form-group mb-3">
+                    <label for="name" class="form-label">
+                      {{ 'students.activities.actName' | translate}}
+                      <span *ngIf="nameToUpdate?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                    </label>
+                    <input formControlName="name" id="name" type="text" class="form-control"
+                      placeholder="{{ 'students.activities.actName' | translate }}" name="a_name"
+                      [ngClass]="{ 'b-1 border-danger rounded': nameToUpdate?.invalid }" required>
+                    <ng-container *ngIf="fieldHasErrors(nameToUpdate!)">
+                      <small *ngIf="nameToUpdate?.errors?.['required']" class="text-danger">
+                        {{ 'students.activities.form.nameRequiredError' | translate }}
+                      </small>
+                    </ng-container>
+                  </div>
+                </div>
+                <!-- position held -->
+                <div class="col-md-12">
+                  <div class="form-group mb-3">
+                    <label for="position-held" class="form-label">
+                      {{ 'students.activities.posHeld' | translate}}
+                      <span *ngIf="positionHeldToUpdate?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                    </label>
+                    <textarea formControlName="positionHeld" id="position-held" rows="4" class="form-control"
+                      placeholder="{{ 'students.activities.posPlaceholder' | translate }}" name="a_honors"
+                      [ngClass]="{ 'b-1 border-danger rounded': positionHeldToUpdate?.invalid }" required>
+                        </textarea>
+                    <ng-container *ngIf="fieldHasErrors(positionHeldToUpdate!)">
+                      <small *ngIf="positionHeldToUpdate?.errors?.['required']" class="text-danger">
+                        {{ 'students.activities.form.positionHeldRequiredError' | translate }}
+                      </small>
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- activity description -->
+              <div class="col-12">
+                <div class="form-group">
+                  <label class="form-label">
+                    {{ 'students.activities.actDesc' | translate}}
+                    <span *ngIf="descriptionToUpdate?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                  </label>
+                  <textarea rows="4" class="form-control" formControlName="description"
+                    placeholder="{{ 'students.activities.descPlaceholder' | translate }}" name="n_Desc"
+                    [ngClass]="{ 'b-1 border-danger rounded': descriptionToUpdate?.invalid }" required>
+                  </textarea>
+                  <ng-container *ngIf="fieldHasErrors(descriptionToUpdate!)">
+                    <small *ngIf="descriptionToUpdate?.errors?.['required']" class="text-danger">
+                      {{ 'students.activities.form.descriptionRequiredError' | translate }}
+                    </small>
+                  </ng-container>
+                </div>
+              </div>
+
+              <!-- actions -->
+              <div class="modal-footer d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary" [disabled]="isUpdating">
+                  <span *ngIf="isUpdating" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                  <span [class.ms-2]="isUpdating">{{ 'common.submit' | translate }}</span>
+                </button>
+
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">
+                  <span>{{ 'common.cancel' | translate }}</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

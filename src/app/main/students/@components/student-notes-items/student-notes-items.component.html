@@ -1,0 +1,23 @@
+<ng-container *ngIf="displayComments; else displayDiscipline">
+  <a *ngIf="!schoolInfo?.hasStudentBehaviour" class="dropdown-item"
+    [routerLink]="['/main/students/dpn/', studentID]">
+    {{ 'common.comments' | translate }}
+  </a>
+  <hr *ngIf="showDivider">
+</ng-container>
+
+<ng-template #displayDiscipline>
+  <ng-container *ngIf="schoolInfo?.hasStudentBehaviour; else noStudentBehaviour">
+    <a *ngIf="schoolInfo?.hasStudentBehaviour" class="dropdown-item" [routerLink]="['/main/behaviour/student', studentID]">
+      {{ 'students.behaviour' | translate }}
+    </a>
+    <hr *ngIf="showDivider">
+  </ng-container>
+
+  <ng-template #noStudentBehaviour>
+    <a class="dropdown-item" routerLink="../../dpn/{{studentID}}">
+      {{ 'students.disc' | translate }}
+    </a>
+    <hr *ngIf="showDivider">
+  </ng-template>
+</ng-template>

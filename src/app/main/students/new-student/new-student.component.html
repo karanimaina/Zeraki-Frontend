@@ -1,0 +1,347 @@
+<!-- Student Top Nav -->
+<app-students-top-nav *ngIf="!schoolSetup"></app-students-top-nav>
+
+
+
+<!-- Main content -->
+<section [ngClass]="!schoolSetup ? 'content mt-config' : ''">
+    <div class="row" *ngIf="studentAddSuccess">
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-header">
+                    <span class="box-title">
+                        {{"students.new.swal.title2"|translate}}
+                    </span>
+                </div>
+                <div class="box-body">
+                    <p>
+                        <span *ngIf="newStudents.length>1">
+                            {{"students.new.swal.message1"|translate:{number:newStudents.length} }}
+                        </span>
+                        <span *ngIf="newStudents.length==1">
+                            {{"students.new.swal.message2"|translate:{number:newStudents.length} }}
+
+                        </span>
+                    </p>
+
+                    <button (click)="addMoreStudents()"
+                        class="pull-left btn btn-sm waves-effect waves-light btn-success">
+                        {{"students.new.addMore"|translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!studentAddSuccess" class="row">
+        <div class="col-sm-12">
+
+            <div class="box">
+                <div class="box-header with-border">
+                    <h4 class="box-title">{{ 'students.new.options' | translate }}</h4>
+                    <div class="row mt-10">
+                        <div class="col-md-6 col-lg-3">
+                            <input (click)="toggleRadio('keyIn')" type="radio" id="key_in_radio"
+                                class="with-gap radio-col-primary" [checked]="keyInStudentInfo" />
+                            <label for="key_in_radio">{{ 'students.new.keyIn' | translate }}</label>
+                        </div>
+                        <div class="col-md-6 col-lg-6">
+                            <input (click)="toggleRadio('upload')" type="radio" id="upload_radio"
+                                class="with-gap radio-col-primary" [checked]="!keyInStudentInfo" />
+                            <label for="upload_radio">{{ 'students.new.uploadFrmSheet' | translate }}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KEY IN FORM -->
+                <form [formGroup]="newStudentForm" class="form" *ngIf="keyInStudentInfo" (ngSubmit)="addStudent()">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        {{ 'common.admno' | translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control"
+                                        placeholder="{{ 'common.admno' | translate }}" formControlName="admNo"
+                                        [ngClass]="{ 'is-invalid': submitted && newStudentFormControls['admNo'].errors }">
+                                    <div *ngIf="submitted && newStudentFormControls['admNo'].errors"
+                                        class="form-control-feedback text-danger">
+                                        <small *ngIf="newStudentFormControls['admNo'].errors['required']">
+                                            {{ 'students.new.admnoErrMes' | translate }}.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        {{ 'students.new.name' | translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control"
+                                        placeholder="{{ 'students.new.name' | translate }}" formControlName="name"
+                                        [ngClass]="{ 'is-invalid': submitted && newStudentFormControls['name'].errors }">
+                                    <div *ngIf="submitted && newStudentFormControls['name'].errors"
+                                        class="form-control-feedback text-danger">
+                                        <small *ngIf="submitted && newStudentFormControls['name'].errors['required']">
+                                            {{ 'students.new.nameErrMes' | translate }}.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        {{ schoolTypeData?.formoryear | formOrYear }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                        class="form-control-dropdown"
+                                        placeholder="{{ 'students.new.formPlaceholder' | translate: {formoryear: (schoolTypeData?.formoryear | formOrYear )} }}"
+                                        bindLabel="classlevel" [items]="schoolTypeData?.current_forms_list!"
+                                        formControlName="intake"
+                                        [ngClass]="{ 'is-invalid': submitted && newStudentFormControls['intake'].errors }">
+                                    </ng-select>
+                                    <div *ngIf="submitted && newStudentFormControls['intake'].errors"
+                                        class="form-control-feedback text-danger">
+                                        <small *ngIf="newStudentFormControls['intake'].errors['required']">
+                                            {{ 'students.new.formErrMes' | translate: {formoryear:
+                                            (schoolTypeData?.formoryear | formOrYear)} }}.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        {{ 'common.stream' | translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <ng-select class="form-control-dropdown"
+                                        placeholder="{{ 'students.new.streamPlaceholder' | translate }}"
+                                        bindLabel="name" bindValue="name" [items]="selected_intake?.streams"
+                                        formControlName="stream"
+                                        [ngClass]="{ 'is-invalid': submitted && newStudentFormControls['stream'].errors }"
+                                        [notFoundText]="'common.noItemsFound' | translate">
+                                    </ng-select>
+                                    <div *ngIf="submitted && newStudentFormControls['stream'].errors "
+                                        class="form-control-feedback text-danger">
+                                        <small *ngIf="submitted && newStudentFormControls['stream'].errors['required']">
+                                            {{ 'common.streamErrMes' | translate }}.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        {{ 'common.gender' | translate }}
+                                        <span class="text-danger">*</span></label>
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate" [selectOnTab]="true"
+                                        placeholder="{{ 'common.genderPlaceholderText' | translate }}"
+                                        formControlName="gender" class="form-control-dropdown"
+                                        [ngClass]="{ 'is-invalid': submitted && newStudentFormControls['gender'].errors }">
+
+                                        <ng-option [value]="'male'">{{ 'common.male' | translate }}</ng-option>
+                                        <ng-option [value]="'female'">{{ 'common.female' | translate }}</ng-option>
+                                        <ng-option [value]="'unspecified'">{{ 'common.unspecified' | translate
+                                            }}</ng-option>
+
+                                    </ng-select>
+                                    <small class="text-start fst-italic text-muted">
+                                        {{ 'students.new.genderHelperText' | translate }}
+                                    </small>
+                                    <div *ngIf="submitted && newStudentFormControls['gender'].errors"
+                                        class="form-control-feedback text-danger">
+                                        <small *ngIf="newStudentFormControls['gender'].errors['required']">
+                                            {{ 'students.new.genderRequired' | translate }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="displayBoardinStatusField" class="col-md-6">
+                                <div class="form-group">
+                                    <app-ng-select
+                                        [label]="'settings.schoolInfoProfile.profileForm.boardingStatus' | translate"
+                                        id="boardingStatus"
+                                        formControlName="boardingStatus"
+                                        [items]="boardingStatuses"
+                                        [selectOnTab]="true"
+                                        [placeholder]="'settings.schoolInfoProfile.profileForm.selectBStatus' | translate"
+                                        [clearable]="false"
+                                        [ngClass]="{ 'is-invalid': submitted && newStudentFormControls['boardingStatus'].errors }">
+                                    </app-ng-select>
+                                </div>
+                            </div>
+
+                            <ui-guinea-school [template]="majorsSelectTemplate"></ui-guinea-school>
+                            <ui-ivory-coast-school [template]="majorsSelectTemplate"></ui-ivory-coast-school>
+                            <ui-ghana-senior-school [template]="majorsSelectTemplate"></ui-ghana-senior-school>
+
+                            <ng-template #majorsSelectTemplate>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            {{ 'students.major' | translate }}
+                                            <span class="text-danger">*</span></label>
+                                        <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                            [selectOnTab]="true" placeholder="{{ 'students.major' | translate }}"
+                                            formControlName="major" [items]="majors" bindLabel="name"
+                                            bindValue="textCode" class="form-control-dropdown"
+                                            [ngClass]="{ 'is-invalid': submitted && newStudentFormControls['major'].errors }">
+                                        </ng-select>
+                                        <div *ngIf="submitted && newStudentFormControls['major'].errors"
+                                            class="form-control-feedback text-danger">
+                                            <small *ngIf="newStudentFormControls['major'].errors['required']">
+                                                {{ 'students.new.majorRequired' | translate }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-sm btn-secondary me-1 text-start"
+                            (click)="resetFormsToInitialState();">
+                            <i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-x" viewBox="0 0 16 16">
+                                    <path
+                                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            </i>
+                            <span>
+                                {{ 'common.clear' | translate }}
+                            </span>
+                        </button>
+                        <button type="submit" class="btn btn-sm btn-primary text-end" [disabled]="isAdding">
+                            <i class="bi bi-plus-circle me-2"></i>
+                            <span *ngIf="!isAdding">{{ 'common.add' | translate }}</span>
+                            <span *ngIf="isAdding">{{ 'common.adding' | translate }} <i
+                                    class="fa fa-spinner fa-spin"></i></span>
+                        </button>
+                    </div>
+                </form>
+
+
+                <!-- UPLOAD -->
+                <form [formGroup]="uploadForm" class="form" *ngIf="!keyInStudentInfo"
+                    (ngSubmit)="uploadStudentsFromExcel()">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">{{schoolTypeData?.formoryear | formOrYear }} <span
+                                            class="text-danger">*</span></label>
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                        class="form-control-dropdown"
+                                        [placeholder]="schoolTypeData?.formoryear | formOrYear" bindLabel="classlevel"
+                                        [items]="schoolTypeData?.current_forms_list!" formControlName="intake"
+                                        [ngClass]="{ 'is-invalid': uploadSubmitted && uploadStudentFormControls['intake'].errors }">
+                                    </ng-select>
+                                    <div *ngIf="uploadSubmitted && uploadStudentFormControls['intake'].errors"
+                                        class="form-control-feedback text-danger">
+                                        <div *ngIf="uploadSubmitted && uploadStudentFormControls['intake'].errors['required']"
+                                            class="form-control-feedback text-danger">
+                                            <small>{{ 'common.formErrMes' | translate:
+                                                {formoryear:(schoolTypeData?.formoryear | formOrYear)} }}.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <app-excel-download-template
+                                    [fileName]="'students.new.excelTemplateDownload.fileName' | translate"
+                                    [templateHeaders]="templateHeaders"
+                                    [hasErrors]="uploadSubmitted && uploadStudentFormControls['studentListFile'].invalid"
+                                    (uploadedEntries)="setNewStudents($event)"></app-excel-download-template>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer form-group mb-0" style="display: flex; justify-content: space-between;">
+                        <span></span>
+                        <div>
+                            <div *ngIf="showLoading;then showIsLoading else showButton"></div>
+                            <ng-template #showIsLoading>
+                                <app-loader-pulse style="display: inline-block;"></app-loader-pulse>
+                            </ng-template>
+                            <ng-template #showButton>
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    <i class="me-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                            <path
+                                                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                                            <path
+                                                d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z" />
+                                        </svg>
+                                    </i>
+                                    {{ 'common.upload' | translate }}
+                                </button>
+                            </ng-template>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar" [ngClass]="{'control-sidebar-open': rightSidebar}">
+
+    <!-- <div class="rpanel-title" data-toggle="control-sidebar"><span class="pull-right btn btn-circle btn-danger"><i class="ion ion-close text-white"></i></span> </div>  Create the tabs -->
+
+
+    <div>
+        <span class="font-bold no-margins text-danger">
+            <!-- Error -->
+            {{"common.error"|translate}}
+        </span>
+        <br>
+        <small>
+            <!-- The following errors were encountered  -->
+            {{"students.errorList"|translate}}
+        </small>
+        <button style="margin-top: -19px;" (click)="rightSidebar = false"
+            class="pull-right btn waves-effect waves-light btn-sm btn-danger">
+            <i class="text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+            </i>
+        </button>
+    </div>
+    <hr>
+    <!-- Tab panes -->
+    <div class="tab-content p-0">
+        <div>
+            <div class="media-list media-list-hover mt-10 bg-secondary">
+                <div *ngFor="let error of customErrors; first as isFirst" class="media py-10 px-0"
+                    [ngClass]="{'bt-2': !isFirst}">
+                    <div class="media-body">
+                        <p class="fs-16">
+                            <a><strong>{{ error.title }}</strong></a>
+                        </p>
+                        <p *ngFor="let msg of error.msg" class="fs-12">{{ msg }}</p>
+                        <!-- <p></p> -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.tab-pane -->
+    </div>
+</aside>
+<!-- /.control-sidebar -->

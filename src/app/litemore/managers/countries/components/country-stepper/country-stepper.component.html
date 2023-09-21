@@ -1,0 +1,61 @@
+<section class="mt-config content">
+	<div class="row">
+		<div class="col-12">
+			<div class="box">
+				<div class="box-header">
+					<h4 class="box-title">
+						<ng-container *ngIf="isUpdating else addCountry">
+							{{"litemore.managers.countries.updateCountry.updateCountry"|translate}}
+						</ng-container>
+						<ng-template #addCountry>
+							{{"litemore.managers.countries.addCountry.addCountry"|translate}}
+						</ng-template>
+					</h4>
+					<div class="box-controls">
+						<button (click)="back()" class="btn btn-dark btn-sm waves-effect waves-light pull-right">
+							{{'common.back'|translate}}
+						</button>
+					</div>
+				</div>
+				<div class="box-body">
+					<!--Implement mat stepper here!-->
+					<mat-stepper [orientation]="(stepperOrientation$ | async)!" #stepper>
+						<mat-step [completed]="completedStep1">
+							<ng-template matStepLabel>
+								<!--Country -->
+								{{'litemore.managers.countries.addCountry.country'|translate}}
+							</ng-template>
+							<app-add-country
+								[APIStatus]="APIStatus"
+								[countryDivisions$]="countryDivisions$"
+								[getCountryDivisionsStatus$]="getCountryDivisionsStatus$"
+								[country]="country"
+								(addCountryEvt)="handleCountryEvt($event)"></app-add-country>
+						</mat-step>
+						<mat-step [completed]="completedStep2">
+							<ng-template matStepLabel>
+								<!--Company Details -->
+								{{'litemore.managers.countries.addCountry.companyDetails'|translate}}
+							</ng-template>
+							<app-add-company-details [companyDetails]="companyDetails"
+								(addCompanyDetailsEvt)="handleCompanyDetailsEvt($event)"></app-add-company-details>
+
+						</mat-step>
+
+						<mat-step>
+							<ng-template matStepLabel>
+								<!--Payment Details -->
+								{{'litemore.managers.countries.addCountry.paymentDetails'|translate}}
+
+							</ng-template>
+							<app-add-payment-details
+								[isAddingCountry]="isAddingCountry"
+								[paymentInformation]="paymentDetails"
+								(paymentDetailsEvt)="handlePaymentDetailsEvt($event)"></app-add-payment-details>
+						</mat-step>
+					</mat-stepper>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

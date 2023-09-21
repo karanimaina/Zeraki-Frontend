@@ -1,0 +1,34 @@
+.countdown-wrapper>div {
+    display: inline-block;
+    height: 7rem;
+    position: relative;
+    width: 7rem;
+    margin: 5px;
+    border-radius: 50%;
+    border-width: 10px !important;
+}
+
+.main-header .navbar{
+    transition: margin-left 0.3s ease-in-out;
+    border-bottom: 1px solid rgba(72, 94, 144, 0.16) !important;
+}
+
+.countdown-wrapper>div>div{
+    text-align: center;
+}
+.countdown-wrapper>div>div>div{
+    text-align: center;
+    font-size: smaller;
+    font-weight: 600;
+}
+.countdown-wrapper{
+    max-width: 500px;
+}
+
+.countdown-wrapper>div>div>span.timer{
+    font-weight: 600;
+    // margin-top: -26px;
+    font-size: 26px;
+    margin-top: calc(20% - 0px);
+    
+}

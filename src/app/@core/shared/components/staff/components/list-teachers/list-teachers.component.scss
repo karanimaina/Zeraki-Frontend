@@ -1,0 +1,17 @@
+@use "sass:color";
+
+.btn .badge {
+  position: relative;
+  top: -65px;
+}
+
+.btn-revoke-admin {
+  $bg-color: #ea5455;
+
+  color: white;
+  background-color: $bg-color;
+
+  &:hover {
+    background-color: color.adjust($bg-color, $blackness: 15%);
+  }
+}

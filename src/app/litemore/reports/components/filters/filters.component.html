@@ -1,0 +1,37 @@
+<div class="box-header with-border">
+    <h4 class="box-title">{{'litemore.reports.components.filters.searchBy'|translate}}:</h4>
+    <div class="row mt-10">
+        <app-submit-form [formGroup]="filterForm" (onSubmit)="onFilterFormSubmit()">
+            <!-- filters btn and dropdown -->
+            <section class="mb-0 ms-3">
+                <div class="row">
+                    <div class="box-controls flex-row">
+                        <button type="button" class="waves-effect waves-light btn btn-sm btn-primary dropdown-toggle text-white text-capitalize"
+                            data-bs-toggle="dropdown">{{ activeReportType }}</button>
+                        <div class="dropdown-menu">
+                            <a
+                                *ngFor="let report of reportTypes"
+                                class="dropdown-item"
+                                [class.active]="report.value === activeReportType"
+                                (click)="changeActiveReportType(report)">
+                                {{ report.name }}
+                            </a>
+                        </div>
+                        <button type="button"
+                            class="waves-effect waves-light btn btn-sm btn-primary dropdown-toggle mx-10 text-white"
+                            data-bs-toggle="dropdown">{{ 'litemore.filterBy' | translate }}:</button>
+                        <div class="dropdown-menu">
+                            <div *ngFor="let filter of reportFilters; let i=index" class="dropdown-item">
+                                <input type="checkbox" class="filled-in chk-col-success" [value]="filter.value"
+                                    (change)="onFilterCheckboxChange($event)"
+                                    [checked]="filterForm.value.checkArray.includes(filter.value)"
+                                    id="sch_filter_{{filter.value}}" />
+                                <label for="sch_filter_{{filter.value}}">{{filter.name}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </app-submit-form>
+    </div>
+</div>

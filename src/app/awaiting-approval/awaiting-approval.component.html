@@ -1,0 +1,48 @@
+<body class="hold-transition sidebar-mini theme-primary fixed" [ngClass]="isChecked ? 'dark-skin' : 'light-skin'">
+  <div class="wrapper">
+
+    <app-basic-top-nav [hasNotifications]="false" [hasSettings]="true"></app-basic-top-nav>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" style="margin: 2em 1em 0px 1em; padding-top: 5em">
+      <div class="container-full">
+
+        <div class="mt-topNav {{(networkStatus$ | async)? '': 'offline'}}">
+          <!-- Main content -->
+          <section *ngIf="!networkService.isNetworkStopped" class="content">
+            <div class="col-12">
+              <div class="box box-outline-success">
+                <!-- <div class="card-body">
+                        <span class="bb-1 opacity-80 pb-2">School Awaiting Approval</span>
+                        <br>
+                        <h6>Your school is currently undergoing the approval process. You will be notified once the process has been completed.</h3>
+                      </div> -->
+                <div class="box-header text-center no-border">
+                  <h6 class="box-title"><strong><span class="bb-2 opacity-80 pb-2">{{ 'approval.title' | translate
+                        }}</span></strong></h6>
+                </div>
+
+                <div class="box-body text-center">
+                  {{ 'approval.text' | translate }}
+                </div>
+              </div>
+            </div>
+          </section>
+          <app-connection-lost *ngIf="networkService.isNetworkStopped"></app-connection-lost>
+        </div>
+      </div>
+    </div>
+
+    <!-- /.content-wrapper -->
+    <div>
+      <footer class="main-footer fixed-bottom text-center" style="margin-left: 0px;">
+        &copy; 2022 <a href="https://www.zeraki.app/">Zeraki</a>. {{ 'common.allRightsReserved' | translate }}.
+      </footer>
+    </div>
+
+
+
+  </div>
+  <!-- ./wrapper -->
+
+</body>

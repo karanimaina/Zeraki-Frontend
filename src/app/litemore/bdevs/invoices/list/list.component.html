@@ -1,0 +1,264 @@
+<!-- Main content -->
+<section class="content mt-config">
+	<div class="col-12">
+		<!--
+			============================
+			Section Checkbox options
+			============================
+			-->
+		<app-filter (OloadSchoolList)="OloadSchoolList($event)" (OFilterForm)="OFilterForm($event)"
+			(ORegionalCountyList)="ORegionalCountyList($event)" (OCountyList)="OCountyList($event)">
+		</app-filter>
+	</div>
+
+
+	<!-- Table Data Area -->
+	<div class="row">
+		<ng-container *ngIf="isLoadingSchools; else schoolListLoaded">
+			<div class="col-12">
+				<div class="box">
+					<div class="box-body">
+						<app-loader-div [height]="250"></app-loader-div>
+					</div>
+				</div>
+			</div>
+		</ng-container>
+
+		<ng-template #schoolListLoaded>
+			<!-- schools listing -->
+			<div *ngIf="schoolList?.schools?.length" class="col-12">
+				<div class="box">
+					<div class="box-header" style="min-height: 40px">
+						<span class="box-title fw-600">
+							{{'litemore.bdevs.invoices.list.listOfSchools'|translate}}
+						</span>
+						<div class="box-controls pull-right">
+							<button class="btn btn-xs btn-success waves-effect waves-light pull-right"
+								[disabled]="isGeneratingExcel" (click)="schoolListToExcel()">
+								<i [class]="isGeneratingExcel ? 'fa fa-spinner fa-spin' : 'fa fa-file-excel-o'"></i>
+								<span class="ms-1">{{'litemore.bdevs.invoices.list.exportToExcel'|translate}}</span>
+							</button>
+						</div>
+					</div>
+
+					<div class="box-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="table-responsive">
+									<table class="table table-bordered table-hover table-striped">
+										<thead>
+											<tr class="text-uppercase">
+												<th rowspan="2">{{'litemore.bdevs.invoices.list.school'|translate}}</th>
+												<th rowspan="2">{{'litemore.bdevs.invoices.list.county'|translate}}</th>
+												<th rowspan="2">{{'litemore.bdevs.invoices.list.signUpDate'|translate}}</th>
+												<th rowspan="2">{{'litemore.bdevs.invoices.list.registeredProducts'|translate}}</th>
+												<th rowspan="2">{{'litemore.bdevs.invoices.list.contactPerson'|translate}}</th>
+												<th rowspan="2">{{'litemore.bdevs.invoices.list.setupDone'|translate}}</th>
+												<th rowspan="2">{{'litemore.bdevs.invoices.list.trainingDone'|translate}}</th>
+												<th colspan="2" class="text-center"
+													style="border-bottom: 1px solid #ddd">{{'litemore.bdevs.invoices.list.miniStatements'|translate}}</th>
+												<th colspan="2" class="text-center"
+													style="border-bottom: 1px solid #ddd">{{'litemore.bdevs.invoices.list.finance'|translate}}</th>
+												<th rowspan="2">{{'litemore.bdevs.invoices.list.balance'|translate}}</th>
+												<th rowspan="2" style="width: 120px;">{{'litemore.bdevs.invoices.list.action'|translate}}</th>
+											</tr>
+											<tr>
+												<th>{{'litemore.bdevs.invoices.list.proformaInvoices'|translate}}</th>
+												<th style="border-right: 1px solid #ddd;">{{'litemore.bdevs.invoices.list.invoices'|translate}}</th>
+												<th>{{'litemore.bdevs.invoices.list.collections'|translate}}</th>
+												<th>{{'litemore.bdevs.invoices.list.vouchers'|translate}}</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr *ngFor='let school of schoolList?.schools; index as i;'>
+												<td>
+													<div class="font-bold">{{school.school.schoolName}}</div>
+													<div><code>{{school.school.schoolCode}}</code></div>
+												</td>
+												<td>
+													<div *ngIf="!school.county_edit">
+														<table style="width: 100%">
+															<tbody>
+																<tr>
+																	<td>{{school.county}}</td>
+																	<td *ngIf="school.edit">
+																		<button (click)="initEditSchoolCounty(school)"
+																			style="margin-left: 8px"
+																			class="btn btn-secondary btn-xs pull-right"
+																			type="button"><i
+																				class="fa fa-edit"></i></button>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+													<div *ngIf="school.county_edit && school.edit">
+														<div class="input-group" style="width: 140px;margin: 0;">
+															<select name="name" class="form-select"
+																[(ngModel)]="school.county_temp"
+																(change)="updateSchoolCounty(school)">
+																<option *ngFor="let county of countyList">
+																	{{county.name}}</option>
+															</select>
+															<button type="button"
+																class="btn btn-sm waves-effect waves-light btn-primary"
+																(click)="school.county_edit = false"><i
+																	class="fa fa-times"></i></button>
+														</div>
+													</div>
+												</td>
+												<td>{{school.signUpDate}}</td>
+												<td>
+													<div *ngIf='school.registeredProducts.hasAnalytics'
+														class="badge badge-primary mb-1 me-1">
+														{{'litemore.bdevs.invoices.list.analytics'|translate}}
+													</div>
+													<div *ngIf='school.registeredProducts.hasFinance'
+														class="badge badge-warning mb-1 me-1">
+														{{'litemore.bdevs.invoices.list.finance'|translate}}
+													</div>
+													<div *ngIf='school.registeredProducts.hasTimeTable'
+														class="badge badge-info">
+														{{'litemore.bdevs.invoices.list.timetable'|translate}}
+													</div>
+													<label
+														*ngIf='!school.registeredProducts.hasTimeTable && !school.registeredProducts.hasFinance && !school.registeredProducts.hasAnalytics '
+														class="label label-warning" style="font-size: smaller">{{'litemore.bdevs.invoices.list.noneRegistered'|translate}}</label>
+												</td>
+												<td>
+													<form id="updateContactPersonForm" name="updateContactPersonForm"
+														(ngSubmit)="updateContactPerson(school)">
+														<table>
+															<tbody>
+																<tr>
+																	<td *ngIf="!school.contact_edit">
+																		<p class="text-bold mb-0">
+																			{{school.contactPerson.name}}</p>
+																		<p class="mb-0">
+																			<b>{{school.contactPerson.phone}}</b>
+																		</p>
+																	</td>
+																	<td *ngIf="school.edit && !school.contact_edit"
+																		rowspan="2">
+																		<button
+																			(click)="initiateContactPersonEdit(school, true)"
+																			style="margin-left: 8px"
+																			class="btn btn-secondary btn-xs pull-right"
+																			type="button"><i
+																				class="fa fa-edit"></i></button>
+																	</td>
+																	<td *ngIf="school.contact_edit">
+																		<input type="text"
+																			title="{{'litemore.bdevs.invoices.list.enterContactPersonName'|translate}}"
+																			placeholder="{{'litemore.bdevs.invoices.list.name'|translate}}" required
+																			pattern="[\s\S]*\S[\s\S]*" value=""
+																			name="name" id="name"
+																			[(ngModel)]="school.contact_person_name_temp"
+																			class="form-control">
+																	</td>
+																</tr>
+																<tr>
+																	<td *ngIf="!school.contact_edit">
+																		<div>{{school.contact_person_phone}}</div>
+																	</td>
+																	<td *ngIf="school.contact_edit">
+																		<div style='padding: 8px 0px'>
+																			<input type="text"
+																				title="{{'litemore.bdevs.invoices.list.enterContactPersonPhoneNumber'|translate}}"
+																				placeholder="{{'litemore.bdevs.invoices.list.phoneNumber'|translate}}" required
+																				pattern="[\s\S]*\S[\s\S]*" value=""
+																				name="phone" id="phone"
+																				[(ngModel)]="school.contact_person_phone_temp"
+																				class="form-control">
+																		</div>
+																	</td>
+																</tr>
+																<tr *ngIf="school.edit && school.contact_edit">
+																	<td>
+																		<button type="submit"
+																			class="btn btn-sm btn-success btn-block">{{'litemore.bdevs.invoices.list.updateContactPerson'|translate}}</button>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</form>
+												</td>
+												<!-- TODO: Update visibility to creators of the schools or those allow to mark training and setup -->
+												<td>
+													<button class="btn btn-sm btn-primary"
+														(click)="updateTrackingUsage(school,1,i)"
+														*ngIf="school.usageTracking.setup === null">{{'litemore.bdevs.invoices.list.markSetup'|translate}}</button>
+													<span class="text-success"
+														*ngIf="school.usageTracking.setup !== null">{{school.usageTracking.setup}}</span>
+												</td>
+												<td>
+													<button class="btn btn-sm btn-primary"
+														(click)="updateTrackingUsage(school,2,i)"
+														*ngIf="school.usageTracking.training === null">{{'litemore.bdevs.invoices.list.markTraining'|translate}}</button>
+													<span class="text-success"
+														*ngIf="school.usageTracking.training !== null">{{school.usageTracking.training}}</span>
+												</td>
+												<td>{{school.miniStatement.proformaInvoices}}</td>
+												<td>{{school.miniStatement.invoices}}</td>
+
+												<td>{{school?.financeUsage?.collections || 0}}</td>
+												<td>{{school?.financeUsage?.vouchers || 0}}</td>
+
+												<td style="min-width: 110px;">{{school.balance| numberFormat}}</td>
+												<td style="width: 120px;">
+													<div class="btn-group position-static">
+														<button
+															class="btn btn-secondary waves-effect waves-light btn-sm dropdown-toggle"
+															type="button" data-bs-toggle="dropdown"
+															aria-expanded="false">{{'litemore.bdevs.invoices.list.action'|translate}}</button>
+														<div class="dropdown-menu">
+															<a class="dropdown-item" *ngIf="!school.edit"
+																(click)="initiateSchoolEdit(school, true)">{{'litemore.bdevs.invoices.list.edit'|translate}}</a>
+															<a class="dropdown-item" *ngIf="school.edit"
+																(click)="initiateSchoolEdit(school, false)"><span
+																	class="text-primary">{{'litemore.bdevs.invoices.list.done'|translate}}</span></a>
+															<a class="dropdown-item"
+																(click)="viewSchool(school.school.schoolId)">{{'litemore.bdevs.invoices.list.view'|translate}}</a>
+														</div>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<!-- pagination -->
+								<div *ngIf='schoolList?.schools?.length' id="paginationControls" class="text-end">
+									<span> {{'litemore.bdevs.invoices.list.page'|translate}} {{ schoolList?.currentPage}} {{'litemore.bdevs.invoices.list.of'|translate}} {{schoolList?.totalPages}} </span>
+
+									<button class="btn btn-sm btn-secondary mr-5" style="margin-right: 5px;"
+										(click)="prevClicked()">
+										&lsaquo;
+									</button>
+
+									<button class="btn btn-sm btn-secondary" (click)="nextClicked()">
+										&rsaquo;
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- no schools found -->
+			<div *ngIf='schoolList?.schools?.length == 0' class="col-12">
+				<div class="box">
+					<div class="box-header">
+						<span class="box-title">{{'litemore.bdevs.invoices.list.listOfSchools'|translate}}</span>
+					</div>
+					<div class="box-body">
+						<p class="mb-0">
+							{{'litemore.bdevs.invoices.list.noSchoolsFound'|translate}}
+						</p>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</div>
+</section>

@@ -1,0 +1,270 @@
+<!-- <pre>Swap >> {{counties | json}}</pre> -->
+<mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="vForm1.control">
+        <form #vForm1="ngForm">
+            <ng-template matStepLabel>{{ 'opportunities.swap.addSwap.from.headerText' | translate }}: <span class="text-info">{{swap.countyFrom?.name}}</span></ng-template>
+            <div class="row mt-10">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label">{{ 'opportunities.swap.addSwap.from.form.schoolInfo' | translate }}<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" [placeholder]="'opportunities.swap.addSwap.from.form.schoolInfoPlaceholderText' | translate"
+                            name="vSchool" #vSchool="ngModel" [(ngModel)]="swap.schoolFrom" required
+                            [ngClass]="{ 'b-1 && border-danger': vForm1.submitted && vSchool.invalid }" disabled>
+                        <div *ngIf="vForm1.submitted && vSchool.errors?.required" class="form-control-feedback text-danger">
+                            <small>{{ 'opportunities.swap.addSwap.from.formErrors.schoolInfo' | translate }}.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label">{{ 'opportunities.swap.addSwap.from.form.county' | translate }}<span class="text-danger">*</span></label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                            [items]="counties"
+                            [placeholder]="'opportunities.swap.addSwap.from.form.countyPlaceholderText' | translate"
+                            class="form-control-dropdown"
+                            appendTo="body"
+                            [dropdownPosition]="'bottom'"
+                            [clearable]="false"
+                            name="form_selected"
+                            #countyFrom="ngModel"
+                            [(ngModel)]="swap.countyFrom"
+                            bindLabel="name"
+                            required
+                            [ngClass]="{ 'b-1 && border-danger': vForm1.submitted && countyFrom.invalid }"
+                            disabled>
+                        </ng-select>
+                        <div *ngIf="vForm1.submitted && countyFrom.errors?.required" class="form-control-feedback text-danger">
+                            <small>{{ 'opportunities.swap.addSwap.from.formErrors.county' | translate }}.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label">{{ 'opportunities.swap.addSwap.from.form.subCounty' | translate }}</label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                            [items]="regionFrom.county.sub_counties"
+                            [placeholder]="'opportunities.swap.addSwap.from.form.subCountyPlaceholderText' | translate"
+                            class="form-control-dropdown"
+                            appendTo="body"
+                            [dropdownPosition]="'bottom'"
+                            [clearable]="false"
+                            name="subcounty_selected"
+                            [(ngModel)]="swap.subcountyFrom"
+                            bindLabel="subCountyName">
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer d-flex justify-content-between justify-content-lg-start">
+                <div>
+                    <button matStepperNext type="submit" class="btn btn-sm btn-info ">
+                        {{ 'opportunities.swap.addSwap.from.form.nextBtn' | translate }}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="vForm2.control">
+        <form #vForm2="ngForm">
+            <ng-template matStepLabel>{{ 'opportunities.swap.addSwap.to.headerText' | translate }}: <span class="text-info">{{swap.countyTo.name}}</span></ng-template>
+            <div class="row mt-10">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">{{ 'opportunities.swap.addSwap.to.form.county' | translate }}<span class="text-danger">*</span></label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                            [items]="counties"
+                            [placeholder]="'opportunities.swap.addSwap.to.form.countyPlaceholderText' | translate"
+                            class="form-control-dropdown"
+                            appendTo="body"
+                            [dropdownPosition]="'bottom'"
+                            [clearable]="false"
+                            name="form_selected"
+                            #countyTo="ngModel"
+                            [(ngModel)]="swap.countyTo"
+                            (change)="countyChanged()"
+                            bindLabel="name"
+                            required
+                            [ngClass]="{ 'b-1 && border-danger': vForm2.submitted && countyTo.invalid }">
+                        </ng-select>
+                        <div *ngIf="vForm2.submitted && countyTo.errors?.required" class="form-control-feedback text-danger">
+                            <small>{{ 'opportunities.swap.addSwap.to.formErrors.county' | translate }}.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">{{ 'opportunities.swap.addSwap.to.form.subCounty' | translate }}</label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                            [items]="regionTo.county.sub_counties"
+                            [placeholder]="'opportunities.swap.addSwap.to.form.subCountyPlaceholderText' | translate"
+                            class="form-control-dropdown"
+                            appendTo="body"
+                            [dropdownPosition]="'bottom'"
+                            [clearable]="false"
+                            name="subcounty_selected"
+                            [(ngModel)]="swap.subcountyTo"
+                            bindLabel="subCountyName">
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer d-flex justify-content-between justify-content-lg-start">
+                <div>
+                    <button matStepperPrevious type="submit" class="btn btn-sm btn-secondary me-lg-20">
+                        {{ 'opportunities.swap.addSwap.to.form.backBtn' | translate }}
+                    </button>
+                </div>
+                <div>
+                    <button matStepperNext type="submit" class="btn btn-sm btn-info ">
+                        {{ 'opportunities.swap.addSwap.to.form.nextBtn' | translate }}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="vForm3.control">
+      <form #vForm3="ngForm">
+        <ng-template matStepLabel>{{ 'opportunities.swap.addSwap.subjectCombinations.headerText' | translate }}:</ng-template>
+        <h6 *ngIf="counter == 2" class="text-danger">{{ 'opportunities.swap.addSwap.subjectCombinationsErrors.maximumSubjects' | translate }}</h6>
+        <h6 *ngIf="(counter == 0 || counter == 1)" class="text-info">{{ 'opportunities.swap.addSwap.subjectCombinationsErrors.minimumSubjects' | translate }}</h6>
+        <div class="row mt-10">
+            <!-- categories section -->
+            <div class="col-sm-4">
+                <div class="form-group" *ngFor="let c of categories">
+                    <label class="form-label">{{c.name}}</label>
+                    <div *ngFor="let s of c.subjects">
+                        <div>
+                            <input type="checkbox" id="{{s.textCode}}" class="filled-in chk-col-info"
+                                (change)="setSelectValue(s)"
+                                [checked]="(swap.subject1Name == s?.name || swap.subject2Name == s?.name)"
+                                [disabled]="!s.selected && counter == 2">
+                            <label for="{{s.textCode}}">{{s.name}} </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- technical categories section -->
+            <div class="col-sm-4">
+                <div class="form-group" *ngFor="let c of categories_technicals">
+                    <label class="form-label">{{c.name}}</label>
+                    {{swap.subject1Name}}
+                    <div *ngFor="let s of c.subjects">
+                        <div>
+                            <input type="checkbox" id="{{s.textCode}}" class="filled-in chk-col-info"
+                                [checked]="(swap.subject1Name == s?.name || swap.subject2Name == s?.name)"
+                                (change)="setSelectValue(s)"
+                                [disabled]="!s.selected && counter == 2">
+                            <label for="{{s.textCode}}">{{s.name}} </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- optional categories section -->
+            <div class="col-sm-4">
+                <div class="form-group" *ngFor="let c of categories_optionals;">
+                    <label class="form-label">{{c.name}}</label>
+                    <div *ngFor="let s of c.subjects">
+                        <div>
+                            <input type="checkbox" [id]="s.textCode" class="filled-in chk-col-info"
+                                (change)="setSelectValue(s)"
+                                [checked]="(swap.subject1Name == s?.name || swap.subject2Name == s?.name)"
+                                [disabled]="!s.selected && counter == 2">
+                            <label [for]="s.textCode">{{s.name}} </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer d-flex justify-content-between justify-content-lg-start">
+            <div>
+                <button matStepperPrevious type="submit" class="btn btn-sm btn-secondary me-lg-20">
+                    {{ 'opportunities.swap.addSwap.subjectCombinations.backBtn' | translate }}
+                </button>
+            </div>
+            <div>
+                <button matStepperNext [disabled]="(counter == 0 || counter == 1)" type="submit" class="btn btn-sm btn-info ">
+                    {{ 'opportunities.swap.addSwap.subjectCombinations.nextBtn' | translate }}
+                </button>
+            </div>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="vForm4.control">
+        <form #vForm4="ngForm">
+            <ng-template matStepLabel>{{ 'opportunities.swap.addSwap.userDetails.headerText' | translate }}</ng-template>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label">{{ 'opportunities.swap.addSwap.userDetails.form.displayName' | translate }}:</label>
+                        <input type="text" class="form-control" [placeholder]="'opportunities.swap.addSwap.userDetails.form.displayNamePlaceholderText' | translate"
+                            name="teacherName" #teacherName="ngModel" [(ngModel)]="swap.createdBy"
+                            [ngClass]="{ 'b-1 && border-danger': vForm4.submitted && teacherName.invalid }" required disabled >
+                        <small class="fst-italic">{{ 'opportunities.swap.addSwap.userDetails.form.displayNameHelperText' | translate }}</small>
+                        <div *ngIf="vForm4.submitted && teacherName.errors?.required" class="form-control-feedback text-danger">
+                            <small>{{ 'opportunities.swap.addSwap.userDetails.formErrors.displayName' | translate }}.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label">{{ 'opportunities.swap.addSwap.userDetails.form.phoneNumber' | translate }}:</label>
+                        <input type="text" class="form-control" [placeholder]="'opportunities.swap.addSwap.userDetails.form.phoneNumberPlaceholderText' | translate"
+                            name="teacherPhone" #teacherPhone="ngModel" [(ngModel)]="swap.uploaderPhone"
+                            [ngClass]="{ 'b-1 && border-danger': vForm4.submitted && teacherPhone.invalid }" required disabled />
+                            <small class="fst-italic">{{ 'opportunities.swap.addSwap.userDetails.form.phoneNumberHelperText' | translate }}.</small>
+                        <div *ngIf="vForm4.submitted && teacherPhone.errors?.required" class="form-control-feedback text-danger">
+                            <small>{{ 'opportunities.swap.addSwap.userDetails.formErrors.phoneNumber' | translate }}.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group mt-30">
+                        <input type="checkbox" id="showPhone" class="filled-in chk-col-info" name="showPhone" [(ngModel)]="swap.displayUploaderContact" />
+                        <label for="showPhone">{{ 'opportunities.swap.addSwap.userDetails.form.showPhoneNumber' | translate }}</label>
+                        <br><small class="fst-italic">{{ 'opportunities.swap.addSwap.userDetails.form.showPhoneNumberHelperText' | translate }}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="button" class="btn btn-sm btn-warning me-1 me-lg-20" (click)="stepper.reset()">
+                  {{ 'opportunities.swap.addSwap.userDetails.form.resetBtn' | translate }}
+                </button>
+                <button type="submit" class="btn btn-sm btn-info mx-2 pull-right" (click)="saveSwap()">
+                    <span>{{ 'opportunities.swap.addSwap.userDetails.form.saveBtn' | translate }}</span>
+                    <!-- <span *ngIf="showLoading">Processing</span>
+                    <span *ngIf="showLoading" class="ms-1"><img src="../../../../assets/img/loading-bars.svg" alt="Processing. Please wait."></span> -->
+                </button>
+                <button matStepperPrevious type="button" class="btn btn-sm btn-secondary me-1 pull-right">
+                  {{ 'opportunities.swap.addSwap.userDetails.form.backBtn' | translate }}
+                </button>
+                <!-- <button type="submit" class="d-none d-lg-inline-block btn btn-sm btn-info">Send</button> -->
+            </div>
+        </form>
+    </mat-step>
+    <!-- <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <p>You are now done.</p>
+        <div class="box-footer">
+            <button type="button" class="btn btn-sm btn-warning me-1 me-lg-20" (click)="stepper.reset()">Reset</button>
+            <button type="submit" class="btn btn-sm btn-info mx-2 pull-right">
+                <span>Save</span>
+            </button>
+            <button matStepperPrevious type="button" class="btn btn-sm btn-secondary me-1 pull-right">Back</button>
+        </div>
+    </mat-step> -->
+</mat-stepper>
+
+<div class="row mt-10">
+    <div class="col-12">
+        <div class="pull-right mt-10">
+            <button class="btn btn-sm btn-dark waves-effect waves-light" type="button" (click)="closeSwapCreate()">
+                <i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+                    </svg>
+                </i>
+                {{ 'opportunities.swap.addSwap.userDetails.backToSwapListBtn' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

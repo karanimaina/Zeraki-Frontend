@@ -1,0 +1,259 @@
+<!-- Student Top Nav -->
+<app-students-top-nav></app-students-top-nav>
+
+<!-- Main content -->
+<section class="content mt-config">
+    <form [formGroup]="moveStudentsForm" class="form">
+  <div class="row px-lg-40">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-header with-border">
+            <h4 class="box-title">{{ 'students.move.moveStudents' | translate }}</h4>
+        </div>
+          <div class="box-body">
+              <div class="row" *ngIf="showMoveStudentsByRadioBtn">
+                  <div class="col-sm-6 col-md-4">
+                      <input type="radio"
+                             id="between-streams"
+                             value="stream"
+                             class="with-gap radio-col-info"
+                             formControlName="moveStudentsBy">
+                      <label for="between-streams">{{ 'students.move.betweenStreams' | translate }}</label>
+                  </div>
+                  <div class="col-sm-6 col-md-4">
+                      <input type="radio"
+                             id="between-majors"
+                             value="major"
+                             class="with-gap radio-col-info"
+                             formControlName="moveStudentsBy">
+                      <label for="between-majors">{{ 'students.move.betweenMajors' | translate }}</label>
+                  </div>
+              </div>
+              <div class="row" [ngClass]="{'mt-3': (schoolTypeData?.isGuineaSchool || schoolTypeData?.isIvorianSchool)}">
+                  <div class="{{ moveStudentsByMajor ? 'col-md-4' : 'col-md-6' }}">
+                    <div class="form-group">
+                        <label class="form-label">{{ schoolTypeData?.formoryear | formOrYear }}</label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                          [items]="intakes"
+                          [clearable]="false"
+                          placeholder="Select {{ schoolTypeData?.formoryear | formOrYear }}"
+                          formControlName="sourceIntake">
+                        </ng-select>
+                    </div>
+                  </div>
+                  <div class="{{ moveStudentsByMajor ? 'col-md-4' : 'col-md-6' }}">
+                    <div class="form-group">
+                        <label class="form-label">{{ 'students.move.stream' | translate }}</label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                          placeholder="Select Stream"
+                          [items]="selectedIntake?.streams || []"
+                          [clearable]="false"
+                          bindLabel="name"
+                          formControlName="sourceStream">
+                        </ng-select>
+                    </div>
+                  </div>
+                  <div class="{{ moveStudentsByMajor ? 'col-md-4' : 'col-md-6' }}" *ngIf="showSourceMajorSelectInput">
+                      <div class="form-group">
+                          <label class="form-label">{{ 'common.major' | translate }}</label>
+                          <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                     placeholder="Select Major"
+                                     [items]="majors"
+                                     [clearable]="false"
+                                     bindLabel="name"
+                                     formControlName="sourceMajor">
+                          </ng-select>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- /.box -->
+    </div>
+
+      <div *ngIf="selectedStream" class="col-12">
+
+          <div>
+              <div class="box">
+                  <div class="box-header with-border">
+                      <h4 class="box-title">
+                          {{(schoolTypeData?.formoryear | formOrYear) + " " + selectedIntake?.class_level + " " + selectedStream?.name}}
+                          <span *ngIf="moveStudentsByMajor"> - {{ selectedMajor?.name }}</span>
+                      </h4>
+                      <div *ngIf="moveStudentsActive; then showCancelBtn else showSelectStudentsBtn" ></div>
+                      <ng-template #showSelectStudentsBtn>
+                          <button type="button" *ngIf="studentsList.length > 0"
+                                  (click)="setMoveStudents()"
+                                  class="btn btn-dark btn-sm pull-right">
+                              {{ 'students.move.select' | translate }}
+                          </button>
+                      </ng-template>
+                      <ng-template #showCancelBtn>
+                          <button type="button"
+                                  class="btn btn-dark btn-sm pull-right"
+                                  (click)="setMoveStudents()">
+                              <i class="bi bi-arrow-left"></i>
+                              {{ 'students.move.cancelMove' | translate }}
+                          </button>
+                      </ng-template>
+                  </div>
+
+                  <div *ngIf="loadingStudents; then showLoadingSection else showDataSection"></div>
+                  <ng-template #showLoadingSection>
+
+                      <!-- For top section -->
+                      <div class="row">
+                          <div class="col-12">
+                              <div class="box">
+                                  <div class="box-body">
+                                      <app-loader-div [height]="230"></app-loader-div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </ng-template>
+
+                  <ng-template #showDataSection>
+                      <div *ngIf="!classHasStudents">
+                          <div class="alert alert-danger m-3">
+                              {{ 'students.move.noStuds' | translate }}
+                              {{(schoolTypeData?.formoryear | formOrYear) }}
+                              {{selectedIntake?.class_level + " " + selectedStream.name}}
+
+                              <span *ngIf="moveStudentsByMajor">
+                                  {{ selectedMajor ? " - "+ selectedMajor.name : "" }}
+                              </span>
+                          </div>
+                      </div>
+
+                      <div *ngIf="classHasStudents" class="box-body">
+                          <div class="table-responsive">
+                              <table class="table table-sm table-bordered mb-0">
+                                  <thead>
+                                  <tr class="text-uppercase">
+                                      <th *ngIf="moveStudentsActive" style="width: 6%">
+                                          <input type="checkbox"
+                                                 id="select-all"
+                                                 class="filled-in chk-col-info"
+                                                 [checked]="selectedStudentIndexes.length == studentsList.length"
+                                                 formControlName="selectAllStudentsToggle">
+                                          <label for="select-all" class="p-0 m-0" style="height: 15px"></label>
+                                      </th>
+                                      <th scope="col" style="width: 6%">#</th>
+                                      <th scope="col" style="width: 10%">{{ 'students.move.admno' | translate }}</th>
+                                      <th scope="col">{{ 'students.move.name' | translate }}</th>
+                                      <th scope="col" *ngIf="moveStudentsByMajor">{{ 'common.major' | translate }}</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  <ng-container formArrayName="studentsToBeMoved">
+                                      <tr *ngFor="let student of studentsList; index as i">
+                                          <th *ngIf="moveStudentsActive" class="mx-10">
+                                              <input [formControlName]="i"
+                                                     type="checkbox"
+                                                     [id]="student.admno"
+                                                     class="filled-in chk-col-info">
+                                              <label [for]="student.admno" class="p-0 m-0" style="height: 15px"></label>
+                                          </th>
+                                          <td>{{ i + 1 }}</td>
+                                          <td>{{ student.admno }}</td>
+										  <td [routerLink]="isNormalTeacher ? ['./'] : ['/main/students/prof', student.userid]" [ngClass]="{ 'text-dark fw-600 cursor-pointer' : !isNormalTeacher}">{{ student.name }}</td>
+										  <td *ngIf="moveStudentsByMajor">{{ student.major }}</td>
+                                      </tr>
+                                  </ng-container>
+                                  </tbody>
+                              </table>
+                              <div *ngIf="noStudentSelected" class="text-danger pt-2">
+                                  {{ 'students.move.noStudentsSelectedError' | translate }}
+                              </div>
+                          </div>
+                          <div>
+                              <div *ngIf="moveStudentsActive" class="box mt-20">
+                                  <div class="box-body p-0">
+                                      <div class="py-15">
+                                          <div class="row">
+                                              <div class="col-md-12"><h5>{{ 'students.move.moveTo' | translate }}: </h5></div>
+                                              <ng-container *ngIf="showDestinationIntakeAndStream">
+                                                  <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <label class="form-label">{{ 'students.move.destination' | translate }} {{schoolTypeData?.formoryear}}</label>
+                                                          <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                                     [items]="destinationIntakes"
+                                                                     [clearable]="false"
+                                                                     bindLabel="form"
+                                                                     formControlName="destinationIntake"
+                                                                     [ngClass]="{'is-invalid': submitted && f['destinationIntake'].errors}">
+                                                          </ng-select>
+                                                          <div *ngIf="submitted && f['destinationIntake'].errors">
+                                                              <div class="invalid-feedback d-block" *ngIf="submitted && f['destinationIntake'].errors['required']">
+                                                                  {{ 'students.move.noDestinationIntakeSelectedError' | translate: {formOrYear: (schoolTypeData?.formoryear | formOrYear)} }}
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-6">
+                                                      <div class="form-group">
+                                                          <label class="form-label">{{ 'students.move.destStream' | translate }}</label>
+                                                          <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                                     [items]="selectedDestinationIntake?.streams || []"
+                                                                     [clearable]="false"
+                                                                     bindLabel="name"
+                                                                     formControlName="destinationStream"
+                                                                     [ngClass]="{'is-invalid': submitted && f['destinationStream'].errors}">
+                                                          </ng-select>
+                                                          <div *ngIf="submitted && f['destinationStream'].errors">
+                                                              <div class="invalid-feedback d-block" *ngIf="submitted && f['destinationStream'].errors['required']">
+                                                                  {{ 'students.move.noDestinationStreamSelectedError' | translate }}
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </ng-container>
+                                              <div class="col-md-6" *ngIf="showDestinationMajorSelectInput">
+                                                  <div class="form-group">
+                                                      <label class="form-label">{{ 'students.move.destMajor' | translate }}</label>
+                                                      <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                                 [items]="destinationMajors"
+                                                                 [clearable]="false"
+                                                                 formControlName="destinationMajor"
+                                                                 bindLabel="name"
+                                                                 [ngClass]="{'is-invalid': submitted && f['destinationMajor'].errors}">
+                                                      </ng-select>
+                                                      <div *ngIf="submitted && f['destinationMajor'].errors">
+                                                          <div class="invalid-feedback d-block" *ngIf="submitted && f['destinationMajor'].errors['required']">
+                                                              {{ 'students.move.noDestinationStreamSelectedError' | translate }}
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                          <div class="col-md-4 text-end pull-right">
+                                              <button (click)="confirmMoveStudents()" type="button" class="btn btn-info btn-sm">
+                                                  <span class="me-2" *ngIf="!movingStudents">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-right" viewBox="0 0 16 16">
+                                                          <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z"/>
+                                                      </svg>
+                                                  </span>
+                                                  <span *ngIf="movingStudents" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+
+                                                  {{ 'students.move.move' | translate }}
+                                              </button>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <!-- /.box-body -->
+                              </div>
+
+                          </div>
+                      </div>
+                  </ng-template>
+
+                  <!-- /.box-body -->
+              </div>
+          </div>
+      </div>
+  </div>
+    </form>
+</section>
+

@@ -1,0 +1,151 @@
+<!-- Classes Top Nav -->
+<app-classes-top-nav></app-classes-top-nav>
+
+<!-- Loader -->
+<ng-container *ngIf="!forms; then showLoading else showContent"></ng-container>
+
+<ng-template #showLoading>
+	<section class="content mt-config">
+		<div class="box">
+			<div class="box-body">
+				<app-loader-div [height]="50"></app-loader-div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<div class="box">
+					<div class="box-body">
+						<app-loader-div [height]="150"></app-loader-div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</ng-template>
+
+<!-- Main content -->
+<ng-template #showContent>
+	<section class="content mt-config">
+		<div *ngIf="!showClassListUI else displayClasslist" class="row">
+			<div class="col-12">
+				<div class="box">
+					<div class="box-header with-border">
+						<h4 class="box-title">{{ 'classes.commonAttr.classes' | translate }}</h4>
+					</div>
+					<div class="box-body">
+						<div class="table-responsive">
+							<table class="table table-sm table-striped table-bordered table-hover mb-0"
+								   [ngClass]="{'table-padding': normalTeacher}">
+								<thead>
+									<tr>
+										<th>{{ schoolTypeData?.formoryear | formOrYear}}</th>
+										<th *ngIf="formsObj.is_mixed_school">{{ 'classes.manage.table.boys' | translate }}</th>
+										<th *ngIf="formsObj.is_mixed_school">{{ 'classes.manage.table.girls' | translate }}</th>
+										<th>{{ 'classes.manage.table.students' | translate }}</th>
+										<th>{{ 'classes.manage.table.classSupervisor' | translate }}</th>
+										<th colspan="2" *ngIf="userRoles?.isSchoolAdmin" class="text-center">{{
+											'classes.manage.table.action'
+											| translate }}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let form of forms;">
+										<th routerLink="./streams/{{form.intakeid}}">{{ form.form }}</th>
+										<td *ngIf="formsObj.is_mixed_school" routerLink="./streams/{{form.intakeid}}">{{ form.boys }}</td>
+										<td *ngIf="formsObj.is_mixed_school" routerLink="./streams/{{form.intakeid}}">{{ form.girls }}</td>
+										<td routerLink="./streams/{{form.intakeid}}">{{ form.population }}</td>
+										<td>
+											<ng-container *ngIf="form.supervisor">
+												<span>{{ form.supervisor.name}}</span>
+												<span *ngIf="userRoles?.isSchoolAdmin" class="pull-right">
+												<a (click)="removeSupervisor(form.intakeid)" class="text-danger" style="cursor: pointer;">
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+														 class="bi bi-trash" viewBox="0 0 16 16">
+														<path
+															d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+														<path fill-rule="evenodd"
+															  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+													</svg>
+												</a>
+
+											</span>
+											</ng-container>
+											<ng-container *ngIf="userRoles?.isSchoolAdmin && !form.supervisor">
+												<ng-select [notFoundText]="'common.noItemsFound' | translate" size="1"
+														   (change)="assignSupervisor(form.intakeid, $event)" [items]="teachers" [closeOnSelect]="true"
+														   [searchable]="true" appendTo="body" bindLabel="name"
+														   placeholder="{{ 'common.selectSupervisor' | translate }}">
+												</ng-select>
+											</ng-container>
+										</td>
+										<ng-container *ngIf="userRoles?.isSchoolAdmin">
+											<td class="text-center">
+												<button routerLink="./streams/{{form.intakeid}}" type="button"
+														class="waves-effect waves-light btn btn-dark btn-sm">
+													<i class="fa fa-cogs"></i>
+													<span class="ms-1">{{ 'classes.commonAttr.manage' | translate }}</span>
+												</button>
+											</td>
+											<td class="text-center">
+												<button type="button" class="waves-effect waves-light btn btn-success btn-sm"
+														(click)="showClassListDisplay(form)">
+													<i>
+														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+															 class="bi bi-card-list" viewBox="0 0 16 16">
+															<path
+																d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
+															<path
+																d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z" />
+														</svg>
+													</i>
+													{{"common.classlist" | translate}}
+												</button>
+											</td>
+										</ng-container>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<th>{{ 'classes.manage.table.total' | translate }}</th>
+										<th>{{ formsObj?.total_boys }}</th>
+										<th>{{ formsObj?.total_girls }}</th>
+										<th>{{ formsObj?.total_population }}</th>
+										<th colspan="3"></th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- class list UI -->
+	<ng-template #displayClasslist>
+		<div class="px-xl-20">
+			<div class="d-flex justify-content-between">
+				<h3 class="fs-20 fw-bold">
+					{{ 'printouts.classList.title' | translate }}
+				</h3>
+
+				<button class="btn btn-sm btn-secondary mb-3" (click)="hideClassListDisplay()">
+					<i>
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+							<path fill-rule="evenodd"
+								d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+						</svg>
+					</i>
+					{{ 'common.close' | translate }}
+				</button>
+			</div>
+
+			<app-class-list [classId]="classDetails?.classid ?? -1" [egroupId]="classDetails?.egroupId ?? -1"
+				[intakeId]="classDetails?.intakeid ?? -1" [streamId]="classDetails?.streamId ?? classDetails?.streamid ?? -1"
+				[subjectId]="classDetails?.subject?.subjectId ?? -1" [seriesId]="classDetails?.seriesId ?? -1">
+			</app-class-list>
+		</div>
+	</ng-template>
+</ng-template>

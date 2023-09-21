@@ -1,0 +1,336 @@
+<div class="col-12">
+    <span class="text-uppercase">
+        {{ 'printouts.tzReportForm.parts.a' | translate }}: {{
+        'printouts.tzReportForm.academicPerformance' | translate }}
+    </span>
+</div>
+
+<div class="col-12">
+    <div class="">
+        <!-- ordinary exams -->
+        <table *ngIf="rp.subjects.additional_exams.length == 0" class="table table-bordered  table-condensed print-table fw-bold"
+            style="padding-bottom: 0px;margin-bottom: 0px;border-collapse: collapse;border: 2px solid black!important;">
+            <thead>
+                <tr>
+                    <th style="border: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">{{
+                            'printouts.tzReportForm.academicAssessmentTable.subjects' |
+                            translate
+                            }}</span>
+                    </th>
+                    <th style="border: 2px solid black!important">
+                        <span
+                            class="zreport-table-contents font-uppercase">{{ rp.subjects.value_type | translateSubjectValue}}
+                        </span>
+                    </th>
+                    <th style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">{{
+                            'printouts.reportForms.dev' |
+                            translate
+                            }}</span>
+                    </th>
+                    <th style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">{{
+                            'printouts.reportForms.grade' |
+                            translate
+                            }}</span>
+                    </th>
+                    <th *ngIf="show_student_overall_rank || show_student_stream_rank"
+                        style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">{{
+                            'printouts.reportForms.rank' |
+                            translate
+                            }}</span>
+                    </th>
+                    <th *ngIf="!show_custom_comments" style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">{{
+                            'printouts.reportForms.comment' |
+                            translate
+                            }}</span>
+                    </th>
+                    <th style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">{{
+                            'printouts.reportForms.teacher' |
+                            translate
+                            }}</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let s of rp.subjects.list trackBy:trackByFnSubjects">
+                    <td style="border: 2px solid black!important">
+                        <div class="zreport-table-contents">
+                            {{s.subject}}
+                        </div>
+                    </td>
+                    <td style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">{{s.value}}{{rp.subjects.suffix}}</span>
+                    </td>
+                    <td style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">
+                            <span *ngIf="s.change > 0">+</span>{{s.change}}
+                        </span>
+                        <span class="pull-right"><i *ngIf="s.change > 0" class="fa fa-level-up text-success"></i>
+                            <i *ngIf="s.change < 0" class="fa fa-level-down text-info"></i>
+                            <i *ngIf="s.change == 0" class="fa fa-long-arrow-right text-warning"></i>
+                        </span>
+                    </td>
+                    <td style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">{{s.grade}}</span>
+                    </td>
+                    <td *ngIf="show_student_overall_rank || show_student_stream_rank"
+                        style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">{{s.sbj_rank
+                            + "
+                            / " +
+                            s.sbj_rank_outof}}</span>
+                    </td>
+                    <td *ngIf="!(show_custom_comments == true)" style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">{{s.comment}}</span>
+                    </td>
+                    <td style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">{{s.st}}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- consolidated exams -->
+        <table *ngIf="rp.subjects.additional_exams.length > 0" class="table table-bordered table-condensed"
+            style="padding-bottom: 0px;margin-bottom: 0px;border-collapse: collapse;border: 2px solid black!important;">
+            <thead>
+                <tr>
+                    <!-- subjects -->
+                    <th colspan="1" rowspan="2" class="td-fit-nowrap" style="border-right: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">{{
+                            'printouts.tzReportForm.academicAssessmentTable.subjects' |
+                            translate
+                            }}</span>
+                    </th>
+
+                    <!-- ordinary exams marks -->
+                    <th colspan="1" rowspan="2" class="td-fit-nowrap"
+                        *ngFor="let s of rp.subjects.additional_exams; index as index"
+                        style="border-right: 2px solid black!important">
+                        <span class="zreport-table-contents">
+                            <span class="d-block">{{s.name}}</span>
+                            <span>{{ s.percentage }}%</span>
+                        </span>
+                    </th>
+
+                    <!-- total (consolidated exam) -->
+                    <th colspan="1" style="border: 2px solid black!important">
+                        <span class="d-block">
+                            <!-- {{ 'printouts.tzReportForm.academicAssessmentTable.subjectAverage' | translate | uppercase }} -->
+                            {{ 'common.total' | translate | uppercase }}
+                        </span>
+                        <span>
+                            {{ '100%' }}
+                        </span>
+                    </th>
+
+                    <!-- grade -->
+                    <th rowspan="1" colspan="1" class="td-fit-nowrap" style="border-right: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ 'common.grade' | translate }}
+                        </span>
+                    </th>
+
+                    <!-- position -->
+                    <th rowspan="2" colspan="1" class="td-fit-nowrap"
+                        *ngIf="show_student_overall_rank || show_student_stream_rank"
+                        style="border-right: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ 'common.position' | translate }}
+                        </span>
+                    </th>
+
+                    <!-- remarks (comments) -->
+                    <th rowspan="2" colspan="1" class="td-fit-nowrap" *ngIf="!(show_custom_comments == true)"
+                        style="border-right: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ 'common.remarks' | translate }}
+                        </span>
+                    </th>
+
+                    <!-- signature -->
+                    <th rowspan="2" colspan="1" class="td-fit-nowrap" style="border-right: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ 'common.signature' | translate }}
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let s of rp.subjects.list">
+                    <!-- subject -->
+                    <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                        <div class="zreport-table-contents">
+                            {{s.subject}}
+                        </div>
+                    </td>
+
+                    <!-- ordinary exam marks -->
+                    <td class="td-fit-nowrap" *ngFor="let ss of rp.subjects.additional_exams"
+                        style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">
+                            <span *ngIf="s.additional_results[ss.seriesid] >= 0">
+                                {{s.additional_results[ss.seriesid]}}
+                                <span *ngIf="ss.percentage == 100">%</span>
+                            </span>
+                            <span *ngIf="s.additional_results[ss.seriesid] === undefined">-</span>
+                        </span>
+                    </td>
+
+                    <!-- total (consolidated exam) -->
+                    <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">{{s.value}}{{rp.subjects.suffix}}</span>
+                    </td>
+
+                    <!-- grade -->
+                    <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">{{s.grade}}</span>
+                    </td>
+
+                    <!-- position -->
+                    <td class="td-fit-nowrap" *ngIf="show_student_overall_rank || show_student_stream_rank"
+                        style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">{{s.sbj_rank
+                            + "
+                            / " +
+                            s.sbj_rank_outof}}</span>
+                    </td>
+
+                    <!-- remarks (comments) -->
+                    <td class="td-fit-nowrap" *ngIf="!(show_custom_comments == true)"
+                        style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">{{s.comment}}</span>
+                    </td>
+
+                    <!-- signature -->
+                    <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                        <span class="zreport-table-contents">
+                            {{ s.st }}
+                        </span>
+                    </td>
+                </tr>
+
+                <!-- total marks -->
+                <tr>
+                    <td style="border: 2px solid black!important"></td>
+
+                    <td [attr.colspan]="rp.subjects.additional_exams.length" class="td-fit-nowrap"
+                        style="border: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ 'common.totalMarks' | translate }}
+                        </span>
+                    </td>
+
+                    <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ rp.aggregate_stats['first'].value }}
+                            / {{ rp.aggregate_stats['first'].out_of }}
+                        </span>
+                    </td>
+
+                    <td style="border: 2px solid black!important"></td>
+
+                    <td colspan="3" style="border: 2px solid black!important"></td>
+                </tr>
+
+                <!-- average -->
+                <tr>
+                    <td style="border: 2px solid black!important"></td>
+
+                    <td [attr.colspan]="rp.subjects.additional_exams.length" class="td-fit-nowrap"
+                        style="border: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ 'common.average' | translate }}
+                        </span>
+                    </td>
+
+                    <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ rp.aggregate_stats['second'].value }}
+                            {{ rp.aggregate_stats['second'].suffix }}
+                        </span>
+                    </td>
+
+                    <td style="border: 2px solid black!important"></td>
+
+                    <td colspan="3" style="border: 2px solid black!important"></td>
+                </tr>
+
+                <!-- grade -->
+                <tr>
+                    <td style="border: 2px solid black!important"></td>
+
+                    <td [attr.colspan]="rp.subjects.additional_exams.length" class="td-fit-nowrap"
+                        style="border: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ 'common.grade' | translate }}
+                        </span>
+                    </td>
+
+                    <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ rp.aggregate_stats['fourth'].value }}
+                        </span>
+                    </td>
+
+                    <td style="border: 2px solid black!important"></td>
+
+                    <td colspan="3" style="border: 2px solid black!important"></td>
+                </tr>
+
+                <!-- rank, out of, division, points -->
+                <tr>
+                    <!-- rank -->
+                    <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ 'common.rank' | translate }}:
+
+                            {{ rp.aggregate_stats['fifth'].value }}
+                        </span>
+                    </td>
+
+                    <!-- out of -->
+                    <td [attr.colspan]="rp.subjects.additional_exams.length" class="td-fit-nowrap"
+                        style="border: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ 'common.outOf' | translate }}:
+
+                            {{ rp.aggregate_stats['fifth'].out_of }}
+                        </span>
+                    </td>
+
+                    <!-- division -->
+                    <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ 'common.division' | translate }}
+                        </span>
+                    </td>
+                    <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ rp.division }}
+                        </span>
+                    </td>
+
+                    <!-- points -->
+                    <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ 'common.points' | translate }}
+                        </span>
+                    </td>
+                    <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                        <span class="text-uppercase zreport-table-contents">
+                            {{ rp.aggregate_stats['third'].value }}
+                        </span>
+                    </td>
+
+                    <td style="border: 2px solid black!important"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

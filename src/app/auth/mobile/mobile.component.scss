@@ -1,0 +1,54 @@
+.color-line {
+    background: 50% 100%/100% 6px no-repeat #f7f9fa;
+    height: 6px;
+    background-image: linear-gradient(to right,#34495e,#34495e 25%,#9b59b6 25%,#9b59b6 35%,#3498db 35%,#3498db 45%,#62cb31 45%,#62cb31 55%,#ffb606 55%,#ffb606 65%,#e67e22 65%,#e67e22 75%,#e74c3c 85%,#e74c3c 85%,#c0392b 85%,#c0392b 100%);
+}
+
+.alert-success {
+    background-color: #e6f2e6;
+    color: #084322;
+}
+
+.alert-danger {
+    background-color: #f2dede;
+}
+
+.splashCentre {
+    height: 90%;
+    display: flex;
+    // align-items: center;
+    justify-content: center;
+}
+
+[type=checkbox].filled-in:checked + label:after {
+    border: 2px solid #43ab49;
+    background-color: #43ab49;
+}
+
+a, a:link, a:visited, a:hover {
+    text-decoration-line: none;
+}
+
+.heading-1 {
+  margin-top: 5rem;
+  position: relative;
+  text-align: center
+}
+
+.heading-1:before {
+  content: "";
+  display: block;
+  border-top: solid 2px #86a4c3;
+  width: 100%;
+  height: 2px;
+  position: absolute;
+  top: 50%;
+  z-index: 0;
+}
+
+.heading-1 span {
+  background: #f2f2f2;
+  padding: 0 10px;
+  position: relative;
+  z-index: 1;
+}

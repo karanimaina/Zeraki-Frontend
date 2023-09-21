@@ -1,0 +1,26 @@
+@import url("../../../../../assets/scss/internal_views.scss");
+
+@media (min-width: 768px) {
+    .mt-config {
+        margin-top: 10px !important;
+    }
+}
+
+.lookup-sm input {
+    width: 200px !important;
+}
+
+@media (max-width: 767.98px) {
+    .mt-config {
+        margin-top: 10px;
+    }
+}
+
+.widget-icon {
+    font-size: 18px;
+    width: 25px;
+}
+
+.lg-height {
+    height: 7rem;
+}

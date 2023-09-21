@@ -1,0 +1,81 @@
+<div class="col-12 mb-3">
+	<!-- class teacher signature and comments -->
+	<div class="col-12 mb-3 mt-30">
+		<div class="d-flex flex-column">
+			<!-- class teacher signature -->
+			<div class="d-flex flex-row justify-content-between">
+				<span class="fw-bolder">{{ 'printouts.studentReport.classTComment' | translate }}</span>
+				<div class="d-flex flex-row w-200">
+					<span class="fw-bolder">{{ 'printouts.studentReport.signature' | translate }}</span>
+					<div class="school-dates dotted-border text-center w-160" style="margin-top: 6px">
+						<div style="margin-bottom: -25px" class="visibility-hidden" *ngIf="classTeacherSignature">.</div>
+						<div *ngIf="showClassTeacherSignature" style="margin-top: -20px">
+							<ng-container *ngIf="classTeacherSignature">
+								<img style="padding: 1px; height: 50px; margin-top: -20px" [src]="classTeacherSignature" alt=""/>
+							</ng-container>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- class teacher comments -->
+			<div class="school-dates dotted-border fw-bold text-dark {{ classTeacherComment ? 'pb-3' : ''}}" style="width: 100%">
+				<ng-container *ngIf="showClassTeacherComments">
+					{{ classTeacherComment }}
+				</ng-container>
+			</div>
+		</div>
+	</div>
+
+	<!-- house teacher signature and comments -->
+	<div class="col-12 mb-3">
+		<div *ngIf="showHouseTeacherComments" class="d-flex flex-column">
+			<!-- house teacher signature -->
+			<div class="d-flex flex-row justify-content-between">
+				<span class="fw-bolder">{{ 'printouts.studentReport.houseTComment' | translate }}</span>
+				<div *ngIf="showHouseTeacherSignature" class="d-flex flex-row w-200">
+					<span class="fw-bolder">{{ 'printouts.studentReport.signature' | translate }}</span>
+					<div class="school-dates dotted-border text-center w-160" style="margin-top: 6px"><div style="margin-bottom: -25px" class="visibility-hidden" *ngIf="!classTeacherSignature">.</div>
+						<div style="margin-top: -20px">
+							<ng-container *ngIf="houseTeacherSignature">
+								<img style="padding: 1px; height: 40px; margin-top: -20px" [src]="houseTeacherSignature" alt=""/>
+							</ng-container>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- house teacher comments -->
+			<div class="school-dates dotted-border fw-bold text-dark {{ houseTeacherComment ? 'pb-3' : ''}}" style="width: 100%">
+				<ng-container *ngIf="showHouseTeacherComments">
+					{{ houseTeacherComment }}
+				</ng-container>
+			</div>
+		</div>
+	</div>
+
+	<!-- principle signature and comments -->
+	<div class="col-12">
+		<div class="d-flex flex-column">
+			<!-- principle signature -->
+			<div class="d-flex flex-row justify-content-between">
+				<span class="fw-bolder">{{ 'printouts.studentReport.headTComment' | translate }}</span>
+				<div class="d-flex flex-row w-200">
+					<span class="fw-bolder">{{ 'printouts.studentReport.signature' | translate }}</span>
+					<div class="school-dates dotted-border text-center w-160" style="margin-top: 6px">
+						<div style="margin-bottom: -25px"  class="visibility-hidden" *ngIf="!principalSignature">.</div>
+						<div *ngIf="showPrincipalSignature">
+							<ng-container *ngIf="principalSignature">
+								<img style="padding: 4px; height: 40px; margin-top: -20px" [src]="principalSignature" alt=""/>
+							</ng-container>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- principle comments -->
+			<div class="school-dates dotted-border text-dark fw-bold {{ principalComment ? 'pb-3' : ''}}" style="width: 100%">
+				<ng-container *ngIf="showPrincipalComments">
+					{{ principalComment }}
+				</ng-container>
+			</div>
+		</div>
+	</div>
+</div>

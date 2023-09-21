@@ -1,0 +1,148 @@
+<!-- Content Header (Page header) -->
+<div class="content-header d-md-none">
+  <div class="d-flex align-items-center">
+    <div class="me-auto">
+      <h3 class="page-title">{{ 'litemore.faqs.categories.title' | translate }}</h3>
+      <div class="d-inline-block align-items-center">
+        <nav>
+          <ol class="breadcrumb text-dark">
+            <li class="breadcrumb-item" aria-current="page">{{ 'litemore.faqs.categories.title' | translate }}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+  <div class="row">
+    <div *ngIf="faqCategoryListLoading; then showLoadingSection else showDataSection"></div>
+  </div>
+</section>
+
+<!-- loading section -->
+<ng-template #showLoadingSection>
+  <div class="row">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-body">
+          <app-loader-div [height]="50"></app-loader-div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-body">
+          <app-loader-div [height]="250"></app-loader-div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- data section -->
+<ng-template #showDataSection>
+  <div class="col-12">
+    <div class="box d-none d-md-block">
+      <div class="box-header with-border">
+        <h4 class="box-title d-none d-md-inline-block">{{ 'litemore.faqs.categories.title' | translate }}</h4>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col-6">
+        <button class="btn btn-primary btn-sm" (click)="addNewFaqCategory()">
+          {{ 'litemore.faqs.categories.addNew' | translate }}
+        </button>
+      </div>
+      <div class="col-6 d-flex justify-content-end">
+        <button class="btn btn-primary btn-sm" [routerLink]="['/litemore/mg/faqs']">
+          {{ 'litemore.faqs.categories.viewFaqs' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="box">
+        <div *ngIf="faqCategoryList.length === 0" class="box-body text-center">
+          <h4>{{ 'litemore.faqs.categories.emptyList' | translate }}</h4>
+        </div>
+
+        <form (ngSubmit)="saveStaffGroups()">
+          <div *ngIf="faqCategoryList.length > 0" class="box-body">
+            <div class="table-responsive col-md-12 col-xs-12" style="margin: 0;padding: 0">
+              <table class="table table-striped table-hover table-bordered" style="margin: 0">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th colspan='2'>{{ 'common.name' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let faqCategory of faqCategoryList; index as index" class="pointer">
+                    <td style="vertical-align: middle" class='td-fit'>{{ index + 1 }}</td>
+                    <td style="vertical-align: middle">
+                      <span *ngIf="!faqCategory.edit && faqCategory.categoryid !== undefined">{{ faqCategory.name
+                        }}</span>
+                      <div *ngIf="faqCategory.edit || faqCategory.categoryid === undefined">
+                        <input required style="min-width: 150px" class="form-control" type="text" name="name"
+                          [(ngModel)]="faqCategory.name_temp">
+                      </div>
+                    </td>
+                    <td style="vertical-align: middle">
+                      <div *ngIf="faqCategory.categoryid !== undefined && !add_new_group">
+                        <button (click)="deleteFaqCategory(index, faqCategory.categoryid)"
+                          class="btn btn-success btn-xs pull-right" type="button">
+                          <i class="fa fa-trash-o"></i>
+                        </button>
+                        <button class="btn btn-default btn-xs pull-right mx-2" type="button" [routerLink]="['/litemore/mg/faqs/categories', faqCategory.categoryid]">
+                          {{ 'litemore.faqs.categories.viewFaqs' | translate }}
+                        </button>
+                        <!--<div class="btn-group" *ngIf="!t.edit">
+                                      <button data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">Action
+                                          <span class="caret"></span>
+                                      </button>
+                                      <ul class="dropdown-menu pull-right" ng-class="::getDropDownClass(1)">
+                                          <li>
+                                              <a ng-class="::getDropDownClass(2)" (click)="editStaffGroup($event, index, true);$event.stopPropagation()">Edit</a>
+                                          </li>
+                                          <li ng-class="::getDropDownClass(3)"></li>
+                                          <li>
+                                              <a ng-class="::getDropDownClass(2)" (click)="deleteStaffGroup($event, index, faqCategory);$event.stopPropagation()"><span class="text-info">Delete</span></a>
+                                          </li>
+                                      </ul>
+                                  </div>
+                                  <button (click)="editStaffGroup($event, index, false);$event.stopPropagation()" *ngIf="t.edit" class="btn btn-default btn-sm" type="button">Cancel</button>
+                                  <button (click)="updateDetails($event, index, t);$event.stopPropagation()" *ngIf="t.edit" class="btn btn-success btn-sm" type="button">Save</button>-->
+                      </div>
+                      <div *ngIf="faqCategory.categoryid === undefined">
+                        <button (click)="removeNewGroup(index)" class="btn btn-success btn-xs" type="button"
+                          tooltip-placement="left" [attr.tooltip]="'litmore.faqs.categories.removeGroup' | translate">
+                          <i class="fa fa-trash-o"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div *ngIf='add_new_group' class='col-md-12 col-xs-12'>
+              <button (click)="discardNewGroups()" class="btn btn-dark btn-sm pull-left my-2" type="button">
+                {{ 'common.cancel' | translate }}
+              </button>
+              <button class="btn btn-success btn-sm pull-right my-2" type="submit">
+                {{ 'litemore.faqs.categories.saveNewGroup' | translate }}
+              </button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</ng-template>

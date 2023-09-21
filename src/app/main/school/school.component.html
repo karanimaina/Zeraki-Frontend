@@ -1,0 +1,48 @@
+<app-choose-school-top-nav></app-choose-school-top-nav>
+<section class="mt-config content">
+    <div class="row">
+        <div *ngIf="isLoading;then showLoading else displayContent"></div>
+        <ng-template #showLoading>
+            <div class="col-md-5 col-sm-12 mx-auto">
+                <div class="box">
+                    <div class="box-header">
+                        <app-loader-div [height]="45"></app-loader-div>
+                    </div>
+                    <div class="box-body">
+                        <app-loader-div [height]="150"></app-loader-div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #displayContent>
+            <div class="col-md-5 col-sm-12 mx-auto">
+                <div class="box mx-auto box-transparent">
+                    <div class="box-header text-center">
+                        <h3 class="box-title text-success">
+                            {{ "school.chooseSchool" | translate }}
+                        </h3>
+                    </div>
+                </div>
+                <div *ngFor="let s of user_init?.schools" class="box">
+                    <div class="box-body school-init no-selection text-left" style="cursor: pointer" (click)="initUser(s.schoolid)">
+                        <table style="table-layout:fixed">
+                            <tbody>
+                                <tr>
+                                    <td class="no-padding avatar" style="vertical-align: middle;white-space: nowrap;">
+                                        <img class="avatar-xl" [src]="s.logo"/>
+                                    </td>
+                                    <td class="no-padding" style="vertical-align: middle;word-wrap:break-word">
+                                        <div style="padding-left: 16px">
+                                            <p style='margin: 0;font-size: 15px'>{{s.name}}</p>
+                                            <span class="badge" [ngClass]="getSchoolTypeClass(s.type)">{{s.type}}</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</section>

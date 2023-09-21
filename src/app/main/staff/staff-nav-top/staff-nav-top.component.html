@@ -1,0 +1,93 @@
+<div class="navbar-light top-wrapper fixed-top bg-primary">
+    <!-- Admin Links -->
+    <ul class="nav nav-pill customtab2 nav-filled text-center">
+        <li class="nav-item">
+            <a [routerLink]="['/main/staff/manage']" class="nav-link" routerLinkActive="active"
+                #manageStaff="routerLinkActive" [ngClass]="manageStaff.isActive ? 'active' : ''">
+                <span class="me-2 hidden-xs-down">
+                    <i class="fa fa-cog"></i>
+                </span>
+                <div class="hidden-sm-up text-center">
+                    <i class="fa fa-cog"></i>
+                </div>
+                <span  class="hidden-xs-down">
+                    <!-- <ng-container *ngIf="userRoles?.isSchoolAdmin">{{ 'staff.topNav.manage' | translate }}</ng-container>
+                    <ng-container *ngIf="!userRoles?.isSchoolAdmin">{{ 'staff.topNav.view' | translate }}</ng-container>
+                    {{ 'staff.topNav.staff' | translate }} -->
+
+                    <ng-container *ngIf="userRoles?.isSchoolAdmin">
+                      {{ 'staff.topNav.manageStaff' | translate }}
+                    </ng-container>
+                    <ng-container *ngIf="!userRoles?.isSchoolAdmin">
+                      <ng-container *ngFor="let item of 'staff.topNav.viewStaff' | translate | splitNavText">
+                        {{ item }}
+                      </ng-container>
+                    </ng-container>
+                </span>
+
+                <span class="hidden-sm-up fs-11 fw-bold">
+                    <!-- <ng-container *ngIf="userRoles?.isSchoolAdmin">
+                        <div>
+                            {{ 'staff.topNav.manage' | translate }}
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="!userRoles?.isSchoolAdmin">
+                        <div>
+                            {{ 'staff.topNav.view' | translate }}
+                        </div>
+                    </ng-container>
+                    <div>{{ 'staff.topNav.staff' | translate }}</div> -->
+
+                    <ng-container *ngIf="userRoles?.isSchoolAdmin">
+                      <div *ngFor="let item of 'staff.topNav.manageStaff' | translate | splitNavText">
+                        {{ item }}
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="!userRoles?.isSchoolAdmin">
+                      <div *ngFor="let item of 'staff.topNav.viewStaff' | translate | splitNavText">
+                        {{ item }}
+                      </div>
+                    </ng-container>
+                </span>
+            </a>
+        </li>
+        <li *ngIf="userRoles?.isSchoolAdmin" class="nav-item">
+            <a [routerLink]="['/main/staff/add']" class="nav-link" routerLinkActive="active"
+                #addStaff="routerLinkActive" [ngClass]="addStaff.isActive ? 'active' : ''">
+                <span class="me-2 hidden-xs-down">
+                    <i class="fa fa-plus"></i>
+                </span>
+                <div class="hidden-sm-up text-center">
+                    <i class="fa fa-plus"></i>
+                </div>
+                <span class="hidden-xs-down">{{ 'staff.topNav.addStaff' | translate }}</span>
+                <span class="hidden-sm-up fs-11 fw-bold">
+                  <div *ngFor="let item of 'staff.topNav.addStaff' | translate | splitNavText">
+                    {{ item }}
+                  </div>
+                </span>
+            </a>
+        </li>
+        <li *ngIf="userRoles?.isSchoolAdmin" class="nav-item">
+            <a [routerLink]="['/main/staff/groups']" class="nav-link" routerLinkActive="active"
+                #groupsStaff="routerLinkActive" [ngClass]="groupsStaff.isActive ? 'active' : ''">
+                <span class="me-2 hidden-xs-down">
+                    <i class="fa fa-cogs"></i>
+                </span>
+                <div class="hidden-sm-up text-center">
+                    <i class="fa fa-cogs"></i>
+                </div>
+                <span class="hidden-xs-down">{{ 'staff.topNav.staffGroups' | translate }}</span>
+                <span class="hidden-sm-up fs-11 fw-bold">
+                  <div *ngFor="let item of 'staff.topNav.staffGroups' | translate | splitNavText">
+                    {{ item }}
+                  </div>
+                </span>
+            </a>
+        </li>
+
+    </ul>
+
+
+
+</div>

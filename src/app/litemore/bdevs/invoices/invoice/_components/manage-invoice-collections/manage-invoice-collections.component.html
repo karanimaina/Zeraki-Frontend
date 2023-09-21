@@ -1,0 +1,59 @@
+<div class="table-responsive mb-0" >
+    <table *ngIf="invoiceCollections.length > 0" [formGroup]="editCollectionForm" class="table table-bordered table-hover table-striped mb-0">
+        <thead>
+        <tr>
+            <th style="width: 22%">
+				{{'litemore.bdevs.invoices.invoice.components.manageInvoiceCollections.collectionDate'|translate}}
+			</th>
+            <th style="width: 22%;">{{'litemore.bdevs.invoices.invoice.components.manageInvoiceCollections.receivedBy'|translate}}</th>
+            <th style="width: 22%">{{'litemore.bdevs.invoices.invoice.components.manageInvoiceCollections.additionalInformation'|translate}}</th>
+            <th style="width: 21%">{{'litemore.bdevs.invoices.invoice.components.manageInvoiceCollections.amount'|translate}}</th>
+            <th style="width: 13%" class="text-center">{{'litemore.bdevs.invoices.invoice.components.manageInvoiceCollections.action'|translate}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let collection of invoiceCollections; let collectionIndex = index" [formArrayName]="'collections'">
+            <ng-container *ngIf="!editableCollectionRows[collection.collectionId]">
+                <td>{{ collection.collectionDate }}</td>
+                <td>{{ collection.updatedBy }}</td>
+                <td>{{ collection.additionalInfo }}</td>
+                <td>{{ collection.amount }}</td>
+                <td class="text-center">
+					<div class="d-flex">
+						<button class="btn btn-sm btn-info me-2 px-2" (click)="editCollection(collection.collectionId)">
+							<i class="bi bi-pencil-fill"></i>
+						</button>
+						<button class="btn btn-sm btn-secondary px-2 me-2" (click)="printCollection(collection)">
+							<i class="bi bi-printer-fill"></i>
+						</button>
+						<button class="btn btn-sm btn-danger px-2" (click)="confirmDelete(collectionIndex)">
+							<i class="bi bi-trash"></i>
+						</button>
+					</div>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="editableCollectionRows[collection.collectionId]" [formGroupName]="collectionIndex">
+                <td >
+                    <input class="form-control" formControlName="date" type="date">
+                </td>
+                <td>{{ collection.updatedBy }}</td>
+                <td>
+                    <app-input formControlName="additional_info"></app-input>
+                </td>
+                <td>
+                    <app-input formControlName="amount"></app-input>
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-sm btn-secondary px-2 me-2" (click)="editCollection(collection.collectionId)">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                    <button class="btn btn-sm btn-success px-2" (click)="saveCollectionChanges(collectionIndex, collection)">
+						{{'litemore.bdevs.invoices.invoice.components.manageInvoiceCollections.save'|translate}}
+                    </button>
+                </td>
+            </ng-container>
+        </tr>
+        </tbody>
+    </table>
+    <p class="mb-0" *ngIf="invoiceCollections.length == 0">{{'litemore.bdevs.invoices.invoice.components.manageInvoiceCollections.noCollectionsFound'|translate}}</p>
+</div>

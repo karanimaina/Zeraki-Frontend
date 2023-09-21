@@ -1,0 +1,139 @@
+<!-- Main content -->
+<section class="content mt-config">
+    <div class="box">
+        <div class="box-header with-border" style="padding: 1rem;">
+            <b class="mb-2">{{ 'staff.add.options.headerText' | translate }}</b>
+            <div class="form-group mb-0">
+                <input name="chkbox_add_staff" type="radio" [checked]="staffDetailOption" (click)="toggleAddOption()"
+                    id="chkbox_staff_details" class="with-gap radio-col-info">
+                <label style="margin-right: 20px;" for="chkbox_staff_details">{{ 'staff.add.options.keyInOption' |
+                    translate }}</label>
+
+                <input name="chkbox_add_staff" type="radio" [checked]="!staffDetailOption" (click)="toggleAddOption()"
+                    id="chkbox_staff_spreadsheet" class="with-gap radio-col-info">
+                <label for="chkbox_staff_spreadsheet">{{ 'staff.add.options.uploadFromSpreadSheetOption' | translate
+                    }}</label>
+            </div>
+        </div>
+        <div class="box-body">
+            <!--
+            ===================================
+                add by input staff details
+            ===================================
+            -->
+            <section *ngIf="staffDetailOption">
+                <!-- <pre>{{formDetails.value|json}}</pre> -->
+                <form [formGroup]="detailStaffForm" (ngSubmit)="addStaffDetails()">
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">{{ 'staff.add.keyInOptionForm.title' | translate }}</label>
+                            <input type="text"
+                            [placeholder]="'staff.add.keyInOptionForm.title' | translate"
+                                class="form-control" formControlName="TITLE"
+                                [ngClass]="{
+                                    'is-invalid':(staffDetailFormControls['TITLE'].invalid && submitDetailStaffForm)
+                                }" />
+                            <div class="text-danger" *ngIf='staffDetailFormControls["TITLE"].invalid && submitDetailStaffForm'>
+                                <div *ngIf="staffDetailFormControls['TITLE'].errors?.required">{{ 'staff.add.keyInOptionFormErrors.title' |
+                                    translate }}</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">{{ 'staff.add.keyInOptionForm.fullName' | translate }}</label>
+                            <input type="text" formControlName="NAME" class="form-control"
+                            placeholder="John Doe" [ngClass]="{
+                                'is-invalid':(staffDetailFormControls['NAME'].invalid && submitDetailStaffForm)
+                            }" />
+                            <div class="text-danger" *ngIf='staffDetailFormControls["NAME"].invalid && submitDetailStaffForm'>
+                                <div *ngIf="staffDetailFormControls['NAME'].errors?.required">{{ 'staff.add.keyInOptionFormErrors.fullName' |
+                                    translate }}</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">{{ 'staff.add.keyInOptionForm.phoneNumber' | translate
+                                }}</label>
+                            <input type="text" formControlName="PHONE"
+                                [placeholder]="'staff.add.keyInOptionForm.phoneNumberPlaceholderText' | translate"
+                                class="form-control" />
+                        </div>
+						<!-- national id number -->
+						<div class="col-sm-6">
+							<app-input
+								[label]="'teachers.add.keyInOptionForm.nationalIdNumber' | translate"
+								[placeholder]="'teachers.add.keyInOptionForm.nationalIdNumber' | translate"
+								formControlName="NATIONAL_ID_NO"
+								type="number">
+							</app-input>
+						</div>
+						<!-- address -->
+						<div class="col-sm-6">
+							<app-input
+								[label]="'teachers.add.keyInOptionForm.address' | translate"
+								[placeholder]="'teachers.add.keyInOptionForm.address' | translate"
+								formControlName="ADDRESS">
+							</app-input>
+						</div>
+						<!-- groups -->
+						<div class="form-group col-sm-6">
+							<app-ng-select
+								[label]="'staff.add.keyInOptionForm.groups' | translate"
+								[placeholder]="'staff.add.keyInOptionForm.groupPlaceholderText' | translate"
+								[items]="staffGroups"
+								bindLabel="name"
+								bindValue="name"
+								formControlName="GROUP">
+                        	</app-ng-select>
+						</div>
+						<!-- submit btn -->
+                        <div class="col-sm-12">
+                            <div *ngIf="isAdding; then showLoader else showButton"></div>
+                            <ng-template #showLoader>
+                                <app-loader-pulse style="display: inline-block;" class="pull-right"></app-loader-pulse>
+                            </ng-template>
+                            <ng-template #showButton>
+                                <button class="btn btn-sm waves-effect waves-light btn-info pull-right">
+                                    <i class="fa fa-save"></i>
+                                    {{ 'staff.add.keyInOptionForm.addBtn' | translate }}
+                                </button>
+                            </ng-template>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <!--
+            ===================================
+            add via excel document
+            ===================================
+            -->
+            <section *ngIf="!staffDetailOption">
+
+                <form [formGroup]="uploadStaffForm" (ngSubmit)="addStaffExcel()">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <app-excel-download-template
+                                [fileName]="'staff.add.uploadFromSpreadSheetOptionForm.excelTemplateDownload.fileName' | translate"
+                                [templateHeaders]="templateHeaders"
+                                [hasErrors]="(submitUploadStaffForm && staffFormControls['staffFile'].invalid)"
+                                (uploadedEntries)="getUploadedStaff($event)"></app-excel-download-template>
+                        </div>
+                        <div class="col-sm-12">
+                            <div *ngIf="isAdding; then showLoader else showButton"></div>
+                            <ng-template #showLoader>
+                                <app-loader-pulse style="display: inline-block;" class="pull-right"></app-loader-pulse>
+                            </ng-template>
+                            <ng-template #showButton>
+                                <button class="btn btn-sm waves-effect waves-light btn-info pull-right">
+                                    <i class="fa fa-upload"></i>
+                                    {{ 'staff.add.uploadFromSpreadSheetOptionForm.uploadBtn' | translate }}
+                                </button>
+                            </ng-template>
+                        </div>
+                    </div>
+                </form>
+
+            </section>
+        </div>
+    </div>
+</section>
+
+

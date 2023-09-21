@@ -1,0 +1,122 @@
+<button
+  type="button"
+  class="btn btn-dark btn-sm waves-effect waves-light"
+	data-bs-toggle="modal"
+	[attr.data-bs-target]="'#assessment-addition-modal'"
+  (click)="initializeAdditionForm()">
+	<i class="bi bi-plus-lg"></i>
+	{{ "exams.assessments.create" | translate }}
+</button>
+
+<div
+  class="modal fade"
+  [id]="'assessment-addition-modal'"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="assessment-addition-modalLabel"
+  aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content rounded-3 text-body">
+			<div class="modal-header p-20 pb-10">
+				<h5 class="mb-0 fw-bold" id="extra-act-update-modalLabel">
+					{{ "exams.assessments.create" | translate }}
+				</h5>
+				<button
+					type="button"
+					[id]="'btn-assessment-add-modal'"
+					class="btn-close"
+					data-bs-dismiss="modal">
+				</button>
+			</div>
+
+			<div class="modal-body p-20 pt-10">
+				<form [formGroup]="additionForm" (ngSubmit)="addAssessment()">
+					<div class="row">
+						<!-- name -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<app-input
+									[label]="'common.name' | translate"
+									[placeholder]="'common.name' | translate"
+									formControlName="name"
+									type="text"
+									[required]="true">
+								</app-input>
+							</div>
+						</div>
+						<!-- term -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<app-ng-select
+									[label]="'common.term' | translate"
+									[placeholder]="'common.selectTerm' | translate"
+									[items]="['1', '2', '3']"
+									[loading]="false"
+									[loadingText]="'common.loading' | translate"
+									[clearable]="false"
+									formControlName="term">
+								</app-ng-select>
+							</div>
+						</div>
+						<!-- year -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<app-ng-select
+									[label]="'common.year' | translate"
+									[placeholder]="'common.selectYear' | translate"
+									[items]="academicYears"
+									[loading]="isLoadingAcademicYears"
+									[loadingText]="'common.loading' | translate"
+									bindLabel="name"
+									[clearable]="false"
+									formControlName="year">
+								</app-ng-select>
+							</div>
+						</div>
+						<!-- type -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<app-ng-select
+									[label]="'common.type' | translate"
+									[placeholder]="'common.selectType' | translate"
+									[items]="assessmentTypes"
+									[loading]="isLoadingAssessmentTypes"
+									[loadingText]="'common.loading' | translate"
+									[clearable]="false"
+									formControlName="type">
+								</app-ng-select>
+							</div>
+						</div>
+
+						<!-- actions modal-footer-->
+						<div class=" col-12">
+							<div class="form-group mb-0 d-flex justify-content-between">
+								<button
+									type="button"
+									class="btn btn-sm btn-outline btn-success w-100"
+									data-bs-dismiss="modal"
+									[disabled]="isAddingAssessment">
+									<span>{{ "common.cancel" | translate }}</span>
+								</button>
+
+								<button
+									type="submit"
+									class="btn btn-sm btn-primary w-100"
+									[disabled]="isAddingAssessment">
+									<span
+										*ngIf="isAddingAssessment"
+										class="spinner-border spinner-border-sm"
+										role="status"
+										aria-hidden="true">
+									</span>
+									<span [class.ms-2]="isAddingAssessment">{{ "common.submit" | translate }}</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

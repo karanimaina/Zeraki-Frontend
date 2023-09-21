@@ -1,0 +1,28 @@
+<router-outlet *ngIf="!networkService.isNetworkStopped"></router-outlet>
+<app-connection-lost *ngIf="networkService.isNetworkStopped"></app-connection-lost>
+
+
+<ng-container *ngIf="(stkData$ | async)?.list?.length > 0 && loggedInUser?.admno">
+    <app-feedback></app-feedback>
+
+    <app-tel-dialog></app-tel-dialog>
+
+    <app-whatsapp-dialog></app-whatsapp-dialog>
+
+    <!-- ./side demo panel -->
+    <div class="sticky-toolbar bg-success-light">
+        <a id="tel-popup" href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="Call"
+            class="waves-effect waves-light btn btn-info btn-flat mb-5 btn-sm px-5">
+            <span class="icon-Call1"><span class="path1"></span><span class="path2"></span></span>
+        </a>
+        <a id="whatsapp-popup" href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="WhatsApp"
+            class="waves-effect waves-light btn btn-info btn-flat mb-5 btn-sm">
+            <span class="fa fa-whatsapp"><span class="path1"></span><span class="path2"></span></span>
+        </a>
+        <a id="chat-popup" href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="Feedback"
+            class="waves-effect waves-light btn btn-info btn-flat btn-sm px-5 pb-1">
+            <span class="icon-Chat2"><span class="path1"></span><span class="path2"></span></span>
+        </a>
+    </div>
+</ng-container>
+<!-- FEEDBACK CHAT BOX -->

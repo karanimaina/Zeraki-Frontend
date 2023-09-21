@@ -1,0 +1,187 @@
+<!-- Teacher Top Nav -->
+<app-teacher-top-nav *ngIf="!schoolSetup"></app-teacher-top-nav>
+
+<!-- Main content -->
+<section [ngClass]="!schoolSetup ? 'content mt-config' : ''">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-header with-border" style="padding: 1rem;">
+                    <b class="mb-2">{{ 'teachers.add.options.headerText' | translate }}</b>
+                    <div class="form-group mb-0">
+                        <input name="chkbox_add_teacher" type="radio" [checked]="teacherDetailOption"
+                            (click)="viewTeacherDetailSection()" id="chkbox_teacher_details"
+                            class="with-gap radio-col-primary">
+                        <label style="margin-right: 20px;" for="chkbox_teacher_details">
+                            {{ 'teachers.add.options.keyInOption' | translate }}
+                        </label>
+
+                        <input name="chkbox_add_teacher" type="radio" [checked]="!teacherDetailOption"
+                            (click)="viewTeacherSpreadSheet()" id="chkbox_teacher_spreadsheet"
+                            class="with-gap radio-col-primary">
+                        <label for="chkbox_teacher_spreadsheet">
+                            {{ 'teachers.add.options.uploadFromSpreadSheetOption' | translate }}
+                        </label>
+                    </div>
+                </div>
+                <div class="box-body">
+
+                    <!--
+                        ======================================
+                            section key in teacher details
+                        ======================================
+                    -->
+                    <section *ngIf="teacherDetailOption">
+                        <form [formGroup]="newTeacherForm" (ngSubmit)="onSubmitTeacherByDetail()">
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                </div>
+								<!-- name -->
+                                <div class="form-group col-sm-6">
+                                    <label for="tNameId">{{ 'teachers.add.keyInOptionForm.fullName' | translate
+                                        }}</label>
+                                    <input type="text" class="form-control" placeholder="John Doe"
+                                        formControlName="NAME" id="tNameId"
+                                        [ngClass]="{'is-invalid':(submitted && newTeacherControls['NAME'].errors )}">
+                                    <div class="text-danger" *ngIf="submitted && newTeacherControls['NAME'].errors">
+                                        <div *ngIf="newTeacherControls['NAME'].errors['required']">{{
+                                            'teachers.add.keyInOptionFormErrors.fullName' | translate }}</div>
+                                        <div *ngIf="newTeacherControls['NAME'].errors['appEmptyStringValidator']">{{
+                                            'teachers.add.keyInOptionFormErrors.emptyName' | translate }}</div>
+                                    </div>
+                                </div>
+								<!-- phone number -->
+                                <div class="form-group col-sm-6">
+                                    <label for="tPhoneId">{{ 'teachers.add.keyInOptionForm.phoneNumber' | translate
+                                        }}</label>
+                                    <input type="tel" id="tPhoneId" formControlName="PHONE" class="form-control"
+                                        [placeholder]="'teachers.add.keyInOptionForm.phoneNumberPlaceholderText' | translate"
+                                        [ngClass]="{'is-invalid':(submitted && newTeacherControls['PHONE'].errors )}">
+                                    <div class="text-danger" *ngIf="submitted && newTeacherControls['PHONE'].errors">
+                                        <div *ngIf="newTeacherControls['PHONE'].errors['appPhoneValidator']">{{
+                                            'teachers.add.keyInOptionForm.invalidPhoneNumber' | translate }}</div>
+                                    </div>
+                                </div>
+								<!-- tsc number/registration number/ec number -->
+                                <div class="col-sm-6">
+									<ui-kenyan-school [template]="tscNumber"></ui-kenyan-school>
+						  			<ui-zimbabwe-school [template]="ecNumber"></ui-zimbabwe-school>
+									<ui-zambia-school [template]="ecNumber"></ui-zambia-school>
+									<ui-uganda-school [template]="regNumber"></ui-uganda-school>
+									<ui-tanzania-school [template]="regNumber"></ui-tanzania-school>
+						  			<ui-guinea-school [template]="regNumber"></ui-guinea-school>
+						  			<ui-ivory-coast-school [template]="regNumber"></ui-ivory-coast-school>
+						  			<ui-south-africa-school [template]="regNumber"></ui-south-africa-school>
+						  			<ui-ghana-school [template]="regNumber"></ui-ghana-school>
+
+									<ng-template #tscNumber>
+										<app-input [label]="'common.tscNumber'| translate"
+											[placeholder]="'common.tscNumber' | translate"
+											formControlName="TSC_NO">
+										</app-input>
+									</ng-template>
+									<ng-template #regNumber>
+										<app-input
+										  [label]="'common.regNumber'| translate"
+										  [placeholder]="'common.regNumber' | translate"
+										  formControlName="TSC_NO">
+										</app-input>
+									</ng-template>
+									<ng-template #ecNumber>
+										<app-input
+										  [label]="'common.ecNumber'| translate"
+										  [placeholder]="'common.ecNumber' | translate"
+										  formControlName="TSC_NO">
+										</app-input>
+									</ng-template>
+                                </div>
+								<!-- gender -->
+                                <div class="form-group col-sm-6">
+                                    <label for="tGenderId">{{ 'teachers.add.keyInOptionForm.gender' | translate
+                                        }}</label>
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate" [selectOnTab]="true"
+                                        id="tGenderId"
+                                        [placeholder]="'teachers.add.keyInOptionForm.genderPlaceholderText' | translate"
+                                        formControlName="GENDER">
+                                        <ng-option [value]="'male'">{{ 'teachers.add.keyInOptionForm.genderMaleOption' |
+                                            translate }}</ng-option>
+                                        <ng-option [value]="'female'">{{
+                                            'teachers.add.keyInOptionForm.genderFemaleOption' | translate }}</ng-option>
+                                        <ng-option [value]="'unspecified'">{{
+                                            'teachers.add.keyInOptionForm.genderUnspecifiedOption' | translate }}
+                                        </ng-option>
+                                    </ng-select>
+                                </div>
+								<!-- national id number -->
+                                <div class="col-sm-6">
+									<app-input
+										[label]="'teachers.add.keyInOptionForm.nationalIdNumber' | translate"
+										[placeholder]="'teachers.add.keyInOptionForm.nationalIdNumber' | translate"
+										formControlName="NATIONAL_ID_NO"
+										type="number">
+									</app-input>
+                                </div>
+								<!-- address -->
+								<div class="col-md-6">
+									<app-input
+										[label]="'teachers.add.keyInOptionForm.address' | translate"
+										[placeholder]="'teachers.add.keyInOptionForm.address' | translate"
+										formControlName="ADDRESS">
+									</app-input>
+								</div>
+								<!-- groups -->
+                                <div class="form-group col-sm-12">
+                                    <label for="tGroupId">{{ 'teachers.add.keyInOptionForm.group' | translate }}</label>
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate" id="tGroupId"
+                                        formControlName="GROUP"
+                                        [placeholder]="'teachers.add.keyInOptionForm.groupPlaceholderText' | translate"
+                                        [(ngModel)]="teacherDetail.GROUP">
+                                        <ng-option *ngFor="let g of teacherGroups" [value]="g.name">
+                                            {{g.name}}
+                                        </ng-option>
+                                    </ng-select>
+                                </div>
+								<!-- submit btn -->
+                                <div class="col-sm-12">
+                                    <button class="btn btn-sm btn-primary pull-right waves-effect waves-light"
+                                        [disabled]="loading">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status"
+                                            aria-hidden="true"></span>
+                                        <i *ngIf="!loading" class="bi bi-plus-circle me-2"></i>
+                                        {{ 'teachers.add.keyInOptionForm.addBtn' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                    <!--
+                        ======================================
+                            section key in teacher spreadsheet
+                        ======================================
+                    -->
+                    <section *ngIf="!teacherDetailOption">
+                        <form [formGroup]="uploadTeacherForm" (ngSubmit)="addTeacherExcel()">
+                            <div class="row">
+
+                                <!-- table section -->
+                                <div class="col-sm-12">
+                                    <app-excel-download-template
+                                        [fileName]="'teachers.add.uploadFromSpreadSheetOptionForm.excelTemplateDownload.fileName' | translate"
+                                        [templateHeaders]="templateHeaders"
+                                        [hasErrors]="submitUploadTeacherForm && teacherFile['teacherFile'].invalid"
+                                        (uploadedEntries)="getUploadedTeacher($event)"></app-excel-download-template>
+                                </div>
+                                <div class="col-sm-12">
+                                    <button class="btn btn-sm btn-primary pull-right">
+                                        {{ 'teachers.add.uploadFromSpreadSheetOptionForm.uploadBtn' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

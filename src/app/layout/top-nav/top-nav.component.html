@@ -1,0 +1,350 @@
+<header class="main-header">
+  <div class="network-status" [ngClass]="{'active': !networkStatus}">
+    <div class="bg-warning text-center py-1 net-message">
+      <span><i class="fa fa-wifi"></i> {{ 'common.offlineMessage' | translate }}<span class="hidden-sm-down">{{
+          'common.checkNetwork' | translate }} </span></span>
+    </div>
+  </div>
+  <div class="d-flex align-items-center logo-box justify-content-center hidden-sm-down">
+    <!-- <a href="#" class="waves-effect waves-light nav-link d-none d-md-inline-block mx-10 push-btn bg-transparent" data-toggle="push-menu" role="button">
+      <span class="icon-Align-left"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
+    </a>	 -->
+    <!-- Logo -->
+    <a [routerLink]="['/main/dashboard']" class="logo">
+      <!-- logo-->
+      <div class="logo-lg">
+        <span class="light-logo"><img src="assets/img/logos/zeraki_analytics_logo.svg" width="120" height="50"
+            alt="logo"></span>
+        <span class="dark-logo"><img src="assets/img/logos/zeraki_analytics_logo.svg" width="150" height="100"
+            alt="logo"></span>
+      </div>
+    </a>
+  </div>
+  <!-- Header Navbar -->
+  <nav class="navbar navbar-static-top">
+    <!-- Sidebar toggle button-->
+    <div class="app-menu">
+      <ul *ngIf="!isJointAccount" class="header-megamenu nav">
+        <li class="btn-group nav-item d-xl-none">
+          <a href="#" class="waves-effect waves-light nav-link push-btn d-none" data-toggle="push-menu" role="button">
+            <span class="icon-Align-left"><span class="path1"></span><span class="path2"></span><span
+                class="path3"></span></span>
+          </a>
+          <div class="text-dark nav-link text-start pb-2" style="padding-left: 0.5rem; padding-right: 0.5rem;"
+            [title]="'common.school' | translate">
+            <ng-container
+              *ngIf="((userInfo$ | async)?.schoolname_short && (userInfo$ | async)?.schoolname_short?.length! <= 15) else zerakiLogo">
+              <span [routerLink]="['/main/dashboard']" class="fs-14 text-wrap fw-bolder"
+                style="color: #085f00 !important;">{{ (userInfo$ | async)?.schoolname_short }}</span>
+            </ng-container>
+
+            <ng-template #zerakiLogo>
+              <span [routerLink]="['/main/dashboard']" class="fs-14 text-wrap fw-bolder" title="Home">
+                <img src="../../../assets/img/slogo.png" width="30" height="30" alt="logo">
+              </span>
+            </ng-template>
+            <!-- <pre>Length: {{(userInfo$ | async)?.schoolname?.length}}</pre> -->
+            <!-- school selection -->
+            <ng-container *ngIf="userInit?.schools?.length > 1">
+              <ng-template [ngTemplateOutlet]="schoolSwitch"></ng-template>
+            </ng-container>
+          </div>
+        </li>
+
+        <li class="btn-group nav-item d-none d-xl-inline-block">
+          <!-- <div [routerLink]="['/main/dashboard']" class="waves-effect waves-light nav-link fs-18 text-dark" title="Chat">
+            <img src="../../../../../assets/img/ahs.png" width="150" height="50" alt="logo">
+          </div> -->
+          <div class="text-dark nav-link text-center" [title]="'common.school' | translate">
+            <span [routerLink]="['/main/dashboard']" class="fs-16 fw-bolder" style="color: #085f00 !important;">{{
+              (userInfo$ | async)?.schoolname }}</span>
+            <!-- school selection -->
+            <ng-container *ngIf="userInit?.schools?.length > 1">
+              <ng-template [ngTemplateOutlet]="schoolSwitch"></ng-template>
+            </ng-container>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="navbar-custom-menu r-side">
+      <ul class="nav navbar-nav">
+        <!-- language selection -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle fs-16 d-none d-sm-inline-block" style="min-width: 130px;" href="#"
+            id="navbarLanguageSelectionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img [alt]="'common.languages.' + currentLanguage?.label?.toLowerCase() | translate"
+              [src]="'/assets/img/country-flags/' + (currentLanguage?.flagCode) + '.svg'"
+              style="height: 10px; transform: translateY(-2px);" />
+            {{ 'common.languages.' + currentLanguage?.label?.toLowerCase() | translate }}
+          </a>
+
+          <ul class="dropdown-menu animated fadeIn rounded" aria-labelledby="navbarLanguageSelectionDropdown">
+            <ng-container *ngFor="let language of languages">
+              <li style="cursor: pointer;">
+                <a class="dropdown-item my-0 lang"
+                  [style.font-weight]="(currentLanguage?.code === language.code) ? 'bold' : 'normal'"
+                  (click)="switchLanguage(language.code)">
+                  <img [alt]="'common.languages.' + currentLanguage?.label?.toLowerCase() | translate"
+                    [src]="'/assets/img/country-flags/' + (language.flagCode) + '.svg'" style="height: 10px;" />
+                  {{ 'common.languages.' + language.label?.toLowerCase() | translate }}
+                </a>
+              </li>
+            </ng-container>
+          </ul>
+        </li>
+
+        <!-- <li class="btn-group nav-item d-lg-inline-flex d-none">
+          <a href="#" data-provide="fullscreen" class="waves-effect waves-light nav-link full-screen" title="Full Screen">
+            <i class="icon-Expand-arrows"><span class="path1"></span><span class="path2"></span></i>
+          </a>
+        </li>	   -->
+
+        <!-- Large screen search-->
+        <li class="btn-group d-xxl-inline-flex d-none" *ngIf="!isJointAccount && !(userRoles$ | async)?.isStudent">
+          <div class="app-menu">
+            <div class="search-bx mx-5">
+              <form #stForm="ngForm" (ngSubmit)="stForm.form.valid && searchStudent()">
+                <div class="input-group">
+                  <input type="search" class="form-control" name="search" [(ngModel)]="searchTerm"
+                    placeholder="{{ 'layout.top.searchStudent' | translate }}" aria-label="Search"
+                    aria-describedby="button-addon2" required>
+                  <div class="input-group-append">
+                    <button class="btn" type="submit" id="button-addon3"><i class="ti-search"></i></button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </li>
+
+        <!-- Small screen search -->
+        <!-- <li class="d-lg-none me-2">
+          <div class="pt-3">
+            <div class="lookup lookup-circle lookup-right">
+              <input type="text" class="p-2" data-provide="media-search">
+            </div>
+          </div>
+        </li> -->
+
+        <li class="d-xxl-none" *ngIf="!isJointAccount && !(userRoles$ | async)?.isStudent">
+          <a [routerLink]="['/main/students/search']" class="waves-effect waves-light dropdown-toggle"
+            title="{{ 'layout.top.searchStudent' | translate }}">
+            <i class="icon-Search"><span class="path1"></span><span class="path2"></span></i>
+          </a>
+        </li>
+
+        <!-- Notifications -->
+        <li class="dropdown notifications-menu" *ngIf="!isJointAccount && !(userRoles$ | async)?.isStudent">
+          <a href="#" class="dropdown-toggle position-relative" data-bs-toggle="dropdown" title="Messages">
+
+            <i class="icon-Mail"></i>
+            <span *ngIf="notsObj?.notificationCount > 0"
+              class="position-absolute top-0 start-90 translate-middle badge rounded-pill bg-danger fs-10 hidden-sm-down">
+              <span *ngIf="notsObj?.notificationCount > 100">100+</span>
+              <span *ngIf="notsObj?.notificationCount <= 100">{{ notsObj?.notificationCount }}</span>
+              <span class="visually-hidden">{{ 'layout.top.unreadReadMessages' | translate }}</span>
+            </span>
+            <span
+              class="position-absolute top-0 start-100 translate-middle p-1-5 border border-light rounded-circle hidden-md-up"
+              [ngClass]="notsObj?.notificationCount > 0? 'bg-danger': ''">
+
+              <span class="visually-hidden">{{ 'layout.top.unreadReadMessages' | translate }}</span>
+            </span>
+          </a>
+          <ul class="dropdown-menu animated bounceIn bg-active">
+            <li class="header">
+              <div class="p-5">
+                <div class="flexbox">
+                  <div>
+                    <h4 class="mb-0 mt-0">{{ 'layout.top.messages' | translate }}</h4>
+                  </div>
+                  <div>
+                    <a (click)="markAll()" class="text-danger">{{ 'layout.top.clearAll' | translate }}</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li *ngIf="notsObj?.notificationCount">
+              <!-- inner menu: contains the actual data -->
+              <ul class="menu sm-scroll">
+                <li *ngFor="let notification of notsObj?.messagesToDisplay">
+                  <a (click)="goToMessage(notification)" style="cursor: pointer;">
+                    <i class="fa fa-user text-primary"></i> {{ 'layout.top.notTitle' | translate: {title:
+                    notification.title} }}.
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li *ngIf="notsObj?.notificationCount == 0" class="text-dark text-center">{{ 'layout.top.noUnreadMessages' |
+              translate }}</li>
+            <li class="footer bg-secondary-light">
+              <a [routerLink]="['/main/messages']">{{ 'layout.top.viewAll' | translate }}</a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Dark mode-->
+        <!-- <li class="user-menu theme-toggle">
+          <a href="#" class="waves-effect waves-light dropdown-toggle"  title="Theme">
+            <i class="icon-Moon"><span class="path1"></span><span class="path2"></span></i>
+          </a>
+        </li>	 -->
+
+
+
+        <!-- LitemoreUser Account-->
+        <!-- <li class="dropdown user user-menu">
+          <a href="#" class="waves-effect waves-light dropdown-toggle" data-bs-toggle="dropdown" title="LitemoreUser">
+            <i class="icon-LitemoreUser"><span class="path1"></span><span class="path2"></span></i>
+          </a>
+          <ul class="dropdown-menu animated flipInX positioned">
+            <li class="user-body">
+              <a class="dropdown-item" href="#"><i class="ti-user text-muted me-2"></i> Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#"><i class="ti-lock text-muted me-2"></i> Logout</a>
+            </li>
+          </ul>
+        </li>	 -->
+
+        <li class="dropdown profile-menu rounded-pill px-2" tabindex="1">
+          <ul class="d-flex menu-ul dropdown-toggle ps-1" data-bs-toggle="dropdown" title="User">
+            <li class="me-10 d-none d-md-inline-block pt-1">
+              <dl class="dl-horizontal">
+                <dt>{{ (userInfo$ | async)?.name }}</dt>
+                <dt class="fw-normal">{{ (userInfo$ | async)?.email }}</dt>
+              </dl>
+            </li>
+            <li class="pad-img">
+              <div class="image-cropper-md hidden-md-up">
+                <img class="image-cropper-content" src='{{userDp}}'
+                  (error)="userDp = 'assets/img/avatar/p_avatar_blue.png'" alt="">
+              </div>
+              <div class="image-cropper-nm hidden-sm-down">
+                <img class="image-cropper-content" src="{{userDp}}"
+                  (error)="userDp = 'assets/img/avatar/p_avatar_blue.png'" alt="">
+              </div>
+              <!-- <img class="rounded-circle" width="40" height="40" src="../../../assets/img/avatar/pi2.jpg" alt=""> -->
+              <!-- <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+              </svg> -->
+            </li>
+          </ul>
+          <ul class="dropdown-menu dropdown-menu1 animated flipInX positioned bg-active rounded">
+            <li class="user-body" *ngIf=" !(userRoles$ | async)?.isStudent">
+              <a class="dropdown-item" *ngIf="!isJointAccount" [routerLink]="['/main/settings/my-prof']"><i
+                  class="ti-user text-muted me-2 text-success"></i>{{ 'layout.top.profile' | translate }}</a>
+              <a [routerLink]="['/main/partner']" *ngIf="(userRoles$ | async)?.iszerakipartner" class="dropdown-item">
+                <i class="fa fa-handshake-o me-2 text-success"></i>
+                {{'layout.top.partners'|translate}}
+              </a>
+              <a *ngIf="(userRoles$ | async)?.isSchoolAdmin" class="dropdown-item" [routerLink]="['/main/settings']"><i
+                class="ti-settings text-muted me-2 text-success"></i>{{ 'layout.top.settings' | translate }}</a>
+              <a class="dropdown-item" [routerLink]="['/main/change-password']"><i
+                  class="ti-key me-2 text-success"></i>{{ 'layout.top.changePassword' | translate }}</a>
+
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" (click)="logout()"><i class="ti-lock text-muted me-2 text-success"></i>{{
+                'layout.top.logout' | translate }}</a>
+            </li>
+            <li class="user-body" *ngIf="(userRoles$ | async)?.isStudent">
+              <a class="dropdown-item" [routerLink]="['/main/students/prof',(userInfo$ | async)?.userid]"><i
+                  class="ti-user text-muted me-2 text-success"></i>{{ 'layout.top.profile' | translate }}</a>
+              <a class="dropdown-item" [routerLink]="['/main/change-password']"><i
+                  class="ti-key text-muted me-2 text-success"></i>{{ 'layout.top.changePassword' | translate }}</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" (click)="logout()"><i class="ti-lock text-muted me-2 text-success"></i>{{
+                'layout.top.logout' | translate }}</a>
+            </li>
+          </ul>
+        </li>
+
+
+        <!-- LitemoreUser Account 2-->
+        <!-- <li class="btn-group d-lg-inline-flex">
+          <div class="app-menu">
+            <div class="search-bx mx-5">
+              <form>
+                <div class="input-group">
+                  <input type="search" class="form-control" placeholder="Search Student" aria-label="Search" aria-describedby="button-addon2">
+                  <div class="input-group-append">
+                  <button class="btn" type="submit" id="button-addon3"><i class="ti-search"></i></button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </li> -->
+
+      </ul>
+      <!-- <span>
+        <li>
+          <a>
+            <div class="d-flex justify-content-start align-items-center">
+              <div>
+                <h6 class="mb-0">Natasha Clark</h6>
+                <small>Web Developrt</small>
+              </div>
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                </svg>
+              </div>
+            </div>
+          </a>
+        </li>
+      </span> -->
+    </div>
+
+    <!-- <div class="navbar-custom-menu r-side">
+      <ul class="nav navbar-nav">
+        <li>
+          <dl class="dl-horizontal">
+            <dt>Shivere Shawn</dt>
+            <dt>shawn.shivere@zeraki.co.ke</dt>
+          </dl>
+        </li>
+        <li>
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+          </svg>
+        </li>
+      </ul>
+    </div> -->
+  </nav>
+</header>
+<!-- Student Top Nav -->
+<!-- <app-students-top-nav></app-students-top-nav> -->
+
+<ng-template #schoolSwitch>
+  <button [matMenuTriggerFor]="schoolSelectionMenu" class="btn btn-info btn-xs ms-2"
+    aria-label="School selection button with a menu">
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <mat-menu #schoolSelectionMenu="matMenu">
+    <div class="form-group m-2" (click)="$event.stopPropagation();">
+      <input type="text" name="search-school" id="search-school" class="form-control"
+        [placeholder]="'common.searchSchool' | translate" (keyup)="filterSchools($event)">
+    </div>
+    <div class="schools">
+      <ng-container *ngIf="dataSource.data.length === 0; then noSchoolsPresent; else schoolsPresent"></ng-container>
+    </div>
+  </mat-menu>
+</ng-template>
+
+<ng-template #noSchoolsPresent>
+  <div mat-menu-item class="text-center">
+    <i class="fa fa-exclamation-circle text-warning"></i>
+    <span class="ms-2">{{ 'common.noSchoolsFound' | translate }}</span>
+  </div>
+</ng-template>
+
+<ng-template #schoolsPresent>
+  <ng-container *ngFor="let school of dataSource.data">
+    <div mat-menu-item [class.bg-gray-300]="school.name === (userInfo$ | async)?.schoolname"
+      (click)="switchSchool(school.schoolid)">
+      <span [class.text-primary]="school.name === (userInfo$ | async)?.schoolname">{{ school.name }}</span>
+    </div>
+  </ng-container>
+</ng-template>

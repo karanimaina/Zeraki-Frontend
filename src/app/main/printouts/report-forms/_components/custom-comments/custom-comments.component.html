@@ -1,0 +1,50 @@
+<div style="font-weight: bold;color: black;page-break-before: always;break-before: always;"
+    *ngIf="hasCustomComments && showCustomComments">
+    <div class="zreportcontent" style="font-weight: bold;color: black">
+        <div class="row">
+            <div class="col-12" style="float: none; margin: 0 auto;">
+                <div style="padding: 30px 16px 0px 10px" *ngIf="studentReport.subjectsReport.subjectsPerformance.length > 0">
+                    <label>
+                        {{ 'printouts.reportForms.subjectRemarks' | translate }}
+                    </label>
+                    <table class="table table-bordered table-condensed"
+                        style="padding-bottom: 0px;margin-bottom: 0px;border-collapse: collapse;border: 2px solid black!important;">
+                        <thead>
+                            <tr>
+                                <th style="border: 2px solid black!important">
+                                    <span class="zreport-table-contents">
+                                        {{ 'printouts.reportForms.subject'| translate }}
+                                    </span>
+                                </th>
+                                <th style="border: 2px solid black!important">
+                                    <span class="zreport-table-contents">
+                                        {{ 'printouts.reportForms.comment'| translate }}
+                                    </span>
+                                </th>
+                                <th style="border: 2px solid black!important">
+                                    <span class="zreport-table-contents">
+                                        {{ 'printouts.reportForms.teacher'| translate }}
+                                    </span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let performancePerSubject of studentReport.subjectsReport.subjectsPerformance">
+                                <td style="border: 2px solid black!important">
+                                    <div class="zreport-table-contents">
+                                        {{performancePerSubject.subjectName }}</div>
+                                </td>
+                                <td style="border: 2px solid black!important">
+                                    <span class="zreport-table-contents">{{performancePerSubject.customComment}}</span>
+                                </td>
+                                <td style="border: 2px solid black!important">
+                                    <span class="zreport-table-contents">{{performancePerSubject.subjectTeacher}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

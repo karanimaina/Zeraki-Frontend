@@ -1,0 +1,87 @@
+<app-olevel-transcripts-options (optionsFormChanges)="updateSelectedOptions($event)"></app-olevel-transcripts-options>
+
+<div class="row">
+	<div class="col-12">
+		<button *ngIf="schoolInfo$ | async as schoolInfo" class="btn btn-dark btn-sm pull-right d-md-block"
+				[disabled]="downloadingReport"
+				(click)="downloadTranscripts(schoolInfo)">
+			<span class="pe-1">{{ 'common.download' | translate }}</span>
+			<span *ngIf="downloadingReport" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+			<i *ngIf="!downloadingReport" class="bi bi-download"></i>
+		</button>
+
+		<button
+			class="btn btn-dark btn-sm pull-right mb-2 d-none d-md-block me-2"
+			[useExistingCss]="true"
+			[printStyle]="{ '@page': { margin: '.3cm !important' }, '.box': {padding: '0 !important'} }"
+			printSectionId="print-section"
+			[printTitle]="pdfTitle"
+			ngxPrint>
+			<span class="pe-1">{{ 'common.print' | translate }}</span>
+			<i class="bi bi-printer"></i>
+		</button>
+	</div>
+</div>
+
+
+<div id="print-section">
+	<div class="pagebreak box" *ngFor="let transcript of olevelTranscript.transcripts" style="font-size: 13px">
+		<app-school-address
+			[schoolInfo]="(schoolInfo$ | async)!"
+			[studentId]="transcript.studentDetails.studentId"
+			[profileUrl]="transcript.studentDetails.profileUrl"
+			[assessmentTitle]="'printouts.studentReport.yearSummary.yearSummaryReport' | translate">
+		</app-school-address>
+
+		<div class="mb-2 d-flex flex-row justify-content-between pt-2"
+			 [style]="{ 'border-top': '3px solid #43ab49', 'margin-top': '0.2em' }">
+
+			<app-student-details
+				[style]="{'width' : selectedOptions.attendanceReport ? '' : '100%' }"
+				[studentName]="transcript.studentDetails.studentName"
+				[studentAdmNo]="transcript.studentDetails.studentAdmNo"
+				[streamName]="olevelTranscript.streamName"
+				[year]="olevelTranscript.year"
+				[term]="olevelTranscript.term"
+				[showAttendanceReport]="selectedOptions.attendanceReport"
+				[formOrYear]="formOrYear || ''">
+			</app-student-details>
+
+			<!-- Attendance Report -->
+			<div *ngIf="selectedOptions.attendanceReport" style="width: 35%">
+				<app-attendance-report
+					[showAttendanceReport]="selectedOptions.attendanceReport"
+					[attendance]="transcript.studentDetails.attendance">
+				</app-attendance-report>
+			</div>
+		</div>
+
+		<!-- Year Summary Table -->
+		<app-year-summary [yearSummaryReport]="transcript.yearSummary"></app-year-summary>
+
+		<!-- Signatures -->
+		<app-report-signatures
+			[showClassTeacherSignature]="selectedOptions.classTeacherSignature"
+			[showClassTeacherComments]="selectedOptions.classTeacherComments"
+			[classTeacherSignature]="olevelTranscript.classTeacherSignature"
+			[classTeacherComment]="transcript.classTeacherComments"
+			[showPrincipalSignature]="selectedOptions.principalSignature"
+			[showPrincipalComments]="selectedOptions.principalComments"
+			[principalSignature]="olevelTranscript.principalSignature"
+			[principalComment]="transcript.principalComments">
+		</app-report-signatures>
+
+		<app-grade-descriptor
+			*ngIf="selectedOptions.gradeDescriptor"
+			[grades]="olevelTranscript.grades">
+		</app-grade-descriptor>
+	</div>
+</div>
+
+<!--Used in downloading as pdf-->
+<div hidden>
+	<img *ngIf="schoolInfo$ | async as schoolInfo" id="school-logo" crossorigin="anonymous" [src]="schoolInfo?.logo ? schoolInfo?.logo+'?cacheblock=true' : ''" alt="logo" class="logo" width="160" height="160">
+	<img id="class-teacher-signature" crossorigin="anonymous" [src]="olevelTranscript.classTeacherSignature ? olevelTranscript?.classTeacherSignature+'?cacheblock=true' : ''" alt="logo" class="logo" width="160" height="160">
+	<img id="principal-signature" crossorigin="anonymous" [src]="olevelTranscript.principalSignature ? olevelTranscript?.principalSignature+'?cacheblock=true' : ''" alt="logo" class="logo" width="160" height="160">
+	<img id="house-teacher-signature" crossorigin="anonymous" [src]="''" alt="logo" class="logo" width="160" height="160">
+</div>

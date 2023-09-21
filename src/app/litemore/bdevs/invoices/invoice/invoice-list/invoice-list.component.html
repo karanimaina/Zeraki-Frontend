@@ -1,0 +1,497 @@
+<div>
+	<div class="row" *ngIf="isInvoiceTable">
+		<div class="col-sm-12"></div>
+		<div class="col-sm-12">
+			<div class="box">
+				<div class="box-header hbuilt">
+					<div class="row">
+						<div class="col-sm-6">
+							<p class="mb-0 box-title">
+								{{ invoices?.proformaNumber }}:
+								{{
+									"litemore.bdevs.invoices.invoice.invoiceList.invoices"
+										| translate
+								}}
+								<b>( {{ invoices?.itemName }})</b>
+							</p>
+						</div>
+						<div class="col-sm-6 text-end">
+							<ng-container
+								*appLitemoreUserAccess="
+									[LitemoreUserRole.FINANCE_MANAGER, LitemoreUserRole.FINANCE];
+									hideComponent: true
+								">
+								<button
+									*ngIf="!isSendReminder"
+									class="btn btn-xs btn-success pull-right"
+									(click)="toggleAction('create')">
+									{{
+										"litemore.bdevs.invoices.invoice.invoiceList.addInvoice"
+											| translate
+									}}
+								</button>
+							</ng-container>
+							<button
+								*ngIf="isSendReminder"
+								class="btn btn-xs btn-success pull-right"
+								(click)="closeInvoiceSendReminder()">
+								Close
+							</button>
+							<button
+								*ngIf="!isSendReminder"
+								class="btn btn-xs pull-right btn-default mx-2"
+								(click)="back()">
+								{{
+									"litemore.bdevs.invoices.invoice.invoiceList.close"
+										| translate
+								}}
+							</button>
+						</div>
+					</div>
+				</div>
+				<div *ngIf="!isSendReminder" class="box-body">
+					<div class="row" *ngIf="invoices?.invoices?.length > 0">
+						<div class="col-sm-12">
+							<div class="table-responsive">
+								<table class="table table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>
+												{{
+													"litemore.bdevs.invoices.invoice.invoiceList.invoiceNumber"
+														| translate
+												}}
+											</th>
+											<th>
+												{{
+													"litemore.bdevs.invoices.invoice.invoiceList.serialNumber"
+														| translate
+												}}
+											</th>
+											<th>
+												{{
+													"litemore.bdevs.invoices.invoice.invoiceList.item"
+														| translate
+												}}
+											</th>
+											<th>
+												{{
+													"litemore.bdevs.invoices.invoice.invoiceList.creationDate"
+														| translate
+												}}
+											</th>
+											<th>
+												{{
+													"litemore.bdevs.invoices.invoice.invoiceList.dueDate"
+														| translate
+												}}
+											</th>
+											<th>
+												{{
+													"litemore.bdevs.invoices.invoice.invoiceList.extensionDate"
+														| translate
+												}}
+											</th>
+											<th>
+												{{
+													"litemore.bdevs.invoices.invoice.invoiceList.amountInvoiced"
+														| translate
+												}}
+											</th>
+											<th>
+												{{
+													"litemore.bdevs.invoices.invoice.invoiceList.amountCollected"
+														| translate
+												}}
+											</th>
+											<th>Credit Note Total</th>
+											<th>
+												{{
+													"litemore.bdevs.invoices.invoice.invoiceList.balance"
+														| translate
+												}}
+											</th>
+											<th>
+												{{
+													"litemore.bdevs.invoices.invoice.invoiceList.status"
+														| translate
+												}}
+											</th>
+											<th>
+												{{
+													"litemore.bdevs.invoices.invoice.invoiceList.daysLeft"
+														| translate
+												}}
+											</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody
+										*ngFor="
+											let invoice of invoices.invoices;
+											index as invoiceIndex
+										"
+										[ngClass]="{ striped: invoiceIndex % 2 == 0 }">
+										<tr *ngFor="let item of invoice.invoiceItems; index as idx">
+											<td
+												[attr.rowspan]="invoice.invoiceItems.length"
+												*ngIf="idx == 0">
+												{{ invoiceIndex + 1 }}
+											</td>
+											<td
+												[attr.rowspan]="invoice.invoiceItems.length"
+												*ngIf="idx == 0">
+												{{ invoice?.invoiceNumber }}
+											</td>
+											<td
+												[attr.rowspan]="invoice.invoiceItems.length"
+												*ngIf="idx == 0">
+												{{ invoice?.cuSerialNumber }}
+											</td>
+											<td>{{ item?.item }}</td>
+											<td
+												[attr.rowspan]="invoice.invoiceItems.length"
+												*ngIf="idx == 0">
+												{{ invoice?.creationDate }}
+											</td>
+											<td
+												[attr.rowspan]="invoice.invoiceItems.length"
+												*ngIf="idx == 0">
+												{{ invoice?.dueDate }}
+											</td>
+											<td
+												[attr.rowspan]="invoice.invoiceItems.length"
+												*ngIf="idx == 0">
+												{{ item?.extensionDate }}
+											</td>
+											<td>{{ item?.invoiceAmount | currency:(invoice.currency || "KES ") }}</td>
+											<td
+												[attr.rowspan]="invoice.invoiceItems.length"
+												*ngIf="idx == 0">
+												{{ invoice.amountCollected | currency:(invoice.currency || "KES ") }}
+											</td>
+											<td
+												[attr.rowspan]="invoice.invoiceItems.length"
+												*ngIf="idx == 0">
+												{{ invoice.creditNoteTotal | currency:(invoice.currency || "KES ") }}
+											</td>
+											<td
+												[attr.rowspan]="invoice.invoiceItems.length"
+												*ngIf="idx == 0">
+												{{ invoice.balance | currency:(invoice.currency || "KES ") }}
+											</td>
+											<td
+												[attr.rowspan]="invoice.invoiceItems.length"
+												*ngIf="idx == 0">
+												<span
+													*ngIf="invoice.paymentStatus"
+													class="text-success"
+													>{{
+														"litemore.bdevs.invoices.invoice.invoiceList.complete"
+															| translate
+													}}</span
+												>
+												<span
+													*ngIf="!invoice.paymentStatus"
+													class="text-danger"
+													>{{
+														"litemore.bdevs.invoices.invoice.invoiceList.incomplete"
+															| translate
+													}}</span
+												>
+											</td>
+											<td
+												[attr.rowspan]="invoice.invoiceItems.length"
+												*ngIf="idx == 0">
+												{{ item.daysLeft }}
+											</td>
+											<td
+												[attr.rowspan]="invoice.invoiceItems.length"
+												*ngIf="idx == 0">
+												<div
+													class="btn-group position-static"
+													*ngIf="!invoice.isProforma">
+													<button
+														class="btn btn-sm btn-secondary waves-effect waves-light dropdown-toggle"
+														type="button"
+														data-bs-toggle="dropdown">
+														{{
+															"litemore.bdevs.invoices.invoice.invoiceList.action"
+																| translate
+														}}
+													</button>
+													<div class="dropdown-menu">
+														<ng-container
+															*appLitemoreUserAccess="[
+																LitemoreUserRole.FINANCE_MANAGER,
+																LitemoreUserRole.FINANCE,
+																LitemoreUserRole.CX_MANAGER,
+																LitemoreUserRole.CX
+															]">
+															<a
+																class="dropdown-item"
+																*ngIf="!invoice?.paymentStatus"
+																(click)="showRecordCollection(invoice)"
+																>{{
+																	"litemore.bdevs.invoices.invoice.invoiceList.collect"
+																		| translate
+																}}</a
+															>
+														</ng-container>
+														<a
+															class="dropdown-item"
+															(click)="showPrintPreviewInvoice(invoice)"
+															>{{
+																"litemore.bdevs.invoices.invoice.invoiceList.print"
+																	| translate
+															}}</a
+														>
+														<!-- <a class="dropdown-item" [hidden]="invoice.edit"
+															(click)="toggleAction('update', invoice)">Edit</a> -->
+														<!-- <a class="dropdown-item"
+															(click)="deleteInvoice(invoice)">Delete</a> -->
+														<a
+															class="dropdown-item"
+															(click)="showInvoiceSendReminder(invoice)"
+															>{{
+																"litemore.bdevs.invoices.invoice.invoiceList.sendReminder"
+																	| translate
+															}}</a
+														>
+														<a
+															class="dropdown-item"
+															(click)="viewCreditNotes(invoice)"
+															>{{
+																"litemore.bdevs.invoices.invoice.invoiceList.viewCreditNotes"
+																	| translate
+															}}</a
+														>
+													</div>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="text-end">
+								<span>
+									{{
+										"litemore.bdevs.invoices.invoice.invoiceList.page"
+											| translate
+									}}
+									{{ invoices.currentPage }}
+									{{
+										"litemore.bdevs.invoices.invoice.invoiceList.of" | translate
+									}}
+									{{ invoices.totalPages }}
+								</span>
+								<button
+									class="btn btn-sm btn-secondary waves-effect waves-light"
+									style="margin-right: 5px">
+									&lsaquo;
+								</button>
+
+								<button
+									class="btn btn-sm btn-secondary waves-effect waves-light">
+									&rsaquo;
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div *ngIf="invoices?.invoices?.length == 0" class="col-sm-12">
+							<p class="mb-0">
+								{{
+									"litemore.bdevs.invoices.invoice.invoiceList.noInvoicesFound"
+										| translate
+								}}
+							</p>
+						</div>
+					</div>
+				</div>
+				<!--
+		********************
+			Reminder Section
+		********************
+				-->
+				<div *ngIf="isSendReminder" class="box-body">
+					<form
+						#smsReminderForm="ngForm"
+						(ngSubmit)="sendSmsReminder(smsReminderForm)">
+						<div class="row">
+							<!--<div class="col-sm-12"><pre>{{current_invoice|json}}</pre></div>-->
+							<div class="form-group col-sm-12">
+								<label>{{
+									"litemore.bdevs.invoices.invoice.invoiceList.messageNote"
+										| translate
+								}}</label>
+								<textarea
+									class="form-control"
+									rows="7"
+									id="sms_reminder"
+									required
+									name="sms_template"
+									[(ngModel)]="sms_template"
+									#smsReminder="ngModel"
+									[ngClass]="{
+										'is-invalid':
+											smsReminderForm.submitted && smsReminder.invalid
+									}"></textarea>
+								<div
+									class="text-danger"
+									*ngIf="smsReminderForm.submitted && smsReminder.invalid">
+									<div *ngIf="smsReminder?.errors?.required">
+										{{
+											"litemore.bdevs.invoices.invoice.invoiceList.thisFieldIsRequired"
+												| translate
+										}}
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<span>
+									<input
+										type="checkbox"
+										id="sms_to_principal"
+										class="filled-in chk-col-success"
+										name="sms_to_principal"
+										[(ngModel)]="sms_to_principal"
+										[checked]="sms_to_principal" />
+									<label for="sms_to_principal">{{
+										"litemore.bdevs.invoices.invoice.invoiceList.sendToPrincipal"
+											| translate
+									}}</label>
+								</span>
+
+								<span style="margin-left: 10px; margin-right: 10px">
+									<input
+										type="checkbox"
+										id="sms_to_relationship_manager"
+										class="filled-in chk-col-success"
+										name="sms_to_relationship_manager"
+										[(ngModel)]="sms_to_relationship_manager"
+										[checked]="sms_to_relationship_manager" />
+									<label for="sms_to_relationship_manager">{{
+										"litemore.bdevs.invoices.invoice.invoiceList.sendToRelationshipManager"
+											| translate
+									}}</label>
+								</span>
+								<span>
+									<input
+										type="checkbox"
+										id="sms_to_contact_person"
+										class="filled-in chk-col-success"
+										name="sms_to_contact_person"
+										[(ngModel)]="sms_to_contact_person"
+										[checked]="sms_to_contact_person" />
+									<label for="sms_to_contact_person">{{
+										"litemore.bdevs.invoices.invoice.invoiceList.sendToContactPerson"
+											| translate
+									}}</label>
+								</span>
+							</div>
+
+							<div class="form-group col-sm-12 text-end mb-0">
+								<button class="btn btn-success">
+									{{
+										"litemore.bdevs.invoices.invoice.invoiceList.sendMessage"
+											| translate
+									}}
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--
+		********************
+			Create Section
+		********************
+	-->
+	<div class="row" *ngIf="isCreateInvoice || isUpdateInvoice">
+		<app-create-invoice
+			[isUpdateInvoice]="isUpdateInvoice"
+			(showInvoiceTable)="toggleAction('table')"
+			(reloadInvoices)="reloadInvoices()"
+			[proforma]="invoices"
+			[invoice]="selectedInvoice"
+			[schoolInfo]="schoolInfo"
+			[routeParams]="routeParams"></app-create-invoice>
+	</div>
+
+	<!--
+	  ***************************
+		  Record Collection
+	  ***************************
+	-->
+	<div class="row" *ngIf="isRecordInvoice">
+		<div class="col-12">
+			<div class="row mb-10">
+				<div class="col-sm-6">
+					<p class="mb-0">
+						{{ invoices.proformaNumber }} :
+						{{
+							"litemore.bdevs.invoices.invoice.invoiceList.updateInvoice"
+								| translate
+						}}
+					</p>
+				</div>
+				<div class="col-sm-6 text-end">
+					<button
+						class="btn btn-xs pull-right btn-default mx-2"
+						(click)="toggleAction('table')">
+						<i class="bi bi-arrow-left-short"></i>
+						{{ "common.back" | translate }}
+					</button>
+				</div>
+			</div>
+			<div class="box">
+				<div class="box-body">
+					<app-add-collection
+						[loggedInUser]="loggedInUser"
+						[routeParams]="routeParams"
+						[currentInvoice]="current_invoice"
+						[schoolInfo]="schoolInfo"
+						(reloadInvoices)="reloadInvoices()"
+						(reloadBalance)="reloadBalance()">
+					</app-add-collection>
+
+					<p>
+						<b>{{
+							"litemore.bdevs.invoices.invoice.invoiceList.collectionList"
+								| translate
+						}}</b>
+					</p>
+
+					<app-manage-invoice-collections
+						[invoice]="current_invoice"
+						[userInit]="userInit"
+						[schoolInfo]="schoolInfo">
+					</app-manage-invoice-collections>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--
+	  ******************************
+		 Preview invoice Section
+	  ******************************
+	-->
+	<div *ngIf="isPrintPreviewInvoice">
+		<app-invoice-print-preview
+			[userInit]="userInit"
+			[schoolInfo]="schoolInfo"
+			[companyInfo]="invoices?.companyInfo"
+			[paymentInfo]="invoices?.paymentInfo"
+			[selectedInvoice]="current_invoice"
+			[invoices]="invoices"
+			(closePreview)="toggleAction('table')">
+		</app-invoice-print-preview>
+	</div>
+</div>

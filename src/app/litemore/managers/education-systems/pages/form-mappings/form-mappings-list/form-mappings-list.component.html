@@ -1,0 +1,292 @@
+<!-- Content Header (Page header) -->
+<div class="content-header d-md-none">
+	<div class="d-flex align-items-center">
+		<div class="me-auto">
+			<h3 class="page-title">
+				{{'litemore.managers.educationSystems.pages.formMappings.formMappingsList.formMappings'|translate}}
+			</h3>
+			<div class="d-inline-block align-items-center">
+				<nav>
+					<ol class="breadcrumb text-dark">
+						<li class="breadcrumb-item" aria-current="page">{{'litemore.managers.educationSystems.pages.formMappings.formMappingsList.formMappings'|translate}}</li>
+						<li class="breadcrumb-item active" aria-current="page">{{'litemore.managers.educationSystems.pages.formMappings.formMappingsList.list'|translate}}</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+		<div class="d-md-none">
+			<button type="button" class="btn btn-success btn-sm pull-right" (click)="clearCache()">
+				{{ 'litemore.clearCache' | translate }}
+			</button>
+		</div>
+	</div>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+	<!-- title, search input, clear cache btn -->
+	<div class="row">
+		<div class="col-12">
+			<div class="box">
+				<div class="box-header with-border">
+					<div class="row justify-content-between align-items-center">
+						<!-- header text -->
+						<div class="col-12 col-md-6">
+							<h4 class="box-title d-none d-md-inline-block">{{'litemore.managers.educationSystems.pages.formMappings.formMappingsList.formMappings'|translate}}</h4>
+						</div>
+
+						<div class="col-12 col-md-6 d-md-flex justify-content-end align-items-center">
+							<!-- search -->
+							<form [formGroup]="searchForm" (ngSubmit)="submitSearchForm()">
+								<div class="input-group">
+									<input formControlName="searchTerm" type="text" class="form-control"
+										[placeholder]="'common.searchByName' | translate" />
+									<span class="input-group-text" style="cursor: pointer;" (click)="resetSearchForm()">
+										<i class="fa fa-times"></i>
+									</span>
+								</div>
+							</form>
+
+							<!-- clear cache -->
+							<div class="d-none d-md-inline-block ms-md-10">
+								<button type="button" class="btn btn-success btn-sm pull-right no-wrap"
+									(click)="clearCache()">
+									{{ 'litemore.clearCache' | translate }}
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- form mappings list -->
+	<div class="row">
+		<div
+			*ngIf="(getFormMappingsStatus$ | async) === APIStatus.LOADING; then showLoadingSection else showDataSection">
+		</div>
+
+		<ng-template #showLoadingSection>
+			<div class="col-12">
+				<div class="box">
+					<div class="box-body">
+						<app-loader-div [height]="250"></app-loader-div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+
+		<ng-template #showDataSection>
+			<div class="col-12">
+				<div class="box">
+					<div class="box-header py-2">
+						<div class="d-flex justify-content-between align-items-center">
+							<span class="fw-600">{{ educationSystemName }}</span>
+
+							<!-- add/close/delete btns -->
+							<ng-container>
+								<ng-container *ngIf="displayAdditionUI; else addBtnDisplay">
+									<button type="button"
+										class="pull-right waves-effect waves-light btn btn-dark btn-sm"
+										(click)="hideFormMappingsAdditionUI()">
+										<i class="bi bi-x-lg"></i>
+										<span class="ms-5">{{ 'common.close' | translate }}</span>
+									</button>
+								</ng-container>
+								<ng-template #addBtnDisplay>
+									<div class="d-flex justify-content-between">
+										<button type="button"
+											class="waves-effect waves-light btn btn-secondary btn-sm pull-right"
+											[routerLink]="['/litemore/mg/education-systems']">
+											<i class="bi bi-arrow-left"></i>
+											<span class="ms-5">{{'litemore.managers.educationSystems.pages.formMappings.formMappingsList.back'|translate}}</span>
+										</button>
+									</div>
+								</ng-template>
+							</ng-container>
+						</div>
+					</div>
+
+					<!-- listing UI -->
+					<ng-container *ngIf="!displayAdditionUI">
+						<form #formMappingUpdateForm="ngForm" (ngSubmit)="updateFormMapping(formMappingUpdateForm)"
+							class="pb-20">
+							<div *ngIf="dataSource.filteredData.length > 0" class="box-body pt-3">
+								<div class="table-responsive">
+									<table class="table table-sm table-striped table-bordered mb-0">
+										<thead>
+											<tr>
+												<!-- <th scope="col" class="w-30">#</th> -->
+												<th scope="col" class="text-uppercase">
+													{{ 'litemore.formMapping.formKey' | translate }}
+												</th>
+												<th scope="col" class="text-uppercase max-w-lg-50 max-w-xl-70">
+													{{ 'litemore.formMapping.formValue' | translate }}
+												</th>
+												<th scope="col" class="text-uppercase text-center w-250">
+													{{ 'common.action' | translate }}
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr
+												*ngFor="let formMappingItem of dataSource?.filteredData; index as i; last as last;">
+												<!-- <th scope="row">{{ i | paginatedListIndex:1 }}</th> -->
+												<!-- form key -->
+												<td scope="row">
+													<ng-container *ngIf="formMappingItem?.['update']; else formKeyUI">
+														<input style="min-width: 4em" type="number"
+															name="formKey_{{ formMappingItem.formMappingId }}"
+															[(ngModel)]="formMappingItem.formKey" required
+															[min]="(i == 0 ? 1 : dataSource!.filteredData[i - 1]['formKey']! + 1)"
+															[max]="(dataSource!.filteredData[i + 1] && dataSource!.filteredData[i + 1]['formKey'] ? dataSource!.filteredData[i + 1]['formKey']! - 1 : null!)"
+															[ngClass]="{'is-invalid': checkInputValidation(formMappingUpdateForm, 'formKey_' + formMappingItem.formMappingId)}"
+															class="form-control">
+														<small class="text-danger"
+															*ngIf="checkInputValidation(formMappingUpdateForm, 'formKey_' + formMappingItem.formMappingId)">
+															{{ checkInputValidation(formMappingUpdateForm, 'formKey_' +
+															formMappingItem.formMappingId) }}
+														</small>
+													</ng-container>
+
+													<ng-template #formKeyUI>
+														{{ formMappingItem.formKey }}
+													</ng-template>
+												</td>
+												<!-- form value -->
+												<td scope="row">
+													<ng-container *ngIf="formMappingItem?.['update']; else formValueUI">
+														<input style="min-width: 4em" type="text"
+															title="Please enter the form value" required
+															[(ngModel)]="formMappingItem.formValue"
+															name="formvalue_{{ formMappingItem.formMappingId }}"
+															class="form-control"
+															[ngClass]="{'is-invalid': checkInputValidation(formMappingUpdateForm, 'formvalue_' + formMappingItem.formMappingId)}">
+														<small class="text-danger"
+															*ngIf="checkInputValidation(formMappingUpdateForm, 'formvalue_' + formMappingItem.formMappingId)">
+															{{ checkInputValidation(formMappingUpdateForm, 'formvalue_'
+															+ formMappingItem.formMappingId) }}
+														</small>
+													</ng-container>
+													<ng-template #formValueUI>
+														{{ formMappingItem.formValue }}
+													</ng-template>
+												</td>
+												<!-- actions -->
+												<td scope="row" class="d-flex justify-content-center">
+													<ng-container
+														*ngIf="!formMappingItem?.['update']; else formMappingItemCloseBtn">
+														<button type="button"
+															class="waves-effect waves-light btn btn-success btn-sm"
+															(click)="formMappingItem['update'] = true; setIsUpdateActive(true)"
+															[disabled]="isUpdatingFormMapping">
+															<i>
+																<svg xmlns="http://www.w3.org/2000/svg" width="16"
+																	height="16" fill="currentColor"
+																	class="bi bi-pencil-square" viewBox="0 0 16 16">
+																	<path
+																		d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+																	<path fill-rule="evenodd"
+																		d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+																</svg>
+															</i>
+															<span class="ms-2">{{ 'common.update' | translate }}</span>
+														</button>
+													</ng-container>
+													<ng-template #formMappingItemCloseBtn>
+														<button type="button"
+															class="waves-effect waves-light btn btn-secondary btn-sm"
+															(click)="formMappingItem['update'] = false; resetFormMappingItem();">
+															<i>
+																<svg xmlns="http://www.w3.org/2000/svg" width="16"
+																	height="16" fill="currentColor" class="bi bi-x-lg"
+																	viewBox="0 0 16 16">
+																	<path
+																		d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+																</svg>
+															</i>
+															<span class="ms-2">{{ 'common.close' | translate }}</span>
+														</button>
+													</ng-template>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<!-- pagination -->
+								<!-- <app-litemore-list-pagination
+									[pageInfo]="pageInfo"
+									(onPageChange)="onPageChanged($event)">
+								</app-litemore-list-pagination> -->
+							</div>
+
+							<!-- empty list -->
+							<div *ngIf="isEmptyResults" class="box-body text-center">
+								<h4>{{ 'common.noResultsFound' | translate }}</h4>
+								<button type="button" *ngIf="isEmptyResults"
+									class="waves-effect waves-light btn btn-info btn-sm mx-2"
+									(click)="showFormMappingsAdditionUI()">
+									<i>
+										<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+											fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+											<path
+												d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+										</svg>
+									</i>
+									<span class="ms-5">{{'litemore.managers.educationSystems.pages.formMappings.formMappingsList.add'|translate}}</span>
+								</button>
+							</div>
+
+							<!-- action btns -->
+							<div class="p-20 pt-0" *ngIf="!isEmptyResults">
+								<button type="button" class="pull-left waves-effect waves-light btn btn-danger btn-sm"
+									(click)="confirmFormMappingDeletion()" [disabled]="isDeletingFormMapping">
+									<i *ngIf="isDeletingFormMapping" class="fa fa-spinner fa-spin"></i>
+									<i *ngIf="!isDeletingFormMapping">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+											fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+											<path
+												d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+											<path fill-rule="evenodd"
+												d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+										</svg>
+									</i>
+									<span class="ms-5">{{'litemore.managers.educationSystems.pages.formMappings.formMappingsList.deleteFormMappings'|translate}}</span>
+								</button>
+
+								<ng-container *ngIf="isUpdateActive">
+									<button type="submit"
+										class="pull-right waves-effect waves-light btn btn-info btn-sm"
+										[disabled]="isUpdatingFormMapping">
+										<i *ngIf="isUpdatingFormMapping" class="fa fa-spinner fa-spin"></i>
+										<i *ngIf="!isUpdatingFormMapping">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+												fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
+												<path
+													d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z" />
+												<path
+													d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z" />
+											</svg>
+										</i>
+										<span class="ms-5">{{'litemore.managers.educationSystems.pages.formMappings.formMappingsList.updateFormMappings'|translate}}</span>
+									</button>
+								</ng-container>
+							</div>
+						</form>
+					</ng-container>
+
+					<!-- addition UI -->
+					<ng-container *ngIf="displayAdditionUI">
+						<app-form-mapping-addition
+							[maxClasses]="this.maxClasses"
+							[educationSystemId]="educationSystemId"
+							(onAdditionSuccess)="handleOnAdditionSuccess()">
+						</app-form-mapping-addition>
+					</ng-container>
+				</div>
+			</div>
+		</ng-template>
+	</div>
+</section>

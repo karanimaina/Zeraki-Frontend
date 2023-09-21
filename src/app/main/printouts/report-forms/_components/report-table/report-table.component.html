@@ -1,0 +1,493 @@
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table *ngIf="studentReport.subjectsReport.additionalExams.length == 0"
+                class="table table-bordered  table-condensed print-table fw-bold"
+                style="padding-bottom: 0px;margin-bottom: 0px;border-collapse: collapse;;">
+                <thead>
+                    <tr class="text-uppercase">
+                        <th style="">
+                            <span class="zreport-table-contents">
+                                {{ 'printouts.reportForms.subject' | translate }}
+                            </span>
+                        </th>
+                        <th style="">
+                            <span
+                                class="zreport-table-contents font-uppercase">
+                                {{ studentReport.subjectsReport.valueType }}
+                            </span>
+                        </th>
+                        <th style="">
+                            <span class="zreport-table-contents">
+                                {{ 'printouts.reportForms.dev' | translate }}
+                            </span>
+                        </th>
+                        <th style="">
+                            <span class="zreport-table-contents">
+								<ui-kenyan-school [template]="gradeTH"></ui-kenyan-school>
+								<ui-ghana-school [template]="gradeTH"></ui-ghana-school>
+								<ui-zimbabwe-school [template]="gradeTH"></ui-zimbabwe-school>
+								<ui-zambia-school [template]="gradeTH"></ui-zambia-school>
+
+								<ng-template #gradeTH>
+									{{ 'printouts.reportForms.grade' | translate }}
+								</ng-template>
+
+								<ui-guinea-school [template]="mentionTH"></ui-guinea-school>
+								<ui-ivory-coast-school [template]="appreciationTH"></ui-ivory-coast-school>
+
+								<ng-template #mentionTH>
+									{{ 'printouts.reportForms.mention' | translate }}
+								</ng-template>
+
+								<ng-template #appreciationTH>
+									{{"common.appreciation"|translate}}
+								</ng-template>
+
+								<ui-south-africa-school [template]="levelTH"></ui-south-africa-school>
+
+								<ng-template #levelTH>
+									{{ 'printouts.reportForms.level' | translate }}
+								</ng-template>
+                            </span>
+                        </th>
+						<!-- Grade Average -->
+						<ng-container>
+							<ui-south-africa-school [template]="gradeAverageTH"></ui-south-africa-school>
+
+							<ng-template #gradeAverageTH>
+								<th style="">
+									{{ 'printouts.reportForms.gradeAverage' | translate }}
+								</th>
+							</ng-template>
+						</ng-container>
+						<!-- GPA -->
+						<ng-container>
+							<ui-zimbabwe-school [template]="gpaTH"></ui-zimbabwe-school>
+							<ui-zambia-school [template]="gpaTH"></ui-zambia-school>
+
+							<ng-template #gpaTH>
+								<ng-container *ngIf="showGPA">
+									<th style="">
+										{{ 'common.gpa' | translate }}
+									</th>
+								</ng-container>
+							</ng-template>
+						</ng-container>
+                        <th *ngIf="showOverallStudentRank || showStudentStreamRank"
+                            style="">
+                            <span class="zreport-table-contents">
+                                {{ 'printouts.reportForms.rank' | translate }}
+                            </span>
+                        </th>
+                        <th *ngIf="!(showCustomComments == true)"
+                            style="">
+                            <span class="zreport-table-contents">
+                                {{ 'printouts.reportForms.comment' | translate }}
+                            </span>
+                        </th>
+                        <th style="">
+                            <span class="zreport-table-contents">
+                                {{ 'printouts.reportForms.teacher' | translate }}
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let subjectPerformance of studentReport.subjectsReport.subjectsPerformance; trackBy: trackBySubjectId">
+                        <td style="">
+                            <div class="zreport-table-contents">
+                                {{subjectPerformance.subjectName}}
+                            </div>
+                        </td>
+                        <td style="">
+                            <span class="zreport-table-contents">
+                                {{ subjectPerformance.value + '' + studentReport.subjectsReport.suffix }}
+                            </span>
+                        </td>
+                        <td style="">
+                            <span class="zreport-table-contents">
+                                <span *ngIf="subjectPerformance.change > 0">+</span>
+                                {{subjectPerformance.change}}
+                            </span>
+                            <span class="pull-right">
+                                <i *ngIf="subjectPerformance.change > 0"
+                                    class="fa fa-level-up text-success">
+                                </i>
+                                <i *ngIf="subjectPerformance.change < 0"
+                                    class="fa fa-level-down text-warning">
+                                </i>
+                                <i *ngIf="subjectPerformance.change == 0"
+                                    class="fa fa-long-arrow-right text-info">
+                                </i>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="zreport-table-contents">
+								<ui-kenyan-school [template]="gradeTD"></ui-kenyan-school>
+								<ui-ghana-school [template]="gradeTD"></ui-ghana-school>
+								<ui-zimbabwe-school [template]="gradeTD"></ui-zimbabwe-school>
+								<ui-zambia-school [template]="gradeTD"></ui-zambia-school>
+
+                                <ng-template #gradeTD>
+									{{subjectPerformance.grade }}
+								</ng-template>
+
+								<ui-guinea-school [template]="mentionTD"></ui-guinea-school>
+								<ui-ivory-coast-school [template]="mentionTD"></ui-ivory-coast-school>
+
+								<ng-template #mentionTD>
+									{{ subjectPerformance.mention }}
+								</ng-template>
+
+								<ui-south-africa-school [template]="levelTD"></ui-south-africa-school>
+
+								<ng-template #levelTD>
+									{{ subjectPerformance.level }}
+								</ng-template>
+                            </span>
+                        </td>
+						<!-- Grade Average -->
+						<ng-container>
+							<ui-south-africa-school [template]="gradeAverageTD"></ui-south-africa-school>
+
+							<ng-template #gradeAverageTD>
+								<td style="">
+									<span class="zreport-table-contents">
+										{{ subjectPerformance?.gradeAverage ?? '-' }}
+									</span>
+								</td>
+							</ng-template>
+						</ng-container>
+						<!-- GPA -->
+						<ng-container>
+							<ui-zimbabwe-school [template]="gpaTD"></ui-zimbabwe-school>
+							<ui-zambia-school [template]="gpaTD"></ui-zambia-school>
+
+							<ng-template #gpaTD>
+								<ng-container *ngIf="showGPA">
+									<td style="">
+										<span class="zreport-table-contents">
+											{{ (subjectPerformance.gpa | number:'1.1-1') ?? '-' }}
+										</span>
+									</td>
+								</ng-container>
+							</ng-template>
+						</ng-container>
+                        <td *ngIf="showOverallStudentRank || showStudentStreamRank"
+                            style="">
+                            <span class="zreport-table-contents no-wrap">
+                                {{subjectPerformance.subjectRank + "/" + subjectPerformance.subjectRankOutOf}}
+                            </span>
+                        </td>
+                        <td *ngIf="!(showCustomComments == true)"
+                            style="">
+                            <span class="zreport-table-contents">
+                                {{subjectPerformance.comment}}
+                            </span>
+                        </td>
+                        <td style="">
+                            <span class="zreport-table-contents">
+                                {{subjectPerformance.subjectTeacher}}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table *ngIf="studentReport.subjectsReport.additionalExams.length > 0"
+                class="table table-bordered table-condensed print-table fw-bold"
+                style="
+                padding-bottom: 0px;
+                margin-bottom: 0px;
+                border-collapse: collapse;
+                width: 100%;
+                font-size: 14px;
+                word-wrap: break-word;">
+                <thead>
+                    <tr>
+                        <th colspan="1" rowspan="2"
+                            class=""
+                            style="width: 15%">
+                            <span class="zreport-table-contents">
+                                {{ 'printouts.reportForms.subject' | translate}}
+                            </span>
+                        </th>
+
+						<ui-guinea-secondary-school [template]="coefficientTH"></ui-guinea-secondary-school>
+
+						<ng-template #coefficientTH>
+							<th colspan="1" rowspan="2"
+								class=""
+								style="; width: auto">
+								<span class="zreport-table-contents">
+									{{ 'printouts.reportForms.coefficient' | translate}}
+								</span>
+							</th>
+						</ng-template>
+
+
+                        <th colspan="1" rowspan="2"
+                            class=""
+                            *ngFor="let additionalExam of studentReport.subjectsReport.additionalExams"
+                            style="width: 10%">
+                            <span class="zreport-table-contents">
+                                {{ additionalExam.name}}
+                            </span>
+                        </th>
+
+						<ng-container>
+							<ui-kenyan-school [template]="consolidatedExam3Cols"></ui-kenyan-school>
+							<ui-ghana-school [template]="consolidatedExam3Cols"></ui-ghana-school>
+							<ui-tanzania-school [template]="consolidatedExam3Cols"></ui-tanzania-school>
+							<ui-guinea-school [template]="consolidatedExam3Cols"></ui-guinea-school>
+							<ui-ivory-coast-school [template]="consolidatedExam3Cols"></ui-ivory-coast-school>
+							<ui-zimbabwe-school [template]="showGPA ? consolidatedExam4Cols : consolidatedExam3Cols"></ui-zimbabwe-school>
+							<ui-zambia-school [template]="showGPA ? consolidatedExam4Cols : consolidatedExam3Cols"></ui-zambia-school>
+							<ui-south-africa-school [template]="consolidatedExam4Cols"></ui-south-africa-school>
+
+							<ng-template #consolidatedExam3Cols>
+								<th colspan="3" rowspan="1"
+									style="width: auto">
+									{{studentReport.currentExam}}
+								</th>
+							</ng-template>
+							<ng-template #consolidatedExam4Cols>
+								<th colspan="4" rowspan="1"
+									style="; width: 18%">
+									{{studentReport.currentExam}}
+								</th>
+							</ng-template>
+						</ng-container>
+
+                        <th rowspan="2" colspan="1"
+                            class=""
+                            *ngIf="showOverallStudentRank || showStudentStreamRank"
+                            style="width: 6%">
+                            <span class="zreport-table-contents no-wrap">
+                                {{ 'printouts.reportForms.rank' | translate }}
+                            </span>
+                        <th rowspan="2" colspan="1"
+                            class=""
+                            *ngIf="!(showCustomComments == true)"
+                            style="width: 17%">
+                            <span class="zreport-table-contents">
+                                {{ 'printouts.reportForms.comment' | translate }}
+                            </span>
+                        </th>
+                        <th rowspan="2" colspan="1"
+                            class=""
+                            style="border-top: 1px solid black!important; width: 10%">
+                            <span class="zreport-table-contents">
+                                {{ 'printouts.reportForms.teacher' | translate }}
+                            </span>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="1" rowspan="1"
+                            class=""
+                            style="width: 7%">
+                            <span class="zreport-table-contents text-uppercase no-wrap">
+                                {{ studentReport.subjectsReport.valueType }}
+                            </span>
+                        </th>
+                        <th colspan="1" rowspan="1"
+                            class=""
+                            style="width: 6%">
+                            <span class="zreport-table-contents">
+                                {{ 'printouts.reportForms.dev' | translate }}
+                            </span>
+                        </th>
+                        <th colspan="1" rowspan="1"
+                            class=""
+                            style="width: 5%">
+                            <span class="zreport-table-contents">
+								<ui-kenyan-school [template]="gradeShortFormTH"></ui-kenyan-school>
+								<ui-ghana-school [template]="gradeShortFormTH"></ui-ghana-school>
+								<ui-zimbabwe-school [template]="gradeShortFormTH"></ui-zimbabwe-school>
+								<ui-zambia-school [template]="gradeShortFormTH"></ui-zambia-school>
+
+								<ng-template #gradeShortFormTH>
+									{{ 'printouts.reportForms.gr' | translate }}
+								</ng-template>
+
+								<ui-guinea-school [template]="mentionTH"></ui-guinea-school>
+								<ui-ivory-coast-school [template]="mentionTH"></ui-ivory-coast-school>
+
+								<ng-template #mentionTH>
+									{{ 'printouts.reportForms.mention' | translate }}
+								</ng-template>
+
+								<ui-south-africa-school [template]="levelTH"></ui-south-africa-school>
+
+								<ng-template #levelTH>
+									{{ 'printouts.reportForms.lvl' | translate }}
+								</ng-template>
+                            </span>
+						</th>
+						<!-- Grade Average -->
+						<ng-container>
+							<ui-south-africa-school [template]="gradeAverageTH"></ui-south-africa-school>
+
+							<ng-template #gradeAverageTH>
+								<th style="">
+									{{ 'printouts.reportForms.grAverage' | translate }}
+								</th>
+							</ng-template>
+						</ng-container>
+						<!-- GPA -->
+						<ng-container>
+							<ui-zimbabwe-school [template]="gpaTHConsolidated"></ui-zimbabwe-school>
+							<ui-zambia-school [template]="gpaTHConsolidated"></ui-zambia-school>
+
+							<ng-template #gpaTHConsolidated>
+								<ng-container *ngIf="showGPA">
+									<th colspan="1" rowspan="1" style="">
+										<span class="zreport-table-contents">
+											{{ 'common.gpa' | translate }}
+										</span>
+									</th>
+								</ng-container>
+							</ng-template>
+						</ng-container>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let performancePerSubject of studentReport.subjectsReport.subjectsPerformance; trackBy: trackBySubjectId">
+                        <td class=""
+                            style="">
+                            <div class="zreport-table-contents">
+                                {{ performancePerSubject.subjectName }}
+                            </div>
+                        </td>
+						<ui-guinea-secondary-school [template]="coefficientTD"></ui-guinea-secondary-school>
+						<ng-template #coefficientTD>
+							<td style="">
+								<div class="zreport-table-contents">
+									{{ performancePerSubject.weight }}
+								</div>
+							</td>
+						</ng-template>
+
+                        <td class=""
+                            *ngFor="let additionalExamsPerformance of studentReport.subjectsReport.additionalExams"
+                            style="">
+                            <span class="zreport-table-contents">
+                                <span
+                                    *ngIf=" performancePerSubject.additionalResults[additionalExamsPerformance.seriesid] >= 0">
+                                    {{ performancePerSubject.additionalResults[additionalExamsPerformance.seriesid]}}
+
+									<ui-kenyan-school [template]="percentageTemplate"></ui-kenyan-school>
+									<ui-ghana-school [template]="percentageTemplate"></ui-ghana-school>
+									<ui-zimbabwe-school [template]="percentageTemplate"></ui-zimbabwe-school>
+									<ui-zambia-school [template]="percentageTemplate"></ui-zambia-school>
+									<ui-south-africa-school [template]="percentageTemplate"></ui-south-africa-school>
+
+									<ng-template #percentageTemplate>
+										<span *ngIf="additionalExamsPerformance.percentage == 100">%</span>
+									</ng-template>
+                                </span>
+                            </span>
+                        </td>
+
+                        <td class=""
+                            style="">
+                            <span class="zreport-table-contents">
+                                {{performancePerSubject.value}}{{studentReport.subjectsReport.suffix}}
+                            </span>
+                        </td>
+                        <td class=""
+                            style="">
+                            <span class="zreport-table-contents">
+                                <span *ngIf="performancePerSubject.change > 0">+</span>
+                                {{performancePerSubject.change}}
+                            </span>
+                            <span class="pull-right">
+                                <i *ngIf="performancePerSubject.change > 0"
+                                    class="fa fa-level-up text-success"></i>
+                                <i *ngIf="performancePerSubject.change < 0"
+                                    class="fa fa-level-down text-warning"></i>
+                                <i *ngIf="performancePerSubject.change == 0"
+                                    class="fa fa-long-arrow-right text-info"></i>
+                            </span>
+                        </td>
+                        <td class=""
+                            style="">
+                            <span class="zreport-table-contents">
+								<ui-kenyan-school [template]="gradeTD"></ui-kenyan-school>
+								<ui-ghana-school [template]="gradeTD"></ui-ghana-school>
+								<ui-zimbabwe-school [template]="gradeTD"></ui-zimbabwe-school>
+								<ui-zambia-school [template]="gradeTD"></ui-zambia-school>
+
+								<ng-template #gradeTD>
+									{{performancePerSubject.grade }}
+								</ng-template>
+
+								<ui-guinea-school [template]="mentionTD"></ui-guinea-school>
+								<ui-ivory-coast-school [template]="mentionTD"></ui-ivory-coast-school>
+
+								<ng-template #mentionTD>
+									{{ performancePerSubject.mention }}
+								</ng-template>
+
+								<ui-south-africa-school [template]="levelTD"></ui-south-africa-school>
+
+								<ng-template #levelTD>
+									{{ performancePerSubject.level }}
+								</ng-template>
+                            </span>
+                        </td>
+						<!-- Grade Average -->
+						<ng-container>
+							<ui-south-africa-school [template]="gradeAverageTD"></ui-south-africa-school>
+
+							<ng-template #gradeAverageTD>
+								<td style="">
+									<span class="zreport-table-contents">
+										{{ performancePerSubject?.gradeAverage ?? '-' }}
+									</span>
+								</td>
+							</ng-template>
+						</ng-container>
+						<!-- GPA -->
+						<ng-container>
+							<ui-zimbabwe-school [template]="gpaTDConsolidated"></ui-zimbabwe-school>
+							<ui-zambia-school [template]="gpaTDConsolidated"></ui-zambia-school>
+
+							<ng-template #gpaTDConsolidated>
+								<ng-container *ngIf="showGPA">
+									<td style="">
+										<span class="zreport-table-contents">
+											{{ (performancePerSubject.gpa | number:'1.1-1') ?? '-' }}
+										</span>
+									</td>
+								</ng-container>
+							</ng-template>
+						</ng-container>
+                        <td class=""
+                            *ngIf="showOverallStudentRank || showStudentStreamRank"
+                            style="">
+                            <span class="zreport-table-contents no-wrap">
+                                {{performancePerSubject.subjectRank + "/" + performancePerSubject.subjectRankOutOf}}
+                            </span>
+                        </td>
+                        <td class=""
+                            *ngIf="!(showCustomComments == true)"
+                            style="">
+                            <span class="zreport-table-contents">
+                                {{performancePerSubject.comment}}
+                            </span>
+                        </td>
+                        <td class=""
+                            style="">
+                            <span class="zreport-table-contents">
+                                {{performancePerSubject.subjectTeacher}}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

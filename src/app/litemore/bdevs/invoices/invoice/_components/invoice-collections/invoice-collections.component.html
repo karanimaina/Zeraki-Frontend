@@ -1,0 +1,37 @@
+<div class="table-responsive mb-0" >
+    <table *ngIf="invoice_collections?.length > 0" class="table table-bordered table-hover table-striped mb-0">
+        <thead>
+            <tr>
+                <th>
+					{{'litemore.bdevs.invoices.invoice.components.invoiceCollections.collectionDate'|translate}}
+				</th>
+                <th>{{'litemore.bdevs.invoices.invoice.components.invoiceCollections.receivedBy'|translate}}</th>
+                <th>{{'litemore.bdevs.invoices.invoice.components.invoiceCollections.additionalInformation'|translate}}</th>
+                <th>{{'litemore.bdevs.invoices.invoice.components.invoiceCollections.amount'|translate}}</th>
+                <th style="width: 13%" class="text-center">{{'litemore.bdevs.invoices.invoice.components.invoiceCollections.action'|translate}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let collection of invoiceCollections; let $index = index">
+                <td>{{ collection.collectionDate }}</td>
+                <td>{{ collection.updatedBy }}</td>
+                <td>{{ collection.additionalInfo }}</td>
+                <td>{{ collection.amount | localCurrency | async }}</td>
+                <td class="text-center">
+
+<!--                    <button class="btn btn-sm waves-effect waves-light btn-secondary" [hidden]="collection.editStatus"  (click)="initEditCollection(collection, true)">Edit</button>-->
+                    <button class="btn btn-sm btn-info me-2 px-2">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="btn btn-sm btn-secondary px-2 me-2" (click)="printCollection(collection)">
+                        <i class="bi bi-printer-fill"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger px-2" (click)="deleteCollection(collection)">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="mb-0" *ngIf="invoice_collections.length == 0">{{'litemore.bdevs.invoices.invoice.components.invoiceCollections.noCollectionsFound'|translate}}</p>
+</div>

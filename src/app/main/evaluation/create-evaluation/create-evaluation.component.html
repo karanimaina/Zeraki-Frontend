@@ -1,0 +1,131 @@
+<app-evaluation-top-nav [linkTitle]="'Create Assessment'" [linkUrl]="'/main/evaluation/create'"></app-evaluation-top-nav>
+<section class="content mt-config">
+  <div class="row col-md-10 offset-md-1">
+    <div class="d-flex flex-row justify-content-between">
+      <h3 class="h4 fw-bolder mb-4">{{ this.className }}</h3>
+      <div>
+        <button class="btn btn-secondary btn-sm mb-4" (click)="navigateBack()">
+          <i class="si si-arrow-left-circle "></i>
+          {{ 'evaluation.create.backBtn' | translate }}
+        </button>
+      </div>
+    </div>
+    <form [formGroup]="evaluationForm" (ngSubmit)="onSubmit()">
+      <!--      Select year and term-->
+      <div class="box">
+        <div class="row p-3">
+          <div class="col-md-6 form-group">
+            <label class="control-label mb-1" for="term">{{ 'evaluation.create.termLabel' | translate }}</label>
+            <ng-select [notFoundText]="'common.noItemsFound' | translate" id="term"
+                       placeholder="{{ 'evaluation.create.termPlaceholder' | translate }}"
+                       bindLabel="label"
+                       bindValue="value"
+                       formControlName="term"
+                       [items]="terms"
+                       [ngClass]="{'is-invalid': submitted && f['term'].errors}">
+            </ng-select>
+            <div *ngIf="submitted && f['term'].errors" class="invalid-feedback">
+              <div *ngIf="f['term'].errors['required']">{{ 'evaluation.create.termRequiredError' | translate }}</div>
+            </div>
+          </div>
+
+          <div class="col-md-6 form-group">
+            <label class="control-label mb-1" for="year">{{ 'evaluation.create.yearLabel' | translate }}</label>
+            <ng-select [notFoundText]="'common.noItemsFound' | translate" id="year"
+                       placeholder="{{ 'evaluation.create.yearPlaceholder' | translate }}"
+                       formControlName="year"
+                       [(ngModel)]="selectedYear"
+                       (ngModelChange)="updateSubjectTopics($event)"
+                       [items]="otherYears"
+                       [ngClass]="{'is-invalid': submitted && f['year'].errors}">
+            </ng-select>
+            <div *ngIf="submitted && f['year'].errors" class="invalid-feedback">
+              <div *ngIf="f['year'].errors['required']">{{ 'evaluation.create.yearRequiredError' | translate }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box p-3">
+        <div class="h6 fw-bold mb-3">{{ 'evaluation.create.assessmentTypeLabel' | translate }}</div>
+        <span *ngIf="submitted && !selectedAssessmentType" class="text-danger mb-3">
+          <i class="si si-info me-1" style="font-size: 0.875em;"></i>
+          <span style="font-size: 0.875em;">{{ 'evaluation.create.selectAssessmentTypeError' | translate }}</span>
+        </span>
+        <div class="d-flex flex-column  flex-md-row evaluation-types">
+          <div class="mb-2 mb-md-0" *ngFor="let evaluationType of evaluationTypes">
+            <input type="checkbox" (change)="changeEvaluationType(evaluationType.typeId, $event)" [checked]="selectedEvaluationType === evaluationType.typeId" id="basic_checkbox_1_{{evaluationType.typeId}}" class="filled-in chk-col-info">
+            <label for="basic_checkbox_1_{{evaluationType.typeId}}" >{{ evaluationType.typeName }}</label>
+          </div>
+          <div class="mb-2 mb-md-0" *ngFor="let assessment of assessmentTypes">
+            <input type="checkbox" (change)="changeAssessmentType(assessment.value, $event)" [checked]="selectedAssessmentType === assessment.value" id="basic_checkbox_0_{{assessment.value}}" class="filled-in chk-col-info">
+            <label for="basic_checkbox_0_{{assessment.value}}" >{{ assessment.name }}</label>
+          </div>
+        </div>
+      </div>
+<!--      If selected evaluation type is Activity of Integration-->
+      <div *ngIf="selectedAssessmentType == 2 && selectedEvaluationType == 1" class="box p-3">
+        <div class="h6 fw-bold mb-3">{{ 'evaluation.create.topicLabel' | translate }}</div>
+
+<!--        Loader-->
+        <div class="text-center" *ngIf="topicsLoading">
+          <app-loader-pulse></app-loader-pulse>
+        </div>
+
+        <span *ngIf="submitted && !selectedTopic" class="text-danger mb-3">
+          <i class="fa fa-info-circle me-1" style="font-size: 0.875em;"></i>
+          <span style="font-size: 0.875em;">{{ 'evaluation.create.selectTopicError' | translate }}</span>
+        </span>
+        <div *ngIf="subjectTopics && subjectTopics.topics.length == 0 " class="d-flex flex-row justify-content-center ">
+          <div class="text-info">{{ 'evaluation.create.noTopicsError' | translate }}</div>
+        </div>
+        <div *ngIf="subjectTopics" class="d-flex flex-column  flex-md-row flex-wrap evaluation-types">
+          <div class="mb-2 mb-md-0 py-1" *ngFor="let topic of subjectTopics.topics">
+            <input type="checkbox" (change)="changeSelectedTopic(topic.topicId, $event)" [checked]="selectedTopic === topic.topicId" id="basic_checkbox_t_{{topic.topicId}}" class="filled-in chk-col-info">
+            <label for="basic_checkbox_t_{{topic.topicId}}" >{{ topic.topicName }}</label>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="competencyAreas.length > 0 && selectedAssessmentType == 2 && selectedEvaluationType == 1 && selectedTopic" class="box p-3">
+        <div class="h6 fw-bold mb-3">{{ 'evaluation.create.competencyAreasLabel' | translate }}</div>
+        <span *ngIf="submitted && !selectedCompetencyArea" class="text-danger mb-3">
+          <i class="fa fa-info-circle me-1" style="font-size: 0.875em;"></i>
+          <span style="font-size: 0.875em;">{{ 'evaluation.create.selectCompetencyAreaError' | translate }}</span>
+        </span>
+        <div *ngIf="competencyAreas.length == 0" class="d-flex flex-row justify-content-center ">
+          <div class="text-info">{{ 'evaluation.create.noCompetencyAreasError' | translate }}</div>
+        </div>
+        <div class="d-flex flex-column  flex-md-row flex-wrap evaluation-types">
+          <div class="mb-2 py-2 mb-md-0" *ngFor="let competency of competencyAreas">
+            <input type="checkbox" (change)="changeCompetencyTypes(competency.competencyAreaId, $event)" [checked]="selectedCompetencyArea === competency.competencyAreaId"  id="basic_checkbox_1_c_{{competency.competencyAreaId}}" class="filled-in chk-col-info">
+            <label style="padding-left: 26px" for="basic_checkbox_1_c_{{competency.competencyAreaId}}">{{ competency.name }}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="box p-3" *ngIf="selectedAssessmentType == 2 && selectedEvaluationType == 2">
+        <div class="co-12 form-group">
+          <label class="control-label mb-1"
+                 [ngClass]="{'is-invalid' : submitted && !projectTitle }"
+                 for="projectTitle">{{ 'evaluation.create.titleLabel' | translate }}</label>
+          <input class="form-control"
+                 id="projectTitle"
+                 [placeholder]="'evaluation.create.titlePlaceholder' | translate"
+                 [(ngModel)]="projectTitle"
+                 [ngModelOptions]="{standalone: true}"/>
+          <div *ngIf="submitted && !projectTitle" class="invalid-feedback">
+            <div>{{ 'evaluation.create.titleRequired' | translate }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-3 pb-3 d-flex flex-row justify-content-end">
+        <button type="submit" class="btn btn-primary btn-sm">
+          {{ 'evaluation.create.createBtn' | translate: {type: selectedAssessmentType == 1 ? 'Exam' : 'Evaluation'} }}
+          <i class="si si-check"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

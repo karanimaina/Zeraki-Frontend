@@ -1,0 +1,56 @@
+<app-submit-form [formGroup]="usersForm" (onSubmit)="addUser()">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title"><strong>{{'litemore.bdevs.users.components.add.addUser'|translate}}</strong></h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="box-body">
+            <div class="row" style="padding: 0;">
+                <div class="col-md-6 form-group">
+                    <label class="form-label" for="name">{{'litemore.bdevs.users.components.add.name'|translate}}</label>
+                    <input type="text" title="{{'litemore.bdevs.users.components.add.enterName'|translate}}" placeholder="Name" class="form-control" id="name"
+                        formControlName="name" [ngClass]="{ 'is-invalid': (usersForm.isSubmitted && name?.invalid)}"
+                        required>
+                    <app-field-errors [control]="name!" [label]="'litemore.bdevs.users.components.add.name'|translate"></app-field-errors>
+
+                </div>
+                <div class="col-md-6 form-group">
+                    <label class="form-label" for="name">{{'litemore.bdevs.users.components.add.userName'|translate}}</label>
+                    <input type="text" title="{{'litemore.bdevs.users.components.add.enterUserName'|translate}}" placeholder="Username" class="form-control" id="username"
+                        formControlName="username"
+                        [ngClass]="{ 'is-invalid': (usersForm.isSubmitted && username?.invalid)}" required>
+                    <app-field-errors [control]="username!" [label]="'litemore.bdevs.users.components.add.userName'|translate"></app-field-errors>
+
+                </div>
+                <div class="col-md-6 form-group">
+                    <label class="form-label">{{'litemore.bdevs.users.components.add.roles'|translate}}</label>
+                    <ng-select [items]="userRoles" [multiple]="true" bindLabel="name"
+                        [closeOnSelect]="false" bindValue="value" formControlName="selectedRoles">
+                    </ng-select>
+                    <app-field-errors [control]="selectedRoles!" [label]="'litemore.bdevs.users.components.add.roles'|translate"></app-field-errors>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button #closeUserModal type="button" class="btn btn-sm btn-outline btn-dark me-2 pull-left"
+                data-bs-dismiss="modal">{{ 'dashboard.welcome.close' | translate}}</button>
+            <!-- <button type="submit" class="btn btn-sm btn-outline btn-info save-category pull-right">Save User</button> -->
+            <button type="submit" class="btn btn-success btn-sm pull-right">
+                <span *ngIf="!isAdding">{{'litemore.bdevs.users.components.add.add'|translate}}</span>
+                <span *ngIf="isAdding">
+                    <svg width="18" height="18" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff">
+                        <g fill="none" fill-rule="evenodd">
+                            <g transform="translate(1 1)" stroke-width="2">
+                                <circle stroke-opacity=".5" cx="18" cy="18" r="18" />
+                                <path d="M36 18c0-9.94-8.06-18-18-18">
+                                    <animateTransform attributeName="transform" type="rotate" from="0 18 18"
+                                        to="360 18 18" dur="1s" repeatCount="indefinite" />
+                                </path>
+                            </g>
+                        </g>
+                    </svg>
+                </span>
+            </button>
+        </div>
+    </div>
+</app-submit-form>

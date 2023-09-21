@@ -1,0 +1,38 @@
+<div class="zreport-label text-uppercase" style="margin: 16px 0px 0px 0px">
+	{{ "printouts.studentReport.yearSummary.gradeDescriptor" | translate }}
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<div class="table-responsive">
+			<table class="table table-bordered table-condensed print-table fw-bold">
+				<thead>
+					<tr class="text-uppercase">
+						<th>
+							<span class="zreport-table-contents">{{ 'common.grade' | translate }}</span>
+						</th>
+						<th>
+							<span class="zreport-table-contents">{{ 'printouts.studentReport.yearSummary.scoreRange' | translate }}</span>
+						</th>
+						<th>
+							<span class="zreport-table-contents">{{ 'printouts.studentReport.yearSummary.gradeDescriptor' | translate }}</span>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let gradingSystemItem of gradingSystems">
+						<td>
+							<div class="zreport-table-contents">{{ gradingSystemItem?.grade }}</div>
+						</td>
+						<td>
+							<div class="zreport-table-contents">{{ gradingSystemItem?.low }} - {{ gradingSystemItem?.high }}</div>
+						</td>
+						<td>
+							<div class="zreport-table-contents">{{ gradingSystemItem?.description }}</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

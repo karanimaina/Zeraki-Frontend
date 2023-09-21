@@ -1,0 +1,62 @@
+<!-- Main content -->
+<section class="content mt-config">
+
+	<div *ngIf="isLoading;then showLoader else showContent"></div>
+
+	<ng-template #showLoader>
+		<!-- This is the loading section -->
+		<div class="box">
+			<div class="box-header">
+				<app-loader-div [height]="40"></app-loader-div>
+			</div>
+			<div class="box-body">
+				<app-loader-div [height]="40" style="display: inline-block; width: 150px;margin-bottom: 5px; ">
+				</app-loader-div>
+				<app-loader-div [height]="300"></app-loader-div>
+			</div>
+		</div>
+	</ng-template>
+
+
+	<!-- Main content -->
+	<ng-template #showContent>
+		<div class="box">
+			<div class="box-header with-border">
+				<h4 class="box-title">
+					{{ examName }}
+				</h4>
+			</div>
+			<div class="box-body" *ngIf="!subjects.length">
+				<div class="alert alert-warning">
+					<i class="bi bi-exclamation-octagon me-2"></i>
+					{{ 'exams.configExam.subjectPapersDisabledMessage' | translate }}
+					<a class="fw-bold school-options-nav" [routerLink]="'/main/settings/school-opt'">
+						{{ 'exams.configExam.schoolOptions' | translate }}
+					</a>.
+				</div>
+			</div>
+			<div class="box-body" *ngIf="subjects.length > 0">
+				<h4>
+					<!-- Subject Papers -->
+					{{"exams.configExam.titleTextSubjectPapers" | translate}}
+				</h4>
+				<div class="row mt-10">
+					<div class="col-sm-12">
+
+						<app-subject-papers-table
+							*ngIf="subjectPapers.length > 0"
+							[subjectPapers]="subjectPapers"
+							[addable]="addable"
+							[intakeId]="intakeId"
+							[seriesId]="seriesId"
+							[subjectPaperPresetsMap]="subjectPaperPresetsMap"
+							[enableAllSubjectPapers]="enableAllSubjectPapers"
+							(subjectPapersUpdated)="fetchPapers()">
+						</app-subject-papers-table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</ng-template>
+</section>

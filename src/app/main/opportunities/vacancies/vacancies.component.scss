@@ -1,0 +1,17 @@
+.example-stepper {
+    margin-top: 8px;
+}
+
+.mat-form-field {
+    margin-top: 16px;
+}
+
+.lookup input {
+    padding-left: 15px !important; 
+}
+
+@media (min-width: 768px) {
+    .lookup-sm input {
+        width: 250px;
+    }
+}

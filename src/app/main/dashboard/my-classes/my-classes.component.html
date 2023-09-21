@@ -1,0 +1,337 @@
+<section>
+  <ng-container *ngIf="isLoading; then showLoading else showContent"></ng-container>
+  <ng-template #showLoading>
+    <div class="row">
+      <div class="col-sm-3" *ngFor="let a of [1,2,3,4]">
+        <div class="box">
+          <div class="box-body">
+              <app-loader-div [height]='37'></app-loader-div>
+            <hr>
+            <div class="row">
+              <div class="col-6">
+                <app-loader-div [height]='100'></app-loader-div>
+              </div>
+              <div class="col-6">
+                <app-loader-div [height]='100'></app-loader-div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-6">
+                <app-loader-div [height]='36'></app-loader-div>
+              </div>
+              <div class="col-6">
+                <app-loader-div [height]='36'></app-loader-div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #showContent>
+  <div class="row">
+    <div *ngIf="(myClasses?.st && myClasses?.st.length > 0)" class="col-12">
+      <div class="row dash-comp">
+        <div *ngFor="let cls of myClasses?.st" class="col-xl-3 col-md-6 col-sm-6 col-12">
+
+          <a (click)="analyzeSubjectClass(cls)" class="box border-radius-10 text-dark">
+            <!---ADD g-forms class to return gray color-->
+            <div class="box-body p-10">
+              <div class="flex-grow-1">
+                <div class="d-flex pe-2">
+                  <div class="d-flex justify-content-between">
+                    <span class="fw-600 fm me-5 fs-16" translate [translateParams]="cls">dashboard.myClasses.title</span>
+                  </div>
+                </div>
+                <div class="d-flex mt-">
+                  <span class="text-muted fs-16 text-uppercase">{{ 'dashboard.myClasses.examname' | translate: {examname: cls?.examname } }}</span>
+                </div>
+              </div>
+              <div *ngIf="cls?.no_exams_msg != undefined">
+                <p class="mt-20">{{cls.no_exams_msg | temporaryTranslations}}</p>
+              </div>
+              <table class="table" *ngIf="cls?.no_exams_msg == undefined">
+                <tr class="mb-5">
+                  <td class="border-radius-3 bg-secondary-light">
+                    <div class="p-2 ">
+                      <div class="fs-6 d-flex justify-content-between">
+                        <span>{{ 'dashboard.myClasses.aggregate_stats.first.label' | translate: {label: cls?.aggregate_stats?.first?.label } }}</span>
+                        <span class="fs-6 badge badge-secondary fit-content" style="font-size: smaller !important;">
+                          {{ cls?.aggregate_stats?.first?.change | number: '1.2-2' }}
+                          <i *ngIf="cls?.aggregate_stats?.first?.change < 0" class="fa fa-level-down text-danger"></i>
+                          <i *ngIf="cls?.aggregate_stats?.first?.change === 0"
+                            class="fa fa-fw fa-long-arrow-right text-primary"></i>
+                          <i *ngIf="cls?.aggregate_stats?.first?.change > 0" class="fa fa-level-up text-success"></i>
+                          <!-- <i [ngClass]="{'fa fa-level-down && text-danger' : cls?.aggregate_stats?.first?.change < 0, 'fa fa-fw fa-long-arrow-right && text-primary' : form?.aggregate_stats?.first?.change === 0, 'fa fa-level-up && text-success': form?.aggregate_stats?.first?.change > 0}" aria-hidden="true"></i> -->
+                        </span>
+                      </div>
+                      <div class="fs-20 my-10" [ngClass]="cls?.aggregate_stats?.first?.color"><strong>{{
+                        cls?.aggregate_stats?.first?.value }}</strong></div>
+                    </div>
+                  </td>
+                  <td style="width: 5px;"></td>
+                  <td class="border-radius-3 bg-secondary-light">
+                    <div class="p-2 ">
+                      <div class="fs-6 d-flex justify-content-between">
+                        <span>{{ 'dashboard.myClasses.aggregate_stats.second.label' | translate: {label: cls?.aggregate_stats?.second?.label } }}</span>
+                        <span class="fs-6 badge badge-secondary fit-content" style="font-size: smaller !important;">
+                          {{ cls?.aggregate_stats?.second?.change }}
+                          <i *ngIf="cls?.aggregate_stats?.second?.change < 0" class="fa fa-level-down text-danger"></i>
+                          <i *ngIf="cls?.aggregate_stats?.second?.change === 0"
+                            class="fa fa-fw fa-long-arrow-right text-info"></i>
+                          <i *ngIf="cls?.aggregate_stats?.second?.change > 0" class="fa fa-level-up text-success"></i>
+                        </span>
+                      </div>
+                      <div class="fs-20 my-10" [ngClass]="cls?.aggregate_stats?.second?.color"><strong>{{
+                        cls?.aggregate_stats?.second?.value }}{{ cls?.aggregate_stats?.second?.suffix }}</strong>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr style="height: 5px;"></tr>
+                <tr>
+                  <td class="border-radius-3 bg-secondary-light">
+                    <div class="p-2 ">
+                      <div class="fs-6">{{ 'dashboard.myClasses.aggregate_stats.third.label' | translate: {label: cls?.aggregate_stats?.third?.label } }}</div>
+                      <div class="fs-20 my-5 text-primary"><strong>{{ cls?.aggregate_stats?.third?.value }}</strong>
+                      </div>
+                    </div>
+                  </td>
+                  <td style="width: 5px;"></td>
+                  <td class=" border-radius-3 bg-secondary-light">
+                    <div class="p-2">
+                      <div class="fs-6">{{ 'dashboard.myClasses.aggregate_stats.fourth.label' | translate: {label: cls?.aggregate_stats?.fourth?.label } }}</div>
+                      <div class="fs-20 my-5 text-primary"><strong>{{ cls?.aggregate_stats?.fourth?.value }}</strong>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+              <div *ngIf="cls?.no_exams_msg == undefined" class="row px-5 py-10">
+                <div class="col-12">
+                  <button type="button" (click)="analyzeSubjectClass(cls)" class="btn btn-sm btn-success col-12 text-white p-10">{{ 'dashboard.common.viewAnalysis' | translate}}</button>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+    <!--
+    =====================================
+    Section ct 
+    =====================================
+    -->
+    <div *ngIf="(myClasses?.ct && myClasses?.ct.length > 0)" class="col-12">
+      <div class="row dash-comp">
+        <div *ngFor="let cls of myClasses?.ct" class="col-xl-3 col-md-6 col-sm-6 col-12">
+
+          <a (click)="goToStreamAnalysis(cls)" class="box border-radius-10 text-dark">
+            <!---ADD g-forms class to return gray color-->
+            <div class="box-body p-10">
+              <div class="flex-grow-1">
+                <div class="bg-info rounded" style="cursor: pointer;">
+                  <h6 class="text-white text-center p-10">{{ 'dashboard.myClasses.ct.classname' | translate: {classname: cls?.classname } }}</h6>
+                </div>
+                <div class="d-flex mt-">
+                  <span class="text-muted fs-16 text-uppercase">{{ 'dashboard.myClasses.ct.examname' | translate: {examname: cls?.examname } }}</span>
+                </div>
+              </div>
+              <div *ngIf="cls?.no_exams_msg != undefined">
+                <p class="mt-20">{{cls.no_exams_msg | temporaryTranslations}}</p>
+              </div>
+              <table class="table" *ngIf="cls?.no_exams_msg == undefined">
+                <tr class="mb-5">
+                  <td class="border-radius-3 bg-secondary-light">
+                    <div class="p-2 ">
+                      <div class="fs-6 d-flex justify-content-between">
+                        <span>{{ 'dashboard.myClasses.ct.aggregate_stats.first.label' | translate: {label: cls?.aggregate_stats?.first?.label } }}</span>
+                        <span class="fs-6 badge badge-secondary fit-content" style="font-size: smaller !important;">
+                          {{ cls?.aggregate_stats?.first?.change | number: '1.2-2' }}
+                          <i *ngIf="cls?.aggregate_stats?.first?.change < 0" class="fa fa-level-down text-danger"></i>
+                          <i *ngIf="cls?.aggregate_stats?.first?.change === 0"
+                            class="fa fa-fw fa-long-arrow-right text-primary"></i>
+                          <i *ngIf="cls?.aggregate_stats?.first?.change > 0" class="fa fa-level-up text-success"></i>
+                          <!-- <i [ngClass]="{'fa fa-level-down && text-danger' : cls?.aggregate_stats?.first?.change < 0, 'fa fa-fw fa-long-arrow-right && text-primary' : form?.aggregate_stats?.first?.change === 0, 'fa fa-level-up && text-success': form?.aggregate_stats?.first?.change > 0}" aria-hidden="true"></i> -->
+                        </span>
+                      </div>
+                      <div class="fs-20 my-10" [ngClass]="cls?.aggregate_stats?.first?.color"><strong>{{
+                        cls?.aggregate_stats?.first?.value }}</strong></div>
+                    </div>
+                  </td>
+                  <td style="width: 5px;"></td>
+                  <td class="border-radius-3 bg-secondary-light">
+                    <div class="p-2 ">
+                      <div class="fs-6 d-flex justify-content-between">
+                        <span>{{ 'dashboard.myClasses.ct.aggregate_stats.second.label' | translate: {label: cls?.aggregate_stats?.second?.label } }}</span>
+                        <span class="fs-6 badge badge-secondary fit-content" style="font-size: smaller !important;">
+                          {{ cls?.aggregate_stats?.second?.change }}
+                          <i *ngIf="cls?.aggregate_stats?.second?.change < 0" class="fa fa-level-down text-danger"></i>
+                          <i *ngIf="cls?.aggregate_stats?.second?.change === 0"
+                            class="fa fa-fw fa-long-arrow-right text-info"></i>
+                          <i *ngIf="cls?.aggregate_stats?.second?.change > 0" class="fa fa-level-up text-success"></i>
+                        </span>
+                      </div>
+                      <div class="fs-20 my-10" [ngClass]="cls?.aggregate_stats?.second?.color"><strong>{{ cls?.aggregate_stats?.second?.value }}</strong>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr style="height: 5px;"></tr>
+                <tr>
+                  <td class="border-radius-3 bg-secondary-light">
+                    <div class="p-2 ">
+                      <div class="fs-6">{{ 'dashboard.myClasses.ct.aggregate_stats.third.label' | translate: {label: cls?.aggregate_stats?.third?.label } }}</div>
+                      <div class="fs-20 my-5 text-info"><strong>{{ cls?.aggregate_stats?.third?.value }}</strong>
+                      </div>
+                    </div>
+                  </td>
+                  <td style="width: 5px;"></td>
+                  <td class=" border-radius-3 bg-secondary-light">
+                    <div class="p-2">
+                      <div class="fs-6">{{ 'dashboard.myClasses.ct.aggregate_stats.fourth.label' | translate: {label: cls?.aggregate_stats?.fourth?.label } }}</div>
+                      <div class="fs-20 my-5 text-info"><strong>{{ cls?.aggregate_stats?.fourth?.value }}</strong>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+              <!-- Analyze button -->
+              <div class="row pt-10">
+                <div class="col-12">
+                  <button type="button" (click)="goToStreamAnalysis(cls)" class="btn btn-sm btn-info col-12 text-white p-10">{{ 'dashboard.common.viewAnalysis' | translate}}</button>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+
+
+        <!--
+      =====================================
+      Section cs
+      =====================================
+      -->
+      <div *ngIf="(myClasses?.cs && myClasses?.cs.length > 0)" class="col-12">
+        <div class="row dash-comp">
+          <div *ngFor="let cls of myClasses?.cs" class="col-xl-3 col-md-6 col-sm-6 col-12">
+  
+            <a (click)="goToFormAnalysis(cls)" class="box border-radius-10 text-dark">
+              <!---ADD g-forms class to return gray color-->
+              <div class="box-body p-10">
+                <div class="flex-grow-1">
+                  <div class="bg-purple rounded" style="cursor: pointer;">
+                    <h6 class="text-white text-center p-10">{{ 'dashboard.myClasses.cs.classname' | translate: {classname: cls?.classname } }}</h6>
+                  </div>
+                  <div class="d-flex mt-">
+                    <span class="text-muted fs-16 text-uppercase">{{ 'dashboard.myClasses.cs.examname' | translate: {examname: cls?.examname } }}</span>
+                  </div>
+                </div>
+                <div *ngIf="cls?.no_exams_msg != undefined">
+                  <p class="mt-20">{{cls.no_exams_msg | temporaryTranslations}}</p>
+                </div>
+                <table class="table" *ngIf="cls?.no_exams_msg == undefined">
+                  <tr class="mb-5">
+                    <td class="border-radius-3 bg-secondary-light">
+                      <div class="p-2 ">
+                        <div class="fs-6 d-flex justify-content-between">
+                          <span>{{ 'dashboard.myClasses.ct.aggregate_stats.first.label' | translate: {label: cls?.aggregate_stats?.first?.label } }}</span>
+                          <span class="fs-6 badge badge-secondary fit-content" style="font-size: smaller !important;">
+                            {{ cls?.aggregate_stats?.first?.change | number: '1.2-2' }}
+                            <i *ngIf="cls?.aggregate_stats?.first?.change < 0" class="fa fa-level-down text-danger"></i>
+                            <i *ngIf="cls?.aggregate_stats?.first?.change === 0"
+                              class="fa fa-fw fa-long-arrow-right text-primary"></i>
+                            <i *ngIf="cls?.aggregate_stats?.first?.change > 0" class="fa fa-level-up text-success"></i>
+                            <!-- <i [ngClass]="{'fa fa-level-down && text-danger' : cls?.aggregate_stats?.first?.change < 0, 'fa fa-fw fa-long-arrow-right && text-primary' : form?.aggregate_stats?.first?.change === 0, 'fa fa-level-up && text-success': form?.aggregate_stats?.first?.change > 0}" aria-hidden="true"></i> -->
+                          </span>
+                        </div>
+                        <div class="fs-20 my-10" [ngClass]="cls?.aggregate_stats?.first?.color"><strong>{{
+                          cls?.aggregate_stats?.first?.value }}</strong></div>
+                      </div>
+                    </td>
+                    <td style="width: 5px;"></td>
+                    <td class="border-radius-3 bg-secondary-light">
+                      <div class="p-2 ">
+                        <div class="fs-6 d-flex justify-content-between">
+                          <span>{{ 'dashboard.myClasses.cs.aggregate_stats.second.label' | translate: {label: cls?.aggregate_stats?.second?.label } }}</span>
+                          <span class="fs-6 badge badge-secondary fit-content" style="font-size: smaller !important;">
+                            {{ cls?.aggregate_stats?.second?.change }}
+                            <i *ngIf="cls?.aggregate_stats?.second?.change < 0" class="fa fa-level-down text-danger"></i>
+                            <i *ngIf="cls?.aggregate_stats?.second?.change === 0"
+                              class="fa fa-fw fa-long-arrow-right text-info"></i>
+                            <i *ngIf="cls?.aggregate_stats?.second?.change > 0" class="fa fa-level-up text-success"></i>
+                          </span>
+                        </div>
+                        <div class="fs-20 my-10" [ngClass]="cls?.aggregate_stats?.second?.color"><strong>{{
+                          cls?.aggregate_stats?.second?.value }}</strong>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr style="height: 5px;"></tr>
+                  <tr>
+                    <td class="border-radius-3 bg-secondary-light">
+                      <div class="p-2 ">
+                        <div class="fs-6">{{ 'dashboard.myClasses.cs.aggregate_stats.third.label' | translate: {label: cls?.aggregate_stats?.third?.label } }}</div>
+                        <div class="fs-20 my-5" style="color: purple;"><strong>{{ cls?.aggregate_stats?.third?.value }}</strong>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="width: 5px;"></td>
+                    <td class=" border-radius-3 bg-secondary-light">
+                      <div class="p-2">
+                        <div class="fs-6">{{ 'dashboard.myClasses.cs.aggregate_stats.fourth.label' | translate: {label: cls?.aggregate_stats?.fourth?.label } }}</div>
+                        <div class="fs-20 my-5" style="color: purple;"><strong>{{ cls?.aggregate_stats?.fourth?.value }}</strong>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+                <!-- Analyze button -->
+                <div class="row pt-10">
+                  <div class="col-12">
+                    <button type="button" (click)="goToFormAnalysis(cls)" class="btn btn-sm btn-purple col-12 text-white p-10">{{ 'dashboard.common.viewAnalysis' | translate}}</button>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+  </div>
+
+
+
+</ng-template>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

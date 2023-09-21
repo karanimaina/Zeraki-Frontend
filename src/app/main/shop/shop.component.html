@@ -1,0 +1,71 @@
+<app-shop-top-nav></app-shop-top-nav>
+<section class="mt-config content">
+
+    <div class="row isMobileApp"  >
+        <div class="col-12 text-left" >
+            <h4 style="margin: 25px 10px 2px 2px" class="">
+              <strong>
+                {{ 'shop.greetings.firstPart' | translate:{name: user_info.name} }},
+                <br><br>
+                {{ 'shop.greetings.secondPart' | translate }}
+              </strong>
+            </h4>
+            <p class=" my-10 font-size-16" style="margin: 20px 0px 10px 2px">
+                {{ 'shop.description.youCanOrder' | translate }}
+                <b class="text-info">{{ 'shop.description.textBooks' | translate }},</b>
+                <b class="text-info">{{ 'shop.description.revisionMaterials' | translate }}</b>
+                {{ 'shop.description.and' | translate }}
+                <b class="text-info">{{ 'shop.description.otherSchoolSupplies' | translate }}</b>
+                <br>
+                {{ 'shop.description.forYourChild' | translate }}
+                <b class="text-info">{{ 'shop.description.directly' | translate }}</b>
+                {{ 'shop.description.toYou' | translate }}.
+            </p>
+
+            <p class=" my-10 font-size-16" style="margin: 20px 0px 10px 2px">
+                {{ 'shop.description.weDeliverWithin' | translate }}
+                <strong class="text-info">{{ 'shop.description.deliveryLocation' | translate }}</strong>
+                <br>
+            </p>
+            <button class="btn btn-lg btn-success border border-success mt-10" style="margin-top: 20px;" (click)="zerakiShop()">
+                {{ 'shop.shopNowBtn' | translate }}
+            </button>
+        </div>
+    </div>
+
+    <div class="row isDesktopView" style="margin-top:-25px" >
+        <div class="col-sm-12 text-left" >
+            <h4 style="margin: 25px 10px 2px 2px" class="">
+              <strong>
+                {{ 'shop.greetings.firstPart' | translate:{name: user_info.name} }},
+                <br><br>
+                {{ 'shop.greetings.secondPart' | translate }}
+              </strong>
+            </h4>
+        </div>
+        <div class="col-sm-12">
+            <p class=" my-10 font-size-16" style="margin: 20px 0px 10px 2px">
+              {{ 'shop.description.youCanOrder' | translate }}
+              <b class="text-info">{{ 'shop.description.textBooks' | translate }},</b>
+              <b class="text-info">{{ 'shop.description.revisionMaterials' | translate }}</b>
+              {{ 'shop.description.and' | translate }}
+              <b class="text-info">{{ 'shop.description.otherSchoolSupplies' | translate }}</b>
+              <br>
+              {{ 'shop.description.forYourChild' | translate }}
+              <b class="text-info">{{ 'shop.description.directly' | translate }}</b>
+              {{ 'shop.description.toYou' | translate }}.
+            </p>
+
+            <p class=" my-10 font-size-16" style="margin: 20px 0px 10px 2px">
+              {{ 'shop.description.weDeliverWithin' | translate }}
+              <strong class="text-info">{{ 'shop.description.deliveryLocation' | translate }}</strong>
+              <br>
+            </p>
+
+            <button class="btn btn-lg btn-success  mt-10" style="margin-top: 20px;" (click)="zerakiShop()">
+                {{ 'shop.shopNowBtn' | translate }}
+            </button>
+        </div>
+    </div>
+
+</section>

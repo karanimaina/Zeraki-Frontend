@@ -1,0 +1,452 @@
+<!--  For KCSE and other schools-->
+<ng-container *ngIf="schoolTypeData && !schoolTypeData.isOLevelSchool && !(userRoles$ | async)?.isSchoolAdmin">
+	<!-- PRINTOUTS TOP NAV FOR NON-ADMINS -->
+	<div class="navbar-light top-wrapper fixed-top bg-primary">
+		<ul class="nav nav-pill customtab2 nav-filled text-center">
+			<li class="nav-item">
+				<a class="nav-link active">
+					<span class="me-2">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+							<path
+								d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z" />
+						</svg>
+					</span>
+					<span>{{ 'printouts.topNav.report' | translate }} {{ 'printouts.topNav.forms' | translate }} </span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</ng-container>
+
+<section class="content mt-config">
+	<div class="row">
+		<div class="col-12">
+			<div class="box box-widget" [ngClass]="{'box-slided-up': paramsPresent == true}"
+				*ngIf="!(userRoles$ | async)?.isStudent">
+				<div class="box-header with-border">
+					<h4 class="box-title">{{ 'printouts.reportForms.reportForms' | translate}}
+					</h4>
+					<ul class="box-controls pull-right">
+						<li><a class="box-btn-slide text-dark fs-16" href="#"></a></li>
+					</ul>
+				</div>
+				<div class="box-body">
+					<form [formGroup]="reportsFormGroup" (ngSubmit)="getReportForms()">
+						<div class="row">
+							<div class="col-md-6 form-group">
+								<label class="form-label">{{ schoolTypeData?.formoryear | formOrYear }}</label>
+								<app-ng-select [items]="schoolTypeData?.current_forms_list" [selectOnTab]="true"
+									formControlName="intake" [clearable]="false" bindLabel="classlevel"
+									bindValue="intakeid"
+									[placeholder]="'printouts.reportForms.rForm.level.placeholder' | translate: { level:(schoolTypeData?.formoryear | formOrYear) }">
+								</app-ng-select>
+							</div>
+
+							<div class="col-md-6 form-group">
+								<label class="form-label">{{ 'printouts.reportForms.rForm.stream.label' |
+									translate}}</label>
+								<app-ng-select [items]="selectedIntake?.streams || []" [selectOnTab]="true"
+									formControlName="stream" [clearable]="false" bindLabel="name" bindValue="streamid"
+									[placeholder]="'printouts.reportForms.rForm.stream.placeholder' | translate">
+								</app-ng-select>
+							</div>
+
+							<div class="col-md-12">
+								<div *ngIf="!examsList.length && noExamsMessage.length > 0"
+									class="col-12 form-group bg-warning p-1 my-1">
+									<span>{{noExamsMessage}}</span>
+								</div>
+
+								<div class="form-group">
+									<label class="form-label">{{ 'printouts.reportForms.rForm.exam.label' | translate
+										}}</label>
+									<app-ng-select [items]="examsList" [selectOnTab]="true" [groupBy]="'term'"
+										formControlName="exam" bindLabel="name" bindValue="examid">
+										<ng-template ng-optgroup-tmp let-item="item">
+											{{item.term || 'Unnamed group'}}
+										</ng-template>
+									</app-ng-select>
+								</div>
+							</div>
+
+							<div class="form-group mb-0">
+								<button *ngIf="!fetchingExamsDataInProgress" type="submit"
+									class="btn btn-sm btn-info waves-effect waves-light pull-right"
+									[ngClass]="{'box-btn-slide-close': reportsFormGroup.valid}">
+									{{ 'printouts.reportForms.rForm.reportFormsBtn' | translate }}
+								</button>
+								<div *ngIf="fetchingExamsDataInProgress" class="pull-right">
+									<img src="assets/img/loading-bars.svg" alt="Loading-bars">
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div *ngIf="fetchingExamsDataInProgress && !(userRoles$ | async)?.isStudent" class="mt-40 text-center">
+				<h4>
+					{{ 'printouts.reportForms.generatingReportForms' | translate }}
+				</h4>
+				<div>
+					<img src="assets/img/loading-bars.svg" height="70" width="100" alt="Loading-bars">
+				</div>
+			</div>
+
+			<div *ngIf="noStudentsFound && !fetchingExamsDataInProgress" class="animated bounceInLeft">
+				<div class="box box-widget bg-warning">
+					<div class="box-header">
+						<h4 class="text-center">{{ 'printouts.reportForms.noData' | translate }}</h4>
+					</div>
+				</div>
+			</div>
+
+			<div *ngIf="finally.show && !noStudentsFound && !(userRoles$ | async)?.isStudent"
+				class="box box-widget animated bounceInUp">
+				<div class="box-header with-border">
+					<h4 class="box-title">{{ 'printouts.reportForms.options' | translate }}</h4>
+					<ul class="box-controls pull-right">
+						<li><a class="box-btn-slide" href="#"></a></li>
+					</ul>
+				</div>
+				<div class="box-body">
+					<form class="form">
+						<div class="row">
+							<div class="col-md-10 col-sm-12 mx-auto">
+								<h6 class="fw-600">{{ 'printouts.reportForms.feeStatements.title' | translate }}
+								</h6>
+
+								<div class="row">
+									<div class="col-12 form-group">
+										<label class="form-label fw-600">
+											<a class="text-info cursor-pointer" (click)="downloadTemplate()">
+												{{ 'printouts.commonAttr.download.title' | translate }}
+												<i class="bi bi-download ms-1 me-10"></i>
+											</a>
+											{{ 'printouts.reportForms.feeStatements.info' | translate }}
+											<span class="text-danger">*</span>
+										</label>
+										<input name="file" (change)="detectFiles($event)" class="form-control"
+											type="file" id="formFile" required
+											data-validation-required-message="This field is required">
+
+									</div>
+									<div class="col-md-6 form-group">
+										<label for="example-date-input"
+											class="form-label school-dates">{{'printouts.reportForms.schoolClosedOn' | translate
+											}}</label>
+
+										<!-- <input class="form-control" type="date" id="example-date-input"
+										name="closingDate" [(ngModel)]="closingDate" (change)="logDate()"> -->
+
+										<div class="input-group">
+											<input [owlDateTime]="dt1" class="form-control" id="example-date-input"
+												type="text" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask
+												name="closingDate" [(ngModel)]="closingDate"
+												[placeholder]="'mm/dd/yyyy'" />
+											<div [owlDateTimeTrigger]="dt1" class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<owl-date-time #dt1 [pickerType]="'calendar'"
+												(dateSelected)="setClosingDate($event)"></owl-date-time>
+										</div>
+									</div>
+									<div class="col-md-6 form-group">
+										<label for="opening-date" class="form-label school-dates">{{
+											'printouts.reportForms.nextTermBegins' |
+											translate }}</label>
+										<!-- <input id="opening-date" class="form-control" type="date" [min]="closingDate"
+										name="openingDate" [(ngModel)]="openingDate" (change)="logDate()"> -->
+
+										<div class="input-group">
+											<input [owlDateTime]="dt2" class="form-control" id="opening-date"
+												type="text" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask
+												name="openingDate" [(ngModel)]="openingDate" [min]="closingDate"
+												[placeholder]="'mm/dd/yyyy'" />
+											<div [owlDateTimeTrigger]="dt2" class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<owl-date-time #dt2 [pickerType]="'calendar'"
+												(dateSelected)="setOpeningDate($event)"></owl-date-time>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6">
+										<!-- Remarks -->
+										<h6 class="text-bold">{{ 'printouts.reportForms.remarks' |
+											translate}}</h6>
+										<div>
+											<input type="checkbox" id="show_cl_remarks" class="filled-in chk-col-info"
+												name="show_cl_remarks" [checked]="showClassTeacherComments"
+												[(ngModel)]="showClassTeacherComments" />
+											<label for="show_cl_remarks">{{ 'printouts.reportForms.showCTRemarks' |
+												translate }}</label>
+										</div>
+										<div>
+											<input type="checkbox" id="show_p_remarks" class="filled-in chk-col-info"
+												name="show_p_remarks" [checked]="showPrincipalComments"
+												[(ngModel)]="showPrincipalComments" />
+											<label for="show_p_remarks">
+												{{ 'printouts.reportForms.show' | translate }}
+												<span class="text-lowercase"
+													*ngIf="schoolInfo?.principal !== null || schoolInfo?.principal?.title !== undefined || schoolInfo?.principal?.title !== null">{{schoolInfo?.principal?.title}}</span>
+												<span
+													*ngIf="schoolInfo?.principal === null || schoolInfo?.principal?.title === undefined || schoolInfo?.principal?.title === null">{{
+													'printouts.reportForms.principal' | translate }}</span>'s
+												{{ 'printouts.reportForms.remarksLower' | translate }}
+											</label>
+										</div>
+
+										<h6 class="text-bold">{{ 'printouts.transcripts.textRank' |
+											translate}}</h6>
+										<!-- Show Student Overall Rank Section -->
+										<div>
+											<input type="checkbox" id="show_student_overall_rank"
+												class="filled-in chk-col-info" name="show_student_overall_rank"
+												[checked]="showStudentOverallRank"
+												[(ngModel)]="showStudentOverallRank" />
+											<label for="show_student_overall_rank">{{
+												'printouts.transcripts.showOverallRank' |
+												translate }}</label>
+										</div>
+
+										<!-- Show Student Stream Rank Section -->
+										<div>
+											<input type="checkbox" id="show_student_stream_rank"
+												class="filled-in chk-col-info" name="show_student_stream_rank"
+												[checked]="showStudentStreamRank" [(ngModel)]="showStudentStreamRank" />
+											<label for="show_student_stream_rank">{{
+												'printouts.transcripts.showStreamRank' |
+												translate }}</label>
+										</div>
+
+										<h6 *ngIf="reportForms.hasCustomComments" class="text-bold text-muted mt-10">
+											{{ 'printouts.reportForms.customComments' | translate }}</h6>
+										<div *ngIf="reportForms.hasCustomComments">
+											<input type="checkbox" id="show_custom" class="filled-in chk-col-info"
+												name="show_custom" [checked]="showCustomComments"
+												[(ngModel)]="showCustomComments" />
+											<label for="show_custom">{{ 'printouts.reportForms.showCustomComments' |
+												translate }}</label>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<!-- Signatures -->
+										<h6 class="text-bold">{{ 'printouts.reportForms.signatures' |
+											translate }}</h6>
+										<div>
+											<input type="checkbox" id="show_ct_sig" class="filled-in chk-col-info"
+												name="show_ct_sig" [checked]="showClassTeacherSignature"
+												[(ngModel)]="showClassTeacherSignature" />
+											<label for="show_ct_sig">{{ 'printouts.reportForms.showClassTSignature'
+												|
+												translate }}</label>
+										</div>
+										<div>
+											<input type="checkbox" id="show_p_sig" class="filled-in chk-col-info"
+												name="show_p_sig" [checked]="showPrincipalSignature"
+												[(ngModel)]="showPrincipalSignature" />
+											<label for="show_p_sig">
+												{{ 'printouts.reportForms.show' | translate }}
+												<span class="text-lowercase"
+													*ngIf="schoolInfo?.principal !== null || schoolInfo?.principal?.title !== undefined || schoolInfo?.principal?.title !== null">{{schoolInfo?.principal?.title}}</span>
+												<span
+													*ngIf="schoolInfo?.principal === null || schoolInfo?.principal?.title === undefined || schoolInfo?.principal?.title === null">{{
+													'printouts.reportForms.principal' | translate }}</span>'s
+												{{ 'printouts.reportForms.signatureLower' | translate }}
+											</label>
+										</div>
+										<div>
+											<input type="checkbox" id="show_par_sig" class="filled-in chk-col-info"
+												name="show_par_sig" [checked]="showParentSignature"
+												[(ngModel)]="showParentSignature" />
+											<label for="show_par_sig">{{ 'printouts.reportForms.showParentSignature'
+												|
+												translate }}</label>
+										</div>
+
+										<ui-kenyan-school [template]="othersTitle"></ui-kenyan-school>
+										<ui-zimbabwe-school [template]="othersTitle"></ui-zimbabwe-school>
+										<ui-zambia-school [template]="othersTitle"></ui-zambia-school>
+
+										<ng-template #othersTitle>
+											<!-- Others -->
+											<h6 class="text-bold">{{ 'printouts.reportForms.others' |
+												translate }}</h6>
+										</ng-template>
+
+
+
+										<ui-kenyan-school [template]="zlCheckBox"></ui-kenyan-school>
+										<ng-template #zlCheckBox>
+											<!-- Credentials -->
+											<div>
+												<input type="checkbox" id="show_cred" class="filled-in chk-col-info"
+													name="show_cred" [checked]="showCredentials"
+													[(ngModel)]="showCredentials" />
+												<label for="show_cred">{{ 'printouts.reportForms.showCredentials'
+													|
+													translate }}</label>
+											</div>
+										</ng-template>
+
+										<!-- GPA -->
+										<ui-zimbabwe-school [template]="gpaCheckBox"></ui-zimbabwe-school>
+										<ui-zambia-school [template]="gpaCheckBox"></ui-zambia-school>
+
+										<ng-template #gpaCheckBox>
+											<div>
+												<input
+												  type="checkbox"
+												  id="show_gpa"
+												  class="filled-in chk-col-info"
+												  name="show_gpa"
+												  [checked]="showGPA"
+												  [(ngModel)]="showGPA"
+												/>
+												<label for="show_gpa">{{ 'printouts.reportForms.showGPA' | translate }}</label>
+											</div>
+										</ng-template>
+
+										<!-- Grade Descriptors -->
+										<ui-zambia-school [template]="gradeDescriptorsCheckBox"></ui-zambia-school>
+
+										<ng-template #gradeDescriptorsCheckBox>
+											<div>
+												<input
+												  type="checkbox"
+												  id="show_grade_descriptors"
+												  class="filled-in chk-col-info"
+												  name="show_grade_descriptors"
+												  [checked]="showGradeDescriptors"
+												  [(ngModel)]="showGradeDescriptors"
+												/>
+												<label for="show_grade_descriptors">{{ 'printouts.reportForms.showGradeDescriptors' | translate }}</label>
+											</div>
+										</ng-template>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div [ngClass]="{'animated bounceInUp': finally.show}">
+		<!-- DOWNLOAD BTN -->
+		<div class="row">
+			<div class="col-12">
+				<div *ngIf="!showPreparingReportMessage && finally.show && !noStudentsFound" class="text-end my-10">
+					<button class="btn btn-sm btn-dark waves-effect waves-light me-5 d-none d-md-inline-block"
+						type="button" styleSheetFile="assets/css/print-report.css" [useExistingCss]="true"
+						[printStyle]="{ '@page': { margin: '.2cm !important'}, '.card': {padding: '0 !important' }}"
+						printSectionId="print-report" ngxPrint>
+						<span>
+							<i>
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+									class="bi bi-printer" viewBox="0 0 16 16">
+									<path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+									<path
+										d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
+								</svg>
+							</i>
+							{{ 'printouts.commonAttr.printBtn' | translate }}
+						</span>
+					</button>
+					<button [disabled]="downloadingReportFormInProgress" class="btn btn-dark btn-sm me-2"
+						(click)="downloadReportForms()">
+						<span *ngIf="downloadingReportFormInProgress" class="spinner-border spinner-border-sm me-1"
+							role="status" aria-hidden="true"></span>
+						{{( downloadingReportFormInProgress ? 'printouts.commonAttr.download.action' :
+						'printouts.commonAttr.download.title') | translate }}
+					</button>
+				</div>
+				<div class="pull-right my-10" *ngIf="showPreparingReportMessage">
+					<div class="d-flex flex-row align-items-center">
+						<div class="mt-2 text-dark">
+							{{ 'printouts.reportForms.preparingReport' | translate: {count:
+							reportForms?.students?.length} }}
+						</div>
+						<div class="spinner-border ms-2 mt-2 fs-12" style="height: 12px; width: 12px" role="status">
+							<span class="sr-only">Loading...</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="d-flex justify-content-center d-none d-md-block">
+			<div id="print-report">
+				<div>
+					<ng-container #reportsContainer></ng-container>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<ng-template #studentReport let-studentReport="studentReport" let-studentIndex="studentIndex">
+	<div class="zreport-page" style="padding: 0">
+		<div class="card">
+			<div class="row">
+				<div class="col-md-10 mx-auto">
+					<div style="font-weight: bold;color: black;">
+
+						<app-report-form-header [schoolProfile]="schoolInfo"></app-report-form-header>
+
+						<div class="row">
+							<div class="zreport-label" style="padding: 	5px 0px 5px 5px; margin-left: 10px">
+								{{ 'printouts.reportForms.acReportForm' | translate }} -
+								{{ studentReport.examName }}
+							</div>
+						</div>
+
+						<app-student-rank [studentReport]="studentReport" [schoolTypeData]="schoolTypeData"
+							[showStudentOverallRank]="showStudentOverallRank"
+							[showStudentStreamRank]="showStudentStreamRank" [showGPA]="showGPA"
+							(studentProfileLoaded)="loadedStudentProfile($event)"></app-student-rank>
+
+						<app-report-table [studentReport]="studentReport" [schoolTypeData]="schoolTypeData"
+							[showOverallStudentRank]="showStudentOverallRank"
+							[showStudentStreamRank]="showStudentStreamRank" [showGPA]="showGPA"
+							[showCustomComments]="showCustomComments"></app-report-table>
+
+						<ui-zambia-school [template]="gradeDescriptorsUI"></ui-zambia-school>
+
+						<ng-template #gradeDescriptorsUI>
+							<app-grade-descriptors
+								*ngIf="showGradeDescriptors"
+								[gradingSystems]="reportForms.gradingSystems">
+							</app-grade-descriptors>
+						</ng-template>
+
+						<app-student-timeline-performance
+							[studentReport]="studentReport"></app-student-timeline-performance>
+
+						<app-remarks [studentReport]="studentReport" [schoolInfo]="schoolInfo" [userRoles$]="userRoles$"
+							[showClassTeacherComments]="showClassTeacherComments"
+							[showCustomComments]="showCustomComments"
+							[showClassTeacherSignature]="showClassTeacherSignature"
+							[showPrincipalComments]="showPrincipalComments"
+							[showPrincipalSignature]="showPrincipalSignature"></app-remarks>
+
+						<app-fee-status-cred-and-closing-date [studentReport]="studentReport" [feeData]="feeData"
+							[openingDate]="openingDate" [closingDate]="closingDate"
+							[showParentSignature]="showParentSignature"
+							[showCredentials]="showCredentials"></app-fee-status-cred-and-closing-date>
+
+					</div>
+
+					<app-custom-comments [studentReport]="studentReport" [showCustomComments]="showCustomComments"
+						[hasCustomComments]="reportForms.hasCustomComments"></app-custom-comments>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>

@@ -1,0 +1,198 @@
+<section class="content mt-config">
+
+    <div class="row">
+        <div class="col-sm-8 mx-auto">
+            <!-- BREADCRUMBS -->
+            <div *ngIf="(showRoles && assignRole)">
+                <div class="d-flex align-items-center">
+                    <div class="me-auto">
+                        <h5 class="page-title">{{ 'settings.userRoles.breadcrumbs.title' | translate }}</h5>
+                        <div class="d-inline-block align-items-center">
+                            <nav>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a (click)="showRoles = false ; assignRole = false"><i
+                                                class="mdi mdi-settings"></i></a></li>
+                                    <li class="breadcrumb-item" aria-current="page"><a
+                                            (click)="showRoles = true; assignRole = false">{{
+                                            'settings.userRoles.breadcrumbs.roles' | translate }}</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{
+                                        'settings.userRoles.breadcrumbs.messaging' | translate }}</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="(!showRoles && !assignRole)" class="col-12 ">
+                <!-- px-xl-120 -->
+                <div class="box mb-15">
+                    <div class="box-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <div class="me-15 bg-warning-light h-50 w-50 l-h-60 rounded text-center">
+                                    <span class="icon-Chat-check fs-30"><span class="path1"></span><span
+                                            class="path2"></span></span>
+                                </div>
+                                <div class="d-flex flex-column fw-500">
+                                    <a href="#" class="text-dark hover-primary mb-1 fs-16">{{
+                                        'settings.userRoles.showRolesFalseAndAssignRoleFalse.headerText' | translate
+                                        }}</a>
+                                    <div class="text-primary fs-3">{{messengers?.length}}</div>
+                                    <span class="text-fade">{{
+                                        'settings.userRoles.showRolesFalseAndAssignRoleFalse.description' | translate
+                                        }}</span>
+                                </div>
+                            </div>
+                            <a href="#" (click)="showRoles = true; getTeachers(); getWorkers()">
+                                <span class="icon-Arrow-right fs-24"><span class="path1"></span><span
+                                        class="path2"></span></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="(showRoles && !assignRole)">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">{{ 'settings.userRoles.showRolesAndAssignRoleFalse.headerText' | translate
+                            }}</h4>
+                        <button *ngIf="userRoles?.isSchoolAdmin" type="button" (click)="assignRole = true"
+                            class="btn btn-dark btn-sm pull-right">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-plus" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                            </svg>
+                            {{ 'settings.userRoles.showRolesAndAssignRoleFalse.assignRoleBtn' | translate }}
+                        </button>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped table-bordered mb-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">{{
+                                            'settings.userRoles.showRolesAndAssignRoleFalse.tableHeaders.name' |
+                                            translate }}</th>
+                                        <th scope="col">{{
+                                            'settings.userRoles.showRolesAndAssignRoleFalse.tableHeaders.role' |
+                                            translate }}</th>
+                                        <th scope="col">{{
+                                            'settings.userRoles.showRolesAndAssignRoleFalse.tableHeaders.email' |
+                                            translate }}</th>
+                                        <th scope="col">{{
+                                            'settings.userRoles.showRolesAndAssignRoleFalse.tableHeaders.phoneNumber' |
+                                            translate }}</th>
+                                        <th scope="col" class="text-center"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let mes of messengers; index as i;">
+                                        <th scope="row">{{ i + 1 }}</th>
+                                        <td>{{ mes.name }}</td>
+                                        <td>
+                                            <span *ngIf="mes.admin" class="badge badge-secondary">{{
+                                                'settings.userRoles.showRolesAndAssignRoleFalse.adminOption' | translate
+                                                }}</span>
+                                            <span *ngIf="mes.teacher" class="badge badge-success">{{
+                                                'settings.userRoles.showRolesAndAssignRoleFalse.teacherOption' |
+                                                translate }}</span>
+                                            <span *ngIf="mes.worker" class="badge badge-warning">{{
+                                                'settings.userRoles.showRolesAndAssignRoleFalse.staffOption' | translate
+                                                }}</span>
+                                        </td>
+                                        <td>{{ mes.email }}</td>
+                                        <td>{{ mes.phone }}</td>
+                                        <td class="text-center">
+                                            <button *ngIf="!mes.admin && userRoles?.isSchoolAdmin"
+                                                (click)="revokeUserRole(mes, i)" type="button"
+                                                class="waves-effect waves-light btn btn-danger btn-sm">
+                                                <i>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-exclamation-diamond"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435zm1.4.7a.495.495 0 0 0-.7 0L1.134 7.65a.495.495 0 0 0 0 .7l6.516 6.516a.495.495 0 0 0 .7 0l6.516-6.516a.495.495 0 0 0 0-.7L8.35 1.134z" />
+                                                        <path
+                                                            d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+                                                    </svg>
+                                                </i>
+                                                <span class="ms-1">{{
+                                                    'settings.userRoles.showRolesAndAssignRoleFalse.revokeBtn' |
+                                                    translate }}</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <div *ngIf="(showRoles && assignRole)">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">{{ 'settings.userRoles.showRolesAndAssignRole.headerText' | translate }}:
+                        </h4>
+                        <div class="row mt-10">
+                            <div class="col-sm-3">
+                                <input (click)="toggleRadio('teachers')" type="radio" id="teachers_radio"
+                                    class="with-gap radio-col-primary" [checked]="teachers_radio" />
+                                <label for="teachers_radio">{{
+                                    'settings.userRoles.showRolesAndAssignRole.toggle.teachers' | translate }}</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <input (click)="toggleRadio('staff')" type="radio" id="staff_radio"
+                                    class="with-gap radio-col-primary" [checked]="staff_radio" />
+                                <label for="staff_radio">{{
+                                    'settings.userRoles.showRolesAndAssignRole.toggle.staffMembers' | translate
+                                    }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div *ngIf="teachers_radio" class="form-group">
+                                <label class="form-label">{{
+                                    'settings.userRoles.showRolesAndAssignRole.toggle.selectTeachers' | translate
+                                    }}</label>
+                                <div class="mb-3">
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="teachers"
+                                        [searchable]="true" [multiple]="true" [(ngModel)]="selected_members.list"
+                                        (ngModelChange)="selectedMembers()" bindLabel="name" bindValue="userid"
+                                        placeholder="Teacher">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div *ngIf="staff_radio" class="form-group">
+                                <label class="form-label">{{
+                                    'settings.userRoles.showRolesAndAssignRole.toggle.selectStaff' | translate
+                                    }}</label>
+                                <div class="mb-3">
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="staff"
+                                        [searchable]="true" [multiple]="true" [(ngModel)]="selected_members.list"
+                                        (ngModelChange)="selectedMembers()" bindLabel="name" bindValue="userid"
+                                        placeholder="Staff">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="button" (click)="assignRole=false" class="btn btn-dark btn-sm mb-10">
+                            {{ 'settings.userRoles.showRolesAndAssignRole.cancelBtn' | translate }}
+                        </button>
+                        <button (click)="assignMembersRole()" type="submit"
+                            class="btn btn-info btn-sm pull-right mb-10">
+                            {{ 'settings.userRoles.showRolesAndAssignRole.saveBtn' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

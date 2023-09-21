@@ -1,0 +1,46 @@
+<div *ngIf="isLoadingSchools; then showLoader else showData"></div>
+<ng-template #showLoader>
+    <app-loader-div [height]="200"></app-loader-div>
+</ng-template>
+<ng-template #showData>
+    
+    <div *ngIf="mySchools?.schools?.length>0" class="table-responsive">
+        <table class="table table-bordered table-striped mb-0">
+            <thead>
+                <tr>
+                    <th style="width:25px;">#</th>
+                    <th>
+                        <!-- Name -->
+                        {{'zerakiPartner.mySchools.name'|translate}}
+                    </th>
+                    <th>
+                        <!-- Registration Date -->
+                        {{'zerakiPartner.mySchools.registrationDate'|translate}}
+                    </th>
+                    <th>
+                        <!-- County -->
+                        {{'zerakiPartner.mySchools.county'|translate}}
+                    </th>
+                    <th>
+                        <!-- Account Manager -->
+                        {{'zerakiPartner.mySchools.accountManager'|translate}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let a of mySchools.schools; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{a.name}}</td>
+                    <td>{{a.registration_date}}</td>
+                    <td>{{a.county}}</td>
+                    <td>{{a.account_manager}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="mySchools?.schools?.length==0">
+        <!-- No schools found -->
+        {{'zerakiPartner.mySchools.noSchoolsFound'|translate}}
+    </div>
+</ng-template>

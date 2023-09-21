@@ -1,0 +1,64 @@
+<!-- Content Header (Page header) -->
+<div class="content-header d-md-none">
+  <div class="d-flex align-items-center">
+    <div class="me-auto">
+      <h3 class="page-title">{{ 'litemore.zerakiProducts.title' | translate }}</h3>
+      <div class="d-inline-block align-items-center">
+        <nav>
+          <ol class="breadcrumb text-dark">
+            <li class="breadcrumb-item" aria-current="page">{{ 'litemore.zerakiProducts.title' | translate }}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+  <div class="row">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-header with-border">
+          <h4 class="box-title d-none d-md-inline-block">{{ 'litemore.zerakiProducts.title' | translate }}</h4>
+
+          <div class="mt-2">
+            <div class="row justify-content-between">
+              <!-- search input -->
+              <div class="col-12">
+                <form [formGroup]="searchForm" (ngSubmit)="submitSearchForm()">
+                  <label class="form-label">
+                    {{ 'litemore.zerakiProducts.searchForm.label' | translate }}
+                    <span *ngIf="schoolName?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                  </label>
+                  <div class="form-group" [class.error]="fieldHasErrors(schoolName!)">
+                    <div class="input-group">
+                      <input formControlName="schoolName" type="text" class="form-control ps-15"
+                             [placeholder]="'litemore.zerakiProducts.searchForm.placeholder' | translate"
+                             [class]="{ 'border-danger': fieldHasErrors(schoolName!) }" />
+                      <span class="input-group-text" style="cursor: pointer;" (click)="submitSearchForm()"
+                            [class]="{ 'border-danger': fieldHasErrors(schoolName!), 'text-danger': fieldHasErrors(schoolName!) }">
+                        <i class="fa fa-search"></i>
+                      </span>
+                    </div>
+                    <div *ngIf="fieldHasErrors(schoolName!)" class="help-block">
+                      <ul role="alert">
+                        <li *ngIf="schoolName?.errors?.['required']">{{ 'common.formErrors.requiredError' | translate }}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <router-outlet></router-outlet>
+
+    </div>
+  </div>
+</section>
+
+

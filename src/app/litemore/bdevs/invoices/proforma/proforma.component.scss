@@ -1,0 +1,65 @@
+.widget-icon {
+    font-size: 40px;
+    width: 25px;
+}
+
+.widget-title {
+    font-weight: 600;
+}
+
+.widget-content {
+    font-size: 16px;
+}
+
+.panel-widget {
+    /*width: 100%;*/
+    transition: .5s;
+}
+
+@media(max-width:768px) {
+    .panel-widget {
+        width: 49%;
+        display: inline-block;
+    }
+}
+
+@media(max-width:465px) {
+    .panel-widget {
+        width: 99%;
+        display: block;
+    }
+}
+
+.text-bold {
+    font-weight: 700;
+}
+
+.mt-config {
+    margin-top: 10px !important;
+}
+
+@media(min-width: 768px) {
+    .content {
+        min-height: 250px;
+        padding: 0.75rem 4rem 0px 4rem;
+    }
+}
+
+.proforma-header-text {
+    font-family: Roboto Condensed, Arial, Helvetica, sans-serif;
+    font-size: 18.1px;
+    color: rgb(0, 50, 101);
+    font-weight: bold;
+    font-style: normal;
+    text-decoration: none
+}
+
+.proforma-header {
+    border-top: 3px solid #62cb31;
+    border-bottom: 3px solid #62cb31;
+    vertical-align: middle
+}
+
+.title-color {
+    color:rgb(0,50,101)
+}

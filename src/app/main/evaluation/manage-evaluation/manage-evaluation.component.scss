@@ -1,0 +1,71 @@
+.table > :not(:last-child) > :last-child > * {
+  border-bottom-color: #f0f4f9 !important;
+  border-bottom-width: 2px;
+}
+
+thead, tbody, tfoot, tr, td, th {
+  border-color: #f0f4f9 !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.table > :not(caption) > * > * {
+  border-bottom-width: 2px;
+}
+
+.table-hover > tbody > tr:hover {
+  --bs-table-accent-bg: #29aae212;
+  color: var(--bs-table-hover-color);
+  cursor: default;
+  transition: all 0.1ms;
+}
+
+.table-action i{
+  cursor: pointer;
+  padding: 6px 6px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+  margin: auto;
+}
+
+.table-action i:hover {
+  background-color: rgba(41, 170, 226, 0.2);
+}
+.text-primary{
+  color: #29aae2 !important;
+}
+
+.btn-warning-light  {
+  background-color: #ff9920 !important;
+  border-color: #ff9920 !important;
+  color: #ffffff !important;
+}
+
+.delete-evaluation{
+  padding: 8px 10px;
+  color: red;
+  border: 1px solid red;
+  border-radius: 4px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.delete-evaluation:hover{
+  color: #ffffff;
+  background-color: red;
+}
+.visibility-hidden {
+  visibility: hidden;
+}
+
+.new-students-container{
+  transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out;
+  opacity: 0;
+  overflow: hidden;
+  max-height: 0;
+}
+.new-students-container.active{
+  opacity: 1;
+  max-height: 1000px;
+  overflow: unset;
+}

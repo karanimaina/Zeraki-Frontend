@@ -1,0 +1,208 @@
+<form [formGroup]="subjectPapersFormGroup">
+	<div class="table-responsive">
+		<table class="table table-sm table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>
+						{{ "exams.configExam.tableHeaderTextName" | translate }}
+					</th>
+					<th>
+						<!-- Papers -->
+						{{ "exams.configExam.tableHeaderTextPapers" | translate }}
+						<button
+							*ngIf="enableAllSubjectPapers"
+							(click)="confirmEnableOfAllSubjectPapers()"
+							class="btn btn-secondary waves-effect waves-light btn-sm pull-right"
+						>
+							<!-- Enable All -->
+							{{ "exams.configExam.btnTextEnableAll" | translate }}
+						</button>
+
+						<button
+							*ngIf="!enableAllSubjectPapers"
+							(click)="confirmDisableOfAllSubjectPapers()"
+							class="btn btn-secondary waves-effect waves-light btn-sm pull-right"
+						>
+							<!-- Disable All -->
+							{{ "exams.configExam.btnTextDisableAll" | translate }}
+						</button>
+					</th>
+					<th>
+						<!-- Action -->
+						{{ "common.action" | translate }}
+					</th>
+				</tr>
+			</thead>
+			<tbody formArrayName="subjects">
+				<ng-container
+					*ngFor="
+						let subjectPaper of subjectPapers;
+						let subjectPaperIndex = index
+					"
+				>
+					<tr [formGroupName]="subjectPaperIndex" class="subject-paper-row">
+						<td>{{ subjectPaperIndex + 1 }}</td>
+						<td>{{ subjectPaper.subjectName }}</td>
+						<td>
+							<table class="table table-bordered mb-0">
+								<thead>
+									<tr>
+										<th>
+											<!-- Paper Name -->
+											{{
+												"exams.configExam.tableHeaderTextPaperName" | translate
+											}}
+										</th>
+										<th style="width: 140px">
+											<!-- Ratio -->
+											{{ "exams.configExam.tableHeaderTextRatio" | translate }}
+										</th>
+										<th style="width: 80px">
+											<!-- Status -->
+											{{ "exams.configExam.tableHeaderTextStatus" | translate }}
+										</th>
+									</tr>
+								</thead>
+								<tbody formArrayName="papers">
+									<ng-container
+										*ngFor="
+											let paper of subjectPaper.papers;
+											let paperIndex = index
+										"
+									>
+										<tr [formGroupName]="paperIndex">
+											<td>
+												{{
+													"exams.configExam.tableHeaderTextPaper" | translate
+												}}
+												{{ paperIndex + 1 }}
+											</td>
+
+											<ng-container
+												*ngIf="!editableRows[subjectPaper.subjectId]"
+											>
+												<td>{{ paper.ratio }}</td>
+												<td>
+													<span>
+														<span
+															*ngIf="paper.status === paperStatus.UNSET"
+															class="label label-info"
+														>
+															<!-- unset -->
+															{{
+																"exams.configExam.labelTextUnset" | translate
+															}}
+														</span>
+														<span
+															*ngIf="paper.status === paperStatus.ACTIVE"
+															class="label label-success"
+														>
+															<!-- Active -->
+															{{
+																"exams.configExam.labelTextActive" | translate
+															}}
+														</span>
+														<span
+															*ngIf="paper.status === paperStatus.DISABLED"
+															class="label label-warning"
+														>
+															<!-- Disabled -->
+															{{
+																"exams.configExam.labelTextDisabled" | translate
+															}}
+														</span>
+													</span>
+												</td>
+											</ng-container>
+
+											<ng-container
+												*ngIf="editableRows[subjectPaper.subjectId]"
+											>
+												<td>
+													<app-input
+														formControlName="ratio"
+														[placeholder]="
+															'exams.configExam.inputPlaceHolderRatio'
+																| translate
+														"
+														type="number"
+													>
+													</app-input>
+												</td>
+												<td>
+													<input
+														type="checkbox"
+														[id]="
+															'paper_checkbox_' +
+															subjectPaperIndex +
+															'_' +
+															paperIndex
+														"
+														formControlName="status"
+														class="filled-in chk-col-info"
+													/>
+													<label
+														[for]="
+															'paper_checkbox_' +
+															subjectPaperIndex +
+															'_' +
+															paperIndex
+														"
+														class="text-white"
+													></label>
+												</td>
+											</ng-container>
+										</tr>
+									</ng-container>
+								</tbody>
+							</table>
+						</td>
+						<td class="action-buttons">
+							<div class="d-flex flex-row justify-content-center">
+								<ng-container *ngIf="!editableRows[subjectPaper.subjectId]">
+									<button
+										(click)="editSubjectPaperRow(subjectPaper.subjectId)"
+										class="btn btn-secondary m-1 waves-effect waves-light btn-sm pull-right"
+										type="button"
+									>
+										<span *ngIf="addable">
+											<!-- Edit / Add Paper -->
+											{{ "exams.configExam.btnTextEditAddPaper" | translate }}
+										</span>
+										<span *ngIf="!addable">
+											<!-- Edit -->
+											{{ "common.edit" | translate }}
+										</span>
+									</button>
+								</ng-container>
+								<ng-container *ngIf="editableRows[subjectPaper.subjectId]">
+									<button
+										class="btn btn-secondary me-2 waves-effect waves-light btn-sm pull-right"
+										type="button"
+										(click)="editSubjectPaperRow(subjectPaper.subjectId)"
+									>
+										<span *ngIf="addable">
+											<!-- Close -->
+											{{ "exams.configExam.btnTextClose" | translate }}
+										</span>
+									</button>
+									<button
+										(click)="getUpdatedPapers(subjectPaperIndex)"
+										class="btn btn-info btn-sm pull-right"
+										type="button"
+									>
+										<span *ngIf="addable">
+											<!-- Save -->
+											{{ "exams.configExam.btnTextSave" | translate }}
+										</span>
+									</button>
+								</ng-container>
+							</div>
+						</td>
+					</tr>
+				</ng-container>
+			</tbody>
+		</table>
+	</div>
+</form>

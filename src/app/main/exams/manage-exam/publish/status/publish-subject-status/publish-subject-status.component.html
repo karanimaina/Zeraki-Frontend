@@ -1,0 +1,627 @@
+<section class="mt-config content">
+
+    <ng-container *ngIf="isLoading;then loading else loadingComplete"></ng-container>
+
+    <!-- This is the loading section -->
+    <ng-template #loading>
+        <div class="box">
+            <div class="box-body">
+                <app-loader-div [height]="40"></app-loader-div>
+            </div>
+            <div class="box-body">
+                <app-loader-div [height]="100"></app-loader-div>
+            </div>
+        </div>
+    </ng-template>
+
+    <!-- this is the data section -->
+    <ng-template #loadingComplete>
+        <!-- <pre>{{examsToPublish.length === 0}},{{ publish_success_status}}, {{locked_exam_all_deleted}}</pre>-->
+        <div class="row" *ngIf="examsToPublish.length === 0 || publish_success_status || locked_exam_all_deleted">
+            <div class="col-md-12 text-center m-t-md" style="padding: 0;float: none; margin: 0 auto;">
+                <div class="box text-left">
+                    <div class="alert alert-success">
+                        <i class="fa fa-bolt"></i> {{publish_title}}
+                    </div>
+                    <div class="box-body">
+                        <div style="padding-bottom: 16px">{{publish_msg}}</div>
+                        <span class="pull-right">
+                            <button (click)="goBack()" class="btn btn-success waves-effect waves-light btn-sm">
+                                <!-- Back -->
+                                {{"exams.publishSubjectStatus.btnTextBack"|translate}}
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <pre>{{routeParams|json}}</pre> -->
+        <div class="row" *ngIf="examsToPublish?.length > 0 && !publish_success_status && !locked_exam_all_deleted">
+            <div class="col-md-12 m-t-md" style="padding: 0;float: none; margin: 0 auto;">
+                <p class="fw-600">
+                    <span *ngIf="viewonly">
+                        <!-- View -->
+                        {{"exams.publishSubjectStatus.textView"|translate}}
+                    </span>
+                    <span *ngIf="!viewonly">
+                        <!-- Edit -->
+                        {{"exams.publishSubjectStatus.textEdit"|translate}}
+                    </span>
+                    {{"exams.results"|translate}}
+                    -
+                    {{ resultsDisplayName }}
+                </p>
+                <div class="box" style="margin-bottom: 0px;">
+                    <div class="box-body ">
+                        <div class="col-md-12 no-padding">
+
+                            <div class="col-xs-12 col-md-12 no-padding" *ngIf="results?.can_edit_by_indexno">
+                                <label class="text-label" for="term" *ngIf="viewonly">
+                                    <!-- View By -->
+                                    {{"exams.publishSubjectStatus.textViewBy"|translate}}
+                                </label>
+                                <label class="text-label" for="term" *ngIf="!viewonly">
+                                    <!-- Edit By -->
+                                    {{"exams.publishSubjectStatus.textEditBy"|translate}}
+
+                                </label>
+                                <div class="col-xs-12 col-md-12" style="padding: 0 0 16px 0">
+                                    <span style="display: inline-block;padding-right: 25px;padding-bottom: 8px">
+                                        <input type="radio" id="basic_radio_1" class="with-gap radio-col-primary"
+                                            name="editAdm" (change)="editByAdm = !editByAdm" [checked]="editByAdm">
+                                        <label for="basic_radio_1">
+                                            <!-- Admission Number -->
+                                            {{"common.admno"|translate}}
+                                        </label>
+                                    </span>
+                                    <span style="display: inline-block">
+                                        <input type="radio" id="basic_radio_2" class="with-gap radio-col-primary"
+                                            name="editIdx" (change)="editByAdm = !editByAdm" [checked]="!editByAdm">
+                                        <label for="basic_radio_2">
+                                            <!-- Index Number -->
+                                            {{"common.indexNo"|translate}}
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div *ngIf="!lock_exam" class="col-md-6 form-parallel-padding-left">
+                                    <label class="form-label"><b>
+                                            <!-- Select Exam -->
+                                            {{"exams.publishSubjectStatus.textSelectExam"|translate}}
+                                        </b></label>
+                                    <!-- <select class="form-control m-b" style="margin: 0" required name="term" (change)="getExamResults()" id="term" [(ngModel)]="exam"
+                                    ng-options="exam as exam.exam_menu_name group by exam.term_menu_name for exam in examsToPublish track by exam.examid"></select> -->
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                        placeholder='{{"exams.publishSubjectStatus.textSelectExam"|translate}}'
+                                        [items]="examsToPublish" bindLabel="exam_menu_name"
+                                        [groupBy]="examsToPublish.term_menu_name" bindValue="examid" [(ngModel)]="exam"
+                                        (ngModelChange)="getExamResults(false,'','')"></ng-select>
+                                </div>
+                                <div *ngIf="lock_exam" class="col-md-6 form-parallel-padding-left">
+                                    <label class="form-label"><b>
+                                            <!-- Exam -->
+                                            {{"exams.publishSubjectStatus.textExam"|translate}}
+                                        </b></label>
+                                    <input style="cursor:text" [disabled]="true" type="text" name="termtext"
+                                        id="termtext" [(ngModel)]="examName" class="form-control">
+                                </div>
+                                <div *ngIf="!edit_out_of" class="col-md-6 form-parallel-padding-right">
+                                    <label class="form-label" for="seriesmax"><b>
+                                            <!-- Maximum Marks -->
+                                            {{"exams.publishSubjectStatus.textMaximumMarks"|translate}}
+                                        </b></label>
+                                    <div class="input-group">
+                                        <input style="cursor:text" [disabled]="true" type="text" name="seriesmax"
+                                            id="seriesmax" [(ngModel)]="results.max" class="form-control">
+                                        <button *ngIf="!viewonly"
+                                            class="btn btn-btn-sm btn-secondary waves-effect waves-light" type="button"
+                                            (click)="init_edit_out_of(true)">
+                                            <span *ngIf="!viewonly">
+                                                <!-- Edit -->
+                                                {{"exams.publishSubjectStatus.textEdit"|translate}}
+                                            </span>
+                                            <span *ngIf="viewonly" class="transparent_text">
+                                                <!-- Edit -->
+                                                {{"exams.publishSubjectStatus.textEdit"|translate}}
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div *ngIf="edit_out_of" class="col-md-6 form-parallel-padding-right">
+                                    <label class="form-label" for="seriesmax"><b>
+                                            <!-- Maximum Marks -->
+                                            {{"exams.publishSubjectStatus.textMaximumMarks"|translate}}
+                                        </b></label>
+                                    <div class="input-group">
+                                        <input type="number" min="1" max="1000" placeholder="'out of' value e.g. 30"
+                                            title="Please enter the maximum marks" value="" name="seriesmaxtemp"
+                                            id="seriesmaxtemp" [(ngModel)]="out_of_temp" class="form-control">
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-secondary waves-effect waves-light"
+                                                type="button" (click)="init_edit_out_of(false)">
+                                                <!-- Cancel -->
+                                                {{"exams.publishSubjectStatus.btnTextCancel"|translate}}
+                                            </button>
+                                            <button
+                                                class="btn btn-success waves-effect waves-light btn-sm waves-effect waves-light"
+                                                type="button" (click)="save_out_of()">
+                                                <!-- Save -->
+                                                {{"exams.publishSubjectStatus.btnTextSave"|translate}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12" *ngIf="results != undefined && results.subject_papers?.length > 0">
+                                    <label class="form-label" for="term">
+                                        <!-- Subject Paper -->
+                                        {{"exams.publishSubjectStatus.textSubjectPaper" |translate }}
+                                    </label>
+                                    <ng-select class="form-control-dropdown m-b" [items]="results.subject_papers"
+                                        required name="paper" id="paper" bindLabel="papername"
+                                        [(ngModel)]="results.subject_paper"
+                                        (ngModelChange)="getExamResults(false, null, results.subject_paper.paperid)">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-md-12 no-padding" *ngIf="exam !== undefined">
+                                <div class="col-xs-12 no-padding">
+                                    <!-- <pre>{{results|json}}</pre> -->
+                                    <div class="table-responsive" style="margin: 16px 0">
+                                        <table class="table table-striped table-bordered" matSort
+                                            (matSortChange)="sortData($event)">
+                                            <thead>
+                                                <tr>
+                                                    <th class="td-fit-nowrap">#</th>
+                                                    <th class="td-fit-nowrap" *ngIf="editByAdm">
+                                                        <a class="unselectable" mat-sort-header="admno">
+                                                            <!-- Adm No -->
+                                                            {{"common.admno"|translate}}
+                                                        </a>
+                                                    </th>
+                                                    <th class="td-fit-nowrap" *ngIf="!editByAdm">
+                                                        <a class="unselectable" mat-sort-header="indexno">
+                                                            <!-- Index No -->
+                                                            {{"common.indexNo"|translate}}
+                                                        </a>
+                                                    </th>
+                                                    <th class="td-fit-nowrap">
+                                                        <a class="unselectable" mat-sort-header="name">
+                                                            <!-- Name -->
+                                                            {{"exams.publishSubjectStatus.textName"|translate}}
+                                                            <span *ngIf="sortType == 'name' && sortReverse"
+                                                                class="fa fa-caret-down"></span>
+                                                            <span *ngIf="sortType == 'name' && !sortReverse"
+                                                                class="fa fa-caret-up"></span>
+                                                        </a>
+                                                    </th>
+                                                    <th class="td-fit-nowrap" style="width: 20%;">
+                                                        <a class="unselectable" mat-sort-header="raw">
+                                                            <!-- Score -->
+                                                            {{"exams.publishSubjectStatus.textScore"|translate}}
+                                                        </a>
+                                                    </th>
+                                                    <th class="td-fit-nowrap"
+                                                        *ngIf="results.max != 100 && !results.paperid">
+                                                        <ui-kenyan-school
+                                                            [template]="percentageTemplate"></ui-kenyan-school>
+                                                        <ui-ghana-school
+                                                            [template]="percentageTemplate"></ui-ghana-school>
+                                                        <ui-tanzania-school
+                                                            [template]="percentageTemplate"></ui-tanzania-school>
+
+                                                        <ng-template #percentageTemplate>
+                                                            <a class="unselectable" mat-sort-header="score">%</a>
+                                                        </ng-template>
+
+                                                        <ui-guinea-school
+                                                            [template]="pointsTemplate"></ui-guinea-school>
+                                                        <ui-ivory-coast-school
+                                                            [template]="pointsTemplate"></ui-ivory-coast-school>
+
+                                                        <ng-template #pointsTemplate>
+                                                            <a class="unselectable" mat-sort-header="score">Points</a>
+                                                        </ng-template>
+                                                    </th>
+													<th *ngIf="!showDeleteBox">{{ 'exams.updatedBy' | translate }}</th>
+                                                    <th *ngIf="!showDeleteBox">{{ 'exams.updatedOn' | translate }}</th>
+                                                    <th *ngIf="!showDeleteBox">{{ 'common.action' | translate }}</th>
+                                                    <th *ngIf="showDeleteBox"
+                                                        style="padding-right: 0px; margin-right: 0">
+                                                        <div class="checkbox checkbox-single checkbox-success pull-right"
+                                                            style="margin: 0px">
+                                                            <input type="checkbox" id="checkbox_select_all"
+                                                                (change)="selectAllToggle(select_all)"
+                                                                class="filled-in chk-col-info" [(ngModel)]="select_all"
+                                                                [checked]="select_all">
+                                                            <label for="checkbox_select_all"></label>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let student of sortedData; let i = index">
+                                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{ i + 1}}
+                                                    </td>
+                                                    <td class="td-fit-nowrap" *ngIf="editByAdm"
+                                                        style="vertical-align: middle">{{ student?.admno}}</td>
+                                                    <td class="td-fit-nowrap" *ngIf="!editByAdm"
+                                                        style="vertical-align: middle">{{ student?.indexno}}</td>
+                                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{ student?.name}}
+                                                    </td>
+                                                    <td class="td-fit-nowrap" style="vertical-align: middle">
+                                                        <span *ngIf="!student?.edit">{{ student?.raw}}</span>
+                                                        <div *ngIf="student?.edit">
+                                                            <div [ngSwitch]="student?.grade === 'X' || student?.grade === 'Y'">
+                                                                <div style="max-width: 3.5cm" class="input-group"
+                                                                    *ngSwitchCase="false">
+
+                                                                    <input style="min-width: 5em" name="max{{i}}"
+                                                                        required step="0.1" type="number" required
+                                                                        min="0" [max]="results.max"
+                                                                        [(ngModel)]="student.raw_temp" class="form-control">
+                                                                    <button
+                                                                        class="btn btn-sm btn-success dropdown-toggle"
+                                                                        type="button" data-bs-toggle="dropdown">
+                                                                        <i class="fa fa-cog"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <a class="dropdown-item"
+                                                                            (click)="student.grade = 'X'; dropdownHideEvent();">
+                                                                            <!-- Grade X -->
+                                                                            {{"exams.publishSubjectStatus.textGradeX"|translate}}
+                                                                        </a>
+                                                                        <a class="dropdown-item"
+                                                                            (click)="student.grade = 'Y'; dropdownHideEvent();">
+                                                                            <!-- Grade Y -->
+                                                                            {{"exams.publishSubjectStatus.textGradeY"|translate}}
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div style="max-width: 3.5cm" class="input-group"
+                                                                    *ngSwitchCase="true">
+                                                                    <input style="min-width: 5em;" type="text"
+                                                                        [(ngModel)]="student.grade" name="grade_temp{{i}}"
+                                                                        [disabled]="true" class="form-control">
+                                                                    <button (click)="student.grade = undefined"
+                                                                        class="btn btn-success" type="button">
+                                                                        <i class="fa fa-trash-o"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="td-fit-nowrap" style="vertical-align: middle"
+                                                        *ngIf="results.max != 100 && !results.paperid">{{
+                                                            student?.score}}</td>
+                                                    <!--<td class="td-fit-nowrap" style="vertical-align: middle">{{ r.grade}}</td>-->
+                                                    <th *ngIf="!showDeleteBox">{{ student?.updatedBy }}</th>
+                                                    <th *ngIf="!showDeleteBox">{{ student?.updatedOn }}</th>
+													<td style="vertical-align: middle"
+                                                        *ngIf="!(showDeleteBox || viewonly)">
+
+                                                        <button
+                                                            (click)="student.edit = true;student.raw_temp =student.raw;student.grade_temp =student.grade; "
+                                                            *ngIf="!student?.edit"
+                                                            class="btn btn-sm btn-secondary waves-effect waves-light"
+                                                            type="button">
+                                                            <!-- Edit -->
+                                                            {{"exams.publishSubjectStatus.textEdit"|translate}}
+                                                        </button>
+
+                                                        <section *ngIf="student?.edit" class="input-group">
+                                                            <button
+                                                                (click)="student.edit = false;student.raw_temp = student.raw;student.grade_temp = student.grade;"
+                                                                *ngIf="student?.edit" class="btn btn-default btn-sm"
+                                                                type="button">
+                                                                <!-- Cancel -->
+                                                                {{"exams.publishSubjectStatus.btnTextCancel"|translate}}
+                                                            </button>
+                                                            <span
+                                                                *ngIf="student?.isLoading && student?.isLoading==true; then inlineLoading else inlineButton"></span>
+                                                            <ng-template #inlineLoading>
+                                                                <span class="btn btn-success btn-sm"
+                                                                    style="width: 52.5px;">
+                                                                    <i class="fa fa-spinner fa-spin"></i>
+                                                                </span>
+                                                            </ng-template>
+                                                            <ng-template #inlineButton>
+                                                                <button (click)="saveResult(student)"
+                                                                    class="btn btn-success waves-effect waves-light btn-sm waves-effect waves-light"
+                                                                    type="button">
+                                                                    <!-- Save -->
+                                                                    {{"exams.publishSubjectStatus.btnTextSave"|translate}}
+                                                                </button>
+                                                            </ng-template>
+                                                        </section>
+
+                                                    </td>
+                                                    <td style="vertical-align: middle;" class="pointer"
+                                                        *ngIf="showDeleteBox">
+                                                        <span class="pull-right">
+                                                            <input type="checkbox" [(ngModel)]="student.delete"
+                                                                [checked]="student.delete" id="md_checkbox_{{i}}"
+                                                                class="filled-in chk-col-info" checked="">
+                                                            <label for="md_checkbox_{{i}}"> </label>
+                                                        </span>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 no-padding" *ngIf="newResults.length > 0">
+                                    <label class="form-label"><b>
+                                            <!-- New Results -->
+                                            {{"exams.publishSubjectStatus.textNewResults"|translate}}
+                                        </b></label>
+                                    <form id="newResultsForm" name="newResultsForm" (ngSubmit)="saveNewResults()">
+                                        <div class="col-xs-12 no-padding">
+                                            <div class="table-responsive" style="margin: 0 0 16px 0">
+                                                <table class="table table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="no-wrap" *ngIf="editByAdm" style="width: 20%;">
+                                                                <!-- Adm No -->
+                                                                {{"common.admno"|translate}}
+                                                            </th>
+                                                            <th class="no-wrap" *ngIf="!editByAdm">
+                                                                <!-- Index No -->
+                                                                {{"common.indexNo"|translate}}
+                                                            </th>
+                                                            <th class="no-wrap" style="width: 40%;">
+                                                                <!-- Name -->
+                                                                {{"exams.publishSubjectStatus.textName"|translate}}
+                                                            </th>
+                                                            <th class="no-wrap" style="width: 20%;">
+                                                                <!-- Score -->
+                                                                {{"exams.publishSubjectStatus.textScore"|translate}}
+                                                            </th>
+                                                            <th class="no-wrap"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let r of newResults;let i = index">
+                                                            <td class="no-wrap"
+                                                                style="vertical-align: middle; min-width: 3cm;"
+                                                                *ngIf="editByAdm">
+                                                                <ng-select
+                                                                    [notFoundText]="'common.noItemsFound' | translate"
+                                                                    requred name="admno{{i}}" appendTo="body"
+                                                                    dropdownPosition="bottom" [items]="results.students"
+                                                                    [(ngModel)]="r.student" [searchable]="true"
+                                                                    bindLabel="admno">
+                                                                </ng-select>
+                                                            </td>
+                                                            <td class="no-wrap"
+                                                                style="vertical-align: middle; min-width: 3cm;"
+                                                                *ngIf="!editByAdm">
+                                                                <ng-select
+                                                                    [notFoundText]="'common.noItemsFound' | translate"
+                                                                    requred name="indexno{{i}}" appendTo="body"
+                                                                    dropdownPosition="bottom" [items]="results.students"
+                                                                    [(ngModel)]="r.student" bindLabel="indexno"
+                                                                    [searchable]="true">
+                                                                </ng-select>
+                                                            </td>
+                                                            <td class="no-wrap"
+                                                                style="vertical-align: middle; min-width: 5cm;">
+
+                                                                <ng-select
+                                                                    [notFoundText]="'common.noItemsFound' | translate"
+                                                                    requred name="name{{i}}" appendTo="body"
+                                                                    dropdownPosition="bottom" [items]="results.students"
+                                                                    [(ngModel)]="r.student" bindLabel="name"
+                                                                    [searchable]="true">
+                                                                </ng-select>
+                                                            </td>
+                                                            <td id="customer"
+                                                                style="vertical-align: middle; min-width: 2rem;">
+                                                                <div [ngSwitch]="r.grade === 'X' || r.grade === 'Y'">
+                                                                    <div style="max-width: 3.5cm; min-width: 2.5cm;"
+                                                                        *ngSwitchCase="false">
+
+                                                                        <!-- ------------------ -->
+                                                                        <div class="input-group position-static">
+                                                                            <input style="min-width: 3.5em;" required
+                                                                                step="0.1" type="number" min="0"
+                                                                                [max]="results.max" name="max{{i}}"
+                                                                                [(ngModel)]="r.marks"
+                                                                                class="form-control">
+                                                                            <button type="button"
+                                                                                class="btn btn-success btn-sm dropdown-toggle"
+                                                                                data-bs-toggle="dropdown"><i
+                                                                                    class="fa fa-cog"></i></button>
+                                                                            <div
+                                                                                class="dropdown-menu dropdown-menu-end">
+                                                                                <a class="dropdown-item"
+                                                                                    (click)="r.grade = 'X'; dropdownHideEvent();">
+                                                                                    <!-- Grade X -->
+                                                                                    {{"exams.publishSubjectStatus.textGradeX"|translate}}
+                                                                                </a>
+                                                                                <a class="dropdown-item"
+                                                                                    (click)="r.grade = 'Y'; dropdownHideEvent();">
+                                                                                    <!-- Grade Y -->
+                                                                                    {{"exams.publishSubjectStatus.textGradeY"|translate}}
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div style="max-width: 3.5cm" class="input-group"
+                                                                        *ngSwitchCase="true">
+                                                                        <input style="min-width: 5.5em;" name="min{{i}}"
+                                                                            type="text" [(ngModel)]="r.grade"
+                                                                            [value]="r.grade" [disabled]="true"
+                                                                            class="form-control">
+                                                                        <button (click)="r.grade = undefined"
+                                                                            class="btn btn-success" type="button">
+                                                                            <i class="fa fa-trash-o"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="no-wrap" style="vertical-align: middle">
+                                                                <button (click)="deleteNewResult(i)"
+                                                                    class="btn btn-sm btn-secondary waves-effect waves-light btn-sm"
+                                                                    type="button">
+                                                                    <!-- Delete -->
+                                                                    {{"exams.publishSubjectStatus.btnTextDelete"|translate}}
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 no-padding" *ngIf="error_exam">
+                                            <span class="help-block small" style="color:#d62c1a">
+                                                {{error_msg}}
+                                            </span>
+                                        </div>
+                                        <div class="col-xs-12 no-side-padding">
+                                            <span class="pull-left"
+                                                *ngIf="newResults.length > 0 && results.students.length > 0">
+                                                <button type="button" class="btn btn-success btn-sm"
+                                                    (click)="addResultRecord()">
+                                                    <!-- Add Result -->
+                                                    {{"exams.publishSubjectStatus.textAddResults"|translate}}
+                                                </button>
+                                            </span>
+                                            <span class="pull-right" *ngIf="newResults.length > 0">
+                                                <span *ngIf="showLoading; then showIsLoading else showButton"></span>
+                                                <ng-template #showIsLoading>
+                                                    <app-loader-pulse style="margin: 10px; float: right;">
+                                                    </app-loader-pulse>
+                                                </ng-template>
+                                                <ng-template #showButton>
+                                                    <button [disabled]="showLoading" type="submit"
+                                                        class="btn btn-success waves-effect waves-light  btn-sm">
+                                                        <!-- Save New Results -->
+                                                        {{"exams.publishSubjectStatus.btnTextSaveNewResults"|translate}}
+                                                    </button>
+                                                </ng-template>
+
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="form-group col-xs-12 no-padding"
+                                    *ngIf="error_exam && !(newResults.length > 0)">
+                                    <span class="help-block small" style="color:#d62c1a"="">
+                                        {{error_msg}}
+                                    </span>
+                                </div>
+                                <div class="col-xs-12 no-side-padding" *ngIf="!(showDeleteBox || viewonly)">
+                                    <span class="btn-group pull-left" *ngIf="!(newResults.length > 0)">
+                                        <button class="btn btn-sm btn-dark dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown">
+                                            <!-- Actions -->
+                                            {{"exams.publishSubjectStatus.textAtion"|translate}}
+                                            <i class="caret"></i>
+                                        </button>
+                                        <div class="dropdown-menu" style="z-index: 1100;">
+                                            <a class="dropdown-item" *ngIf="results?.students?.length > 0"
+                                                (click)="addResultRecord()">
+                                                <!-- Add Results -->
+                                                {{"exams.publishSubjectStatus.textAddResults"|translate}}
+                                            </a>
+
+                                            <a class="dropdown-item" *ngIf="!results.paperid"
+                                                [routerLink]="['/main/exams/manage/publish/status/marklist/',results.seriesid,results.classid,'-1','-1','-1']">
+                                                <!-- Download Results -->
+                                                {{"exams.publishSubjectStatus.textDownloadResults"|translate}}
+                                            </a>
+                                            <a class="dropdown-item" *ngIf="results.paperid > 0"
+                                                [routerLink]="['/main/exams/manage/publish/status/marklist/',results.seriesid,results.classid,'-1','-1',results.paperid]">
+                                                <!-- Download Results -->
+                                                {{"exams.publishSubjectStatus.textDownloadResults"|translate}}
+                                            </a>
+                                            <a class="dropdown-item" (click)="startDeleteResults()">
+                                                <!-- Delete Results -->
+                                                {{"exams.publishSubjectStatus.textDeleteResults"|translate}}
+                                            </a>
+
+                                        </div>
+
+
+                                    </span>
+                                    <span class="pull-right"
+                                        *ngIf="results.publishable && exam != undefined && !(newResults.length > 0)">
+                                        <button type="button" class="btn btn-success waves-effect waves-light btn-sm"
+                                            (click)="publishResults()">
+                                            <span *ngIf="results.paperid > 0">
+                                                <!-- Publish All Papers -->
+                                                {{"exams.publishSubjectStatus.textPublishAllPapers"|translate}}
+                                            </span>
+                                            <span *ngIf="!(results.paperid > 0)">
+                                                <!-- Publish -->
+                                                {{"exams.publishSubjectStatus.textPublish"|translate}}
+                                            </span>
+                                        </button>
+                                    </span>
+                                </div>
+                                <div class="col-xs-12 no-side-padding" *ngIf="showDeleteBox">
+                                    <span class="pull-left">
+                                        <button type="button" class="btn btn-success btn-sm"
+                                            (click)="stopDeleteResults()">
+                                            <!-- Cancel Delete -->
+                                            {{"exams.publishSubjectStatus.btnTextCancelDelete"|translate}}
+                                        </button>
+                                    </span>
+                                    <span class="pull-right">
+                                        <button type="button" class="btn btn-success waves-effect waves-light btn-sm"
+                                            (click)="deleteResults()">
+                                            <!-- Delete Selected -->
+                                            {{"exams.publishSubjectStatus.btnTextDeleteSelected"|translate}}
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+</section>
+
+<!-- Control Sidebar  -->
+<aside class="control-sidebar" [ngClass]="{'control-sidebar-open':rightSidebar}">
+    <div>
+        <span class="font-bold no-margins text-danger"> Error </span>
+        <br>
+        <small> The following errors were encountered </small>
+        <button style="margin-top: -19px;" (click)="rightSidebar = false"
+            class="pull-right btn waves-effect waves-light btn-sm btn-danger">
+            <i class="text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+            </i>
+        </button>
+    </div>
+    <!-- <pre>{{custom_errors|json}}</pre> -->
+    <hr>
+    <div *ngIf="rightSidebar && custom_errors.length> 0  ">
+        <div class="media-list mt-20" *ngFor="let error of custom_errors">
+
+            <!--
+            ================================
+            Data Error Section
+            ================================
+            -->
+            <div class="media py-10 px-0">
+                <div class="media-body">
+                    <p class="fs-16">
+                        <strong>{{error.title}}</strong>
+                    </p>
+                    <p *ngFor="let msg of error.msg">{{msg}}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</aside>
+<!-- /.control-sidebar -->

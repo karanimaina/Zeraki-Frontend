@@ -1,0 +1,80 @@
+@media (min-width: 768px) {
+    .dl-horizontal .dtinfo {
+        width: 70px;
+    }
+    .dl-horizontal .ddinfo {
+        margin-left: 80px;
+        // display: inline;
+    }
+
+    .dl-horizontal .dtdates{
+        width: 150px;
+    }
+
+    .dl-horizontal .ddates {
+        margin-left: 200px;
+        // display: inline;
+    }
+}
+
+
+thead, tbody, tfoot, tr, td, th {
+    border-color: inherit;
+    border-style: transparent;
+    border-width: 0;
+}
+
+.school-dates {
+    font-weight: 600;
+}
+.card{
+    border-radius: 0;
+}
+.zreportcontent {
+    margin-bottom: 25px;
+    background: #fff;
+    /* border: 1px solid #e4e5e7; */
+    border: none;
+    border-radius: 2px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+
+.text-small{
+    font-size: 0.3rem !important;
+}
+
+@media (max-width: 1023.9px) {
+    .subject_comparison{
+        width: 30em;
+    }
+    .stud_series{
+        width: 60em;
+    }
+}
+
+@media (min-width: 1024px) {
+    .subject_comparison{
+        width: 37em;
+    }
+    .stud_series{
+        width: 70em;
+    }
+}
+
+.fixed-top{
+    z-index: 5;
+}
+
+.zreport-page .card {
+	padding: 30px;
+}
+
+#print-report {
+	width: 100%;
+
+	@media (min-width: 1024px) {
+		max-width: 1275.85px;
+	}
+}

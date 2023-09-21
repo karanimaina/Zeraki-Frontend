@@ -1,0 +1,127 @@
+<ui-kenyan-school [template]="credentialMessageUI"></ui-kenyan-school>
+
+<ng-template #credentialMessageUI>
+	<div *ngIf="studentReport?.credentialMessage && showCredentials" class="row" style="margin-bottom: 1.5em;">
+
+		<div class="col-12 text-center">
+			<div [innerHTML]="studentReport.credentialMessage"></div>
+		</div>
+	</div>
+</ng-template>
+
+<div class="d-flex flex-row justify-content-between">
+    <div class="col-4 text-start">
+        <table *ngIf="feeData[studentReport.admNo]"
+            style="line-height: 1">
+            <tbody>
+                <tr>
+                    <td class="text-start" style="white-space: nowrap">
+                        <span class="zreport-label">
+                            {{ 'printouts.reportForms.termBalance' | translate }}
+                        </span>
+                    </td>
+                    <td class="text-end" style="white-space: nowrap">
+                        <span>
+                            {{feeData[studentReport.admNo]['TERM_BALANCE'].toLocaleString()}}
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div style="padding-top: 20px"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-start" style="white-space: nowrap">
+                        <span class="zreport-label"
+                            style="margin-right: 8px">
+                            {{ 'printouts.reportForms.nextTermFees'| translate}}
+                        </span>
+                    </td>
+                    <td class="text-end" style="white-space: nowrap">
+                        <span>
+                            {{feeData[studentReport.admNo]['NEXT_TERM_FEES'].toLocaleString()}}
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div style="padding-top: 10px"></div>
+                    </td>
+                </tr>
+                <tr style="border-top: 1px solid #ddd">
+                    <td class="text-start"
+                        style="white-space: nowrap; padding-top: 10px">
+                        <span class="zreport-label"
+                            style="margin-right: 8px">
+                            {{ 'printouts.reportForms.totalPayable' | translate }}
+                        </span>
+                    </td>
+                    <td class="text-end"
+                        style="white-space: nowrap; padding-top: 10px">
+                        <span>
+                            {{(feeData[studentReport.admNo]['TERM_BALANCE'] + feeData[studentReport.admNo]['NEXT_TERM_FEES']).toLocaleString()}}
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-4 text-end" style="margin-left: auto">
+        <table style="line-height: 1;margin-right: 16px"
+            *ngIf="closingDate || openingDate ||showParentSignature">
+            <tbody>
+                <tr
+                    *ngIf="closingDate">
+                    <td class="text-start" style="white-space: nowrap">
+                        <span class="zreport-label">
+                            {{'printouts.reportForms.schoolClosedOn' |translate }}
+                        </span>
+                    </td>
+                    <td class="text-end" style="white-space: nowrap">
+                        <span>
+                            {{ closingDate| date:'dd-MMMM-yyyy'}}
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div style="padding-top: 20px"></div>
+                    </td>
+                </tr>
+                <tr
+                    *ngIf="openingDate">
+                    <td class="text-start" style="white-space: nowrap">
+                        <span class="zreport-label"
+                            style="margin-right: 8px">
+                            {{ 'printouts.reportForms.nextTermBegins' | translate }}
+                        </span>
+                    </td>
+                    <td class="text-end" style="white-space: nowrap">
+                        <span>
+                            {{ openingDate| date:'dd-MMMM-yyyy' }}</span>
+                    </td>
+                </tr>
+                <tr *ngIf='showParentSignature'>
+                    <td colspan="2">
+                        <div style="padding-top: 40px"></div>
+                    </td>
+                </tr>
+                <tr *ngIf="showParentSignature">
+                    <td class="text-start" style="white-space: nowrap">
+                        <span class="zreport-label"
+                            style="margin-right: 8px">
+                            {{ 'printouts.reportForms.parentSignature'| translate }}
+                        </span>
+                    </td>
+                    <td class="text-end" style="white-space: nowrap;">
+                        <div class="pull-right" style="width: 22mm">
+                            <span
+                                style="max-width: 1px;overflow: hidden">.......................</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

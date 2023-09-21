@@ -1,0 +1,18 @@
+<div *ngIf="!userInit?.school_invoice_info?.account_suspended" class="navbar-light top-wrapper fixed-top bg-success">
+    <ul class="nav nav-pill customtab2 nav-filled text-center">
+        <li class="nav-item">
+            <a class="nav-link t-nav active">
+                <span class="me-2 hidden-xs-down">
+                    <i class="fa fa-cog"></i>
+                </span>
+                <div class="hidden-sm-up text-center pt-2">
+                    <i class="fa fa-cog"></i>
+                </div>
+                <span class="hidden-xs-down">{{ 'invoice.invoiceTopNav.school' | translate:{docType:docType} }}</span>
+                <span class="hidden-sm-up fs-11 fw-bold">
+                    <div style="padding: 5px 0px 4px 0px;">{{ 'invoice.invoiceTopNav.school' | translate:{docType:docType} }}</div>
+                </span>
+            </a>
+        </li>
+    </ul>
+</div>

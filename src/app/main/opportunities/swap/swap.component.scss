@@ -1,0 +1,9 @@
+.lookup input {
+    padding-left: 16px !important;
+}
+
+@media (min-width: 768px) {
+    .lookup-sm input {
+        width: 250px;
+    }
+}

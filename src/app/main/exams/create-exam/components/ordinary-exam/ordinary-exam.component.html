@@ -1,0 +1,200 @@
+<form class="row" #addForm="ngForm" (ngSubmit)="createExam(addForm)">
+    <div class="form-group " [class]="schoolTypeData?.isIvorianSchool ? 'col-sm-6' : 'col-sm-12'">
+        <label class="control-label">
+            <!-- Exam Name -->
+            <span *ngIf="examOptionSelected">
+				<ui-kenyan-school [template]="examNameTemplate"></ui-kenyan-school>
+				<ui-ghana-school [template]="examNameTemplate"></ui-ghana-school>
+				<ui-ivory-coast-school [template]="evaluationsTemplate"></ui-ivory-coast-school>
+				<ui-tanzania-school [template]="examNameTemplate"></ui-tanzania-school>
+				<ui-ivory-coast-primary-school [template]="evaluationsTemplate"></ui-ivory-coast-primary-school>
+				<ng-template #evaluationsTemplate>
+					{{"exams.createExam.labelTextEvaluationName"|translate}}
+				</ng-template>
+				<ui-zimbabwe-school [template]="examNameTemplate"></ui-zimbabwe-school>
+				<ui-zambia-school [template]="examNameTemplate"></ui-zambia-school>
+				<ui-south-africa-school [template]="examNameTemplate"></ui-south-africa-school>
+
+				<ng-template #examNameTemplate>
+					{{"exams.createExam.labelTextExamName"|translate}}
+				</ng-template>
+
+				<ui-guinea-school [template]="compositionNameTemplate"></ui-guinea-school>
+				<ng-template #compositionNameTemplate>
+					{{"exams.createExam.labelCompositionName"|translate}}
+				</ng-template>
+			</span>
+
+            <!-- Assignments -->
+            <span *ngIf="!examOptionSelected">{{"exams.createExam.labelAssignment"|translate}}
+                {{"exams.createExam.labelName"|translate}}
+			</span>
+        </label>
+        <input type="text"
+			   name="name"
+			   ngModel #name="ngModel"
+			   class="form-control"
+			   pattern="[^()&/><\][\\\x22,;|]+"
+			   [placeholder]="'common.name' | translate"
+			   [ngClass]="{'is-invalid':(addForm.submitted && name.invalid)}" required>
+        <div class="text-danger" *ngIf="addForm.submitted && name.invalid">
+            <div *ngIf="name.errors?.required">
+                <!-- Exam name is required -->
+                <span *ngIf="examOptionSelected">{{"exams.createExam.labelTextExamIsRequired"|translate}}</span>
+                <span *ngIf="!examOptionSelected">{{"exams.createExam.labelAssignmentIsRequired"|translate}}</span>
+            </div>
+        </div>
+    </div>
+
+	<ui-ivory-coast-school [template]="examTypeTemplate"></ui-ivory-coast-school>
+
+	<ng-template #examTypeTemplate>
+		<div class="form-group col-sm-6">
+			<label for="examType">
+				{{'exams.createExam.evaluationType'|translate}}
+			</label>
+			<select
+				name="examType"
+				ngModel #examType="ngModel"
+				id="examType"
+				required
+				class="form-select"
+				[ngClass]="{'is-invalid':(addForm.submitted && examType.invalid)}"
+			>
+				<option value="">{{"exams.createExam.selectEvaluationType"|translate}}</option>
+				<option value="SUPERVISED_EVALUATION">
+					{{'exams.createExam.textSupervisedEvaluation'|translate}}
+				</option>
+				<option value="WRITTEN_EVALUATION">
+					{{'exams.createExam.textWrittenEvaluation'|translate}}
+				</option>
+				<option value="ORAL_EVALUATION">
+					{{'exams.createExam.textOralEvaluation'|translate}}
+				</option>
+			</select>
+			<div class="text-danger" *ngIf="addForm.submitted && examType.invalid">
+				<div *ngIf="examType.errors?.required">
+					<!-- Exam Type  is required -->
+					{{"exams.createExam.textEvaluationTypeIsRequired"|translate}}
+				</div>
+			</div>
+		</div>
+	</ng-template>
+
+
+
+    <div class="form-group col-sm-6">
+        <label for="" class="control-label">
+            <!-- Term -->
+            {{"exams.createExam.labelTextTerm"|translate}}
+        </label>
+
+        <select name="term" id="termId" [(ngModel)]="series.term" required #term="ngModel"
+            [ngClass]="{'is-invalid':(addForm.submitted && term.invalid)}" class="form-select">
+            <option value=''>
+                <!-- Select Term -->
+                {{"exams.createExam.labelTextSelectTerm"|translate}}
+            </option>
+            <option value="1">{{"exams.createExam.optionTextOne"|translate}}</option>
+            <option value="2">{{"exams.createExam.optionTextTwo"|translate}}</option>
+            <option value="3">{{"exams.createExam.optionTextThree"|translate}}</option>
+        </select>
+        <div class="text-danger" *ngIf="addForm.submitted && term.invalid">
+            <div *ngIf="term.errors?.required">
+                <!-- Term  is required -->
+                {{"exams.createExam.textTermIsRequired"|translate}}
+            </div>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label for="" class="control-label">
+            <!-- Year -->
+            {{"exams.createExam.labelTextYear"|translate}}
+        </label>
+        <select name="year"
+				id="year"
+				[(ngModel)]="series.year"
+				required #year="ngModel"
+            [ngClass]="{'is-invalid':(addForm.submitted && year.invalid)}" class="form-select">
+            <option value="">
+                <!-- Select Year -->
+                {{"exams.createExam.optionTextSelectYear"|translate}}
+            </option>
+            <option *ngFor="let validYear of validYears" [value]="validYear">{{ validYear }}</option>
+        </select>
+        <div class="text-danger" *ngIf="addForm.submitted && year.invalid">
+            <div *ngIf="year.errors?.required">
+                <!-- Year required -->
+                {{"exams.createExam.textYearIsRequired"|translate}}
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isLoadingForms; then loadingForms else loadingFormsComplete"></div>
+    <ng-template #loadingForms>
+        <div class="col-sm-12">
+            <app-loader-div [height]="125"></app-loader-div>
+        </div>
+
+    </ng-template>
+    <ng-template #loadingFormsComplete>
+        <div class="col-sm-12">
+            <label>
+                <b *ngIf="examOptionSelected">
+                    <!-- Forms that sat for the exam -->
+                    {{"exams.createExam.textFormsThatSatForExam" | translate: {formoryear:(schoolTypeData?.formoryear | formOrYear )} }}
+                </b>
+                <b *ngIf="!examOptionSelected">
+                    <!-- Grades that sat for the assignment -->
+                    {{"exams.createExam.textFormsThatSatForAssignment" | translate: {formoryear:(schoolTypeData?.formoryear | formOrYear )} }}
+                </b>
+            </label>
+            <table class="table table-sm table-striped">
+                <tbody>
+                    <tr *ngFor="let form of forms; let i = index">
+                        <td style="width: 50px;">
+                            <input type="checkbox" id="custom_checkbox_{{i}}" [checked]="form.selected"
+                                name="selected{{i}}]" [(ngModel)]="form.selected" class="filled-in chk-col-info">
+                            <label for="custom_checkbox_{{i}}"></label>
+                        </td>
+                        <td>
+                            <span>
+                                {{schoolTypeData?.formoryear | formOrYear}} {{form.form}}
+                            </span>
+                        </td>
+                        <td>
+                            <input type="number" [name]="form.name" class="form-control" [(ngModel)]="form.min"
+                                [required]="form.selected" #minValue="ngModel" [min]="schoolTypeData?.minSubjects+''"
+                                [ngClass]="{'is-invalid':(addForm.submitted && form.selected==true && minValue.invalid )}"
+                                placeholder="{{'exams.createExam.inputPlaceholderMinNumberOfExams' | translate}}">
+                            <div class="text-danger"
+                                *ngIf="addForm.submitted && form.selected==true && minValue.invalid">
+                                <div *ngIf="minValue.errors?.required">
+                                    <!-- Enter min number of exams for form -->
+                                    {{"exams.createExam.textMinNumberOfExams"|translate}}
+                                    <b>{{form.form}} </b>
+                                </div>
+                                <div *ngIf="minValue.errors?.min">
+                                    <!-- Value must be greater than or equal to the minimum school subjects -->
+                                    {{ "exams.createExam.textMin"|translate:{minimumSubjectsCount: schoolTypeData?.minSubjects} }}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-group text-end mb-0">
+                <button type="submit" class="btn waves-effect waves-light btn-sm btn-info ">
+                    <span *ngIf="!isAddingOrdinaryExam">
+                        <i class="fa fa-save"></i>
+                    </span>
+                    <span *ngIf="isAddingOrdinaryExam">
+                        <i class="fa fa-spin fa-spinner"></i>
+                    </span>
+                    <!-- Create -->
+                    {{"exams.createExam.btnTextCreate"|translate}}
+                </button>
+            </div>
+        </div>
+    </ng-template>
+</form>

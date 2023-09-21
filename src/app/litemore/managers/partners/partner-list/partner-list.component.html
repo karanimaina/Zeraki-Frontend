@@ -1,0 +1,770 @@
+<!-- Content Header (Page header) -->
+<div class="content-header d-md-none">
+	<div class="d-flex align-items-center">
+		<div class="me-auto">
+			<h3 class="page-title">{{ "litemore.partner.title" | translate }}</h3>
+			<div class="d-inline-block align-items-center">
+				<nav>
+					<ol class="breadcrumb text-dark">
+						<li class="breadcrumb-item" aria-current="page">
+							{{
+								"litemore.managers.partners.partnerList.partners" | translate
+							}}
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							{{ "litemore.managers.partners.partnerList.list" | translate }}
+						</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+		<div class="d-md-none">
+			<button
+				type="button"
+				class="btn btn-success btn-sm pull-right"
+				(click)="dataoptions.add_partners = true">
+				{{ "litemore.partner.add" | translate }}
+			</button>
+		</div>
+	</div>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+	<!-- partner listing -->
+	<div
+		*ngIf="!dataoptions.add_partners && !dataoptions.show_partner_requests"
+		class="row">
+		<div *ngIf="!partners; then showLoadingSection; else showDataSection"></div>
+		<ng-template #showLoadingSection>
+			<div class="row">
+				<div class="col-12">
+					<div class="box">
+						<div class="box-body">
+							<app-loader-div [height]="50"></app-loader-div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<div class="box">
+						<div class="box-body">
+							<app-loader-div [height]="250"></app-loader-div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+
+		<ng-template #showDataSection>
+			<div class="col-12">
+				<div class="box">
+					<div class="box-header with-border">
+						<h4 class="box-title d-none d-md-inline-block">
+							{{ "litemore.partner.title" | translate }}
+						</h4>
+						<div class="box-controls pull-right">
+							<div class="box-header-actions">
+								<div class="me-2">
+									<input
+										type="checkbox"
+										id="md_checkbox_24"
+										class="filled-in chk-col-info"
+										[(ngModel)]="dataoptions.show_account"
+										[checked]="dataoptions.show_account" />
+									<label for="md_checkbox_24">{{
+										"litemore.managers.partners.partnerList.showAccountDetails"
+											| translate
+									}}</label>
+								</div>
+								<div class="d-none d-md-inline-block">
+									<button
+										type="button"
+										class="btn btn-success btn-sm pull-right"
+										(click)="dataoptions.add_partners = true">
+										{{ "litemore.partner.add" | translate }}
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12">
+				<div class="box">
+					<div *ngIf="partners.length > 0" class="box-body">
+						<div class="table-responsive">
+							<table class="table table-sm table-striped table-bordered">
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col" class="text-uppercase">
+											{{ "common.name" | translate }}
+										</th>
+										<th
+											[hidden]="partners_edi_in_progress"
+											scope="col"
+											class="text-uppercase">
+											{{ "common.username" | translate }}
+										</th>
+										<th scope="col" class="text-uppercase">
+											{{ "litemore.school" | translate }}
+										</th>
+										<th scope="col" class="text-uppercase">
+											{{ "common.phone" | translate }}
+										</th>
+										<th
+											[hidden]="partners_edi_in_progress"
+											scope="col"
+											class="text-uppercase">
+											{{ "litemore.code" | translate }}
+										</th>
+										<th scope="col" class="text-uppercase">
+											{{ "litemore.region" | translate }}
+										</th>
+										<th scope="col" class="text-uppercase">
+											{{ "litemore.type" | translate }}
+										</th>
+										<th scope="col" class="text-uppercase">
+											{{ "litemore.partner.info" | translate }}
+										</th>
+										<th
+											scope="col"
+											class="text-uppercase text-center"
+											style="min-width: 200px">
+											{{ "common.actions" | translate }}
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										*ngFor="
+											let p of partners;
+											first as isFirst;
+											index as i;
+											trackBy: trackByFn
+										">
+										<th scope="row">{{ i + 1 }}</th>
+										<td>
+											<div *ngIf="!(p.edit == true) || p.isTeacherPartner">
+												{{ p.name }}
+											</div>
+											<div *ngIf="p.edit && !p.isTeacherPartner">
+												<input
+													style="min-width: 4px"
+													type="text"
+													placeholder="{{
+														'litemore.managers.partners.partnerList.johnDoe'
+															| translate
+													}}"
+													required
+													pattern="[\s\S]*\S[\s\S]*"
+													name="name"
+													id="name"
+													[(ngModel)]="p.name_temp"
+													class="form-control" />
+											</div>
+										</td>
+										<td [hidden]="partners_edi_in_progress">
+											<div>{{ p.email }}</div>
+											<div
+												*ngIf="dataoptions.show_account && p.account.length > 0"
+												[innerHTML]="p.account"></div>
+										</td>
+										<td>{{ p.school }}</td>
+										<td>
+											<div *ngIf="!p.edit">{{ p.phone }}</div>
+											<div *ngIf="p.edit">
+												<input
+													style="min-width: 4px"
+													type="number"
+													placeholder="07## ### ###"
+													required
+													pattern="[\s\S]*\S[\s\S]*"
+													name="phone"
+													id="pho_ne"
+													[(ngModel)]="p.phone_temp"
+													class="form-control" />
+											</div>
+										</td>
+										<td [hidden]="partners_edi_in_progress">
+											{{ p.code }}
+										</td>
+										<td>
+											<div *ngIf="!p.edit">{{ p.region }}</div>
+											<div *ngIf="p.edit">
+												<input
+													style="min-width: 4px"
+													type="text"
+													placeholder="Region"
+													required
+													pattern="[\s\S]*\S[\s\S]*"
+													name="region"
+													id="regi_on"
+													[(ngModel)]="p.region_temp"
+													class="form-control" />
+											</div>
+										</td>
+										<td class="text-center">
+											<div>
+												<span *ngIf="p.isTeacherPartner">
+													<span class="badge badge-pill badge-success">{{
+														"litemore.managers.partners.partnerList.teacherPartner"
+															| translate
+													}}</span>
+												</span>
+												<span *ngIf="!p.isTeacherPartner">
+													<span class="badge badge-pill badge-warning">{{
+														"litemore.managers.partners.partnerList.externalPartner"
+															| translate
+													}}</span>
+												</span>
+											</div>
+										</td>
+										<td>
+											<div *ngIf="!p.edit">{{ p.info }}</div>
+											<div *ngIf="p.edit">
+												<input
+													style="min-width: 4px"
+													type="text"
+													placeholder="Info"
+													required
+													pattern="[\s\S]*\S[\s\S]*"
+													name="info"
+													id="info"
+													[(ngModel)]="p.info_temp"
+													class="form-control" />
+											</div>
+										</td>
+										<td class="text-center">
+											<button
+												*ngIf="!p.edit"
+												(click)="initEditPartner(p)"
+												type="button"
+												class="waves-effect waves-light btn btn-info btn-sm mx-1">
+												<i>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														width="16"
+														height="16"
+														fill="currentColor"
+														class="bi bi-pen"
+														viewBox="0 0 16 16">
+														<path
+															d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+													</svg>
+												</i>
+												<span class="ms-1">{{
+													"common.edit" | translate
+												}}</span>
+											</button>
+											<button
+												*ngIf="p.edit"
+												(click)="cancelEditPartner(p)"
+												type="button"
+												class="waves-effect waves-light btn btn-secondary btn-sm mx-1">
+												<i>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														width="16"
+														height="16"
+														fill="currentColor"
+														class="bi bi-x"
+														viewBox="0 0 16 16">
+														<path
+															d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+													</svg>
+												</i>
+												<span class="ms-1">{{
+													"common.cancel" | translate
+												}}</span>
+											</button>
+											<button
+												*ngIf="!p.edit"
+												(click)="removePartner(p)"
+												type="button"
+												class="waves-effect waves-light btn btn-danger btn-sm mx-1">
+												<i>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														width="16"
+														height="16"
+														fill="currentColor"
+														class="bi bi-trash"
+														viewBox="0 0 16 16">
+														<path
+															d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+														<path
+															fill-rule="evenodd"
+															d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+													</svg>
+												</i>
+												<span class="ms-1">{{
+													"common.delete" | translate
+												}}</span>
+											</button>
+											<button
+												*ngIf="p.edit"
+												type="button"
+												class="waves-effect waves-light btn btn-success btn-sm mx-1"
+												(click)="updatePartnerDetails(p)">
+												<i>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														width="16"
+														height="16"
+														fill="currentColor"
+														class="bi bi-sd-card"
+														viewBox="0 0 16 16">
+														<path
+															d="M6.25 3.5a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2zm2 0a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2zm2 0a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2zm2 0a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2z" />
+														<path
+															fill-rule="evenodd"
+															d="M5.914 0H12.5A1.5 1.5 0 0 1 14 1.5v13a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5V3.914c0-.398.158-.78.44-1.06L4.853.439A1.5 1.5 0 0 1 5.914 0zM13 1.5a.5.5 0 0 0-.5-.5H5.914a.5.5 0 0 0-.353.146L3.146 3.561A.5.5 0 0 0 3 3.914V14.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-13z" />
+													</svg>
+												</i>
+												<span class="ms-1">{{
+													"common.save" | translate
+												}}</span>
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div *ngIf="partners.length == 0" class="box-body text-center">
+						<h4>{{ "litemore.partner.emptyList" | translate }}</h4>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</div>
+
+	<!-- partner addition -->
+	<div *ngIf="dataoptions.add_partners" class="row">
+		<div class="col-12">
+			<div class="box">
+				<!-- partner options -->
+				<div class="box-header with-border">
+					<h4 class="box-title">
+						{{ "litemore.partner.createPartner" | translate }}
+					</h4>
+					<div class="row mt-10">
+						<!-- teacher partner option -->
+						<div class="col-sm-3">
+							<input
+								(click)="togglePartner('teacher')"
+								type="radio"
+								id="teacher_radio"
+								class="with-gap radio-col-info"
+								[checked]="teacher_radio" />
+							<label for="teacher_radio">{{
+								"litemore.partner.createTeacher" | translate
+							}}</label>
+						</div>
+						<!-- external partner option -->
+						<div class="col-sm-3">
+							<input
+								(click)="togglePartner('external')"
+								type="radio"
+								id="external_radio"
+								class="with-gap radio-col-info"
+								[checked]="external_radio" />
+							<label for="external_radio">{{
+								"litemore.partner.createExternal" | translate
+							}}</label>
+						</div>
+					</div>
+				</div>
+
+				<!-- search prospective teacher -->
+				<form
+					#sfAdm="ngForm"
+					*ngIf="teacher_radio"
+					class="form"
+					(ngSubmit)="sfAdm.form.valid && searchProspectiveTeacherPartner()">
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="form-label"
+										>{{ "litemore.partner.teachersName" | translate
+										}}<span class="text-danger">*</span></label
+									>
+									<input
+										type="text"
+										class="form-control"
+										placeholder="{{
+											'litemore.partner.teachersNamePlaceholder' | translate
+										}}"
+										name="tName"
+										#tName="ngModel"
+										[(ngModel)]="create_partners_options.teacher_name"
+										required
+										[ngClass]="{
+											'is-invalid': sfAdm.submitted && tName.invalid
+										}" />
+									<div
+										*ngIf="sfAdm.submitted && tName.errors?.required"
+										class="form-control-feedback text-danger">
+										<small
+											>{{
+												"litemore.partner.teachersNameError" | translate
+											}}.</small
+										>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="form-label"
+										>{{ "litemore.partner.schoolName" | translate
+										}}<span class="text-danger">*</span></label
+									>
+									<ng-select
+										[notFoundText]="'common.noItemsFound' | translate"
+										[items]="schools"
+										[closeOnSelect]="true"
+										appendTo="body"
+										[dropdownPosition]="'bottom'"
+										bindLabel="name"
+										name="tSchool"
+										#tSchool="ngModel"
+										[(ngModel)]="create_partners_options.school"
+										required
+										[ngClass]="{
+											'is-invalid': sfAdm.submitted && tSchool.invalid
+										}"
+										placeholder="{{
+											'litemore.partner.schoolPlaceholder' | translate
+										}}">
+									</ng-select>
+									<div
+										*ngIf="sfAdm.submitted && tSchool.errors?.required"
+										class="form-control-feedback text-danger">
+										<small>{{
+											"litemore.partner.teachersSchoolError" | translate
+										}}</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- action btns -->
+					<div class="box-footer">
+						<button
+							type="button"
+							(click)="showPartners()"
+							class="btn btn-sm btn-dark">
+							<i class="me-2">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									fill="currentColor"
+									class="bi bi-people"
+									viewBox="0 0 16 16">
+									<path
+										d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
+								</svg>
+							</i>
+							{{ "litemore.partner.showPartners" | translate }}
+						</button>
+						<button type="submit" class="btn btn-sm btn-info pull-right">
+							<i class="me-2">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									fill="currentColor"
+									class="bi bi-search"
+									viewBox="0 0 16 16">
+									<path
+										d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+								</svg>
+							</i>
+							{{ "common.search" | translate }}
+						</button>
+					</div>
+				</form>
+
+				<!-- teacher partner prospects (search results) -->
+				<div
+					*ngIf="create_partners_options?.prospective_partners?.length > 0"
+					class="box-body">
+					<div class="table-responsive">
+						<table class="table table-striped table-hover table-bordered">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>{{ "litemore.partner.teachersName" | translate }}</th>
+									<th>{{ "common.username" | translate }}</th>
+									<th>{{ "common.school" | translate }}</th>
+									<th>{{ "common.status" | translate }}</th>
+									<th>{{ "common.phone" | translate }}</th>
+									<th>{{ "litemore.partner.region" | translate }}</th>
+									<th>{{ "litemore.partner.info" | translate }}</th>
+									<th>{{ "common.action" | translate }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr
+									*ngFor="
+										let t of create_partners_options.prospective_partners;
+										index as idx
+									">
+									<td>{{ idx | paginatedListIndex : 1 }}</td>
+									<td>{{ t.name }}</td>
+									<td>{{ t.email }}</td>
+									<td>{{ t.school }}</td>
+									<td>
+										<span *ngIf="t.isPartner" class="pull-left">
+											<span class="badge badge-pill badge-success">{{
+												"litemore.partner.isPartner" | translate
+											}}</span>
+										</span>
+										<span *ngIf="!t.isPartner" class="pull-left">
+											<span class="badge badge-pill badge-warning">{{
+												"litemore.partner.isNotPartner" | translate
+											}}</span>
+										</span>
+									</td>
+									<td>
+										<div *ngIf="t.isPartner">{{ t.phone }}</div>
+										<div *ngIf="!t.isPartner">
+											<input
+												type="number"
+												placeholder="07## ### ###"
+												required
+												pattern="[\s\S]*\S[\s\S]*"
+												name="phone"
+												id="phone"
+												[(ngModel)]="t.phone"
+												class="form-control" />
+										</div>
+									</td>
+									<td>
+										<div *ngIf="t.isPartner">{{ t.region }}</div>
+										<div *ngIf="!t.isPartner">
+											<input
+												type="text"
+												placeholder="Region"
+												required
+												pattern="[\s\S]*\S[\s\S]*"
+												name="region"
+												id="region"
+												[(ngModel)]="t.region"
+												class="form-control" />
+										</div>
+									</td>
+									<td>
+										<div *ngIf="t.isPartner">{{ t.info }}</div>
+										<div *ngIf="!t.isPartner">
+											<input
+												type="text"
+												placeholder="Info"
+												required
+												pattern="[\s\S]*\S[\s\S]*"
+												name="info"
+												id="info"
+												[(ngModel)]="t.info"
+												class="form-control" />
+										</div>
+									</td>
+									<td>
+										<button
+											*ngIf="!t.isPartner"
+											type="button"
+											class="btn btn-primary btn-sm pull-left"
+											(click)="makePartner(t)">
+											{{ "litemore.partner.makePartner" | translate }}
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<!-- external partner addition -->
+				<form
+					#sfName="ngForm"
+					class="form"
+					*ngIf="external_radio"
+					(ngSubmit)="
+						sfName.form.valid &&
+							addExternalPartner(
+								create_partners_options.new_external_partner,
+								sfName
+							)
+					">
+					<div class="box-body">
+						<div class="row">
+							<!-- name -->
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="form-label"
+										>{{ "common.name" | translate
+										}}<span class="text-danger">*</span></label
+									>
+									<input
+										type="text"
+										class="form-control"
+										placeholder="{{
+											'litemore.partner.teachersNamePlaceholder' | translate
+										}}"
+										name="eName"
+										#eName="ngModel"
+										[(ngModel)]="
+											create_partners_options.new_external_partner.name
+										"
+										required
+										[ngClass]="{
+											'is-invalid': sfName.submitted && eName.invalid
+										}" />
+									<div
+										*ngIf="sfName.submitted && eName.errors?.required"
+										class="form-control-feedback text-danger">
+										<small>{{
+											"litemore.partner.externalNameError" | translate
+										}}</small>
+									</div>
+								</div>
+							</div>
+							<!-- phone number -->
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="form-label"
+										>{{ "common.phone" | translate
+										}}<span class="text-danger">*</span></label
+									>
+									<input
+										type="text"
+										class="form-control"
+										placeholder="{{
+											'litemore.partner.phonePlaceholder' | translate
+										}}"
+										name="ePhone"
+										#ePhone="ngModel"
+										[(ngModel)]="
+											create_partners_options.new_external_partner.phone
+										"
+										required
+										[ngClass]="{
+											'is-invalid': sfName.submitted && ePhone.invalid
+										}" />
+									<div
+										*ngIf="sfName.submitted && ePhone.errors?.required"
+										class="form-control-feedback text-danger">
+										<small>{{
+											"litemore.partner.phoneError" | translate
+										}}</small>
+									</div>
+								</div>
+							</div>
+							<!-- region -->
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="form-label"
+										>{{ "litemore.region" | translate
+										}}<span class="text-danger">*</span></label
+									>
+									<input
+										type="text"
+										class="form-control"
+										placeholder="{{ 'litemore.regionPlaceholder' | translate }}"
+										name="eRegion"
+										#eRegion="ngModel"
+										[(ngModel)]="
+											create_partners_options.new_external_partner.region
+										"
+										required
+										[ngClass]="{
+											'is-invalid': sfName.submitted && eRegion.invalid
+										}" />
+									<div
+										*ngIf="sfName.submitted && eRegion.errors?.required"
+										class="form-control-feedback text-danger">
+										<small>{{ "litemore.regionError" | translate }}</small>
+									</div>
+								</div>
+							</div>
+							<!-- info -->
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="form-label">{{
+										"litemore.partner.info" | translate
+									}}</label>
+									<textarea
+										rows="3"
+										class="form-control"
+										placeholder="{{
+											'litemore.partner.infoPlaceholder' | translate
+										}}"
+										name="eInfo"
+										#eInfo="ngModel"
+										[(ngModel)]="
+											create_partners_options.new_external_partner.info
+										"
+										[ngClass]="{
+											'is-invalid': sfName.submitted && eInfo.invalid
+										}"></textarea>
+									<div
+										*ngIf="sfName.submitted && eInfo.errors?.required"
+										class="form-control-feedback text-danger">
+										<small>{{
+											"litemore.partner.infoError" | translate
+										}}</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- action buttons -->
+					<div class="box-footer">
+						<button
+							type="button"
+							(click)="showPartners()"
+							class="btn btn-sm btn-dark">
+							<i class="me-2">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									fill="currentColor"
+									class="bi bi-people"
+									viewBox="0 0 16 16">
+									<path
+										d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
+								</svg>
+							</i>
+							{{ "litemore.partner.showPartners" | translate }}
+						</button>
+						<button type="submit" class="btn btn-sm btn-info pull-right">
+							<i class="me-2">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									fill="currentColor"
+									class="bi bi-sd-card"
+									viewBox="0 0 16 16">
+									<path
+										d="M6.25 3.5a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2zm2 0a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2zm2 0a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2zm2 0a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2z" />
+									<path
+										fill-rule="evenodd"
+										d="M5.914 0H12.5A1.5 1.5 0 0 1 14 1.5v13a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5V3.914c0-.398.158-.78.44-1.06L4.853.439A1.5 1.5 0 0 1 5.914 0zM13 1.5a.5.5 0 0 0-.5-.5H5.914a.5.5 0 0 0-.353.146L3.146 3.561A.5.5 0 0 0 3 3.914V14.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-13z" />
+								</svg>
+							</i>
+							{{ "litemore.partner.savePartner" | translate }}
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,16 @@
+export { ClassesComponent } from "./classes.component";
+export { ManageComponent } from "./manage/manage.component";
+export { MyClassesComponent} from "./my-classes/my-classes.component";
+export { NewComponent } from "./new/new.component";
+export { StreamsComponent } from "./streams/streams.component";
+export { ManageSubjectComponent } from "./manage-subject/manage-subject.component";
+export { ManageStreamComponent } from "./manage-stream/manage-stream.component";
+export { SubjectCommentsComponent } from "./subject-comments/subject-comments.component";
+export { ClassesTopNavComponent } from "./classes-top-nav/classes-top-nav.component";
+export { TakeAttendanceComponent } from "./olevel/take-attendance/take-attendance.component";
+export { AttendanceReportComponent } from "./olevel/attendance-report/attendance-report.component";
+export { OlevelSubjectsComponent } from "./olevel/olevel-subjects/olevel-subjects.component";
+export { SubjectTopicsComponent } from "./olevel/subject-topics/subject-topics.component";
+export { TopicCompetenciesComponent } from "./olevel/topic-competencies/topic-competencies.component";
+export { AddClassSuccessComponent } from "./components/add-class-success/add-class-success.component";
+export { SubjectStudentAdditionComponent } from "./manage-subject/components/subject-student-addition/subject-student-addition.component";

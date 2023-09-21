@@ -1,0 +1,238 @@
+<!-- Content Header (Page header) -->
+<div class="content-header d-md-none">
+	<div class="d-flex align-items-center">
+		<div class="me-auto">
+			<h3 class="page-title">{{ "litemore.banners.title" | translate }}</h3>
+			<div class="d-inline-block align-items-center">
+				<nav>
+					<ol class="breadcrumb text-dark">
+						<li class="breadcrumb-item" aria-current="page">{{ "litemore.banners.title" | translate }}</li>
+						<li class="breadcrumb-item active" aria-current="page">{{ "common.list" | translate }}</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+
+		<div class="d-md-none">
+			<button type="button" class="btn btn-success btn-sm pull-right" (click)="clearCache()">
+				{{ 'litemore.clearCache' | translate }}
+			</button>
+		</div>
+	</div>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+	<!-- title and clear cache btn -->
+	<div class="row">
+		<div class="col-12">
+			<div class="box">
+				<div class="box-header with-border">
+					<div class="row justify-content-between align-items-center">
+						<!-- header text -->
+						<div class="col-12 col-md-6">
+							<h4 class="box-title d-none d-md-inline-block">{{ "litemore.banners.title" | translate }}
+							</h4>
+						</div>
+
+						<div class="col-12 col-md-6 d-md-flex justify-content-end align-items-center">
+							<!-- search -->
+							<form [formGroup]="searchForm" (ngSubmit)="submitSearchForm()">
+								<div class="input-group">
+									<input formControlName="searchTerm" type="text" class="form-control"
+										[placeholder]="'common.searchByTitle' | translate" />
+									<span class="input-group-text" style="cursor: pointer;" (click)="resetSearchForm()">
+										<i class="fa fa-times"></i>
+									</span>
+								</div>
+							</form>
+
+							<!-- clear cache -->
+							<div class="d-none d-md-inline-block ms-md-10">
+								<button type="button" class="btn btn-success btn-sm pull-right no-wrap"
+									(click)="clearCache()">
+									{{ 'litemore.clearCache' | translate }}
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- banner list -->
+	<div *ngIf="!selectedBanner" class="row">
+		<ng-container *ngIf="isLoadingBanners; else bannersLoadedUI">
+			<div class="col-12">
+				<div class="box">
+					<div class="box-body">
+						<app-loader-div [height]="250"></app-loader-div>
+					</div>
+				</div>
+			</div>
+		</ng-container>
+
+		<ng-template #bannersLoadedUI>
+			<div class="col-12">
+				<div class="box">
+					<div class="box-header py-2">
+						<div class="d-flex justify-content-between align-items-center">
+							<span class="fw-600">{{ "litemore.banners.bannersManagement" | translate }}</span>
+
+							<app-banner-addition [isLoadingCountries]="isLoadingCountries" [allCountries]="allCountries"
+								(onAdditionSuccess)="onBannerAdditionSuccess()">
+							</app-banner-addition>
+						</div>
+					</div>
+
+					<div *ngIf="dataSource.filteredData.length > 0; else emptyListUI" class="box-body pt-3">
+						<div class="table-responsive">
+							<table class="table table-sm table-striped table-bordered">
+								<thead>
+									<tr>
+										<th scope="col" class="w-30">#</th>
+										<th scope="col" class="text-uppercase">{{ 'common.title' | translate }}</th>
+										<th scope="col" class="text-uppercase">{{ 'common.countries' | translate }}</th>
+										<th scope="col" class="text-uppercase">{{ 'litemore.banners.targetUsers' |
+											translate }}</th>
+										<th scope="col" class="text-uppercase">{{ 'common.status' | translate }}</th>
+										<th scope="col" class="text-uppercase">{{ 'common.startDate' | translate }}</th>
+										<th scope="col" class="text-uppercase">{{ 'common.endDate' | translate }}</th>
+										<th scope="col" class="text-uppercase text-center" colSpan="2">{{
+											'common.actions' | translate }}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let banner of dataSource?.filteredData; index as index">
+										<th scope="row">{{ index | paginatedListIndex : pageInfo?.currentPage :
+											itemsPerPage }}</th>
+										<td scope="row">{{ banner.title }}</td>
+										<td scope="row">
+											<ng-container
+												*ngFor="let country of banner.showInCountries; last as isLast">
+												<span class="me-1">{{ country.name }}{{ isLast ? "" : "," }}</span>
+											</ng-container>
+										</td>
+										<td scope="row">
+											<ng-container *ngFor="let user of banner.targetUsers; last as isLast">
+												<span class="me-1">{{ user }}{{ isLast ? "" : "," }}</span>
+											</ng-container>
+										</td>
+										<td scope="row">{{ banner.bannerStatus }}</td>
+										<td scope="row">{{ banner.startDate | date:'MMM dd, YYYY' }}</td>
+										<td scope="row">{{ banner.endDate | date:'MMM dd, YYYY' }}</td>
+										<td scope="row">
+											<div class="d-flex justify-content-center">
+												<button class="btn btn-sm btn-dark" (click)="setSelectedBanner(banner)">
+													<i class="bi bi-eye"></i>
+													{{ 'litemore.banners.viewImages' | translate }}
+												</button>
+											</div>
+										</td>
+										<td scope="row">
+											<div class="d-flex justify-content-center">
+												<!-- Update -->
+												<app-banner-addition
+													[isNewRecord]="false"
+													[bannerItem]="banner"
+													[isLoadingCountries]="isLoadingCountries"
+													[allCountries]="allCountries"
+													(onUpdateSuccess)="onBannerUpdateSuccess()">
+												</app-banner-addition>
+
+												<!-- Delete -->
+												<button type="button"
+													class="waves-effect waves-light btn btn-danger btn-sm"
+													(click)="confirmBannerDeletion(banner, index)"
+													[disabled]="isDeletingBanner && bannerIndexDeleted == index">
+													<i *ngIf="isDeletingBanner && bannerIndexDeleted == index"
+														class="fa fa-spinner fa-spin"></i>
+													<i *ngIf="!(isDeletingBanner && bannerIndexDeleted == index)"
+														class="bi bi-trash"></i>
+												</button>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<!-- pagination -->
+						<app-litemore-list-pagination [pageInfo]="pageInfo" (onPageChange)="onPageChanged($event)">
+						</app-litemore-list-pagination>
+					</div>
+
+					<!-- empty list -->
+					<ng-template #emptyListUI>
+						<div class="box-body text-center">
+							<h4>{{ 'common.noResultsFound' | translate }}</h4>
+						</div>
+					</ng-template>
+				</div>
+			</div>
+		</ng-template>
+	</div>
+
+	<!-- selected banner images -->
+	<ng-container *ngIf="selectedBanner">
+		<div class="box">
+			<div class="box-body pt-2">
+				<div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+					<div>
+						<span class="fw-bold text-uppercase">
+							{{ 'litemore.banners.images' | translate }} ({{ selectedBanner.title }})
+						</span>
+					</div>
+
+					<button class="btn btn-sm btn-dark" (click)="closeBannerImagesSection()">
+						<i class="bi bi-x"></i>
+						{{ 'common.close' | translate }}
+					</button>
+				</div>
+
+				<div class="d-flex justify-content-between align-items-center mb-2">
+					<span class="d-block fw-bold">{{ 'litemore.banners.desktopVersion' | translate }}</span>
+					<input type="file" accept="image/*" class="d-none" (change)="onFileSelected($event, 'desktop')"
+						#desktopFileUpload>
+					<button class="btn btn-info btn-sm" [disabled]="isUpdatingBanner"
+						(click)="desktopFileUpload.click()">
+						<span *ngIf="isUpdatingBanner && targetDevice === 'desktop'"
+							class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+						<i *ngIf="!isUpdatingBanner" class="bi bi-cloud-upload"></i>
+						{{ 'common.update' | translate }}
+					</button>
+				</div>
+				<img [src]="selectedBanner.desktopImageUrl" alt="" class="mb-3">
+
+				<div class="d-flex justify-content-between align-items-center mb-2">
+					<span class="d-block fw-bold">{{ 'litemore.banners.tabletVersion' | translate }}</span>
+					<input type="file" accept="image/*" class="d-none" (change)="onFileSelected($event, 'tablet')"
+						#tabletFileUpload>
+					<button class="btn btn-info btn-sm" [disabled]="isUpdatingBanner"
+						(click)="tabletFileUpload.click()">
+						<span *ngIf="isUpdatingBanner && targetDevice === 'tablet'"
+							class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+						<i *ngIf="!isUpdatingBanner" class="bi bi-cloud-upload"></i>
+						{{ 'common.update' | translate }}
+					</button>
+				</div>
+				<img [src]="selectedBanner.tabletImageUrl" alt="" class="mb-3">
+
+				<div class="d-flex justify-content-between align-items-center mb-2">
+					<span class="d-block fw-bold">{{ 'litemore.banners.mobileVersion' | translate }}</span>
+					<input type="file" accept="image/*" class="d-none" (change)="onFileSelected($event, 'mobile')"
+						#mobileFileUpload>
+					<button class="btn btn-info btn-sm" [disabled]="isUpdatingBanner"
+						(click)="desktopFileUpload.click()">
+						<span *ngIf="isUpdatingBanner && targetDevice === 'mobile'"
+							class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+						<i *ngIf="!isUpdatingBanner" class="bi bi-cloud-upload"></i>
+						{{ 'common.update' | translate }}
+					</button>
+				</div>
+				<img [src]="selectedBanner.mobileImageUrl" alt="" class="mb-3">
+			</div>
+		</div>
+	</ng-container>
+</section>

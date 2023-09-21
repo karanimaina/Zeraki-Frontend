@@ -1,0 +1,575 @@
+<!-- Main content -->
+<section class="content mt-config ">
+	<ng-container *ngIf="isLoadingExamsToPublish;then loadingData else loadingComplete"></ng-container>
+
+	<ng-template #loadingData>
+		<div class="box">
+			<div class="box-body">
+				<app-loader-div [height]="40"></app-loader-div>
+			</div>
+			<div class="box-body">
+				<app-loader-div [height]="100"></app-loader-div>
+			</div>
+		</div>
+	</ng-template>
+
+	<ng-template #loadingComplete>
+		<div *ngIf="examsToPublish.length > 0">
+			<ng-container *ngIf="!schoolData;else loadedForm">
+				<div class="box">
+					<div class="box-body">
+						<app-loader-div [height]="40"></app-loader-div>
+					</div>
+				</div>
+			</ng-container>
+			<ng-template #loadedForm>
+				<p class="fw-600">
+					<!-- Publish Results - {{ schoolData?.formoryear }} {{basicDetails?.form}} -->
+					{{"exams.publishExams.textPublishExam"|translate:{
+					formoryear: schoolData?.formoryear,
+					form: basicDetails.form
+					}
+					}}
+				</p>
+			</ng-template>
+			<!-- <pre>{{routeParams|json}}</pre> -->
+			<!-- <pre>{{selectedListExam?.classes|json}}</pre> -->
+			<div class="box">
+				<div class="box-body">
+					<div class="form-group">
+						<label class="form-label"><b>
+								<!-- Exam -->
+								{{"exams.publishExams.textExam"|translate}}
+							</b></label>
+						<ng-select [notFoundText]="'common.noItemsFound' | translate" placeholder="Select exam"
+							class="form-control-dropdown" [name]="selectedListExam.exam_menu_name"
+							[(ngModel)]="selectedListExam" groupBy="term_menu_name" (change)="initSSTREandReminders()"
+							[items]="list.list" bindLabel="exam_menu_name">
+							<ng-template ng-optgroup-tmp let-item="item">
+								<span class="fw-bolder">
+									{{item.term_menu_name || ''}}
+								</span>
+							</ng-template>
+						</ng-select>
+					</div>
+					<div>
+						<p class="fw-600">
+							<!-- Status of Class Results -->
+							{{"exams.publishExams.textStatusClassResults"|translate}}
+						</p>
+						<div class="table-responsive">
+							<table class="table table-sm table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>
+											<!-- Class -->
+											{{"exams.publishExams.textClass"|translate}}
+										</th>
+										<th colspan="2">
+											<!-- Status -->
+											{{"exams.publishExams.textStatus"|translate}}
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let classes of selectedListExam?.classes"
+										[routerLink]="['/main/exams/manage/publish/status',classes.stream_id,routeParams.seriesId]"
+										style="cursor: pointer">
+										<td>
+											{{schoolData?.formoryear + ' ' + classes.class + ' ' + classes.stream}}
+										</td>
+										<td>
+											<span>
+												<i *ngIf="classes.edit && classes.msg === undefined"
+													class="fa fa-check text-success"></i>
+												<i *ngIf="classes.edit && classes.msg !== undefined"
+													class="fa fa-times text-success"></i>
+												<i *ngIf="!classes.edit" class="fa fa-times text-warning"></i>
+											</span>
+											<span *ngIf="classes.msg !== undefined">
+												{{" (" + classes.msg + ")"}}
+											</span>
+										</td>
+										<td style="border-left: none;">
+											<button
+												[routerLink]="['/main/exams/manage/publish/status',classes.stream_id,routeParams.seriesId]"
+												class="btn btn-secondary btn-sm">
+												<!-- View -->
+												{{"exams.publishExams.btnTextView"|translate}}
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<div class="col-xs-12 col-md-12" *ngIf="!(selectedListExam.publish) && !(show_reminder)"
+						style="padding: 0; margin: 16px 0 16px 0">
+						<div *ngIf="!edit_min_subjects.show">
+							<label class="form-label" for="minsubjectsedisplay">
+								<!-- Minimum Number of Subjects That Can Be Taken -->
+								{{"exams.publishExams.textMinNumberSubject"|translate}}
+							</label>
+							<div class="input-group">
+								<input type="text" class="form-control" [disabled]="true" name="minsubjectsedisplay"
+									id="minsubjectsedisplay" [(ngModel)]="selectedListExam.min">
+								<button class="btn btn-secondary btn-sm" type="button" id="minsubjectsedisplay"
+									(click)="init_edit_min_num_of_subjects(true)">
+									<!-- Edit -->
+									{{"exams.publishExams.btnTextEdit"|translate}}
+								</button>
+							</div>
+						</div>
+						<div *ngIf="edit_min_subjects.show">
+							<label class="form-label" for="minsubjectsedit">
+								<!-- Minimum Number of Subjects That Can Be Taken -->
+								{{"exams.publishExams.textMinNumberSubject"|translate}}
+							</label>
+							<div class="input-group">
+								<input type="number" class="form-control"
+									title='{{"exams.publishExams.titleTextMinimum"|translate}}' name="minsubjectsedit"
+									id="minsubjectsedit" [(ngModel)]="edit_min_subjects.new_value">
+								<button class="btn btn-secondary btn-sm" type="button" id="minsubjectsedisplay"
+									(click)="init_edit_min_num_of_subjects(false)">
+									<!-- Cancel -->
+									{{"exams.publishExams.btnTextCancel"|translate}}
+								</button>
+								<button class="btn btn-success btn-sm" type="button" id="minsubjectsedisplay"
+									(click)="save_min_num_of_subjects()">
+									<!-- Save -->
+									{{"exams.publishExams.btnTextSave"|translate}}
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div *ngIf="selectedListExam.publish">
+						<div class="mb-3" [hidden]="show_reminder || (schoolData && schoolData.isKcpePrimarySchool )">
+
+							<ui-kenyan-school [template]="rankingCriteriaRadioButtons"></ui-kenyan-school>
+							<ui-ghana-school [template]="rankingCriteriaRadioButtons"></ui-ghana-school>
+							<ui-tanzania-school [template]="rankingCriteriaRadioButtons"></ui-tanzania-school>
+							<ui-zimbabwe-school [template]="rankingCriteriaRadioButtons"></ui-zimbabwe-school>
+							<ui-zambia-school [template]="rankingCriteriaRadioButtons"></ui-zambia-school>
+							<ui-south-africa-school [template]="rankingCriteriaRadioButtons"></ui-south-africa-school>
+
+							<ng-template #rankingCriteriaRadioButtons>
+								<p>{{"exams.publishExams.textRankingCriteria"|translate}}</p>
+								<div class="row">
+									<div class="col-4">
+										<input name="rankingCriteria" type="radio" [checked]="rankCriteria == 0"
+											(click)="toggleRankingCriteria(0)" id="mean_marks"
+											class="with-gap radio-col-info">
+										<label for="mean_marks">
+											{{ isSouthAfricanSchool ? ("exams.publishExams.textRankByAverageMarks"|translate) : "exams.publishExams.textRankByMeanMarks"|translate}}
+										</label>
+									</div>
+
+									<ui-kcse-school [template]="kcsePointsRadioBtn"></ui-kcse-school>
+
+									<ng-template #kcsePointsRadioBtn>
+										<div class="col-4">
+											<input name="rankingCriteria" type="radio" [checked]="rankCriteria == 1"
+												(click)="toggleRankingCriteria(1)" id="KCSE_points"
+												class="with-gap radio-col-info">
+											<label for="KCSE_points">
+												{{"exams.publishExams.textRankByKcsePoints"|translate}}
+											</label>
+										</div>
+									</ng-template>
+
+									<ui-kenyan-school [template]="meanPointsRadioBtn"></ui-kenyan-school>
+									<ui-ghana-school [template]="meanPointsRadioBtn"></ui-ghana-school>
+									<ui-tanzania-secondary-school
+										[template]="meanPointsRadioBtn"></ui-tanzania-secondary-school>
+									<ui-zimbabwe-school [template]="meanPointsRadioBtn"></ui-zimbabwe-school>
+									<ui-zambia-school [template]="meanPointsRadioBtn"></ui-zambia-school>
+
+									<ng-template #meanPointsRadioBtn>
+										<div class="col-4">
+											<input name="rankingCriteria" [checked]="rankCriteria == 2"
+												(click)="toggleRankingCriteria(2)" type="radio" id="mean_points"
+												class="with-gap radio-col-info">
+											<label for="mean_points">
+												<!-- Rank by mean points -->
+												{{"exams.publishExams.textRankByMeanPoints"|translate}}
+											</label>
+										</div>
+									</ng-template>
+								</div>
+							</ng-template>
+						</div>
+						<div class="form-group"
+							*ngIf="((rankCriteria == 0 || rankCriteria == 2) || isMentionSchool) && !show_reminder">
+							<label class="form-label fw-600">
+								<b>
+									<!-- Minimum Number of subjects that can be taken -->
+									{{"exams.publishExams.textMinNumberSubject"|translate}}
+								</b>
+							</label>
+							<input type="number" [min]="schoolData.minSubjects" [(ngModel)]="selectedListExam.min"
+								class="form-control" placeholder="Minimum number of subjects that can be taken">
+						</div>
+
+						<div class="form-group"
+							*ngIf="(rankCriteria == 0 || isMentionSchool) && !show_reminder">
+							<!-- <pre>{{selected_gs|json}}</pre> -->
+
+							<label class="form-label fw-600"><b>
+									<ui-kenyan-school [template]="textOverallGradingSystem"></ui-kenyan-school>
+									<ui-ghana-school [template]="textOverallGradingSystem"></ui-ghana-school>
+									<ui-tanzania-school [template]="textOverallGradingSystem"></ui-tanzania-school>
+									<ui-zimbabwe-school [template]="textOverallGradingSystem"></ui-zimbabwe-school>
+									<ui-zambia-school [template]="textOverallGradingSystem"></ui-zambia-school>
+
+									<ng-template #textOverallGradingSystem>
+										{{ "exams.publishExams.textOverallGs"|translate }}
+									</ng-template>
+
+									<ui-guinea-school [template]="overallMentionTemplate"></ui-guinea-school>
+									<ui-south-africa-school
+										[template]="overallMentionTemplate"></ui-south-africa-school>
+
+									<ng-template #overallMentionTemplate>
+										<span>
+											{{ "exams.publishExams.textOverallMention"|translate }}
+										</span>
+									</ng-template>
+
+									<ui-ivory-coast-school [template]="textOverallAppreciation"></ui-ivory-coast-school>
+
+									<ng-template #textOverallAppreciation>
+										<span>
+											{{ "exams.publishExams.textOverallAppreciation"|translate }}
+										</span>
+									</ng-template>
+
+								</b> </label>
+							<select name="overallGradingSystem" [(ngModel)]="selectedGradingSystem" id=""
+								[ngClass]="{'is-invalid':buttonClicked && selectedGradingSystem == -1}"
+								class="form-select">
+								<option value="-1">
+									<ui-kenyan-school [template]="textSelectOverallGradingSystem"></ui-kenyan-school>
+									<ui-ghana-school [template]="textSelectOverallGradingSystem"></ui-ghana-school>
+									<ui-tanzania-school
+										[template]="textSelectOverallGradingSystem"></ui-tanzania-school>
+									<ui-zimbabwe-school
+										[template]="textSelectOverallGradingSystem"></ui-zimbabwe-school>
+									<ui-zambia-school
+										[template]="textSelectOverallGradingSystem"></ui-zambia-school>
+
+									<ng-template #textSelectOverallGradingSystem>
+										{{ "exams.publishExams.textSelectGs"|translate }}
+									</ng-template>
+
+									<ui-guinea-school [template]="selectMentionTemplate"></ui-guinea-school>
+									<ui-ivory-coast-school
+										[template]="selectAppreciationTemplate"></ui-ivory-coast-school>
+									<ui-south-africa-school [template]="selectMentionTemplate"></ui-south-africa-school>
+
+									<ng-template #selectMentionTemplate>
+										<span>
+											{{ "exams.publishExams.textSelectMention"|translate }}
+										</span>
+									</ng-template>
+									<ng-template #selectAppreciationTemplate>
+										<span>
+											{{ "exams.publishExams.textSelectAppreciation"|translate }}
+										</span>
+									</ng-template>
+								</option>
+								<option *ngFor="let gs of gradingSystem"
+									[value]="isMentionSchool ? gs.mentionSystemId : gs.gsid">{{gs.title}}</option>
+							</select>
+							<div class="text-danger" *ngIf="buttonClicked && selectedGradingSystem == -1">
+								<ui-kenyan-school [template]="textSelectOverallGradingSystem"></ui-kenyan-school>
+								<ui-ghana-school [template]="textSelectOverallGradingSystem"></ui-ghana-school>
+								<ui-tanzania-school [template]="textSelectOverallGradingSystem"></ui-tanzania-school>
+								<ui-zimbabwe-school [template]="textSelectOverallGradingSystem"></ui-zimbabwe-school>
+								<ui-zambia-school [template]="textSelectOverallGradingSystem"></ui-zambia-school>
+
+								<ui-guinea-school [template]="selectMentionTemplate"></ui-guinea-school>
+								<ui-ivory-coast-school [template]="selectMentionTemplate"></ui-ivory-coast-school>
+								<ui-south-africa-school [template]="selectMentionTemplate"></ui-south-africa-school>
+							</div>
+						</div>
+						<div *ngIf="!show_reminder">
+							<p class="fw-600 text-capitalize">
+								<!-- Subject grading Systems -->
+								<ui-kenyan-school [template]="textSubjectGradingSystem"></ui-kenyan-school>
+								<ui-ghana-school [template]="textSubjectGradingSystem"></ui-ghana-school>
+								<ui-tanzania-school [template]="textSubjectGradingSystem"></ui-tanzania-school>
+								<ui-zimbabwe-school [template]="textSubjectGradingSystem"></ui-zimbabwe-school>
+								<ui-zambia-school [template]="textSubjectGradingSystem"></ui-zambia-school>
+
+								<ng-template #textSubjectGradingSystem>
+									{{ "exams.publishExams.textSubjectGs"|translate }}
+								</ng-template>
+
+								<ui-guinea-school [template]="subjectMentionTemplate"></ui-guinea-school>
+								<ui-ivory-coast-school [template]="subjectMentionTemplate"></ui-ivory-coast-school>
+								<ui-south-africa-school [template]="subjectMentionTemplate"></ui-south-africa-school>
+
+								<ng-template #subjectMentionTemplate>
+									{{ "exams.publishExams.textSubjectMentionLabel" | translate:{mention:
+									schoolData.mentionLabel} }}
+								</ng-template>
+							</p>
+							<div class="table-responsive">
+								<table class="table table-sm table-bordered table-striped table-hover">
+									<thead>
+										<tr>
+											<th>
+												{{"exams.publishExams.textSubject"|translate}}
+											</th>
+											<th>
+												<ui-kenyan-school [template]="gradingSystemLabelText"></ui-kenyan-school>
+												<ui-ghana-school [template]="gradingSystemLabelText"></ui-ghana-school>
+												<ui-tanzania-school [template]="gradingSystemLabelText"></ui-tanzania-school>
+												<ui-zimbabwe-school [template]="gradingSystemLabelText"></ui-zimbabwe-school>
+												<ui-zambia-school [template]="gradingSystemLabelText"></ui-zambia-school>
+
+												<ng-template #gradingSystemLabelText>
+													{{ "exams.publishExams.textGs" | translate }}
+												</ng-template>
+
+												<ui-guinea-school [template]="mentionLabelText"></ui-guinea-school>
+												<ui-ivory-coast-school [template]="mentionLabelText"></ui-ivory-coast-school>
+												<ui-south-africa-school [template]="mentionLabelText"></ui-south-africa-school>
+
+												<ng-template #mentionLabelText>
+													{{ schoolData.mentionLabel }}
+												</ng-template>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let subject of selectedListExamSubjects; let i = index">
+											<td>
+												{{subject.name}}
+											</td>
+											<td>
+												<select name="name" [(ngModel)]="subject.gsid"
+													[ngClass]="{'is-invalid':buttonClicked && subject.gsid == -1}"
+													class="form-select">
+													<option value="-1">
+														<ui-kenyan-school
+															[template]="textSelectSubjectGradingSystem"></ui-kenyan-school>
+														<ui-ghana-school
+															[template]="textSelectSubjectGradingSystem"></ui-ghana-school>
+														<ui-tanzania-school
+															[template]="textSelectSubjectGradingSystem"></ui-tanzania-school>
+														<ui-zimbabwe-school
+															[template]="textSelectSubjectGradingSystem"></ui-zimbabwe-school>
+														<ui-zambia-school
+															[template]="textSelectSubjectGradingSystem"></ui-zambia-school>
+
+														<ng-template #textSelectSubjectGradingSystem>
+															{{ "exams.publishExams.textSelectGs"|translate }}
+														</ng-template>
+
+														<ui-guinea-school
+															[template]="selectMentionTemplate"></ui-guinea-school>
+														<ui-ivory-coast-school
+															[template]="selectMentionTemplate"></ui-ivory-coast-school>
+														<ui-south-africa-school
+															[template]="selectMentionTemplate"></ui-south-africa-school>
+
+														<ng-template #selectMentionTemplate>
+															{{ "exams.publishExams.textSelectMentionLabel" |
+															translate:{mention: schoolData.mentionLabel} }}
+														</ng-template>
+													</option>
+													<option *ngFor="let gs of gradingSystem" [value]="gs.gsid">
+														{{gs.title}}</option>
+												</select>
+												<div class="text-danger" *ngIf="buttonClicked && subject.gsid == -1">
+													<ui-kenyan-school
+														[template]="textSelectSubjectGradingSystem"></ui-kenyan-school>
+													<ui-ghana-school
+														[template]="textSelectSubjectGradingSystem"></ui-ghana-school>
+													<ui-tanzania-school
+														[template]="textSelectSubjectGradingSystem"></ui-tanzania-school>
+													<ui-zimbabwe-school
+														[template]="textSelectSubjectGradingSystem"></ui-zimbabwe-school>
+													<ui-zambia-school
+														[template]="textSelectSubjectGradingSystem"></ui-zambia-school>
+
+													<ui-guinea-school
+														[template]="selectMentionTemplate"></ui-guinea-school>
+													<ui-ivory-coast-school
+														[template]="selectMentionTemplate"></ui-ivory-coast-school>
+													<ui-south-africa-school
+														[template]="selectMentionTemplate"></ui-south-africa-school>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-12" style="padding: 16px 0 5px 0"
+							*ngIf="schoolData.isKcpePrimarySchool && selectedListExam.sstre_combinable && !show_reminder">
+							<span style="margin-right: 3px">
+								<input type="checkbox" id="combine_sstre" class="filled-in" [(ngModel)]="combine_sstre"
+									name="combine_sstre" [checked]="combine_sstre"
+									[ngClass]="{'chk-col-success': combine_sstre}">
+								<label for="combine_sstre">
+									<!-- Combine Social Studies and Religious Education -->
+									{{"exams.publishExams.textCombineSocialandRe"|translate}}
+								</label>
+							</span>
+						</div>
+						<div class="table-responsive col-md-12 no-padding" style="margin: 0px 0px 0 0px;"
+							*ngIf="schoolData.isKcpePrimarySchool && combine_sstre && !show_reminder">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th>
+											<!-- Subject -->
+											{{"exams.publishExams.textSubject"|translate}}
+										</th>
+										<th>
+											<!-- Ratio -->
+											{{"exams.publishExams.textRatio"|translate}}
+										</th>
+									</tr>
+								<tbody>
+									<tr>
+										<td style="vertical-align: middle">
+											<!-- Social Studies -->
+											{{"exams.publishExams.textSocialStudies"|translate}}
+										</td>
+										<td style="vertical-align: middle">
+											<span>
+												<input [required]="combine_sstre" type="number" min="1"
+													title='{{"exams.publishExams.inputTitleText"|translate}}'
+													placeholder="70" name="sstratio" id="sstratio"
+													[(ngModel)]="sst_ratio" class="form-control">
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td style="vertical-align: middle">
+											<!-- Religious Education -->
+											{{"exams.publishExams.textReligiousEducation"|translate}}
+										</td>
+										<td style="vertical-align: middle">
+											<span>
+												<input [required]="combine_sstre" type="number" min="1"
+													title='{{"exams.publishExams.inputTitleText"|translate}}'
+													placeholder="30" name="reratio" id="reratio" [(ngModel)]="re_ratio"
+													class="form-control">
+											</span>
+										</td>
+									</tr>
+							</table>
+						</div>
+					</div>
+
+					<div class="form-group mt-10" [hidden]="show_reminder">
+						<span class="pull-left">
+							<button [routerLink]="['/main/exams/manage']"
+								class="btn btn-sm btn-dark waves-effect waves-light text-capitalize me-2">
+								<!-- back -->
+								{{"exams.publishExams.btnTextBack"|translate}}
+							</button>
+							<div class="btn-group">
+								<button type="button"
+									class="waves-effect waves-light btn btn-secondary btn-sm dropdown-toggle"
+									data-bs-toggle="dropdown">
+									<!-- Action -->
+									{{"exams.publishExams.btnTextAction"|translate}}
+								</button>
+								<div class="dropdown-menu">
+									<a class="dropdown-item"
+										[routerLink]="['/main/exams/manage/publish/status/marklist', selectedListExam.examid, -1,basicDetails.intakeid, -1, -1]">
+										<!-- Download Results -->
+										{{"exams.publishExams.btnDownloadResults"|translate}}
+									</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" (click)="show_reminder = true">
+										<!-- Send Reminders -->
+										{{"exams.publishExams.btnTextSendReminders"|translate}}
+									</a>
+								</div>
+							</div>
+						</span>
+						<span class="pull-right" *ngIf="selectedListExam.publish">
+							<span *ngIf="showLoading;then showLoaderDiv else showButton"></span>
+							<ng-template #showLoaderDiv>
+								<app-loader-pulse style="float: right;margin: 10px;"></app-loader-pulse>
+							</ng-template>
+							<ng-template #showButton>
+								<button (click)="publishSeries()"
+									class="btn btn-sm btn-info waves-effect waves-light text-capitalize">
+									<i class="fa fa-newspaper-o"></i>
+									<!-- publish results -->
+									{{"exams.publishExams.btnTextPublishResults"|translate}}
+								</button>
+							</ng-template>
+						</span>
+					</div>
+					<div class="col-md-12 no-padding" *ngIf="show_reminder">
+						<div class="col-md-12" style="padding: 0 0 16px 0">
+							<label class="form-label">
+								<!-- Reminder - Subject Teacher -->
+								{{"exams.publishExams.textReminderSubjectTeacher"|translate}}
+							</label>
+							<div>{{reminder_st}}</div>
+						</div>
+						<div class="col-md-12 no-padding">
+							<span class="btn-group pull-left">
+								<button type="button" (click)="show_reminder = false; initItems()"
+									class="btn btn-dark btn-sm">
+									<!-- Discard Reminders -->
+									{{"exams.publishExams.btnTextDiscardReminders"|translate}}
+								</button>
+							</span>
+							<span class="pull-right">
+								<button *ngIf="!isSendingReminders" type="button" (click)="sendReminders()"
+									class="btn btn-success btn-sm">
+									<!-- Send Reminders -->
+									{{"exams.publishExams.btnTextSendReminders"|translate}}
+								</button>
+								<app-loader-pulse *ngIf="isSendingReminders"
+									style="display: inline-block;"></app-loader-pulse>
+							</span>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12" style="padding: 0 0 16px 0" *ngIf="error_exam">
+					<span class="help-block small" style="color:#d62c1a">
+						{{error_msg}}
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="box" *ngIf="examsToPublish.length === 0 || examsToPublish.length === undefined">
+			<div class="box-body mt-10" style="padding: 0;float: none; margin: 0 auto;">
+				<div class="hpanel text-left">
+					<div class="alert alert-success">
+						<i class="fa fa-bolt"></i>
+						<!-- No Results To Publish  -->
+						{{"exams.publishExams.textNoResultsToPublish"|translate}}
+					</div>
+					<div class="panel-body">
+						<div style="padding-bottom: 16px">
+							<!-- No results found to publish -->
+							{{"exams.publishExams.textNoResultsToPublish"|translate}}
+						</div>
+						<span class="pull-right">
+							<button (click)="_location.back()" class="btn btn-success btn-sm">
+								<!-- Back -->
+								{{"exams.publishExams.btnTextBack"|translate}}
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ng-template>
+
+</section>

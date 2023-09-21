@@ -1,0 +1,226 @@
+<div class="row">
+	<div class="col-lg-12">
+		<form [formGroup]="editStaffForm" class="form" (ngSubmit)="updateTeacher()">
+			<div class="row">
+				<div class="col-md-4 ">
+					<div class="box" style="height: max-content;">
+						<div class="box-body">
+							<div class="box box-body b-1 text-center no-shadow rounded-circle">
+								<img [src]="staff?.imageUrl"
+									(error)="staff.imageUrl = 'assets/img/avatar/p_avatar_blue.png'" id="profile-image"
+									class="img-fluid rounded-circle mb-20 mx-auto" alt=""
+									style="height: 150px; width: 150px;" />
+
+								<h4><b>{{staff.name}}</b></h4>
+								<h5 class="text-muted">{{staff.email}}</h5>
+
+								<div class="text-start mt-15">
+									<div class="form-group">
+										<label>{{ 'teachers.manageTeachers.teacherListItemUpdate.profilePhoneNumber'|
+											translate }}: </label>
+										<b>
+											<a href="tel:{{staff.phone}}" class="user-info mt-0 mb-10 fs-6 text-info">
+												{{ staff?.phone || "07/1xxxxxxxx"}}
+											</a>
+										</b>
+									</div>
+
+									<div class="form-group">
+										<label class="form-label text-uppercase">
+											{{ 'teachers.manageTeachers.teacherListItemUpdate.profileSignatureAltText' |
+											translate }}
+										</label>
+										<div *ngIf="isTeacher" class="mb-10">
+											<img src="assets/img/sig_default.jpg" height="80" width="160"
+												[alt]="'teachers.manageTeachers.teacherListItemUpdate.profileSignatureAltText' | translate">
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="clear"></div>
+
+							<div class="d-flex"
+								[ngClass]="(isTeacher && userRoles?.isSuperAdmin) ? 'justify-content-between' : 'justify-content-end'">
+								<div *ngIf="isTeacher && userRoles?.isSuperAdmin && canDeleteStaff">
+									<ng-container *ngIf="!staff.superAdmin && qualifiesForSuperAdminRole">
+										<button class="btn btn-sm btn-info" type="button"
+											[title]="'teachers.manageTeachers.teacherListItemUpdate.makeSuperAdmin' | translate"
+											[disabled]="isUpdatingSuperAdminRights" (click)="handleSuperAdmin(true)">
+											{{ 'teachers.manageTeachers.teacherListItemUpdate.makeSuperAdmin' |
+											translate }}
+										</button>
+									</ng-container>
+
+									<ng-container *ngIf="staff.superAdmin && superAdminRightsCanBeRevoked">
+										<button class="btn btn-sm btn-warning" type="button"
+											[title]="'teachers.manageTeachers.teacherListItemUpdate.revokeSuperAdmin' | translate"
+											[disabled]="isUpdatingSuperAdminRights" (click)="handleSuperAdmin(false)">
+											{{ 'teachers.manageTeachers.teacherListItemUpdate.revokeSuperAdmin' |
+											translate }}
+										</button>
+									</ng-container>
+								</div>
+
+								<div *ngIf="canDeleteStaff" class="form-group text-end d-flex justify-content-between">
+									<span></span>
+									<div style="display:inline-block">
+										<button (click)="deleteTeacherConfirm()"
+											class="btn btn-sm btn-danger waves-effct waves-light" type="button"
+											[disabled]="isDeletingStaff" title="Delete">
+											<span *ngIf="isDeletingStaff" class="spinner-border spinner-border-sm"
+												role="status" aria-hidden="true"></span>
+
+											<i *ngIf="!isDeletingStaff" class="fa fa-trash-o"></i>
+											{{ 'teachers.manageTeachers.teacherListItemUpdate.profileDeleteBtn'
+											|translate
+											}}
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-8 ">
+					<div class="box" style="height: max-content;">
+						<div class="box-body">
+							<div class="row">
+								<h4>
+									<b>
+										{{ 'teachers.manageTeachers.teacherListItemUpdate.form.headerText' |translate }}
+										{{ staff.name }}
+									</b>
+								</h4>
+								<!-- name -->
+								<div class="col-md-6">
+									<app-input [type]="'text'"
+										[label]="'teachers.manageTeachers.teacherListItemUpdate.form.name' | translate"
+										formControlName="name">
+									</app-input>
+								</div>
+								<!-- personal email -->
+								<div class="col-md-6">
+									<app-input [type]="'email'"
+										[label]="'teachers.manageTeachers.teacherListItemUpdate.form.personalEmail' | translate "
+										formControlName="personalEmail">
+									</app-input>
+								</div>
+								<!-- phone number -->
+								<div class="col-md-6">
+									<app-input
+										[label]="'teachers.manageTeachers.teacherListItemUpdate.form.phoneNumber' | translate"
+										[placeholder]="'teachers.manageTeachers.teacherListItemUpdate.form.phoneNumber' | translate"
+										formControlName="phone">
+									</app-input>
+								</div>
+								<!-- gender -->
+								<div class="col-md-6" *ngIf="staffType != staffTypes.OFFICIALS">
+									<app-ng-select
+										[label]="'teachers.manageTeachers.teacherListItemUpdate.form.gender' | translate"
+										[placeholder]="'teachers.manageTeachers.teacherListItemUpdate.form.genderPlaceholderText' | translate"
+										[items]="genderTypes" bindValue="value" bindLabel="name"
+										formControlName="gender">
+									</app-ng-select>
+								</div>
+								<!-- bom title -->
+								<div class="col-md-6" *ngIf="isBom">
+									<app-input
+										[label]="'teachers.manageTeachers.teacherListItemUpdate.form.title' | translate"
+										[placeholder]="'teachers.manageTeachers.teacherListItemUpdate.form.title' | translate"
+										formControlName="title">
+									</app-input>
+								</div>
+								<!-- tsc number/registration number/ec number -->
+								<div class="col-md-6" *ngIf="isTeacher">
+									<ui-kenyan-school [template]="tscNumber"></ui-kenyan-school>
+									<ui-zambia-school [template]="ecNumber"></ui-zambia-school>
+									<ui-zimbabwe-school [template]="ecNumber"></ui-zimbabwe-school>
+									<ui-uganda-school [template]="regNumber"></ui-uganda-school>
+									<ui-tanzania-school [template]="regNumber"></ui-tanzania-school>
+									<ui-guinea-school [template]="regNumber"></ui-guinea-school>
+									<ui-ivory-coast-school [template]="regNumber"></ui-ivory-coast-school>
+									<ui-south-africa-school [template]="regNumber"></ui-south-africa-school>
+									<ui-ghana-school [template]="regNumber"></ui-ghana-school>
+
+									<ng-template #tscNumber>
+										<app-input [label]="'common.tscNumber'| translate"
+											[placeholder]="'common.tscNumber' | translate" formControlName="tscNo">
+										</app-input>
+									</ng-template>
+									<ng-template #regNumber>
+										<app-input [label]="'common.regNumber'| translate"
+											[placeholder]="'common.regNumber' | translate" formControlName="tscNo">
+										</app-input>
+									</ng-template>
+									<ng-template #ecNumber>
+										<app-input [label]="'common.ecNumber'| translate"
+											[placeholder]="'common.ecNumber' | translate" formControlName="tscNo">
+										</app-input>
+									</ng-template>
+								</div>
+								<!-- id number -->
+								<div class="col-md-6">
+									<app-input
+										[label]="'teachers.manageTeachers.teacherListItemUpdate.form.idNumber'| translate"
+										[placeholder]="'teachers.manageTeachers.teacherListItemUpdate.form.idNumber' | translate"
+										type="number" formControlName="nationalIdNo">
+									</app-input>
+								</div>
+								<!-- address -->
+								<div class="col-md-6">
+									<app-input [label]="'teachers.add.keyInOptionForm.address' | translate"
+										[placeholder]="'teachers.add.keyInOptionForm.address' | translate"
+										formControlName="address">
+									</app-input>
+								</div>
+								<!-- groups -->
+								<div [ngClass]="[isTeacher ? 'col-md-6' : 'col-md-12']">
+									<app-ng-select
+										[label]="'teachers.manageTeachers.teacherListItemUpdate.form.groups' | translate"
+										formControlName="groups" [items]="teacherGroups || []" [multiple]="true"
+										bindLabel="name" bindValue="staffgroupid">
+									</app-ng-select>
+								</div>
+								<!-- bio -->
+								<div class="col-md-12">
+									<app-textarea
+										[label]="'teachers.manageTeachers.teacherListItemUpdate.form.bio'| translate"
+										[placeholder]="'teachers.manageTeachers.teacherListItemUpdate.form.bio' | translate"
+										formControlName="biography" [rows]="3">
+									</app-textarea>
+								</div>
+							</div>
+
+							<div class="col-12 mb-0 mt-10">
+								<div>
+									<span *ngIf="isUpdatingStaff; then showLoading else showButtons"></span>
+									<ng-template #showLoading>
+										<app-loader-pulse style="display: inline-block;"></app-loader-pulse>
+									</ng-template>
+									<ng-template #showButtons>
+										<button type="submit"
+											class="btn btn-sm btn-info waves-effect waves-light pull-right">
+											<i class="fa fa-save"></i>
+											{{ 'teachers.manageTeachers.teacherListItemUpdate.form.saveBtn' | translate
+											}}
+										</button>
+
+										<button class="btn btn-secondary btn-sm waves-effect waves-light pull-right"
+											style="margin-right: 5px;" type="button"
+											(click)="closeProfileViewComponent()">
+											<i class="fa fa-remove"></i>
+											{{ 'teachers.manageTeachers.teacherListItemUpdate.form.closeBtn' | translate
+											}}
+										</button>
+									</ng-template>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

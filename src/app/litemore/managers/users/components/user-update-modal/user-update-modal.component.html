@@ -1,0 +1,232 @@
+<button
+	type="button"
+	class="waves-effect waves-light btn btn-success btn-sm mx-1"
+	data-bs-toggle="modal"
+	[attr.data-bs-target]="'#user-update-modal' + user?.userId"
+	(click)="prefillUpdateForm()">
+	<i class="bi bi-pen"></i>
+</button>
+
+<div
+	class="modal fade"
+	[id]="'user-update-modal' + user?.userId"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+	aria-labelledby="user-update-modalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content rounded-3 text-body">
+			<div class="modal-header">
+				<h5 class="modal-" id="extra-act-update-modalLabel">
+					{{
+						"litemore.managers.users.components.userUpdateModal.updateLitemoreUser"
+							| translate
+					}}
+				</h5>
+				<button
+					type="button"
+					[id]="'btn-user-update-modal-' + user?.userId"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+
+			<div class="modal-body">
+				<form [formGroup]="updateForm" (ngSubmit)="onUpdateFormSubmit()">
+					<div class="row">
+						<!-- name -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<label for="name" class="form-label">
+									{{ "common.name" | translate }}
+									<span
+										*ngIf="name?.hasValidator(requiredValidator)"
+										class="text-danger"
+										>*</span
+									>
+								</label>
+								<input
+									formControlName="name"
+									id="name"
+									type="text"
+									class="form-control"
+									placeholder="{{ 'common.name' | translate }}"
+									name="a_name"
+									[ngClass]="{
+										'b-1 border-danger rounded': fieldHasErrors(name!)
+									}"
+									required />
+								<ng-container *ngIf="fieldHasErrors(name!)">
+									<small *ngIf="name?.errors?.['required']" class="text-danger">
+										{{ "common.formErrors.requiredError" | translate }}
+									</small>
+								</ng-container>
+							</div>
+						</div>
+						<!-- email -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<label for="email" class="form-label">
+									{{ "common.email" | translate }}
+									<span
+										*ngIf="email?.hasValidator(requiredValidator)"
+										class="text-danger"
+										>*</span
+									>
+								</label>
+								<input
+									formControlName="email"
+									id="email"
+									type="text"
+									class="form-control"
+									placeholder="{{ 'common.email' | translate }}"
+									email="a_email"
+									[ngClass]="{
+										'b-1 border-danger rounded': fieldHasErrors(email!)
+									}"
+									required />
+								<ng-container *ngIf="fieldHasErrors(email!)">
+									<small
+										*ngIf="email?.errors?.['required']"
+										class="text-danger">
+										{{ "common.formErrors.requiredError" | translate }}
+									</small>
+								</ng-container>
+							</div>
+						</div>
+						<!-- phoneNumber -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<label for="phoneNumber" class="form-label">
+									{{ "common.phone" | translate }}
+									<span
+										*ngIf="phoneNumber?.hasValidator(requiredValidator)"
+										class="text-danger"
+										>*</span
+									>
+								</label>
+								<input
+									formControlName="phoneNumber"
+									id="phoneNumber"
+									type="text"
+									class="form-control"
+									placeholder="{{ 'common.phone' | translate }}"
+									phoneNumber="a_phoneNumber"
+									[ngClass]="{
+										'b-1 border-danger rounded': fieldHasErrors(phoneNumber!)
+									}"
+									required />
+								<ng-container *ngIf="fieldHasErrors(phoneNumber!)">
+									<small
+										*ngIf="phoneNumber?.errors?.['required']"
+										class="text-danger">
+										{{ "common.formErrors.requiredError" | translate }}
+									</small>
+								</ng-container>
+							</div>
+						</div>
+						<!-- county -->
+						<div class="col-12 col-md-6">
+							<div class="form-group mb-3">
+								<label for="county" class="form-label">
+									{{ "common.county" | translate }}
+									<span
+										*ngIf="countyId?.hasValidator(requiredValidator)"
+										class="text-danger"
+										>*</span
+									>
+								</label>
+								<ng-select
+									formControlName="countyId"
+									[notFoundText]="'common.noItemsFound' | translate"
+									[selectOnTab]="true"
+									[items]="counties"
+									id="county"
+									name="county"
+									[placeholder]="'common.selectCounty' | translate"
+									bindLabel="name"
+									bindValue="countyId"
+									[clearable]="false"
+									[ngClass]="{
+										'b-1 border-danger rounded': fieldHasErrors(countyId!)
+									}">
+								</ng-select>
+								<ng-container *ngIf="fieldHasErrors(countyId!)">
+									<small
+										*ngIf="countyId?.errors?.['required']"
+										class="text-danger">
+										{{ "common.formErrors.requiredError" | translate }}
+									</small>
+								</ng-container>
+							</div>
+						</div>
+						<!-- roles -->
+						<div class="col-12 col-md-6">
+							<div class="form-group mb-3">
+								<label for="roles" class="form-label">
+									{{ "common.roles" | translate }}
+									<span
+										*ngIf="roles?.hasValidator(requiredValidator)"
+										class="text-danger"
+										>*</span
+									>
+								</label>
+								<ng-select
+									formControlName="roles"
+									[notFoundText]="'common.noItemsFound' | translate"
+									[selectOnTab]="true"
+									[multiple]="true"
+									[items]="roles$ | async"
+									id="roles"
+									name="roles"
+									[placeholder]="'common.selectRole' | translate"
+									[clearable]="false"
+									[ngClass]="{
+										'b-1 border-danger rounded': fieldHasErrors(roles!)
+									}"
+									required
+									[loading]="(getRolesStatus$ | async) === APIStatus.LOADING"
+									[loadingText]="'common.loading' | translate">
+								</ng-select>
+								<ng-container *ngIf="fieldHasErrors(roles!)">
+									<small
+										*ngIf="roles?.errors?.['required']"
+										class="text-danger">
+										{{ "common.formErrors.requiredError" | translate }}
+									</small>
+								</ng-container>
+							</div>
+						</div>
+
+						<!-- actions -->
+						<div class="modal-footer d-flex justify-content-center">
+							<button
+								type="submit"
+								class="btn btn-primary"
+								[disabled]="isUpdatingUser">
+								<span
+									*ngIf="isUpdatingUser"
+									class="spinner-border spinner-border-sm"
+									role="status"
+									aria-hidden="true">
+								</span>
+								<span [class.ms-2]="isUpdatingUser">{{
+									"common.submit" | translate
+								}}</span>
+							</button>
+
+							<button
+								type="button"
+								class="btn btn-secondary"
+								data-bs-dismiss="modal"
+								aria-label="Close">
+								<span>{{ "common.cancel" | translate }}</span>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

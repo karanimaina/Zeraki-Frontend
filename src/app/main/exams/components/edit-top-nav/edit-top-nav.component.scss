@@ -1,0 +1,9 @@
+.fixed-top{
+    z-index: 5;
+}
+
+@media (max-width: 767.98px) {
+    .nav-link {
+        padding: 0.1rem 1rem;
+    }
+}

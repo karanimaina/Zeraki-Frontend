@@ -1,0 +1,326 @@
+<!-- Student Top Nav -->
+<div class="navbar-light top-wrapper fixed-top bg-primary">
+    <ul class="nav nav-pill customtab2 nav-filled text-center">
+        <li class="nav-item">
+            <a [routerLink]="['/main/students/msg']" class="nav-link" routerLinkActive="active"
+                #rlaSearchStudent="routerLinkActive" [ngClass]="rlaSearchStudent.isActive ? 'active' : ''">
+                <span class="me-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-envelope-open" viewBox="0 0 16 16">
+                        <path
+                            d="M8.47 1.318a1 1 0 0 0-.94 0l-6 3.2A1 1 0 0 0 1 5.4v.817l5.75 3.45L8 8.917l1.25.75L15 6.217V5.4a1 1 0 0 0-.53-.882l-6-3.2ZM15 7.383l-4.778 2.867L15 13.117V7.383Zm-.035 6.88L8 10.082l-6.965 4.18A1 1 0 0 0 2 15h12a1 1 0 0 0 .965-.738ZM1 13.116l4.778-2.867L1 7.383v5.734ZM7.059.435a2 2 0 0 1 1.882 0l6 3.2A2 2 0 0 1 16 5.4V14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V5.4a2 2 0 0 1 1.059-1.765l6-3.2Z" />
+                    </svg>
+                </span>
+                <!-- <div class="hidden-lg-up text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </div> -->
+                <span>{{ 'students.messages.studInbox' | translate }}</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+    <div class="row px-lg-40">
+        <div *ngIf="!student; then showLoadingSection else showDataSection"></div>
+
+        <ng-template #showLoadingSection>
+
+            <!-- For top section -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="box">
+                        <div class="box-body">
+                            <app-loader-div [height]="130"></app-loader-div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- For Middle Section -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="box">
+                        <div class="box-body">
+                            <app-loader-div [height]="130"></app-loader-div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #showDataSection>
+            <div class="col-12">
+                <div *ngIf="student?.admno == undefined" class="box box-solid bg-warning-light">
+                    <div class="box-body">
+                        <h3 class="text-dark">
+                            {{ 'students.notExist' | translate }}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="student?.admno != undefined" class="col-12">
+                <div class="box bg-primary-light">
+                    <div class="box-header with-border">
+                        <h6 class="text-dark">{{ 'students.messages.studInbox' | translate }}</h6>
+                        <div class="d-flex bd-highlight mb-3">
+                            <div class="p-2 bd-highlight">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="primary"
+                                    class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                                    <path fill-rule="evenodd"
+                                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                                </svg>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <h3 class="box-title text-dark text-capitalize">{{student?.name.toLowerCase()}} <small
+                                        class="subtitle">{{student?.admno}}, {{schoolTypeData?.formoryear | formOrYear}} {{student?.current_class_name}}</small>
+                                </h3>
+                            </div>
+                            <div class="ms-auto p-2 bd-highlight d-none d-lg-inline-block">
+                                <div class="btn-group">
+                                    <!-- profile -->
+                                    <button *appNormalTeacherHidden="true" routerLink="../../prof/{{student?.userid}}" type="button"
+                                        class="waves-effect waves-light btn btn-secondary">
+                                        <i>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z" />
+                                            </svg>
+                                        </i>
+                                        {{ 'common.profile' | translate }}
+                                    </button>
+                                    <!-- analytics -->
+                                    <button type="button" routerLink="../../analytics/{{student?.userid}}"
+                                        class="waves-effect waves-light btn btn-secondary">
+                                        <i>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                                            </svg>
+                                        </i>
+                                        {{ 'common.analytics' | translate }}
+                                    </button>
+                                    <!-- notes -->
+                                    <div class="btn-group">
+                                        <button type="button"
+                                            class="waves-effect waves-light btn btn-secondary dropdown-toggle"
+                                            data-bs-toggle="dropdown">
+                                            {{ 'students.notes' | translate }}
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <app-student-notes-items [studentID]="student?.userid"></app-student-notes-items>
+
+                                            <!-- extracurricular activities -->
+                                            <a class="dropdown-item" routerLink="../../act/{{student?.userid}}">
+                                              {{'students.exActs' | translate }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-lg-none text-center">
+                            <div class="btn-group">
+                              <!-- profile -->
+                                <button *appNormalTeacherHidden="true" routerLink="../../prof/{{student?.userid}}" type="button"
+                                    class="waves-effect waves-light btn btn-secondary btn-xs">
+                                    <i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z" />
+                                        </svg>
+                                    </i>
+                                    {{ 'common.profile' | translate }}
+                                </button>
+                                <!-- analytics -->
+                                <button type="button" routerLink="../../analytics/{{student?.userid}}"
+                                    class="waves-effect waves-light btn btn-secondary btn-xs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                                        class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+                                        <path
+                                            d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                                    </svg>
+                                    {{ 'common.analytics' | translate }}
+                                </button>
+                                <!-- notes -->
+                                <div class="btn-group">
+                                    <button type="button"
+                                        class="waves-effect waves-light btn btn-secondary dropdown-toggle btn-sm"
+                                        data-bs-toggle="dropdown">
+                                        {{ 'students.notes' | translate }}
+                                    </button>
+                                    <div class="dropdown-menu">
+                                      <app-student-notes-items [studentID]="student?.userid"></app-student-notes-items>
+
+                                      <!-- extracurricular activities -->
+                                      <a class="dropdown-item" routerLink="../../act/{{student?.userid}}">
+                                        {{'students.exActs' | translate }}
+                                      </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box -->
+                </div>
+
+                <div *ngIf="action == 1" class="box">
+                    <div class="box-header with-border">
+                        <span>
+                            <button *ngIf="user_roles?.isSchoolAdmin && !isBackup" (click)="toggleAction(2)"
+                                type="button" class="btn btn-dark btn-sm">
+                                {{ 'students.messages.new' | translate }}
+                            </button>
+                        </span>
+                        <span *ngIf="student?.messages.length > 0">
+                            <ul class="pagination pagination-sm pull-right">
+                                <li class="page-item text-sm mt-1 me-2">{{student?.first + " - " + student?.last + " of
+                                    " + student?.total}}</li>
+                                <li [ngClass]="{'disabled': !student?.previous}" class="page-item disabled">
+                                    <a class="page-link" (click)="previousPage()" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <!-- <li class="page-item"><a class="page-link" href="#">1</a></li> -->
+                                <li [ngClass]="{'disabled': !student?.next}" class="page-item">
+                                    <a class="page-link" (click)="nextPage()" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div *ngIf="student?.total == 0">
+                            {{ 'students.messages.noMes' | translate }}
+                        </div>
+                        <div *ngIf="student?.messages.length > 0" class="table-responsive">
+                            <table class="table table-sm table-striped table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">{{ 'students.messages.from' | translate }}</th>
+                                        <th scope="col">{{ 'students.messages.type' | translate }}</th>
+                                        <th scope="col">{{ 'students.messages.subject' | translate }}</th>
+                                        <th scope="col">{{ 'common.date' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let message of student.messages" (click)="setCurrentMessage(message)"
+                                        [ngClass]="{'fw-bold': message.status == 0}" style="cursor: pointer;">
+                                        <th scope="row">{{ message.from.name }}</th>
+                                        <td><span class="badge badge-info"
+                                                [ngClass]="{'badge-success': message.category.categoryid == 1, 'badge-primary': message.category.categoryid == 2, 'badge-warning': message.category.categoryid == 3}">{{
+                                                message.category.name }}</span></td>
+                                        <td>{{ message.title }}</td>
+                                        <td>{{ message.date }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <div *ngIf="action == 2" class="box">
+                    <div class="box-header with-border">
+                        <h4>
+                            {{ 'students.messages.new' | translate }}
+                        </h4>
+                    </div>
+                    <!-- /.box-header -->
+                    <form #mesForm="ngForm" class="form" (ngSubmit)="mesForm.form.valid && sendMessage()">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">{{ 'students.messages.subject' | translate }}</label>
+                                        <input type="text" class="form-control" name="a_year"
+                                            [(ngModel)]="message.title"
+                                            placeholder="{{ 'students.messages.mesSubject' | translate }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">{{ 'common.term' | translate }}</label>
+                                        <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                            [items]="student.categories" bindLabel="name" [selectOnTab]="true"
+                                            name="category" [(ngModel)]="message.category"
+                                            placeholder="{{ 'students.messages.selCategory' | translate }}">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">{{ 'common.message' | translate }}</label>
+                                        <textarea rows="4" class="form-control"
+                                            placeholder="{{ 'students.messages.mesContent' | translate }}"
+                                            name="a_honors" [(ngModel)]="message.text">
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div *ngIf="student.hasPhone" class="col-md-12">
+                                    <input type="checkbox" id="send-text" class="filled-in chk-col-info"
+                                        name="send-text" [(ngModel)]="sendTextMessage" [checked]="sendTextMessage" />
+                                    <label for="send-text">{{ 'students.messages.sendText' | translate }}</label>
+                                </div>
+                                <div *ngIf="student.hasEmail" class="col-md-12">
+                                    <input type="checkbox" id="send-email" class="filled-in chk-col-info"
+                                        name="send-email" [(ngModel)]="sendEmail" [checked]="sendEmail" />
+                                    <label for="send-email">{{ 'students.messages.sendEmail' | translate }}</label>
+                                </div>
+                            </div>
+                            <div *ngIf="error_status" class="row">
+                                <div class="bg-danger">
+                                    {{error_msg}}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <button type="button" (click)="toggleAction(1)" class="btn btn-dark btn-sm me-1">{{
+                                'common.cancel' | translate }}
+                            </button>
+                            <button type="submit" class="btn btn-info btn-sm pull-right" [disabled]="showLoading">{{
+                                'students.messages.sendMes' | translate }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div *ngIf="action == 3" class="box">
+                    <div class="box-header with-border">
+                        <!-- <h6 class="box-title"><strong>Title:</strong> - More description</h6>
+                        <br /><h6 class="box-title"><strong>Title:</strong> - More description</h6> -->
+                        <dl class="dl-horizontal">
+                            <dt>{{ 'students.messages.subject' | translate }}: </dt>
+                            <dd>{{current_message.title}}</dd>
+                            <!--{{ message.title }}-->
+                            <dt>{{ 'students.messages.from' | translate }}: </dt>
+                            <dd>{{current_message.from.name}}</dd>
+                            <!--{{ message.from.name }}-->
+                            <dt>{{ 'common.date' | translate }}: </dt>
+                            <dd>{{current_message.date}} </dd>
+                        </dl>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <p><strong>{{ 'students.messages.mesDescription' | translate }}: </strong></p>
+                        <p>{{ current_message.text }}</p>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="button" (click)="toggleAction(1)" class="btn btn-dark btn-sm pull-right mb-10">{{
+                            'common.back' | translate }}</button>
+                    </div>
+                </div>
+
+            </div>
+        </ng-template>
+    </div>
+</section>

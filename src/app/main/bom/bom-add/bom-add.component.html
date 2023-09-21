@@ -1,0 +1,174 @@
+<!-- Main content -->
+<section class="content mt-config">
+    <div class="box">
+        <div class="box-header with-border" style="padding: 1rem;">
+            <b class="mb-2">{{ 'bom.add.options.headerText' | translate }}</b>
+            <div class="form-group mb-0">
+                <input name="chkbox_add_official" type="radio" [checked]="officialDetailOption"
+                    (click)="toggleAddOption()" id="chkbox_official_details" class="with-gap radio-col-info">
+                <label style="margin-right: 20px;" for="chkbox_official_details">
+					<ng-container *ngTemplateOutlet="countriesBOMText"></ng-container>
+
+					<ng-template #countriesBOMText>
+						<ui-uganda-school [template]="bog"></ui-uganda-school>
+						<ui-kenyan-school [template]="bom"></ui-kenyan-school>
+						<ui-tanzania-school [template]="bom"></ui-tanzania-school>
+						<ui-guinea-school [template]="bom"></ui-guinea-school>
+						<ui-ivory-coast-school [template]="boi"></ui-ivory-coast-school>
+						<ui-zimbabwe-school [template]="bom"></ui-zimbabwe-school>
+						<ui-zambia-school [template]="bom"></ui-zambia-school>
+						<ui-south-africa-school [template]="bom"></ui-south-africa-school>
+						<ui-ghana-school [template]="bom"></ui-ghana-school>
+
+						<ng-template #bom>
+							{{ 'bom.add.options.keyInOption' | translate }}
+						</ng-template>
+						<ng-template #bog>
+							{{ 'bom.add.options.keyInOptionBog' | translate }}
+						</ng-template>
+						<ng-template #boi>
+							{{'bom.add.options.keyInOptionIvory'|translate}}
+						</ng-template>
+					</ng-template>
+				</label>
+
+                <input name="chkbox_add_official" type="radio" [checked]="!officialDetailOption"
+                    (click)="toggleAddOption()" id="chkbox_official_spreadsheet" class="with-gap radio-col-info">
+                <label for="chkbox_official_spreadsheet">
+					<ng-container *ngTemplateOutlet="countriesBOMSpreadsheetUploadText"></ng-container>
+
+					<ng-template #countriesBOMSpreadsheetUploadText>
+						<ui-uganda-school [template]="bog"></ui-uganda-school>
+						<ui-kenyan-school [template]="bom"></ui-kenyan-school>
+						<ui-tanzania-school [template]="bom"></ui-tanzania-school>
+						<ui-guinea-school [template]="bom"></ui-guinea-school>
+						<ui-ivory-coast-school [template]="boi"></ui-ivory-coast-school>
+						<ui-zimbabwe-school [template]="bom"></ui-zimbabwe-school>
+						<ui-zambia-school [template]="bom"></ui-zambia-school>
+						<ui-south-africa-school [template]="bom"></ui-south-africa-school>
+						<ui-ghana-school [template]="bom"></ui-ghana-school>
+
+						<ng-template #bom>
+							{{ 'bom.add.options.uploadFromSpreadSheetOption' | translate }}
+						</ng-template>
+						<ng-template #bog>
+							{{ 'bom.add.options.uploadFromSpreadSheetOptionBog' | translate }}
+						</ng-template>
+						<ng-template #boi>
+							{{ 'bom.add.options.uploadFromSpreadSheetOptionIvory' | translate }}
+						</ng-template>
+					</ng-template>
+				</label>
+            </div>
+        </div>
+        <div class="box-body">
+
+            <!--
+            ===================================
+                add by input official details
+            ===================================
+            -->
+            <section *ngIf="officialDetailOption">
+                <form [formGroup]="formDetails" (ngSubmit)="addBomDetails()">
+					<div class="row">
+						<!-- title -->
+						<div class="form-group mb-0 col-sm-6">
+							<app-input
+								[label]="'bom.add.keyInOptionForm.title' | translate"
+								[placeholder]="'bom.add.keyInOptionForm.title' | translate"
+								formControlName="TITLE">
+							</app-input>
+						</div>
+						<!-- name -->
+						<div class="form-group mb-0 col-sm-6">
+							<app-input
+								[label]="'bom.add.keyInOptionForm.fullName' | translate"
+								[placeholder]="'bom.add.keyInOptionForm.fullName' | translate"
+								formControlName="NAME">
+							</app-input>
+						</div>
+						<!-- phone number -->
+						<div class="form-group mb-0 col-sm-6">
+							<app-input
+								[label]="'bom.add.keyInOptionForm.phoneNumber' | translate"
+								placeholder="07## ### ###"
+								formControlName="PHONE">
+							</app-input>
+						</div>
+						<!-- national id number -->
+						<div class="form-group mb-0 col-sm-6">
+							<app-input
+								[label]="'bom.add.keyInOptionForm.nationalIdNumber' | translate"
+								placeholder="###"
+								formControlName="NATIONAL_ID_NO">
+							</app-input>
+						</div>
+						<!-- address -->
+						<div class="col-md-6">
+							<app-input
+								[label]="'teachers.add.keyInOptionForm.address' | translate"
+								[placeholder]="'teachers.add.keyInOptionForm.address' | translate"
+								formControlName="ADDRESS">
+							</app-input>
+						</div>
+						<!-- groups -->
+						<div class="form-group mb-0 col-md-6">
+							<app-ng-select
+								[label]="'bom.add.keyInOptionForm.group' | translate"
+								[placeholder]="'bom.add.keyInOptionForm.group' | translate"
+								[items]="officialGroups"
+								bindLabel="name"
+								bindValue="name"
+								formControlName="GROUP">
+							</app-ng-select>
+						</div>
+
+						<!-- add btn -->
+						<div class="col-sm-12">
+							<div *ngIf="isAddingBom; then showLoader else showButton"></div>
+							<ng-template #showLoader>
+								<app-loader-pulse style="display: inline-block;" class="pull-right"></app-loader-pulse>
+							</ng-template>
+							<ng-template #showButton>
+								<button class="btn btn-sm waves-effect waves-light btn-info pull-right">
+									<i class="fa fa-save"></i>
+									{{ 'bom.add.keyInOptionForm.addBtn' | translate }}
+								</button>
+							</ng-template>
+						</div>
+					</div>
+				</form>
+			</section>
+			<!--
+            ===================================
+            add via excel document
+            ===================================
+            -->
+			<section *ngIf="!officialDetailOption">
+				<form [formGroup]="uploadBomForm" (ngSubmit)="addExcel()">
+					<div class="row">
+						<app-excel-download-template
+							[fileName]="excelFilename"
+							[templateHeaders]="templateHeaders"
+							[hasErrors]="(uploadBomFormSubmit && uploadBomFormControls['file'].invalid)"
+							(uploadedEntries)="getUploadedBom($event)">
+						</app-excel-download-template>
+
+						<div class="col-sm-12">
+							<div *ngIf="isAddingBom; then showLoader else showButton"></div>
+							<ng-template #showLoader>
+								<app-loader-pulse style="display: inline-block;" class="pull-right"></app-loader-pulse>
+							</ng-template>
+							<ng-template #showButton>
+								<button class="btn btn-sm waves-effect waves-light btn-info pull-right">
+									<i class="fa fa-upload"></i>
+									<span class="ms-2">{{ 'bom.add.uploadFromSpreadSheetOptionForm.uploadBtn' | translate }}</span>
+								</button>
+							</ng-template>
+						</div>
+					</div>
+				</form>
+			</section>
+		</div>
+	</div>
+</section>

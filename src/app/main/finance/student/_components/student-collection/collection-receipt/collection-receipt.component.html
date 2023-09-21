@@ -1,0 +1,129 @@
+<div style="position: relative; padding: 1.2rem; color: #172A4B; font-family: 'Helvetica'; page-break-after: always;">
+    <app-watermark></app-watermark>
+    <app-receipt-header>
+        <h4 style="margin: 0; margin-bottom: 8px; font-weight: 400;">Receipt No.</h4>
+        <h1 style="margin:0; margin-bottom: 8px;">{{ collection?.receiptNumber }}</h1>
+        <span>{{ collection.txnDate | date: 'longDate' : '+0300' }}</span> <br>
+    </app-receipt-header>
+    <div style="margin-top: 1.5rem; display: flex;">
+        <div style="margin-right: 24px; min-width: calc(50% - 12px);">
+            <div style="border: 1px solid #ddd; border-radius: 4px; padding: 0.65rem;">
+                <h6 style="font-size: 10px; margin: 0; margin-bottom: 0.65rem;">Student</h6>
+                <strong>
+                    {{ collection.studentName || studentData?.studentName }}
+                </strong> <br>
+                <span>Adm No. {{ collection.admissionNo }}</span> <br>
+                <span>{{ collection.intakeName }} {{ studentData?.currentStreamName }}</span>
+            </div>
+        </div>
+        <div style="flex-grow: 1;">
+            <div style="border: 1px solid #ddd; border-radius: 4px; padding: 0.65rem;">
+                <h6 style="font-size: 10px; margin: 0; margin-bottom: 0.65rem;">Payment Info</h6>
+                <strong>Mode Of Payment:</strong> {{ collection.paymentMethod | normalizeText }} <br>
+                <strong>Account:</strong> {{ collection.cashbookName | uppercase }} <br>
+                <strong *ngIf="collection.refNo">Transaction Code:</strong> {{ collection.refNo }}
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 1.5rem; overflow: auto;">
+        <table style="border-collapse: collapse; caption-side: top; width: 100%; text-align: start;">
+            <caption style="text-align: start; margin-bottom: 6px;">
+                <h6 style="font-size: 10px; margin: 0;">Payment distribution</h6>
+            </caption>
+            <thead>
+                <tr>
+                    <th style="border: 1px solid black; padding: 10px; text-align: start;">#</th>
+                    <th style="border: 1px solid black; padding: 10px; text-align: start;">Vote Head</th>
+                    <th style="border: 1px solid black; padding: 10px; text-align: start;">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let feeItem of collection.feeItemsList; let i = index" style="font-weight: 500;">
+                    <td style="border: 1px solid black; padding: 10px;">{{ i + 1 }}</td>
+                    <td style="border: 1px solid black; padding: 10px">
+                        {{ feeItem.particular || feeItem.voteHeadName | uppercase }}
+                    </td>
+                    <td style="border: 1px solid black; padding: 10px">{{ feeItem.amount | currency: "KES " }}</td>
+                </tr>
+                <tr style="font-weight: bold">
+                    <td colspan="2" style="border: 1px solid black; padding: 10px;">Total</td>
+                    <td style="border: 1px solid black; padding: 10px;">{{ collection.amount | currency: "KES " }}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; padding: 10px; text-align: end; font-weight: bold" colspan="3">
+                        <small>{{ collection.amount }}</small>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="text-align: end;">
+        <h5 style="margin: 0; margin-top: 12px;">
+            <span>Balance: </span>
+            <b>KES {{ collection.amountDue | number }}</b> <br>
+            <span class="text-capitalize">
+                ({{collection.amountDue < 0? "Overpaid ": ""}} {{ collection.amountDue | numberToWords }} shillings only)
+            </span>
+        </h5>
+    </div>
+    <!-- <app-user-signature [userName]="collection.createdByUserName"></app-user-signature> -->
+</div>
+<div *ngIf="collection.adminCost"
+    style="padding: 1.2rem; color: #172A4B; font-family: 'Helvetica'; page-break-after: always; position: relative;">
+    <app-watermark></app-watermark>
+    <app-receipt-header>
+        <h4 style="margin: 0; margin-bottom: 8px; font-weight: 400;">Receipt No.</h4>
+        <h1 style="margin:0; margin-bottom: 8px;">{{ collection.receiptNumber }}</h1>
+        <span>{{ collection.txnDate | date : 'longDate' : '+0300' }}</span> <br>
+    </app-receipt-header>
+    <div style="margin-top: 1.5rem; display: flex;">
+        <div style="margin-right: 24px; min-width: calc(50% - 12px);">
+            <div style="border: 1px solid #ddd; border-radius: 4px; padding: 0.65rem;">
+                <h6 style="font-size: 10px; margin: 0; margin-bottom: 0.65rem;">Student</h6>
+                <strong>
+                    {{ collection.studentName  || studentData?.studentName }}
+                </strong> <br>
+                <span>Adm No. {{ collection.admissionNo }}</span> <br>
+                <span>{{ collection.intakeName }} {{ (collection.streamId | streams | async) }}</span>
+            </div>
+        </div>
+        <div style="flex-grow: 1;">
+            <div style="border: 1px solid #ddd; border-radius: 4px; padding: 0.65rem;">
+                <h6 style="font-size: 10px; margin: 0; margin-bottom: 0.65rem;">Payment Info</h6>
+                <strong>Mode Of Payment:</strong> {{ collection.paymentMethod | normalizeText }} <br>
+                <strong>Account:</strong> {{ collection.cashbookName | uppercase }} <br>
+                <strong *ngIf="collection.refNo">Transaction Code:</strong> {{ collection.refNo }}
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 1.5rem; overflow: auto;">
+        <table style="border-collapse: collapse; caption-side: top; width: 100%; text-align: start;">
+            <caption style="text-align: start; margin-bottom: 6px;">
+                <h6 style="font-size: 10px; margin: 0;">Payment distribution</h6>
+            </caption>
+            <thead>
+                <tr>
+                    <th style="border: 1px solid black; padding: 10px; text-align: start;">#</th>
+                    <th style="border: 1px solid black; padding: 10px; text-align: start;">Particular</th>
+                    <th style="border: 1px solid black; padding: 10px; text-align: start;">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="font-weight: 500;">
+                    <td style="border: 1px solid black; padding: 10px;">1</td>
+                    <td style="border: 1px solid black; padding: 10px">CHEQUE CHARGE</td>
+                    <td style="border: 1px solid black; padding: 10px">
+                        {{ collection.adminCost | currency: "KES " }}
+                    </td>
+                </tr>
+                <tr style="font-weight: bold">
+                    <td colspan="2" style="border: 1px solid black; padding: 10px;">Total</td>
+                    <td style="border: 1px solid black; padding: 10px;">
+                        {{ collection.adminCost | currency: "KES " }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- <app-user-signature [userName]="collection.createdByUserName"></app-user-signature> -->
+</div>

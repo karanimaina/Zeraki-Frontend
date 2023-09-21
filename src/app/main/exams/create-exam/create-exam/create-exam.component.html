@@ -1,0 +1,167 @@
+<!-- Main content -->
+<section class="content mt-config">
+    <!-- Section options
+    -->
+    <div class="box">
+        <div class="box-body">
+			<form [formGroup]="examOptionsFormGroup">
+				<div class="row">
+					<div class="col-sm-12 mb-10">
+						<label class="fw-600">
+							<!-- Exam Type -->
+							{{"exams.createExam.labelTextExamType"|translate}}
+						</label>
+					</div>
+
+
+					<ui-guinea-school [template]="ordinaryExamInputTemplate"></ui-guinea-school>
+					<ui-kenyan-school [template]="ordinaryExamInputTemplate"></ui-kenyan-school>
+					<ui-ghana-school [template]="ordinaryExamInputTemplate"></ui-ghana-school>
+					<ui-tanzania-school [template]="ordinaryExamInputTemplate"></ui-tanzania-school>
+					<ui-zimbabwe-school [template]="ordinaryExamInputTemplate"></ui-zimbabwe-school>
+					<ui-zambia-school [template]="ordinaryExamInputTemplate"></ui-zambia-school>
+					<ui-tanzania-school [template]="ordinaryExamInputTemplate"></ui-tanzania-school>
+					<ui-south-africa-school [template]="ordinaryExamInputTemplate"></ui-south-africa-school>
+					<ui-ivory-coast-school [template]="ivoryExamTypesInputTemplate"></ui-ivory-coast-school>
+
+					<ui-guinea-school [template]="assignmentInputTemplate"></ui-guinea-school>
+					<ui-kenyan-school [template]="consolidatedExamInputTemplate"></ui-kenyan-school>
+					<ui-ghana-school [template]="consolidatedExamInputTemplate"></ui-ghana-school>
+					<ui-tanzania-school [template]="consolidatedExamInputTemplate"></ui-tanzania-school>
+					<ui-zimbabwe-school [template]="consolidatedExamInputTemplate"></ui-zimbabwe-school>
+					<ui-zambia-school [template]="consolidatedExamInputTemplate"></ui-zambia-school>
+					<ui-south-africa-school [template]="consolidatedExamInputTemplate"></ui-south-africa-school>
+
+					<ui-guinea-school [template]="termAverageInputTemplate"></ui-guinea-school>
+					<ui-ivory-coast-school [template]="termAverageInputTemplate"></ui-ivory-coast-school>
+					<ui-kcse-school [template]="kcseInputTemplate"></ui-kcse-school>
+
+					<ng-template #assignmentInputTemplate>
+						<div class="col-sm-3">
+							<input formControlName="examOption" type="radio" id="basic_checkbox_assignment" [value]="'assignment'" class="with-gap radio-col-info">
+							<label for="basic_checkbox_assignment">
+								<!-- Assignment -->
+								<span>{{"exams.createExam.labelAssignment"|translate}}</span>
+							</label>
+						</div>
+					</ng-template>
+
+					<ng-template #ordinaryExamInputTemplate>
+						<div class="col-sm-3">
+							<input formControlName="examOption" type="radio" id="basic_checkbox_1" [value]="'ordinary'" class="with-gap radio-col-info">
+							<label for="basic_checkbox_1">
+								<span>{{"exams.createExam.labelTextOrdinaryExam"|translate}}</span>
+							</label>
+						</div>
+					</ng-template>
+
+					<ng-template #ivoryExamTypesInputTemplate>
+						<div class="col-sm-3">
+							<input formControlName="examOption" type="radio" id="basic_checkbox_duties" [value]="'ordinary'" class="with-gap radio-col-info">
+							<label for="basic_checkbox_duties">
+								 {{ 'common.evaluations' | translate}}
+							</label>
+						</div>
+					</ng-template>
+
+
+					<ng-template #consolidatedExamInputTemplate>
+						<div class="col-sm-3">
+							<input formControlName="examOption" type="radio" id="basic_checkbox_2" [value]="'consolidated'" class="with-gap radio-col-info">
+							<label for="basic_checkbox_2">
+								<!-- Consolidated Exam -->
+								<span>{{"exams.createExam.labelTextConsolidatedExam"|translate}}</span>
+							</label>
+						</div>
+					</ng-template>
+
+
+					<ng-template #termAverageInputTemplate>
+						<div class="col-sm-3">
+							<input formControlName="examOption" type="radio" id="basic_checkbox_term_average" [value]="'termAverage'" class="with-gap radio-col-info">
+							<label for="basic_checkbox_term_average">
+								<span>{{"exams.createExam.labelTermAverage"|translate}}</span>
+							</label>
+						</div>
+					</ng-template>
+
+					<div class="col-sm-3">
+						<input formControlName="examOption" type="radio" id="basic_checkbox_5" [value]="'yearAverage'" class="with-gap radio-col-info">
+						<label for="basic_checkbox_5">
+							<span>{{"exams.createExam.labelTextYearAverage"|translate}}</span>
+						</label>
+					</div>
+
+
+					<ng-template #kcseInputTemplate>
+						<div class="col-sm-3">
+							<input formControlName="examOption" type="radio" id="basic_checkbox_4" [value]="'kcse'" class="with-gap radio-col-info">
+							<label for="basic_checkbox_4">
+								<span> {{"exams.createExam.labelTextKcse"|translate}}</span>
+							</label>
+						</div>
+					</ng-template>
+
+				</div>
+			</form>
+        </div>
+    </div>
+
+    <div class="box">
+        <ng-container>
+            <div class="box-body" *ngIf="selectedExamTypeOption == 'ordinary' || selectedExamTypeOption == 'assignment'">
+                <app-ordinary-exam
+					[isGuineaSchool]="isGuineaSchool"
+					[examOptionSelected]="selectedExamTypeOption == 'ordinary'"
+					[series]="series"
+					[isLoadingForms]="isLoadingForms"
+                    [forms]="forms"
+					[isAddingOrdinaryExam]="isAddingOrdinaryExam"
+					[schoolTypeData]="schoolTypeData"
+                    [currentYear]="currentYear"
+					(createExamEvt)="createExam($event)"
+                    (viewManageExamsEvt)="viewManageExams()"></app-ordinary-exam>
+            </div>
+            <!-- section create Consolidated exam -->
+            <div class="box-body" *ngIf="selectedExamTypeOption == 'consolidated'">
+                <app-consolidated-exams></app-consolidated-exams>
+            </div>
+
+			<div class="box-body" *ngIf="selectedExamTypeOption == 'termAverage'">
+				<app-term-average [schoolTypeData]="schoolTypeData"></app-term-average>
+			</div>
+
+            <!-- section create Year Average exam -->
+            <div class="box-body" *ngIf="selectedExamTypeOption == 'yearAverage'">
+                <app-year-average-exams></app-year-average-exams>
+            </div>
+
+            <!-- section create KCSE exam -->
+            <div class="box-body" *ngIf="selectedExamTypeOption == 'kcse'">
+                <app-kcse-exams></app-kcse-exams>
+            </div>
+
+        </ng-container>
+    </div>
+</section>
+<swal #successAlert
+	  [title]="selectedExamTypeOption == 'assignment' ? ('exams.createExam.alertAssignmentTitleSuccess' | translate) : ('exams.createExam.alertTitleSuccess' | translate)"
+	  [text]="selectedExamTypeOption == 'assignment' ? ('exams.createExam.alertAssignmentBodyText'|translate) : ('exams.createExam.alertBodyText'|translate)"
+	  icon="success"
+	  [showCancelButton]="false"
+	  [focusCancel]="false"
+	  (confirm)="viewManageExams()">
+</swal>
+
+<!--Template Sections-->
+<ng-template #ordinaryExamLabel>
+	<span>{{"exams.createExam.labelTextOrdinaryExam"|translate}}</span>
+</ng-template>
+
+<ng-template #examLabel>
+	<span>{{"exams.createExam.labelExam"|translate}}</span>
+</ng-template>
+
+<ng-template #compositionLabel>
+	<span>{{"exams.createExam.labelComposition"|translate}}</span>
+</ng-template>

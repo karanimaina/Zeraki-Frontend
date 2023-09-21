@@ -1,0 +1,417 @@
+<div class="box">
+	<div class="box-header">
+		<div class="row">
+			<div class="col-sm-6">
+				<p class="mb-0 box-title">
+					{{ proforma.proformaNumber }} :
+					{{
+						isUpdateInvoice
+							? "litemore.bdevs.invoices.invoice.components.createInvoice.update"
+							: ("litemore.bdevs.invoices.invoice.components.createInvoice.create"
+							  | translate)
+					}}
+					{{
+						"litemore.bdevs.invoices.invoice.components.createInvoice.invoice"
+							| translate
+					}}
+				</p>
+			</div>
+			<div class="col-sm-6 text-end">
+				<button class="btn btn-xs btn-success" (click)="cancel()">
+					{{
+						"litemore.bdevs.invoices.invoice.components.createInvoice.close"
+							| translate
+					}}
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="box-body">
+		<app-submit-form
+			[formGroup]="createInvoiceForm"
+			(onSubmit)="createInvoice()">
+			<div class="row">
+				<div class="form-group col-12">
+					<label class="form-label" for="votehead">
+						{{ "litemore.bdevs.invoices.selectVoteHead" | translate }}
+					</label>
+					<ng-select
+						id="votehead"
+						placeholder="{{
+							'litemore.bdevs.invoices.selectVoteHead' | translate
+						}}"
+						[items]="proforma.voteHeads"
+						[multiple]="true"
+						[ngClass]="{
+							'is-invalid': createInvoiceForm.isSubmitted && voteHead?.invalid
+						}"
+						formControlName="voteHead"
+						bindLabel="name"
+						bindValue="typeId"
+						[hideSelected]="true"
+						[selectOnTab]="true"
+						[closeOnSelect]="true">
+						<ng-template
+							ng-option-tmp
+							let-item="item"
+							let-item$="item$"
+							let-index="index"
+							let-search="searchTerm">
+							<input
+								id="item-{{ index }}"
+								name="item-{{ index }}"
+								type="checkbox"
+								class="filled-in chk-col-info"
+								[ngModelOptions]="{ standalone: true }"
+								[ngModel]="item$.selected" />
+
+							<label for="item-{{ index }}">{{ item.name }}</label>
+						</ng-template>
+					</ng-select>
+					<app-field-errors
+						[control]="voteHead!"
+						[label]="
+							'litemore.bdevs.invoices.invoice.components.createInvoice.selectVotehead'
+								| translate
+						"></app-field-errors>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<!--Setup section-->
+					<div [hidden]="!voteHead?.value?.includes(1)" class="form-group row">
+						<label for="setup" class="col-sm-3 col-form-label">
+							{{
+								"litemore.bdevs.invoices.invoice.components.createInvoice.setupAndFirstYearSubscriptionAmount"
+									| translate
+							}}
+						</label>
+						<div class="col-sm-9">
+							<input
+								type="number"
+								min="0"
+								title="{{
+									'litemore.bdevs.invoices.invoice.components.createInvoice.enterSetupAmount'
+										| translate
+								}}"
+								placeholder="0"
+								class="form-control"
+								id="setup"
+								formControlName="setupGrossAmount"
+								[ngClass]="{
+									'is-invalid':
+										createInvoiceForm.isSubmitted && setupGrossAmount?.invalid
+								}"
+								[required]="voteHead?.value?.includes(1)" />
+							<app-field-errors
+								[control]="setupGrossAmount!"
+								[label]="
+									'litemore.bdevs.invoices.invoice.components.createInvoice.setupAmount'
+										| translate
+								"></app-field-errors>
+						</div>
+					</div>
+					<div [hidden]="!voteHead?.value?.includes(2)" class="form-group row">
+						<label class="col-sm-3 col-form-label">
+							{{
+								"litemore.bdevs.invoices.invoice.components.createInvoice.subscriptionRenewalAmount"
+									| translate
+							}}
+						</label>
+						<div class="col-sm-9">
+							<input
+								type="number"
+								title="{{
+									'litemore.bdevs.invoices.invoice.components.createInvoice.renewal'
+										| translate
+								}}"
+								min="0"
+								placeholder="0"
+								class="form-control"
+								formControlName="renewalGrossAmount"
+								[ngClass]="{
+									'is-invalid':
+										createInvoiceForm.isSubmitted && renewalGrossAmount?.invalid
+								}"
+								[required]="voteHead?.value?.includes(2)" />
+							<app-field-errors
+								[control]="renewalGrossAmount!"
+								[label]="
+									'litemore.bdevs.invoices.invoice.components.createInvoice.renewal'
+										| translate
+								"></app-field-errors>
+						</div>
+					</div>
+					<div [hidden]="!voteHead?.value?.includes(3)" class="form-group row">
+						<label class="col-sm-3 col-form-label">
+							{{
+								"litemore.bdevs.invoices.invoice.components.createInvoice.senderId"
+									| translate
+							}}
+						</label>
+						<div class="col-sm-9">
+							<input
+								type="number"
+								min="0"
+								title="sender ID amount"
+								placeholder="0"
+								class="form-control"
+								formControlName="senderIdAmount"
+								[ngClass]="{
+									'is-invalid':
+										createInvoiceForm.isSubmitted && senderIdAmount?.invalid
+								}"
+								[required]="voteHead?.value?.includes(3)" />
+							<app-field-errors
+								[control]="senderIdAmount!"
+								[label]="
+									'litemore.bdevs.invoices.invoice.components.createInvoice.senderIdAmount'
+										| translate
+								"></app-field-errors>
+						</div>
+					</div>
+					<div [hidden]="!voteHead?.value?.includes(4)" class="form-group row">
+						<label class="col-sm-3 col-form-label">
+							{{
+								"litemore.bdevs.invoices.invoice.components.createInvoice.bulkSms"
+									| translate
+							}}
+						</label>
+						<div class="col-sm-9">
+							<input
+								type="number"
+								min="0"
+								title="Bulk sms amount"
+								placeholder="0"
+								class="form-control"
+								formControlName="bulkSmsAmount"
+								[ngClass]="{
+									'is-invalid':
+										createInvoiceForm.isSubmitted && bulkSmsAmount?.invalid
+								}"
+								[required]="voteHead?.value?.includes(4)" />
+							<app-field-errors
+								[control]="bulkSmsAmount!"
+								[label]="
+									'litemore.bdevs.invoices.invoice.components.createInvoice.bulkSmsAmount'
+										| translate
+								"></app-field-errors>
+						</div>
+					</div>
+					<div [hidden]="!voteHead?.value?.includes(5)" class="form-group row">
+						<label class="col-sm-3 col-form-label">
+							{{
+								"litemore.bdevs.invoices.invoice.components.createInvoice.zerakiTimetable"
+									| translate
+							}}
+						</label>
+						<div class="col-sm-9">
+							<input
+								type="number"
+								min="0"
+								title="Zeraki timetable amount"
+								placeholder="0"
+								class="form-control"
+								formControlName="ztAmount"
+								[ngClass]="{
+									'is-invalid':
+										createInvoiceForm.isSubmitted && ztAmount?.invalid
+								}"
+								[required]="voteHead?.value?.includes(5)" />
+							<app-field-errors
+								[control]="ztAmount!"
+								[label]="'Zeraki timetable amount'"></app-field-errors>
+						</div>
+					</div>
+					<div [hidden]="!voteHead?.value?.includes(6)" class="form-group row">
+						<label class="col-sm-3 col-form-label">
+							{{
+								"litemore.bdevs.invoices.invoice.components.createInvoice.zerakiFinance"
+									| translate
+							}}
+						</label>
+						<div class="col-sm-9">
+							<input
+								type="number"
+								min="0"
+								title="Zeraki finance amount"
+								placeholder="0"
+								class="form-control"
+								formControlName="zfAmount"
+								[ngClass]="{
+									'is-invalid':
+										createInvoiceForm.isSubmitted && zfAmount?.invalid
+								}"
+								[required]="voteHead?.value?.includes(6)" />
+							<app-field-errors
+								[control]="zfAmount!"
+								[label]="
+									'litemore.bdevs.invoices.invoice.components.createInvoice.financeAmount'
+										| translate
+								"></app-field-errors>
+						</div>
+					</div>
+					<div [hidden]="!voteHead?.value?.includes(7)" class="form-group row">
+						<label class="col-sm-3 col-form-label">
+							{{
+								"litemore.bdevs.invoices.invoice.components.createInvoice.zerakiFinanceRenewal"
+									| translate
+							}}
+						</label>
+						<div class="col-sm-9">
+							<input
+								type="number"
+								min="0"
+								title="{{
+									'litemore.bdevs.invoices.invoice.components.createInvoice.financeRenewalAmount'
+										| translate
+								}}"
+								placeholder="0"
+								class="form-control"
+								formControlName="zfRenewal"
+								[ngClass]="{
+									'is-invalid':
+										createInvoiceForm.isSubmitted && zfRenewal?.invalid
+								}"
+								[required]="voteHead?.value?.includes(7)" />
+							<app-field-errors
+								[control]="zfRenewal!"
+								[label]="
+									'litemore.bdevs.invoices.invoice.components.createInvoice.financeRenewalAmount'
+										| translate
+								"></app-field-errors>
+						</div>
+					</div>
+				</div>
+				<div class="form-group col-6">
+					<label class="form-label">
+						{{
+							"litemore.bdevs.invoices.invoice.components.createInvoice.invoiceGross"
+								| translate
+						}}
+					</label>
+					<input
+						type="text"
+						title="{{
+							'litemore.bdevs.invoices.invoice.components.createInvoice.invoiceGross'
+								| translate
+						}}"
+						placeholder="0"
+						class="form-control"
+						[value]="grossAmount | number : '1.2-2'"
+						disabled />
+				</div>
+				<div *ngIf="!isUpdateInvoice" class="form-group col-6">
+					<label class="form-label">
+						{{
+							"litemore.bdevs.invoices.invoice.components.createInvoice.invoiceDueDate"
+								| translate
+						}}
+					</label>
+					<input
+						type="date"
+						title="{{
+							'litemore.bdevs.invoices.invoice.components.createInvoice.invoiceDueDate'
+								| translate
+						}}"
+						placeholder="{{
+							'litemore.bdevs.invoices.invoice.components.createInvoice.invoiceDueDate'
+								| translate
+						}}"
+						class="form-control"
+						formControlName="invoiceDueDate"
+						[ngClass]="{
+							'is-invalid':
+								createInvoiceForm.isSubmitted && invoiceDueDate?.invalid
+						}"
+						required />
+					<app-field-errors
+						[control]="invoiceDueDate!"
+						[label]="
+							'litemore.bdevs.invoices.invoice.components.createInvoice.invoiceDueDate'
+								| translate
+						"></app-field-errors>
+				</div>
+				<ng-container
+					*appLitemoreUserAccess="[LitemoreUserRole.BDEV]; hideComponent: true">
+					<div *ngIf="isUpdateInvoice" class="form-group col-6">
+						<label class="form-label">
+							{{
+								"litemore.bdevs.invoices.invoice.components.createInvoice.extensionDate"
+									| translate
+							}}
+						</label>
+						<input
+							type="date"
+							title="{{
+								'litemore.bdevs.invoices.invoice.components.createInvoice.extensionDate'
+									| translate
+							}}"
+							placeholder="{{
+								'litemore.bdevs.invoices.invoice.components.createInvoice.extensionDate'
+									| translate
+							}}"
+							class="form-control"
+							formControlName="extensionDate"
+							[ngClass]="{
+								'is-invalid':
+									createInvoiceForm.isSubmitted && extensionDate?.invalid
+							}"
+							required />
+						<app-field-errors
+							[control]="extensionDate!"
+							[label]="
+								'litemore.bdevs.invoices.invoice.components.createInvoice.extensionDate'
+									| translate
+							"></app-field-errors>
+					</div>
+				</ng-container>
+				<div class="form-group col-6">
+					<label class="form-label">
+						{{
+							"litemore.bdevs.invoices.invoice.components.createInvoice.invoiceNetKSh"
+								| translate
+						}}
+					</label>
+					<input
+						type="text"
+						title="{{
+							'litemore.bdevs.invoices.invoice.components.createInvoice.invoiceNet'
+								| translate
+						}}"
+						placeholder="0"
+						class="form-control"
+						[value]="netAmount | number : '1.2-2'"
+						disabled />
+				</div>
+				<div class="form-group col-6">
+					<label class="form-label">
+						{{
+							"litemore.bdevs.invoices.invoice.components.createInvoice.vat"
+								| translate
+						}}
+					</label>
+					<input
+						type="text"
+						title="Vat"
+						placeholder="0"
+						class="form-control"
+						[value]="vat | number : '1.2-2'"
+						disabled />
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-12 mb-0 text-end">
+					<button type="submit" class="btn btn-sm btn-success">
+						{{
+							isUpdateInvoice
+								? "litemore.bdevs.invoices.invoice.components.createInvoice.update"
+								: ("litemore.bdevs.invoices.invoice.components.createInvoice.create"
+								  | translate)
+						}}
+					</button>
+				</div>
+			</div>
+		</app-submit-form>
+	</div>
+</div>

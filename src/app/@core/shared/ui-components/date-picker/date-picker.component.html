@@ -1,0 +1,17 @@
+<div [ngClass]="{'form-group': label}">
+	<input [formControl]="control!" matInput [matDatepicker]="picker">
+	<mat-hint>MM/DD/YYYY</mat-hint>
+	<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+	<mat-datepicker #picker></mat-datepicker>
+<!--	<label *ngIf="label" class="control-label mb-1">{{ label }}</label>-->
+<!--	<input type="text"-->
+<!--	       [matDatepicker]="picker"-->
+<!--	       (click)="picker.open()"-->
+<!--	       class="form-control"-->
+<!--	       [formControl]="control!"-->
+<!--	       [placeholder]="placeholder"-->
+<!--	       [ngClass]="{ 'is-invalid': hasErrors }">-->
+<!--	<mat-datepicker-toggle hidden matSuffix [for]="picker" class="calender-btn mt-3"></mat-datepicker-toggle>-->
+<!--	<mat-datepicker #picker class="calender-btn"></mat-datepicker>-->
+	<app-input-error-message [control]="control!"></app-input-error-message>
+</div>

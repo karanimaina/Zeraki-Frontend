@@ -1,0 +1,16 @@
+
+<div class="modal-header justify-content-center">
+  <div>
+    <img class="rounded-circle" src="../../../../{{team?.image}}" [alt]="'shared.teamProfile.imageAltText' | translate" />
+    <h5 class="modal-title">{{ team?.name }}</h5>
+  </div>
+</div>
+<div class="modal-body">
+  <p>{{ team?.description }}</p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal('close')">
+    {{ 'shared.teamProfile.closeBtn' | translate }}
+  </button>
+  <!-- <button type="button" class="btn btn-primary" (click)="closeModal('changes saved!')">Save changes</button> -->
+</div>

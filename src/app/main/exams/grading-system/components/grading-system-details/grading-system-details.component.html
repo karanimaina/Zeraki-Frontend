@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-between">
+	<span class="fw-600">{{ gradingSystem.title }}</span>
+	<button (click)="closeGradingSystemDetails()" class="btn btn-sm btn-dark mb-10">
+		{{ "common.close" | translate }}
+	</button>
+</div>
+
+<div class="table-responsive">
+	<table class="table table-sm table-bordered table-striped mb-0">
+		<thead>
+			<tr>
+				<!-- Low -->
+				<th>{{ "exams.gradingSystem.textLow" | translate }}</th>
+				<!-- High -->
+				<th>{{ "exams.gradingSystem.textHigh" | translate }}</th>
+				<!-- Grade, Points, GPA, Description -->
+				<ng-container *ngIf="!isMentionSchool">
+					<th>{{ "exams.gradingSystem.textGrade" | translate }}</th>
+					<th *ngIf="showPoints">{{ "exams.gradingSystem.textPoints" | translate }}</th>
+					<th *ngIf="showGPA">{{ "common.gpa" | translate }}</th>
+					<th *ngIf="showDescription">{{ "common.description" | translate }}</th>
+				</ng-container>
+				<!-- Mention, Comment -->
+				<ng-container *ngIf="isMentionSchool">
+					<th>{{ schoolData?.mentionLabel }}</th>
+					<th>{{"exams.mentions.comment"|translate}}</th>
+				</ng-container>
+			</tr>
+		</thead>
+		<tbody>
+			<ng-container *ngIf="!isMentionSchool; else mentionsTableData">
+				<tr *ngFor="let g of gradingSystem.gmapping;">
+					<td>{{ g.low }}</td>
+					<td>{{ g.high }}</td>
+					<td>{{ g.grade }}</td>
+					<td *ngIf="showPoints">{{ g.points }}</td>
+					<td *ngIf="showGPA">{{ g.gpa | number:'1.1-1' }}</td>
+					<td *ngIf="showDescription">{{ g.description }}</td>
+				</tr>
+			</ng-container>
+
+			<ng-template #mentionsTableData>
+				<tr *ngFor="let mention of gradingSystem.mentionMappings">
+					<td>{{mention.low}}</td>
+					<td>{{mention.high}}</td>
+					<td>{{mention.mention}}</td>
+					<td>{{mention.comments}}</td>
+				</tr>
+			</ng-template>
+		</tbody>
+	</table>
+</div>

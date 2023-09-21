@@ -1,0 +1,113 @@
+<!-- Classes Top Nav -->
+<app-classes-top-nav *ngIf="!schoolSetup"></app-classes-top-nav>
+
+<!-- Loader -->
+<span *ngIf="loading; then showLoading else showContent"></span>
+
+<ng-template #showLoading>
+
+    <section [ngClass]="!schoolSetup ? 'content mt-config' : ''">
+        <div class="box">
+            <div class="box-body">
+                <app-loader-div [height]="50"></app-loader-div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="box">
+                    <div class="box-body">
+                        <app-loader-div [height]="150"></app-loader-div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</ng-template>
+<!-- Main content -->
+<ng-template #showContent>
+    <section [ngClass]="!schoolSetup ? 'content mt-config' : ''">
+        <div *ngIf="!showSuccessMessageCard" class="box">
+
+            <div *ngIf="updateStreamSubjects" class="box-header fs-16 fw-bold">
+                {{ 'classes.new.classForm.title' | translate }} -
+                {{schoolTypeData?.formoryear | formOrYear}}
+                {{ streamDetails?.form }}
+                {{ streamDetails?.name }}
+            </div>
+
+            <div class="box-body">
+                <form [formGroup]="newClassForm">
+                    <div class="row" [hidden]="updateStreamSubjects">
+                        <div class="col-md-6">
+                            <app-ng-select [label]="(schoolTypeData?.formoryear | formOrYear) || ' '"
+                                           [placeholder]="('classes.new.classForm.selectForm.placeholder' | translate) + ' ' +(schoolTypeData?.formoryear | formOrYear)"
+                                           [items]="intakes"
+                                           bindLabel="classlevel"
+                                           formControlName="form">
+                            </app-ng-select>
+                        </div>
+                        <div class="col-md-6 pt-1">
+                            <app-input [label]="'classes.new.classForm.stream.label' | translate"
+                                       [placeholder]="'classes.new.classForm.stream.placeholder' | translate"
+                                       formControlName="stream">
+                            </app-input>
+                        </div>
+                    </div>
+                    <div class="row" [formArrayName]="'categories'">
+                        <span class="mb-2">{{ 'classes.new.classForm.subject.label' | translate }}</span>
+                        <div class="col-md-3 mb-4"
+                             *ngFor="let category of subjectCategories; let categoryIndex = index"
+                             [formArrayName]="categoryIndex">
+                            <h6 class="fw-bold h6 mb-2">{{ category.name }}</h6>
+                            <div *ngFor="let subject of category.subjects; let subjectIndex = index">
+                                <ng-container [formGroupName]="subjectIndex">
+                                    <input type="checkbox"
+                                           [id]="subject.textCode"
+                                           class="filled-in my-2"
+                                           [formControl]="getSubjectFormControl(subject, categoryIndex, subjectIndex)">
+                                    <label [for]="subject.textCode">{{ subject.name }}</label>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-success btn-sm w-70 pull-right"
+                            [ngClass]="{'pointer-events-none': creatingClass}"
+                            (click)="addClass()">
+                        <svg *ngIf="creatingClass" width="18" height="18" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff">
+                            <g fill="none" fill-rule="evenodd">
+                                <g transform="translate(1 1)" stroke-width="2">
+                                    <circle stroke-opacity=".5" cx="18" cy="18" r="18"/>
+                                    <path d="M36 18c0-9.94-8.06-18-18-18">
+                                        <animateTransform
+                                                attributeName="transform"
+                                                type="rotate"
+                                                from="0 18 18"
+                                                to="360 18 18"
+                                                dur="1s"
+                                                repeatCount="indefinite"/>
+                                    </path>
+                                </g>
+                            </g>
+                        </svg>
+                        <ng-container *ngIf="!creatingClass">
+                            <i class="bi bi-plus-circle"></i>
+                            {{ 'classes.new.addBtn' | translate }}
+                        </ng-container>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <app-add-class-success
+                *ngIf="showSuccessMessageCard"
+                [schoolSetup]="schoolSetup"
+                [updateSubjects]="updateStreamSubjects"
+                [streamDetails]="streamDetails || addedStream"
+                [formOrYear]="schoolTypeData?.formoryear!"
+                (addAnotherSubjectOrClass)="closeSuccessMessageCard()">
+        </app-add-class-success>
+    </section>
+</ng-template>

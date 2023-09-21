@@ -1,0 +1,253 @@
+<!-- TOP NAV -->
+<div class="navbar-light top-wrapper fixed-top bg-primary">
+  <ul class="nav nav-pill customtab2 nav-filled text-center">
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/main/settings/my-prof']" routerLinkActive="active"
+        #rlaMyProf="routerLinkActive" [ngClass]="rlaMyProf.isActive ? 'active' : ''">
+        <i class="me-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+            <path
+              d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z" />
+          </svg>
+        </i>
+        <span>{{ 'settings.userProfile.topNav.updateProfile' | translate }}</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+<!-- Main content -->
+<section class="content mt-config">
+  <div class="row">
+    <div class="col-lg-12">
+      <form #utForm="ngForm" class="form" (ngSubmit)="updateTeacherProfile(utForm)">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="box" style="height: max-content;">
+              <div class="box box-body mb-0 text-center d-flex flex-column justify-content-center no-shadow" style="height: 567px;">
+                <div class="mx-auto w-h-150">
+                  <div *ngIf="uploadingImage.logo" class="img-placeholder mx-auto mb-2 d-flex justify-content-center align-items-center" style="height: 150px; width: 150px; object-fit: cover; object-position: center;">
+                    <div class="spinner-border text-secondary" style="width: 3rem; height: 3rem;" role="status">
+                    </div>
+                  </div>
+                    <img *ngIf="!uploadingImage.logo" [src]="image_path" (error)="image_path = '../../../../assets/img/avatar/p_avatar_blue.png'"
+                      id="profile-image" class="img-fluid rounded-circle mb-15 mx-auto w-h-150" alt=""
+                      style="object-fit: cover; object-position: center;" />
+
+                  <button *ngIf="!uploadingImage.logo && userInfo.url" [hidden]="isDisabled" (click)="deleteProfilePic()" type="button" class="btn-xs btn btn-danger fw-bolder"
+                    style="margin-top: 119.5px; margin-left: -37.5px; position: absolute;">
+                    <i class="fa fa-trash-o"></i>
+                  </button>
+                </div>
+                <div>
+                  <button [hidden]="isDisabled"
+                          (click)="changeImageBtnClick()"
+                          class="btn my-3 btn-xs btn-dark max-w-150 p-1"
+                          [disabled]="uploadingImage.logo"
+                          type="button">
+                    {{ uploadingImage.logo
+                          ? ('settings.userProfile.uploading' | translate)
+                          : ('settings.userProfile.changeImage' | translate)
+                    }}
+                  </button>
+                </div>
+
+                <input hidden #fileUpload type="file" class="mt-10" id="file" accept="image/jpeg, image/png"
+                  [(ngModel)]="logoFile.img" (change)="uploadLogo($event, false, utForm)" imageValidator name="file">
+                <h4 class="text-muted text-capitalize"><b>{{userInfo?.name?.toLowerCase()}}</b></h4>
+                <div class="text-start mt-15">
+
+                  <div class="form-group">
+                    <label class="text-uppercase form-label">{{ 'settings.userProfile.username' | translate }}</label>
+                    <p class="text-muted">
+                      {{userInfo?.email}}
+                    </p>
+                  </div>
+                  <div *ngIf="userInfo?.groups" class="form-group">
+                    <label class="text-uppercase form-label">{{ 'settings.userProfile.groups' | translate }}</label>
+                    <p>
+                      {{userInfo?.groups?.toString()}}
+                    </p>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">{{ 'settings.userProfile.signature' | translate }}</label>
+                    <div>
+                      <div>
+                        <div *ngIf="uploadingImage.signature" class="img-placeholder mb-2 d-flex justify-content-center align-items-center"
+                             style="height: 60px; width: 170px; border-radius: unset">
+                          <div class="spinner-border text-secondary" style="width: 2rem; height: 2rem;" role="status">
+                          </div>
+                        </div>
+                        <img src="{{image_path_signature}}"
+                             *ngIf="!uploadingImage.signature && showLogo_signature"
+                          (error)="image_path_signature = '../../../../assets/img/sig_default.jpg'" height="60"
+                          width="170" alt="Signature">
+                        <button *ngIf="showLogo_signature && !isDisabled && !uploadingImage.signature" type="button" class="btn btn-xs btn-danger"
+                          (click)="deleteSignature()" style=" margin-top: 41px; margin-left: -11.5px;">
+                          <i class="fa fa-trash-o"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="file mt-20">
+                      <div>
+                        <button [hidden]="isDisabled" (click)="changeSignatureBtnClick()" class="btn mb-3 btn-xs btn-dark max-w-150 p-1" type="button">{{ 'settings.userProfile.changeSignature' | translate }}</button>
+                      </div>
+                      <input hidden #fileUpload_signature type="file" id="file" accept="image/jpeg,image/jpg,image/png" [(ngModel)]="sigFile.img"
+                        (change)="uploadLogo($event, true, utForm)" imageValidator name="file">
+                    </div>
+                    <div class="my-20 d-sm-none">
+                      <label class="form-label">{{"common.language" | translate}}</label>
+                      <div>
+                        <button type="button" class="btn btn-sm btn-dark dropdown-toggle" href="#" id="navbarLanguageSelectionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <img
+                            [alt]="'common.languages.' + currentLanguage?.label?.toLowerCase() | translate"
+                            [src]="'/assets/img/country-flags/' + (currentLanguage?.flagCode) + '.svg?refresh=true'"
+                            style="height: 10px; transform: translateY(-2px);"
+                          />
+                          {{ 'common.languages.' + currentLanguage?.label?.toLowerCase() | translate }}
+                        </button>
+
+                        <ul class="dropdown-menu animated fadeIn rounded" aria-labelledby="navbarLanguageSelectionDropdown">
+                          <ng-container *ngFor="let language of languages">
+                            <li style="cursor: pointer;">
+                              <a class="dropdown-item my-0 lang" [style.font-weight]="(currentLanguage?.code === language.code) ? 'bold' : 'normal'" (click)="switchLanguage(language.code)">
+                                <img
+                                  [alt]="'common.languages.' + currentLanguage?.label?.toLowerCase() | translate"
+                                  [src]="'/assets/img/country-flags/' + (language?.flagCode) + '.svg'"
+                                  style="height: 10px;"/>
+                                {{ 'common.languages.' + language.label.toLowerCase() | translate }}
+                              </a>
+                            </li>
+                          </ng-container>
+                        </ul>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8 ">
+            <div class="box">
+              <div class="box-body">
+
+                <h4><b>{{ 'settings.userProfile.updateForm.headerText' | translate }}</b></h4>
+                  <div class="row">
+                      <div class="col-md-6 form-group">
+                        <label class="form-label">{{ 'settings.userProfile.updateForm.name' | translate }}<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="name" #t_name="ngModel" appEmptyStringValidator
+                          [(ngModel)]="userInfo.name" [placeholder]="'settings.userProfile.updateForm.name' | translate"
+                          [ngClass]="{ 'is-invalid': utForm.submitted && t_name.invalid }" required>
+                        <div *ngIf="utForm.submitted && (t_name.errors?.required || t_name.errors?.appEmptyStringValidator)"
+                          class="text-danger">
+                          <small>{{ 'settings.userProfile.updateFormErrors.name' | translate }}</small>
+                        </div>
+                    </div>
+                      <div class="col-md-6 form-group">
+                        <label class="form-label">{{ 'settings.userProfile.updateForm.phoneNumber' | translate }}:<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="phone" [(ngModel)]="userInfo.phone"
+                          [placeholder]="'settings.userProfile.updateForm.phoneNumberPlaceholderText' | translate"
+                          appPhoneValidator #phone="ngModel"
+                          [ngClass]="{ 'is-invalid': utForm.submitted && phone.invalid }" required>
+                        <div *ngIf="utForm.submitted && (phone.errors?.required || phone.errors?.appPhoneValidator)"
+                          class=" text-danger">
+                          <small>{{ 'settings.userProfile.updateFormErrors.phoneNumberInvalid' | translate }}</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="form-label">{{ 'settings.userProfile.updateForm.personalEmail' | translate }}</label>
+                        <input type="email" class="form-control" name="email" [(ngModel)]="userInfo.personalEmail" pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
+                          #email="ngModel" [placeholder]="'settings.userProfile.updateForm.personalEmailPlaceholderText' | translate">
+                        <div *ngIf="utForm.submitted && email.errors?.pattern"
+                          class=" text-danger">
+                          <small>{{ 'settings.userProfile.updateFormErrors.email' | translate }}</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="form-label">{{ 'settings.userProfile.updateForm.gender' | translate }}</label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate" [selectOnTab]="true" [placeholder]="'settings.userProfile.updateForm.genderPlaceholderText' | translate" name="gender"
+                          [(ngModel)]="userInfo.gender" [disabled]="isDisabled" [clearable]="false">
+                          <ng-option [value]="'Male'">{{ 'settings.userProfile.updateForm.genderMaleOption' | translate }}</ng-option>
+                          <ng-option [value]="'Female'">{{ 'settings.userProfile.updateForm.genderFemaleOption' | translate }}</ng-option>
+                          <ng-option [value]="'Unspecified'">{{ 'settings.userProfile.updateForm.genderUnspecifiedOption' | translate }}</ng-option>
+                        </ng-select>
+                    </div>
+                    <div class="col-md-6 form-group">
+												<ui-kenyan-school [template]="tscNumber"></ui-kenyan-school>
+						  					<ui-zimbabwe-school [template]="ecNumber"></ui-zimbabwe-school>
+												<ui-uganda-school [template]="regNumber"></ui-uganda-school>
+												<ui-tanzania-school [template]="regNumber"></ui-tanzania-school>
+						  					<ui-guinea-school [template]="regNumber"></ui-guinea-school>
+						  					<ui-ivory-coast-school [template]="regNumber"></ui-ivory-coast-school>
+
+												<ng-template #tscNumber>
+													<label class="form-label">{{ 'common.tscNumber' | translate }}</label>
+                          <input type="number" class="form-control" [(ngModel)]="userInfo.tscNo" name="tscNo" [placeholder]="'common.tscNumber' | translate">
+												</ng-template>
+												<ng-template #regNumber>
+													<label class="form-label">{{ 'common.regNumber' | translate }}</label>
+                          <input type="number" class="form-control" [(ngModel)]="userInfo.tscNo" name="tscNo" [placeholder]="'common.regNumber' | translate">
+												</ng-template>
+												<ng-template #ecNumber>
+													<label class="form-label">{{ 'common.ecNumber' | translate }}</label>
+                          <input type="number" class="form-control" [(ngModel)]="userInfo.tscNo" name="tscNo" [placeholder]="'common.ecNumber' | translate">
+												</ng-template>
+                      </div>
+                    <div class="col-md-6 form-group">
+                        <label class="form-label">{{ 'settings.userProfile.updateForm.idNumber' | translate }}</label>
+                        <input type="number" class="form-control" [(ngModel)]="userInfo.nationalIdNumber" name="idNumber" [placeholder]="'settings.userProfile.updateForm.idNumber' | translate">
+                      </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="form-label">{{ 'settings.userProfile.updateForm.bio' | translate }}</label>
+                        <textarea rows="8" class="form-control" [(ngModel)]="userInfo.biography" name="bio" [placeholder]="'settings.userProfile.updateForm.bio' | translate"></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="form-group mb-0 mt-10" style="display: flex; justify-content: space-between;">
+                  <div style="display:inline-block"></div>
+                  <div display="inline-block">
+                    <span *ngIf="isUpdating; then showLoader else showButton"></span>
+                    <ng-template #showLoader>
+                      <app-loader-pulse style="display: inline-block;"></app-loader-pulse>
+                    </ng-template>
+                    <ng-template #showButton class="text-end">
+                      <button *ngIf="!isDisabled" (click)="isDisabled = true" type="button"
+                        class="btn btn-sm btn-warning me-1">
+                        <i class="ti-trash"></i>
+                        {{ 'settings.userProfile.updateForm.cancelBtn' | translate }}
+                      </button>
+                      <button *ngIf="!isDisabled" type="submit" class="btn btn-sm btn-info">
+                        <i class="ti-save-alt"></i>
+                        {{ 'settings.userProfile.updateForm.saveBtn' | translate }}
+                      </button>
+                      <button *ngIf="isDisabled" (click)="isDisabled = false" type="button" class="btn btn-sm btn-info">
+                        <i>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-pen" viewBox="0 0 16 16">
+                            <path
+                              d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+                          </svg>
+                        </i>
+                        {{ 'settings.userProfile.updateForm.editBtn' | translate }}
+                      </button>
+                    </ng-template>
+
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

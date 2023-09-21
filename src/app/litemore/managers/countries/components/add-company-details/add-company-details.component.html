@@ -1,0 +1,56 @@
+<form (ngSubmit)="addCompanyDetails()" [formGroup]="addForm" class="row">
+	<div class="col-sm-6">
+		<app-input [label]="'litemore.managers.countries.components.addCompanyDetails.companyName'|translate"
+			formControlName="name"
+			[placeholder]="'litemore.managers.countries.components.addCompanyDetails.companyName'|translate"
+			type="text"></app-input>
+	</div>
+	<div class="col-sm-6">
+		<app-input [label]="'litemore.managers.countries.components.addCompanyDetails.companyAddress'| translate"
+			formControlName="address"
+			[placeholder]="'litemore.managers.countries.components.addCompanyDetails.companyAddress'|translate"
+			[type]="'text'"></app-input>
+	</div>
+	<div class="col-sm-6">
+		<app-input [label]="'litemore.managers.countries.components.addCompanyDetails.email'|translate"
+			formControlName="email"
+			[placeholder]="'litemore.managers.countries.components.addCompanyDetails.email'| translate"
+			[type]="'email'"></app-input>
+	</div>
+	<div class="col-sm-6">
+		<app-input [label]="'litemore.managers.countries.components.addCompanyDetails.telephone'|translate"
+			formControlName="phone"
+			placeholder="&times;&times;&times;&times; &times;&times;&times; &times;&times;&times;"
+			[type]="'text'"></app-input>
+	</div>
+	<div class="col-sm-12">
+		<app-input [label]="'litemore.managers.countries.components.addCompanyDetails.city'|translate"
+			formControlName="city"
+			[placeholder]="'litemore.managers.countries.components.addCompanyDetails.city'|translate"
+			[type]="'text'"></app-input>
+	</div>
+	<div class="col-12">
+		<div class="box bs-5 border-dark rounded">
+			<div class="box-body p-10">
+				<div class="flex-grow-1">
+					<!--Leave the input fields empty if you do not wish to add company details-->
+					{{"litemore.managers.countries.components.addCompanyDetails.leaveInputEmpty"|translate}}
+				</div>
+			</div>
+		</div>
+		<div class="justify-content-between d-flex">
+			<button class="btn btn-default btn-sm" matStepperPrevious type="button">
+				<i class="bi bi-chevron-double-left"></i>
+				<ng-container>
+					{{"common.back"|translate}}
+				</ng-container>
+			</button>
+			<button class="btn btn-primary btn-sm" type="submit">
+				<ng-container>
+					{{"common.next"|translate}}
+				</ng-container>
+				<i class="bi bi-chevron-double-right"></i>
+			</button>
+		</div>
+	</div>
+</form>

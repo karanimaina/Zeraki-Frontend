@@ -1,0 +1,231 @@
+<form [formGroup]="ya_form">
+	<div class="form-group">
+		<label class="form-label">
+			<!-- Form  -->
+			{{"exams.yearAverageExams.textForm" | translate: {formoryear: schoolTypeData?.formoryear | formOrYear } }}
+		</label>
+		<select class="form-select" formControlName="form" (change)="formSelected()">
+			<option selected disabled value="">
+				<!-- Select Form -->
+				{{"exams.yearAverageExams.textSelectForm" | translate: {formoryear:
+					schoolTypeData?.formoryear | formOrYear } }}
+			</option>
+			<option *ngFor="let form of streamIntakes.intakes" [value]="form.intakeid">{{form.label}}</option>
+		</select>
+	</div>
+	<div class="form-group" *ngIf="formAcademicYears.length>0">
+		<label class="control-label">
+			<!-- Academic Year -->
+			{{"exams.yearAverageExams.textAcademicYear"|translate}}
+		</label>
+		<select formControlName="academicYears" (change)="academicYearSelected()" class="form-select">
+			<option value="">
+				<!-- Select Academic Year -->
+				{{"exams.yearAverageExams.textSelectAcademicYear"|translate}}
+			</option>
+			<option *ngFor="let ay of formAcademicYears" [value]="ay.ayid">{{ay.name}}</option>
+		</select>
+	</div>
+</form>
+
+<div *ngIf="ya_form.value.academicYears !=='' ">
+
+	<!--
+  ----------------------------------------------
+  Exam Term section
+  ----------------------------------------------
+  -->
+	<div class="col-sm-12">
+		<!-- <pre>{{exams.ay_term_exams|json}}</pre> -->
+		<div class="mb-5 fw-600">
+			<!-- Select Exams -->
+			{{"exams.yearAverageExams.textSelectExams"|translate}}
+			-
+			<!-- Form  -->
+			{{schoolTypeData?.formoryear | formOrYear }}
+			{{exams.form}}
+		</div>
+		<div *ngIf="exams.ay_term_exams?.length > 0; then showExamsSection else showNoExamsFound"></div>
+		<ng-template #showNoExamsFound>
+			{{ 'exams.createExam.noExamFound' | translate }}
+		</ng-template>
+		<ng-template #showExamsSection>
+			<table class="table table-sm table-bordered table-striped">
+				<thead>
+				<tr>
+					<th>
+						<!-- Term -->
+						{{"exams.yearAverageExams.textTerm"|translate}}
+					</th>
+					<th>{{ 'exams.examsTopNav.textExams' | translate }}</th>
+				</tr>
+				</thead>
+				<tbody *ngIf="exams">
+				<tr *ngFor="let exam of exams.ay_term_exams; index as i;">
+					<td>
+						<!-- Term -->
+						{{"exams.yearAverageExams.textTerm"|translate}} -
+						{{exam.term}}
+					</td>
+					<td>
+						<select name="exam_{{i}}" id="exam_{{i}}" [(ngModel)]="exam.selected_exam" class="form-select">
+							<option value="null">
+								<!-- Select Exam -->
+								{{"exams.yearAverageExams.textSelectExam"|translate}}
+							</option>
+							<ui-kenyan-school [template]="eGroupOrExamSeriesOptions"></ui-kenyan-school>
+							<ui-ghana-school [template]="eGroupOrExamSeriesOptions"></ui-ghana-school>
+							<ui-zambia-school [template]="eGroupOrExamSeriesOptions"></ui-zambia-school>
+							<ui-tanzania-school [template]="eGroupOrExamSeriesOptions"></ui-tanzania-school>
+
+							<ng-template #eGroupOrExamSeriesOptions>
+								<option *ngFor="let e of exam.examList" [value]="e.seriesid || e.egroupid">{{e.exam_name}}</option>
+							</ng-template>
+
+							<ui-guinea-school [template]="examGroupTemplate"></ui-guinea-school>
+							<ui-ivory-coast-school [template]="examGroupTemplate"></ui-ivory-coast-school>
+
+							<ng-template #examGroupTemplate>
+								<option *ngFor="let e of exam.examList" [value]="e.egroupid">{{e.exam_name}}</option>
+							</ng-template>
+						</select>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</ng-template>
+
+	</div>
+
+	<ui-kenyan-school [template]="rankingCriteriaTemplate"></ui-kenyan-school>
+	<ui-ghana-school [template]="rankingCriteriaTemplate"></ui-ghana-school>
+	<ui-zambia-school [template]="rankingCriteriaTemplate"></ui-zambia-school>
+	<ui-tanzania-school [template]="rankingCriteriaTemplate"></ui-tanzania-school>
+
+	<ng-template #rankingCriteriaTemplate>
+		<div class="col-xs-12 col-md-12 no-padding">
+			<label class="control-label" for="year">
+				<!-- Ranking Criteria -->
+				{{"exams.yearAverageExams.textRankingCriteria"|translate}}
+			</label>
+			<div class="col-xs-12" style="padding: 0 0 16px 0">
+				<div class="col-xs-12 col-md-3" style="display: inline-block;padding: 0 0px 8px 0">
+					<input type="radio" id="basic_radio_1" name="radioTest" value="0" [(ngModel)]="rankCriteria"
+						   class="with-gap radio-col-info" [checked]="(rankCriteria === 0) ? 'true' : false">
+					<label for="basic_radio_1">
+						<!-- Rank by mean marks -->
+						{{isSouthAfricanSchool ? ("exams.yearAverageExams.textRankByAverageMarks"|translate) : ("exams.yearAverageExams.textRankByMeanMarks"|translate)}}
+					</label>
+				</div>
+				<div class="col-xs-12 col-md-3" *ngIf="schoolTypeData?.isKcseSchool"
+					 style="display: inline-block;padding: 0 0px 8px 0">
+					<input type="radio" value="1" id="basic_radio_2" [(ngModel)]="rankCriteria"
+						   [checked]="(rankCriteria === 1) ? 'true' : false" name="radioTest"
+						   class="with-gap radio-col-info">
+					<label for="basic_radio_2">
+						<!-- Rank by KCSE points -->
+						{{"exams.yearAverageExams.textRankByKcsePoints"|translate}}
+					</label>
+				</div>
+				<div class="col-xs-12 col-md-3" style="display: inline-block;padding: 0 0px 0px 0">
+					<input type="radio" [checked]="(rankCriteria === 2) ? 'true' : false" id="basic_radio_3"
+						   name="radioTest" value="2" [(ngModel)]="rankCriteria" class="with-gap radio-col-info">
+					<label for="basic_radio_3">
+						<!-- Rank by mean points -->
+						{{"exams.yearAverageExams.textRankByMeanPoints"|translate}}
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12 col-md-12" style="padding: 0 0 20px 0" *ngIf="(rankCriteria == 0 || rankCriteria == 2)">
+			<label class="control-label fw-600" for="gradingsystem">
+				<!-- Minimum Number of Subjects That Can Be Taken -->
+				{{"exams.yearAverageExams.textMinimumSubjectsTaken"|translate}}
+			</label>
+			<input type="number" required min="{{min}}"
+				   title='{{"exams.yearAverageExams.inputMinimumTitle"|translate}}' value="" name="min" id="min"
+				   [(ngModel)]="min" class="form-control">
+		</div>
+
+		<div class="col-xs-12 col-md-12" style="padding: 0 0 20px 0" *ngIf="rankCriteria == 0">
+			<label class="control-label fw-600" for="gradingsystem">
+				<!-- Overall Grading System -->
+				{{"exams.yearAverageExams.textOverallGs"|translate}}
+			</label>
+			<select style="margin: 0" class="form-select m-b" [required]="rankCriteria == 0" name="gradingsystem"
+					id="gradingsystem" [(ngModel)]="selectedGsId" (change)="setSelectedGs()">
+				<option value="">
+					<!-- Select Grading System -->
+					{{"exams.yearAverageExams.textSelectGs"|translate}}
+				</option>
+				<option *ngFor="let gs of gradingSystems" [value]="gs.gsid">{{gs.title}}</option>
+				<!-- (change)="setSelectedGs()" -->
+			</select>
+		</div>
+
+		<div class="col-xs-12 col-md-12" style="padding: 0 0 0 0">
+			<label class="control-label fw-600" for="year">
+				<!-- Subject Grading Systems -->
+				{{"exams.yearAverageExams.textSubjectGs"|translate}}
+			</label>
+			<div class="table-responsive" style="margin: 0">
+				<table class="table table-sm table-striped table-hover table-bordered">
+					<thead>
+					<tr>
+						<th>
+							<!-- Subject -->
+							{{"exams.yearAverageExams.textSubject"|translate}}
+						</th>
+						<th>
+							<!-- Grading System -->
+							{{"exams.yearAverageExams.textGs"|translate}}
+						</th>
+					</tr>
+					<tbody style="text-transform: capitalize">
+				<tr *ngFor="let s of exams.subjects,let i = index">
+					<td style="vertical-align: middle">{{s.name}}</td>
+					<td style="vertical-align: middle">
+						<select style="margin: 0" class="form-select m-b" [(ngModel)]="s.value"
+								(change)="setSelectedGs_Subjects(s.gs, s.preview, i)" required name="term">
+							<option value="" selected>
+								<!-- Select -->
+								{{"exams.yearAverageExams.textSelect"|translate}}
+							</option>
+							<option *ngFor="let gs of gradingSystems" [value]="gs.gsid">{{gs.title}}</option>
+						</select>
+						<!-- ng-change="setSelectedGs_Subjects(s.gs, s.credit-notes, statename + $index)" -->
+					</td>
+				</tr>
+				</tbody>
+				</table>
+			</div>
+		</div>
+	</ng-template>
+
+	<div class="col-xs-12 col-md-12" style="padding: 16px 0 0 0">
+		<span class="pull-right">
+			<button type="button" *ngIf="!isGenerateYearAverage" (click)="generateYearAverage()"
+					class="btn btn-info btn-sm">
+				<!-- Generate Year Average -->
+				{{"exams.yearAverageExams.textGenerateYearAverage"|translate}}
+			</button>
+
+			<span class="btn btn-sm btn-secondary" *ngIf="isGenerateYearAverage">
+				<i class="fa fa-spin fa-spinner"></i>
+				<!-- Generating -->
+				{{"exams.yearAverageExams.textGenerating"|translate}}
+			</span>
+		</span>
+	</div>
+
+	<swal #successAlert title='{{"exams.yearAverageExams.alertSuccessTitle"|translate}}'
+		  text='{{"exams.yearAverageExams.alertSuccessText"|translate}}' icon="success" [showCancelButton]="false"
+		  [focusCancel]="false" (confirm)="viewManageExams()">
+	</swal>
+
+	<swal #confirmAlert title='{{"exams.yearAverageExams.alertConfirmTitle"|translate}}'
+		  text='{{"exams.yearAverageExams.alertConfirmText"|translate}}' icon="question" [showCancelButton]="true"
+		  [focusCancel]="true" (confirm)="saveYearAverage()">
+	</swal>
+</div>

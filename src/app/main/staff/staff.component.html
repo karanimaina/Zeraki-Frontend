@@ -1,0 +1,5 @@
+<!-- Staff Top Nav -->
+<app-staff-nav-top></app-staff-nav-top>
+
+<router-outlet *ngIf="!networkService.isNetworkStopped"></router-outlet>
+<app-connection-lost *ngIf="networkService.isNetworkStopped"></app-connection-lost>

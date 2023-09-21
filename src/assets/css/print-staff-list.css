@@ -1,0 +1,8 @@
+@media print {
+    img{
+        height:90px !important;
+    }
+    h3,p{
+        font-size: smaller !important;
+    }
+}

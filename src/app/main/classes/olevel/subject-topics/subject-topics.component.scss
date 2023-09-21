@@ -1,0 +1,25 @@
+.table > :not(:last-child) > :last-child > * {
+  border-bottom-color: #f0f4f9 !important;
+  border-bottom-width: 2px;
+}
+
+thead, tbody, tfoot, tr, td, th {
+  border-color: #f0f4f9 !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.table > :not(caption) > * > * {
+  border-bottom-width: 2px;
+}
+
+.table-hover > tbody > tr:hover {
+  --bs-table-accent-bg: #29aae212;
+  color: var(--bs-table-hover-color);
+  cursor: default;
+  transition: all 0.1ms;
+}
+
+.w-121{
+  width: 121px;
+}

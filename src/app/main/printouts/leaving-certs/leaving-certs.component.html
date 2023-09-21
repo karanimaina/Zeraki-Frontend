@@ -1,0 +1,200 @@
+<!--  For KCSE and other schools-->
+<ng-container *ngIf="schoolTypeData && !schoolTypeData.isOLevelSchool && !(userRoles$ | async)?.isSchoolAdmin">
+    <!-- PRINTOUTS TOP NAV FOR NON-ADMINS -->
+    <div class="navbar-light top-wrapper fixed-top bg-primary">
+        <ul class="nav nav-pill customtab2 nav-filled text-center">
+            <li class="nav-item">
+                <a class="nav-link active">
+                    <span class="me-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-patch-check" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M10.354 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+                            <path
+                                d="m10.273 2.513-.921-.944.715-.698.622.637.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01.622-.636a2.89 2.89 0 0 1 4.134 0l-.715.698a1.89 1.89 0 0 0-2.704 0l-.92.944-1.32-.016a1.89 1.89 0 0 0-1.911 1.912l.016 1.318-.944.921a1.89 1.89 0 0 0 0 2.704l.944.92-.016 1.32a1.89 1.89 0 0 0 1.912 1.911l1.318-.016.921.944a1.89 1.89 0 0 0 2.704 0l.92-.944 1.32.016a1.89 1.89 0 0 0 1.911-1.912l-.016-1.318.944-.921a1.89 1.89 0 0 0 0-2.704l-.944-.92.016-1.32a1.89 1.89 0 0 0-1.912-1.911l-1.318.016z" />
+                        </svg>
+                    </span>
+                    <span>{{ 'printouts.topNav.leavingCert' | translate }} </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</ng-container>
+
+<section class="content mt-config">
+    <div *ngIf="!showingDocument" class="row">
+        <div class="col-12">
+            <div class="box box-widget">
+                <div class="box-header with-border">
+                    <div class="user-block">
+                        <h4 class="box-title">{{ 'printouts.leavingCerts.title' | translate }}</h4>
+                    </div>
+                    <ul class="box-controls pull-right">
+                        <li><a class="box-btn-slide text-dark fs-16" href="#"></a></li>
+                    </ul>
+                </div>
+                <div class="box-body">
+                    <form #lcForm="ngForm" class="form" (ngSubmit)="lcForm.form.valid && filterGraduationStudents()">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">{{ schoolTypeData?.formoryear | formOrYear }}</label>
+                                    <ng-select 
+                                        [items]="allIntakes"
+                                        [notFoundText]="'common.noItemsFound' | translate" 
+                                        [selectOnTab]="true"
+                                        appendTo="body" 
+                                        [dropdownPosition]="'bottom'" 
+                                        name="graduationyear"
+                                        [(ngModel)]="filterForm.intake"
+                                        (ngModelChange)="graduatedClassesChange()" 
+                                        #graduationyear="ngModel"
+                                        [placeholder]="'printouts.classList.clForm.class.placeholder' | translate: {formoryear: (schoolTypeData?.formoryear | formOrYear)}"
+                                        required>
+                                        <ng-template ng-label-tmp ng-option-tmp let-item="item">
+                                            {{item?.classlevel || item?.graduationYear}}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">{{ 'printouts.leavingCerts.lcForm.stream.label' |
+                                        translate }}</label>
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                        [items]="selectedIntakeStreams" [selectOnTab]="true" appendTo="body"
+                                        [dropdownPosition]="'bottom'" name="stream" [(ngModel)]="filterForm.stream" #stream="ngModel"
+                                        bindLabel="name" bindValue="streamid"
+                                        [placeholder]="'printouts.leavingCerts.lcForm.stream.placeholder' | translate"
+                                        required [ngClass]="{ 'is-invalid': lcForm.submitted && stream.invalid }">
+                                    </ng-select>
+
+                                    <div *ngIf="lcForm.submitted && stream.errors?.required"
+                                        class="form-control-feedback text-danger">
+                                        <small>{{ 'printouts.leavingCerts.lcForm.stream.streamError' | translate
+                                            }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button *ngIf="!isLoading" [disabled]="graduationyear.invalid || stream.invalid" type="submit"
+                            class="btn btn-sm btn-info pull-right box-btn-slide-close">
+                            {{ 'printouts.leavingCerts.lcForm.searchBtn' | translate }}
+                        </button>
+                        <div *ngIf="isLoading" class="pull-right">
+                            <img src="assets/img/loading-bars.svg" alt="Loading-bars">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div [hidden]="!searchClicked" class="row mt-20">
+                <div class="box box-widget">
+                    <!-- <div class="box-header without-border">
+                      <div class="row">
+                          <div class="col-md-6 text-start">
+                              <h1>Zeraki Demo School</h1>
+                              <div>P.O BOX 358-30100</div>
+                              <div>Kisii</div>
+                              <div>0719446154</div>
+                              <div>thisisatest@gmail.com</div>
+                          </div>
+                          <div class="col-md-6 text-end mt-10">
+                              <img src="../../../../assets/img/default-logo.png" height="100" width="100" alt="School logo">
+                          </div>
+                      </div>
+                    </div> -->
+                    <div *ngIf="studentResult?.length == 0" class="box-body bg-warning">
+                        <h4>{{ 'printouts.leavingCerts.noData' | translate }}</h4>
+                    </div>
+                    <div *ngIf="studentResult.length > 0" class="box-body">
+                        <h6 class="col-12">{{ 'printouts.leavingCerts.table.title' | translate }}</h6>
+                        <div class="col-12 mt-20">
+                            <div class="table-responsive">
+                                <table class="table  table-sm table-bordered mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="col" class="text-center" style="width: 5%">#</th>
+                                            <th scope="col" style="width: 10%">{{ 'printouts.leavingCerts.table.admNo' |
+                                                translate }}</th>
+                                            <th scope="col" style="width: 60%">{{ 'printouts.leavingCerts.table.name' |
+                                                translate }}</th>
+                                            <th scope="col" style="width: 10%">{{ 'printouts.leavingCerts.table.stream'
+                                                | translate }}</th>
+                                            <th scope="col" style="width: 15%">{{ 'printouts.leavingCerts.table.action'
+                                                | translate }}</th>
+                                        </tr>
+                                    </tbody>
+                                    <tbody>
+                                        <tr *ngFor="let x of paginate_results?.data; index as i">
+                                            <td class="text-center">{{(data_limit_length * paginate_results.page_number
+                                                - data_limit_length) + (i + 1)}}</td>
+                                            <td>{{x.admno}}</td>
+                                            <td>{{x.name}}</td>
+                                            <td>{{x.stream}}</td>
+                                            <td class="text-center" [attr.disabled]="x.loading">
+                                                <span (click)="showDocument(x)" class="badge badge-light">{{
+                                                    'printouts.leavingCerts.table.viewCert' | translate }}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- PAGINATION -->
+                            <div *ngIf="paginate_results?.pages > 1" class="mt-20">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination pagination-sm justify-content-end">
+                                        <li class="page-item me-2 pt-5">
+                                            <!-- <a class="page-link" href="#" tabindex="-1">First</a> -->
+                                            <span tabindex="-1">{{ 'printouts.leavingCerts.table.pagination' |
+                                                translate:{page: paginate_results.page_number, total:
+                                                paginate_results.pages} }}</span>
+                                        </li>
+                                        <li class="page-item" [ngClass]="{'disabled': !paginate_results.prev.status}">
+                                            <a class="page-link" (click)="pagerClicked(paginate_results.prev)"
+                                                aria-label="Previous" aria-disabled="true">
+                                                <span aria-hidden="true">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-arrow-left-short"
+                                                        viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd"
+                                                            d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+                                                    </svg>
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <!-- <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                      <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+                                        <li class="page-item" [ngClass]="{'disabled': !paginate_results.next.status}">
+                                            <a class="page-link" (click)="pagerClicked(paginate_results.next)"
+                                                aria-label="Next">
+                                                <span aria-hidden="true">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-arrow-right-short"
+                                                        viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd"
+                                                            d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
+                                                    </svg>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="showingDocument" class="row">
+        <app-leaving-cert-doc
+            (navigateToStudent)="editStudent($event)"
+            [studentCertificate]="studentCertificate"
+            [schoolTypeData]="schoolTypeData"
+            [schoolProfile]="schoolProfile"
+            [userRoles$]="userRoles$"
+            (toggleList)="hideDocument()">
+        </app-leaving-cert-doc>
+    </div>
+</section>

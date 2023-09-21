@@ -1,0 +1,50 @@
+<div class="row">
+    <!-- Section for school logo provided -->
+    <div *ngIf="schoolLogoPath !== undefined" class="col-12">
+        <div class="d-flex justify-content-between">
+            <div class="text-start">
+                <h3 class="fw-bold mt-0">{{schoolProfile?.name}}
+                </h3>
+                <div *ngIf="schoolProfile?.address.length > 0"
+                    class="fw-bold">
+                    {{schoolProfile?.address}}</div>
+                <div *ngIf="schoolProfile?.phone.length > 0"
+                    class="fw-bold">
+                    {{schoolProfile?.phone}}</div>
+                <div *ngIf="schoolProfile?.email.length > 0"
+                    class="fw-bold" style="padding-bottom: 5px">
+                    {{schoolProfile?.email}}</div>
+            </div>
+            <div>
+                <img src="{{schoolLogoPath}}" height="100" width="100"
+                    alt="School image" class="school-image"
+                    style="display: block;margin: auto;background-color: #F1F3F6;">
+                <!-- <img src="../../../../assets/img/default-logo.png" height="100"
+                    width="100" alt="School logo"> -->
+            </div>
+        </div>
+        <p
+            style="border-bottom: 2px solid #62cb31;margin-bottom: 0.5rem;">
+        </p>
+    </div>
+    <!-- Section school logo is undefined -->
+    <div *ngIf="schoolLogoPath === undefined"
+        class="text-center col-md-12 col-sm-12 text-center"
+        style="display: block">
+        <div>
+            <h3 class="fw-bold mt-0">{{schoolProfile?.name}}</h3>
+            <div *ngIf="schoolProfile?.address.length > 0"
+                class="fw-bold">
+                {{schoolProfile?.address}}</div>
+            <div *ngIf="schoolProfile?.phone.length > 0"
+                class="fw-bold">
+                {{schoolProfile?.phone}}</div>
+            <div *ngIf="schoolProfile?.email.length > 0"
+                class="fw-bold" style="padding-bottom: 5px">
+                {{schoolProfile?.email}}</div>
+            <p
+                style="border-bottom: 2px solid #62cb31;margin-bottom: 0.5rem;">
+            </p>
+        </div>
+    </div>
+</div>

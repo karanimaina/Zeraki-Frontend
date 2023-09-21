@@ -1,0 +1,13 @@
+<!-- Student Top Nav -->
+<app-students-top-nav></app-students-top-nav>
+
+<section class="content mt-config">
+	<div class="row">
+		<div class="col-12">
+			<app-students-house-list [residentId]="residentId"
+									 [showBackAction]="true"
+									 (navigateBackEvt)="navigateBack()">
+			</app-students-house-list>
+		</div>
+	</div>
+</section>

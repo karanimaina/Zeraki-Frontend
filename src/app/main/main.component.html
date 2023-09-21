@@ -1,0 +1,36 @@
+<ng-container *ngIf="showSplash">
+  <app-splash></app-splash>
+</ng-container>
+<ng-container *ngIf="!showSplash">
+
+  <body class="hold-transition sidebar-mini theme-primary fixed" [ngClass]="isChecked ? 'dark-skin' : 'light-skin'">
+
+    <div class="wrapper">
+
+      <app-top-nav [networkStatus]="(networkStatus$ | async)" [isJointAccount]="isJointAccount"></app-top-nav>
+
+      <app-side-nav [networkStatus]="(networkStatus$ | async)" *ngIf="!userInit?.school_invoice_info?.account_suspended">
+      </app-side-nav>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <div class="container-full">
+
+          <div class="mt-topNav {{(networkStatus$ | async)? '': 'offline'}}">
+            <router-outlet *ngIf="!networkService.isNetworkStopped"></router-outlet>
+            <app-connection-lost *ngIf="networkService.isNetworkStopped"></app-connection-lost>
+          </div>
+
+          <!-- Bottom Mobile Navbar -->
+          <app-mobile-nav></app-mobile-nav>
+        </div>
+      </div>
+
+      <div class="d-none d-md-block">
+        <footer class="main-footer fixed-bottom">
+          &copy; {{date | date: 'yyyy'}} <a href="https://www.zeraki.app/">Zeraki</a>. {{ 'common.allRightsReserved' | translate }}.
+        </footer>
+      </div>
+    </div>
+  </body>
+</ng-container>

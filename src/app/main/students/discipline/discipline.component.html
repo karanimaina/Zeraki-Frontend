@@ -1,0 +1,758 @@
+<!-- Student Top Nav -->
+<div class="navbar-light top-wrapper fixed-top bg-primary">
+  <ul class="nav nav-pill customtab2 nav-filled text-center">
+    <li class="nav-item">
+      <a routerLink="/main/students/dpn" class="nav-link" routerLinkActive="active" #rlaSearchStudent="routerLinkActive"
+        [ngClass]="rlaSearchStudent.isActive ? 'active' : ''">
+        <span class="me-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person"
+            viewBox="0 0 16 16">
+            <path
+              d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+          </svg>
+        </span>
+        <span>{{ 'students.discipline.comments' | translate }}</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+  <div class="col-12">
+    <div *ngIf="isLoading; then showLoadingSection else showDataSection"></div>
+
+    <ng-template #showLoadingSection>
+      <!-- For top section -->
+      <div class="row">
+        <div class="col-12">
+          <div class="box">
+            <div class="box-body">
+              <app-loader-div [height]="130"></app-loader-div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- For Middle Section -->
+      <div class="row">
+        <div class="col-12">
+          <div class="box">
+            <div class="box-body">
+              <app-loader-div [height]="130"></app-loader-div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template #showDataSection>
+      <div *ngIf="student?.admno == undefined" class="box bg-primary-light">
+        <div class="box-header with-border">
+          <h3 class="text-dark">{{ 'students.discipline.deleted' | translate }}</h3>
+        </div>
+      </div>
+
+      <div *ngIf="student?.admno != undefined" class="box bg-primary-light">
+        <!-- header -->
+        <div class="box-header with-border">
+          <h6 class="text-dark">{{ 'students.discipline.comments' | translate }}</h6>
+
+          <div class="d-flex bd-highlight mb-3">
+            <div class="p-2 bd-highlight">
+              <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="primary" class="bi bi-person-circle"
+                viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                <path fill-rule="evenodd"
+                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+              </svg>
+            </div>
+
+            <div class="p-2 bd-highlight">
+              <h3 class="box-title text-dark text-capitalize">{{student?.name.toLowerCase()}}
+                <small class="subtitle">
+                  {{student?.admno}}, {{schoolTypeData?.formoryear | formOrYear}} {{student?.current_class_name}}
+                </small>
+              </h3>
+            </div>
+
+            <div class="ms-auto p-2 bd-highlight d-none d-lg-inline-block">
+              <div class="btn-group">
+                <!-- profile -->
+                <button *appNormalTeacherHidden="true" routerLink="../../prof/{{student?.userid}}" type="button"
+                  class="waves-effect waves-light btn btn-secondary">
+                  <i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                      <path
+                        d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z" />
+                    </svg>
+                  </i>
+                  {{ 'students.discipline.profile' | translate }}
+                </button>
+                <!-- analytics -->
+                <button routerLink="../../analytics/{{student?.userid}}" type="button"
+                  class="waves-effect waves-light btn btn-secondary">
+                  <i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                      class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+                      <path
+                        d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                    </svg>
+                  </i>
+                  {{ 'students.discipline.analytics' | translate }}
+                </button>
+                <!-- message -->
+                <button routerLink="../../msg/{{student?.userid}}" type="button"
+                  class="waves-effect waves-light btn btn-secondary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                    class="bi bi-chat-right-text" viewBox="0 0 16 16">
+                    <path
+                      d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z" />
+                    <path
+                      d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                  </svg>
+                  {{ 'students.discipline.message' | translate }}
+                </button>
+                <!-- notes -->
+                <div class="btn-group">
+                  <button type="button" class="waves-effect waves-light btn btn-secondary dropdown-toggle"
+                    data-bs-toggle="dropdown">
+                    {{ 'students.discipline.notes' | translate }}
+                  </button>
+                  <div class="dropdown-menu">
+                    <!-- extracurricular activities -->
+                    <a class="dropdown-item" routerLink="../../act/{{student?.userid}}">
+                      {{ 'students.discipline.exActivities' | translate }}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-lg-none">
+            <div class="btn-group">
+              <!-- profile -->
+              <button *appNormalTeacherHidden="true" routerLink="../../prof/{{student?.userid}}" type="button"
+                class="waves-effect waves-light btn btn-secondary btn-sm">
+                <i>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                    <path
+                      d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z" />
+                  </svg>
+                </i>
+                {{ 'students.discipline.profile' | translate }}
+              </button>
+              <!-- analytics -->
+              <button routerLink="../../analytics/{{student?.userid}}" type="button"
+                class="waves-effect waves-light btn btn-secondary btn-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                  class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+                  <path
+                    d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                </svg>
+                {{ 'students.discipline.analytics' | translate }}
+              </button>
+              <!-- message -->
+              <button routerLink="../../msg/{{student?.userid}}" type="button"
+                class="waves-effect waves-light btn btn-secondary btn-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                  class="bi bi-chat-right-text" viewBox="0 0 16 16">
+                  <path
+                    d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z" />
+                  <path
+                    d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                </svg>
+                {{ 'students.discipline.message' | translate }}
+              </button>
+              <!-- notes -->
+              <div class="btn-group">
+                <button type="button" class="waves-effect waves-light btn btn-secondary dropdown-toggle btn-sm"
+                  data-bs-toggle="dropdown">
+                  {{ 'students.discipline.notes' | translate }}
+                </button>
+                <div class="dropdown-menu">
+                  <!-- extracurricular activities -->
+                  <a class="dropdown-item" routerLink="../../act/{{student?.userid}}">
+                    {{ 'students.discipline.exActivities' | translate }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <!-- disclipline list -->
+          <ng-container *ngIf="action == 1">
+            <!-- new notes -->
+            <div class="box">
+              <!-- header and filters -->
+              <ng-container>
+                <!-- header -->
+                <div class="box-header">
+                  <ng-container>
+                    <!-- new btn -->
+                    <button *ngIf="user_roles?.isSchoolAdmin && !isBackup" (click)="onNewCommentBtnClick()" type="button"
+                      class="btn btn-dark btn-sm">
+                      {{ 'students.discipline.newComment' | translate }}
+                    </button>
+
+                    <!-- pagination -->
+                    <span *ngIf="newNotes.length > 0">
+                      <ul class="pagination pagination-sm pull-right">
+                        <li class="page-item text-sm mt-1 me-2">{{first + " - " + last + " of " + total}}</li>
+                        <li [ngClass]="{'disabled': !previous}" class="page-item">
+                          <a class="page-link" (click)="previousPage()" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                          </a>
+                        </li>
+                        <li [ngClass]="{'disabled': !next}" class="page-item">
+                          <a class="page-link" (click)="nextPage()" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </span>
+                  </ng-container>
+                </div>
+
+                <!-- filters -->
+                <div class="box-header py-0">
+                  <div class="row">
+                    <!-- year -->
+                    <div class="col-12 col-md-4 mt-2">
+                      <div class="form-group mb-3">
+                        <label for="yearToAdd">
+                          {{ 'common.year' | translate }}
+                        </label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                          [items]="academicYears"
+                          bindLabel="name" bindValue="ayid" [selectOnTab]="true" id="yearToUpdate" name="yearToUpdate"
+                          [loading]="isLoadingAcademicYears"
+                          [loadingText]="'common.loading' | translate"
+                          [placeholder]="'common.selectYear' | translate"
+                          [clearable]="false"
+                          [(ngModel)]="academicYearFilter"
+                          (change)="onFilterChange()">
+                        </ng-select>
+                      </div>
+                    </div>
+
+                    <!-- term -->
+                    <div class="col-12 col-md-4 mt-md-2">
+                      <div class="form-group mb-3">
+                        <label for="termToUpdate">
+                          {{ 'common.term' | translate }}
+                        </label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate" [selectOnTab]="true"
+                          [searchable]="false" [items]="academicTerms" id="termToUpdate" name="termToUpdate"
+                          [placeholder]="'common.selectTerm' | translate" bindLabel="label" bindValue="value"
+                          [clearable]="false"
+                          [(ngModel)]="termFilter"
+                          (change)="onFilterChange()">
+                        </ng-select>
+                      </div>
+                    </div>
+
+                    <!-- type (category) -->
+                    <div class="col-12 col-md-4 mt-md-2">
+                      <div class="form-group mb-3">
+                        <label for="typeToUpdate">
+                          {{ 'common.type' | translate }}
+                        </label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate" [selectOnTab]="true"
+                          [searchable]="false"
+                          id="typeToUpdate" name="typeToUpdate"
+                          [items]="notesCategories$ | async"
+                          [loading]="(notesCategoriesStatus$ | async) === APIStatus.LOADING"
+                          [loadingText]="'common.loading' | translate"
+                          [placeholder]="'common.selectType' | translate"
+                          [clearable]="true"
+                          [(ngModel)]="typeFilter"
+                          (change)="onFilterChange()">
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="box-body">
+                  <ng-container *ngIf="isOnlyRetrievingDisciplineNotes; else notesLoadingComplete">
+                    <div class="row">
+                      <div class="col-12">
+                        <app-loader-div [height]="130"></app-loader-div>
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <ng-template #notesLoadingComplete>
+                    <ng-container *ngIf="newNotes.length === 0; else newNotesAvailable">
+                      <span class="text-body">
+                        {{ 'students.discipline.noComment' | translate }}
+                      </span>
+                    </ng-container>
+
+                    <ng-template #newNotesAvailable>
+                      <div class="table-responsive">
+                        <table class="table table-sm table-striped table-hover mb-0">
+                          <thead>
+                            <tr>
+                              <th scope="col">{{ 'students.discipline.recordedBy' | translate }}</th>
+                              <th scope="col">{{ 'students.discipline.type' | translate }}</th>
+                              <th scope="col">{{ 'students.discipline.caseTitle' | translate }}</th>
+                              <th scope="col">{{ 'students.discipline.date' | translate }}</th>
+                              <th scope="col">{{ 'common.actions' | translate }}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let note of newNotes" class="fw-bold cursor-pointer" (click)="setSelectedNote(note)">
+                              <th scope="row">{{ note.recordedBy }}</th>
+                              <td>
+                                <span class="badge badge-info">
+                                  {{ note.category }}
+                                </span>
+                              </td>
+                              <td>{{ note.title }}</td>
+                              <td>{{ note.createdOn }}</td>
+                              <td class="ps-15 ps-md-25 text-primary" [title]="'common.viewDetails' | translate">
+                                <i (click)="setSelectedNote(note)">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                  </svg>
+                                </i>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </ng-template>
+                  </ng-template>
+                </div>
+              </ng-container>
+            </div>
+
+            <!-- old notes -->
+            <div *ngIf="disciplineNotes.oldNotes && oldNotes.length > 0" class="box mt-4">
+              <div class="box-header bg-gray-400 rounded-0">
+                <h5 class="fw-bold">{{ 'students.discipline.oldNotes' | translate | uppercase }}</h5>
+              </div>
+
+              <div class="box-header bg-gray-400 rounded-0">
+                <ng-container *ngIf="oldNotes && (oldNotes.length === 0); else oldNotesAvailable">
+                  <div>
+                    {{ 'students.discipline.noOldNotes' | translate }}
+                  </div>
+                </ng-container>
+
+                <ng-template #oldNotesAvailable>
+                  <div class="table-responsive">
+                    <table class="table table-sm table-striped table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th scope="col">{{ 'students.discipline.recordedBy' | translate }}</th>
+                          <th scope="col">{{ 'students.discipline.type' | translate }}</th>
+                          <th scope="col">{{ 'students.discipline.caseTitle' | translate }}</th>
+                          <th scope="col">{{ 'students.discipline.date' | translate }}</th>
+                        </tr>
+                      </thead>
+                      <tr *ngFor="let note of oldNotes" class="fw-bold cursor-pointer" (click)="setSelectedOldNote(note)">
+                        <th scope="row">{{ note.from.name }}</th>
+                        <td>
+                          <span class="badge badge-info"
+                            [ngClass]="{'badge-success': note.category.categoryid == 1, 'badge-primary': note.category.categoryid == 2, 'badge-warning': note.category.categoryid == 3}">
+                            {{ note.category.name }}
+                          </span>
+                        </td>
+                        <td>{{ note.title }}</td>
+                        <td>{{ note.date }}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- new discipline -->
+          <div *ngIf="action == 2" class="box">
+            <div class="box-header with-border">
+              <h4>{{ 'students.discipline.newComment' | translate }}</h4>
+            </div>
+
+            <form [formGroup]="disciplineAdditionForm" (ngSubmit)="onDisciplineAdditionFormSubmit()" class="form px-20 text-body">
+              <div class="row">
+                <!-- year -->
+                <div class="col-12 col-md-4 mt-20">
+                  <div class="form-group mb-3">
+                    <label for="yearToAdd">
+                      {{ 'common.year' | translate }}
+                      <span *ngIf="yearToAdd?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                    </label>
+                    <ng-select formControlName="yearToAdd" [notFoundText]="'common.noItemsFound' | translate"
+                      [items]="academicYears"
+                      bindLabel="name" bindValue="ayid" [selectOnTab]="true" id="yearToAdd" name="yearToAdd"
+                      [loading]="isLoadingAcademicYears"
+                      [loadingText]="'common.loading' | translate"
+                      [placeholder]="'common.selectYear' | translate"
+                      [clearable]="false"
+                      [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(yearToAdd!) }" required>
+                    </ng-select>
+                    <ng-container *ngIf="fieldHasErrors(yearToAdd!)">
+                      <small *ngIf="yearToAdd?.errors?.['required']" class="text-danger">
+                        {{ 'common.formErrors.academicYearRequiredError' | translate }}
+                      </small>
+                    </ng-container>
+                  </div>
+                </div>
+
+                <!-- term -->
+                <div class="col-12 col-md-4 mt-md-20">
+                  <div class="form-group mb-3">
+                    <label for="termToAdd">
+                      {{ 'common.term' | translate }}
+                      <span *ngIf="termToAdd?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                    </label>
+                    <ng-select formControlName="termToAdd" [notFoundText]="'common.noItemsFound' | translate" [selectOnTab]="true"
+                      [searchable]="false" [items]="academicTerms" id="termToAdd" name="termToAdd"
+                      [placeholder]="'common.selectTerm' | translate" bindLabel="label" bindValue="value"
+                      [clearable]="false"
+                      [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(termToAdd!) }" required>
+                    </ng-select>
+                    <ng-container *ngIf="fieldHasErrors(termToAdd!)">
+                      <small *ngIf="termToAdd?.errors?.['required']" class="text-danger">
+                        {{ 'common.formErrors.termRequiredError' | translate }}
+                      </small>
+                    </ng-container>
+                  </div>
+                </div>
+
+                <!-- type (category) -->
+                <div class="col-12 col-md-4 mt-md-20">
+                  <div class="form-group mb-3">
+                    <label for="typeToAdd">
+                      {{ 'common.type' | translate }}
+                      <span *ngIf="typeToAdd?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                    </label>
+                    <ng-select formControlName="typeToAdd" [notFoundText]="'common.noItemsFound' | translate" [selectOnTab]="true"
+                      [searchable]="false"
+                      id="typeToAdd" name="typeToAdd"
+                      [items]="notesCategories$ | async"
+                      [loading]="(notesCategoriesStatus$ | async) === APIStatus.LOADING"
+                      [loadingText]="'common.loading' | translate"
+                      [placeholder]="'common.selectType' | translate"
+                      [clearable]="false"
+                      [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(typeToAdd!) }"
+                      required>
+                    </ng-select>
+                    <ng-container *ngIf="fieldHasErrors(typeToAdd!)">
+                      <small *ngIf="typeToAdd?.errors?.['required']" class="text-danger">
+                        {{ 'common.formErrors.typeRequiredError' | translate }}
+                      </small>
+                    </ng-container>
+                  </div>
+                </div>
+
+                <!-- title -->
+                <div class="col-12">
+                  <div class="form-group mb-3">
+                    <label for="titleToAdd">
+                      {{ 'students.discipline.title' | translate }}
+                      <span *ngIf="titleToAdd?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                    </label>
+                    <input
+                      formControlName="titleToAdd"
+                      type="text"
+                      class="form-control"
+                      name="titleToAdd"
+                      id="titleToAdd"
+                      [placeholder]="'students.discipline.titlePlaceholder' | translate"
+                      [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(titleToAdd!) }">
+                    <ng-container *ngIf="fieldHasErrors(titleToAdd!)">
+                      <small *ngIf="titleToAdd?.errors?.['required']" class="text-danger">
+                        {{ 'students.discipline.titleRequiredError' | translate }}
+                      </small>
+                    </ng-container>
+                  </div>
+                </div>
+
+                <!-- description -->
+                <div class="col-12 mb-20">
+                  <div class="form-group mb-3">
+                    <label for="descriptionToAdd">
+                      {{ 'students.discipline.description' | translate }}
+                      <span *ngIf="descriptionToAdd?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                    </label>
+                    <textarea
+                      formControlName="descriptionToAdd"
+                      type="text"
+                      class="form-control"
+                      name="descriptionToAdd"
+                      id="descriptionToAdd"
+                      rows="4"
+                      [placeholder]="'students.discipline.descriptionPlaceholder' | translate"
+                      [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(descriptionToAdd!) }">
+                    </textarea>
+                    <small class="fst-italic d-block text-mute">
+                      {{ descriptionToAddTextCount }}
+                    </small>
+                    <ng-container *ngIf="fieldHasErrors(descriptionToAdd!)">
+                      <small *ngIf="descriptionToAdd?.errors?.['required']" class="text-danger">
+                        {{ 'students.discipline.descriptionRequiredError' | translate }}
+                      </small>
+                      <small *ngIf="descriptionToAdd?.errors?.['maxlength']" class="text-danger">
+                        {{ 'students.discipline.descriptionMaxLengthError' | translate:{maxLength: maxDescriptionTextLength} }}
+                      </small>
+                    </ng-container>
+                  </div>
+                </div>
+
+                <!-- actions -->
+                <div class="modal-footer">
+                  <button type="button" (click)="cancelNewDiscipline()" class="btn btn-dark btn-sm">
+                    {{ 'students.discipline.cancel' | translate }}
+                  </button>
+
+                  <button type="submit" class="btn btn-info btn-sm pull-right" [disabled]="isAddingNote">
+                    <span *ngIf="isAddingNote" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span [class.ms-2]="isAddingNote">{{ 'students.discipline.saveComment' | translate }}</span>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- disclipline details -->
+          <div *ngIf="action == 3" class="box">
+            <div class="box-header with-border">
+              <dl class="dl-horizontal">
+                <dt>{{ 'students.discipline.caseTitle' | translate }}:</dt>
+                <dd>{{selectedNote?.title}}</dd>
+                <dt>{{ 'students.discipline.recordedBy' | translate }}:</dt>
+                <dd>{{selectedNote?.recordedBy}}</dd>
+                <dt>{{ 'students.discipline.date' | translate }}:</dt>
+                <dd>{{selectedNote?.createdOn }} </dd>
+              </dl>
+            </div>
+
+            <div class="box-body text-body">
+              <p><strong>{{ 'students.discipline.caseDescription' | translate }}: </strong></p>
+              <p class="pre-wrap">{{ selectedNote?.note }}</p>
+            </div>
+
+            <!-- action btns -->
+            <div class="box-footer">
+              <div class="pull-left">
+                <ng-template [ngTemplateOutlet]="disciplineUpdate"></ng-template>
+
+                <button type="button" class="btn btn-danger btn-sm mb-10 ms-2" [disabled]="isDeletingNote" (click)="deleteStudentNoteConfirmation(selectedNote)">
+                  <span *ngIf="isDeletingNote" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  {{ 'common.delete' | translate }}
+                </button>
+              </div>
+
+              <button type="button" class="btn btn-dark btn-sm pull-right mb-10" (click)="toggleAction(1)">
+                {{ 'common.back' | translate }}
+              </button>
+            </div>
+          </div>
+
+          <!-- disclipline details (old notes) -->
+          <div *ngIf="action == 4" class="box">
+            <div class="box-header with-border">
+              <dl class="dl-horizontal">
+                <dt>{{ 'students.discipline.caseTitle' | translate }}:</dt>
+                <dd>{{ selectedOldNote?.title }}</dd>
+                <dt>{{ 'students.discipline.recordedBy' | translate }}:</dt>
+                <dd>{{ selectedOldNote?.from?.name }}</dd>
+                <dt>{{ 'students.discipline.date' | translate }}:</dt>
+                <dd>{{ selectedOldNote?.date }} </dd>
+              </dl>
+            </div>
+
+            <div class="box-body">
+              <p><strong>{{ 'students.discipline.caseDescription' | translate }}: </strong></p>
+              <p class="pre-wrap">{{ selectedOldNote?.text }}</p>
+            </div>
+
+            <!-- action btns -->
+            <div class="box-footer">
+              <button type="button" class="btn btn-dark btn-sm pull-right mb-10" (click)="toggleAction(1)">
+                {{ 'common.back' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</section>
+
+<!-- discipline update -->
+<ng-template #disciplineUpdate>
+  <button type="button" class="btn btn-primary btn-sm mb-10" data-bs-toggle="modal"
+    data-bs-target="#discipline-update-modal" (click)="prefillDisciplineUpdateForm()">
+    {{ 'common.edit' | translate }}
+  </button>
+
+  <div class="modal fade" id="discipline-update-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="discipline-update-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-3 text-body">
+        <div class="modal-header">
+          <h5 class="modal-" id="discipline-update-modalLabel">
+            {{ 'students.discipline.update.textHeader' | translate }}
+          </h5>
+          <button #modalCloseBtn type="button" id="btn-discipline-update-modal" class="btn-close" data-bs-dismiss="modal"aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form [formGroup]="disciplineUpdateForm" (ngSubmit)="onDisciplineUpdateSubmit()">
+            <div class="row">
+              <!-- year -->
+              <div class="col-12 col-md-6 mt-20">
+                <div class="form-group mb-3">
+                  <label for="yearToAdd">
+                    {{ 'common.year' | translate }}
+                    <span *ngIf="yearToUpdate?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                  </label>
+                  <ng-select formControlName="yearToUpdate" [notFoundText]="'common.noItemsFound' | translate"
+                    [items]="academicYears"
+                    bindLabel="name" bindValue="ayid" [selectOnTab]="true" id="yearToUpdate" name="yearToUpdate"
+                    [loading]="isLoadingAcademicYears"
+                    [loadingText]="'common.loading' | translate"
+                    [placeholder]="'common.selectYear' | translate"
+                    [clearable]="false"
+                    [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(yearToUpdate!) }" required>
+                  </ng-select>
+                  <ng-container *ngIf="fieldHasErrors(yearToUpdate!)">
+                    <small *ngIf="yearToUpdate?.errors?.['required']" class="text-danger">
+                      {{ 'common.formErrors.academicYearRequiredError' | translate }}
+                    </small>
+                  </ng-container>
+                </div>
+              </div>
+
+              <!-- term -->
+              <div class="col-12 col-md-6 mt-md-20">
+                <div class="form-group mb-3">
+                  <label for="termToUpdate">
+                    {{ 'common.term' | translate }}
+                    <span *ngIf="termToUpdate?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                  </label>
+                  <ng-select formControlName="termToUpdate" [notFoundText]="'common.noItemsFound' | translate" [selectOnTab]="true"
+                    [searchable]="false" [items]="academicTerms" id="termToUpdate" name="termToUpdate"
+                    [placeholder]="'common.selectTerm' | translate" bindLabel="label" bindValue="value"
+                    [clearable]="false"
+                    [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(termToUpdate!) }" required>
+                  </ng-select>
+                  <ng-container *ngIf="fieldHasErrors(termToUpdate!)">
+                    <small *ngIf="termToUpdate?.errors?.['required']" class="text-danger">
+                      {{ 'common.formErrors.termRequiredError' | translate }}
+                    </small>
+                  </ng-container>
+                </div>
+              </div>
+
+              <!-- type (category) -->
+              <div class="col-12">
+                <div class="form-group mb-3">
+                  <label for="typeToUpdate">
+                    {{ 'common.type' | translate }}
+                    <span *ngIf="typeToUpdate?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                  </label>
+                  <ng-select formControlName="typeToUpdate" [notFoundText]="'common.noItemsFound' | translate" [selectOnTab]="true"
+                    [searchable]="false"
+                    id="typeToUpdate" name="typeToUpdate"
+                    [items]="notesCategories$ | async"
+                    [loading]="(notesCategoriesStatus$ | async) === APIStatus.LOADING"
+                    [loadingText]="'common.loading' | translate"
+                    [placeholder]="'common.selectType' | translate"
+                    [clearable]="false"
+                    [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(typeToUpdate!) }" required>
+                  </ng-select>
+                  <ng-container *ngIf="fieldHasErrors(typeToUpdate!)">
+                    <small *ngIf="typeToUpdate?.errors?.['required']" class="text-danger">
+                      {{ 'common.formErrors.typeRequiredError' | translate }}
+                    </small>
+                  </ng-container>
+                </div>
+              </div>
+
+              <!-- title -->
+              <div class="col-12">
+                <div class="form-group mb-3">
+                  <label for="title">
+                    {{ 'students.discipline.title' | translate }}
+                    <span *ngIf="title?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                  </label>
+                  <input
+                    formControlName="title"
+                    type="text"
+                    class="form-control"
+                    name="title"
+                    id="title"
+                    [placeholder]="'students.discipline.titlePlaceholder' | translate"
+                    [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(title!) }"
+                    >
+                  <ng-container *ngIf="fieldHasErrors(title!)">
+                    <small *ngIf="title?.errors?.['required']" class="text-danger">
+                      {{ 'students.discipline.titleRequiredError' | translate }}
+                    </small>
+                  </ng-container>
+                </div>
+              </div>
+
+              <!-- description -->
+              <div class="col-12">
+                <div class="form-group mb-3">
+                  <label for="description">
+                    {{ 'students.discipline.description' | translate }}
+                    <span *ngIf="description?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                  </label>
+                  <textarea
+                    formControlName="description"
+                    type="text"
+                    class="form-control"
+                    name="description"
+                    id="description"
+                    rows="4"
+                    [placeholder]="'students.discipline.descriptionPlaceholder' | translate"
+                    [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(description!) }"
+                    >
+                  </textarea>
+                  <small class="fst-italic d-block text-mute">
+                    {{ descriptionToUpdateTextCount }}
+                  </small>
+                  <ng-container *ngIf="fieldHasErrors(description!)">
+                    <small *ngIf="description?.errors?.['required']" class="text-danger">
+                      {{ 'students.discipline.descriptionRequiredError' | translate }}
+                    </small>
+                    <small *ngIf="description?.errors?.['maxlength']" class="text-danger">
+                      {{ 'students.discipline.descriptionMaxLengthError' | translate:{maxLength: maxDescriptionTextLength} }}
+                    </small>
+                  </ng-container>
+                </div>
+              </div>
+
+              <!-- actions -->
+              <div class="modal-footer d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary" [disabled]="isUpdatingNote">
+                  <span *ngIf="isUpdatingNote" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <span [class.ms-2]="isUpdatingNote">{{ 'common.submit' | translate }}</span>
+                </button>
+
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">
+                  <span>{{ 'common.cancel' | translate }}</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

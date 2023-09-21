@@ -1,0 +1,211 @@
+<ng-container *ngIf="isNewRecord; else updateBtn">
+	<button
+		class="btn btn-success btn-sm waves-effect waves-light mx-1"
+		data-bs-toggle="modal"
+		[attr.data-bs-target]="'#banner-addition-modal-0'"
+		(click)="resetAdditionForm()">
+		<i>
+			<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-plus"
+				viewBox="0 0 16 16">
+				<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+			</svg>
+		</i>
+		<span>
+			{{ "litemore.banners.addBanner" | translate }}
+		</span>
+	</button>
+</ng-container>
+
+<ng-template #updateBtn>
+	<button
+	  class="btn btn-success btn-sm waves-effect waves-light mx-1"
+	  data-bs-toggle="modal"
+	  [attr.data-bs-target]="'#banner-addition-modal-' + modalUpdateId"
+	  (click)="prefillUpdateForm()">
+		<i class="bi bi-pen"></i>
+</button>
+</ng-template>
+
+
+
+<div
+  class="modal fade"
+  [id]="'banner-addition-modal-' + modalUpdateId"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="banner-addition-modalLabel"
+  aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content rounded-3 text-body">
+			<div class="modal-header">
+				<h5 class="modal-">
+					{{ (isNewRecord ? "litemore.banners.addBanner" : "litemore.banners.updateBanner") | translate }}
+				</h5>
+				<button type="button" [id]="'btn-banner-add-modal-' + modalUpdateId" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+
+			<div class="modal-body">
+				<form [formGroup]="additionForm" (ngSubmit)="onAdditionFormSubmision()">
+					<div class="row">
+						<!-- title -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<app-input
+								  [type]="'text'"
+								  [label]="'common.title' | translate"
+								  [placeholder]="'common.title' | translate"
+								  formControlName="title">
+								</app-input>
+							</div>
+						</div>
+
+						<!-- start date -->
+						<div class="col-6">
+							<div class="form-group mb-3">
+								<app-input
+								  [type]="'date'"
+								  [label]="'common.startDate' | translate"
+								  formControlName="startDate"
+									(ngModelChange)="onStartDateChange()"
+									[min]="startDateMin">
+								</app-input>
+							</div>
+						</div>
+
+						<!-- end date -->
+						<div class="col-6">
+							<div class="form-group mb-3">
+								<app-input
+								  [type]="'date'"
+								  [label]="'common.endDate' | translate"
+								  formControlName="endDate"
+									[min]="endDateMin">
+								</app-input>
+							</div>
+						</div>
+
+						<!-- countries -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<app-ng-select
+									[label]="'common.countries' | translate"
+									[items]="allCountries"
+									[compareWith]="compareCountries"
+									bindLabel="name"
+									[loading]="isLoadingCountries"
+									[multiple]="true"
+									[clearable]="false"
+									formControlName="countries"
+									[placeholder]="'common.countries' | translate">
+								</app-ng-select>
+							</div>
+						</div>
+
+						<!-- target users -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<app-ng-select
+									[label]="'litemore.banners.targetUsers' | translate"
+									[items]="allTargetUsers"
+									[multiple]="true"
+									[clearable]="false"
+									formControlName="targetUsers"
+									[placeholder]="'litemore.banners.targetUsers' | translate">
+								</app-ng-select>
+							</div>
+						</div>
+
+						<!-- banner status -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<app-ng-select
+									[label]="'litemore.banners.bannerStatus' | translate"
+									[items]="allBannerStatuses"
+									[clearable]="false"
+									formControlName="bannerStatus"
+									[placeholder]="'litemore.banners.bannerStatus' | translate">
+								</app-ng-select>
+							</div>
+						</div>
+
+						<!-- banner images upload -->
+						<ng-container *ngIf="isNewRecord">
+							<!-- desktop file -->
+							<div class="col-12">
+								<div class="form-group mb-3">
+									<label class="w-p100">
+										<p class="mb-0">{{ "litemore.banners.desktopVersion" | translate }}</p>
+										<input
+											#desktopFileInput
+											type="file"
+											class="form-control"
+											accept="image/*"
+											(change)="onDesktopFileChange($event)"
+										/>
+										<ng-container *ngIf="desktopFileError">
+											<span class="invalid-feedback d-block">{{ desktopFileError }}</span>
+										</ng-container>
+									</label>
+								</div>
+							</div>
+
+							<!-- tablet file -->
+							<div class="col-12">
+								<div class="form-group mb-3">
+									<label class="w-p100">
+										<p class="mb-0">{{ "litemore.banners.tabletVersion" | translate }}</p>
+										<input
+											#tabletFileInput
+											type="file"
+											class="form-control"
+											accept="image/*"
+											(change)="onTabletFileChange($event)"
+										/>
+										<ng-container *ngIf="tabletFileError">
+											<span class="invalid-feedback d-block">{{ tabletFileError }}</span>
+										</ng-container>
+									</label>
+								</div>
+							</div>
+
+							<!-- mobile file -->
+							<div class="col-12">
+								<div class="form-group mb-3">
+									<label class="w-p100">
+										<p class="mb-0">{{ "litemore.banners.mobileVersion" | translate }}</p>
+										<input
+											#mobileFileInput
+											type="file"
+											class="form-control"
+											accept="image/*"
+											(change)="onMobileFileChange($event)"
+										/>
+										<ng-container *ngIf="mobileFileError">
+											<span class="invalid-feedback d-block">{{ mobileFileError }}</span>
+										</ng-container>
+									</label>
+								</div>
+							</div>
+						</ng-container>
+
+						<!-- actions -->
+						<div class="modal-footer d-flex justify-content-center">
+							<button type="submit" class="btn btn-primary" [disabled]="isAddingBanner || isUpdatingBanner">
+								<span *ngIf="isAddingBanner || isUpdatingBanner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true">
+								</span>
+								<span [class.ms-2]="isAddingBanner || isUpdatingBanner">
+									{{ "common.submit" | translate }}
+								</span>
+							</button>
+
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+								<span>{{ "common.cancel" | translate }}</span>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

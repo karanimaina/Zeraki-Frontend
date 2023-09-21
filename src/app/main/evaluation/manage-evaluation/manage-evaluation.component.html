@@ -1,0 +1,121 @@
+<app-evaluation-top-nav [linkTitle]="assessmentName" [linkUrl]="'/main/evaluation/manage/'"></app-evaluation-top-nav>
+<section class="content mt-config">
+  <div class="row col-md-10 offset-md-1">
+    <div class="d-flex flex-row justify-content-between align-items-center">
+      <div class="h4 fw-bolder mb-3">{{ "evaluation.manage.assessmentTitle" | translate:{assessmentName: assessmentName } }}</div>
+      <div class="mb-3">
+        <button class="btn btn-secondary btn-sm no-wrap" (click)="navigateBack()">
+          <i class="fa fa-arrow-circle-o-left"></i>
+          {{ 'evaluation.manage.backBtn' |translate }}
+        </button>
+      </div>
+    </div>
+    <div class="box p-3">
+      <div class="row" *ngIf="!isset(this.isSubjectTeacher) || (isset(this.isSubjectTeacher) && this.isSubjectTeacher)">
+        <div class="col-md-6 form-group">
+          <label class="control-label mb-2" for="evaluation-name">{{ "evaluation.manage.evaluationNameLabel" | translate }}</label>
+          <input id="evaluation-name" disabled class="form-control" placeholder="{{ 'evaluation.manage.evaluationNamePlaceholder' | translate }}" [value]="assessmentName"/>
+        </div>
+        <div class="col-md-6 form-group">
+          <label class="control-label mb-2" for="evaluation-marks">{{ "evaluation.manage.maximumMarksLabel" | translate }}</label>
+          <input id="evaluation-marks" [(ngModel)]="maximumMarks" type="number" class="form-control" placeholder="{{ 'evaluation.manage.maximumMarksLabel' | translate }}"/>
+        </div>
+      </div>
+      <div class="my-2 fw-bold">{{ "evaluation.manage.studentsLabel" | translate }}</div>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>{{ "evaluation.manage.table.admNo" | translate }}</th>
+            <th>{{ "evaluation.manage.table.name" | translate }}</th>
+            <th style="width: 14%; min-width: 100px;">{{ "evaluation.manage.table.marks" | translate: {maxMarks: maximumMarks} }}</th>
+            <th>{{ "evaluation.manage.table.calculatedScore" | translate }}</th>
+            <th style="width: 35%" *ngIf="assessmentType == 'project'">{{ "evaluation.manage.table.comment" | translate }}</th>
+            <th *ngIf="!isset(this.isSubjectTeacher) || (isset(this.isSubjectTeacher) && this.isSubjectTeacher)" class="text-center">{{ "evaluation.manage.table.actions" | translate }}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let res of results; let i = index" class="py-3">
+            <td>{{i + 1 }}</td>
+            <td>{{ res.studentAdmNo }}</td>
+            <td>{{ res.studentName}}</td>
+            <td>
+              <div *ngIf="!editableRows.includes(i)">{{res.rawMark}}</div>
+              <div *ngIf="editableRows.includes(i)">
+                <div class="d-flex flex-row align-items-center">
+                  <input class="form-control" type="number" min="0" [max]="maximumMarks" [(ngModel)]="res.rawMark" (ngModelChange)="addUpdatedStudents(res.studentId)">
+                  <i *ngIf="res.factId" [matTooltip]="'Delete Marks'" [matTooltipPosition]="'above'" (click)="deleteMarks(i, res.factId)" class="me-2 ms-2 delete-evaluation fa fa-trash-o"></i>
+                </div>
+                <small class="text-danger" *ngIf="updatedStudents.includes(res.studentId) && res.rawMark > maximumMarks">{{ "evaluation.manage.table.maxValueExceeded" | translate }}</small>
+                <small class="text-danger" *ngIf="res.rawMark < 0">{{ "evaluation.manage.table.maxMarksError" | translate }}</small>
+              </div>
+            </td>
+            <td>{{ maximumMarks != assessmentResults?.maxScore || updatedStudents.includes(res.studentId) || !res.rawMark ? '--': res.score }}</td>
+            <td *ngIf="assessmentType == 'project'">
+              <div *ngIf="!editableRows.includes(i)">
+                {{ res.comment}}
+              </div>
+              <div *ngIf="editableRows.includes(i)">
+                <textarea class="form-control" [(ngModel)]="res.comment" (ngModelChange)="addUpdatedStudents(res.studentId)"></textarea>
+              </div>
+            </td>
+            <td *ngIf="!isset(this.isSubjectTeacher) || (isset(this.isSubjectTeacher) && this.isSubjectTeacher)">
+              <div class="text-center table-action" style="font-size: 20px">
+                <i  *ngIf="!editableRows.includes(i)" (click)="editRow(i)" matTooltip="Edit Marks" [matTooltipPosition]="'above'" class="fa fa-pencil text-primary"></i>
+                <i *ngIf="editableRows.includes(i)" (click)="saveRowData(i, res.studentId, res.rawMark)" matTooltip="Save Changes" [matTooltipPosition]="'above'" class="fa fa-check-circle-o text-success"></i>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="border-secondary border border-radius-10 new-students-container" [ngClass]="{'active p-3 mt-3' : addingStudentActive && nonClassMembers.length > 0}">
+        <div>
+          <h4 class="fw-bolder">{{ "classes.new.newStudents" | translate }}</h4>
+          <div class="row">
+            <div class="col-12">
+              <div class="table-responsive-sm">
+                <table class="table table-hover">
+                  <thead>
+                  <tr>
+                    <th style="width: 20%;">{{ "evaluation.manage.table.admNo" | translate }}</th>
+                    <th style="width: 30%">{{ "evaluation.manage.table.name" | translate }}</th>
+                    <th style="width: 30%">{{ "evaluation.manage.table.marks" | translate: {maxMarks: maximumMarks} }}</th>
+                    <th class="text-center">{{ "evaluation.manage.table.actions" | translate: {maxMarks: maximumMarks} }}</th>
+                  </tr>
+                  </thead>
+                  <tbody class="new-students-body">
+                  <ng-template #parent></ng-template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!isset(this.isSubjectTeacher) || (isset(this.isSubjectTeacher) && this.isSubjectTeacher)">
+          <button *ngIf="addingStudentActive && nonClassMembers.length > 0"  class="btn btn-dark btn-sm" (click)="addNewStudentRow()">
+            <i class="fa fa-user-circle-o"></i>
+            {{ "classes.new.newStudent" | translate }}
+          </button>
+          <button *ngIf="nonClassMembers.length > 0"  class="btn btn-secondary btn-outline btn-sm ms-2" (click)="addingStudentActive = false">
+            {{ "common.cancel" | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="!isset(this.isSubjectTeacher) || (isset(this.isSubjectTeacher) && this.isSubjectTeacher)">
+        <button *ngIf="!addingStudentActive && nonClassMembers.length > 0"  class="btn btn-dark btn-sm mt-4" (click)="addingStudentActive = true">
+          <i class="fa fa-user-circle-o"></i>
+          {{ "classes.new.addStudents" | translate }}
+        </button>
+        <button class="btn btn-primary btn-sm pull-right mt-4" (click)="updateStudentResults()">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          {{ "evaluation.manage.table.saveAllBtn" | translate }}
+          <i *ngIf="!loading" class="fa fa-check-circle-o"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

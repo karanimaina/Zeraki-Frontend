@@ -1,0 +1,72 @@
+$zeraki-purple: purple;
+
+.navbar-nav {
+    height: 80vh;
+    transition: height 0.5s;
+}
+
+.collapse {
+    transition-timing-function: ease;
+}
+
+.collapse:not(.show) {
+    display: none;
+    transition: display 0.5s ease;
+}
+
+.float {
+    position: relative;
+    width: 60px;
+    height: 40px;
+    bottom: 0px;
+    padding: 5px;
+    background-color: #2ea5de;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 3px #999;
+    z-index: 100;
+}
+
+.lcurve {
+    border-top-right-radius: 50%;
+}
+
+.rcurve {
+    border-top-left-radius: 50%;
+}
+
+.nav>li>a:hover,
+.nav>li>a:active,
+.nav>li>a:focus {
+    background: transparent;
+    color: #212529;
+
+}
+
+
+@media(max-width: 340px) {
+    .nav-link {
+        padding: 0.5rem 0.1rem;
+        font-size: 0.7rem !important;
+    }
+}
+
+@media(min-width: 340px) {
+    .nav-link {
+        padding: 0.5rem 0.7rem;
+    }
+}
+
+.mb-small {
+    margin-bottom: 0.20rem !important;
+}
+
+a {
+    color: #212529;
+}
+
+.border-primary {
+    border-color: $zeraki-purple !important;
+}

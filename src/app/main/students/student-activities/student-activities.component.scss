@@ -1,0 +1,11 @@
+@media (min-width: 992px) {
+    .nav-filled > .nav-link, .nav-filled .nav-item {
+        width: 220px;
+    }
+}
+  
+@media (max-width: 1023.97px) {
+    .nav-filled > .nav-link, .nav-filled .nav-item {
+        width: auto;
+    }
+}

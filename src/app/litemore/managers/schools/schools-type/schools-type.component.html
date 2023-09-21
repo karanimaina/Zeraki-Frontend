@@ -1,0 +1,870 @@
+<!-- Content Header (Page header) -->
+<div class="content-header d-md-none">
+	<div class="d-flex align-items-center">
+		<div class="me-auto">
+			<h3 class="page-title">{{ product }}</h3>
+			<div class="d-inline-block align-items-center">
+				<nav>
+					<ol class="breadcrumb text-dark">
+						<li aria-current="page" class="breadcrumb-item">
+							{{ "common.schools" | translate }}
+						</li>
+						<li aria-current="page" class="breadcrumb-item active">
+							{{ product }}
+						</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+		<div class="d-md-none">
+			<button
+				(click)="clearCache()"
+				class="btn btn-success btn-sm pull-right"
+				type="button">
+				{{ "litemore.clearCache" | translate }}
+			</button>
+		</div>
+	</div>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+	<div class="row">
+		<!-- schools metrics -->
+		<div class="col-12 mt-2">
+			<app-school-metrics
+				[isLoading]="(getSchoolsDataStatus$ | async) === APIStatus.LOADING
+				"
+				[schoolMetrics]="schoolsData?.schoolMetrics">
+			</app-school-metrics>
+		</div>
+
+		<!-- filters -->
+		<div class="col-12">
+			<app-schools-filters
+				[product]="product"
+				[schoolTypeFilters]="schoolTypeFilters"
+				[activeSchoolType]="schoolTypeFilter"
+				(schoolNameEvent)="setSchoolNameFilter($event)"
+				(regionIdEvent)="setRegionFilter($event)"
+				(countyIdEvent)="setCountyFilter($event)"
+				(subCountyIdEvent)="setSubCountyFilter($event)"
+				(ownershipTypeEvent)="setOwnershipTypeFilter($event)"
+				(schoolLevelEvent)="setSchoolLevelFilter($event)"
+				(setupStageEvent)="setSetupStageFilter($event)"
+				(educationSystemIdEvent)="setEducationSystemFilter($event)"
+				(startDateEvent)="setStartDateFilter($event)"
+				(schoolTypeEvent)="setSchoolTypeFilter($event)"
+				(endDateEvent)="setEndDateFilter($event)">
+			</app-schools-filters>
+		</div>
+	</div>
+
+	<div class="row">
+		<div
+			*ngIf="(getSchoolsDataStatus$ | async) === APIStatus.LOADING;
+				then showLoadingSection;
+				else showDataSection
+			"></div>
+
+		<ng-template #showLoadingSection>
+			<!-- For Middle Section -->
+			<div class="col-12">
+				<div class="box">
+					<div class="box-body">
+						<app-loader-div [height]="250"></app-loader-div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+
+		<ng-template #showDataSection>
+			<!-- school listing -->
+			<div class="col-12">
+				<div class="box">
+					<!-- excel download -->
+					<div
+						class="box-header py-2 ps-2 d-flex justify-content-between align-items-center">
+						<span class="ps-2 text-uppercase fw-600">{{ schoolType }}</span>
+
+						<button
+							(click)="retrieveSchoolsForDownload()"
+							[disabled]="isExcelDownloadBtnDisabled"
+							class="btn btn-primary btn-sm"
+							type="button">
+							<i
+								[class]="
+									isGeneratingExcel
+										? 'fa fa-spinner fa-spin'
+										: 'fa fa-file-excel-o'
+								"></i>
+							<span class="ms-2">{{ "common.downloadExcel" | translate }}</span>
+						</button>
+					</div>
+
+					<div *ngIf="dataSource.filteredData.length > 0" class="box-body p-3">
+						<div class="table-responsive">
+							<table class="table table-sm table-striped table-bordered">
+								<thead class="text-uppercase">
+								<tr>
+									<th rowspan="2" scope="col">#</th>
+									<ng-container *ngFor="let tableHeader of allTableHeaders" >
+										<th
+											*ngIf="shouldMergeColumnHeaderCells(tableHeader)"
+											[rowSpan]="isTeacherColumnHeader(tableHeader) ? 1:2"
+											scope="col">
+											{{ tableHeader.text }}
+										</th>
+
+										<th *ngIf="isTeacherColumnHeader(tableHeader)" rowspan="1" class="text-center" colspan="3">
+											{{"litemore.schools.teacherPopulation"|translate}}
+										</th>
+										<th *ngIf="isStudentColumnHeader(tableHeader) "class="text-center" rowspan="1" colspan="3">
+											{{"litemore.schools.studentPopulation"|translate}}
+										</th>
+									</ng-container>
+									<ng-container
+										*appLitemoreUserAccess="actionTableColumnAccess.roles">
+										<th
+											*ngIf="tableActionItems.enabled"
+											class="text-uppercase"
+											rowspan="2"
+											scope="col">
+											{{ "common.actions" | translate }}
+										</th>
+									</ng-container>
+<!--									<th rowspan="2"></th>-->
+								</tr>
+								<tr>
+									<ng-container *ngFor="let tableHeader of allTableHeaders">
+										<th *ngIf="!shouldMergeColumnHeaderCells(tableHeader)">
+											{{tableHeader.text}}
+										</th>
+									</ng-container>
+								</tr>
+								</thead>
+								<tbody>
+								<tr
+									*ngFor="let school of dataSource?.filteredData; index as i">
+									<th scope="row">
+										{{
+										i
+											| paginatedListIndex
+											: schoolsData?.pageInfo?.currentPage
+										}}
+									</th>
+									<td
+										*ngFor="
+												let tableHeader of allTableHeaders;
+												trackBy: trackByIndex;
+												index as i
+											">
+										<ng-container [ngSwitch]="tableHeader.key">
+											<!-- registration code -->
+											<ng-container *ngSwitchCase="'registrationCode'">
+												<div *ngIf="!school.registrationCodeEdit">
+													<div [innerHTML]="school.registrationCode"></div>
+												</div>
+												<div *ngIf="editable[school.schoolId]">
+													<ng-container *appLitemoreUserAccess="actionTableColumnAccess.roles">
+														<button
+														(click)="
+															initiatRegistrationCodeEdit(school, true)
+														"
+														*ngIf="!school.registrationCodeEdit"
+														class="btn btn-info btn-xs pull-left"
+														style="margin-left: 8px"
+														type="button">
+														<i class="fa fa-edit"></i>
+													</button>
+													</ng-container>
+													<ng-container *ngIf="school.registrationCodeEdit">
+														<form
+															(ngSubmit)="
+																updateSchoolRegistrationCode(school)
+															">
+															<div class="d-flex w-150">
+																<input
+																	[(ngModel)]="school.registrationCodeTemp"
+																	class="form-control"
+																	name="registrationCodeUpdate"
+																	style="border-radius: 4px 0px 0px 4px"
+																	type="text"/>
+																<button
+																	(click)="
+																		initiatRegistrationCodeEdit(school, false)
+																	"
+																	class="btn btn-sm btn-warning"
+																	style="border-radius: 0px 4px 4px 0px"
+																	type="button">
+																	<i class="fa fa-times"></i>
+																</button>
+															</div>
+														</form>
+													</ng-container>
+												</div>
+
+											</ng-container>
+
+											<!-- school level -->
+											<ng-container *ngSwitchCase="'schoolRegionalLevel'">
+												<div *ngIf="!school.schoolRegionalLevelEdit">
+													<div [innerHTML]="school.schoolRegionalLevel"></div>
+												</div>
+												<div *ngIf="editable[school.schoolId]">
+													<button
+														(click)="
+																initSchoolRegionalLevelEdit(school, true)
+															"
+														*ngIf="!school.schoolRegionalLevelEdit"
+														class="btn btn-info btn-xs pull-left"
+														style="margin-left: 8px"
+														type="button">
+														<i class="fa fa-edit"></i>
+													</button>
+													<ng-container *ngIf="school.schoolRegionalLevelEdit">
+
+														<div
+															class="d-flex justify-content-center input-group"
+															style="margin: 0; width: 200px">
+															<ng-select
+																#schoolRegionalLevel="ngModel"
+																(change)="updateSchoolRegionalLevel(school)"
+																[(ngModel)]="school.schoolRegionalLevelTemp"
+																[clearable]="false"
+																[dropdownPosition]="'bottom'"
+																[items]="regionalLevels || []"
+																[ngClass]="{
+																	'b-1 && border-danger': schoolRegionalLevel.invalid}"
+																[notFoundText]="
+																	'common.noItemsFound' | translate
+																"
+																[searchable]="true"
+																appendTo="body"
+																class="form-control-dropdown"
+																class="w-150"
+																name="schoolRegionalLevel"
+																placeholder="Select School Level">
+															</ng-select>
+															<button
+																(click)="
+																			initSchoolRegionalLevelEdit(school, false)
+																		"
+																class="btn btn-sm btn-warning"
+																style="border-radius: 0px 4px 4px 0px"
+																type="button">
+																<i class="fa fa-times"></i>
+															</button>
+														</div>
+													</ng-container>
+												</div>
+											</ng-container>
+											<!-- school ownership -->
+											<ng-container *ngSwitchCase="'schoolOwnershipType'">
+												<div *ngIf="!school.schoolOwnershipTypeEdit">
+													<div [innerHTML]="school.schoolOwnershipType"></div>
+												</div>
+												<div *ngIf="editable[school.schoolId]">
+													<button
+														(click)="
+																initSchoolOwnershipTypeEdit(school, true)
+															"
+														*ngIf="!school.schoolOwnershipTypeEdit"
+														class="btn btn-info btn-xs pull-left"
+														style="margin-left: 8px"
+														type="button">
+														<i class="fa fa-edit"></i>
+													</button>
+													<ng-container *ngIf="school.schoolOwnershipTypeEdit">
+
+														<div
+															class="d-flex justify-content-center input-group"
+															style="margin: 0; width: 200px">
+															<ng-select
+																#schoolOwnershipTypeTemp="ngModel"
+																(change)="updateSchoolOwnershipType(school)"
+																[(ngModel)]="school.schoolOwnershipTypeTemp"
+																[clearable]="false"
+																[dropdownPosition]="'bottom'"
+																[items]="schoolOwnerShipTypes || []"
+																[ngClass]="{
+																	'b-1 && border-danger': schoolOwnershipTypeTemp.invalid}"
+																[notFoundText]="
+																	'common.noItemsFound' | translate
+																"
+																[searchable]="true"
+																appendTo="body"
+																class="form-control-dropdown"
+																class="w-150"
+																name="schoolOwnershipTypeTemp"
+																placeholder="Select School Ownership">
+															</ng-select>
+															<button
+																(click)="
+																			initSchoolOwnershipTypeEdit(school, false)
+																		"
+																class="btn btn-sm btn-warning"
+																style="border-radius: 0px 4px 4px 0px"
+																type="button">
+																<i class="fa fa-times"></i>
+															</button>
+														</div>
+													</ng-container>
+												</div>
+											</ng-container>
+											<!-- education system -->
+											<ng-container *ngSwitchCase="'educationSystem'">
+												<div *ngIf="!school.educationSystemEdit">
+													<div [innerHTML]="school.educationSystem"></div>
+												</div>
+												<div *ngIf="editable[school.schoolId]">
+													<button
+														(click)="
+																initEducationSystemEdit(school, true)
+															"
+														*ngIf="!school.educationSystemEdit"
+														class="btn btn-info btn-xs pull-left"
+														style="margin-left: 8px"
+														type="button">
+														<i class="fa fa-edit"></i>
+													</button>
+													<ng-container *ngIf="school.educationSystemEdit">
+
+														<div
+															class="d-flex justify-content-center input-group"
+															style="margin: 0; width: 200px">
+															<ng-select
+																#educationSystemTemp="ngModel"
+																(change)="updateEducationSystem(school)"
+																[(ngModel)]="school.educationSystemTemp"
+																[clearable]="false"
+																[dropdownPosition]="'bottom'"
+																[items]="countryDetails.countryEducationSystems.educationSystems || []"
+																[ngClass]="{
+																	'b-1 && border-danger': educationSystemTemp.invalid}"
+																[notFoundText]="
+																	'common.noItemsFound' | translate
+																"
+																[searchable]="true"
+																appendTo="body"
+																bindLabel="name"
+																class="form-control-dropdown"
+																class="w-150"
+																name="educationSystemTemp"
+																placeholder="Select Education System">
+															</ng-select>
+															<button
+																(click)="
+																			initEducationSystemEdit(school, false)
+																		"
+																class="btn btn-sm btn-warning"
+																style="border-radius: 0px 4px 4px 0px"
+																type="button">
+																<i class="fa fa-times"></i>
+															</button>
+														</div>
+													</ng-container>
+												</div>
+											</ng-container>
+
+											<!-- SenderId -->
+											<ng-container *ngSwitchCase="'senderId'">
+												<div>
+													<div [innerHTML]="school.senderId"></div>
+													<ng-container
+														*appLitemoreUserAccess="actionTableColumnAccess.roles">
+														<div
+															*ngIf="editable[school.schoolId]"
+															class="btn-group"
+															style="padding-top: 0px">
+															<button
+																(click)="initializeEdit('senderId', school)"
+																class="btn btn-info btn-xs pull-right"
+																data-bs-target="#edit-senderid-dialog"
+																data-bs-toggle="modal"
+																type="button">
+																<i class="fa fa-edit"></i>
+															</button>
+														</div>
+													</ng-container>
+												</div>
+											</ng-container>
+
+											<!-- county -->
+											<ng-container *ngSwitchCase="'county'">
+												<div *ngIf="!school.countyEdit">
+													<div [innerHTML]="school.county"></div>
+													<div
+														*ngIf="editable[school.schoolId]"
+														class="btn-group"
+														style="padding-top: 0px">
+														<button
+															(click)="initializeCountyEdit(school, true)"
+															class="btn btn-info btn-xs pull-right"
+															type="button">
+															<i class="fa fa-edit"></i>
+														</button>
+													</div>
+												</div>
+												<div
+													*ngIf="
+															school.countyEdit && editable[school.schoolId]
+														">
+													<div
+														class="d-flex justify-content-center input-group"
+														style="margin: 0; width: 200px">
+														<ng-select
+															#countyTemp="ngModel"
+															(change)="updateSchoolCounty(school)"
+															[(ngModel)]="school.countyTemp"
+															[clearable]="false"
+															[dropdownPosition]="'bottom'"
+															[items]="counties || []"
+															[ngClass]="{
+																	'b-1 && border-danger': countyTemp.invalid
+																}"
+															[notFoundText]="
+																	'common.noItemsFound' | translate
+																"
+															[searchable]="true"
+															appendTo="body"
+															bindLabel="name"
+															class="form-control-dropdown"
+															class="w-150"
+															name="countyTemp"
+															placeholder="Select county">
+														</ng-select>
+														<button
+															(click)="initializeCountyEdit(school)"
+															class="btn btn-sm btn-warning"
+															type="button">
+															<i class="fa fa-times"></i>
+														</button>
+													</div>
+												</div>
+											</ng-container>
+
+											<!-- Sub-counties -->
+											<ng-container *ngSwitchCase="'subCountyName'">
+												<div *ngIf="!school.subCountyEdit">
+													<div [innerHTML]="school.subCountyName"></div>
+													<div
+														*ngIf="editable[school.schoolId]"
+														class="btn-group"
+														style="padding-top: 0px">
+														<button
+															(click)="initializeSubCountyEdit(school, true)"
+															class="btn btn-info btn-xs pull-right"
+															type="button">
+															<i class="fa fa-edit"></i>
+														</button>
+													</div>
+												</div>
+												<div
+													*ngIf="
+															school.subCountyEdit && editable[school.schoolId]
+														">
+													<div
+														class="d-flex justify-content-center input-group"
+														style="margin: 0; width: 200px">
+														<ng-select
+															#subCountyTemp="ngModel"
+															(change)="updateSchoolSubCounty(school)"
+															[(ngModel)]="school.subCountyTemp"
+															[clearable]="false"
+															[dropdownPosition]="'bottom'"
+															[items]="
+																	countySubCountiesMap.get(school.county!) || []
+																"
+															[ngClass]="{
+																	'b-1 && border-danger': subCountyTemp.invalid
+																}"
+															[notFoundText]="
+																	'common.noItemsFound' | translate
+																"
+															[searchable]="true"
+															appendTo="body"
+															bindLabel="subCountyName"
+															class="form-control-dropdown"
+															class="w-150"
+															name="subCountyTemp"
+															placeholder="Select sub-county">
+														</ng-select>
+														<button
+															(click)="initializeSubCountyEdit(school)"
+															class="btn btn-sm btn-warning"
+															type="button">
+															<i class="fa fa-times"></i>
+														</button>
+													</div>
+												</div>
+											</ng-container>
+
+											<!-- zeraki partner -->
+											<ng-container *ngSwitchCase="'zerakiPartner'">
+												<div *ngIf="!school.zerakiPartnerEdit">
+													<div [innerHTML]="school.zerakiPartner"></div>
+													<div
+														*ngIf="editable[school.schoolId]"
+														class="btn-group"
+														style="padding-top: 0px">
+														<button
+															(click)="
+																	initializeZerakiPartnerEdit(school, true)
+																"
+															class="btn btn-info btn-xs pull-right"
+															type="button">
+															<i class="fa fa-edit"></i>
+														</button>
+														<button
+															(click)="updateSchoolPartner(school, true)"
+															class="btn btn-danger btn-xs pull-right"
+															type="button">
+															<i class="fa fa-trash-o"></i>
+														</button>
+													</div>
+												</div>
+												<div
+													*ngIf="
+															school.zerakiPartnerEdit &&
+															editable[school.schoolId]
+														">
+													<div
+														class="d-flex justify-content-center input-group"
+														style="margin: 0; min-width: 200px">
+														<ng-select
+															#zerakiPartnerTemp="ngModel"
+															(change)="updateSchoolPartner(school, false)"
+															[(ngModel)]="school.zerakiPartnerTemp"
+															[clearable]="false"
+															[dropdownPosition]="'bottom'"
+															[items]="partners$ | async"
+															[ngClass]="{
+																	'b-1 && border-danger':
+																		zerakiPartnerTemp.invalid
+																}"
+															[notFoundText]="
+																	'common.noItemsFound' | translate
+																"
+															[searchable]="true"
+															appendTo="body"
+															bindLabel="name"
+															class="form-control-dropdown"
+															class="w-150"
+															name="zerakiPartnerTemp"
+															placeholder="Select partner">
+															<ng-template let-item="item" ng-option-tmp>
+																{{ item.name }} <br/>
+																<small>{{ item.email }}</small> <br/>
+																<small>{{ item.code }}</small>
+															</ng-template>
+														</ng-select>
+														<button
+															(click)="initializeZerakiPartnerEdit(school)"
+															class="btn btn-sm btn-warning"
+															type="button">
+															<i class="fa fa-times"></i>
+														</button>
+													</div>
+												</div>
+											</ng-container>
+
+											<!-- account manager -->
+											<ng-container *ngSwitchCase="'accountManager'">
+												<ng-container *appLitemoreUserAccess="actionTableColumnAccess.roles">
+													<div *ngIf="!school.accountManagerEdit">
+														<div [innerHTML]="school.accountManager"></div>
+														<div
+															*ngIf="editable[school.schoolId]"
+															class="btn-group"
+															style="padding-top: 0px">
+															<button
+																(click)="
+																	initializeAccountManagerEdit(school, true)
+																"
+																class="btn btn-info btn-xs pull-right"
+																type="button">
+																<i class="fa fa-edit"></i>
+															</button>
+															<button
+																(click)="
+																	updateSchoolAccountManager(school, true)
+																"
+																class="btn btn-danger btn-xs pull-right"
+																type="button">
+																<i class="fa fa-trash-o"></i>
+															</button>
+														</div>
+													</div>
+													<div
+														*ngIf="
+															school.accountManagerEdit &&
+															editable[school.schoolId]
+														">
+														<div
+															class="d-flex justify-content-center input-group"
+															style="margin: 0; min-width: 250px">
+															<ng-select
+																#accountManagerTemp="ngModel"
+																(change)="
+																	updateSchoolAccountManager(school, false)
+																"
+																[(ngModel)]="school.accountManagerTemp"
+																[clearable]="false"
+																[dropdownPosition]="'bottom'"
+																[items]="accountManagers$ | async"
+																[ngClass]="{
+																	'b-1 && border-danger':
+																		accountManagerTemp.invalid
+																}"
+																[notFoundText]="
+																	'common.noItemsFound' | translate
+																"
+																[searchable]="true"
+																appendTo="body"
+																bindLabel="name"
+																class="form-control-dropdown"
+																class="w-180"
+																name="accountManagerTemp{{ i }}"
+																placeholder="Select account manager">
+															</ng-select>
+															<button
+																(click)="initializeAccountManagerEdit(school)"
+																class="btn btn-sm btn-warning"
+																type="button">
+																<i class="fa fa-times"></i>
+															</button>
+														</div>
+													</div>
+												</ng-container>
+												<ng-container *appLitemoreUserAccess="bdevTableColumnAccess.roles">
+													<div [innerHTML]="school.accountManager"></div>
+												</ng-container>
+
+											</ng-container>
+
+											<!-- account owner -->
+											<ng-container *ngSwitchCase="'accountOwner'">
+												<ng-container *appLitemoreUserAccess="actionTableColumnAccess.roles">
+													<div *ngIf="!school.accountOwnerEdit">
+														<div [innerHTML]="school.accountOwner"></div>
+														<div
+															*ngIf="editable[school.schoolId]"
+															class="btn-group"
+															style="padding-top: 0px">
+															<button
+																(click)="
+																	initializeAccountOwnerEdit(school, true)
+																"
+																class="btn btn-info btn-xs pull-right"
+																type="button">
+																<i class="fa fa-edit"></i>
+															</button>
+															<button
+																(click)="updateSchoolAccountOwner(school, true)"
+																class="btn btn-danger btn-xs pull-right"
+																type="button">
+																<i class="fa fa-trash-o"></i>
+															</button>
+														</div>
+													</div>
+													<div
+														*ngIf="
+															school.accountOwnerEdit &&
+															editable[school.schoolId]
+														">
+														<div
+															class="input-group"
+															style="margin: 0; min-width: 250px">
+															<ng-select
+																#accountOwnerTemp="ngModel"
+																(change)="
+																	updateSchoolAccountOwner(school, false)
+																"
+																[(ngModel)]="school.accountOwnerTemp"
+																[clearable]="false"
+																[dropdownPosition]="'bottom'"
+																[items]="accountManagers$ | async"
+																[ngClass]="{
+																	'b-1 && border-danger':
+																		accountOwnerTemp.invalid
+																}"
+																[notFoundText]="
+																	'common.noItemsFound' | translate
+																"
+																[searchable]="true"
+																appendTo="body"
+																bindLabel="name"
+																class="form-control-dropdown"
+																class="w-180"
+																name="accountOwnerTemp"
+																placeholder="Select account owner">
+															</ng-select>
+															<button
+																(click)="initializeAccountOwnerEdit(school)"
+																class="btn btn-sm btn-warning"
+																type="button">
+																<i class="fa fa-times"></i>
+															</button>
+														</div>
+													</div>
+												</ng-container>
+												<ng-container *appLitemoreUserAccess="bdevTableColumnAccess.roles">
+													<div [innerHTML]="school.accountOwner"></div>
+												</ng-container>
+
+											</ng-container>
+
+											<!-- others -->
+											<ng-container *ngSwitchDefault>
+
+												<div [innerHTML]="school[tableHeader.key]"></div>
+											</ng-container>
+										</ng-container>
+									</td>
+									<!-- actions -->
+									<ng-container>
+										<td *ngIf="tableActionItems.enabled">
+											<div class="btn-group position-static">
+												<!-- action btn -->
+												<button
+													class="btn btn-sm btn-dark dropdown-toggle"
+													data-bs-toggle="dropdown">
+													{{ "common.action" | translate }}
+													<span class="caret"></span>
+												</button>
+												<!-- action dropdown items -->
+												<div
+													class="dropdown-menu dropdown-menu-end"
+													data-popper-placement="bottom-end"
+													style="
+															position: absolute;
+															inset: 0px auto auto 0px;
+															margin: 0px;
+															transform: translate(-106px, 22px);
+														">
+													<!-- edit and cancel actions -->
+													<ng-container *ngIf="school.isEditable">
+														<ng-container *ngIf="!editable[school.schoolId]">
+															<a
+																(click)="editSchool(school)"
+																class="dropdown-item">
+																{{ "common.edit" | translate }}
+															</a>
+														</ng-container>
+														<ng-container *ngIf="editable[school.schoolId]">
+															<a
+																(click)="cancelEdit(school)"
+																[hidden]="school.invalidated"
+																class="dropdown-item">
+																{{ "common.cancel" | translate }}
+															</a>
+															<a
+																*ngIf="school.invalidated"
+																class="alert alert-success no-margin dropdown-item">
+																<i class="fa fa-bolt"></i>
+																{{
+																"litemore.valid.justInvalidated" | translate
+																}}
+															</a>
+														</ng-container>
+													</ng-container>
+													<!-- other actions -->
+													<ng-container
+														*appLitemoreUserAccess="actionTableColumnAccess.roles">
+														<ng-container
+															*ngIf="
+																tableActionItems.isUnverified;
+																else schoolSatus
+															">
+															<ng-container
+																*ngFor="
+																	let actionItem of tableActionItems.items
+																">
+																<a
+																	(click)="
+																		takeSchoolVerificationAction(
+																			school,
+																			actionItem.text
+																		)
+																	"
+																	class="dropdown-item">
+																	{{ actionItem.text }}
+																</a>
+															</ng-container>
+														</ng-container>
+													</ng-container>
+													<ng-template #schoolSatus>
+														<ng-container
+															*ngFor="
+																	let actionItem of tableActionItems.items
+																">
+															<ng-container>
+																<a
+																	(click)="
+																			modifySchoolStatus(
+																				school,
+																				actionItem.schoolType,
+																				actionItem.validityStatus
+																			)
+																		"
+																	class="dropdown-item">
+																	{{ actionItem.text }}
+																</a>
+															</ng-container>
+														</ng-container>
+													</ng-template>
+												</div>
+											</div>
+										</td>
+									</ng-container>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<!-- pagination -->
+						<app-litemore-list-pagination
+							(onPageChange)="onPageChanged($event)"
+							[pageInfo]="schoolsData?.pageInfo">
+						</app-litemore-list-pagination>
+					</div>
+
+					<!-- empty list -->
+					<div
+						*ngIf="dataSource?.filteredData?.length === 0"
+						class="box-body text-center">
+						<h4>{{ "common.noResultsFound" | translate }}</h4>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</div>
+</section>
+
+<!-- Change Sender ID Modal -->
+<div
+	#changeSenderIdModal
+	class="modal fade none-border"
+	id="edit-senderid-dialog">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-body">
+				<app-edit-senderid
+					(close)="closeDialog()"
+					(onSenderIdUpdateSuccess)="onSenderIdUpdateSuccess($event)"
+					[school]="school"
+					[updateSenderIdModalForm]="updateSenderIdModalForm">
+				</app-edit-senderid>
+			</div>
+			<button
+				#closeSenderIdModal
+				class="btn btn-secondary"
+				data-bs-dismiss="modal"
+				hidden
+				type="button">
+				Close
+			</button>
+		</div>
+	</div>
+</div>

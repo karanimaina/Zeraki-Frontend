@@ -1,0 +1,382 @@
+<div class="content mt-config">
+	<!-- filters -->
+	<div [hidden]="!(userRoles$ | async)?.isSchoolAdmin" class="box box-widget" [ngClass]="{'box-slided-up': false}">
+		<div class="box-header with-border p-header">
+			<div class="user-block">
+				<h4 class="box-title">
+					{{ 'printouts.evaluationReport.title' | translate }}
+				</h4>
+			</div>
+			<ul class="box-controls pull-right">
+				<li><a class="box-btn-slide text-dark fs-16" href="#"></a></li>
+			</ul>
+		</div>
+		<div class="box-body">
+			<form [formGroup]="evaluationForm" class="form" (ngSubmit)="getEvaluationReport(true)">
+				<div class="row">
+					<!-- term -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="form-label">{{ 'printouts.evaluationReport.evalForm.term.label' | translate }}</label>
+							<ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="[1, 2, 3]" [selectOnTab]="true"
+									   appendTo="body" [dropdownPosition]="'bottom'" required formControlName="term"
+									   placeholder="{{ 'printouts.evaluationReport.evalForm.term.placeholder' | translate }}"
+									   [ngClass]="{'is-invalid': submitted && f['term'].errors}">
+							</ng-select>
+							<div *ngIf="submitted && f['term'].errors" class="invalid-feedback">
+								<div *ngIf="f['term'].errors['required']">{{ 'printouts.evaluationReport.evalForm.term.termError' |
+									translate }}</div>
+							</div>
+						</div>
+					</div>
+					<!-- year -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="form-label">{{ 'printouts.evaluationReport.evalForm.year.label' | translate }}</label>
+							<ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="academicYears" [selectOnTab]="true"
+									   appendTo="body" [dropdownPosition]="'bottom'" required formControlName="year"
+									   placeholder="{{ 'printouts.evaluationReport.evalForm.year.placeholder' | translate }}" bindValue="ayid"
+									   bindLabel="name" [ngClass]="{'is-invalid': submitted && f['year'].errors}">
+							</ng-select>
+							<div *ngIf="submitted && f['year'].errors" class="invalid-feedback">
+								<div *ngIf="f['year'].errors['required']">{{ 'printouts.evaluationReport.evalForm.year.yearError' |
+									translate }}</div>
+							</div>
+						</div>
+					</div>
+					<!-- senior -->
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="form-label">{{schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) :
+								schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) :
+									schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' |
+										translate)}}</label>
+							<ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="currentFormList"
+									   [selectOnTab]="true" appendTo="body" [dropdownPosition]="'bottom'" required formControlName="rform"
+									   bindLabel="classlevel" bindValue="intakeid" placeholder="{{ 'printouts.evaluationReport.evalForm.level.placeholder' | translate:{level: schoolTypeData?.formoryear | formOrYear} }}" [ngClass]="{'is-invalid': submitted && f['rform'].errors}">
+							</ng-select>
+							<div *ngIf="submitted && f['rform'].errors" class="invalid-feedback">
+								<div *ngIf="f['rform'].errors['required']">{{ schoolTypeData?.formoryear | formOrYear }} {{ 'printouts.evaluationReport.evalForm.level.levelError' | translate }}</div>
+							</div>
+						</div>
+					</div>
+					<!-- stream -->
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="form-label">{{ 'printouts.evaluationReport.evalForm.stream.label' | translate }}</label>
+							<ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="streamList" [selectOnTab]="true"
+									   appendTo="body" [dropdownPosition]="'bottom'" required formControlName="stream" bindLabel="name"
+									   placeholder="{{ 'printouts.evaluationReport.evalForm.stream.placeholder' | translate }}"
+									   [ngClass]="{'is-invalid': submitted && f['stream'].errors}">
+							</ng-select>
+							<div *ngIf="submitted && f['stream'].errors" class="invalid-feedback">
+								<div *ngIf="f['stream'].errors['required']">
+									{{ 'printouts.evaluationReport.evalForm.stream.streamError' | translate }}
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- subject -->
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="form-label">{{ 'printouts.evaluationReport.evalForm.subject.label' | translate }}</label>
+							<ng-select [notFoundText]="'common.noItemsFound' | translate" [selectOnTab]="true" appendTo="body"
+									   [dropdownPosition]="'bottom'" required formControlName="classId"
+									   [placeholder]="'printouts.evaluationReport.evalForm.subject.placeholder' | translate "
+									   [ngClass]="{'is-invalid': submitted && f['classId'].errors}">
+								<ng-option *ngFor="let c of classes" [value]="c.classId">
+									{{ c.subjectName }}
+								</ng-option>
+							</ng-select>
+							<div *ngIf="submitted && f['classId'].errors" class="invalid-feedback">
+								<div *ngIf="f['classId'].errors['required']">{{
+									'printouts.evaluationReport.evalForm.subject.subjectError' | translate }}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- action btn -->
+				<button type="submit" [hidden]="loading" class="btn btn-sm btn-info pull-right">
+					{{ 'printouts.evaluationReport.evalForm.getEvaluationBtn' | translate }}
+				</button>
+				<button type="button" hidden class="eval-btn">
+				</button>
+				<div *ngIf="loading" class="pull-right">
+					{{ 'printouts.evaluationReport.evalForm.generating' | translate }}
+					<img src="../../../../../assets/img/loading-bars.svg" alt="Loading-bars">
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- evaluation report -->
+	<div class="row">
+		<div class="px-1 col-md-12">
+			<!-- print btn -->
+			<div class="d-none d-md-block">
+				<button
+					class="btn btn-sm waves-effect waves-light btn-dark dropdown pull-right btn-sm mb-10"
+					type="button"
+					data-bs-toggle="dropdown"
+					[disabled]="isEvaluationsEmpty">
+					<i>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="16"
+							height="16"
+							fill="currentColor"
+							class="bi bi-caret-down-fill"
+							viewBox="0 0 16 16">
+							<path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+						</svg>
+					</i>
+					{{ 'printouts.commonAttr.printBtn' | translate }}
+				</button>
+				<!-- print btn options -->
+				<div class="dropdown-menu bg-active">
+					<!-- landscape -->
+					<ng-container *ngTemplateOutlet="printBtnOption; context:{ isLandscape: true }"></ng-container>
+					<!-- portrait -->
+					<ng-container *ngTemplateOutlet="printBtnOption"></ng-container>
+				</div>
+			</div>
+
+			<div class="box p-20" *ngIf="evaluationReport">
+				<!-- header -->
+				<app-school-details
+					[title]="evaluationReport?.reportName || ''">
+				</app-school-details>
+
+				<!-- no evaluations -->
+				<div class=" d-block mx-md-120 mx-sm-0 mt-md-40 mt-sm-20 mb-20" *ngIf="isEvaluationsEmpty">
+					<div class="text-center">
+						<h4 class="text-warning">{{ 'printouts.evaluationReport.noData' | translate }}</h4>
+					</div>
+				</div>
+
+				<!-- evaluations data -->
+				<div class="row mt-3" *ngIf="!isEvaluationsEmpty">
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover">
+							<thead>
+							<tr class="text-uppercase fw-bold">
+								<th scope="col" class="no-wrap" style="z-index: 10;">
+									<div class="dropdown">
+										<i class="fa fa-plus-circle fields-btn" type="button" data-boundary="window"
+										   data-bs-toggle="dropdown" data-bs-auto-close="outside"></i>
+										<div class=" dropdown-menu fields-menu">
+											<div class="show-columns">
+												<h6 class="text-center text-secondary">{{ 'printouts.evaluationReport.filterColumns' |
+													translate }}</h6>
+												<div class="fields">
+													<div *ngFor="let eval of evaluations; let i = index" class="d-flex flex-row school-entity">
+														<input type="checkbox" id="md_checkbox_{{i}}" [(ngModel)]="eval.checked"
+															   class="filled-in chk-col-success" />
+														<label for="md_checkbox_{{i}}" class="c-checkbox">{{eval.evaluationName}}</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</th>
+								<th>{{ 'printouts.evaluationReport.table.admNo' | translate }}</th>
+								<th>{{ 'printouts.evaluationReport.table.name' | translate }}</th>
+								<ng-container *ngFor="let eval of evaluations; let i = index">
+									<th *ngIf="eval.checked" style="width: 5%">
+										{{ eval.evaluationName.split(' ')[0].charAt(0) }} {{ eval.evaluationName.split(' ')[1] }}
+									</th>
+								</ng-container>
+								<th>{{ 'printouts.evaluationReport.table.average' | translate }}</th>
+								<th>{{ 'printouts.evaluationReport.table.descriptor' | translate }}</th>
+								<th style="width: 20%" class="text-center">{{ 'printouts.studentReport.genericSkills' | translate }}
+								</th>
+								<th style="width: 20%" class="text-center">{{ 'printouts.studentReport.facilitatorRemarks' | translate
+									}}</th>
+								<th class="text-center">{{ 'printouts.evaluationReport.table.action' | translate }}</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr *ngFor="let stud of evaluationReport?.students; let studIndex = index"
+								[ngClass]="{'bg-light-blue noHover':(addStudentComment?.studentId == stud.studentId)}">
+								<td>{{ studIndex + 1 }}</td>
+								<td>{{ stud.studentAdmNo }}</td>
+								<td>
+									<a class="fw-bold" [routerLink]="'/main/students/analytics/'+stud.studentId"
+									   [queryParams]="{term: defaultTerm, year: defaultAcadYear}">{{ stud.studentName }}</a>
+								</td>
+								<ng-container *ngFor="let eval of evaluations">
+									<td *ngIf="eval.checked">
+										{{ getStudentMarks(stud.studentAdmNo, eval.evaluationId) }}
+									</td>
+								</ng-container>
+								<td>{{ stud.studentAverage }}</td>
+								<td>
+									{{ stud.comment }}
+								</td>
+								<td >
+									<div class="text-center" *ngIf="!addStudentComment || addStudentComment.studentId != stud.studentId">
+										{{ stud.generalComment }}
+									</div>
+									<div *ngIf="addStudentComment && addStudentComment.studentId == stud.studentId" class="form-group mb-0">
+										<ng-select class="mb-2"
+												   [(ngModel)]="addStudentComment.genericSkillOption"
+												   [items]="evaluationReport.genericSkillsOptions"
+												   bindLabel="genericSkill">
+										</ng-select>
+									</div>
+								</td>
+								<td class="text-center">
+									<div *ngIf="!addStudentComment || addStudentComment.studentId != stud.studentId">
+										{{ stud.subjectComment }}
+									</div>
+									<div *ngIf="addStudentComment && addStudentComment.studentId == stud.studentId" class="form-group mb-0">
+										<textarea rows="3" class="form-control" [(ngModel)]="addStudentComment.subjectComment"></textarea>
+									</div>
+								</td>
+								<td class="table-action text-center text-primary">
+									<i *ngIf="addStudentComment?.studentId != stud.studentId" class="fa fa-pencil me-1"
+									   (click)="updateStudentComment(stud.studentId, stud.studentName, stud.generalComment, stud.subjectComment)"></i>
+									<button *ngIf="addStudentComment && addStudentComment.studentId == stud.studentId"
+											class="btn btn-xs btn-light" (click)="addStudentComment = null!">Cancel</button>
+									<button *ngIf="addStudentComment && addStudentComment.studentId == stud.studentId"
+											class="btn btn-xs btn-success m-2" (click)="saveStudentComment(stud)">Save<i
+										class="fa fa-check-circle-o"></i> </button>
+								</td>
+							</tr>
+							<!-- class average -->
+							<tr style="background-color: #bfd6c0;">
+								<td colspan="3" class="text-uppercase py-1 text-center fw-bold h5" style="color: #235f27">{{
+									'printouts.evaluationReport.table.classAverage' | translate }}</td>
+								<ng-container *ngFor="let e of evaluations">
+									<td *ngIf="e.checked" class="fw-bold">{{e.score}}</td>
+								</ng-container>
+								<td class="fw-bold">{{ evaluationReport?.classAverage?.evaluationAverage }}</td>
+								<td colspan="3" class="text-uppercase text-center fw-bold h5" style="color: #235f27">{{
+									evaluationReport?.classAverage?.comment }}</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- print section -->
+<div  id="print-section" style="display: none" *ngIf="true">
+	<!-- evaluations section -->
+	<div *ngIf="!isEvaluationsEmpty" class="pagebreak" style="font-size: 13px;">
+		<!-- header -->
+		<div class="d-flex justify-content-between align-items-center my-2">
+			<!-- Logo-->
+			<div class="">
+				<img [src]="schoolInfo?.logo" alt="logo" class="logo" width="85" height="85">
+			</div>
+			<!-- School Name-->
+			<div class="d-flex flex-column">
+				<h2 class="text-center fs-24 fw-bold text-uppercase mb-0">{{schoolInfo?.name}}</h2>
+				<span class="text-center fw-bold">{{ evaluationReport?.reportName }}</span>
+			</div>
+			<!-- School Address-->
+			<div class="d-flex flex-column fs-12 align-items-end fw-bold">
+				<span class="pull-right">{{schoolInfo?.address}}</span>
+				<span class="">{{schoolInfo?.phone}}</span>
+				<span class="">{{ schoolInfo?.email }}</span>
+			</div>
+		</div>
+
+		<!-- evaluation details -->
+		<div class="mt-3">
+			<div class="mx-auto">
+				<table class="table table-bordered print-table fw-bold">
+					<thead>
+					<tr class="text-uppercase" style="font-size: 13px">
+						<th>
+							{{ 'printouts.evaluationReport.table.admNo' | translate }}
+						</th>
+						<th style="width: 20%">
+							{{ 'printouts.evaluationReport.table.name' | translate }}
+						</th>
+						<ng-container *ngFor="let eval of evaluations; let i = index">
+							<th *ngIf="eval.checked" style="width: 5%; white-space: nowrap;">
+								{{ eval.evaluationName.split(' ')[0].charAt(0) }} {{ eval.evaluationName.split(' ')[1] }}
+							</th>
+						</ng-container>
+						<th>
+							{{ 'printouts.evaluationReport.table.average' | translate }}
+						</th>
+						<th>
+							{{ 'printouts.evaluationReport.table.descriptor' | translate }}
+						</th>
+						<th style="width: 20%" class="text-center">
+							{{ 'printouts.studentReport.genericSkills' | translate }}
+						</th>
+						<th style="width: 20%" class="text-center">
+							{{ 'printouts.studentReport.facilitatorRemarks' | translate}}
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr
+						*ngFor="let stud of evaluationReport?.students; let studIndex = index"
+						style="font-size: 13px">
+						<td>{{ stud.studentAdmNo }}</td>
+						<td>{{ stud.studentName }}</td>
+						<ng-container *ngFor="let eval of evaluations">
+							<td *ngIf="eval.checked">
+								{{ getStudentMarks(stud.studentAdmNo, eval.evaluationId) }}
+							</td>
+						</ng-container>
+						<td>{{ stud.studentAverage }}</td>
+						<td>{{ stud.comment }}</td>
+						<td class="text-center">
+							{{ stud.generalComment }}
+						</td>
+						<td class="text-center">
+							{{ stud.subjectComment }}
+						</td>
+					</tr>
+					<!-- class average -->
+					<tr style="background-color: #bfd6c0;">
+						<td colspan="2" class="text-uppercase py-1 text-center fw-bold h5" style="color: #235f27">
+							{{ 'printouts.evaluationReport.table.classAverage' | translate }}
+						</td>
+						<ng-container *ngFor="let e of evaluations">
+							<td *ngIf="e.checked" class="fw-bold">{{e.score}}</td>
+						</ng-container>
+						<td class="fw-bold">
+							{{ evaluationReport?.classAverage?.evaluationAverage }}
+						</td>
+						<td colspan="3" class="text-uppercase text-center fw-bold h5" style="color: #235f27">
+							{{ evaluationReport?.classAverage?.comment }}
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<ng-template #printBtnOption let-isLandscape="isLandscape">
+	<button
+		class="dropdown-item"
+		[styleSheetFile]="isLandscape ? 'assets/css/print_landscape.css' : 'assets/css/print_portrait.css'"
+		printSectionId="print-section"
+		[printTitle]="'Evaluation Report'"
+		ngxPrint
+		[useExistingCss]="true">
+		<i class="me-1">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+				 class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+				<path
+					d="M14   14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+				<path
+					d="M4.603 14.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.697 19.697 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.712 5.712 0 0 1-.911-.95 11.651 11.651 0 0 0-1.997.406 11.307 11.307 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.266.266 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.71 12.71 0 0 1 1.01-.193 11.744 11.744 0 0 1-.51-.858 20.801 20.801 0 0 1-.5 1.05zm2.446.45c.15.163.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.876 3.876 0 0 0-.612-.053zM8.078 7.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822.024.111.054.227.09.346z" />
+			</svg>
+		</i>
+		{{ (isLandscape ? 'printouts.commonAttr.landscape' : 'printouts.commonAttr.portrait') | translate }}
+	</button>
+</ng-template>

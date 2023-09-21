@@ -1,0 +1,47 @@
+<!-- Classes Top Nav -->
+<app-classes-top-nav></app-classes-top-nav>
+
+<section class="mt-config content">
+  <div class="row">
+    <div class="col-md-10 mx-auto">
+      <div class="box">
+				<div class="box-header d-flex justify-content-between align-items-center">
+					<div class="h4 fw-bold">{{ 'classes.commonAttr.manageSubjects' | translate }}</div>
+
+					<button class="btn btn-sm btn-dark" (click)="syncSubjects()" [disabled]="isSyncingSubjects">
+						<span *ngIf="isSyncingSubjects" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+						<span [class.ms-2]="isSyncingSubjects">{{ 'classes.commonAttr.syncSubjects' | translate }}</span>
+					</button>
+				</div>
+
+        <div class="box-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th style="width: 40%">{{ 'classes.commonAttr.subject' | translate }}</th>
+                <th>{{ 'classes.commonAttr.code' | translate }}</th>
+                <th>{{ 'classes.commonAttr.action' | translate }}</th>
+              </tr>
+              </thead>
+              <tbody *ngFor="let subject of subjects; let i = index">
+              <tr>
+                <td>{{ i + 1 }}</td>
+                <td>{{subject.name}}</td>
+                <td>{{subject.intCode}}</td>
+                <td>
+                  <button class="btn btn-primary btn-sm" (click)="viewTopics(subject.subjectId)">
+                    <i class="fa fa-eye"></i>
+                    {{ 'classes.commonAttr.topics' | translate }}
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

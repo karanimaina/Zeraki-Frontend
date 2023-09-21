@@ -1,0 +1,206 @@
+<form class="row" [formGroup]="kcseForm" (ngSubmit)="processFile()">
+    <div class="col-sm-12">
+    </div>
+    <div class="form-group col-sm-12">
+        <label for="" class="control-label">
+            <!-- Form -->
+            {{"exams.kcseExams.textForm"|translate}}
+        </label>
+        <select (change)="intakeSelected()" formControlName="intake" class="form-select">
+            <option value="">Select Form</option>
+            <option *ngFor="let intake of schoolIntakes.intakes" [value]="intake.intakeid">{{intake.label}}</option>
+        </select>
+    </div>
+    <section *ngIf="isHasKcseExam">
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <label class="contol-label">
+                    {{"exams.kcseExams.textExam"|translate}}
+                </label>
+                <input type="text" formControlName="kcseExam" class="form-control" readonly="readonly">
+            </div>
+            <div class="form-group col-sm-6">
+                <label class="contol-label">
+                    <!-- Year -->
+                    {{"exams.kcseExams.textYear"|translate}}
+                </label>
+                <input type="text" formControlName="kcseYear" [value]="kcseYear" class="form-control"
+                    readonly="readonly">
+            </div>
+        </div>
+        <div class="col-sm-12 form-group">
+            <label class="control-label">
+                <!-- Upload previous KCSE subject mean points in the -->
+                {{"exams.kcseExams.textUploadPrevious"|translate}}
+                <span (click)="downloadPreviousKcseExcel()" style="cursor: pointer;"
+                    class="text-success fw-600">
+                    <!-- following format -->
+                    {{"exams.kcseExams.textFollowingFormat"|translate}}
+                </span> </label>
+            <input type="file" name="uploadDocumentPrevious" (change)="readPreviousExcelData($event)" class="form-control">
+        </div>
+        <!--
+        =================================
+        Section display previous kcse mean points
+        =================================
+        -->
+        <div class="formGroup" *ngIf="uploadedPreviousKcseSubjectMeanPoints.length > 0">
+            <div class="table-responsive">
+                <!-- <div class="row">
+                    <div class="col-sm-6">
+                        <pre>{{uploadedPreviousKcseSubjectMeanPoints|json}}</pre>
+                    </div>
+                    <div class="col-sm-6">
+                        <pre>{{uploadedPreviousKcseSubjectMeanPointsHeaders|json}}</pre>
+                    </div>
+                </div> -->
+                <!-- <pre>{{uploadedPreviousKcseSubjectMeanPointsHeaders|json}}</pre> -->
+                <table class="table table-bordered table-hover table-stripped text-uppercase">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th *ngFor="let th of uploadedPreviousKcseSubjectMeanPointsHeaders">{{th}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tr of uploadedPreviousKcseSubjectMeanPoints; let i = index">
+                            <td>{{i+1}}</td>
+                            <td *ngFor="let td of uploadedPreviousKcseSubjectMeanPointsHeaders;let j = index">
+                                {{uploadedPreviousKcseSubjectMeanPoints[i][td]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-12 form-group">
+            <label class="form-label">
+                <!-- Upload KCSE Results below in the -->
+                {{"exams.kcseExams.textUploadResults"|translate}}
+                <span (click)="downloadKcseExcel()" class="text-success fw-600" style="cursor: pointer;">
+                    <!-- following format -->
+                    {{"exams.kcseExams.textFollowingFormat"|translate}}
+                </span>
+            </label>
+            <input type="file" name="uploadDocument" (change)="readKcseExcelData($event)" class="form-control">
+        </div>
+        <!--
+        =================================
+        Section display kcse results
+        =================================
+        -->
+        <div class="formGroup" *ngIf="uploadedKcseResults.length > 0">
+            <div class="table-responsive">
+                <!-- <pre>{{uploadedKcseResults|json}}/</pre> -->
+                <table class="table table-bordered table-hover table-stripped text-uppercase">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th *ngFor="let th of uploadedKcseResultsHeaders">{{th}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tr of uploadedKcseResults; let i = index">
+                            <td>{{i+1}}</td>
+                            <td *ngFor="let td of uploadedKcseResultsHeaders;let j = index">
+                                {{uploadedKcseResults[i][td]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="form-conrol mb-0 mt-20">
+            <!-- <span *ngIf="uploadingContent" class="btn btn-default btn-sm"><i class="fa fa-spin fa-spinner"></i>
+                <!-- Loading -->
+                <!-- {{"exams.gradingSystem.btnTextLoading"|translate}}
+            </span> -->
+            <button *ngIf="uploadedKcseResults.length>0 && !uploadingContent" class="btn pull-right btn-sm btn-info waves-effect waves-light">
+                Upload KCSE Results
+                {{"exams.btnTextUpload"|translate}}
+            </button>
+            <app-loader-pulse  *ngIf="uploadingContent" style="display: inline-block;" class="pull-right"></app-loader-pulse>
+        </div>
+    </section>
+</form>
+
+<!-- Control Sidebar  -->
+<aside class="control-sidebar" [ngClass]="{'control-sidebar-open':rightSidebar}">
+
+    <div>
+        <span class="font-bold no-margins text-danger">
+            <!-- Error -->
+            {{"exams.kcseExams.textError"|translate}}
+         </span>
+        <br>
+        <small>
+            <!-- The following errors were encountered  -->
+            {{"exams.kcseExams.textFollowingErrors"|translate}}
+        </small>
+        <button style="margin-top: -19px;" (click)="rightSidebar = false"
+            class="pull-right btn waves-effect waves-light btn-sm btn-danger">
+            <i class="text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+              </i>
+        </button>
+    </div>
+    <hr>
+    <div *ngIf="rightSidebar && custom_errors.length> 0  ">
+
+        <div class="media-list mt-20" *ngFor="let error of custom_errors">
+            <!--
+            ================================
+            Forbidden columns Section
+            ================================
+            -->
+            <div *ngIf="error.title == 'Forbidden Columns'" class="media py-10 px-0">
+                <div class="media-body">
+                    <p class="fs-16">
+                        <strong>{{error?.title}}</strong>
+                    </p>
+                    <p *ngFor="let msg of error.msg">{{msg}}</p>
+
+                    <strong>
+                        <!-- Allowed Columns -->
+                        {{"exams.textAllowedColumns"|translate}}
+                    </strong>
+                    <table class="table table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <!-- Column -->
+                                    {{"exams.textColumn"|translate}}
+                                </th>
+                                <th>
+                                    <!-- Meaning -->
+                                    {{"exams.textMeaning"|translate}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let t of error.allowed_headers">
+                                <td>{{t.column}}</td>
+                                <td>{{t.meaning}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--
+            ================================
+            Data Error Section
+            ================================
+            -->
+            <div *ngIf="error.title != 'Forbidden Columns'" class="media py-10 px-0">
+                <div class="media-body">
+                    <p class="fs-16">
+                        <strong>{{error.title}}</strong>
+                    </p>
+                    <p *ngFor="let msg of error.msg">{{msg}}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</aside>
+<!-- /.control-sidebar -->

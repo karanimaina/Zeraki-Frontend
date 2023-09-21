@@ -1,0 +1,242 @@
+<section class=" mt-config content">
+	<div *ngIf="isLoadingCountry; then showCountryLoading else showCountryDataSuccess" ></div>
+
+		<ng-template #showCountryLoading>
+			<div class="row">
+				<div class="col-12">
+					<div class="box">
+						<div class="box-header">
+							<app-loader-div [height]="25"></app-loader-div>
+						</div>
+						<div class="box-body">
+							<app-loader-div [height]="250"></app-loader-div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+
+
+	<ng-template #showCountryDataSuccess>
+		<div *ngIf="failedLoadingCountry; then countryFailedLoading else countryDataSuccess"></div>
+
+		<ng-template #countryDataSuccess>
+			<div class="row">
+				<div class="col-12">
+					<div class="box">
+						<div class="box-header">
+							<h4 class="box-title">{{country.name}}</h4>
+							<div class="box-controls">
+								<button (click)="back()" class="btn btn-sm btn-dark waves-effect waves-light pull-right">Back
+								</button>
+							</div>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-12">
+									<table class="table border b-1 border-secondary table-borderless">
+										<thead class="border bb-1 border-secondary">
+										<tr>
+											<th colspan="2">Country Info</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											<th>Country Code</th>
+											<td> {{country.countryCode}}</td>
+										</tr>
+										<tr>
+											<th>Division</th>
+											<td> {{country.division}}</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="col-6">
+									<table class="table border b-1 border-secondary table-borderless">
+										<thead class="border bb-1 border-secondary">
+										<tr>
+											<th colspan="2">Company Details</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											<th>Name</th>
+											<td>{{country.companyInformation.name}}</td>
+										</tr>
+										<tr>
+											<th>Address</th>
+											<td>{{country.companyInformation.address}}</td>
+										</tr>
+										<tr>
+											<th>Email</th>
+											<td>{{country.companyInformation.email}}</td>
+										</tr>
+										<tr>
+											<th>Phone</th>
+											<td>{{country.companyInformation.phone}}</td>
+										</tr>
+										<tr>
+											<th>City</th>
+											<td>{{country.companyInformation.city}}</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="col-6">
+									<table class="table border b-1 border-secondary table-borderless mb-0">
+										<thead class="border bb-1 border-secondary">
+										<tr>
+											<th colspan="2">Payment Information</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											<th>Bank Name</th>
+											<td> {{country.paymentInformation.bankName}} </td>
+										</tr>
+										<tr>
+											<th>Account name</th>
+											<td>{{country.paymentInformation.accountName}}</td>
+										</tr>
+										<tr>
+											<th>Account Number</th>
+											<td>{{country.paymentInformation.accountNumber}}</td>
+										</tr>
+										<tr>
+											<th>Currency</th>
+											<td>{{country.paymentInformation.currency}}</td>
+										</tr>
+										<tr>
+											<th>Vat Rate</th>
+											<td>{{country.paymentInformation.vatRate}}</td>
+										</tr>
+										<tr>
+											<th>Tax Pin Title</th>
+											<td>{{country.paymentInformation.taxPinTitle}}</td>
+										</tr>
+										<tr>
+											<th>Tax Pin</th>
+											<td>{{country.paymentInformation.taxPin}}</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+
+		<ng-template #countryFailedLoading>
+			<div class="row">
+				<div class="col-12">
+					<div class="box">
+						<div class="box-header">
+							<h4 class="box-title">Country Name</h4>
+							<div class="box-controls">
+								<button (click)="back()" class="btn btn-sm btn-dark waves-effect waves-light pull-right">Back
+								</button>
+							</div>
+						</div>
+						<div class="box-body">
+							<div class="row">
+								<div class="col-12">
+									<table class="table border b-1 border-secondary table-borderless">
+										<thead class="border bb-1 border-secondary">
+										<tr>
+											<th colspan="2">Country Info</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											<th>Country Code</th>
+											<td> code</td>
+										</tr>
+										<tr>
+											<th>Division</th>
+											<td>County</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="col-6">
+									<table class="table border b-1 border-secondary table-borderless">
+										<thead class="border bb-1 border-secondary">
+										<tr>
+											<th colspan="2">Company Details</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											<th>Name</th>
+											<td>name</td>
+										</tr>
+										<tr>
+											<th>Address</th>
+											<td></td>
+										</tr>
+										<tr>
+											<th>Email</th>
+											<td></td>
+										</tr>
+										<tr>
+											<th>Phone</th>
+											<td></td>
+										</tr>
+										<tr>
+											<th>City</th>
+											<td></td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="col-6">
+									<table class="table border b-1 border-secondary table-borderless mb-0">
+										<thead class="border bb-1 border-secondary">
+										<tr>
+											<th colspan="2">Payment Information</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											<th>Bank Name</th>
+											<td>bank</td>
+										</tr>
+										<tr>
+											<th>Account name</th>
+											<td>account name</td>
+										</tr>
+										<tr>
+											<th>Account Number</th>
+											<td>account_number</td>
+										</tr>
+										<tr>
+											<th>Currency</th>
+											<td>currency</td>
+										</tr>
+										<tr>
+											<th>Vat Rate</th>
+											<td>vat-rate</td>
+										</tr>
+										<tr>
+											<th>Tax Pin Title</th>
+											<td>pin title</td>
+										</tr>
+										<tr>
+											<th>Tax Pin</th>
+											<td>pin</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</ng-template>
+
+</section>

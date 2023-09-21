@@ -1,0 +1,33 @@
+<!-- Main content -->
+<section class="content mt-config">
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <div class="box">
+                <div class="box-header with-border fw-600">
+                    Welcome to Zeraki Analytics!
+                </div>
+               <div class="box-header bg-success-light" style="border-radius: 0;">
+                <div class="bg-success-light" >
+                    <i class="fa fa-check-square"></i> To get started, you will be required to go through <b>three</b> simple steps listed below.
+                </div>
+               </div>
+                <div class="box-body">
+                    <ul class="list-group" style="margin-bottom: 0">
+                        <li class="list-group-item" style="border: none !important;">
+                            <span class="badge badge-pill badge-dark pull-left" style="margin-right: 8px">1</span> Create atleast one class with atleast one stream.
+                        </li>
+                        <li class="list-group-item" style="border: none !important;">
+                            <span class="badge badge-pill badge-dark pull-left" style="margin-right: 8px">2</span> Add atleast one student to any of the classes you have created.
+                        </li>
+                        <li class="list-group-item" style="border: none !important;">
+                            <span class="badge badge-pill badge-dark pull-left" style="margin-right: 8px">3</span> Finally, add atleast one teacher and that's it!
+                        </li>
+                        <li *ngIf="!(userRoles$ | async)?.isStudent" class="list-group-item text-end pb-0 pe-0" style="border: none !important;">
+                            <button class="btn btn-success waves-effect waves-light btn-sm" type="button" routerLink="/setup/add">Add Classes</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

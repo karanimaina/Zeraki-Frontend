@@ -1,0 +1,20 @@
+@media (min-width: 768px) {
+  .mt-config {
+      margin-top: 10px !important;
+  }
+}
+
+@media (max-width: 767.98px){
+  .mt-config {
+      margin-top: 10px;
+  }
+}
+
+.lightBoxGallery {
+  text-align: center;
+}
+
+.lightBoxGallery a {
+  margin: 5px;
+  display: inline-block;
+}

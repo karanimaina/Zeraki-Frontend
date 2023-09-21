@@ -1,0 +1,98 @@
+<!-- small screen -->
+<div class="box-header without-border pb-0 hidden-md-up">
+    <ng-container *ngIf="!hasMicropaymentPlan">
+        <div>
+            <div class="d-flex justify-content-center">
+                <div class="shadow-sm py-2 px-2 bg-body rounded mx-1" style="min-width: 10.5rem;">
+                    <div class="text-center" style="white-space: nowrap;">
+                        <div class="text-bold" style="font-size: 1.5rem;"
+                            [ngClass]="studentData?.balanceSummary?.totalBalance > 0? 'text-warning':'text-success'">
+                            {{studentData?.balanceSummary?.totalBalance |
+                            currency}}</div>
+                        <div>Fee Balance</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <app-svg-collection [svgType]="'collections'"></app-svg-collection> <span
+        class="box-title text-muted">Collections</span>
+</div>
+
+<!-- Large screen -->
+<div class="box-header without-border pb-0 d-none d-md-block">
+    <app-svg-collection [svgType]="'collections'"></app-svg-collection> <span
+        class="box-title text-muted">Collections</span>
+    <ng-container *ngIf="!hasMicropaymentPlan">
+        <div class="box-controls pull-right">
+            <div class="row">
+                <div class="col d-flex shadow py-2 px-3 bg-body rounded mx-2" style="min-width: 15em;">
+                    <div class="me-15 bg-info-light h-40 w-40 l-h-50 rounded text-center">
+                        <span class="icon-Wallet2 fs-20"><span class="path1"></span><span class="path2"></span><span
+                                class="path3"></span></span>
+                    </div>
+                    <div style="white-space: nowrap;">
+                        <div>Balance</div>
+                        <div class="text-bold" style="font-size: 1.5rem;"
+                            [ngClass]="studentData?.balanceSummary?.totalBalance > 0? 'text-warning':'text-success'">
+                            {{studentData?.balanceSummary?.totalBalance | currency}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
+<hr *ngIf="hasMicropaymentPlan" />
+<div class="box-body p-lg-top">
+    <!-- <div class="pt-5 pb-2" style="white-space: nowrap;">
+                <div>Term 1</div>
+                <div class="text-muted">5th January - 20th April</div>
+            </div> -->
+    <p *ngIf="!studentData?.collections || studentData?.collections?.length == 0">
+        No collections present
+    </p>
+    <div *ngIf="studentData?.collections?.length > 0" class="table-responsive">
+        <table class="table table-striped table-hover mb-0">
+            <thead>
+                <tr>
+                    <td class="show-desktop">Receipt Number</td>
+                    <td>Receipt Date</td>
+                    <td>Payment Amount</td>
+                    <td class="show-desktop">Payment Method</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let studCols of studentData.collections">
+                    <td class="show-desktop">{{studCols.receiptNumber}}</td>
+                    <td>
+                        {{ studCols.txnDate | date: 'mediumDate' }}
+                        <div class="text-fade hidden-md-up">{{studCols.paymentMethod}}</div>
+                        <div class="text-fade hidden-md-up">{{studCols.receiptNumber}}</div>
+                    </td>
+                    <td>{{ studCols.amount | currency}}</td>
+                    <td class="show-desktop">{{studCols.paymentMethod}}</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-info show-desktop"
+                            [useExistingCss]="true"
+                            [printSectionId]="studCols.id"
+                            [printTitle]="studCols.receiptNumber"
+                            ngxPrint>
+                            <i class="bi bi-printer"></i>
+                            <div class="d-none">
+                                <app-collection-receipt 
+                                    [id]="studCols.id"
+                                    [collection]="studCols"
+                                    [studentData]="studentData">
+                                </app-collection-receipt>
+                            </div>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-info mx-2" (click)="downloadReceipt(studCols)">
+                            <i class="bi bi-cloud-arrow-down"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

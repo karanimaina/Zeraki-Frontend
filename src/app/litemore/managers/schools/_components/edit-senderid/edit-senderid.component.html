@@ -1,0 +1,50 @@
+<app-submit-form [formGroup]="senderIdForm" (onSubmit)="addSenderId()">
+    <div class="box">
+        <div class="box-header no-border p-0">
+            <h4 class="text-bold">
+				{{'litemore.managers.schools.components.editSenderId.changeSenderId'|translate}}
+				:</h4>
+        </div>
+        <div class="box-body p-0">
+            <div class="row">
+                <div class="form-group col-6">
+                    <label class="form-label" for="sender-id">{{'litemore.managers.schools.components.editSenderId.senderId'|translate}} *</label>
+                    <input type="text" class="form-control" formControlName="senderId" id="sender-id"
+                        [ngClass]="{ 'is-invalid': (senderIdForm.isSubmitted && senderId?.invalid)}">
+                    <app-field-errors class="form-error" [control]="senderId!" [label]="'litemore.managers.schools.components.editSenderId.ohoneNumber'|translate">
+                    </app-field-errors>
+                </div>
+                <div class="form-group col-6">
+                    <label class="form-label" for="phone">{{'litemore.managers.schools.components.editSenderId.phoneNumber'|translate}} *</label>
+                    <input type="text" class="form-control" formControlName="phoneNumber" placeholder="07..." id="phone"
+                        [ngClass]="{ 'is-invalid': (senderIdForm.isSubmitted && phoneNumber?.invalid)}">
+                    <app-field-errors class="form-error" [control]="phoneNumber!" [label]="'litemore.managers.schools.components.editSenderId.phoneNumber'|translate">
+                    </app-field-errors>
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-outline btn-danger" (click)="closeDialog()">
+					{{'litemore.managers.schools.components.editSenderId.cancel'|translate}}
+                </button>
+                <button type="submit" *ngIf="testSucceeded" [disabled]="isSaving || isTesting" class="btn btn-outline btn-success pull-right ms-2">
+                    <div *ngIf="isSaving; else save">
+                        <div class="spinner-border me-2" role="status" style="max-width: 18px; max-height: 18px;">
+                        </div>
+                    </div>
+                    <ng-template #save>
+						{{'litemore.managers.schools.components.editSenderId.save'|translate}}
+                    </ng-template>
+                </button>
+                <button type="button" (click)="testSenderId()" [disabled]="isTesting" class="btn btn-outline btn-info pull-right">
+                    <div *ngIf="isTesting; else save">
+                        <div class="spinner-border me-2" role="status" style="max-width: 18px; max-height: 18px;">
+                        </div>
+                    </div>
+                    <ng-template #save>
+						{{'litemore.managers.schools.components.editSenderId.test'|translate}}
+                    </ng-template>
+                </button>
+            </div>
+        </div>
+    </div>
+</app-submit-form>

@@ -1,0 +1,39 @@
+@use "sass:color";
+
+$transition: all 0.3s ease-in-out;
+
+.subject-box {
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 0.5px solid white;
+  transition: $transition;
+
+  &:hover {
+    border: 0.5px solid rgba(14, 122, 21, 0.5);
+  }
+
+  .footer-text {
+    color: rgba(14, 122, 21, 1);
+    transform: translateY(1px);
+  }
+}
+
+.icon-top-right {
+  svg {
+    $icon-color: red;
+    $icon-size: 1.75rem;
+
+    width: $icon-size;
+    height: $icon-size;
+
+    padding: 4px;
+    border-radius: 8px;
+    transition: $transition;
+
+    &:hover {
+      cursor: pointer;
+      color: color.adjust($icon-color, $blackness: 20%);;
+      background-color: color.adjust($icon-color, $alpha: -0.9);;
+      transform: scale(1.1);
+    }
+  }
+}

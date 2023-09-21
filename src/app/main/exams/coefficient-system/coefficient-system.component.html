@@ -1,0 +1,12 @@
+<section class="content mt-config">
+<app-coefficient-view
+	[schoolTypeData]="schoolTypeData"
+	[majors]="majors"
+	[coefficientSystem]="coefficientSystem"
+	[subjectCoefficients]="subjectCoefficients"
+	[loadingMajors]="loadingMajors"
+	[loadingPresets]="loadingPresets"
+	(getSubjectWeightPresetsEvt)="getSubjectWeightPresets($event)"
+	(saveSubjectWeightPresetChangesEvt)="saveSubjectWeightPresetChanges($event)"
+></app-coefficient-view>
+</section>

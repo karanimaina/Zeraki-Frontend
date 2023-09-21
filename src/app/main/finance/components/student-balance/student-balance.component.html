@@ -1,0 +1,130 @@
+<div class="box">
+    <div class="box-header">
+        <div class="pull-left">
+            <div class="ms-5">
+                <h3 class="mb-0 mt-0 fs-16 fw-600">{{studentData?.balanceSummary?.studentName | titlecase}}</h3>
+                <p class="mb-0">Admission Number: {{studentData?.balanceSummary?.admissionNo}} <br />
+                    <span *ngIf="stream">{{stream?.intakeName + " " + stream?.streamName}}</span>
+                </p>
+            </div>
+        </div>
+        <div class="pull-right">
+            <button *ngIf="(userRoles$ | async)?.isPrincipal" class="btn waves-effect waves-light btn-sm btn-dark"
+                style="top: 10px;position: absolute;right: 10px;width: 30px;" (click)="toggleBalanceView()">
+                &times;
+                <!-- <i>
+                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                           class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                           <path fill-rule="evenodd"
+                               d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+                       </svg>
+                   </i> -->
+            </button>
+            <!-- Create Micro payment plan button -->
+            <span *ngIf="!hasMicropaymentPlan" class="mt-2">
+                <button *ngIf="((userRoles$ | async)?.isStudent && (stkData$ | async)?.list?.length > 0)"
+                    class="btn btn-sm btn-dark waves-effect waves-light mx-2" data-bs-toggle="modal"
+                    data-bs-target="#add-payment" (click)="initPayment()">
+                    Pay Now
+                </button>
+                <!-- <button class="btn btn-sm btn-dark waves-effect waves-light" data-bs-toggle="modal"
+                    data-bs-target="#setup-micropayment" (click)="initSetup()">
+                    Create Micropayment plan
+                </button> -->
+            </span>
+
+
+            <!-- See payment summary info -->
+            <ng-container *ngIf="hasMicropaymentPlan">
+                <div class="d-flex justify-content-between">
+                    <button *ngIf="((userRoles$ | async)?.isStudent && (stkData$ | async)?.list?.length > 0)"
+                        class="btn btn-sm btn-dark waves-effect waves-light mx-2" data-bs-toggle="modal"
+                        data-bs-target="#add-payment" (click)="initPayment()">
+                        Pay Now
+                    </button>
+                    <div class="d-flex justify-content-center shadow py-2 px-3 bg-body mx-2 hidden-lg-down"
+                        style="border-radius: 0.7rem">
+                        <div class="mx-2" style="white-space: nowrap;">
+                            <div>Term 1 Payment Plan</div>
+                            <div>5th January - 20th April</div>
+                        </div>
+                        <div class="mx-2 text-success border-start ps-2" style="white-space: nowrap;">
+                            <div>Next Payment</div>
+                            <div>24th February</div>
+                        </div>
+                        <div class="mx-2  text-success border-start ps-2" style="white-space: nowrap;">
+                            <div>Payment Amount</div>
+                            <div>4,000</div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+    <!-- MICRO-PAYMENTS -->
+    <ng-container *ngIf="hasMicropaymentPlan">
+        <app-student-micro-payments [micropayments]="micropayments" [stkData$]="stkData$" (initiatePayment)="initPayment()"></app-student-micro-payments>
+    </ng-container>
+
+    <!-- COLLECTIONS -->
+    <ng-container>
+        <app-student-collection [studentData]="studentData" [hasMicropaymentPlan]="hasMicropaymentPlan"></app-student-collection>
+    </ng-container>
+
+    <!-- STATMENTS -->
+    <ng-container>
+        <app-student-statement [studentData]="studentData" [termStatements]="termStatements"></app-student-statement>
+    </ng-container>
+
+    <!-- FOOTER -->
+    <ng-container>
+        <div class="box-body">
+            <div class="fw-lighter py-5">
+                <span class="pull-right text-end">
+                    <h5 class="fs-18 fw-bold text-capitalize"  [ngClass]="studentData?.balanceSummary?.totalBalance > 0? 'text-warning':'text-success'">
+                        {{studentData?.balanceSummary?.totalBalance | currency}}
+                    </h5>
+                    <span class="d-none d-md-block">
+                        <small class="fst-italic fw-lighter">{{
+                            studentData?.balanceSummary?.totalBalance | numberToWords }} <span
+                                *ngIf="studentData?.balanceSummary?.totalBalance > 0">only</span></small>
+                    </span>
+                </span>
+                <span class="fw-lighter">
+                    <h5 class="fw-bold fs-18 text-capitalize text-balance">Balance</h5>
+                    <small class="fw-lighter">{{ date | date: 'd/M/yy'}} <br /> Prepared by:
+                        Accounts Office</small>
+                </span>
+            </div>
+        </div>
+    </ng-container>
+</div>
+
+
+<!-- Make Payment Modal -->
+<div class="modal fade none-border" id="add-payment">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <app-make-payment [payment]="payment" [studentAdm]="studentData?.balanceSummary?.admissionNo"
+                    (close)="closeModal($event)" (success)="successDialog($event)"></app-make-payment>
+            </div>
+            <button #closePaymentModal hidden type="button" class="btn btn-secondary"
+                data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Create Micro-Payment Modal -->
+<div class="modal fade none-border" id="setup-micropayment">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <app-create-micro-payment [setupStage]="setupStage" (close)="closeModal()"></app-create-micro-payment>
+            </div>
+            <button #closeSetupModal hidden type="button" class="btn btn-secondary"
+                data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,4 @@
+<app-progress-micropayment [stage]="setupStage.stage" [setup]="true"></app-progress-micropayment>
+<app-stage-one *ngIf="setupStage.stage == 1" (OStage)="OStage($event)" (closeModal)="closeModal()"></app-stage-one>
+<app-stage-two *ngIf="setupStage.stage == 2" (OStage)="OStage($event)" [setupStage]="setupStage"></app-stage-two>
+<app-stage-three *ngIf="setupStage.stage == 3" (OStage)="OStage($event)" [setupStage]="setupStage" (closeModal)="closeModal()"></app-stage-three>

@@ -1,0 +1,106 @@
+<div>
+	<app-submit-form [formGroup]="creditNoteForm" (ngSubmit)="createCreditNote()">
+		<div class="row">
+			<div class="form-group col-12">
+				<label class="form-label" for="votehead">
+					<!--Select Votehead -->
+					{{
+						"litemore.bdevs.invoices.invoice.components.createCreditNote.selectVoteHead"
+							| translate
+					}}
+				</label>
+				<ng-select
+					label="Items"
+					placeholder="{{
+						'litemore.bdevs.invoices.invoice.components.createCreditNote.selectItems'
+							| translate
+					}}"
+					[items]="invoice?.invoiceItems || []"
+					formControlName="item"
+					[multiple]="true"
+					bindLabel="item"
+					[hideSelected]="true"
+					[selectOnTab]="true"
+					[closeOnSelect]="true">
+				</ng-select>
+				<app-field-errors
+					[control]="item!"
+					[label]="'Items'"></app-field-errors>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<div
+					*ngFor="let invoice of invoice?.invoiceItems"
+					[hidden]="!itemTypes?.includes(invoice.itemTypeId)"
+					class="form-group row">
+					<label for="setup" class="col-sm-3 col-form-label">
+						{{ invoice.item }}
+					</label>
+					<div class="col-sm-9">
+						<input
+							type="number"
+							min="0"
+							title="Enter {{ invoice.item }} amount"
+							placeholder="0"
+							class="form-control"
+							id="setup"
+							formControlName="{{ invoice.itemTypeId }}Amount"
+							[ngClass]="{
+								'is-invalid':
+									creditNoteForm.isSubmitted &&
+									getDynamicControlName(invoice.itemTypeId)?.invalid
+							}"
+							[required]="itemTypes?.includes(invoice.itemTypeId) || false" />
+						<app-field-errors
+							[control]="getDynamicControlName(invoice.itemTypeId)!"
+							[label]="invoice.item + ' amount'"></app-field-errors>
+					</div>
+				</div>
+			</div>
+			<div *ngIf="itemTypes?.length" class="col-md-12 form-group">
+				<label class="form-label">Additional Information</label>
+				<input
+					type="text"
+					class="form-control"
+					id="collection_method"
+					formControlName="creditNoteDescription" />
+			</div>
+		</div>
+
+		<button
+			class="btn btn-sm btn-success pull-right w-80"
+			[ngClass]="loading ? 'disabled' : ''">
+			<svg
+				*ngIf="loading"
+				width="18"
+				height="18"
+				viewBox="0 0 38 38"
+				xmlns="http://www.w3.org/2000/svg"
+				stroke="#fff">
+				<g fill="none" fill-rule="evenodd">
+					<g transform="translate(1 1)" stroke-width="2">
+						<circle stroke-opacity=".5" cx="18" cy="18" r="18" />
+						<circle stroke-opacity=".5" cx="18" cy="18" r="18" />
+						<path d="M36 18c0-9.94-8.06-18-18-18">
+							<animateTransform
+								attributeName="transform"
+								type="rotate"
+								from="0 18 18"
+								to="360 18 18"
+								dur="1s"
+								repeatCount="indefinite" />
+						</path>
+					</g>
+				</g>
+			</svg>
+			<ng-container *ngIf="!loading">
+				<!--Create -->
+				{{
+					"litemore.bdevs.invoices.invoice.components.createCreditNote.create"
+						| translate
+				}}
+			</ng-container>
+		</button>
+	</app-submit-form>
+</div>

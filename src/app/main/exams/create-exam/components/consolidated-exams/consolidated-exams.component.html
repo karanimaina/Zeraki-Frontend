@@ -1,0 +1,315 @@
+<div *ngIf="isFetching; then loading else complete"></div>
+<ng-template #loading>
+	<div class="row">
+		<div class="col-sm-12">
+			<app-loader-div [height]="35"></app-loader-div>
+			<p></p>
+		</div>
+		<div class="col-sm-6">
+			<app-loader-div [height]="35"></app-loader-div>
+		</div>
+		<div class="col-sm-6">
+			<app-loader-div [height]="35"></app-loader-div>
+		</div>
+	</div>
+</ng-template>
+<ng-template #complete>
+	<form #addForm="ngForm" (ngSubmit)="showDesc(addForm)">
+		<div class="row">
+
+			<ui-kenyan-school [template]="examNameInput"></ui-kenyan-school>
+			<ui-ghana-school [template]="examNameInput"></ui-ghana-school>
+			<ui-tanzania-school [template]="examNameInput"></ui-tanzania-school>
+			<ui-zimbabwe-school [template]="examNameInput"></ui-zimbabwe-school>
+			<ui-zambia-school [template]="examNameInput"></ui-zambia-school>
+			<ui-south-africa-school [template]="examNameInput"></ui-south-africa-school>
+
+			<ng-template #examNameInput>
+				<div class="col-sm-12">
+
+					<div class="form-group">
+						<label class="control-label">
+							<!-- Exam Name -->
+							{{"exams.consolidatedExams.labelTextExamName"|translate}}
+						</label>
+						<input type="text" ngModel #name="ngModel" pattern="[^()&/><\][\\\x22,;|]+" appEmptyStringValidator
+							   name="name" class="form-control"
+							   placeholder='{{"exams.consolidatedExams.labelTextExamName"|translate}}'
+							   [ngClass]="{'is-invalid':(addForm.submitted && name.invalid)}" required>
+						<div class="text-danger" *ngIf="addForm.submitted && name.invalid">
+							<div *ngIf="name.errors?.required || name.errors?.appEmptyStringValidator">
+								<!-- Exam name is required -->
+								{{"exams.consolidatedExams.textExamNameRequired"|translate}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</ng-template>
+
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="" class="control-label">
+						<!-- Term -->
+						<ui-kenyan-school [template]="termLabel"></ui-kenyan-school>
+						<ui-ghana-school [template]="termLabel"></ui-ghana-school>
+						<ui-tanzania-school [template]="termLabel"></ui-tanzania-school>
+						<ui-zimbabwe-school [template]="termLabel"></ui-zimbabwe-school>
+						<ui-zambia-school [template]="termLabel"></ui-zambia-school>
+						<ui-south-africa-school [template]="termLabel"></ui-south-africa-school>
+
+						<ng-template #termLabel>
+							{{"common.term"|translate}}
+						</ng-template>
+
+						<ui-guinea-school [template]="semester"></ui-guinea-school>
+						<ui-ivory-coast-school [template]="semester"></ui-ivory-coast-school>
+
+						<ng-template #semester>
+							<span>{{"common.semester"|translate}}</span>
+						</ng-template>
+					</label>
+					<select name="term" ngModel required #term="ngModel" (change)="invalidateDesc()"
+							[ngClass]="{'is-invalid':(addForm.submitted && term.invalid)}" class="form-select">
+
+						<ui-kenyan-school [template]="defaultTermOption"></ui-kenyan-school>
+						<ui-ghana-school [template]="defaultTermOption"></ui-ghana-school>
+						<ui-tanzania-school [template]="defaultTermOption"></ui-tanzania-school>
+						<ui-zimbabwe-school [template]="defaultTermOption"></ui-zimbabwe-school>
+						<ui-zambia-school [template]="defaultTermOption"></ui-zambia-school>
+						<ui-south-africa-school [template]="defaultTermOption"></ui-south-africa-school>
+
+						<ng-template #defaultTermOption>
+							<option value="" disabled selected>
+								{{"exams.consolidatedExams.labelTextTerm"|translate}}
+							</option>
+						</ng-template>
+
+						<ui-guinea-school [template]="semesterOption"></ui-guinea-school>
+						<ui-ivory-coast-school [template]="semesterOption"></ui-ivory-coast-school>
+
+						<ng-template #semesterOption>
+							<option value="" disabled selected>
+								<!-- Select Semester -->
+								{{"common.semester"|translate}}
+							</option>
+						</ng-template>
+						<option *ngFor="let term of terms" [value]="term">{{term}}</option>
+					</select>
+					<div class="text-danger" *ngIf="addForm.submitted && term.invalid">
+						<div *ngIf="term.errors?.required">
+
+							<ui-kenyan-school [template]="termRequired"></ui-kenyan-school>
+							<ui-ghana-school [template]="termRequired"></ui-ghana-school>
+							<ui-tanzania-school [template]="termRequired"></ui-tanzania-school>
+							<ui-zimbabwe-school [template]="termRequired"></ui-zimbabwe-school>
+							<ui-zambia-school [template]="termRequired"></ui-zambia-school>
+							<ui-south-africa-school [template]="termRequired"></ui-south-africa-school>
+
+							<ng-template #termRequired>
+								{{"exams.consolidatedExams.textTermRequired"|translate}}
+							</ng-template>
+
+							<ui-guinea-school [template]="semesterRequired"></ui-guinea-school>
+							<ui-ivory-coast-school [template]="semesterRequired"></ui-ivory-coast-school>
+
+							<ng-template #semesterRequired>
+								<span>{{"common.semesterRequired"|translate}}</span>
+							</ng-template>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="" class="control-label">
+						<!-- Year -->
+						{{"exams.consolidatedExams.textYear"|translate}}
+					</label>
+					<select name="academic_year" ngModel required #year="ngModel" (change)="invalidateDesc()"
+							[ngClass]="{'is-invalid':(addForm.submitted && year.invalid)}" class="form-select">
+						<option value="" disabled>
+							<!-- Academic Year -->
+							{{"exams.consolidatedExams.optionTextAcademicYear"|translate}}
+						</option>
+						<option *ngFor="let ay of academicYears" [value]="ay.ayid">{{ay.name}}</option>
+					</select>
+					<div class="text-danger" *ngIf="addForm.submitted && year.invalid">
+						<div *ngIf="year.errors?.required">
+							<!-- Year is required -->
+							{{"exams.consolidatedExams.textYearIsRequired"|translate}}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group" *ngIf="showExams">
+				<div *ngIf="!exams?.examsfound">
+					<p class="text-danger mb-0">
+						<!-- No exams were found -->
+						{{"exams.consolidatedExams.textNoExamsWereFound"|translate}}
+					</p>
+				</div>
+			</div>
+
+			<div *ngIf="!showExams" class="form-group mb-0">
+				<span *ngIf="(isSubmitForm && !showExams); then showLoading else showButton"></span>
+				<ng-template #showButton>
+					<button type="submit" class="btn btn-sm btn-info waves-effect waves-light pull-right">
+						<i class="fa fa-search"></i>
+						<!-- Specify classes -->
+						{{"exams.consolidatedExams.textSpecifyClasses"|translate}}
+					</button>
+				</ng-template>
+				<ng-template #showLoading>
+					<app-loader-pulse style="float: right;"></app-loader-pulse>
+				</ng-template>
+
+			</div>
+		</div>
+	</form>
+</ng-template>
+
+<ui-kenyan-school [template]="ordinaryExamsTable"></ui-kenyan-school>
+<ui-ghana-school [template]="ordinaryExamsTable"></ui-ghana-school>
+<ui-tanzania-school [template]="ordinaryExamsTable"></ui-tanzania-school>
+<ui-zimbabwe-school [template]="ordinaryExamsTable"></ui-zimbabwe-school>
+<ui-zambia-school [template]="ordinaryExamsTable"></ui-zambia-school>
+<ui-south-africa-school [template]="ordinaryExamsTable"></ui-south-africa-school>
+
+<ng-template #ordinaryExamsTable>
+	<div class="row" *ngIf="showExams">
+
+		<div *ngIf="exams?.examsfound" class="col-sm-12">
+			<p class="fw-600 mb-5">
+				<!-- Forms that sat for the exam -->
+				{{"exams.consolidatedExams.textFormsThatSatForExam" | translate: {formoryear: (schoolTypeData?.formoryear | formOrYear)} }}
+			</p>
+			<div class="table-responsive">
+				<table class="table table-sm table-bordered table-striped">
+					<tbody *ngFor="let form of forms; index as i">
+					<ng-container *ngIf="exams[form.form]?.exams?.length > 0">
+						<tr style="font-weight: bold">
+							<td style="vertical-align: middle">
+								<input type="checkbox" [(ngModel)]="form.selected" [id]="form.form"
+									   (change)="onFormsChange(i)" class="filled-in chk-col-info">
+								<label [for]="form.form" style="padding-left: 20px;height: 17px;"></label>
+							</td>
+
+							<td style="vertical-align: middle" colspan="3">
+							<span style="padding-left: 8px">
+								{{schoolTypeData?.formoryear | formOrYear}}
+								{{form.form}}
+
+							</span>
+							</td>
+						</tr>
+						<tr *ngFor='let exam of exams[form.form].exams; index as idx;' class="text-center">
+							<td></td>
+							<td style="vertical-align: middle">
+								<input type="checkbox" id="exam_{{i}}_{{idx}}" [checked]="exam.selected"
+									   [(ngModel)]="exam.selected" class="filled-in chk-col-info" name="exam_{{i}}_{{idx}}"
+									   (change)="onExamsChange(form.form)" [disabled]="!form.selected">
+								<label for="exam_{{i}}_{{idx}}" style="padding-left: 20px;height: 17px;"></label>
+							</td>
+							<td style="vertical-align: middle"><span style="padding-left: 8px">{{exam.name}}</span></td>
+							<td style="vertical-align: middle">
+							<span>
+								<input style="width: 70px;display: inline-block" [(ngModel)]="exam.ratio"
+									   type="number" min="1" [disabled]="!exam.selected" title="Please enter the ratio"
+									   placeholder="1" name="year" id="year" class="form-control">
+							</span>
+							</td>
+
+						</tr>
+					</ng-container>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-sm-12 text-end">
+
+				<span *ngIf="isSubmitForm; then showLoading else showButton"></span>
+				<ng-template #showButton>
+					<button (click)="addGroup()" class="btn btn-sm btn-info waves-effect waves-light">
+						<i class="fa fa-plus"></i>
+						<!-- Create -->
+						{{"exams.consolidatedExams.btnTextCreate"|translate}}
+					</button>
+				</ng-template>
+				<ng-template #showLoading>
+					<app-loader-pulse style="float: right;"></app-loader-pulse>
+				</ng-template>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+
+
+<ui-guinea-school [template]="createExamTemplate"></ui-guinea-school>
+<ui-ivory-coast-school [template]="createExamTemplate"></ui-ivory-coast-school>
+
+<ng-template #createExamTemplate>
+	<div class="row" *ngIf="showExams">
+		<div class="col-sm-12">
+			<form #formForm="ngForm" (ngSubmit)="createGuineaGroup(formForm)">
+				<div class="form-group">
+					<label for="selectGradeId">{{ 'common.select' | translate }} {{ schoolTypeData?.formoryear }}</label>
+					<select name="grade" id="selectGradeId"
+							appEmptyStringValidator ngModel #selectedGrade="ngModel"
+							class="form-select">
+						<option value="">{{ schoolTypeData?.formoryear}}</option>
+						<ng-container *ngFor="let form of forms; index as i">
+							<option *ngIf="exams[form.form]?.exams?.length > 0" [value]="i">
+								{{form?.form}}
+							</option>
+						</ng-container>
+					</select>
+					<div class="text-danger">
+						<div *ngIf="">{{ 'common.select' | translate }} {{ schoolTypeData?.formoryear }}</div>
+					</div>
+				</div>
+				<ng-container *ngIf="selectedGrade.value !=''">
+					<div class="form-group" [ngClass]="{'mb-0':selectedGrade.value ==''}">
+						<label for="">
+							{{ 'exams.createExam.examsTakenForClass' | translate: {class: forms[selectedGrade.value]?.form} }}
+						</label>
+						<div class="table table-responsive mb-0"
+							 *ngIf="exams[forms[selectedGrade.value]?.form]?.exams?.length>0">
+							<table class="table table-striped table-hover table-bordered mb-0">
+								<thead>
+								<tr>
+									<th class="p-10">{{ 'exams.exam' | translate }}</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr *ngFor="let a of exams[forms[selectedGrade.value].form]?.exams">
+									<td class="p-10">{{a.name}}</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+				</ng-container>
+				<ng-container *ngIf="!isCreatingGuineaTermAverageExam">
+					<div *ngIf="selectedGrade.value !=''" class="form-group mb-0 text-end">
+						<button class="btn btn-sm btn-info waves-effect waves-light w-100">
+							<i class="bi bi-plus"></i> {{ 'exams.createExam.btnTextCreate' | translate }}
+						</button>
+					</div>
+				</ng-container>
+				<ng-container *ngIf="isCreatingGuineaTermAverageExam">
+					<div class="form-group">
+						<app-loader-pulse style="display: inline-block;float: right;"></app-loader-pulse>
+					</div>
+				</ng-container>
+
+			</form>
+		</div>
+	</div>
+</ng-template>
+
+<swal #successAlert title="{{'exams.consolidatedExams.alertTitleSuccess'|translate}}"
+	  text="{{'exams.consolidatedExams.alertBodyText'|translate}}" icon="success" [showCancelButton]="false"
+	  [focusCancel]="false" (confirm)="viewManageExams()">
+</swal>

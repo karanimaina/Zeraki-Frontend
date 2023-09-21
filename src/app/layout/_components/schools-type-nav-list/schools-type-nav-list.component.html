@@ -1,0 +1,26 @@
+<li class="treeview my-5" routerLinkActive="active" #rlaAdminSchools="routerLinkActive"
+  [ngClass]="rlaAdminSchools.isActive ? 'active' : ''">
+
+  <ng-container *ngIf="schoolTypesNavItems.length > 0; else loadingSchoolTypes">
+    <a [routerLink]="[defaultSchoolsRouterLink]" [ngStyle]="{'pointer-events: none': schoolTypesNavItems.length === 0}">
+      <i class="icon-Layout-4-blocks"><span class="path1"></span><span class="path2"></span></i>
+      <span>{{ 'common.schools' | translate }}</span>
+    </a>
+  </ng-container>
+  <ng-template #loadingSchoolTypes>
+    <a style="pointer-events: none;">
+      <i class="icon-Layout-4-blocks"><span class="path1"></span><span class="path2"></span></i>
+      <span>{{ 'common.schools' | translate }}</span>
+    </a>
+  </ng-template>
+
+  <ul class="treeview-menu">
+    <ng-container *ngFor="let schoolTypesNavItem of schoolTypesNavItems; index as idx">
+      <li routerLinkActive="text-purple" #rlaNav="routerLinkActive" style="margin-inline-start: 3rem;">
+        <a [routerLink]="[schoolTypesNavItem.routerLinkURL]" [ngClass]="rlaNav.isActive ? 'text-purple' : ''">
+          <span>{{ schoolTypesNavItem.name }}</span>
+        </a>
+      </li>
+    </ng-container>
+  </ul>
+</li>

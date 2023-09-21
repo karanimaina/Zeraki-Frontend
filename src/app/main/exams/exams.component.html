@@ -1,0 +1,9 @@
+<!-- Exams Top Nav -->
+<app-exams-top-nav></app-exams-top-nav>
+
+<router-outlet *ngIf="!networkService.isNetworkStopped"></router-outlet>
+<app-connection-lost *ngIf="networkService.isNetworkStopped"></app-connection-lost>
+
+
+<!-- FEEDBACK CHAT BOX -->
+<app-feedback></app-feedback>

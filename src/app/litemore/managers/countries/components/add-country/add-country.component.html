@@ -1,0 +1,38 @@
+<form (ngSubmit)="onAddCountrySubmit()" [formGroup]="additionForm">
+	<div class="row">
+		<!-- name -->
+		<div class="col-12">
+			<app-input [label]="'common.name' | translate" type="text" formControlName="name" id="name" name="a_name"
+				[placeholder]="'common.name' | translate">
+			</app-input>
+		</div>
+		<!-- country code -->
+		<div class="col-12">
+			<app-input [label]="'common.countryCode' | translate" formControlName="countryCode" id="countryCode"
+				[placeholder]="'litemore.countries.countryCodePlaceholder' | translate"></app-input>
+		</div>
+		<!-- division -->
+		<div class="col-12">
+			<app-ng-select
+				[label]="'common.division' | translate"
+				[items]="countryDivisions$ | async"
+				[loadingText]="'common.loading' | translate"
+				[loading]="(getCountryDivisionsStatus$ | async) === APIStatus.LOADING"
+				[bindLabel]="'division'"
+				[bindValue]="'division'"
+				formControlName="division"
+				[placeholder]="'litemore.managers.countries.components.countryAdditionModal.selectDivision'| translate"
+				></app-ng-select>
+		</div>
+
+		<!-- actions -->
+		<div class="modal-footer d-flex justify-content-end">
+			<button class="btn btn-sm btn-primary">
+				<ng-container>
+					{{"common.next"|translate}}
+				</ng-container>
+				<i class="bi bi-chevron-double-right"></i>
+			</button>
+		</div>
+	</div>
+</form>

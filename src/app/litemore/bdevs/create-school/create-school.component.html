@@ -1,0 +1,171 @@
+<!-- Main content -->
+<section class="content mt-config">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="box col-md-12 col-xs-12">
+				<div class="box-header">
+					<div class="box-title">
+						{{ (loggedInUser$ | async)?.name }} -
+						{{ "litemore.createSchool.register" | translate }}
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="col-md-12 col-xs-12" style="padding: 0">
+						<div class="col-md-12 col-xs-12" style="padding: 0">
+							<!-- pattern="[\s\S]*\S[\s\S]*"  -->
+							<form [formGroup]="newSchoolForm" (ngSubmit)="createSchool()">
+								<div class="row" style="padding: 0">
+									<div class="col-md-6">
+										<app-input [label]="'litemore.createSchool.schoolName' | translate" type="text"
+											title="{{
+												'litemore.createSchool.schooltitle' | translate
+											}}" [placeholder]="
+												'litemore.createSchool.placeholder' | translate
+											" formControlName="name">
+										</app-input>
+									</div>
+									<div class="col-md-6">
+										<app-ng-select [label]="'litemore.createSchool.genderType' | translate"
+											placeholder="{{
+												'litemore.createSchool.selectGenderType' | translate
+											}}" [items]="genderTypes" [clearable]="false" formControlName="genderType" bindLabel="name"
+											bindValue="code"></app-ng-select>
+									</div>
+									<div class="col-md-6">
+										<app-ng-select [label]="'litemore.createSchool.country' | translate"
+											placeholder="{{
+												'litemore.createSchool.selectCountry' | translate
+											}}" [items]="countries" [clearable]="false" formControlName="country" bindLabel="name"></app-ng-select>
+									</div>
+									<div class="col-md-6">
+										<app-ng-select [label]="
+												country?.value?.division || defaultCountyLabel
+											" placeholder="Select {{
+												country?.value?.division || defaultCountyLabel
+											}}" [items]="counties" [clearable]="false" formControlName="countyId" bindLabel="name"
+											bindValue="countyId"></app-ng-select>
+									</div>
+									<div *ngIf="country?.value?.name?.toLowerCase() == 'kenya'" class="col-md-6">
+										<app-ng-select [label]="'common.subCounty' | translate"
+											placeholder="Select sub-county" [items]="subCounties" [clearable]="false"
+											[loading]="
+												(getSubCountiesStatus$ | async) === APIStatus.LOADING
+											" formControlName="subCountyId" bindLabel="subCountyName" bindValue="subCountyId"></app-ng-select>
+									</div>
+									<div class="col-md-6">
+										<app-ng-select [label]="'litemore.createSchool.schoolType' | translate"
+											placeholder="{{
+												'litemore.createSchool.selectSchoolType' | translate
+											}}" [items]="schoolTypes" [clearable]="false" formControlName="educationSystemId" bindLabel="name"
+											bindValue="educationSystemId"></app-ng-select>
+									</div>
+									<div class="col-md-6">
+										<app-ng-select [label]="
+												'litemore.createSchool.schoolOwnership' | translate
+											" id="schoolOwnership" [items]="ownershipTypes" formControlName="schoolOwnershipType" bindLabel="name"
+											bindValue="value" [clearable]="false"></app-ng-select>
+									</div>
+									<div *ngIf="country?.value?.name?.toLowerCase() == 'kenya'" class="col-md-6">
+										<app-ng-select [label]="
+												'litemore.createSchool.schoolRegionalLevel' | translate
+											" [items]="regionalLevel" formControlName="schoolRegionalLevel" bindLabel="name"
+											bindValue="value"></app-ng-select>
+									</div>
+									<div class="col-md-6">
+										<app-input [label]="
+												'litemore.createSchool.registrationCode' | translate
+											" type="text" title="{{
+												'litemore.createSchool.enterRegCode' | translate
+											}}" placeholder="{{
+												'litemore.createSchool.regCodePlaceholder' | translate
+											}}" formControlName="registrationCode">
+										</app-input>
+									</div>
+
+									<div class="col-md-6">
+										<app-input [label]="'common.email' | translate" type="email" placeholder="{{
+												'litemore.createSchool.emailPlaceholder' | translate
+											}}" title="{{
+												'litemore.createSchool.emailTitle' | translate
+											}}" formControlName="email">
+										</app-input>
+									</div>
+
+									<div class="col-md-6">
+										<app-input [label]="'common.phoneNumber' | translate" type="text" title="{{
+												'litemore.createSchool.phonePlaceholder' | translate
+											}}" placeholder="{{
+												'litemore.createSchool.phonePlaceholder' | translate
+											}}" formControlName="phone">
+										</app-input>
+									</div>
+
+									<div class="col-md-6">
+										<app-ng-select [label]="
+												'litemore.createSchool.boardingStatus' | translate
+											" placeholder="{{
+												'litemore.createSchool.selectBoardingStatus' | translate
+											}}" [items]="boardingTypes" [clearable]="false" formControlName="boardingStatus" bindLabel="name"
+											bindValue="value"></app-ng-select>
+									</div>
+
+									<div class="col-md-6">
+										<app-input [label]="
+												'litemore.createSchool.contactPerson' | translate
+											" type="text" title="{{
+												'litemore.createSchool.contactPersonName' | translate
+											}}" placeholder="{{
+												'litemore.createSchool.contactPersonPlaceholder'
+													| translate
+											}}" formControlName="contactPersonName">
+										</app-input>
+									</div>
+									<div class="col-md-6">
+										<app-input [label]="
+												'litemore.createSchool.contactPersonPhone' | translate
+											" type="text" title="{{
+												'litemore.createSchool.contactPersonPhone' | translate
+											}}" placeholder="07## ### ###" formControlName="contactPersonPhone">
+										</app-input>
+									</div>
+									<div class="col-md-6">
+										<app-ng-select [label]="
+												'litemore.createSchool.schoolPopulationCategory'
+													| translate
+											" placeholder="{{
+												'litemore.createSchool.selectPopulationCategory'
+													| translate
+											}}" [items]="schoolPopulationCategories" [clearable]="false" formControlName="population" bindLabel="name"
+											bindValue="value"></app-ng-select>
+									</div>
+									<div class="col-md-6">
+										<app-input type="text" [label]="'litemore.createSchool.partnerCode' | translate"
+											title="{{
+												'litemore.createSchool.partnerCodeTitle' | translate
+											}}" placeholder="#####" id="partner" formControlName="partner">
+										</app-input>
+									</div>
+								</div>
+								<div class="form-group" style="padding: 16px 0 0 0">
+									<button type="button" routerLink="../schools"
+										class="btn btn-default btn-sm pull-left" (click)="toggleAddSchool(false)">
+										{{ "common.cancel" | translate }}
+									</button>
+									<button type="submit" class="btn btn-success btn-sm pull-right">
+										<span *ngIf="!isRegistering">{{
+											"common.register" | translate
+											}}</span>
+										<span *ngIf="isRegistering">
+											{{ "common.processing" | translate }}
+											<i class="fa fa-spinner fa-spin"></i>
+										</span>
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

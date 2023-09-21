@@ -1,0 +1,151 @@
+<!-- Classes Top Nav -->
+<app-classes-top-nav></app-classes-top-nav>
+
+<!-- Main content -->
+<ng-container *ngIf="!stream_info; then showLoading else showContent"></ng-container>
+
+<ng-template #showLoading>
+	<section class="content mt-config">
+		<div class="box">
+			<div class="box-body">
+				<app-loader-div [height]="50"></app-loader-div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<div class="box">
+					<div class="box-body">
+						<app-loader-div [height]="150"></app-loader-div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</ng-template>
+
+<ng-template #showContent>
+	<section class="content mt-config">
+		<div class="col-12">
+			<div class="box">
+				<!-- header -->
+				<div class="box-header with-border">
+					<h4 class="box-title">
+						{{schoolTypeData?.formoryear | formOrYear}}
+						{{stream_info?.form}} {{stream_info?.stream}} - {{stream_info?.subject}}
+					</h4>
+				</div>
+
+				<!-- removal/addition radio options -->
+				<div class="mt-3 mb-0 mx-3">
+					<input name="chkbox_remove_students" type="radio" [checked]="studentsRemovalOption"
+						(click)="toggleOption('remove')" id="chkbox_remove_students"
+						class="with-gap radio-col-primary" />
+					<label for="chkbox_remove_students">
+						{{ 'classes.manageSubject.removeStudents' | translate }}
+					</label>
+
+					<input name="chkbox_add_students" type="radio" [checked]="!studentsRemovalOption"
+						(click)="toggleOption('add')" id="chkbox_add_students" class="with-gap radio-col-primary" />
+					<label for="chkbox_add_students" class="ms-sm-4">
+						{{ 'classes.manageSubject.addStudents' | translate }}
+					</label>
+				</div>
+
+				<!-- student removal -->
+				<ng-container *ngIf="studentsRemovalOption; else studentAddition">
+					<div *ngIf="stream_info?.students?.length > 0" class="box-body">
+						<div class="table-responsive">
+							<table class="table table-sm table-striped table-bordered mb-0">
+								<thead>
+									<tr>
+										<th scope="col" style="width: 10%;">#</th>
+										<th scope="col" style="width: 15%;">{{ 'classes.manageSubject.table.admNo' |
+											translate }}</th>
+										<th scope="col">{{ 'classes.manageSubject.table.name' | translate }}</th>
+										<th *ngIf="stream_info?.select_st" scope="col">{{
+											'classes.manageSubject.table.teacher' | translate }}
+										</th>
+										<th [hidden]="stream_info?.compulsory" class="text-center" style="width: 5%">
+											<input type="checkbox" id="addon_Checkbox_1" (click)="toggleAllStudents()"
+												class="filled-in chk-col-info">
+											<label for="addon_Checkbox_1"
+												style="padding-left: 20px;height: 17px;"></label>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let stud of stream_info?.students; index as i">
+										<th scope="row">{{ i + 1 }}</th>
+										<td>{{ stud.admno }}</td>
+										<td>{{ stud.name }}</td>
+										<td *ngIf="(stream_info?.select_st && stud.teacher)">
+											<span>{{ stud.teacher }}</span>
+											<span class="pull-right">
+												<a (click)="removeClassMemberTeacher(stud)" class="text-danger"
+													style="cursor: pointer;"
+													title="{{ 'classes.manageSubject.table.removeSubjectTeacher' | translate }}">
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+														fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+														<path
+															d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+														<path fill-rule="evenodd"
+															d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+													</svg>
+												</a>
+											</span>
+										</td>
+										<td *ngIf="(stream_info?.select_st && !stud.teacher)">
+											<ng-select [notFoundText]="'common.noItemsFound' | translate" size="1"
+												(change)="assignClassMemberTeacher(stud, $event)"
+												[items]="stream_info?.teachers" [closeOnSelect]="true"
+												[searchable]="true" appendTo="body" bindLabel="name"
+												placeholder="{{ 'classes.manageSubject.table.assignTeacher' | translate }}">
+											</ng-select>
+										</td>
+										<td *ngIf="!stream_info?.compulsory" class="text-center">
+											<input type="checkbox" [id]="stud.userid" class="filled-in chk-col-info"
+												[checked]="stud.remove" (change)="selectStudent(stud, $event)">
+											<label [for]="stud.userid" style="padding-left: 20px;height: 17px;"></label>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div class="mt-20">
+							<span>
+								<button type="button" (click)="goBack()"
+									class="waves-effect waves-light btn btn-secondary btn-sm">
+									<i>
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+											fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+											<path fill-rule="evenodd"
+												d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+										</svg>
+									</i>
+									{{ 'classes.commonAttr.back' | translate }}
+								</button>
+								<button *ngIf="!stream_info?.compulsory" type="button" (click)="removeStudents()"
+									class="waves-effect waves-light btn btn-info btn-sm pull-right">
+									{{ 'classes.manageSubject.table.removeSelectedStudents' | translate }}
+								</button>
+							</span>
+						</div>
+					</div>
+
+					<div *ngIf="stream_info?.students?.length == 0" class="box-body">
+						{{ 'classes.commonAttr.noStudentsFound' | translate }}
+					</div>
+				</ng-container>
+
+				<!-- student addition -->
+				<ng-template #studentAddition>
+					<app-subject-student-addition [classId]="routeId" [streamId]="streamId" [streamInfo]="stream_info"
+						[schoolTypeData]="schoolTypeData" (onStudentAdditionSuccess)="onStudentAdditionSuccess()">
+					</app-subject-student-addition>
+				</ng-template>
+			</div>
+		</div>
+	</section>
+</ng-template>

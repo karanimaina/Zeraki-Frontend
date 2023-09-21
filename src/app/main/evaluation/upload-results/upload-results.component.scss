@@ -1,0 +1,31 @@
+.table > :not(:last-child) > :last-child > * {
+  border-bottom-color: #f0f4f9 !important;
+  border-bottom-width: 2px;
+}
+
+thead, tbody, tfoot, tr, td, th {
+  border-color: #f0f4f9 !important;
+}
+
+.table > :not(caption) > * > * {
+  border-bottom-width: 2px;
+}
+
+.table-hover > tbody > tr:hover {
+  --bs-table-accent-bg: #29aae212;
+  color: var(--bs-table-hover-color);
+  cursor: default;
+  transition: all 0.1ms;
+}
+
+.new-students-container{
+  transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out;
+  opacity: 0;
+  overflow: hidden;
+  max-height: 0;
+}
+.new-students-container.active{
+  opacity: 1;
+  max-height: 1000px;
+  overflow: unset;
+}

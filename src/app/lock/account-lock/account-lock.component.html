@@ -1,0 +1,85 @@
+<section class="mt-config content">
+    <div class="row">
+        <div *ngIf="isLoading;then showLoading else displayContent"></div>
+        <ng-template #showLoading>
+            <div class="col-md-5 col-sm-12 mx-auto">
+                <div class="box">
+                    <div class="box-header">
+                        <app-loader-div [height]="45"></app-loader-div>
+                    </div>
+                    <div class="box-body">
+                        <app-loader-div [height]="148"></app-loader-div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <app-loader-div [height]="45"></app-loader-div>
+                            </div>
+                            <div class="col-6">
+                                <app-loader-div [height]="45"></app-loader-div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #displayContent>
+            <div class="col-md-5 col-sm-12 mx-auto">
+                <div class="box mx-auto">
+                    <div class="box-header">
+                        <span class="box-title">
+                            {{userInit?.school_invoice_info?.invoice_msg}}
+                        </span>
+                    </div>
+                    <div class="box-body text-center">
+                        <!-- <pre>{{userInit | json}}</pre> -->
+                        <div class="countdown-wrapper">
+                            <div class="border border-success b-5">
+                                <div>
+                                    <span class="timer">{{timerObj?.days}}</span>
+                                    <div>{{ 'invoice.accountLock.countDown.days' | translate }}</div>
+                                </div>
+                            </div>
+                            <div class="border border-info b-5">
+                                <div>
+                                    <span class="timer">{{timerObj?.hours}}</span>
+                                    <div>{{ 'invoice.accountLock.countDown.hours' | translate }}</div>
+                                </div>
+                            </div>
+                            <div class="border border-warning b-5">
+                                <div>
+                                    <span class="timer">{{timerObj?.minutes}}</span>
+                                    <div>{{ 'invoice.accountLock.countDown.minutes' | translate }}</div>
+                                </div>
+                            </div>
+                            <div class="border border-danger b-5">
+                                <div>
+                                    <span class="timer">{{timerObj?.seconds}}</span>
+                                    <div>{{ 'invoice.accountLock.countDown.seconds' | translate }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="(userRoles$ | async)?.isSchoolAdmin" class="box-footer text-center">
+                        <button (click)="viewInvoice()" style="cursor: pointer;"
+                            class="btn btn-secondary btn-sm waves-effect waves-light pull-left text-capitalize">
+                            {{ 'invoice.accountLock.viewInvoiceBtn' | translate }}
+                        </button>
+                        <div style="display: inline-block;" *ngIf="showContact; then showContactTempl else showButton"></div>
+                        <ng-template #showButton>
+                            <button (click)="showContact = !this.showContact" class="btn btn-secondary btn-sm waves-effect waves-light pull-right text-capitalize">
+                                {{ 'invoice.accountLock.contactUsBtn' | translate }}
+                            </button>
+                        </ng-template>
+                        <ng-template #showContactTempl>
+                            <div style="display: inline-block; background-color: #d1f3ff; color: #00baff;" class="border-s border-info bs-5 bg-info-light p-10">
+                                {{ 'invoice.accountLock.contactUs' | translate: {phoneNumber: userInit?.school_invoice_info?.contact_number || '0798666111'} }}
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+    </div>
+</section>

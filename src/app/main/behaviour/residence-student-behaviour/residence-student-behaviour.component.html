@@ -1,0 +1,388 @@
+<section class="content mt-config">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- <pre>{{timeLine|json}}</pre> -->
+            <div class="box">
+                <div class="box-header with-border bg-success" style="padding: 1rem;">
+                    <p class="mb-0 fw-600">{{selectedYearLabel}} -
+                        <!-- Term -->
+                        {{"behaviour.residenceStudentBehaviour.textTerm"|translate}}
+                        {{selectedTerm}}
+                    </p>
+                    <ul class="box-controls pull-right">
+                        <li><a class="box-btn-slide" href="#"></a></li>
+                    </ul>
+                </div>
+                <div class="box-body">
+                    <form class="row">
+                        <div class="col-sm-6 form-group">
+                            <label for="" class="form-label fw-600">
+                                <!-- Academic Year -->
+                                {{"behaviour.residenceStudentBehaviour.textAcademicYear"|translate}}
+                            </label>
+                            <select name="academiYears" id="academiyYearId" [(ngModel)]="selectedYear"
+                                (change)="academicYearChange()" class="form-select">
+                                <option *ngFor="let ay of timeLine?.academic_years" [value]="ay.ayid">
+                                    {{ay.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="" class="form-label fw-600">
+                                <!-- Term -->
+                                {{"behaviour.residenceStudentBehaviour.textTerm"|translate}}
+                            </label><select name="selectTerm" id="selectTermId" [(ngModel)]="selectedTerm"
+                                (change)="termChange()" class="form-select">
+                                <option *ngFor="let t of selectedTerms">{{t}}</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--
+    ========================
+    SECTION TABLE INFO
+    ========================
+    -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-header without-border pb-5">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group radio-group">
+                                <input name="group5" type="radio" (click)="showRecentRecord()" id="radio_30"
+                                    class="with-gap radio-col-success" [checked]="displayRecentRecords">
+                                <label for="radio_30">
+                                    <!-- Recent Records -->
+                                    {{"behaviour.residenceStudentBehaviour.textRecentRecords"|translate}}
+                                </label>
+                            </div>
+                            <div class="form-group radio-group">
+                                <input name="group5" type="radio" (click)="showStudentPoints()" id="radio_32"
+                                    class="with-gap radio-col-success" [checked]='displayStudentPoints'>
+                                <label for="radio_32">
+                                    <!-- Student Points -->
+                                    {{"behaviour.residenceStudentBehaviour.textStudentPoints"|translate}}
+                                </label>
+                            </div>
+                            <div class="form-group radio-group">
+                                <input name="group5" type="radio" [checked]='displayAwards' (click)="showAwards()"
+                                    id="radio_33" class="with-gap radio-col-success">
+                                <label for="radio_33">
+                                    <!-- Awards -->
+                                    {{"behaviour.residenceStudentBehaviour.textAwards"|translate}}
+                                </label>
+                            </div>
+
+                        </div>
+                        <!-- pagination for recent records -->
+                        <div class="col-sm-4 text-end" *ngIf="displayRecentRecords && classRecent?.students.length > 0">
+                            <span class="m-1"> {{classRecent?.first+ " - "+classRecent?.last}}
+                                <!-- of -->
+                                {{"behaviour.residenceStudentBehaviour.textOf"|translate}}
+                                {{classRecent?.total}}
+                            </span>
+
+                            <button type="button" [disabled]="!classRecent?.previous"
+                                (click)="loadClassRecent(classRecent?.page-1)"
+                                class="waves-effect waves-light btn btn-outline btn-success-light btn-sm mb-5 "
+                                style="margin-right: 3.5px;">
+                                <i class="fa fa-arrow-left"></i>
+                            </button>
+                            <button type="button" [disabled]="!classRecent?.next"
+                                (click)="loadClassRecent(classRecent?.page+1)"
+                                class="waves-effect waves-light btn btn-outline btn-success-light btn-sm mb-5">
+                                <i class="fa fa-arrow-right "></i>
+                            </button>
+                        </div>
+
+                        <!-- pagination for student points -->
+                        <div class="col-sm-4 text-end"
+                            *ngIf="displayStudentPoints  && classStudentPoints?.students.length > 0">
+                            <span class="m-1">{{classStudentPoints?.first+ " - "+classStudentPoints?.last}}
+                                <!-- of -->
+                                {{"behaviour.residenceStudentBehaviour.textOf"|translate}}
+                                {{classStudentPoints?.total}}
+                            </span>
+
+                            <button type="button" [disabled]="!classStudentPoints?.previous"
+                                (click)="loadClassStudentPoints(classStudentPoints?.page-1)"
+                                class="waves-effect waves-light btn btn-outline btn-success-light btn-sm mb-5 "
+                                style="margin-right: 3.5px;">
+                                <i class="fa fa-arrow-left"></i>
+                            </button>
+                            <button (click)="loadClassStudentPoints(classStudentPoints?.page+1)" type="button"
+                                [disabled]="!classStudentPoints?.next"
+                                class="waves-effect waves-light btn btn-outline btn-success-light btn-sm mb-5">
+                                <i class="fa fa-arrow-right "></i>
+                            </button>
+                        </div>
+
+                        <!-- pagination for student awards -->
+                        <div class="col-sm-4 text-end" *ngIf="displayAwards  && classStudentAwards?.students.length>0">
+                            <span class="m-1"> {{classStudentAwards?.first+ " - "+classStudentAwards?.last}}
+                                <!-- of -->
+                                {{"behaviour.residenceStudentBehaviour.textOf"|translate}}
+                                {{classStudentAwards?.total}}
+                            </span>
+
+
+                            <button type="button" [disabled]="!classStudentAwards?.previous"
+                                (click)="loadAwards(classStudentAwards?.page-1)"
+                                class="waves-effect waves-light btn btn-outline btn-success-light btn-sm mb-5 "
+                                style="margin-right: 3.5px;">
+                                <i class="fa fa-arrow-left"></i>
+                            </button>
+                            <button [disabled]="!classStudentAwards?.next" type="button"
+                                (click)="loadAwards(classStudentAwards?.page+1)"
+                                class="waves-effect waves-light btn btn-outline btn-success-light btn-sm mb-5">
+                                <i class="fa fa-arrow-right "></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- contents for student recent records -->
+                <div class="box-body" *ngIf="displayRecentRecords">
+                    <div *ngIf="classRecent?.students.length === 0">
+                        <!-- No records were found -->
+                        {{"behaviour.residenceStudentBehaviour.textNoRecordsFound"|translate}}
+                    </div>
+                    <div class="table-responsive" *ngIf="classRecent?.students.length > 0">
+                        <table class="table table-sm table-bordered table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>
+                                        <!-- Admno -->
+                                        {{"behaviour.residenceStudentBehaviour.textAdmno"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Name -->
+                                        {{"behaviour.residenceStudentBehaviour.textName"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Details -->
+                                        {{"behaviour.residenceStudentBehaviour.textDetails"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Type -->
+                                        {{"behaviour.residenceStudentBehaviour.textType"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Points -->
+                                        {{"behaviour.residenceStudentBehaviour.textPoints"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Class -->
+                                        {{"behaviour.residenceStudentBehaviour.textClass"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Residence -->
+                                        {{"behaviour.residenceStudentBehaviour.textResidence"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Added On -->
+                                        {{"behaviour.residenceStudentBehaviour.textAddedOn"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Added By -->
+                                        {{"behaviour.residenceStudentBehaviour.textAddedBy"|translate}}
+                                    </th>
+                                    <th *ngIf="classRecent?.can_edit"></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let s of classRecent?.students;let i =index">
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{classRecent.first +
+                                        i}}
+                                    </td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.admno}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.name}}</td>
+                                    <td style="vertical-align: middle">
+                                        <div>{{s.description}}</div>
+                                        <div *ngIf="s.comment.length > 0">
+                                            <!--<span class="label {{s.record_label_class}}" style="margin-right: 4px">comment</span><span class="{{s.comment_class}}" style="font-weight: 700; font-size: 90%">{{s.comment}}</span>-->
+                                            <span class="label label-default" style="margin-right: 4px">
+                                                <!-- comment -->
+                                                {{"behaviour.residenceStudentBehaviour.textComment"|translate}}
+                                            </span><span style="font-weight: 700; font-size: 90%"
+                                                ng-bind-html="s.comment"></span>
+                                        </div>
+                                    </td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">
+                                        <span class="label {{s.record_label_class}}">{{s.record_type}}</span>
+                                    </td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.points}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.class_label}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.residence}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.added_on}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.added_by}}</td>
+                                    <td *ngIf="classRecent.can_edit" class="td-fit-nowrap"
+                                        style="vertical-align: middle">
+                                        <button (click)="deleteBehaviourRecord(s)" class="btn btn-danger btn-sm"
+                                            type="button">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">
+                                        <button type="button" [routerLink]="['/main/behaviour/student',s.userid]"
+                                            class="btn btn-sm btn-secondary">
+                                            <!-- View -->
+                                            {{"behaviour.residenceStudentBehaviour.btnTextView"|translate}}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- contents for student points -->
+                <div class="box-body" *ngIf="displayStudentPoints">
+                    <div *ngIf="classStudentPoints?.students.length === 0">
+                        <!-- No points were found -->
+                        {{"behaviour.residenceStudentBehaviour.textNoPointsFound"|translate}}
+                    </div>
+                    <div class="table-responsive" *ngIf="classStudentPoints?.students.length > 0">
+                        <table class="table table-sm table-bordered table-striped mb-0 table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>
+                                        <!-- Admno -->
+                                        {{"behaviour.residenceStudentBehaviour.textAdmno"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Name -->
+                                        {{"behaviour.residenceStudentBehaviour.textName"|translate}}
+                                    </th>
+                                    <th *ngIf="classStudentPoints?.show_gender">
+                                        <!-- Gender -->
+                                        {{"behaviour.residenceStudentBehaviour.textGender"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Points -->
+                                        {{"behaviour.residenceStudentBehaviour.textPoints"|translate}}
+                                    </th>
+                                    <th class="hidden-xs">
+                                        <!-- Status -->
+                                        {{"behaviour.residenceStudentBehaviour.textStatus"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- View -->
+                                        {{"behaviour.residenceStudentBehaviour.btnTextView"|translate}}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let s of classStudentPoints?.students;let i = index">
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">
+                                        {{classStudentPoints.first
+                                        +i}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.admno}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.name}}</td>
+                                    <td ng-show="classStudentPoints.show_gender" class="td-fit-nowrap"
+                                        style="vertical-align: middle">{{s.gender}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">
+                                        {{s.points}}
+                                    </td>
+                                    <td class="hidden-xs" style="vertical-align: middle">
+                                        <div style="height: 1.3em; width: 1.3em; border-radius: 2px;"
+                                            class="{{s.bg_color}}"></div>
+                                    </td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">
+                                        <button type="button" class="btn btn-sm btn-secondary"
+                                            [routerLink]="['/main/behaviour/student',s.userid]">View</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- contents for student awards -->
+                <div class="box-body" *ngIf="displayAwards">
+                    <div *ngIf="classStudentAwards?.students.length === 0">
+                        <!-- No awards were found -->
+                        {{"behaviour.residenceStudentBehaviour.textNoAwardsFound"|translate}}
+                    </div>
+                    <div class="table-responsive" *ngIf="classStudentAwards?.students.length > 0">
+                        <table class="table table-sm table-bordered table-hover table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>
+                                        <!-- Admno -->
+                                        {{"behaviour.residenceStudentBehaviour.textAdmno"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Name -->
+                                        {{"behaviour.residenceStudentBehaviour.textName"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Award -->
+                                        {{"behaviour.residenceStudentBehaviour.textAward"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Details -->
+                                        {{"behaviour.residenceStudentBehaviour.textDetails"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Class -->
+                                        {{"behaviour.residenceStudentBehaviour.textClass"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Residence -->
+                                        {{"behaviour.residenceStudentBehaviour.textResidence"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Added On -->
+                                        {{"behaviour.residenceStudentBehaviour.textAddedOn"|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Added By -->
+                                        {{"behaviour.residenceStudentBehaviour.textAddedBy"|translate}}
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let s of classStudentAwards?.students; let i = index">
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">
+                                        {{classStudentAwards.first
+                                        +
+                                        i}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.admno}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.name}}</td>
+                                    <td style="vertical-align: middle">{{s.award}}</td>
+                                    <td style="vertical-align: middle">
+                                        <div>{{s.description}}</div>
+                                        <div ng-show="s.comment.length > 0">
+                                            <span class="label label-default" style="margin-right: 4px">
+                                                <!-- comment -->
+                                                {{"behaviour.residenceStudentBehaviour.textComment"|translate}}
+                                            </span><span style="font-weight: 700; font-size: 90%"
+                                                ng-bind-html="s.comment">{{s.comment}}</span>
+                                        </div>
+                                    </td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.class_label}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.residence}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.added_on}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">{{s.added_by}}</td>
+                                    <td class="td-fit-nowrap" style="vertical-align: middle">
+                                        <button type="button" [routerLink]="['/main/behaviour/student',s.userid]"
+                                            class="btn btn-sm btn-secondary">View</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

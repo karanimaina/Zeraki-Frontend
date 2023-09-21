@@ -1,0 +1,29 @@
+<div class="h5">
+	<table class="table table-bordered print-table fw-bolder text-uppercase">
+		<thead style="font-size: 13px">
+		<tr>
+			<th colspan="2" class="text-center">{{ 'printouts.studentReport.attendanceReport' | translate }}</th>
+		</tr>
+		</thead>
+		<tbody style="font-size: 12px">
+		<tr>
+			<td>{{ 'printouts.studentReport.daysPresent' | translate }}</td>
+			<td>
+				{{ showAttendanceReport && attendance.presentDays ? attendance.presentDays : showAttendanceReport ? '0' : '-' }}
+			</td>
+		</tr>
+		<tr>
+			<td>{{ 'printouts.studentReport.daysAbsent' | translate }}</td>
+			<td>
+				{{ showAttendanceReport && attendance.absentDays ? attendance.absentDays : showAttendanceReport ? '0' : '-' }}
+			</td>
+		</tr>
+		<tr>
+			<td>{{ 'printouts.studentReport.total' | translate }}</td>
+			<td>
+				{{ showAttendanceReport && attendance.totalDays ? attendance.totalDays : showAttendanceReport ? '0' : '-' }}
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>

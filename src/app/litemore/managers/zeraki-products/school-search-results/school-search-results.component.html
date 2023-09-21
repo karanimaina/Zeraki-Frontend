@@ -1,0 +1,114 @@
+<div class="col-12">
+    <div class="box">
+        <div *ngIf="!loadingSchools && !schoolList.length" class="box-body">
+            <div class="alert alert-danger alert-inverse">
+                <span>{{ 'litemore.zerakiProducts.emptyList' | translate: { searchTerm: searchQuery } }}</span>
+            </div>
+        </div>
+
+        <div *ngIf="loadingSchools" class="box-body text-center">
+            <app-loader-div [height]="220"></app-loader-div>
+        </div>
+
+        <div *ngIf="schoolList.length" class="box-body">
+            <div class="table-responsive">
+                <table [formGroup]="updateSchoolProductForm" class="table table-sm table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="min-width: 50px;">#</th>
+                            <th scope="col" class="text-uppercase" style="min-width: 250px;">
+                                {{ 'common.name' | translate }}
+                            </th>
+                            <th scope="col" class="text-uppercase" style="min-width: 175px;">
+                                {{ 'common.registrationCode' | translate }}
+                            </th>
+                            <th scope="col" class="text-uppercase" style="min-width: 125px;">
+                                {{ 'common.analytics' | translate }}
+                            </th>
+                            <th scope="col" class="text-uppercase" style="min-width: 125px;">
+                                {{ 'common.finance' | translate }}
+                            </th>
+                            <th scope="col" class="text-uppercase" style="min-width: 125px;">
+                                {{ 'common.timetable' | translate }}
+                            </th>
+                            <th scope="col" class="text-uppercase text-center" style="min-width: 125px;">
+                                {{ 'common.action' | translate }}
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody formArrayName="schoolProductForm">
+                        <tr *ngFor="let school of schoolList; first as isFirst; index as i" [formGroupName]="i">
+                            <td>{{ ((itemsPerPage * currentPage) - itemsPerPage) + (i + 1) }}</td>
+                            <td>{{ school.schoolName }}</td>
+                            <td>{{ school.schoolCode }}</td>
+
+                            <ng-container *ngIf="!updateSchool[school.schoolId]">
+                                <td>
+                                    <span
+                                        class="badge badge-default badge-{{ school.schoolOptions.analyticsStatus ? 'success' : 'warning' }}">
+                                        {{ (school.schoolOptions.analyticsStatus ? 'common.enabled' : 'common.disabled')
+                                        | translate }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="badge badge-default badge-{{ school.schoolOptions.financeStatus ? 'success' : 'warning' }}">
+                                        {{ (school.schoolOptions.financeStatus ? 'common.enabled' : 'common.disabled') |
+                                        translate }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="badge badge-default badge-{{ school.schoolOptions.timetableStatus ? 'success' : 'warning' }}">
+                                        {{ (school.schoolOptions.timetableStatus ? 'common.enabled' : 'common.disabled')
+                                        | translate }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+
+                                    <button class="btn btn-sm btn-info" (click)="editSchool(school)">
+                                        {{'common.edit'|translate}}
+                                    </button>
+                                </td>
+                            </ng-container>
+
+
+                            <ng-container *ngIf="updateSchool[school.schoolId]">
+                                <td>
+                                    <ng-select [items]="productActivationStatus" formControlName="analyticsStatus"
+                                        bindLabel="name" bindValue="value" [clearable]="false">
+                                    </ng-select>
+                                </td>
+                                <td>
+                                    <ng-select [items]="productActivationStatus" formControlName="financeStatus"
+                                        bindLabel="name" bindValue="value" [clearable]="false">
+                                    </ng-select>
+                                </td>
+                                <td>
+                                    <ng-select [items]="productActivationStatus" formControlName="timetableStatus"
+                                        bindLabel="name" bindValue="value" [clearable]="false">
+                                    </ng-select>
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-light me-1" (click)="editSchool(school)">
+                                        {{'common.cancel'|translate}}
+                                    </button>
+                                    <button [disabled]="updatingSchool[school.schoolId]" class="btn btn-sm btn-success"
+                                        (click)="saveSchoolProducts(school, i)">
+                                        <span *ngIf="updatingSchool[school.schoolId]">
+                                            <i class="fa fa-spinner fa-spin"></i>
+                                        </span>
+										{{'common.save'|translate}}
+                                    </button>
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

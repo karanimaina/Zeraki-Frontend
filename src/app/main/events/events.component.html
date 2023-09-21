@@ -1,0 +1,9 @@
+<!-- EVENTS Top Nav -->
+<app-events-top-nav></app-events-top-nav>
+
+<router-outlet *ngIf="!networkService.isNetworkStopped"></router-outlet>
+<app-connection-lost *ngIf="networkService.isNetworkStopped"></app-connection-lost>
+
+
+<!-- FEEDBACK CHAT BOX -->
+<app-feedback></app-feedback>

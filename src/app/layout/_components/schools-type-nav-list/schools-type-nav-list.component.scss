@@ -1,0 +1,83 @@
+/** Customize scrollbar with the css variables **/
+$zeraki-blue: #2ea5de;
+$zeraki-purple: purple;
+
+:host > li {
+  position: relative;
+  margin: 0 0px;
+  padding-left: 25px;
+  padding-right: 25px;
+  border-radius: 0;
+  border-left: 5px solid transparent;
+}
+
+:host>li:hover>a,
+:host>li:active>a,
+:host>li.active>a {
+  opacity: 1;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+:host>li:active>a,
+:host>li.active>a,
+:host>li:focus>a {
+  font-weight: 500;
+}
+
+:host>li.treeview.menu-open {
+  background-color: rgba(235, 237, 243, 0) !important;
+}
+
+:host>li.treeview.menu-open>a {
+  opacity: 1;
+}
+
+:host>li>a {
+  padding: 10px 0px 1.5px 0px;
+  display: block;
+}
+
+:host>li>a>i {
+  width: 30px;
+  line-height: 28px;
+  font-size: 1.5714285714rem;
+  display: inline-block;
+  vertical-align: middle;
+  color: #172b4c;
+  text-align: center;
+  border-radius: 10px;
+  margin-right: 20px;
+  background-color: transparent;
+}
+
+li.header {
+  padding: 15px 25px 10px 25px;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+a {
+  cursor: pointer;
+}
+
+li > a > .pull-right-container {
+  margin-top: -5px;
+}
+
+.treeview-menu>li>a>i {
+  padding-right: 10px;
+}
+
+li.active {
+  color: $zeraki-purple !important;
+  border-left: 5px solid $zeraki-purple !important;
+}
+
+li.active.treeview>a {
+  color: $zeraki-purple !important;
+}
+
+li.active.treeview>a>i {
+  color: $zeraki-purple !important;
+}

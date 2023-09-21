@@ -1,0 +1,273 @@
+<!-- Main content -->
+<section class="content mt-config">
+	<div class="row">
+		<div class="col-md-12 col-xs-12 p-0" *ngIf="!item.create_target_period">
+			<div class="box col-md-12 col-xs-12">
+				<div class="box-header">
+					<div class="box-title">
+						<!--Bdev Targets-->
+						{{'litemore.bdevs.targets.bdevTargets'|translate}}
+					</div>
+				</div>
+				<div class="box-body">
+					<div class="col-md-12 col-xs-12 p-0">
+						<table class="w-p100">
+							<tbody>
+								<tr>
+									<td>
+										<div [hidden]="target_periods?.periods?.length > 0">
+											<!--  No Targets Found-->
+											{{'litemore.bdevs.targets.noTargetsFound'|translate}}
+										</div>
+										<div *ngIf="target_periods?.periods?.length > 0">
+											<select required class="form-select m-0" name="term" id="term"
+												(change)="getTargetFulfilments()" [(ngModel)]="current_target_period">
+												<!-- ng-options="t as t.label for t in target_periods.periods"> -->
+												<option *ngFor="let t of target_periods.periods" [value]="t">{{t.label}}
+												</option>
+											</select>
+										</div>
+									</td>
+									<td *ngIf="target_periods?.can_edit_periods" class="td-fit-nowrap ps-15">
+										<button type="button" (click)="initCreateTargetPeriod(true)"
+											class="btn btn-primary btn-sm">
+											<!--Create New Period-->
+											{{'litemore.bdevs.targets.createNewPeriod'|translate}}
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-12 col-xs-12 pt-15" *ngIf="target_fulfilments?.fulfilments?.length > 0">
+						<div class="table-responsive col-md-12 col-xs-12 p-0 m-0">
+							<table class="table table-bordered table-striped p-0 m-0">
+								<thead>
+									<tr>
+										<th class="td-fit-nowrap">#</th>
+										<th>
+											<a class="unselectable"
+												(click)="item.sortType = 'manager_name';sortBySigned(); item.sortReverse = !item.sortReverse">
+												<!--Name-->
+												{{'litemore.bdevs.targets.name'|translate}}
+												<span *ngIf="item.sortType == 'manager_name' && item.sortReverse"
+													class="fa fa-caret-down"></span>
+												<span *ngIf="item.sortType == 'manager_name' && !item.sortReverse"
+													class="fa fa-caret-up"></span>
+											</a>
+										</th>
+										<th class="td-fit-nowrap">
+											<a class="unselectable"
+												(click)="item.sortType = 'expected_schools';sortBySigned(); item.sortReverse = !item.sortReverse">
+												<!--Target Schools-->
+												{{'litemore.bdevs.targets.targetSchools'|translate}}
+												<span *ngIf="item.sortType == 'expected_schools' && item.sortReverse"
+													class="fa fa-caret-down"></span>
+												<span *ngIf="item.sortType == 'expected_schools' && !item.sortReverse"
+													class="fa fa-caret-up"></span>
+											</a>
+										</th>
+										<th class="td-fit-nowrap">
+											<a class="unselectable"
+												(click)="item.sortType = 'fulfilled_schools';sortBySigned(); item.sortReverse = !item.sortReverse">
+												<!--Signed Schools-->
+												{{'litemore.bdevs.targets.signedSchools'|translate}}
+												<span *ngIf="item.sortType == 'fulfilled_schools' && item.sortReverse"
+													class="fa fa-caret-down"></span>
+												<span *ngIf="item.sortType == 'fulfilled_schools' && !item.sortReverse"
+													class="fa fa-caret-up"></span>
+											</a>
+										</th>
+										<th class="td-fit-nowrap">
+											<a class="unselectable" (click)="item.sortType = 'percentage_fulfilled_schools';sortBySigned();
+											    item.sortReverse = !item.sortReverse">
+												<!--Signed-->
+												{{'litemore.bdevs.targets.signed'|translate}}
+												%
+												<span
+													*ngIf="item.sortType == 'percentage_fulfilled_schools' && item.sortReverse"
+													class="fa fa-caret-down"></span>
+												<span
+													*ngIf="item.sortType == 'percentage_fulfilled_schools' && !item.sortReverse"
+													class="fa fa-caret-up"></span>
+											</a>
+										</th>
+
+										<th class="td-fit-nowrap">
+											<a class="unselectable"
+												(click)="item.sortType = 'expected_revenue';sortBySigned(); item.sortReverse = !item.sortReverse">
+												<!--Target Revenue -->
+												{{'litemore.bdevs.targets.targetRevenue'|translate}}
+												<span *ngIf="item.sortType == 'expected_revenue' && item.sortReverse"
+													class="fa fa-caret-down"></span>
+												<span *ngIf="item.sortType == 'expected_revenue' && !item.sortReverse"
+													class="fa fa-caret-up"></span>
+											</a>
+										</th>
+										<th class="td-fit-nowrap">
+											<a class="unselectable"
+												(click)="item.sortType = 'fulfilled_revenue';sortBySigned(); item.sortReverse = !item.sortReverse">
+												<!--Collected Revenue-->
+												{{'litemore.bdevs.targets.collectedRevenue'|translate}}
+												<span *ngIf="item.sortType == 'fulfilled_revenue' && item.sortReverse"
+													class="fa fa-caret-down"></span>
+												<span *ngIf="item.sortType == 'fulfilled_revenue' && !item.sortReverse"
+													class="fa fa-caret-up"></span>
+											</a>
+										</th>
+										<th class="td-fit-nowrap">
+											<a class="unselectable" (click)="item.sortType = 'percentage_fulfilled_revenue';sortBySigned();
+											    item.sortReverse = !item.sortReverse">
+												<!--Collected-->
+												{{'litemore.bdevs.targets.collected'|translate}}
+												%
+												<span
+													*ngIf="item.sortType == 'percentage_fulfilled_revenue' && item.sortReverse"
+													class="fa fa-caret-down"></span>
+												<span
+													*ngIf="item.sortType == 'percentage_fulfilled_revenue' && !item.sortReverse"
+													class="fa fa-caret-up"></span>
+											</a>
+										</th>
+										<th *ngIf="target_fulfilments.can_edit_fulfilments" class="td-fit-nowrap">
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let f of target_fulfilments.fulfilments;index as index">
+										<td class="td-fit-nowrap">{{ index + 1}}</td>
+										<td>{{ f.manager_name}}</td>
+										<td class="td-fit-nowrap">
+											<span [hidden]="f.edit">{{ f.expected_schools}}</span>
+											<div *ngIf="f.edit">
+												<input style="min-width: 5em;" type="number" name="expected_schools"
+													[(ngModel)]="f.expected_schools_temp" class="form-control">
+											</div>
+										</td>
+										<td class="td-fit-nowrap">{{
+											f.fulfilled_schools}}</td>
+										<td class="td-fit-nowrap">{{
+											f.percentage_fulfilled_schools | numberFormat}}</td>
+										<td class="td-fit-nowrap">
+											<span [hidden]="f.edit">{{ f.expected_revenue | numberFormat}}</span>
+											<div *ngIf="f.edit">
+												<input style="min-width: 10em;" type="number" name="expected_revenue"
+													[(ngModel)]="f.expected_revenue_temp"
+													class="form-control min-w-150">
+											</div>
+										</td>
+										<td class="td-fit-nowrap">{{ f.fulfilled_revenue
+											| numberFormat}}</td>
+										<td class="td-fit-nowrap">{{
+											f.percentage_fulfilled_revenue | numberFormat}}</td>
+										<td *ngIf="target_fulfilments.can_edit_fulfilments"
+											class="td-fit-nowrap">
+											<button [hidden]="f.edit" type="button"
+												class="btn btn-secondary waves-effect waves-light btn-sm"
+												(click)="initEditFulfilment(f)">
+												<!--Edit-->
+												{{'litemore.bdevs.targets.edit'|translate}}
+											</button>
+											<table *ngIf="f.edit">
+												<tbody>
+													<tr>
+														<td>
+															<button type="button"
+																class="btn btn-primary waves-effect waves-light btn-sm"
+																(click)="f.edit = false">
+																<!--Cancel-->
+																{{'litemore.bdevs.targets.cancel'|translate}}
+															</button>
+														</td>
+														<td class="pe-10">
+															<button type="button"
+																class="btn btn-success waves-effect waves-light btn-sm"
+																(click)="saveTargetChanges(f)">
+																<!--Save-->
+																{{'litemore.bdevs.targets.save'|translate}}
+															</button>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12 col-xs-12 p-0" *ngIf="item.create_target_period">
+			<div class="box col-md-12 col-xs-12">
+				<div class="box-header">
+					<!--Bdev Targets-->
+					{{'litemore.bdevs.targets.bdevTargets'|translate}}
+				</div>
+				<div class="box-body">
+					<form id="createTargetPeriod" name="createTargetPeriod" #targetForm="ngForm"
+						(ngSubmit)="saveTargetPeriod(targetForm)">
+						<div class="p-0">
+							<div class="form-group row">
+								<div class="col-md-6 form-parallel-padding-left">
+									<label class="control-label" for="startdate">
+										<!--Start Date -->
+										{{'litemore.bdevs.targets.startDate'|translate}}
+									</label>
+									<input type="date" name="dateStart" required class="form-control"
+										datepicker-popup="dd-MMMM-yyyy" show-button-bar="false"
+										[(ngModel)]="new_target_period.start_date" is-open="item.start_date_open"
+										#dStart="ngModel"
+										[ngClass]="{'is-invalid':(targetForm.submitted && dStart.invalid)}"
+										datepicker-options="dateOptions" close-text="Close">
+									<div class="text-danger" *ngIf="targetForm.submitted && dStart.invalid">
+										<div *ngIf="dStart?.errors?.required">
+											<!-- Start date is required-->
+											{{'litemore.bdevs.targets.startDateRequired'|translate}}
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 form-parallel-padding-right">
+									<label class="control-label" for="enddate">
+										<!-- End Date -->
+										{{'litemore.bdevs.targets.startDateRequired'|translate}}
+									</label>
+									<input type="date" name="dateEnd" required class="form-control"
+										datepicker-popup="dd-MMMM-yyyy" show-button-bar="false"
+										[(ngModel)]="new_target_period.end_date" #dEnd="ngModel"
+										is-open="item.end_date_open" datepicker-options="dateOptions"
+										[ngClass]="{'is-invalid':(targetForm.submitted && dEnd.invalid)}"
+										close-text="Close">
+									<!-- <span class="input-group-btn">
+												<button type="button" class="btn btn-default"
+													(click)="showDatePicker($event, 2)"><i
+														class="glyphicon glyphicon-calendar"></i></button>
+											</span> -->
+									<div class="text-danger" *ngIf="targetForm.submitted && dEnd.invalid">
+										<div *ngIf="dEnd?.errors?.required">
+
+											<!--End date is required -->
+											{{'litemore.bdevs.targets.endDateRequired'|translate}}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 col-xs-12" style="padding: 16px 0 0 0">
+							<button type="button" (click)="initCreateTargetPeriod(false)"
+								class="btn btn-primary waves-effect waves-light btn-sm">
+								<!--Cancel -->
+								{{'litemore.bdevs.targets.cancel'|translate}}
+							</button>
+							<button type="submit" class="btn waves-effect waves-light btn-success btn-sm pull-right">
+								<!--Create -->
+								{{'litemore.bdevs.targets.create'|translate}}
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

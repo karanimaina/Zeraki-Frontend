@@ -1,0 +1,252 @@
+<div class="row">
+	<div class="col-12">
+		<ng-container *ngIf="isLoadingClassList; else classListUI">
+			<div class="box">
+				<div class="box-body">
+					<app-loader-div [height]="250"></app-loader-div>
+				</div>
+			</div>
+		</ng-container>
+
+		<ng-template #classListUI>
+			<!--no students  -->
+			<div *ngIf="data?.length == 0 && !isFetching">
+				<div class="box">
+					<div class="box-header">
+						<div class=" box-title">
+							{{ schoolTypeData?.formoryear | formOrYear }}
+							{{ selected?.intake?.label }}
+							{{ selected?.stream?.name }}
+							{{ selected?.subject?.name }} - {{ currentYear }}
+						</div>
+					</div>
+					<div class="box-body">
+						{{'classes.commonAttr.noStudentsFound' | translate}}
+					</div>
+				</div>
+			</div>
+
+			<!-- options -->
+			<div *ngIf="data?.length > 0" class="box box-widget">
+				<div class="box-header with-border">
+					<h4 class="box-title">{{ 'printouts.classList.options.title' | translate }}</h4>
+					<ul class="box-controls pull-right">
+						<li><a class="box-btn-slide" href="#"></a></li>
+					</ul>
+				</div>
+
+				<div class="box-body">
+					<form class="form">
+						<div class="row">
+							<div class="col-md-9 mx-auto">
+								<div class="form-group">
+									<label class="form-label">{{ 'printouts.classList.options.listType' | translate
+										}}</label>
+									<div class="row">
+										<div class="col-lg-2 col-sm-3">
+											<input (click)="toggleList('basic')" type="radio" id="basic_radio_1"
+												class="with-gap radio-col-info" name="basic_radio_1"
+												[checked]="basicRadioOption" />
+											<label for="basic_radio_1">{{ 'printouts.classList.options.basic' |
+												translate
+												}}</label>
+										</div>
+										<div *ngIf="(userRoles$ | async)?.isSchoolAdmin" class="col-lg-2 col-sm-3">
+											<input (click)="toggleList('custom')" type="radio" id="custom_radio_1"
+												class="with-gap radio-col-info" name="custom_radio_1"
+												[checked]="customRadioOption" />
+											<label for="custom_radio_1">{{ 'printouts.classList.options.custom' |
+												translate }}</label>
+										</div>
+									</div>
+								</div>
+								<div *ngIf="showCustoms" class="mt-40">
+									<h6 class="text-start">{{ 'printouts.classList.options.optionsInfo' | translate }}
+									</h6>
+								</div>
+								<div *ngIf="showCustoms" class="row mt-20">
+									<div *ngFor="let option of profileOptions?.options"
+										class="col-xl-3 col-lg-4 col-md-6">
+										<input type="checkbox" id="{{option.name}}" class="filled-in"
+											name="{{option.name}}" [checked]="option.selected"
+											[(ngModel)]="option.selected"
+											[ngClass]="{'chk-col-info':option.is_optional}"
+											[disabled]="!option.is_optional" />
+										<label for="{{option.name}}">{{option.name}}</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<!-- DOWNLOAD BTN -->
+			<div *ngIf="data?.length > 0" class="text-end">
+				<button *ngIf="!showCustoms" class="btn btn-sm btn-dark me-5 d-none d-md-inline-block" type="button"
+					(click)="downloadClassListAsPdf('print')"><!--(click)="generatePdf('print')"-->
+					<i>
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							class="bi bi-printer" viewBox="0 0 16 16">
+							<path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+							<path
+								d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
+						</svg>
+					</i>
+					{{ 'printouts.commonAttr.printBtn' | translate }}
+				</button>
+				<button *ngIf="showCustoms" (click)="downloadCustomList()" class="btn btn-sm btn-dark me-5"
+					type="button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+						class="bi bi-cloud-download" viewBox="0 0 16 16">
+						<path
+							d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z" />
+						<path
+							d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z" />
+					</svg>
+					{{ 'printouts.commonAttr.download.title' | translate }} {{ 'printouts.classList.title' |
+					translate }}
+				</button>
+				<button *ngIf="isMobileApp" (click)="downloadSpreadsheet()" class="btn btn-sm btn-dark me-5"
+					type="button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+						class="bi bi-cloud-download" viewBox="0 0 16 16">
+						<path
+							d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z" />
+						<path
+							d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z" />
+					</svg>
+					{{ 'printouts.commonAttr.download.title' | translate }} {{ 'printouts.classList.title' |
+					translate }}
+				</button>
+				<button *ngIf="(!showCustoms && !isMobileApp)" class="btn btn-sm btn-dark" type="button"
+					data-bs-toggle="dropdown">
+					<i>
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+							<path
+								d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+						</svg>
+					</i>
+					{{ 'printouts.commonAttr.download.title' | translate }}
+				</button>
+				<div class="dropdown-menu bg-active">
+					<a class="dropdown-item" (click)="downloadClassListAsPdf()">
+						<i class="me-1">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+								<path
+									d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+								<path
+									d="M4.603 14.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.697 19.697 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.712 5.712 0 0 1-.911-.95 11.651 11.651 0 0 0-1.997.406 11.307 11.307 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.266.266 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.71 12.71 0 0 1 1.01-.193 11.744 11.744 0 0 1-.51-.858 20.801 20.801 0 0 1-.5 1.05zm2.446.45c.15.163.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.876 3.876 0 0 0-.612-.053zM8.078 7.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822.024.111.054.227.09.346z" />
+							</svg>
+						</i>
+						{{ 'printouts.commonAttr.download.pdf' | translate }}
+					</a>
+					<a class="dropdown-item" (click)="downloadSpreadsheet()">
+						<i class="me-1">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-table" viewBox="0 0 16 16">
+								<path
+									d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z" />
+							</svg>
+						</i>
+						{{ 'printouts.commonAttr.download.excel' | translate }}
+					</a>
+				</div>
+			</div>
+
+			<!-- basic class list -->
+			<div *ngIf="!showCustoms">
+				<!-- no data -->
+				<div *ngIf="noStudents" class="box animated bounceInLeft">
+					<div class="box-body">
+						<h3>{{ 'printouts.classList.noData' | translate }}</h3>
+					</div>
+				</div>
+
+				<!-- class list -->
+				<div *ngIf="data?.length > 0" class="animated bounceInUp mt-20" id="printthis">
+					<div class="box">
+						<div class="box-body">
+							<ng-container *ngIf="isFetching; else classListView">
+								<app-loader-div [height]="250"></app-loader-div>
+							</ng-container>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</div>
+</div>
+
+<ng-template #classListView>
+	<!-- header -->
+	<div class="row fw-bold mx-0 mx-lg-60 mx-xl-150">
+		<!-- school logo -->
+		<div class="col-lg-4 d-flex justify-content-center justify-content-lg-start px-0">
+			<ng-container *ngIf="school?.logo">
+				<img [src]="school?.logo" alt="" class="h-120">
+			</ng-container>
+		</div>
+		<!-- school title -->
+		<div class="col-lg-4 px-0">
+			<span class="d-block text-center fs-24">{{ school?.name?.trim() }}</span>
+			<span class="d-none d-lg-block text-center fs-20">{{ 'printouts.classList.title' | translate }}</span>
+		</div>
+		<!-- school address -->
+		<div class="col-lg-4 fs-18 text-center text-lg-end px-0">
+			<span class="d-block">{{ school?.address?.trim() }}</span>
+			<span class="d-block">{{ school?.phone?.trim() }}</span>
+			<span class="d-block">{{ school?.email?.trim() }}</span>
+		</div>
+	</div>
+
+	<!-- students table -->
+	<div class="table-responsive mx-0 mx-lg-60 mx-xl-150 my-25">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr class="text-uppercase">
+					<th [attr.colspan]="documentHeaders.length" class="text-center">{{ documentTitle }}</th>
+				</tr>
+				<tr *ngIf="classTeacher" class="text-uppercase">
+					<th [attr.colspan]="documentHeaders.length" class="text-center">{{ classTeacher }}</th>
+				</tr>
+				<tr class="text-uppercase">
+					<ng-container *ngFor="let tableHeader of documentHeaders; index as index">
+						<th
+							[ngClass]="[index === 0 ? 'td-fit-nowrap p-10' : '', index === 1 ? 'td-fit-nowrap px-2 text-center' : '', tableHeader.widthClass ?? '']">
+							{{ tableHeader['value'] }}
+						</th>
+					</ng-container>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let student of data; index as studentIndex" class="text-bold">
+					<ng-container
+						*ngFor="let tableHeader of documentHeaders; index as tableHeaderIndex; first as isFirst">
+						<ng-container *ngIf="isFirst">
+							<td class="text-center">{{ studentIndex + 1 }}</td>
+						</ng-container>
+
+						<ng-container *ngIf="!isFirst">
+							<ng-container *ngIf="tableHeaderIndex === 1; else normalValue">
+								<td class="text-center">
+									<img [src]="student[tableHeader['key']] ?? 'assets/img/avatar/p_avatar_blue.png'"
+										alt="" class="w-40 h-40 rounded-circle" style="object-fit: cover;">
+								</td>
+							</ng-container>
+
+							<ng-template #normalValue>
+								<td class="td-fit-nowrap">
+									{{ student[tableHeader['key']] }}
+								</td>
+							</ng-template>
+						</ng-container>
+
+					</ng-container>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</ng-template>

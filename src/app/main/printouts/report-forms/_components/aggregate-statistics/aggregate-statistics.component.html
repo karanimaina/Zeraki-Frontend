@@ -1,0 +1,39 @@
+<div class="text-center">
+	<div style="font-size: 13px; font-weight: bold;">
+		<div>{{ aggregateStatistics.name }}</div>
+		<ui-guinea-secondary-school [template]="majorTextCodeTemplate"></ui-guinea-secondary-school>
+		<ng-template #majorTextCodeTemplate>
+			<span *ngIf="majorTextCode">({{ majorTextCode }})</span>
+		</ng-template>
+	</div>
+	<h4 class="no-margins font-extra-bold">
+
+		<span [ngClass]="{'text-info': !aggregateStatistics.isSingleValue}">
+			<strong>
+				{{aggregateStatistics.value}}
+				{{aggregateStatistics.suffix}}
+			</strong>
+		</span>
+
+		<span *ngIf="aggregateStatistics.out_of! > 0">
+			{{ " / " + aggregateStatistics.out_of }}
+		</span>
+
+	</h4>
+	<div class="font-bold"
+		 *ngIf="aggregateStatistics.change">
+		{{aggregateStatistics.change}}
+		<i *ngIf="aggregateStatistics.change! > 0"
+		   class="fa fa-level-up text-success"
+		   aria-hidden="true">
+		</i>
+		<i *ngIf="aggregateStatistics.change! < 0"
+		   class="fa fa-level-down text-warning"
+		   aria-hidden="true">
+		</i>
+		<i *ngIf="aggregateStatistics.change == 0"
+		   class="fa fa-long-arrow-right text-info"
+		   aria-hidden="true">
+		</i>
+	</div>
+</div>

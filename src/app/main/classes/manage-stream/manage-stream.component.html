@@ -1,0 +1,296 @@
+<!-- Classes Top Nav -->
+<app-classes-top-nav></app-classes-top-nav>
+
+<!-- Main content -->
+<ng-container *ngIf="!streamInfoObj; then showLoading else showContent"></ng-container>
+
+<ng-template #showLoading>
+
+	<section class="content mt-config">
+		<div class="box">
+			<div class="box-body">
+				<app-loader-div [height]="50"></app-loader-div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<div class="box">
+					<div class="box-body">
+						<app-loader-div [height]="150"></app-loader-div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</ng-template>
+<ng-template #showContent>
+	<section class="content mt-config">
+		<div *ngIf="!showClassListUI else displayClasslist" class="col-12">
+			<div class="box">
+				<div class="box-header with-border">
+					<h4 class="box-title">{{ 'classes.manageStream.title' | translate }} -
+						{{schoolTypeData?.formoryear | formOrYear}} {{streamInfoObj?.stream_info.form}}
+						{{streamInfoObj?.stream_info.stream}}</h4>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body">
+
+					<div class="table-responsive">
+						<table class="table table-sm table-striped table-bordered mb-0"
+							   [ngClass]="{'table-padding': !canManageStream}">
+							<thead>
+								<tr>
+									<th scope="col">{{schoolTypeData?.formoryear | formOrYear}}</th>
+									<th scope="col">{{ 'classes.manageStream.table.stream' | translate }}</th>
+									<th scope="col">{{ 'classes.manageStream.table.subject' | translate }}</th>
+									<th *ngIf="streamInfoObj?.is_mixed_school" scope="col">{{
+										'classes.manageStream.table.boys' | translate }}</th>
+									<th *ngIf="streamInfoObj?.is_mixed_school" scope="col">{{
+										'classes.manageStream.table.girls' | translate }}</th>
+									<th scope="col">{{ 'classes.manageStream.table.students' | translate }}</th>
+									<th scope="col">{{ 'classes.manageStream.table.subjectTeacher' | translate }}</th>
+									<th *ngIf="streamInfoObj?.allowed_teachers_per_subject >= 2" scope="col">{{
+										'classes.manageStream.table.subjectTeacher2' | translate }}</th>
+									<th *ngIf="streamInfoObj?.allowed_teachers_per_subject >= 3" scope="col">{{
+										'classes.manageStream.table.subjectTeacher3' | translate }}</th>
+									<th *ngIf="streamInfoObj?.allowed_teachers_per_subject >= 4" scope="col">{{
+										'classes.manageStream.table.subjectTeacher4' | translate }}</th>
+									<th *ngIf="streamInfoObj?.allowed_teachers_per_subject >= 5" scope="col">{{
+										'classes.manageStream.table.subjectTeacher5' | translate }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let classStream of streamInfoObj?.stream_info.classes;">
+									<th scope="row">{{ classStream.form }}</th>
+									<td>{{ classStream.stream }}</td>
+									<td>{{ classStream.subject.name }}</td>
+									<td *ngIf="streamInfoObj?.is_mixed_school">{{ classStream.boys }}</td>
+									<td *ngIf="streamInfoObj?.is_mixed_school">{{ classStream.girls }}</td>
+									<td>{{ classStream.population }}</td>
+									<td>
+										<ng-container *ngIf="classStream.st?.name">
+											<span>{{ classStream.st?.name }}</span>
+											<span class="pull-right" *ngIf="canManageStream">
+											<a (click)="removeSubjectTeacher(classStream.st?.aid)" class="text-danger"
+											   style="cursor: pointer;"
+											   title="{{ 'classes.manageStream.table.removeTeacherPlaceholder' | translate }}">
+												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+													 fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+													<path
+														d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+													<path fill-rule="evenodd"
+														  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+												</svg>
+											</a>
+										</span>
+										</ng-container>
+										<ng-container *ngIf="canManageStream && !classStream.st?.name">
+											<ng-select [notFoundText]="'common.noItemsFound' | translate" size="1"
+													   (change)="assignSubjectTeacher(classStream.cid, $event, 1)"
+													   [items]="streamInfoObj?.stream_info.teachers" [closeOnSelect]="true"
+													   [searchable]="true" appendTo="body" [dropdownPosition]="'bottom'"
+													   bindLabel="name"
+													   placeholder="{{ 'classes.manageStream.table.assignTeacherPlaceholder' | translate }}">
+											</ng-select>
+										</ng-container>
+									</td>
+									<td *ngIf="streamInfoObj?.allowed_teachers_per_subject >= 2">
+										<span *ngIf="classStream.st2?.name">
+											<span>{{ classStream.st2?.name }}</span>
+											<span class="pull-right" *ngIf="canManageStream">
+												<a (click)="removeSubjectTeacher(classStream.st2?.aid)" class="text-danger"
+												   style="cursor: pointer;"
+												   title="{{ 'classes.manageStream.table.removeTeacherPlaceholder' | translate }}">
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+														fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+														<path
+															d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+														<path fill-rule="evenodd"
+															d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+													</svg>
+												</a>
+											</span>
+										</span>
+										<span *ngIf="canManageStream && !classStream.st2?.name">
+											<ng-select [notFoundText]="'common.noItemsFound' | translate" size="1"
+												(change)="assignSubjectTeacher(classStream.cid, $event, 2)"
+												[items]="streamInfoObj?.stream_info.teachers" [closeOnSelect]="true"
+												[searchable]="true" appendTo="body" [dropdownPosition]="'bottom'"
+												bindLabel="name"
+												placeholder="{{ 'classes.manageStream.table.assignTeacherPlaceholder' | translate }}">
+											</ng-select>
+										</span>
+									</td>
+									<td *ngIf="streamInfoObj?.allowed_teachers_per_subject >= 3">
+										<!-- {{ streamInfoObj?.allowed_teachers_per_subject >= 3 }} -->
+										<span *ngIf="classStream.st3?.name">
+											<span>{{ classStream.st3?.name }}</span>
+											<span class="pull-right" *ngIf="canManageStream">
+												<a (click)="removeSubjectTeacher(classStream.st3?.aid)" class="text-danger"
+												   style="cursor: pointer;"
+												   title="{{ 'classes.manageStream.table.removeTeacherPlaceholder' | translate }}">
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+														fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+														<path
+															d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+														<path fill-rule="evenodd"
+															d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+													</svg>
+												</a>
+											</span>
+										</span>
+										<span *ngIf="canManageStream && !classStream.st3?.name">
+											<ng-select [notFoundText]="'common.noItemsFound' | translate" size="1"
+												(change)="assignSubjectTeacher(classStream.cid, $event, 3)"
+												[items]="streamInfoObj?.stream_info.teachers" [closeOnSelect]="true"
+												[searchable]="true" appendTo="body" [dropdownPosition]="'bottom'"
+												bindLabel="name"
+												placeholder="{{ 'classes.manageStream.table.assignTeacherPlaceholder' | translate }}">
+											</ng-select>
+										</span>
+									</td>
+									<td *ngIf="streamInfoObj?.allowed_teachers_per_subject >= 4">
+										<!-- {{ streamInfoObj?.allowed_teachers_per_subject >= 3 }} -->
+										<span *ngIf="classStream.st4?.name">
+											<span>{{ classStream.st4?.name }}</span>
+											<span class="pull-right" *ngIf="canManageStream">
+												<a (click)="removeSubjectTeacher(classStream.st4?.aid)" class="text-danger"
+												   style="cursor: pointer;"
+												   title="{{ 'classes.manageStream.table.removeTeacherPlaceholder' | translate }}">
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+														fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+														<path
+															d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+														<path fill-rule="evenodd"
+															d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+													</svg>
+												</a>
+											</span>
+										</span>
+										<span *ngIf="canManageStream && !classStream.st4?.name">
+											<ng-select [notFoundText]="'common.noItemsFound' | translate" size="1"
+												(change)="assignSubjectTeacher(classStream.cid, $event, 4)"
+												[items]="streamInfoObj?.stream_info.teachers" [closeOnSelect]="true"
+												[searchable]="true" appendTo="body" [dropdownPosition]="'bottom'"
+												bindLabel="name"
+												placeholder="{{ 'classes.manageStream.table.assignTeacherPlaceholder' | translate }}">
+											</ng-select>
+										</span>
+									</td>
+									<td *ngIf="streamInfoObj?.allowed_teachers_per_subject >= 5">
+										<!-- {{ streamInfoObj?.allowed_teachers_per_subject >= 3 }} -->
+										<span *ngIf="classStream.st5?.name">
+											<span>{{ classStream.st5?.name }}</span>
+											<span class="pull-right" *ngIf="canManageStream">
+												<a (click)="removeSubjectTeacher(classStream.st5?.aid)" class="text-danger"
+												   style="cursor: pointer;"
+												   title="{{ 'classes.manageStream.table.removeTeacherPlaceholder' | translate }}">
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+														fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+														<path
+															d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+														<path fill-rule="evenodd"
+															d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+													</svg>
+												</a>
+											</span>
+										</span>
+										<span *ngIf="canManageStream && !classStream.st5?.name">
+											<ng-select [notFoundText]="'common.noItemsFound' | translate" size="1"
+												(change)="assignSubjectTeacher(classStream.cid, $event, 5)"
+												[items]="streamInfoObj?.stream_info.teachers" [closeOnSelect]="true"
+												[searchable]="true" appendTo="body" [dropdownPosition]="'bottom'"
+												bindLabel="name"
+												placeholder="{{ 'classes.manageStream.table.assignTeacherPlaceholder' | translate }}">
+											</ng-select>
+										</span>
+									</td>
+									<td class="text-center" *ngIf="role?.isSchoolAdmin">
+										<button *ngIf="classStream.managable"
+											routerLink="../../streams/subjects/{{streamInfoObj?.stream_info?.streamid}}/{{classStream.cid}}"
+											type="button" class="waves-effect waves-light btn btn-dark btn-sm">
+											<i class="fa fa-cogs"></i>
+											<span class="ms-1">{{ 'classes.commonAttr.manage' | translate }}</span>
+										</button>
+									</td>
+									<td class="text-center" *ngIf="canManageStream">
+										<button type="button" class="waves-effect waves-light btn btn-success btn-sm"
+											(click)="showClassListDisplay({ classid: classStream.cid, streamId: +streamId, subjectId: classStream.subject.id })">
+											<i>
+												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+													fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+													<path
+														d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
+													<path
+														d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z" />
+												</svg>
+											</i>
+											{{"common.classlist" | translate}}
+										</button>
+									</td>
+									<td class="text-center" *ngIf="canManageStream">
+										<button *ngIf="classStream?.managable"
+												(click)="deleteSubjectClass(classStream)" type="button"
+												class="waves-effect waves-light btn btn-danger btn-sm">
+											{{ 'classes.commonAttr.delete' | translate }}
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="mt-20">
+						<span>
+							<button (click)="_location.back()" type="button"
+								class="waves-effect waves-light btn btn-secondary btn-sm">
+								<i>
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+										class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+										<path fill-rule="evenodd"
+											d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+									</svg>
+								</i>
+								{{ 'classes.commonAttr.back' | translate }}
+							</button>
+						</span>
+						<span class="pull-right" *ngIf="role?.isSchoolAdmin">
+							<button routerLink="/main/classes/manage/streams/add/{{streamId}}" type="button"
+								class="waves-effect waves-light btn btn-info btn-sm">{{
+								'classes.manageStream.addSubjectBtn' | translate }}</button>
+						</span>
+					</div>
+				</div>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
+		</div>
+		<!-- class list UI -->
+		<ng-template #displayClasslist>
+			<div class="px-xl-20">
+				<div class="d-flex justify-content-between">
+					<h3 class="fs-20 fw-bold">
+						{{ 'printouts.classList.title' | translate }}
+					</h3>
+
+					<button class="btn btn-sm btn-secondary mb-3" (click)="hideClassListDisplay()">
+						<i>
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+								<path fill-rule="evenodd"
+									d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+							</svg>
+						</i>
+						{{ 'common.close' | translate }}
+					</button>
+				</div>
+
+				<app-class-list [classId]="classDetails?.classid ?? -1" [egroupId]="classDetails?.egroupId ?? -1"
+					[intakeId]="classDetails?.intakeid ?? -1" [streamId]="classDetails?.streamId ?? -1"
+					[subjectId]="classDetails?.subjectId ?? -1" [seriesId]="classDetails?.seriesId ?? -1">
+				</app-class-list>
+			</div>
+		</ng-template>
+	</section>
+</ng-template>

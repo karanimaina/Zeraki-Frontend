@@ -1,0 +1,47 @@
+.zreport-name {
+    font-size: 2.3em;
+    font-weight:700;
+    margin-top:20px;
+    padding-bottom: 5px;
+}
+
+.zreport-name-print {
+    font-size: 1em;
+    font-weight:400;
+    padding-bottom: 0px;
+}
+
+.zreport-subject-comparison {
+    /*margin-right: 20px;*/
+}
+
+.zreport-label {
+    padding: .2em .6em .3em;
+    font-weight: 600;
+    color: #222223;
+}
+
+.zreport-table-contents{
+    font-size: 1em;
+}
+.font-extra-bold {
+    font-weight: 700;
+}
+.font-bold{
+    font-weight: 600;
+}
+.visible-xs{
+    display: none!important;
+}
+.hidden-xs{
+    display: block !important;
+}
+
+@media (max-width:767px) {
+    .visible-xs{
+        display: block !important;
+    }
+    .hidden-xs{
+        display: none !important;
+    }
+}

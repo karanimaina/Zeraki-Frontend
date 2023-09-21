@@ -1,0 +1,26 @@
+<div class="d-flex flex-row mt-5 mb-4 ms-2">
+	<div class="col-4">
+		<div class="d-flex flex-row">
+			<span class="no-wrap fw-bold" style="width: 35%">{{ 'printouts.studentReport.feeBalance' | translate }}</span>
+			<div class="school-dates dotted-border mx-auto text-center" style="width: 60%; margin-top: 0">
+				<span class="text-dark fw-bolder">{{ feeData ? feeData['TERM_BALANCE'] + ' UGX' : '' }}</span>
+			</div>
+		</div>
+	</div>
+	<div class="col-4">
+		<div class="d-flex flex-row">
+			<span class="no-wrap fw-bold" style="width: 35%">{{ 'printouts.studentReport.nextTermFees' | translate }}</span>
+			<div class="school-dates dotted-border mx-auto text-center" style="width: 45%; margin-top: 0">
+				<span class="text-dark fw-bolder">{{ feeData ? feeData['NEXT_TERM_FEES'] +' UGX' : '' }}</span>
+			</div>
+		</div>
+	</div>
+	<div class="col-4">
+		<div class="d-flex flex-row">
+			<span class="no-wrap fw-bold" style="width: 35%">{{ 'printouts.studentReport.totalPayable' | translate }}</span>
+			<div class="school-dates dotted-border mx-auto text-center" style="width: 45%; margin-top: 0">
+				<span class="text-dark fw-bolder">{{ feeData ? feeData['TERM_BALANCE'] +  feeData['NEXT_TERM_FEES'] + ' UGX': '' }}</span>
+			</div>
+		</div>
+	</div>
+</div>

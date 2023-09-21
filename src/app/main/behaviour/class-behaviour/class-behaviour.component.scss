@@ -1,0 +1,36 @@
+.col-xs-6{
+    width: 50%;
+}
+.box,.box-header{
+    border-radius: 5px;
+}
+.box-header{
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.radio-group{
+    display: inline-block;
+    margin-right: 5px;
+}
+.bg-blue{
+    background-color: #2ea5de;
+}
+
+.bg-green{
+    background-color: #43ab49;
+}
+
+.bg-yellow{
+    background-color: #ffa800;
+}
+
+.bg-red{
+background-color: #ff3f3f;
+}
+.box>.box-body{
+    padding-top: 0px;
+}
+.fw-600{
+    font-weight: 600;
+}
+

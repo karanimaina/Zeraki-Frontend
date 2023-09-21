@@ -1,0 +1,241 @@
+<div class="table-responsive">
+	<table
+		*ngIf="creditNotes?.length; else noCreditNotes"
+		[formGroup]="updateCreditNoteForm"
+		class="table table-bordered table-striped mb-0">
+		<div class="table-responsive">
+			<table
+				[formGroup]="updateCreditNoteForm"
+				class="table table-bordered table-striped mb-0">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>
+							{{
+								"litemore.bdevs.invoices.invoice.components.createNotesList.creditNoteNumber"
+									| translate
+							}}
+						</th>
+						<th>
+							{{
+								"litemore.bdevs.invoices.invoice.invoiceList.serialNumber"
+									| translate
+							}}
+						</th>
+						<th>
+							{{
+								"litemore.bdevs.invoices.invoice.components.createNotesList.invoiceNumber"
+									| translate
+							}}
+						</th>
+						<th style="width: 17%">
+							{{
+								"litemore.bdevs.invoices.invoice.components.createNotesList.grossAmount"
+									| translate
+							}}
+						</th>
+						<th>
+							{{
+								"litemore.bdevs.invoices.invoice.components.createNotesList.vat"
+									| translate
+							}}
+						</th>
+						<th>
+							{{
+								"litemore.bdevs.invoices.invoice.components.createNotesList.netAmount"
+									| translate
+							}}
+						</th>
+						<th>
+							{{
+								"litemore.bdevs.invoices.invoice.components.createNotesList.invoiceBalance"
+									| translate
+							}}
+						</th>
+						<th>
+							{{
+								"litemore.bdevs.invoices.invoice.components.createNotesList.createdOn"
+									| translate
+							}}
+						</th>
+						<th>Description</th>
+						<th class="text-center" style="width: 10%">
+							{{
+								"litemore.bdevs.invoices.invoice.components.createNotesList.action"
+									| translate
+							}}
+						</th>
+					</tr>
+				</thead>
+				<ng-container formArrayName="creditNotesArray">
+					<tbody
+						*ngFor="let creditNote of creditNotes; index as creditNoteIndex">
+						<ng-container [formGroupName]="creditNoteIndex">
+							<ng-container formArrayName="creditNoteItemsArray">
+								<ng-container
+									*ngFor="
+										let creditNoteItem of creditNote.creditNoteItems;
+										index as creditNoteItemIndex
+									">
+									<tr [formGroupName]="creditNoteItemIndex">
+										<td>{{ creditNoteIndex + 1 }}</td>
+										<td>{{ creditNoteItem?.creditNoteNumber }}</td>
+										<td>{{ creditNoteItem?.cuSerialNumber }}</td>
+										<td>{{ creditNoteItem?.invoiceNumber }}</td>
+										<td>
+											<ng-container
+												*ngIf="!updateCreditNote[creditNoteItem.creditNoteId]">
+												{{ creditNoteItem.grossAmount }}
+											</ng-container>
+											<ng-container
+												*ngIf="updateCreditNote[creditNoteItem.creditNoteId]">
+												<app-input formControlName="grossAmount"></app-input>
+											</ng-container>
+										</td>
+										<td>{{ creditNoteItem.vatAmount }}</td>
+										<td>
+											{{ creditNoteItem.netAmount | currency:(creditNoteItem.currency || "KES ") }}
+										</td>
+										<td>
+											{{
+												creditNoteItem.invoiceBalance | currency:(creditNoteItem.currency || "KES ")
+											}}
+										</td>
+										<td>
+											{{ creditNoteItem.createdOn | date : "dd-MM-yyyy" }}
+										</td>
+										<td>{{ creditNoteItem.creditNoteDescription }}</td>
+										<td>
+											<div class="d-flex flex-row justify-content-center">
+												<ng-container *ngIf="loggedInUser?.canEditCreditNotes">
+													<!-- <button
+												(click)="enableEdit(creditNoteItem.creditNoteId)"
+												class="btn btn-sm px-2 me-2 {{
+													updateCreditNote[creditNoteItem.creditNoteId]
+														? 'btn-light'
+														: 'btn-info'
+												}}">
+												<i
+													class="bi"
+													[ngClass]="
+														updateCreditNote[creditNoteItem.creditNoteId]
+															? 'bi-x-lg'
+															: 'bi-pencil'
+													"></i>
+											</button> -->
+
+													<button
+														*ngIf="
+															updateCreditNote[creditNoteItem.creditNoteId]
+														"
+														(click)="
+															saveCreditNoteChanges(
+																creditNoteIndex,
+																creditNoteItemIndex
+															)
+														"
+														class="btn btn-sm btn-success me-2 w-60">
+														<svg
+															*ngIf="
+																updatingCreditNote[creditNoteItem.creditNoteId]
+															"
+															width="18"
+															height="18"
+															viewBox="0 0 38 38"
+															xmlns="http://www.w3.org/2000/svg"
+															stroke="#fff">
+															<g fill="none" fill-rule="evenodd">
+																<g transform="translate(1 1)" stroke-width="2">
+																	<circle
+																		stroke-opacity=".5"
+																		cx="18"
+																		cy="18"
+																		r="18" />
+																	<path d="M36 18c0-9.94-8.06-18-18-18">
+																		<animateTransform
+																			attributeName="transform"
+																			type="rotate"
+																			from="0 18 18"
+																			to="360 18 18"
+																			dur="1s"
+																			repeatCount="indefinite" />
+																	</path>
+																</g>
+															</g>
+														</svg>
+														{{
+															updatingCreditNote[creditNoteItem.creditNoteId]
+																? ""
+																: "Save"
+														}}
+													</button>
+
+													<!-- <button
+												*ngIf="!updateCreditNote[creditNoteItem.creditNoteId]"
+												(click)="
+													confirmDeleteCreditNote(creditNoteItem.creditNoteId)
+												"
+												class="btn btn-danger btn-sm me-2 px-2">
+												<svg
+													*ngIf="
+														deletingCreditNote[creditNoteItem.creditNoteId]
+													"
+													width="18"
+													height="18"
+													viewBox="0 0 38 38"
+													xmlns="http://www.w3.org/2000/svg"
+													stroke="#fff">
+													<g fill="none" fill-rule="evenodd">
+														<g transform="translate(1 1)" stroke-width="2">
+															<circle
+																stroke-opacity=".5"
+																cx="18"
+																cy="18"
+																r="18" />
+															<path d="M36 18c0-9.94-8.06-18-18-18">
+																<animateTransform
+																	attributeName="transform"
+																	type="rotate"
+																	from="0 18 18"
+																	to="360 18 18"
+																	dur="1s"
+																	repeatCount="indefinite" />
+															</path>
+														</g>
+													</g>
+												</svg>
+												<i
+													*ngIf="
+														!deletingCreditNote[creditNoteItem.creditNoteId]
+													"
+													class="bi bi-trash"></i>
+											</button> -->
+												</ng-container>
+
+												<button
+													*ngIf="!updateCreditNote[creditNoteItem.creditNoteId]"
+													(click)="printCreditNote(creditNoteItem)"
+													class="btn btn-secondary btn-sm px-2">
+													<i class="bi bi-printer-fill"></i>
+												</button>
+											</div>
+										</td>
+									</tr>
+								</ng-container>
+							</ng-container>
+						</ng-container>
+					</tbody>
+				</ng-container>
+			</table>
+		</div>
+	</table>
+</div>
+
+<ng-template #noCreditNotes>
+	<h4 class="text-center">
+		{{
+			"litemore.bdevs.invoices.invoice.components.createNotesList.noCreditNotesFound"
+				| translate
+		}}
+	</h4>
+</ng-template>

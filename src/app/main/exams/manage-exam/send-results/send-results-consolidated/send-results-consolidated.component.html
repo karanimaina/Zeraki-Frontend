@@ -1,0 +1,120 @@
+<section class="content mt-config">
+
+    <p class="fw-600">
+        <!-- Send Results -->
+        {{"exams.sendResultsConsolidated.textSendResults"|translate}}
+         - {{exam.examname}}</p>
+
+    <div class="box">
+        <div class="box-body">
+            <!-- <pre>{{exam|json}}</pre> -->
+            <!-- section send results to select recipients -->
+            <div class="form-group">
+                <label for=""><b>
+                    <!-- Send Results to -->
+                    {{"exams.sendResultsConsolidated.textSendResultsTo"|translate}}
+                </b></label>
+                <div class="radio-button">
+                    <input name="group5" type="radio" id="radio_30" (click)="toggleRecipient(0)" class="with-gap radio-col-info" [checked]="allStudents">
+                    <label for="radio_30">
+                        <!-- All -->
+                        {{"exams.sendResultsConsolidated.textAll"|translate}}
+                         {{schoolData?.formoryear + " " + exam.form + " " + "students"}} </label>
+                    <input name="group5" type="radio" id="radio_32" (click)="toggleRecipient(1)"
+                    class="with-gap radio-col-info" [checked]="spec_stream">
+                    <label for="radio_32">
+                        <!-- Specific Stream -->
+                        {{"exams.sendResultsConsolidated.textSpecificStream"|translate}}
+                    </label>
+                    <input name="group5" type="radio" id="radio_33" (click)="toggleRecipient(2)" class="with-gap radio-col-info" [checked]="spec_student">
+                    <label for="radio_33">
+                        <!-- Specific Student -->
+                        {{"exams.sendResultsConsolidated.textSpecificStudent"|translate}}
+                    </label>
+                </div>
+            </div>
+
+            <!-- section select stream -->
+            <div class="form-group" *ngIf="criteria == 1" >
+                <label for=""><b>
+                    <!-- Stream -->
+                    {{"exams.sendResultsConsolidated.textStream"|translate}}
+                </b></label>
+                <select name="streamSelect" id="streamSelect" [(ngModel)]="streamid" class="form-select">
+                    <option value="">
+                        <!-- Select Stream -->
+                        {{"exams.sendResultsConsolidated.textSelectStream"|translate}}
+                    </option>
+                    <option *ngFor="let s of exam.streams" [value]="s.streamid">{{s.name}}</option>
+                </select>
+            </div>
+
+            <!-- section select specific student -->
+            <div class="form-group" *ngIf="criteria == 2" >
+                <label><b>
+                    <!-- Student -->
+                    {{"exams.sendResultsConsolidated.textStudent"|translate}}
+                </b></label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                    [items]="exam.students"
+                    placeholder="Select Student"
+                    name="studentSelect"
+                    [(ngModel)]="student"
+                    bindLabel="name"
+                    required>
+                </ng-select>
+            </div>
+
+            <!-- section send to students with grades -->
+            <div class="form-group">
+                <label for=""><b>
+                    <!-- Send to students with the selected grades -->
+                    {{"exams.sendResultsConsolidated.textSendToSelectedGrades"|translate}}
+                </b></label>
+                <div class="demo-checkbox">
+                    <span *ngFor="let g of exam.grades;let i = index">
+                        <input type="checkbox" id="md_checkbox_{{i}}" class="filled-in chk-col-info"
+                        name="grade_{{i}}" [checked]="g.selected" [(ngModel)]="g.selected">
+                        <label for="md_checkbox_{{i}}">{{g.grade}}</label>
+                    </span>
+                </div>
+            </div>
+
+            <!-- section optional message -->
+            <div class="form-group">
+                <label for=""><b>
+                    <!-- Optional Message -->
+                    {{"exams.sendResultsConsolidated.textOptionalMessage"|translate}}
+                </b></label>
+                <textarea name="optionalMessage" [(ngModel)]="optional_msg" id="optionalMessage" rows="5" class="form-control"
+                    placeholder="Optional message to be sent with the exam results"></textarea>
+            </div>
+
+            <!-- section select only optional message -->
+            <div class="form-group mb-0">
+                <input type="checkbox" id="md_checkbox_31" [checked]="onlySendAdditionalText"
+                [(ngModel)]="onlySendAdditionalText"
+                class="filled-in chk-col-info">
+                <label for="md_checkbox_31">
+                    <!-- Only send the optional message (exam results won't be sent along) -->
+                    {{"exams.sendResultsConsolidated.textOnlySendOptionalMsg"|translate}}
+                </label>
+            </div>
+        </div>
+        <div class="box-footer text-end">
+            <button *ngIf="!showLoading" (click)="sendResults()" class="btn btn-sm btn-info waves-effect waves-light">
+                <!-- Send -->
+                {{"exams.sendResultsConsolidated.btnTextSend"|translate}}
+            </button>
+
+            <button *ngIf="showLoading" class="btn btn-sm btn-info bg-success text-white">
+                <i class="fa fa-spin fa-spinner"></i>
+                 <!-- Sending messages -->
+                 {{"exams.sendResultsConsolidated.textSendingMessages"|translate}}
+                 ...
+            </button>
+        </div>
+    </div>
+
+
+</section>

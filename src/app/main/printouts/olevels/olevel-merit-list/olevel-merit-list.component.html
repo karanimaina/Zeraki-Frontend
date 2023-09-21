@@ -1,0 +1,106 @@
+<div class="content mt-config">
+	<app-olevel-merit-list-form
+		(onSubmitMeritListForm)="fetchMeritList($event)">
+	</app-olevel-merit-list-form>
+
+	<div *ngIf="fetchingMeritList" class="mt-40 text-center">
+		<div class="row">
+			<div class="col-12 justify-content-center">
+				<div class="text-center">
+					<img src="assets/img/loading-bars.svg" height="70" width="100" alt="Loading-bars">
+					<h5>{{ 'printouts.meritList.generatingMeritList' | translate }}</h5>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div *ngIf="meritList$ | async as meritList">
+		<div *ngIf="!meritList.studentsResults?.length; else showMeritList" class="animated bounceInLeft">
+			<div class="box box-widget">
+				<div class="box-body">
+					<h4 class="text-center">{{ 'printouts.meritList.noData' | translate }}</h4>
+				</div>
+			</div>
+		</div>
+
+		<ng-template #showMeritList>
+			<div class="animated bounceInUp">
+				<app-olevel-merit-list-options (optionsFormChanges)="updateSelectedOptions($event)"></app-olevel-merit-list-options>
+
+				<div class="row">
+					<div class="col-12">
+						<button class="btn btn-dark btn-sm d-none d-md-block pull-right mb-2"
+								[useExistingCss]="true"
+								styleSheetFile="assets/css/print_landscape.css"
+								printSectionId="print-section"
+								[printTitle]="'printouts.meritList.title' | translate"
+								[printStyle]="{ '@page': { margin: '.3cm !important' } }"
+								ngxPrint>
+							<i class="bi bi-printer"></i> {{ 'common.print' | translate }}
+						</button>
+						<button class="btn btn-dark btn-sm pull-right mb-2 me-2"
+								[disabled]="downloadingMeritList"
+								(click)="downloadMeritListPdf(meritList)">
+							<i class="bi bi-download"></i> {{ 'common.download' | translate }}
+						</button>
+					</div>
+				</div>
+				<div class="box">
+					<div class="box-body" id="print-section">
+						<div class="fw-bold">
+							<app-school-details
+								[title]="(formOrYear$ | async) + ' ' + classLevel"
+								[subtitle]="('printouts.meritList.title' | translate) + ' - ' + meritListTitle">
+							</app-school-details>
+
+							<div class="table-responsive mt-15" style="font-size: 11px">
+								<table class="table table-bordered table-striped print-table">
+									<thead>
+									<tr>
+										<th *ngFor="let label of meritList.columnLabels"
+											[attr.rowspan]="meritList.subjectColumnLabels.includes(label) ? 1 : 2"
+											class="text-center">
+											{{ label | uppercase }}
+										</th>
+									</tr>
+									<tr>
+										<th class="p-0" *ngFor="let label of meritList.subjectColumnLabels">
+											<div class="d-flex flex-row justify-content-evenly result">
+												<div *ngFor="let assessmentLabel of assessmentColumnLabelsFinal">
+													{{ assessmentLabel }}
+												</div>
+											</div>
+										</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr class="no-wrap" style="font-weight: bold" *ngFor="let result of meritList.studentsResults">
+										<ng-container *ngFor="let header of meritList.columnLabels">
+											<td class="p-0">
+												<ng-container *ngIf="meritList.subjectColumnLabels.includes(header); else showHeaderValue">
+													<div class="d-flex flex-row justify-content-evenly result">
+														<div *ngFor="let assessmentLabel of assessmentColumnLabelsFinal">
+														<span [class.visibility-hidden]="!result[header] || !result[header][assessmentLabel]">
+															{{ result[header] && result[header][assessmentLabel] ? result[header][assessmentLabel] : '0' }}
+														</span>
+														</div>
+													</div>
+												</ng-container>
+												<ng-template #showHeaderValue>
+												<span class="px-2">
+													{{ result[header] }}
+												</span>
+												</ng-template>
+											</td>
+										</ng-container>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</div>
+</div>

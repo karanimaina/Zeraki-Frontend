@@ -1,0 +1,36 @@
+// .table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th {
+//     border: 1px solid #d1d3e0 !important;
+// }
+
+// .table > tbody > tr > td, .table > tbody > tr > th {
+//     // padding: 0.5rem;
+// }
+
+// .table > thead > tr > td, .table > thead > tr > th {
+//     // padding: 0.5rem;
+// }
+
+.table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th {
+    border: 2px solid rgb(0, 0, 0) !important;
+}
+
+.table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+    border: 2px solid rgb(0, 0, 0) !important;
+}
+
+.demo-checkbox{
+    label{
+        margin-bottom: 5px;
+        font-weight: normal;
+        color: #172b4cc7;
+    }
+}
+.form-group {
+    small{
+        color: #172b4cc7;
+    }
+}
+
+.fixed-top{
+    z-index: 5;
+}

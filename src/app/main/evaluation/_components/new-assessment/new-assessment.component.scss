@@ -1,0 +1,21 @@
+$zeraki-green: #43ab49; // primary color
+$transition: all 0.3s ease-in-out;
+
+.assessment-addition {
+  color: #7e8299; // .text-fade
+  transition: $transition;
+
+  &:hover {
+    color: $zeraki-green;
+    border-color: $zeraki-green !important;
+  }
+
+  &-icon {
+    $icon-size: 28px;
+
+    svg {
+      width: $icon-size;
+      height: $icon-size;
+    }
+  }
+}

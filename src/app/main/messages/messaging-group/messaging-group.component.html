@@ -1,0 +1,239 @@
+<!-- Main content -->
+<section class="content mt-config">
+	<div class="row">
+		<div class="col-12">
+
+			<div *ngIf="is_first_load && isLoadingMessageGroupInfo;then showLoader else showContent"></div>
+
+			<ng-template #showLoader>
+				<div class="box">
+					<div class="box-header">
+						<app-loader-div [height]="40"></app-loader-div>
+					</div>
+					<div class="box-body">
+						<app-loader-div [height]="250"></app-loader-div>
+					</div>
+				</div>
+			</ng-template>
+			<ng-template #showContent>
+				<div class="box">
+					<div class="box-header with-border">
+						<h5 class="box-title">
+							{{data?.message_group?.title}}
+							<span class="mt-2 ms-2 badge badge-info fs-12"
+								  [ngClass]="{'badge-success': (data?.message_group?.sms_status == 1 && data?.message_group?.all_delivered), 'badge-warning': (data?.message_group?.sms_status == 1 && !data?.message_group?.all_delivered), 'badge-info': (data?.message_group?.sms_status == 0)}">
+                            {{data?.message_group?.message_type}}
+                        </span>
+						</h5>
+						<div class="box-controls pull-right">
+							<button type="button" (click)="_location.back()" class="btn btn-dark btn-sm">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+									 class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+									<path fill-rule="evenodd"
+										  d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+								</svg>
+								{{ 'common.back' | translate }}
+							</button>
+						</div>
+					</div>
+
+					<!-- Section table headers -infomation -->
+					<div class="box-body">
+						<div class="row bb-1">
+							<div class="col-12 col-lg-9"
+								 *ngIf="data?.message_group?.subject.length > 0 || data?.message_group?.info.length > 0 || data?.message_group?.from.length > 0 || data?.message_group?.date.length > 0">
+								<div class="table-responsive">
+									<table class="table table-sm table-bordered mb-0">
+										<tbody>
+										<tr *ngIf="data?.message_group?.subject?.length > 0">
+											<th>{{ 'messages.group.subject' | translate }}</th>
+											<td>{{data?.message_group?.subject}}</td>
+										</tr>
+										<tr *ngIf="data?.message_group?.info?.length > 0">
+											<th>{{ 'messages.group.info' | translate }}</th>
+											<td>{{data?.message_group?.info}}</td>
+										</tr>
+										<tr *ngIf="data?.message_group?.from?.length > 0">
+											<th>{{ 'messages.group.sender' | translate }}</th>
+											<td>{{data?.message_group?.from}}</td>
+										</tr>
+										<tr *ngIf="data?.message_group?.date?.length > 0">
+											<th>{{ 'messages.group.date' | translate }}</th>
+											<td>{{data?.message_group?.date}}</td>
+										</tr>
+										<tr *ngIf="data?.message_group?.text?.length > 0">
+											<th>{{ 'messages.group.message' | translate }}</th>
+											<td [innerHTML]="data?.message_group?.text"></td>
+										</tr>
+										<tr *ngIf="!(data?.message_group?.sms_status == 1) && data?.message_group?.recipients >= 0">
+											<th>{{ 'messages.group.recipients' | translate }}</th>
+											<td>{{data?.message_group?.recipients}}</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="col-12 col-lg-3 mt-xs-20 mt-sm-20 mt-md-20 mt-lg-0"
+								 *ngIf="show_sms_delivery_summary_table">
+								<div class="table-responsive">
+									<table class="table table-sm table-bordered mb-0">
+										<tbody>
+										<tr *ngIf="data?.message_group?.recipients >= 0">
+											<th>{{ 'messages.group.intendedRecipients' | translate }}</th>
+											<td>{{data?.message_group?.recipients}}</td>
+										</tr>
+										<tr *ngIf="data?.message_group?.delivered >= 0">
+											<th>{{ 'messages.group.delivered' | translate }}</th>
+											<td>{{data?.message_group?.delivered}}</td>
+										</tr>
+										<tr *ngIf="data?.message_group?.failed >= 0">
+											<th>{{ 'messages.group.failed' | translate }}</th>
+											<td>{{data?.message_group?.failed}}</td>
+										</tr>
+										<tr *ngIf="data?.message_group?.sms_credits >= 0">
+											<th>{{ 'messages.group.smsCredits' | translate }}</th>
+											<td>{{data?.message_group?.sms_credits}}</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Section table content -->
+					<div *ngIf="data?.total > 0" class="box-header without-border p-20">
+
+						<div class="box-controls pull-right">
+							<button (click)="resendAllMessages()" class="btn btn-sm btn-dark waves-effect waves-light">
+								{{ 'messages.group.resendFailedMessages' | translate }}
+							</button>
+						</div>
+					</div>
+					<div class="box-body">
+						<div *ngIf="data?.total > 0">
+							<div class="table-responsive">
+								<table class="table table-bordered table-sm table-striped table-hover">
+									<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th *ngIf="data?.message_group?.is_archived"
+											scope="col">{{ 'messages.group.from' | translate }}</th>
+										<th *ngIf="data?.message_group?.students_present && !data?.message_group?.is_archived"
+											scope="col">{{ 'messages.group.admNo' | translate }}</th>
+										<th scope="col">
+										<span
+											*ngIf="data?.message_group?.is_archived">{{ 'messages.group.to' | translate }}</span>
+											<span
+												*ngIf="!data?.message_group?.is_archived">{{ 'messages.group.name' | translate }}</span>
+										</th>
+										<th *ngIf="data?.message_group?.is_archived"
+											scope="col">{{ 'messages.group.type' | translate }}</th>
+										<th *ngIf="data?.message_group?.sms_status == 1"
+											scope="col">{{ 'messages.group.status' | translate }}</th>
+										<th *ngIf="data?.message_group?.sms_status == 1"
+											scope="col">{{ 'messages.group.smsCredits' | translate }}</th>
+										<th *ngIf="data?.message_group?.sms_status == 1"
+											scope="col">{{ 'messages.group.deliveryInfo' | translate }}</th>
+										<th *ngIf="data?.message_group?.show_dates"
+											scope="col">{{ 'messages.group.date' | translate }}</th>
+										<th *ngIf="data?.message_group?.are_different_messages" scope="col"></th>
+										<th *ngIf="data?.message_group?.resendables_present"
+											scope="col">{{ 'messages.group.resend' | translate }}</th>
+									</tr>
+									</thead>
+									<tbody *ngFor="let message of data?.messages; index as i">
+									<tr [ngClass]="[isNormalTeacher ? 'cursor-auto' : 'cursor-pointer']"
+										(click)="goToStudentProfile(message)">
+										<th>{{data?.first + i}}</th>
+										<td *ngIf="data?.message_group?.is_archived"
+											class="text-capitalize">{{message.from.name}}</td>
+										<td *ngIf="data?.message_group?.students_present && !data?.message_group?.is_archived">{{message.admno}}</td>
+										<td class="text-capitalize">{{message.to.name}}</td>
+										<td *ngIf="data?.message_group?.is_archived" class="badge badge-info"
+											[ngClass]="{'badge-success': message.category.categoryid == 1, 'badge-primary': message.category.categoryid == 2, 'badge-warning': message.category.categoryid == 3}">
+											{{message.category.name}}</td>
+										<td *ngIf="data?.message_group?.sms_status == 1">
+										<span *ngIf="message.size > 0"
+											  class="badge badge-success">{{ 'messages.group.delivered' | translate }}</span>
+											<span *ngIf="!(message.size > 0)"
+												  class="badge badge-warning">{{ 'messages.group.failed' | translate }}</span>
+										</td>
+										<td *ngIf="data?.message_group?.sms_status == 1">
+											{{message.size}}
+											<span *ngIf="message.size == 1">{{ 'messages.group.credit' | translate }}</span>
+											<span
+												*ngIf="message.size > 1 || message.size == 0">{{ 'messages.group.credits' | translate }}</span>
+										</td>
+										<td *ngIf="data?.message_group?.sms_status == 1">
+											<div
+												*ngIf="message.is_sms_summary">{{ 'messages.group.smsSummaryUsage' | translate }}</div>
+											<div>{{message.delivery_info}}</div>
+										</td>
+										<td *ngIf="data?.message_group?.show_dates">{{message.date}}</td>
+										<td *ngIf="data?.message_group?.are_different_messages"
+											(click)="$event.stopPropagation()">
+											<button class="btn btn-xs btn-default"
+													(click)="message.visible = !message.visible">
+											<span
+												[hidden]="!message.visible">{{ 'messages.group.hideMessage' | translate }}</span>
+												<span
+													[hidden]="message.visible">{{ 'messages.group.viewMessage' | translate }}</span>
+											</button>
+										</td>
+										<td *ngIf="data?.message_group?.resendables_present"
+											(click)="$event.stopPropagation()">
+											<i *ngIf="message.resendable" (click)="resendMessage(message)"
+											   title="{{ 'messages.group.resendMessage' | translate }}">
+												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+													 fill="currentColor" class="bi bi-send-exclamation" viewBox="0 0 16 16">
+													<path
+														d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855a.75.75 0 0 0-.124 1.329l4.995 3.178 1.531 2.406a.5.5 0 0 0 .844-.536L6.637 10.07l7.494-7.494-1.895 4.738a.5.5 0 1 0 .928.372l2.8-7Zm-2.54 1.183L5.93 9.363 1.591 6.602l11.833-4.733Z"/>
+													<path
+														d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1.5a.5.5 0 0 1-1 0V11a.5.5 0 0 1 1 0Zm0 3a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Z"/>
+												</svg>
+											</i>
+										</td>
+									</tr>
+									<tr *ngIf="!(data?.message_group?.text?.length > 0) && message.text.length > 0 && message.visible">
+										<td style="border-top: 0"></td>
+										<td colspan='7' style="border-top: 0; border-bottom: 0">
+											<span class="fw-bolder">{{ 'messages.group.message' | translate }}</span>
+											<div [innerHTML]="message.text" style="white-space: pre-wrap"
+												 class="phone-wrap my-2"></div>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="d-flex justify-content-end">
+								<ul class="pagination pagination-sm mb-0">
+									<li class="page-item text-sm mt-1 me-1">
+										<!--{{data?.first + " - " + data?.last+ " of " + data?.total}}-->
+										{{data?.first | number: '0.0-0'}} - {{ (+(data?.last)-1) |number:'0.0-0' }} of {{ data?.total |number:'0.0-0'}}
+									</li>
+									<li class="page-item" [ngClass]="{'disabled': !data?.previous}">
+										<a class="page-link" (click)="previousPage()" aria-label="Previous">
+											<span aria-hidden="true">&laquo;</span>
+										</a>
+									</li>
+									<li class="page-item" [ngClass]="{'disabled': !data?.next}">
+										<a class="page-link" (click)="nextPage()" aria-label="Next">
+											<span aria-hidden="true">&raquo;</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div *ngIf="data?.total == 0" class="pt-20">
+							<h3>
+								{{ 'messages.group.noMessages' | translate }}
+							</h3>
+						</div>
+					</div>
+				</div>
+			</ng-template>
+
+		</div>
+	</div>
+</section>

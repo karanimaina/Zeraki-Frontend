@@ -1,0 +1,114 @@
+<button type="button" class="waves-effect waves-light btn btn-success btn-sm mx-1" data-bs-toggle="modal"
+  [attr.data-bs-target]="'#region-update-modal' + region?.regionId" (click)="prefillUpdateForm()">
+  <i class="bi bi-pen"></i>
+</button>
+
+<div class="modal fade" [id]="'region-update-modal' + region?.regionId" data-bs-backdrop="static" data-bs-keyboard="false"
+  tabindex="-1" aria-labelledby="region-update-modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-3 text-body">
+      <div class="modal-header">
+        <h5 class="modal-" id="extra-act-update-modalLabel">
+          {{'litemore.managers.regions.components.regionUpdateModal.updateRegion'|translate}}
+        </h5>
+        <button type="button" [id]="'btn-region-update-modal-' + region?.regionId" class="btn-close" data-bs-dismiss="modal"
+          aria-label="Close">
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="updateForm" (ngSubmit)="onUpdateRegionSubmit()">
+          <div class="row">
+            <!-- name -->
+            <div class="col-12">
+              <div class="form-group mb-3">
+                <label for="name" class="form-label">
+                  {{ 'common.name' | translate }}
+                  <span *ngIf="name?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                </label>
+                <input formControlName="name" id="name" type="text" class="form-control"
+                  placeholder="{{ 'common.name' | translate }}" name="a_name"
+                  [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(name!) }" required>
+                <ng-container *ngIf="fieldHasErrors(name!)">
+                  <small *ngIf="name?.errors?.['required']" class="text-danger">
+                    {{ 'common.formErrors.requiredError' | translate }}
+                  </small>
+                </ng-container>
+              </div>
+            </div>
+
+						<div class="form-group">
+              <label class="form-label">
+                Country
+                <span *ngIf="countryId?.hasValidator(requiredValidator)" class="text-danger">*</span>
+              </label>
+              <ng-select
+                [items]="countries"
+                placeholder="{{'litemore.managers.regions.components.regionUpdateModal.selectCountry'|translate}}"
+                formControlName="countryId"
+                bindValue="countryId"
+                bindLabel="name">
+              </ng-select>
+              <ng-container *ngIf="fieldHasErrors(countryId!)">
+                <small *ngIf="countryId?.errors?.['required']" class="text-danger">
+                  {{ 'common.formErrors.requiredError' | translate }}
+                </small>
+              </ng-container>
+            </div>
+
+            <!-- regional manager -->
+            <div class="form-group">
+              <label class="form-label">
+				  {{'litemore.managers.regions.components.regionUpdateModal.regionalManager'|translate}}
+                <span *ngIf="regionalManagerId?.hasValidator(requiredValidator)" class="text-danger">*</span>
+              </label>
+              <ng-select
+                [items]="regionalManagers"
+                placeholder="{{'litemore.managers.regions.components.regionUpdateModal.selectRegionalManager'|translate}}"
+                formControlName="regionalManagerId"
+                bindValue="userId"
+                bindLabel="name">
+              </ng-select>
+              <ng-container *ngIf="fieldHasErrors(regionalManagerId!)">
+                <small *ngIf="regionalManagerId?.errors?.['required']" class="text-danger">
+                  {{ 'common.formErrors.requiredError' | translate }}
+                </small>
+              </ng-container>
+            </div>
+
+            <!-- customer care number -->
+            <div class="col-12">
+              <div class="form-group mb-3">
+                <label for="customerCareNumber" class="form-label">
+                  {{ 'common.customerCareNumber' | translate }}
+                  <span *ngIf="customerCareNumber?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                </label>
+                <input formControlName="customerCareNumber" id="customerCareNumber" type="text" class="form-control"
+                  placeholder="{{ 'common.customerCareNumber' | translate }}" customerCareNumber="a_customerCareNumber"
+                  [ngClass]="{ 'b-1 border-danger rounded': fieldHasErrors(customerCareNumber!) }" required>
+                <ng-container *ngIf="fieldHasErrors(customerCareNumber!)">
+                  <small *ngIf="customerCareNumber?.errors?.['required']" class="text-danger">
+                    {{ 'common.formErrors.requiredError' | translate }}
+                  </small>
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- actions -->
+            <div class="modal-footer d-flex justify-content-center">
+              <button type="submit" class="btn btn-primary" [disabled]="isUpdatingRegion">
+                <span *ngIf="isUpdatingRegion" class="spinner-border spinner-border-sm" role="status" aria-hidden="true">
+                </span>
+                <span [class.ms-2]="isUpdatingRegion">{{ 'common.submit' | translate }}</span>
+              </button>
+
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">
+                <span>{{ 'common.cancel' | translate }}</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

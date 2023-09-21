@@ -1,0 +1,101 @@
+<!-- FEEDBACK CHAT BOX -->
+<div id="tel-box-body">
+
+    <div class="chat-box">
+            <div class="chat-box-header p-15 d-flex">
+                <!-- <a href="#" class="btn btn-circle btn-primary-light h-50 w-50 rounded-circle l-h-45">
+                  <img src="../../../../assets/img/logos/z-ws-logo.jpg" class="avatar rounded-circle" alt="z-ws-logo">
+                  <span class="badge badge-dot badge-primary badge-place"></span>
+                </a> -->
+                <!-- <div>
+                  <a href="#" class="btn btn-circle btn-app">
+                      <span class="badge badge-sm badge-dot badge-primary"></span>
+                      <img src="../../../../assets/img/logos/z-ws-logo.jpg" height="50" width="50" class="rounded-circle" alt="z-ws-logo">
+                  </a>
+                </div> -->
+                <div class="text-start flex-grow-1 ms-2">
+                    <div class="text-white fs-22">
+                        <i class="me-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-outbound" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V1.707l-4.146 4.147a.5.5 0 0 1-.708-.708L14.293 1H11.5a.5.5 0 0 1-.5-.5z"/>
+                            </svg>
+                        </i>
+                        {{ 'shared.telDialog.headerText' | translate }}
+                    </div>
+                    <!-- <div>
+                        <span class="text-white fs-12">Always active 😊</span>
+                    </div> -->
+                </div>
+                <div class="chat-box-toggle pull-right">
+                    <i id="tel-box-toggle">
+                      <span class="fs-14 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                      </span>
+                    </i>
+                </div>
+            </div>
+            <div class="tel-box-body overflow-auto">
+                <div class="chat-box-overlay">
+                </div>
+                <div class="tel-logs overflow-auto">
+                    <div class="chat-msg user">
+                        <!-- <div class="d-flex align-items-center">
+                            <span class="msg-avatar">
+                                <img src="../../../../assets/img/avatar/1.jpg" class="avatar avatar-lg">
+                            </span>
+                            <div class="mx-10">
+                                <a href="#" class="text-dark hover-primary fw-bold">Zeraki</a>
+                                <p class="text-muted fs-12 mb-0">2 Hours</p>
+                            </div>
+                        </div> -->
+                        <div class="cm-msg-text">
+                          <p>
+                            {{ 'shared.telDialog.message.greetings' | translate }} 👋
+                          </p>
+                          <p [innerHTML]="notification_item.msg_short">
+                            <!-- Hit the button below to reach out to us directly on {{userInit?.customer_care_number}} -->
+                            <!-- {{ 'shared.telDialog.message.body' | translate:{contactNumber:userInit?.customer_care_number} }} -->
+                            
+                          </p>
+                        </div>
+                    </div>
+                    <!-- <div class="chat-msg self">
+                        <div class="d-flex align-items-center justify-content-end">
+                            <div class="mx-10">
+                                <a href="#" class="text-dark hover-primary fw-bold">You</a>
+                                <p class="text-muted fs-12 mb-0">3 minutes</p>
+                            </div>
+                            <span class="msg-avatar">
+                                <img src="../../../../assets/img/avatar/7.jpg" class="avatar avatar-lg">
+                            </span>
+                        </div>
+                        <div class="cm-msg-text">
+                          ...
+                        </div>
+                    </div> -->
+                    <!-- <div class="chat-msg user">
+                        <div class="d-flex align-items-center">
+                            <span class="msg-avatar">
+                                <img src="../images/avatar/2.jpg" class="avatar avatar-lg">
+                            </span>
+                            <div class="mx-10">
+                                <a href="#" class="text-dark hover-primary fw-bold">Mayra Sibley</a>
+                                <p class="text-muted fs-12 mb-0">40 seconds</p>
+                            </div>
+                        </div>
+                        <div class="cm-msg-text">
+                            Nice to meet you Anne.<br>How can i help you?
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="chat-input d-flex justify-content-center py-3">
+                <a href="tel:{{userInit?.customer_care_number}}" target="_blank" id="tel-input" class="pb-1 text-center" style="padding: 0.2rem !important;">
+                    <!-- <span class="icon-Call1 fs-22"></span> -->
+                    <span class="fs-16">{{ 'shared.telDialog.callBtn' | translate }}</span>
+                </a>
+            </div>
+    </div>
+</div>

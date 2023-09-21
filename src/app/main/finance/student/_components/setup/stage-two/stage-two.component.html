@@ -1,0 +1,49 @@
+<div class="title">
+    Create payment plan 
+    <br class="d-sm-none">
+    <span class="stage-label">How often would you like to make payments</span>
+</div>
+<app-submit-form [formGroup]="frequencyForm" (onSubmit)="addFrequency()">
+
+<div class="form-group">
+    <label class="form-label" for="expected-pay">Expected Pay (Per Term) *</label>
+    <input class="form-control" type="text" id="expected-pay" placeholder="0"
+        [ngClass]="{ 'is-invalid': (frequencyForm.isSubmitted && expectedPay?.invalid)}"
+        formControlName="expectedPay" required />
+</div>
+<div class="form-group" style="margin-bottom: 1em;">
+    <label class="form-label"></label>
+    <app-field-errors class="form-error" [control]="expectedPay!" [label]="'Expected Pay'">
+    </app-field-errors>
+</div>
+<div class="form-group">
+    <label class="form-label" for="frequency-edit">Frequency *</label>
+    <ng-select id="frequency-edit" placeholder="Select Frequency" class="form-control-dropdown"
+        [ngClass]="{ 'is-invalid': (frequencyForm.isSubmitted && frequency?.invalid)}" [items]="frequencyRanges"
+        [clearable]="false" formControlName="frequency" bindLabel="name" bindValue="value" required></ng-select>
+</div>
+<div class="form-group" style="margin-bottom: 1em;">
+    <label class="form-label"></label>
+    <app-field-errors class="form-error" [control]="frequency!" [label]="'Payment Frequency'">
+    </app-field-errors>
+</div>
+<div>
+    <button type="button" class="btn btn-outline btn-success" (click)="cancel()">
+        Previous
+    </button>
+    <button type="submit" [disabled]="saving" class="btn btn-outline btn-success pull-right">
+        <div *ngIf="saving; else save">
+            <div class="spinner-border me-2" role="status" style="max-width: 18px; max-height: 18px;">
+            </div>
+        </div>
+        <ng-template #save>
+            Next
+            <i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                </svg>
+            </i>
+        </ng-template>
+    </button>
+</div>
+</app-submit-form>

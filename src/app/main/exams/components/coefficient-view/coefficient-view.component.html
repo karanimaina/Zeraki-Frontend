@@ -1,0 +1,115 @@
+<div class="box">
+	<div class="box-body">
+		<form *ngIf="!loadingMajors" [formGroup]="updateMajorForm" class="form-group">
+			<app-ng-select [label]= "schoolTypeData?.majorLabel||''"
+						   formControlName="major"
+						   [items]="majors"
+						   bindLabel="name">
+			</app-ng-select>
+		</form>
+		<div  *ngIf="loadingMajors" >
+			<app-loader-div [height]="40"></app-loader-div>
+		</div>
+	</div>
+</div>
+<div class="box">
+	<div class="box-header">
+		<span class="fw-bold" *ngIf="selectedMajor">{{ 'exams.coefficientSystem.pageTitle' | translate: {selectedMajorName: selectedMajor.name } }}</span>
+	</div>
+	<div class="box-body">
+		<div *ngIf="!loadingPresets">
+			<form [formGroup]="editCoefficientsForm">
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered mb-0">
+						<thead>
+						<tr>
+							<th class="w-3">#</th>
+							<th style="width: 19%">{{ 'exams.coefficientSystem.subjects' | translate }}</th>
+							<th *ngFor="let form of coefficientSystem.forms">
+								{{ (schoolTypeData?.formoryear | formOrYear) +' '+ form.form }}
+							</th>
+							<th class="text-center" style="width: 18%">{{ 'common.action' | translate }}</th>
+						</tr>
+						</thead>
+						<tbody formArrayName="coefficientRows">
+
+						<tr *ngFor="let subjectCoefficient of subjectCoefficients; let coefficientIndex = index">
+							<ng-container [formGroupName]="coefficientIndex">
+								<td>{{ coefficientIndex + 1 }}</td>
+								<td>{{ subjectCoefficient.subjectName }}</td>
+
+								<ng-container *ngIf="!editableRows.includes(subjectCoefficient.subjectId)">
+									<td *ngFor="let form of coefficientSystem.forms">
+										{{ subjectCoefficient.classWeight[form.form] }}
+									</td>
+									<td class="text-center">
+										<button class="btn btn-xs btn-info p-1 px-2"
+												(click)="editRow(subjectCoefficient.subjectId)">
+											<i class="bi bi-pencil"></i>
+											{{ 'common.edit' | translate }}
+										</button>
+									</td>
+								</ng-container>
+
+
+								<ng-container *ngIf="editableRows.includes(subjectCoefficient.subjectId)">
+									<ng-container formArrayName="weights">
+										<td *ngFor="let form of coefficientSystem.forms; let formIndex = index" >
+											<ng-container [formGroupName]="formIndex">
+												<app-input type="number" formControlName="weight"></app-input>
+											</ng-container>
+										</td>
+									</ng-container>
+									<td class="text-center">
+										<div>
+											<button class="btn btn-xs btn-light p-1 px-2 me-2"
+													(click)="editRow(subjectCoefficient.subjectId)">
+												<i class="bi bi-x-circle"></i>
+												{{ 'common.cancel' | translate }}
+											</button>
+											<button class="btn btn-xs btn-primary p-1 px-2 w-70"
+													[ngClass]="{'pointer-events-none': savingRow[subjectCoefficient.subjectId]}"
+													(click)="saveSubjectWeightPresetChanges(subjectCoefficient, coefficientIndex)">
+												<svg *ngIf="savingRow[subjectCoefficient.subjectId]" width="18" height="18" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff">
+													<g fill="none" fill-rule="evenodd">
+														<g transform="translate(1 1)" stroke-width="2">
+															<circle stroke-opacity=".5" cx="18" cy="18" r="18"/>
+															<path d="M36 18c0-9.94-8.06-18-18-18">
+																<animateTransform
+																	attributeName="transform"
+																	type="rotate"
+																	from="0 18 18"
+																	to="360 18 18"
+																	dur="1s"
+																	repeatCount="indefinite"/>
+															</path>
+														</g>
+													</g>
+												</svg>
+												<ng-container *ngIf="!savingRow[subjectCoefficient.subjectId]">
+													<i class="bi bi-check-circle"></i>
+													{{ 'common.save' | translate }}
+												</ng-container>
+											</button>
+										</div>
+									</td>
+								</ng-container>
+							</ng-container>
+						</tr>
+
+						<tr>
+							<td colspan="2" class="text-center fw-bold">{{ 'common.totalPoints' | translate }}</td>
+							<td *ngFor="let form of coefficientSystem.forms">
+								<span class="fw-bold">{{ form.totalWeight }}</span>
+							</td>
+							<td></td>
+						</tbody>
+					</table>
+				</div>
+			</form>
+		</div>
+		<div *ngIf="loadingPresets">
+			<app-loader-div [height]="300"></app-loader-div>
+		</div>
+	</div>
+</div>

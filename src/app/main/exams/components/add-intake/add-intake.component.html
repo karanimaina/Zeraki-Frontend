@@ -1,0 +1,72 @@
+<!-- Edit Top Nav -->
+<app-edit-top-nav></app-edit-top-nav>
+
+
+<!-- Main content -->
+<section class="content mt-config">
+    <div>
+        <!-- <p class="fw-bold">
+            {{selectedExam.examname_display}}
+        </p>  -->
+        <div class="box">
+            <div class="box-header with-border">
+                <h4 class="box-title fw-bold text-capitalize">{{"exams.addIntake.headerH4"|
+                    translate:{formoryear:schoolData?.formoryear} }}</h4>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" *ngIf="examForms.length>0">
+                <form #intakeForm="ngForm" class="row" (ngSubmit)="addIntake(intakeForm)">
+                    <div class="col-12">
+                        <div class="fw-600">{{'exams.addIntake.intakeFormTitle'| translate:{formoryear: schoolData?.formoryear?.includes('Form') ? fms : schoolData?.formoryear?.includes('Senior') ? seniors : schoolData?.formoryear?.includes('Year') ? years : classes } }}</div>
+
+                        <table class="table table-sm table-striped ">
+                            <tbody>
+                                <tr *ngFor="let form of examForms; let i = index">
+                                    <td style="width: 50px;">
+                                        <input type="checkbox" name="selected{{i}}" [(ngModel)]="form.selected"
+                                            id="custom_checkbox_{{i}}" class="filled-in chk-col-info">
+                                        <label for="custom_checkbox_{{i}}"></label>
+                                    </td>
+                                    <td class="text-capitalize">{{ "exams.addIntake.intakeFormIntakes" | translate:{formoryear:schoolData?.formoryear,form:form.form} }}</td>
+                                    <!-- <td>{{schoolData?.formoryear +' '+form.form}}</td> -->
+                                    <td>
+                                        <input type="number" class="form-control"
+                                               [min]="form.selected ? this.schoolData?.minSubjects : null!"
+                                            placeholder="{{'exams.addIntake.intakeFormPlaceHolder'|translate}}" name="min{{i}}"
+                                            [(ngModel)]="form.min" #min="ngModel" [required]="form.selected" required
+                                            [ngClass]="{'is-invalid':(intakeForm.submitted && min.invalid)}">
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="form-group mb-0">
+                        <button (click)="onCloseAddIntakeView()"type="button"
+                            class="btn btn-sm waves-effect waves-light btn-light text-start">
+                            <i class="fa fa-arrow-left"></i>
+                            {{"exams.addIntake.backBtn"| translate}}
+                        </button>
+                        <button class="btn btn-sm btn-info waves-effect waves-light pull-right" [disabled]="loading">
+                            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            {{loading ? ("exams.editExams.btnTextAdding"| translate) : ("exams.editExams.btnTextAddSelected"| translate)}}
+                            <i *ngIf="!loading" class="fa fa-check-circle-o"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="box-body" *ngIf="examForms.length==0">
+                <p class="mb-0">
+                    {{"exams.addIntake.allIntakesTakingExamMsg" | translate:{ formoryear:schoolData?.formoryear} }}
+                </p>
+                <button (click)="onCloseAddIntakeView()"type="button"
+                        class="btn btn-sm waves-effect waves-light btn-light text-start mt-3">
+                    <i class="fa fa-arrow-left"></i>
+                    {{"exams.addIntake.backBtn"| translate}}
+                </button>
+            </div>
+
+        </div>
+    </div>
+</section>

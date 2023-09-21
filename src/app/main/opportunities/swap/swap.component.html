@@ -1,0 +1,281 @@
+<section class="content mt-config">
+    <div *ngIf="!addSwap" class="row">
+        <div class="col-12">
+            <!-- <div class="pull-right mb-20">
+                <button class="btn btn-sm btn-dark waves-effect waves-light" type="button" (click)="addSwap=true">
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                    </i>
+                    Add
+                </button>
+            </div> -->
+            <div class="box">
+                <div class="box-header with-border">
+                    <h4 class="box-title d-none d-md-inline-block">{{ 'opportunities.swap.title' | translate }}</h4>
+                    <div class="box-title d-md-none">
+                        <div class="lookup lookup-sm lookup-right mx-20">
+                            <input type="text" name="s" [placeholder]="'opportunities.swap.searchPlaceholderTextMobile' | translate" class="bg-secondary-light" #input>
+                        </div>
+                    </div>
+                    <div class="box-controls pull-right">
+                        <div class="box-header-actions">
+                            <div class="lookup lookup-sm lookup-right mx-20 d-none d-md-inline-block">
+                                <input matInput (keyup.enter)="applyFilter($event)" type="text" name="s" [placeholder]="'opportunities.swap.searchPlaceholderText' | translate" class="bg-secondary-light" #input>
+                            </div>
+                            <!-- <button class="btn btn-sm btn-info waves-effect waves-light mx-10" type="button" routerLink="../match">
+                                <i>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-right" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z"/>
+                                    </svg>
+                                </i>
+                                Match
+                            </button> -->
+                            <div class="mx-10">
+                                <button class="btn btn-sm btn-dark waves-effect waves-light" type="button" (click)="newSwap()">
+                                    <i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                        </svg>
+                                    </i>
+                                    {{ 'opportunities.swap.addBtn' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="mb-20">
+                <button class="btn btn-sm btn-info waves-effect waves-light" type="button" routerLink="../match">
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z"/>
+                        </svg>
+                    </i>
+                    Match
+                </button>
+            </div> -->
+        </div>
+        <!-- <div *ngIf="teacherListError">
+            <div class="box div box-body">
+                <p class="mb-0">We couldn't find any vacancies</p>
+            </div>
+        </div> -->
+        <div class="col-12">
+            <div class="box">
+                <div *ngIf="dataSource?.filteredData.length > 0" class="box-body">
+                    <div class="table-responsive">
+                      <table class="table table-sm table-striped table-bordered mb-0">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col" class="text-uppercase">
+                                {{ 'opportunities.swap.tableHeaders.name' | translate }}
+                              </th>
+                              <th scope="col" class="text-uppercase">
+                                {{ 'opportunities.swap.tableHeaders.subjectCombination' | translate }}
+                              </th>
+                              <th scope="col" class="text-uppercase">
+                                {{ 'opportunities.swap.tableHeaders.school' | translate }}
+                              </th>
+                              <th scope="col" class="text-uppercase">
+                                {{ 'opportunities.swap.tableHeaders.from' | translate }}
+                              </th>
+                              <th scope="col" class="text-uppercase">
+                                {{ 'opportunities.swap.tableHeaders.to' | translate }}
+                              </th>
+                              <th scope="col" class="text-uppercase">
+                                {{ 'opportunities.swap.tableHeaders.datePosted' | translate }}
+                              </th>
+                              <th scope="col" class="text-center" style="width: 22%;">
+                                {{ 'opportunities.swap.tableHeaders.actions' | translate }}
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let t of dataSource?.filteredData; first as isFirst;index as i">
+                                <th scope="row">{{ i+1 }}</th>
+                                <td>
+                                    <span class="text-dark">{{t?.createdBy}}</span>
+                                    <span *ngIf="t?.displayUploaderContact" class="text-fade d-block">{{t?.uploaderPhone}}</span>
+                                </td>
+                                <td>{{t.subject1Name}}/{{t.subject2Name}}</td>
+                                <td>{{t.schoolFrom}}</td>
+                                <td class="bg-success-light">
+                                    <span class="text-dark fw-600 fs-16">{{t.countyFromName}}</span>
+                                    <span class="text-fade d-block">{{t.subCountyFromName}}</span>
+                                </td>
+                                <td class="bg-info-light">
+                                    <span class="text-dark fw-600 fs-16">{{t.countyToName}}</span>
+                                    <span class="text-fade d-block">{{t.subCountyToName}}</span>
+                                </td>
+                                <td>{{t.postedOn | date}}</td>
+                                <td class="text-center">
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#view-swap" (click)="swap=t" class="waves-effect waves-light btn btn-secondary btn-sm mx-1">
+                                        <i>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                            </svg>
+                                        </i>
+                                        <span class="ms-1">{{ 'opportunities.swap.application.viewBtn' | translate }}</span>
+                                    </button>
+                                    <button *ngIf="t.canEdit" type="button" class="waves-effect waves-light btn btn-secondary btn-sm mx-1" (click)="editSwap(t)">
+                                        <i>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                            </svg>
+                                        </i>
+                                        <span class="ms-1">{{ 'opportunities.swap.application.editBtn' | translate }}</span>
+                                    </button>
+                                    <button *ngIf="t.canEdit" type="button" class="waves-effect waves-light btn btn-danger btn-sm mx-1" (click)="deleteSwap(t)">
+                                        <i>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                            </svg>
+                                        </i>
+                                        <span class="ms-1">
+                                          {{ 'opportunities.swap.application.deleteBtn' | translate }}
+                                        </span>
+                                    </button>
+                                </td>
+                                <!-- <td class="text-center">
+                                    <button type="button" class="waves-effect waves-light btn btn-secondary btn-sm" (click)="editSwap(t)">
+                                        <i>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                            </svg>
+                                        </i>
+                                        <span class="ms-1">Edit</span>
+                                    </button>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="waves-effect waves-light btn btn-danger btn-sm" (click)="deleteSwap(t)">
+                                        <i>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                            </svg>
+                                        </i>
+                                        <span class="ms-1">Delete</span>
+                                    </button>
+                                </td> -->
+                            </tr>
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div *ngIf="dataSource?.filteredData.length == 0" class="box-body text-center">
+                    <h4>{{ 'opportunities.swap.emptyList' | translate }}</h4>
+                </div>
+                <div class="box-footer pb-0">
+                    <span *ngIf="swapsObj?.totalPages > 0">
+                        <ul class="pagination pagination-sm pull-right">
+                          <li class="page-item text-sm mt-1 me-2">{{ 'opportunities.swap.paginationInfo' | translate:{currentPage: swapsObj.currentPage, totalPages: swapsObj?.totalPages} }}</li>
+                          <li class="page-item" [ngClass]="{'disabled': swapsObj?.currentPage == 1}">
+                            <a (click)="previousPage()" class="page-link" aria-label="Previous">
+                              <span aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                                  <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+                                </svg>
+                              </span>
+                            </a>
+                          </li>
+                          <!-- <li class="page-item"><a class="page-link" href="#">1</a></li> -->
+                          <li class="page-item" [ngClass]="{'disabled': swapsObj?.currentPage == swapsObj?.totalPages}">
+                            <a (click)="nextPage()" class="page-link" aria-label="Next">
+                              <span aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                                  <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                                </svg>
+                              </span>
+                            </a>
+                          </li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="addSwap" class="row">
+        <!-- <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+            {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+        </button> -->
+        <app-add-swap 
+          [regionTo]="regionTo"
+          [categories]="categories"
+          [counter]="counter"
+          [categories_optionals]="categories_optionals"
+          [categories_technicals]="categories_technicals"
+          [swap]="swap"
+          [allsubjects]="allsubjects"
+          [regionFrom]="regionFrom" 
+          [counties]="counties" 
+          (OcloseSwap)="closeSwap($event)" 
+          (OgetSwap)="OgetSwaps($event)"
+          (OgetSubCounties)="OgetSubCounties($event)"
+          ></app-add-swap>
+
+    </div>
+
+</section>
+
+
+
+<!-- Modal Add Event -->
+<div class="modal fade none-border" id="view-swap">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><strong>{{ 'opportunities.swap.application.swapDetails.headerText' | translate }}</strong></h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="box-body">
+          <form role="form">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                    <label class="fw-bold">{{ 'opportunities.swap.application.swapDetails.from' | translate }}:</label>
+                    <div>{{swap.schoolFrom}}</div>
+                    <div>{{swap.subCountyFromName}}, {{swap.countyFromName}}</div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                    <label class="fw-bold">{{ 'opportunities.swap.application.swapDetails.to' | translate }}:</label>
+                    <div>{{swap.subCountyToName}}, {{swap.countyToName}}</div>
+                    </div>
+                </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="fw-bold">{{ 'opportunities.swap.application.swapDetails.subjectCombination' | translate }}</label>
+                  <div>{{swap.subject1Name}}/{{swap.subject2Name}}</div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <div class="fw-bold">{{ 'opportunities.swap.application.swapDetails.contactDetails' | translate }}</div>
+                    <div>{{swap.createdBy}}</div>
+                    <div *ngIf="swap.displayUploaderContact">{{swap.uploaderPhone}}</div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer text-end">
+          <button type="button" class="btn btn-sm btn-danger me-2" data-bs-dismiss="modal">
+            {{ 'opportunities.swap.application.swapDetails.closeBtn' | translate }}
+          </button>
+          <!-- <button type="button" class="btn btn-sm btn-info save-category" data-bs-dismiss="modal">Save</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END MODAL -->
+
+
+
+
+

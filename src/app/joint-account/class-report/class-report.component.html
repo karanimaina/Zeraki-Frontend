@@ -1,0 +1,583 @@
+<div>
+    <div class="row" *ngIf="no_data && !itemsFound">
+        <div class="col-md-7 text-center m-t-md" style="float: none; margin: 0 auto;">
+            <div class="box text-left">
+                <div class="alert alert-success">
+                    <i class="fa fa-bolt"></i> No Reports
+                </div>
+                <div class="box-body">
+                    <div style="padding-bottom: 16px">No reports found</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="row mb-10" [hidden]="no_data">
+            <div class="col-md-6">
+                <button class="btn btn-secondary waves-effect waves-light  btn-sm" (click)="hidePrintFormat()">Close
+                    Print Format
+                </button>
+            </div>
+            <div class="col-sm-6 text-end">
+                <button class="btn btn-primary waves-effect waves-light btn-sm hidden-xs"
+                    (click)="printPage('printthis')">Print
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12" style="float: none; margin: 0 auto;">
+            <div class="box">
+                <div class="box-header hbuilt text-left">
+                    <div class="box-title">Options</div>
+                </div>
+                <div class="box-body text-left">
+                    <div class="col-sm-12 col-md-9 no-padding" style="float: none; margin: 0 auto;">
+                        <div class="col-sm-12 col-md-12" style="padding-left: 0; padding-right: 0">
+                            <div class="col-md-6 form-parallel-padding-left">
+                                <label class="fw-600">Top Students</label>
+                                <div class="col-xs-12 col-md-12 no-padding">
+                                    <input type="checkbox" id="md_checkbox_23" class="filled-in chk-col-success"
+                                        name="subjectTopStudent" [checked]="show_top_students.subjects"
+                                        [(ngModel)]="show_top_students.subjects" (change)="onTopStudentsSubjectsChange()">
+                                    <label for="md_checkbox_23">Show subjects' top students</label>
+                                </div>
+                                <div class="col-xs-12 col-md-12" style="padding: 8px 0 0 0">
+                                    <input type="checkbox" id="md_checkbox_24" class="filled-in chk-col-success"
+                                        name="subjectTopOnly" [checked]="show_top_students.only"
+                                        [(ngModel)]="show_top_students.only" (change)="onTopStudentsOnlyChange()">
+                                    <label for="md_checkbox_24">Show top students only</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-parallel-padding-right" *ngIf="classData.kcse_compare">
+                                <label class="control-label" for="term">KCSE Year To Compare With</label>
+                                <select style="margin: 0" class="form-control m-b" (change)="onKcseMeanChange()"
+                                    name="kcse_mean" id="kcse_mean" [(ngModel)]="selected_kcse_mean.item">>
+                                    <!-- ng-options="kcse_mean as kcse_mean.year for kcse_mean of classData.kcse_means_previous" -->
+                                    <option value="" style="color: #999">Select KCSE Year</option>
+                                    <option
+                                        *ngFor="let kcse_mean as kcse_mean.year for kcse_mean of classData.kcse_means_previous"
+                                        [value]="kcse_mean">{{kcse_mean}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="printthis">
+        <div class="zreport-page" child="zreportcontent">
+            <div class="zreportcontent" style="font-weight: bold;color: black">
+                <div class="row" style="font-size: 12pt;margin: 0;padding: 0">
+                    <div class="col-sm-12 col-md-9"
+                        style="float: none; margin: 0 auto;padding-left: 0;padding-right: 0">
+                        <div class="row" style="padding: 0">
+                            <div class="col-sm-3 no-padding">
+                                <img class="pull-left" *ngIf="school_profile?.logo !== undefined"
+                                    style="height: 120px;width: auto;margin-bottom: 0.2cm"
+                                    src="{{school_profile?.logo}}">
+                            </div>
+                            <div class="col-sm-6 text-center" style="padding: 0 15px 0 15px">
+                                <h2 class="font-bold" style="margin-top: 0">{{school_profile?.name}}</h2>
+                                <h4 class="font-bold">{{classData?.examname}}</h4>
+                                <h4 class="font-bold">
+                                    {{classData?.classname}}
+                                </h4>
+                            </div>
+                            <div class="col-sm-3 text-right no-padding">
+                                <div *ngIf="school_profile?.address?.trim().length > 0" class="font-bold">
+                                    {{school_profile?.address}}</div>
+                                <div *ngIf="school_profile?.phone?.trim().length > 0" class="font-bold">
+                                    {{school_profile?.phone}}</div>
+                                <div *ngIf="school_profile?.email?.trim().length > 0" class="font-bold"
+                                    style="padding-bottom: 0.8cm">{{school_profile?.email}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="font-size: 12pt;margin: 0;padding: 0" *ngIf="show_top_students.only">
+                    <div class="col-sm-12 col-md-9"
+                        style="float: none; margin: 0 auto;padding-left: 0;padding-right: 0;padding-top: 0">
+                        <div class="col-sm-12 col-xs-12 col-md-12 print-text-white"
+                            style="padding: 5px;margin: 0 0 0 0;background: grey;">
+                            <label style="padding: 0;margin: 0">{{classData?.classname}} - {{classData?.examname}} -
+                                Top Students</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="font-size: 12pt;margin: 0;padding: 0" *ngIf="!show_top_students.only">
+                    <div class="col-sm-12 col-md-9"
+                        style="float: none; margin: 0 auto;padding-left: 0;padding-right: 0;padding-top: 0">
+                        <div class="col-sm-12 col-xs-12 col-md-12 print-text-white"
+                            style="padding: 5px;margin: 0 0 16px 0;background: grey;">
+                            <label style="padding: 0;margin: 0">{{classData?.classname}} - {{classData?.examname}} -
+                                Report
+                                <span *ngIf="selected_kcse_mean.item != null">(Compared to KCSE
+                                    {{selected_kcse_mean?.item.year}})</span></label>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-center ">
+                                <div class="row" style="overflow: hidden;">
+                                    <div class="col-6" *ngIf="classData.aggregate_stats.first != undefined">
+                                        <div class="small"> {{classData.aggregate_stats.first.name}} </div>
+                                        <h3 class="no-margins font-extra-bold text-success">
+                                            {{classData.aggregate_stats.first.value}}<span
+                                                *ngIf="classData.aggregate_stats.first.suffix != undefined">{{classData.aggregate_stats.first.suffix}}</span>
+                                        </h3>
+                                        <div class="fw-600" *ngIf="classData.aggregate_stats.first.change != undefined">
+                                            {{classData.aggregate_stats.first.change}}
+                                            <i *ngIf="classData.aggregate_stats.first.change > 0"
+                                                class="fa fa-level-up text-success"></i>
+                                            <i *ngIf="classData.aggregate_stats.first.change < 0"
+                                                class="fa fa-level-down text-warning"></i>
+                                            <i *ngIf="classData.aggregate_stats.first.change == 0"
+                                                class="fa fa-long-arrow-right text-info"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-6" *ngIf="classData.aggregate_stats.second != undefined">
+                                        <div class="small"> {{classData.aggregate_stats.second.name}} </div>
+                                        <h3 class="no-margins font-extra-bold text-success">
+                                            {{classData.aggregate_stats.second.value}}<span
+                                                *ngIf="classData.aggregate_stats.second.suffix != undefined">{{classData.aggregate_stats.second.suffix}}</span>
+                                        </h3>
+                                        <div class="fw-600"
+                                            *ngIf="classData.aggregate_stats.second.change != undefined">
+                                            {{classData.aggregate_stats.second.change}}
+                                            <i *ngIf="classData.aggregate_stats.second.change > 0"
+                                                class="fa fa-level-up text-success"></i>
+                                            <i *ngIf="classData.aggregate_stats.second.change < 0"
+                                                class="fa fa-level-down text-warning"></i>
+                                            <i *ngIf="classData.aggregate_stats.second.change == 0"
+                                                class="fa fa-long-arrow-right text-info"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-10 pt-10" style="border-top: 1px solid #e4e5e7">
+                                    <div class="col-6">
+                                        <div class="small"> Mean Grade </div>
+                                        <h3 class="no-margins font-extra-bold">
+                                            {{classData.aggregate_stats.mean_grade}}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6  text-center">
+                                <div style="display: inline-block" class="text-center small"> <i
+                                        class="fa fa-bar-chart-o"></i>
+                                    Performance of schools </div>
+                                <highcharts-chart style="width: 100%; display: block" *ngIf="isHighcharts"
+                                    [Highcharts]="HighchartStreams" [options]="highchart_stream_comparison">
+                                </highcharts-chart>
+
+                            </div>
+                            <div class="col-3 text-center text-muted">
+                                <div class="small"> <small>Students who sat for the exam</small> </div>
+                                <div>
+                                    <h3 class="fw-700 m-t-xl m-b-xs"> {{classData.aggregate_stats.entries}} <br>
+                                        Students </h3>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row" style="font-size: 12pt;margin: 0;padding: 0"
+                    *ngIf="!show_top_students.only && classData?.subjects?.list?.length > 0">
+                    <div class="col-sm-12 col-md-9"
+                        style="float: none; margin: 0 auto;padding-left: 0;padding-right: 0">
+                        <div style="padding: 0 0 0 0">
+                            <div class="col-sm-12 col-xs-12 col-md-12 print-text-white"
+                                style="padding: 5px;margin: 0 0 16px 0;background: grey;">
+                                <label style="padding: 0;margin: 0">Subject Statistics</label>
+                            </div>
+                            <table class="table table-bordered table-striped table-condensed"
+                                style="padding-bottom: 0px;margin-bottom: 0px;border: 2px solid black">
+                                <thead>
+                                    <tr>
+                                        <th style="border: 2px solid black">
+                                            <div class="zreport-table-contents"
+                                                style="display: block;white-space: nowrap">
+                                                <span>Name</span>
+                                                <span *ngIf="sortdata.type == 'subject' && sortdata.reverse"
+                                                    class="fa fa-caret-down"></span>
+                                                <span *ngIf="sortdata.type == 'subject' && !sortdata.reverse"
+                                                    class="fa fa-caret-up"></span>
+                                            </div>
+                                        </th>
+                                        <th style="border: 2px solid black">
+                                            <div class="zreport-table-contents"
+                                                style="display: block;white-space: nowrap">
+                                                <span class="font-capitalize">{{classData.subjects.value_type}}</span>
+                                                <span *ngIf="sortdata.type == 'value' && sortdata.reverse"
+                                                    class="fa fa-caret-down"></span>
+                                                <span *ngIf="sortdata.type == 'value' && !sortdata.reverse"
+                                                    class="fa fa-caret-up"></span>
+                                            </div>
+                                        </th>
+                                        <th style="border: 2px solid black" *ngIf="classData.subjects.show_previous">
+                                            <span class="zreport-table-contents">Previous
+                                                {{classData.subjects.value_type}}</span>
+                                        </th>
+                                        <th style="border: 2px solid black"><span
+                                                class="zreport-table-contents">Grade</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let s of classData.subjects.list">
+                                        <td style="border: 2px solid black">
+                                            <span class="zreport-table-contents">{{s.subject}}</span>
+                                        </td>
+                                        <td style="border: 2px solid black">
+                                            <span class="zreport-table-contents">{{s.value}}<span
+                                                    *ngIf="classData.subjects.suffix != null">{{classData.subjects.suffix}}</span></span>
+                                        </td>
+                                        <td style="border: 2px solid black" *ngIf="classData.subjects.show_previous">
+                                            <span class="zreport-table-contents">{{s.previous}}</span>
+                                        </td>
+                                        <td style="border: 2px solid black" *ngIf="selected_kcse_mean.item != null">
+                                            <span class="zreport-table-contents"><span
+                                                    *ngIf="s.kcse_mean_change > 0">+</span>{{s.kcse_mean_change}}</span>
+                                        </td>
+                                        <td style="border: 2px solid black" *ngIf="selected_kcse_mean.item != null">
+                                            <i *ngIf="s.kcse_mean_change > 0" class="fa fa-level-up text-success"></i>
+                                            <i *ngIf="s.kcse_mean_change < 0" class="fa fa-level-down text-warning"></i>
+                                            <i *ngIf="s.kcse_mean_change == 0"
+                                                class="fa fa-long-arrow-right text-info"></i>
+                                        </td>
+                                        <td style="border: 2px solid black"><span
+                                                class="zreport-table-contents">{{s.grade}}</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="font-size: 12pt;margin: 0;padding: 0"
+                    *ngIf="!show_top_students.only && classData.current_class_summary_list.length > 0">
+                    <div class="col-sm-12 col-md-9"
+                        style="float: none; margin: 0 auto;padding-left: 0;padding-right: 0">
+                        <div style="padding: 16px 0 0 0">
+                            <div class="col-sm-12 col-xs-12 col-md-12 print-text-white"
+                                style="padding: 5px;margin: 16px 0 16px 0;background: grey;">
+                                <label style="padding: 0;margin: 0">Class Grade Summary</label>
+                            </div>
+                            <table class="table table-bordered table-striped table-condensed"
+                                style="padding-bottom: 0px;margin-bottom: 0px;border: 2px solid black">
+                                <thead>
+                                    <tr>
+                                        <th style="border: 2px solid black"
+                                            *ngFor="let label of classData.labels_current_class_summary"><span
+                                                class="zreport-table-contents font-capitalize">{{label}}</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let s of classData.current_class_summary_list">
+                                        <td style="border: 2px solid black"
+                                            *ngFor="let label of classData.labels_current_class_summary"><span
+                                                class="zreport-table-contents">{{s[label]}}</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="font-size: 12pt;margin: 0;padding: 0" *ngIf="!show_top_students.only">
+                    <div class="col-sm-12 col-md-9"
+                        style="float: none; margin: 0 auto;padding-left: 0;padding-right: 0;padding-top: 16px">
+                        <div class="row">
+                            <div class="col-6 form-parallel-padding-left">
+                                <div class="col-sm-12 col-xs-12 col-md-12 print-text-white"
+                                    style="padding: 5px;margin: 16px 0 16px 0;background: grey;">
+                                    <label style="padding: 0;margin: 0">Class Subject Means</label>
+                                </div>
+                                <!-- <highchart style="width: 100%; display: block" id="chart3"
+                                            config="highchart_subject_mean"></highchart> -->
+                                <highcharts-chart style="width: 100%; display: block" *ngIf="isHighcharts"
+                                    [Highcharts]="HighchartStreamComparison" [options]="highchart_subject_mean">
+                                </highcharts-chart>
+                            </div>
+                            <div class="col-6 form-parallel-padding-left">
+                                <div class="col-sm-12 col-xs-12 col-md-12 print-text-white"
+                                    style="padding: 5px;margin: 16px 0 16px 0;background: grey;">
+                                    <label style="padding: 0;margin: 0">Overall Class Statistics</label>
+                                </div>
+                                <!-- <highchart style="width: 100%; display: block" id="chart3"
+                                            config="highchart_students_per_grade"></highchart> -->
+                                <highcharts-chart style="width: 100%; display: block" *ngIf="isHighcharts"
+                                    [Highcharts]="HighchartStudentsPerGrade" [options]="highchart_students_per_grade">
+                                </highcharts-chart>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="font-size: 12pt;margin: 0;padding: 0"
+                    *ngFor=" let s of classData?.merit_summary_list">
+                    <div class="col-sm-12 col-md-9"
+                        style="float: none; margin: 0 auto;padding-left: 0;padding-right: 0">
+                        <!-- <highchart style="width: 100%; display: inline-block" id="chart3" config="highchart_print_holder"></highchart> -->
+                    </div>
+                    <div class="col-sm-12 col-md-9" style="float: none; margin: 0 auto;padding-left: 0;padding-right: 0"
+                        *ngIf="show_top_students.only && s.top_students != undefined">
+                        <div class="col-sm-12 col-xs-12 col-md-12 print-text-white"
+                            style="padding: 5px;margin: 16px 0 16px 0;background: grey;">
+                            <label style="padding: 0;margin: 0" class="font-capitalize">{{s.subject}}</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-9" style="float: none; margin: 0 auto;padding-left: 0;padding-right: 0"
+                        *ngIf="!show_top_students.only && s.stream_data.length > 0">
+                        <div class="col-sm-12 col-xs-12 col-md-12 print-text-white"
+                            style="padding: 5px;margin: 16px 0 16px 0;background: grey;">
+                            <label style="padding: 0;margin: 0" class="font-capitalize">{{s.subject}}</label>
+                        </div>
+                        <div style="padding: 0 0 0 0">
+                            <label class="font-capitalize">Grade Summary - {{s.subject}}</label>
+                            <table class="table table-bordered table-striped table-condensed"
+                                style="padding-bottom: 0px;margin-bottom: 0px;border: 2px solid black">
+                                <thead>
+                                    <tr *ngIf="s.subject == 'overall'">
+                                        <ng-container *ngFor="let label of classData.labels_stream_data_overall">
+                                            <th style="border: 2px solid black"
+                                                *ngIf="label != 'TSC No' || ( school_profile.tscInAnalysisReport && label === 'TSC No')">
+                                                <span class="zreport-table-contents font-capitalize">{{label}}</span>
+                                            </th>
+                                        </ng-container>
+                                    </tr>
+                                    <tr *ngIf="s.subject != 'overall'">
+                                        <ng-container *ngFor="let label of classData?.labels_stream_data_subjects">
+                                            <th style="border: 2px solid black"
+                                                *ngIf="label != 'TSC No' || ( school_profile.tscInAnalysisReport && label === 'TSC No')">
+                                                <span class="zreport-table-contents font-capitalize">{{label}}</span>
+                                            </th>
+                                        </ng-container>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="s.subject == 'overall'">
+                                    <ng-container *ngFor="let d of s.stream_data">
+                                        <tr *ngIf="d.overall_status == 0"
+                                            [ngClass]="{'success': d.streamid == selected_stream_value, 'font-bold': d.overall_status == 1}">
+                                            <ng-container *ngFor="let label of classData.labels_stream_data_overall">
+                                                <td style="border: 2px solid black"
+                                                    *ngIf="label != 'TSC No' || ( school_profile.tscInAnalysisReport && label === 'TSC No')">
+                                                    <span class="zreport-table-contents">{{d[label]}}</span>
+                                                </td>
+                                            </ng-container>
+
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                                <tbody *ngIf="s.subject != 'overall'">
+                                    <ng-container *ngFor="let d of s.stream_data">
+                                        <tr *ngIf="d.overall_status == 0"
+                                            [ngClass]="{'success': d.streamid == selected_stream_value, 'font-bold': d.overall_status == 1}">
+                                            <ng-container *ngFor="let label of classData.labels_stream_data_subjects">
+                                                <td style="border: 2px solid black"
+                                                    *ngIf="label != 'TSC No' || ( school_profile.tscInAnalysisReport && label === 'TSC No')">
+                                                    <span class="zreport-table-contents">{{d[label]}}</span>
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="padding: 16px 0 0 0">
+                            <table class="table table-bordered table-striped table-condensed"
+                                style="padding-bottom: 0px;margin-bottom: 0px;border: 2px solid black">
+                                <thead>
+                                    <tr *ngIf="s.subject == 'overall'">
+                                        <ng-container *ngFor="let label of classData.labels_stream_data_overall">
+                                            <th style="border: 2px solid black"
+                                                *ngIf="label != 'stream' && label != 'TSC No' || ( school_profile.tscInAnalysisReport && label === 'TSC No')">
+                                                <span class="zreport-table-contents font-capitalize">{{label}}</span>
+                                            </th>
+                                        </ng-container>
+
+                                    </tr>
+                                    <tr *ngIf="s.subject != 'overall'">
+                                        <ng-container *ngFor="let label of classData.labels_stream_data_subjects">
+                                            <th style="border: 2px solid black"
+                                                *ngIf="label != 'stream' && label != 'TSC No' || ( school_profile.tscInAnalysisReport && label === 'TSC No')">
+                                                <span class="zreport-table-contents font-capitalize">{{label}}</span>
+                                            </th>
+                                        </ng-container>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="s.subject == 'overall'">
+                                    <ng-container *ngFor="let d of s.stream_data">
+                                        <tr *ngIf="d.overall_status != 0"
+                                            [ngClass]="{'success': d.schoolid == selected_stream.schoolid, 'font-bold': d.overall_status == 1}">
+                                            <ng-container *ngFor=" let label of classData.labels_stream_data_overall">
+                                                <td style="border: 2px solid black"
+                                                    *ngIf="label != 'stream' && label != 'TSC No' || ( school_profile.tscInAnalysisReport && label === 'TSC No')">
+                                                    <span class="zreport-table-contents">{{d[label]}}</span>
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                    </ng-container>
+
+                                </tbody>
+                                <tbody *ngIf="s.subject != 'overall'">
+                                    <ng-container *ngFor="let d of s.stream_data">
+                                        <tr *ngIf="d.overall_status != 0"
+                                            [ngClass]="{'success': d.schoolid == selected_stream.schoolid, 'font-bold': d.overall_status == 1}">
+                                            <ng-container *ngFor="let label of classData.labels_stream_data_subjects">
+                                                <td style="border: 2px solid black"
+                                                    *ngIf="label != 'stream' && label != 'TSC No' || ( school_profile.tscInAnalysisReport && label === 'TSC No')">
+                                                    <span class="zreport-table-contents">{{d[label]}}</span>
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-9" style="float: none; margin: 0 auto;padding-left: 0;padding-right: 0"
+                        *ngIf="!show_top_students.only && s.gender_data?.length > 0">
+                        <div style="padding: 16px 0 0 0">
+                            <table class="table table-bordered table-striped table-condensed"
+                                style="padding-bottom: 0px;margin-bottom: 0px;border: 2px solid black">
+                                <thead>
+                                    <tr *ngIf="s.subject == 'overall'">
+                                        <th style="border: 2px solid black"
+                                            *ngFor="let label of classData?.labels_gender_data_overall">
+                                            <span class="zreport-table-contents font-capitalize">{{label}}</span>
+                                        </th>
+                                    </tr>
+                                    <tr *ngIf="s.subject != 'overall'">
+                                        <th style="border: 2px solid black"
+                                            *ngFor="let label of classData?.labels_gender_data_subjects">
+                                            <span class="zreport-table-contents font-capitalize">{{label}}</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="s.subject == 'overall'">
+                                    <tr *ngFor="let d of s.gender_data">
+                                        <td style="border: 2px solid black"
+                                            *ngFor="let label of classData.labels_gender_data_overall">
+                                            <span class="zreport-table-contents">{{d[label]}}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="s.subject != 'overall'">
+                                    <tr *ngFor="let d of s.gender_data">
+                                        <td style="border: 2px solid black"
+                                            *ngFor="let label of classData.labels_gender_data_subjects">
+                                            <span class="zreport-table-contents">{{d[label]}}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-9" style="float: none; margin: 0 auto;padding-left: 0;padding-right: 0"
+                        *ngFor="let top_students_category of ['overall', 'boys', 'girls']">
+                        <div style="padding: 16px 0 0 0"
+                            *ngIf="(s.subject == 'overall' || (s.subject != 'overall' && show_top_students.subjects)) && s.top_students[top_students_category].length > 0">
+                            <label class="font-capitalize" *ngIf="top_students_category == 'overall'">Top
+                                Students - {{s.subject}}</label>
+                            <label class="font-capitalize" *ngIf="top_students_category != 'overall'">Top
+                                {{top_students_category}} - {{s.subject}}</label>
+                            <table class="table table-bordered table-striped table-condensed"
+                                style="padding-bottom: 0px;margin-bottom: 0px;border: 2px solid black">
+                                <thead>
+                                    <tr *ngIf="s.subject == 'overall'">
+                                        <th style="border: 2px solid black"
+                                            *ngFor="let label of classData.labels_top_students_overall">
+                                            <span class="zreport-table-contents font-capitalize">{{label}}</span>
+                                        </th>
+                                    </tr>
+                                    <tr *ngIf="s.subject != 'overall'">
+                                        <th style="border: 2px solid black"
+                                            *ngFor="let label of classData.labels_top_students_subjects">
+                                            <span class="zreport-table-contents font-capitalize">{{label}}</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="s.subject == 'overall'">
+                                    <tr *ngFor="let d of s.top_students[top_students_category]">
+                                        <td style="border: 2px solid black"
+                                            *ngFor="let label of classData.labels_top_students_overall">
+                                            <span class="zreport-table-contents">{{d[label]}}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="s.subject != 'overall'">
+                                    <tr *ngFor="let d of s.top_students[top_students_category]">
+                                        <td style="border: 2px solid black"
+                                            *ngFor="let label of classData.labels_top_students_subjects">
+                                            <span class="zreport-table-contents">{{d[label]}}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div *ngIf="show_top_students.subjects && !show_top_students.only" class="page-break">
+                    </div>
+                </div>
+                <div class="row" style="font-size: 12pt;margin: 0;padding: 0">
+                    <div class="col-sm-12 col-md-9" style="float: none; margin: 0 auto;padding-left: 0;padding-right: 0"
+                        *ngIf="!show_top_students.only && classData?.house_averages != undefined && classData?.house_averages.houses?.length > 0">
+                        <div style="padding: 16px 0 0 0">
+                            <div class="col-sm-12 col-xs-12 col-md-12 print-text-white"
+                                style="padding: 5px;margin: 16px 0 16px 0;background: grey;">
+                                <label style="padding: 0;margin: 0">House Averages</label>
+                            </div>
+                            <table class="table table-bordered table-striped table-condensed"
+                                style="padding-bottom: 0px;margin-bottom: 0px;border: 2px solid black">
+                                <thead>
+                                    <tr>
+                                        <th style="border: 2px solid black"
+                                            *ngFor="let ha_label of classData.house_averages.labels">
+                                            <a style="display: inline-block" class="zreport-table-contents unselectable"
+                                                (click)="sorthouses.type = ha_label.label_fixed; sorthouses.reverse = !sorthouses.reverse">
+                                                <div style="display: block;white-space: nowrap">
+                                                    <span>{{ha_label.label}}</span>
+                                                    <span
+                                                        *ngIf="sorthouses.type == ha_label.label_fixed && sorthouses.reverse"
+                                                        class="fa fa-caret-down"></span>
+                                                    <span
+                                                        *ngIf="sorthouses.type == ha_label.label_fixed && !sorthouses.reverse"
+                                                        class="fa fa-caret-up"></span>
+                                                </div>
+                                            </a>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let h of classData.house_averages.houses">
+                                        <!-- | orderBy:sorthouses.type:sorthouses.reverse -->
+                                        <td style="border: 2px solid black"
+                                            *ngFor="let ha_label of classData.house_averages.labels"><span
+                                                class="zreport-table-contents">{{
+                                                h[ha_label.label_fixed]}}</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-9" style="float: none; margin: 0 auto;padding-left: 0;padding-right: 0"
+                        *ngIf="!show_top_students.only">
+                        <div class="col-sm-12 col-xs-12 col-md-12 print-text-white"
+                            style="padding: 5px;margin: 16px 0 16px 0;background: grey;">
+                            <label style="padding: 0;margin: 0">Performance Of Streams</label>
+                        </div>
+                        <!-- <highchart style="width: 101.6%; display: block" id="chart3"
+                                    config="highchart_time_series"></highchart> -->
+                        <highcharts-chart style="width: 100%; display: block" *ngIf="isHighcharts"
+                            [Highcharts]="HighchartTimeSeries" [options]="highchart_time_series">
+                        </highcharts-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

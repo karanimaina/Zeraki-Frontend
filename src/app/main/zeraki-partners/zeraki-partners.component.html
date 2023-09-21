@@ -1,0 +1,24 @@
+<app-zeraki-patners-top-nav [showMySchools]="showMySchools" [showAccountDetails]="showAccountDetails"
+    (onMyMenuClicked)="onMenuClicked()">
+</app-zeraki-patners-top-nav>
+<section class="content mt-config">
+
+
+    <div class="row">
+        <div class="col-sm-8 mx-auto">
+            <div class="box">
+                <div class="box-body">
+                    <app-my-schools [mySchools]="mySchools" [isLoadingSchools]="isLoadingSchools" *ngIf="showMySchools">
+                    </app-my-schools>
+                    <app-account-details [accountDetails]="accountDetails"
+                        [isLoadingAccountDetails]="isLoadingAccountDetails"
+                        [isUpdatingAccountDetails]="isUpdatingAccountDetails"
+                        (updateAccountEvent)="updateAccountDetails($event)" *ngIf="showAccountDetails">
+                    </app-account-details>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>

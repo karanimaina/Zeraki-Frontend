@@ -1,0 +1,22 @@
+<div>
+	<h5 class="fw-bolder text-uppercase my-20">{{ 'printouts.studentReport.yearSummary.gradeDescriptors' | translate }}</h5>
+	<div class="table-responsive">
+		<table class="table table-bordered print-table fw-bold">
+			<thead>
+			<tr class="text-uppercase" style="font-size: 13px">
+				<th>{{ 'common.grade' | translate }}</th>
+				<th>{{ 'printouts.studentReport.yearSummary.scoreRange' | translate }}</th>
+				<th>{{ 'printouts.studentReport.yearSummary.gradeDescriptor' | translate }}</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr *ngFor="let gradeDescriptor of grades">
+				<td class="text-center" style="font-size: 12px">{{ gradeDescriptor.grade }}</td>
+				<td class="text-center" style="font-size: 12px">{{ gradeDescriptor.range }}</td>
+				<td style="font-size: 12px">{{ gradeDescriptor.description }}</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>

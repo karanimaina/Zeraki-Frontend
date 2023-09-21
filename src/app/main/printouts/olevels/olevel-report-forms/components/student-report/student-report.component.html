@@ -1,0 +1,272 @@
+<!-- download btn -->
+<ng-container *ngIf="showPrintButton">
+	<button
+		class="btn btn-sm waves-effect waves-light btn-dark dropdown pull-right mb-10 ms-2"
+		type="button"
+		data-bs-toggle="dropdown"
+		[disabled]="isDownloadingAsPdf">
+		<ng-container *ngIf="isDownloadingAsPdf; else caretDownIcon">
+			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+		</ng-container>
+		<ng-template #caretDownIcon>
+			<i>
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+					 class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+					<path
+						d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+				</svg>
+			</i>
+		</ng-template>
+
+		<span>
+			{{ isDownloadingAsPdf ? ('printouts.commonAttr.download.action' | translate) : ('common.download' | translate) }}
+		</span>
+	</button>
+	<div class="dropdown-menu bg-active">
+		<!-- pdf -->
+		<button class="dropdown-item" (click)="downloadAsPdf('landscape')">
+			<i class="me-1">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+					 class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+					<path
+						d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+					<path
+						d="M4.603 14.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.697 19.697 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.712 5.712 0 0 1-.911-.95 11.651 11.651 0 0 0-1.997.406 11.307 11.307 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.266.266 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.71 12.71 0 0 1 1.01-.193 11.744 11.744 0 0 1-.51-.858 20.801 20.801 0 0 1-.5 1.05zm2.446.45c.15.163.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.876 3.876 0 0 0-.612-.053zM8.078 7.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822.024.111.054.227.09.346z" />
+				</svg>
+			</i>
+
+			{{ 'printouts.commonAttr.landscape' | translate }}
+		</button>
+
+		<button class="dropdown-item" (click)="downloadAsPdf()">
+			<i class="me-1">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+					 class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+					<path
+						d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+					<path
+						d="M4.603 14.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.697 19.697 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.712 5.712 0 0 1-.911-.95 11.651 11.651 0 0 0-1.997.406 11.307 11.307 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.266.266 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.71 12.71 0 0 1 1.01-.193 11.744 11.744 0 0 1-.51-.858 20.801 20.801 0 0 1-.5 1.05zm2.446.45c.15.163.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.876 3.876 0 0 0-.612-.053zM8.078 7.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822.024.111.054.227.09.346z" />
+				</svg>
+			</i>
+
+			{{ 'printouts.commonAttr.portrait' | translate }}
+		</button>
+	</div>
+</ng-container>
+
+<!-- print btn -->
+<div class="d-none d-md-block" *ngIf="showPrintButton">
+	<button class="btn btn-sm waves-effect waves-light btn-dark dropdown pull-right btn-sm mb-10" type="button"
+			data-bs-toggle="dropdown">
+		<i>
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+				 class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+				<path
+					d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+			</svg>
+		</i>
+		{{ 'printouts.commonAttr.printBtn' | translate }}
+	</button>
+	<div class="dropdown-menu bg-active">
+		<!-- landscape -->
+		<button class="dropdown-item"
+				[useExistingCss]="true"
+				styleSheetFile="assets/css/print_landscape.css"
+				[printStyle]="{ '@page': { margin: '.3cm !important' }, '.box': {padding: '0 !important', background: 'transparent !important'} }"
+				printSectionId="print-section"
+				[printTitle]="students && students.length == 1
+            ? students[0].studentName+' '+'Assessment Report Ls'
+            : (schoolTypeData?.formoryear | formOrYear) + ' '+reportForms?.streamName+ ' ' + 'Assessment Report'"
+				ngxPrint>
+			<i class="me-1">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+					 class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+					<path
+						d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+					<path
+						d="M4.603 14.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.697 19.697 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.712 5.712 0 0 1-.911-.95 11.651 11.651 0 0 0-1.997.406 11.307 11.307 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.266.266 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.71 12.71 0 0 1 1.01-.193 11.744 11.744 0 0 1-.51-.858 20.801 20.801 0 0 1-.5 1.05zm2.446.45c.15.163.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.876 3.876 0 0 0-.612-.053zM8.078 7.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822.024.111.054.227.09.346z" />
+				</svg>
+			</i>
+			{{ 'printouts.commonAttr.landscape' | translate }}
+		</button>
+		<!-- portrait -->
+		<button class="dropdown-item"
+				[useExistingCss]="true"
+				styleSheetFile="assets/css/print_portrait.css, {{ !showCompetencyAreas && !showSubjectTeacherComments && !showProjects && !showActivitiesAndValues? 'assets/css/print_zoom_75.css' : '' }}"
+				[printStyle]="{ '@page': { margin: '.3cm !important' }, '.box': {padding: '0 !important', background: 'transparent !important'} }"
+				printSectionId="print-section"
+				[printTitle]="students && students.length == 1
+            ? students[0].studentName+' '+'Assessment Report Pt'
+            : (schoolTypeData?.formoryear | formOrYear) + ' '+reportForms?.streamName+ ' ' + 'Assessment Report'"
+				ngxPrint>
+			<i class="me-1">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+					 class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+					<path
+						d="M14   14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+					<path
+						d="M4.603 14.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.697 19.697 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.712 5.712 0 0 1-.911-.95 11.651 11.651 0 0 0-1.997.406 11.307 11.307 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.266.266 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.71 12.71 0 0 1 1.01-.193 11.744 11.744 0 0 1-.51-.858 20.801 20.801 0 0 1-.5 1.05zm2.446.45c.15.163.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.876 3.876 0 0 0-.612-.053zM8.078 7.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822.024.111.054.227.09.346z" />
+				</svg>
+			</i>
+			{{ 'printouts.commonAttr.portrait' | translate }}
+		</button>
+	</div>
+</div>
+
+<!-- print section and display -->
+<div  id="print-section" *ngIf="reportForms">
+	<!-- watermark -->
+	<div *ngIf="showWatermark" style="
+    width: 300px;
+    height: 300px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url({{ schoolInfo?.logo ? schoolInfo?.logo : 'assets/img/slogo.png' }});
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 200px 200px;
+    opacity: 0.1;
+    z-index: -1000;">
+	</div>
+
+	<!-- report forms display -->
+	<div  *ngFor="let student of students; let studentIndex = index" [ngClass]="{'pagebreak': studentIndex > 0}" class="box" style="height: auto; overflow: visible; font-size: 13px;">
+
+		<ng-container *ngIf="fromReportForms">
+			<!-- Display Watermark -->
+			<div *ngIf="showWatermark" class="logo-watermark no-print">
+				<img [src]="schoolInfo?.logo ? schoolInfo?.logo : 'assets/img/slogo.png'" alt="logo">
+			</div>
+
+			<!-- school address -->
+			<app-school-address
+				[schoolInfo]="schoolInfo"
+				[primaryColour]="reportForms.primaryColour"
+				[profileUrl]="student.profileUrl"
+				[studentId]="student.studentId">
+			</app-school-address>
+
+			<!-- student details -->
+			<div class="mb-2 d-flex flex-row justify-content-between pt-2"
+				 [style]="{ 'border-top': '3px solid ' + reportForms.secondaryColour, 'margin-top': '0.2em' }">
+
+				<app-student-details
+					[style]="{'width' : showAttendanceReport ? '' : '100%' }"
+					[studentName]="student.studentName"
+					[studentAdmNo]="student.studentAdmNo"
+					[showAttendanceReport]="showAttendanceReport"
+					[formOrYear]="schoolTypeData?.formoryear | formOrYear"
+					[streamName]="reportForms.streamName"
+					[term]="reportForms.term"
+					[year]="reportForms.year">
+				</app-student-details>
+
+				<!-- Attendance Report -->
+				<div style="width: 35%" *ngIf="showAttendanceReport">
+					<app-attendance-report
+						[showAttendanceReport]="showAttendanceReport"
+						[attendance]="student.attendance">
+					</app-attendance-report>
+				</div>
+			</div>
+		</ng-container>
+
+		<!-- subject results -->
+		<app-subject-results
+			[showCompetencyAreas]="showCompetencyAreas"
+			[evaluationSeries]="reportForms.evaluationSeries"
+			[showRawScore]="showRawScore"
+			[showScoreDescriptor]="showScoreDescriptor"
+			[showSubjectTeacherComments]="showSubjectTeacherComments"
+			[showExamsSlot]="showExamsSlot"
+			[subjects]="student.subjects"
+			[primaryColour]="reportForms.primaryColour"
+			[evaluationMark]="reportForms?.evaluationMark">
+		</app-subject-results>
+
+		<ng-container *ngIf="fromReportForms">
+			<!-- Project Results -->
+			<app-projects
+				*ngIf="showProjects"
+				[projects]="student.projects">
+			</app-projects>
+
+			<!-- Activities and Values -->
+			<app-activities
+				*ngIf="showActivitiesAndValues && student.studentActivities.length"
+				[studentActivities]="student.studentActivities">
+			</app-activities>
+
+
+			<div class="row mt-50 mb-60">
+
+				<!-- signatures -->
+				<app-report-signatures
+					[showClassTeacherSignature]="showClassTeacherSignature"
+					[showClassTeacherComments]="showClassTeacherComments"
+					[classTeacherSignature]="reportForms.classTeacherSignature"
+					[classTeacherComment]="student.classTeacherComment"
+					[showHouseTeacherSignature]="showHouseTeacherSignature"
+					[showHouseTeacherComments]="showHouseTeacherComments"
+					[houseTeacherSignature]="reportForms.houseTeacherSignature"
+					[houseTeacherComment]="student.houseTeacherComment"
+					[showPrincipalSignature]="showPrincipalSignature"
+					[showPrincipalComments]="showPrincipalComments"
+					[principalSignature]="reportForms.principalSignature"
+					[principalComment]="student.principalComment">
+				</app-report-signatures>
+
+				<!-- fee balance -->
+				<ng-container *ngIf="feeData[student.studentAdmNo]">
+					<app-fee-balance
+						[feeData]="feeData[student.studentAdmNo]">
+					</app-fee-balance>
+				</ng-container>
+
+
+				<!-- school dates -->
+				<app-school-dates
+					[openingDate]="openingDate"
+					[closingDate]="closingDate">
+				</app-school-dates>
+
+				<!-- score range identifiers -->
+				<ng-container *ngIf="reportFormIdentifiers">
+					<app-score-range-identifiers
+						[reportFormIdentifiers]="reportFormIdentifiers">
+					</app-score-range-identifiers>
+				</ng-container>
+
+				<!-- key words -->
+				<ng-container *ngIf="showSubjectTeacherComments || showCompetencyAreas">
+					<app-key-words></app-key-words>
+				</ng-container>
+
+				<!-- year summary performance -->
+				<app-year-summary
+					*ngIf="showYearSummaryReport"
+					[yearSummaryReport]="student.yearSummary">
+					<h5 class="fw-bolder text-uppercase my-20">
+						{{ 'printouts.studentReport.yearSummary.yearSummaryReport' | translate }} - {{ summayReportTermName }} {{ reportForms.year }}
+					</h5>
+				</app-year-summary>
+
+				<!-- grade descriptors -->
+				<app-grade-descriptor
+					*ngIf="showGradeDescriptor"
+					[grades]="reportForms.grades">
+				</app-grade-descriptor>
+			</div>
+		</ng-container>
+	</div>
+</div>
+
+<!--Used in downloading as pdf-->
+<div hidden>
+	<img id="school-logo" crossorigin="anonymous" [src]="schoolInfo?.logo ? schoolInfo?.logo+'?cacheblock=true' : ''" alt="logo" class="logo" width="160" height="160">
+	<img id="class-teacher-signature" crossorigin="anonymous" [src]="reportForms.classTeacherSignature ? reportForms?.classTeacherSignature+'?cacheblock=true' : ''" alt="logo" class="logo" width="160" height="160">
+	<img id="principal-signature" crossorigin="anonymous" [src]="reportForms.principalSignature ? reportForms?.principalSignature+'?cacheblock=true' : ''" alt="logo" class="logo" width="160" height="160">
+	<img id="house-teacher-signature" crossorigin="anonymous" [src]="reportForms?.houseTeacherSignature ? reportForms?.houseTeacherSignature+'?cacheblock=true' : ''" alt="logo" class="logo" width="160" height="160">
+</div>

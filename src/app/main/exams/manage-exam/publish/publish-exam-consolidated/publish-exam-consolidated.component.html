@@ -1,0 +1,342 @@
+<!-- Exams Top Nav -->
+<app-exams-top-nav></app-exams-top-nav>
+<!-- content section -->
+<section class="content mt-config">
+	<div *ngIf="isLoading; then loadingSection; else completeSection"></div>
+	<!-- Loading Section -->
+	<ng-template #loadingSection>
+		<div class="box">
+			<div class="box-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<app-loader-div [height]="70"></app-loader-div>
+						<p></p>
+					</div>
+					<div class="col-sm-12">
+						<app-loader-div [height]="150"></app-loader-div>
+						<p></p>
+					</div>
+					<div class="col-sm-12">
+						<app-loader-div [height]="100"></app-loader-div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ng-template>
+
+	<!-- Loading complete Section -->
+	<ng-template #completeSection>
+		<p class="fw-600">
+			<!-- Publish Consolidate Exam - Form -->
+			{{
+				"exams.publishExamsConsolidated.textPublishConsolidatedExamForm"
+					| translate : { formOrYear: schoolData?.formoryear }
+			}}
+			{{ basicDetails?.form }}
+		</p>
+		<div class="box">
+			<div class="box-body">
+				<!-- select exam section -->
+				<div class="form-group">
+					<select
+						(change)="selectExam()"
+						[(ngModel)]="selectExamIndex"
+						id=""
+						class="form-select"
+					>
+						<option *ngFor="let exam of list.list; let i = index" [value]="i">
+							{{ exam.examname }}
+						</option>
+					</select>
+				</div>
+
+				<!-- section show exams -->
+				<div class="form-group">
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped table-hover">
+							<thead>
+								<tr>
+									<th>
+										<!-- Exam -->
+										{{ "exams.publishExamsConsolidated.textExam" | translate }}
+									</th>
+									<th>
+										<!-- Ratio -->
+										{{ "exams.publishExamsConsolidated.textRatio" | translate }}
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let exam of selectedListExam?.series">
+									<td>{{ exam.examname }}</td>
+									<td>{{ exam.ratio }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<!-- Ranking criteria section -->
+				<div class="form-group">
+					<b class="fw-600">
+						<!-- Ranking Criteria -->
+						{{
+							"exams.publishExamsConsolidated.textRankingCriteria" | translate
+						}}
+					</b>
+					<div class="radio-button">
+						<input
+							name="rankingCriteria"
+							type="radio"
+							[checked]="meanMarks"
+							(click)="selectMeanMarks()"
+							id="mean_marks"
+							checked
+							class="with-gap radio-col-info"
+						/>
+						<label for="mean_marks">
+							<!-- Rank by Mean Marks -->
+							{{
+								isSouthAfricanSchool ?
+									("exams.publishExamsConsolidated.textRankByAverageMarks" | translate)
+									:
+									("exams.publishExamsConsolidated.textRankByMeanMarks" | translate)
+							}}
+						</label>
+
+						<!-- Rank by KCSE points -->
+						<ui-kcse-school [template]="rankByKscePoints"></ui-kcse-school>
+
+						<ng-template #rankByKscePoints>
+							<input
+								name="rankingCriteria"
+								type="radio"
+								[checked]="KCSEPoints"
+								(click)="selectKcsePoints()"
+								id="KCSE_points"
+								class="with-gap radio-col-info"
+							/>
+							<label for="KCSE_points">
+								{{
+									"exams.publishExamsConsolidated.textRankByKcsePoints"
+										| translate
+								}}
+							</label>
+						</ng-template>
+
+						<!-- Rank by mean points -->
+						<ui-kenyan-school [template]="rankByMeanPoints"></ui-kenyan-school>
+						<ui-ghana-school [template]="rankByMeanPoints"></ui-ghana-school>
+						<ui-tanzania-secondary-school
+							[template]="rankByMeanPoints"
+						></ui-tanzania-secondary-school>
+						<ui-guinea-school [template]="rankByMeanPoints"></ui-guinea-school>
+						<ui-ivory-coast-school
+							[template]="rankByMeanPoints"
+						></ui-ivory-coast-school>
+						<ui-zimbabwe-school
+							[template]="rankByMeanPoints"
+						></ui-zimbabwe-school>
+						<ui-zambia-school
+							[template]="rankByMeanPoints"
+						></ui-zambia-school>
+
+						<ng-template #rankByMeanPoints>
+							<input
+								name="rankingCriteria"
+								[checked]="meanPoints"
+								(click)="selectMeanPoints()"
+								type="radio"
+								id="mean_points"
+								class="with-gap radio-col-info"
+							/>
+							<label for="mean_points">
+								{{
+									"exams.publishExamsConsolidated.textRankByMeanPoints"
+										| translate
+								}}
+							</label>
+						</ng-template>
+					</div>
+
+					<!-- Grading System Section -->
+					<div class="form-group" *ngIf="meanMarks">
+						<ng-template [ngTemplateOutlet]="gradingSystemDisplayText"></ng-template>
+
+						<select
+							name="overallGradingSystem"
+							[(ngModel)]="selectedGradingSystem"
+							id=""
+							class="form-select"
+							[ngClass]="{
+								'is-invalid': buttonClicked && selectedGradingSystem == -1
+							}"
+						>
+							<option value="-1">
+								<ng-template [ngTemplateOutlet]="selectGradingSystem"></ng-template>
+							</option>
+							<option *ngFor="let gs of gradingSystem" [value]="gs.gsid">
+								{{ gs.title }}
+							</option>
+						</select>
+						<div
+							class="text-danger"
+							*ngIf="buttonClicked && selectedGradingSystem == -1"
+						>
+							<ng-template [ngTemplateOutlet]="selectAGradingSystem"></ng-template>
+						</div>
+					</div>
+
+					<!-- Subject Grading System -->
+					<div class="form-group">
+						<div class="table-responsive">
+							<table class="table table-bordered table-hover table-striped">
+								<thead>
+									<tr>
+										<th>
+											<!-- Subject -->
+											{{
+												"exams.publishExamsConsolidated.textSubject" | translate
+											}}
+										</th>
+										<th>
+											<ng-template [ngTemplateOutlet]="gradingSystemDisplayText"></ng-template>
+										</th>
+
+										<!-- Preview Grading System -->
+										<!-- <th>
+                                            {{"exams.publishExamsConsolidated.textPreviewGs"|translate}}
+                                        </th> -->
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										*ngFor="
+											let subject of selectedListExamSubjects;
+											let i = index
+										"
+									>
+										<td>{{ subject.name }}</td>
+										<td>
+											<select
+												name="name"
+												[(ngModel)]="subject.gsid"
+												[ngClass]="{
+													'is-invalid': buttonClicked && subject.gsid == -1
+												}"
+												class="form-select"
+											>
+												<option value="-1">
+													<ng-template [ngTemplateOutlet]="selectGradingSystem"></ng-template>
+												</option>
+												<option
+													*ngFor="let gs of gradingSystem"
+													[value]="gs.gsid"
+												>
+													{{ gs.title }}
+												</option>
+											</select>
+											<div
+												class="text-danger"
+												*ngIf="buttonClicked && subject?.gsid == -1"
+											>
+												<ng-template [ngTemplateOutlet]="selectAGradingSystem"></ng-template>
+											</div>
+										</td>
+
+										<!-- Preview Grades -->
+										<!-- <td>
+                                            <input type="checkbox" id="preview_{{i}}" name="preview_{{i}}"
+                                                [(ngModel)]="subject.isPreview" class="filled-in chk-col-info"
+                                                [checked]="subject.isPreview">
+                                            <label for="preview_{{i}}">
+                                                {{"exams.publishExamsConsolidated.textPreviewGs"|translate}}
+                                            </label>
+                                        </td> -->
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<!-- publish section -->
+					<div class="form-group mb-0">
+						<div
+							*ngIf="showLoading; then showPublishing; else showButton"
+						></div>
+						<ng-template #showPublishing>
+							<app-loader-pulse style="float: right"></app-loader-pulse>
+						</ng-template>
+						<ng-template #showButton>
+							<button
+								(click)="publishEgroup()"
+								class="btn pull-right btn-info btn-sm waves-effect waves-light"
+							>
+								<i class="fa fa-newspaper-o"></i>
+								<!-- Publish Results -->
+								{{
+									"exams.publishExamsConsolidated.btnTextPublishResults"
+										| translate
+								}}
+							</button>
+						</ng-template>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ng-template>
+</section>
+
+<ng-template #gradingSystemDisplayText>
+	<ui-kenyan-school [template]="gradingSystemText"></ui-kenyan-school>
+	<ui-ghana-school [template]="gradingSystemText"></ui-ghana-school>
+	<ui-tanzania-school [template]="gradingSystemText"></ui-tanzania-school>
+	<ui-zimbabwe-school [template]="gradingSystemText"></ui-zimbabwe-school>
+	<ui-zambia-school [template]="gradingSystemText"></ui-zambia-school>
+	<ui-south-africa-school [template]="mentionText"></ui-south-africa-school>
+
+	<!-- Grading System -->
+	<ng-template #gradingSystemText>
+		{{ "exams.publishExamsConsolidated.textGs" | translate }}
+	</ng-template>
+	<!-- Mention -->
+	<ng-template #mentionText>
+		{{ "exams.mentions.mention" | translate }}
+	</ng-template>
+</ng-template>
+
+<ng-template #selectGradingSystem>
+	<ui-kenyan-school [template]="gradingSystemSelectText"></ui-kenyan-school>
+	<ui-ghana-school [template]="gradingSystemSelectText"></ui-ghana-school>
+	<ui-tanzania-school [template]="gradingSystemSelectText"></ui-tanzania-school>
+	<ui-zimbabwe-school [template]="gradingSystemSelectText"></ui-zimbabwe-school>
+	<ui-zambia-school [template]="gradingSystemSelectText"></ui-zambia-school>
+	<ui-south-africa-school [template]="mentionSelectText"></ui-south-africa-school>
+
+	<!-- Select Grading System -->
+	<ng-template #gradingSystemSelectText>
+		{{ "exams.publishExamsConsolidated.textSelectGs" | translate }}
+	</ng-template>
+	<!-- Select Mention -->
+	<ng-template #mentionSelectText>
+		{{ "exams.publishExamsConsolidated.textSelectMention" | translate }}
+	</ng-template>
+</ng-template>
+
+<ng-template #selectAGradingSystem>
+	<ui-kenyan-school [template]="gradingSystemSingleSelectText"></ui-kenyan-school>
+	<ui-ghana-school [template]="gradingSystemSingleSelectText"></ui-ghana-school>
+	<ui-tanzania-school [template]="gradingSystemSingleSelectText"></ui-tanzania-school>
+	<ui-zimbabwe-school [template]="gradingSystemSingleSelectText"></ui-zimbabwe-school>
+	<ui-zambia-school [template]="gradingSystemSingleSelectText"></ui-zambia-school>
+	<ui-south-africa-school [template]="mentionSingleSelectText"></ui-south-africa-school>
+
+	<!-- Select a Grading System -->
+	<ng-template #gradingSystemSingleSelectText>
+		{{ "exams.publishExamsConsolidated.textSelectAGs" | translate }}
+	</ng-template>
+	<!-- Select a Mention -->
+	<ng-template #mentionSingleSelectText>
+		{{ "exams.publishExamsConsolidated.textSelectAMention" | translate }}
+	</ng-template>
+</ng-template>

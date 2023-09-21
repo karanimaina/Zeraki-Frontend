@@ -1,0 +1,18 @@
+.badge {
+    cursor: pointer;
+}
+
+.dotted {
+    display: inline-block;
+    border-bottom: 1px dotted;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.dname {
+    width: 80%;
+}
+
+.fixed-top{
+    z-index: 5;
+}

@@ -1,0 +1,510 @@
+<!-- Student Top Nav -->
+<div class="navbar-light top-wrapper fixed-top bg-primary">
+  <ul class="nav nav-pill customtab2 nav-filled text-center">
+    <li class="nav-item">
+      <a [routerLink]="['/main/students/prof']" class="nav-link" routerLinkActive="active"
+        #rlaSearchStudent="routerLinkActive" [ngClass]="rlaSearchStudent.isActive ? 'active' : ''">
+        <span class="me-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person"
+            viewBox="0 0 16 16">
+            <path
+              d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+          </svg>
+        </span>
+        <span>{{ 'students.profile.title' | translate }}</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<!-- Main content -->
+<ng-container *ngIf="loadingStudent; else showContent">
+  <div class="row">
+    <div class="col-sm-9 mx-auto">
+      <div class="box">
+        <div class="box-header">
+          <app-loader-div height="100"></app-loader-div>
+        </div>
+        <div class="box-body">
+          <div class="row">
+            <div class="col-md-6 my-4" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10,11,12]">
+              <app-loader-div height="40"></app-loader-div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #showContent>
+  <section class="content mt-config">
+    <div class="row">
+      <div class="col-sm-9 mx-auto">
+        <div class="box box-solid bg-primary-light">
+          <div class="box-header with-border">
+            <h6 class="text-dark">{{ 'students.profile.title' | translate }}</h6>
+            <div *ngIf="!student?.admno">
+              <h3 class="text-dark">
+                {{ 'students.notExist' | translate }}
+              </h3>
+            </div>
+            <div *ngIf="student?.admno" class="d-flex align-items-center">
+              <div class="flex-shrink-0">
+                <img src="{{image_path}}" (error)="image_path = '../../../../assets/img/avatar/p_avatar_blue.png'"
+                  class="rounded-circle" width="90" height="90" alt="student picture">
+              </div>
+              <div class="flex-grow-1 ms-3">
+                <h3 class="box-title text-dark text-capitalize">
+                  {{student?.name?.toLowerCase()}}
+                  <small class="subtitle">{{student?.admno}}, {{student?.current_class_name}}</small>
+
+									<ui-guinea-school [template]="major"></ui-guinea-school>
+									<ui-ivory-coast-school [template]="major"></ui-ivory-coast-school>
+									<ui-ghana-senior-school [template]="major"></ui-ghana-senior-school>
+
+									<ng-template #major>
+										<small class="subtitle">{{ student?.major }}</small>
+									</ng-template>
+                </h3>
+              </div>
+              <div class="ms-auto p-2 bd-highlight d-none d-lg-inline-block">
+                <div class="btn-group">
+                  <!-- analytics -->
+                  <button routerLink="../../analytics/{{student?.userid}}" type="button" class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                      class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+                      <path
+                        d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                    </svg>
+                    {{ 'common.analytics' | translate }}
+                  </button>
+                  <!-- message -->
+                  <button routerLink="../../msg/{{student?.userid}}" type="button"
+                    class="waves-effect waves-light btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                      class="bi bi-chat-right-text" viewBox="0 0 16 16">
+                      <path
+                        d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z" />
+                      <path
+                        d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                    </svg>
+                    {{ 'common.message' | translate }}
+                  </button>
+                  <!-- notes -->
+                  <div class="btn-group">
+                    <button *ngIf="!userRoles?.isStudent" type="button"
+                      class="waves-effect waves-light btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                      {{ 'common.notes' | translate }}
+                    </button>
+                    <div *ngIf="!userRoles?.isStudent" class="dropdown-menu">
+                      <app-student-notes-items [studentID]="student?.userid"></app-student-notes-items>
+
+                      <!-- extracurricular activities -->
+                      <a class="dropdown-item" routerLink="../../act/{{student?.userid}}">{{ 'students.exActs' |
+                        translate
+                        }}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-lg-none mt-10">
+              <div class="btn-group">
+                <!-- analytics -->
+                <button routerLink="../../analytics/{{student?.userid}}" type="button" class="btn btn-secondary btn-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                    class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+                    <path
+                      d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                  </svg>
+                  {{ 'common.analytics' | translate }}
+                </button>
+                <!-- message -->
+                <button routerLink="../../msg/{{student?.userid}}" type="button" class="btn btn-secondary btn-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                    class="bi bi-chat-right-text" viewBox="0 0 16 16">
+                    <path
+                      d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z" />
+                    <path
+                      d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                  </svg>
+                  {{ 'common.message' | translate }}
+                </button>
+                <!-- notes -->
+                <div class="btn-group">
+                  <button type="button" class="waves-effect waves-light btn btn-secondary dropdown-toggle btn-sm"
+                    data-bs-toggle="dropdown">
+                    {{ 'common.notes' | translate }}
+                  </button>
+                  <div class="dropdown-menu">
+                    <app-student-notes-items [studentID]="student?.userid"></app-student-notes-items>
+
+                    <!-- extracurricular activities -->
+                    <a class="dropdown-item" routerLink="../../act/{{student?.userid}}">
+                      {{ 'students.exActs' | translate }}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="box-body">
+            <div *ngIf="studentWasDeleted" class="mb-20">
+              <h5 class="text-danger">The student left the school on {{student?.leaveDate}}</h5>
+            </div>
+
+            <form *ngIf="student" [formGroup]="studentProfileForm">
+              <fieldset>
+                <div class="row">
+									<!-- admission number -->
+                  <div class="col-md-6">
+                      <app-input [label]="'common.admno' | translate" formControlName="admNo">
+                      </app-input>
+                  </div>
+
+									<ui-kenyan-school [template]="upiTemplate"></ui-kenyan-school>
+									<ui-tanzania-school [template]="upiTemplate"></ui-tanzania-school>
+									<ui-uganda-school [template]="upiTemplate"></ui-uganda-school>
+									<ui-guinea-school [template]="upiTemplate"></ui-guinea-school>
+									<ui-ivory-coast-school [template]="upiTemplate"></ui-ivory-coast-school>
+									<ui-zimbabwe-school [template]="upiTemplate"></ui-zimbabwe-school>
+									<ui-south-africa-school [template]="upiTemplate"></ui-south-africa-school>
+									<ng-template #upiTemplate>
+										<div class="col-md-6">
+											<app-input [label]="upiTranslation" formControlName="upi"></app-input>
+										</div>
+									</ng-template>
+
+									<!-- index number -->
+                  <div *ngIf="showIndexNumber" class="col-md-12">
+                    <app-input [label]="'common.indexNumber' | translate" formControlName="indexNo">
+                    </app-input>
+                  </div>
+									<!-- name -->
+                  <div class="col-md-6">
+                    <app-input [label]="'common.name' | translate" formControlName="name">
+                    </app-input>
+                  </div>
+									<!-- date of admission -->
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="tdate" class="control-label">{{ 'students.profile.doa' | translate }}</label>
+                      <small class="sidetitle">{{ 'common.dateFormat' | translate }}</small>
+                      <input class="form-control" id="tdate" type="text" formControlName="dateOfAdmission">
+                    </div>
+                  </div>
+									<!-- enrollment form -->
+                  <div class="col-md-6">
+                    <app-input [label]="'students.enrollmentForm' | translate:{ formoryear: schoolTypeData?.formoryear }" formControlName="enrollmentForm">
+                    </app-input>
+                  </div>
+									<!-- date of birth -->
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="dob" class="control-label">{{ 'common.dob' | translate }}</label>
+                      <small class="sidetitle">{{ 'common.dateFormat' | translate }}</small>
+                      <input class="form-control" type="text" id="dob" formControlName="dateOfBirth">
+                    </div>
+                  </div>
+									<!-- birth certificate number -->
+                  <div class="col-md-6">
+                    <app-input [label]="'students.profile.bCertNo' | translate" formControlName="birthCertEntryNo">
+                    </app-input>
+                  </div>
+									<!-- primary school name -->
+                  <div class="col-md-6">
+                    <app-input [label]="'students.profile.pName' | translate" formControlName="primarySchoolName">
+                    </app-input>
+                  </div>
+									<!-- kcpe index -->
+                  <div *ngIf="isKenyanSchool" class="col-md-6">
+                    <app-input [label]="'students.kcpeIndex' | translate" formControlName="kcpeIndex">
+                    </app-input>
+                  </div>
+									<!-- kcpe/entry score -->
+                  <div class="col-md-6">
+                    <app-input
+                      [label]="isKenyanSchool ? ('students.kcpeScore' | translate) : ('students.entryScore' | translate)"
+                      formControlName="kcpeScore">
+                    </app-input>
+                  </div>
+									<!-- kcpe year -->
+									<ui-kenyan-school [template]="kcpeYear"></ui-kenyan-school>
+									<ng-template #kcpeYear>
+										<div class="col-md-6">
+											<app-input [label]="'students.kcpeYear' | translate" formControlName="kcpeYear">
+											</app-input>
+										</div>
+									</ng-template>
+									<!-- guardian name -->
+                  <div class="col-md-6">
+                    <app-input [label]="'students.guardianName' | translate" formControlName="guardianName">
+                    </app-input>
+                  </div>
+									<!-- guardian phone -->
+                  <div class="col-md-6">
+                    <app-input [label]="'students.primaryGuardianPhone' | translate"
+                      formControlName="primaryGuardianPhone">
+                    </app-input>
+                  </div>
+									<!-- secondry guardian phone -->
+                  <div class="col-md-6">
+                    <app-input [label]="'students.secondaryGuardianPhone' | translate" placeholder="07## ### ###"
+                      formControlName="secondaryGuardianPhone">
+                    </app-input>
+                  </div>
+									<!-- guardian email -->
+                  <div class="col-md-6">
+                    <app-input [label]="'students.guardianEmail' | translate" formControlName="guardianEmail">
+                    </app-input>
+                  </div>
+									<!-- guardian relation -->
+                  <div class="col-md-6">
+                    <app-input [label]="'students.guardianRelation' | translate" formControlName="guardianRelation">
+                    </app-input>
+                  </div>
+									<!-- home address -->
+                  <div class="col-md-6">
+                    <app-input [label]="'students.homeAddress' | translate" formControlName="homeAddress">
+                    </app-input>
+                  </div>
+									<!-- gender -->
+                  <div class="col-md-6">
+                    <app-ng-select [label]="'common.gender' | translate" formControlName="gender" [selectOnTab]="true"
+                      placeholder="{{ 'common.genderPlaceholderText' | translate }}" [items]="[
+                                 {name: 'common.male' | translate, value: 'male'},
+                                 {name: 'common.female' | translate, value: 'female'},
+                                 {name: 'common.unspecified' | translate, value: 'unspecified'}]" bindLabel="name"
+                      bindValue="value">
+                    </app-ng-select>
+                  </div>
+                  <!-- boarding status -->
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <app-ng-select [label]="'settings.schoolInfoProfile.profileForm.boardingStatus' | translate"
+                        id="boardingStatus" formControlName="boardingStatus" [items]="boardingStatuses"
+                        [selectOnTab]="true"
+                        [placeholder]="'settings.schoolInfoProfile.profileForm.selectBStatus' | translate"
+                        [clearable]="false">
+                      </app-ng-select>
+                    </div>
+                  </div>
+                  <!-- house -->
+                  <div class="col-md-6">
+                    <app-ng-select [label]="'students.profile.house' | translate" formControlName="house"
+                      [items]="student_residences" bindLabel="name" bindValue="name">
+                    </app-ng-select>
+                  </div>
+									<!-- nhif -->
+                  <ui-kenyan-school [template]="nhifInputTemplate"></ui-kenyan-school>
+                  <ng-template #nhifInputTemplate>
+                    <div class="col-md-6 mt-1">
+                      <app-input [label]="'students.nhif' | translate" formControlName="nhif"></app-input>
+                    </div>
+                  </ng-template>
+									<!-- general comments -->
+                  <div class="col-md-12">
+                    <app-textarea [label]="'students.profile.genComments' | translate" formControlName="generalComments"
+                      [rows]="4">
+                    </app-textarea>
+                    <span class="form-text text-muted pull-right">
+                      ({{generalCommentsLength}} {{'students.profile.ofChar' | translate }})
+                    </span>
+                  </div>
+									<!-- photo -->
+                  <div class="col-md-12">
+                    <label class="form-label fw-bolder">{{ 'students.profile.photo' | translate }}</label>
+                    <div class="form-group">
+                      <!-- image display -->
+                      <ng-container *ngIf="isUploadingImageFile; else imageDisplay">
+                        <span>{{ 'settings.userProfile.uploading' | translate }}</span>
+                      </ng-container>
+                      <ng-template #imageDisplay>
+                        <div *ngIf="showPhoto" class="mb-10">
+                          <img src="{{image_path}}" width="300" height="200" alt="dp">
+                        </div>
+                        <!-- delete btn -->
+                        <div *ngIf="showPhoto" class="float-signature">
+                          <button (click)="deletePhoto();" type="button" class="btn btn-sm btn-danger"
+                            [disabled]="isDeletingPhoto">
+                            <ng-container *ngIf="isDeletingPhoto; else imageDeletionIcon">
+                              <ng-template [ngTemplateOutlet]="btnLoadingSpinner"></ng-template>
+                            </ng-container>
+
+                            <ng-template #imageDeletionIcon>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-trash" viewBox="0 0 16 16">
+                                <path
+                                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                <path fill-rule="evenodd"
+                                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                              </svg>
+                            </ng-template>
+                          </button>
+                        </div>
+                        <!-- image upload input -->
+                        <label *ngIf="!userRoles?.isStudent" class="file">
+                          <input type="file" id="file" name="MAX_FILE_SIZE" accept="image/jpeg,image/jpg,image/png"
+                            (change)="uploadLogo($event)" />
+                        </label>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+							<!-- action buttons -->
+              <div class="form-group mb-0"
+                *ngIf="(userRoles?.isStudent || userRoles?.isSchoolAdmin || student.isClassteacher) && !student.leftSchool">
+                <button *ngIf="!userRoles?.isStudent" (click)="confirmDeleteStudent();$event.stopPropagation()"
+                  type="button" class="btn btn-danger me-1">
+                  <i class="ti-trash"></i>
+                  {{ 'students.profile.delStudent' | translate }}
+                </button>
+                <button (click)="updateStudentProfile()" type="submit" class="btn btn-info pull-right w-120"
+                  [disabled]="updatingProfile">
+                  <ng-container *ngIf="!updatingProfile">
+                    <i class="bi bi-check-circle"></i>
+                    {{ 'students.profile.update' | translate }}
+                  </ng-container>
+
+                  <ng-container *ngIf="updatingProfile">
+                    <ng-template [ngTemplateOutlet]="btnLoadingSpinner"></ng-template>
+                  </ng-container>
+                </button>
+              </div>
+
+							<!-- student readmission button -->
+              <div *ngIf="(userRoles?.isSchoolAdmin || student.isClassteacher) && student.leaveDate && !admit_student">
+                <button (click)="initAdmitStudent()" type="button" class="btn btn-info pull-right">
+                  <i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-person-plus" viewBox="0 0 16 16">
+                      <path
+                        d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                      <path fill-rule="evenodd"
+                        d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+                    </svg>
+                  </i>
+                  {{ 'students.profile.reAdmitStud' | translate }}
+                </button>
+              </div>
+            </form>
+
+						<!-- student readmission -->
+            <div *ngIf="(userRoles?.isSchoolAdmin || student?.isClassteacher) && student?.leaveDate && admit_student"
+              class="">
+              <form #reAdmitStudentForm="ngForm" name="reAdmitStudentForm"
+                (ngSubmit)="reAdmitStudentForm.form.valid && reAdmitStudent()">
+                <div class="form-group col-12 no-padding">
+                  <small>*Complete the form below in order to re-admit this student</small>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label" for="reForm">{{schoolTypeData?.formoryear | formOrYear}}</label>
+                      <ng-select [items]="form_streams.intakes" class="form-control-dropdown" name="reForm" id="reForm"
+                        #reForm="ngModel" [(ngModel)]="selectForm" (ngModelChange)="invalidateStreams()"
+                        bindLabel="label"
+                        [placeholder]="'common.formPlaceholder' | translate: {formoryear: (schoolTypeData?.formoryear | formOrYear) }"
+                        [ngClass]="{'b-1 border-danger': reAdmitStudentForm.submitted && reForm.invalid}" required>
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div *ngIf="selectedForm?.streams?.length > 0" class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label" for="reStream">{{ 'common.stream' | translate}}</label>
+                      <ng-select [items]="selectedForm.streams" class="form-control-dropdown" name="reStream"
+                        id="reStream" #reStream="ngModel" [(ngModel)]="new_student.stream" bindLabel="name"
+                        [placeholder]="'common.selectStream' | translate"
+                        [ngClass]="{'b-1 border-danger': reAdmitStudentForm.submitted && reStream.invalid}" required>
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <button (click)="cancelAdmitStudent()" type="button" class="btn btn-sm btn-warning pull-left">
+                      <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-x" viewBox="0 0 16 16">
+                          <path
+                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                      </i>
+                      {{ 'students.cancelAdm' | translate }}
+                    </button>
+                    <button type="submit" class="btn btn-sm btn-success pull-right">
+                      <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-person-plus" viewBox="0 0 16 16">
+                          <path
+                            d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                          <path fill-rule="evenodd"
+                            d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+                        </svg>
+                      </i>
+                      {{ 'students.profile.reAdmitStud' | translate }}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</ng-template>
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar" [ngClass]="{'control-sidebar-open': rightSidebar}">
+  <div class="rpanel-title" data-toggle="control-sidebar">
+    <span class="pull-right btn btn-circle btn-danger">
+      <i class="text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x"
+          viewBox="0 0 16 16">
+          <path
+            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+        </svg>
+      </i>
+    </span>
+  </div>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div>
+      <div class="row">
+        <h4 class="text-danger col-12">{{ 'common.error' | translate }}!</h4>
+        <h6 class="text-danger col-12">{{ 'students.errorList' | translate }}...</h6>
+      </div>
+
+      <div class="media-list media-list-hover mt-20 bg-secondary">
+        <div *ngFor="let error of custom_errors; first as isFirst" class="media py-10 px-0"
+          [ngClass]="{'bt-2': !isFirst}">
+          <div class="media-body">
+            <p class="fs-16">
+              <a class="hover-primary"><strong>{{ error.title }}</strong></a>
+            </p>
+            <p *ngFor="let msg of error.msg" class="fs-12">{{ msg }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- button loading spinner -->
+<ng-template #btnLoadingSpinner>
+  <svg width="18" height="18" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff">
+    <g fill="none" fill-rule="evenodd">
+      <g transform="translate(1 1)" stroke-width="2">
+        <circle stroke-opacity=".5" cx="18" cy="18" r="18" />
+        <path d="M36 18c0-9.94-8.06-18-18-18">
+          <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s"
+            repeatCount="indefinite" />
+        </path>
+      </g>
+    </g>
+  </svg>
+</ng-template>

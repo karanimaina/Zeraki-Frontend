@@ -1,0 +1,85 @@
+<section class="content mt-config">
+	<div class="row">
+		<div class="col-12">
+			<div class="box">
+				<div class="box-header">
+					<h4 class="box-title">
+						{{ "students.profile.house" | translate }}
+						{{ "common.fullcalendar.buttonText.list" | translate }}
+					</h4>
+				</div>
+				<div class="box-body">
+					<!--TODO: Create Filter Form From here-->
+					<form
+						[formGroup]="houseListForm"
+						(ngSubmit)="onFormListSubmit()"
+						class="row">
+						<div class="form-group col-sm-4">
+							<label for="residences">{{
+								"students.residences.residences" | translate
+							}}</label>
+							<ng-select
+								name="residences"
+								id="residences"
+								placeholder="{{
+									'students.residences.selectResidences' | translate
+								}}"
+								formControlName="residence"
+								[items]="residenceList"
+								bindLabel="name"
+								bindValue="id">
+							</ng-select>
+							<div class="text-danger"></div>
+						</div>
+						<div class="form-group col-sm-4">
+							<label for="intake">{{
+								schoolTypeData?.formoryear | formOrYear
+							}}</label>
+							<ng-select
+								name="intake"
+								id="intake"
+								[items]="intakes"
+								formControlName="intake"
+								placeholder="{{ 'exams.kcseExams.textSelectForm' | translate }}"
+								(ngModelChange)="onIntakeChange()"
+								bindLabel="classlevel">
+							</ng-select>
+							<div class="text-danger"></div>
+						</div>
+						<div class="form-group col-sm-4">
+							<label for="stream">
+								{{ "common.stream" | translate }}
+							</label>
+							<ng-select
+								name="stream"
+								id="stream"
+								formControlName="stream"
+								placeholder="{{ 'common.selectStream' | translate }}"
+								[items]="streamList"
+								[clearable]="false"
+								bindLabel="name"
+								bindValue="streamid"></ng-select>
+							<div class="text-danger"></div>
+						</div>
+						<div
+							*ngIf="residence?.value"
+							class="form-group col-12 mb-0 text-end">
+							<button class="btn btn-sm btn-info waves-effect waves-light">
+								{{ "students.profile.house" | translate }}
+								{{ "common.fullcalendar.buttonText.list" | translate }}
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-12" *ngIf="showList">
+			<app-students-house-list
+				[residentId]="selectedResidenceId"
+				[intakeId]="selectedIntakeId"
+				[showBackAction]="false"
+				[streamId]="selectedStreamId"></app-students-house-list>
+		</div>
+	</div>
+</section>

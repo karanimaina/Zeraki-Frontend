@@ -1,0 +1,29 @@
+<div>
+	<!-- Title -->
+	<ng-content></ng-content>
+
+	<!-- Student Year Summary Performance -->
+	<div class="table-responsive">
+		<table class="table table-bordered print-table fw-bold">
+			<thead>
+			<tr class="text-uppercase" style="font-size: 13px">
+				<th>{{ 'printouts.studentReport.subject' | translate }}</th>
+				<th>{{ 'printouts.studentReport.yearSummary.formativeScore' | translate }}</th>
+				<th>{{ 'printouts.studentReport.yearSummary.endOfYearBasedScore' | translate }}</th>
+				<th>{{ 'printouts.studentReport.yearSummary.totalScore' | translate }}</th>
+				<th>{{ 'common.grade' | translate }}</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr *ngFor="let subject of yearSummaryReport">
+				<td class="text-uppercase" style="font-size: 12px">{{ subject.subjectName }}</td>
+				<td style="font-size: 12px">{{ subject.formativeScore }}</td>
+				<td style="font-size: 12px">{{ subject.endOfYearBasedScore }}</td>
+				<td style="font-size: 12px">{{ subject.totalScore }}</td>
+				<td style="font-size: 12px">{{ subject.grade }}</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>

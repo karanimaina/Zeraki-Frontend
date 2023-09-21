@@ -1,0 +1,131 @@
+<header class="main-header">
+  <div class="d-flex align-items-center logo-box justify-content-center hidden-sm-down">
+    <!-- <a href="#" class="waves-effect waves-light nav-link d-none d-md-inline-block mx-10 push-btn bg-transparent" data-toggle="push-menu" role="button">
+        <span class="icon-Align-left"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
+      </a>	 -->
+    <!-- Logo -->
+    <a [routerLink]="['/main/dashboard/global']" class="logo">
+      <div class="logo-lg">
+        <span class="light-logo"><img src="assets/img/litemore_logo_cropped.png" width="120" height="50"
+            alt="logo"></span>
+        <span class="dark-logo"><img src="assets/img/litemore_logo_cropped.png" width="150" height="100"
+            alt="logo"></span>
+      </div>
+    </a>
+  </div>
+  <!-- Header Navbar -->
+  <nav class="navbar navbar-static-top">
+    <!-- Sidebar toggle button-->
+    <div class="app-menu">
+      <ul class="header-megamenu nav">
+        <li class="btn-group nav-item d-xl-none">
+          <a href="#" class="waves-effect waves-light nav-link push-btn d-none" data-toggle="push-menu" role="button">
+            <span class="icon-Align-left"><span class="path1"></span><span class="path2"></span><span
+                class="path3"></span></span>
+          </a>
+          <div class="text-dark nav-link text-start pb-2 d-md-none" style="padding-left: 0.5rem; padding-right: 0.5rem;"
+            [title]="'common.school' | translate">
+            <span [routerLink]="['/main/dashboard']" class="fs-14 text-wrap fw-bolder" title="Home">
+              <img src="assets/img/litemore_logo_cropped.png" width="60" height="30" alt="logo">
+            </span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="navbar-custom-menu r-side">
+      <ul class="nav navbar-nav">
+        <!-- Country selection -->
+				<ng-container *appLitemoreUserAccess="[LitemoreUserRole.BDEV_MANAGER, LitemoreUserRole.BDEV]; hideComponent:true">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle country fs-16 w-auto" href="#" id="navbarCountrySelectionDropdown" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false">
+							{{ activeCountry?.name }}
+							<i>
+								<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+									<path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+								</svg>
+							</i>
+						</a>
+
+						<ul class="dropdown-menu animated fadeIn rounded" aria-labelledby="navbarCountrySelectionDropdown">
+							<ng-container *ngFor="let country of countries">
+								<li style="cursor: pointer;" (click)="switchCountry(country.countryId)">
+									<a class="dropdown-item my-0 lang">
+										{{ country.name }}
+									</a>
+								</li>
+							</ng-container>
+						</ul>
+					</li>
+				</ng-container>
+
+        <!-- language selection -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle fs-16" href="#" id="navbarLanguageSelectionDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <img [alt]="'common.languages.' + currentLanguage?.label?.toLowerCase() | translate"
+              [src]="'/assets/img/country-flags/' + (currentLanguage?.flagCode) + '.svg?refresh=true'"
+              style="height: 10px; transform: translateY(-2px);" />
+            <!-- {{ 'common.languages.' + currentLanguage?.label?.toLowerCase() | translate }} -->
+          </a>
+
+          <ul class="dropdown-menu animated fadeIn rounded" aria-labelledby="navbarLanguageSelectionDropdown">
+            <ng-container *ngFor="let language of languages">
+              <li style="cursor: pointer;">
+                <a class="dropdown-item my-0 lang"
+                  [style.font-weight]="(currentLanguage?.code === language.code) ? 'bold' : 'normal'"
+                  (click)="switchLanguage(language.code)">
+                  <img [alt]="'common.languages.' + currentLanguage?.label?.toLowerCase() | translate"
+                    [src]="'/assets/img/country-flags/' + (language?.flagCode) + '.svg'" style="height: 10px;" />
+                  {{ 'common.languages.' + language.label.toLowerCase() | translate }}
+                </a>
+              </li>
+            </ng-container>
+          </ul>
+        </li>
+
+        <!-- logged in user -->
+        <li class="dropdown profile-menu rounded-pill px-2" tabindex="1">
+          <ul class="d-flex menu-ul dropdown-toggle ps-1" data-bs-toggle="dropdown" title="LitemoreUser">
+            <li class="me-10 d-none d-md-inline-block pt-1">
+              <dl class="dl-horizontal">
+                  <dt>{{ (litemoreUser$ | async)?.name }}</dt>
+                  <!-- <dt class="fw-normal">shawn.shivere@zeraki.co.ke</dt> -->
+                  <dt class="fw-normal">{{ (litemoreUser$ | async)?.email }}</dt>
+              </dl>
+            </li>
+            <li class="pad-img">
+              <img class="avatar-md rounded-circle hidden-md-up" src='{{userDp}}' alt="">
+              <img class="avatar rounded-circle hidden-sm-down" src="{{userDp}}" alt="">
+            </li>
+          </ul>
+          <ul class="dropdown-menu dropdown-menu1 animated flipInX positioned bg-active rounded">
+            <li class="user-body">
+              <a class="dropdown-item" [routerLink]="['/litemore/profile']"><i
+                class="ti-user text-muted me-2"></i>{{ 'layout.top.profile' | translate }}</a>
+              <a class="dropdown-item" [routerLink]="['/litemore/reset-password']"><i
+                  class="ti-key text-muted me-2"></i>{{ 'layout.top.changePassword' | translate }}</a>
+              <a *appLitemoreUserAccess="[LitemoreUserRole.SUPER_ADMIN, LitemoreUserRole.TECH_SUPPORT]" class="dropdown-item" (click)="clearCache()">
+                <i class="text-muted me-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-minecart-loaded" viewBox="0 0 16 16">
+                    <path
+                      d="M4 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm8-1a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM.115 3.18A.5.5 0 0 1 .5 3h15a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 14 12H2a.5.5 0 0 1-.491-.408l-1.5-8a.5.5 0 0 1 .106-.411zm.987.82 1.313 7h11.17l1.313-7H1.102z" />
+                    <path fill-rule="evenodd"
+                      d="M6 1a2.498 2.498 0 0 1 4 0c.818 0 1.545.394 2 1 .67 0 1.552.57 2 1h-2c-.314 0-.611-.15-.8-.4-.274-.365-.71-.6-1.2-.6-.314 0-.611-.15-.8-.4a1.497 1.497 0 0 0-2.4 0c-.189.25-.486.4-.8.4-.507 0-.955.251-1.228.638-.09.13-.194.25-.308.362H3c.13-.147.401-.432.562-.545a1.63 1.63 0 0 0 .393-.393A2.498 2.498 0 0 1 6 1z" />
+                  </svg>
+                </i>
+                {{ 'litemore.clearCache' | translate }}
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" (click)="logout()"><i class="ti-lock text-muted me-2"></i>{{ 'layout.top.logout'
+                | translate }}</a>
+            </li>
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+</header>

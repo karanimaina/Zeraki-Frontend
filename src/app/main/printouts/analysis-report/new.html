@@ -1,0 +1,609 @@
+<section class="content mt-config">
+    <div class="row">
+        <div class="col-12">
+            <div class="box box-widget">
+              <div class="box-header with-border p-header">
+                <div class="user-block">
+                    <h4 class="box-title">Analysis Report</h4>
+                </div>
+                <ul class="box-controls pull-right">
+                    <li><a class="box-btn-slide text-dark fs-16" href="#"></a></li>
+                </ul>
+              </div>
+              <div class="box-body">
+                <form #arForm="ngForm" class="form" (ngSubmit)="arForm.form.valid && getAnalysisReport()">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                            <label class="form-label">{{schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) :
+                              schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) :
+                              schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' |
+                              translate)}}</label>
+                            <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                              [items]="schoolTypeData?.current_forms_list"
+                              [selectOnTab]="true"
+                              appendTo="body"
+                              [dropdownPosition]="'bottom'"
+                              [disabled]="fetching_examsList_inprogress || fetching_examsData_inprogress"
+                              name="fom"
+                              required
+                              [(ngModel)]="selected.intake"
+                              (ngModelChange)="invalidateStreams();fetchIntakeStreamExams(selected.intake, null)"
+                              bindLabel="classlevel"
+                              placeholder="Select {schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) :
+                              schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) :
+                              schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' |
+                              translate)}}">
+                            </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                            <label class="form-label">Stream</label>
+                            <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                              [items]="selected?.intake?.streams"
+                              appendTo="body"
+                              [dropdownPosition]="'bottom'"
+                              [disabled]="fetching_examsList_inprogress || fetching_examsData_inprogress"
+                              name="stream"
+                              [(ngModel)]="selected.stream"
+                              (ngModelChange)="fetchIntakeStreamExams(selected.intake, selected.stream)"
+                              [selectOnTab]="true"
+                              bindLabel="name"
+                              placeholder="Select stream (Optional)">
+                            </ng-select>
+                            </div>
+                        </div>
+                        <div *ngIf="!fetching_examsList_inprogress && exams.length > 0" class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Exam</label>
+                                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                    [items]="exams"
+                                    appendTo="body"
+                                    [dropdownPosition]="'bottom'"
+                                    [disabled]="fetching_examsData_inprogress"
+                                    bindLabel="name"
+                                    name="exam"
+                                    groupBy="term"
+                                    [(ngModel)]="selected.exam"
+                                    placeholder="Select Exam">
+                                    <ng-template ng-optgroup-tmp let-item="item">
+                                        {{item.term || 'Unnamed group'}}
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div *ngIf="!(exams.length > 0) && no_exams_msg.length > 0" class="col-md-12 bg-danger">
+                          <h4>{{no_exams_msg}}</h4>
+                        </div>
+                    </div>
+                    <button *ngIf="selected?.exam?.name?.length > 0 && (selected?.intake?.intakeid > 0 || selected?.stream?.streamid > 0) && !fetching_examsData_inprogress" type="submit" class="btn btn-sm btn-info pull-right box-btn-slide-close">
+                        Get Analysis Reports
+                    </button>
+                    <div *ngIf="fetching_examsData_inprogress" class="pull-right">
+                        <img src="../../../../assets/img/loading-bars.svg" alt="Loading-bars">
+                    </div>
+                </form>
+
+              </div>
+            </div>
+            <div *ngIf="no_data && loaded" class="box box-widget">
+              <div class="box-body bg-warning">
+                <h4>
+                  No reports found
+                </h4>
+              </div>
+            </div>
+            <div *ngIf="classData?.aggregate_stats?.entries > 0" class="box box-widget">
+                <div class="box-header with-border p-header">
+                  <div class="user-block">
+                      <h4 class="box-title">Options</h4>
+                  </div>
+                  <ul class="box-controls pull-right">
+                      <li><a class="box-btn-slide" href="#"></a></li>
+                  </ul>
+                </div>
+                <div class="box-body">
+                    <form class="form">
+                        <div class="row">
+                            <div class="col-md-8 mx-auto">
+
+                                <div class="row">
+                                    <h6>Top Students:</h6>
+                                </div>
+                                <div class="row mt-20">
+                                    <div class="col-12">
+                                        <input type="checkbox" id="sub-top" class="filled-in chk-col-info" name="learn_cred" checked="true" [(ngModel)]="show_top_students.subjects" (ngModelChange)="onTopStudentsSubjectsChange()" />
+                                        <label for="sub-top">Show subjects' top students</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="checkbox" id="stud-top" class="filled-in chk-col-info" name="all_students" checked="false" [(ngModel)]="show_top_students.only" (ngModelChange)="onTopStudentsOnlyChange()" />
+                                        <label for="stud-top">Show top students only</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="checkbox" id="most-imprvd" class="filled-in chk-col-info" name="all_students" checked="false" />
+                                        <label for="most-imprvd">Show most improved</label>
+                                    </div>
+                                </div>
+                                <div *ngIf="classData.kcse_compare" class="row mt-10">
+                                    <div class="col-12 form-group">
+                                      <label class="form-label">KCSE Year To Compare With: </label>
+                                      <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                          [items]="classData.kcse_means_previous"
+                                          [disabled]="fetching_examsData_inprogress"
+                                          appendTo="body"
+                                          [dropdownPosition]="'bottom'"
+                                          bindLabel="year"
+                                          bindValue="year"
+                                          name="kcse_mean"
+                                          [(ngModel)]="selected_kcse_mean.item"
+                                          (ngModelChange)="onKcseMeanChange()"
+                                          placeholder="Select KCSE Year">
+                                      </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+          <!-- DOWNLOAD BTN -->
+          <div *ngIf="!no_data" class="d-flex justify-content-end">
+            <div class="btn-group">
+                <button class="btn btn-sm btn-dark me-5 d-none d-md-inline-block" type="button" (click)="download()">
+                  <span *ngIf="!isPrinting">
+                    <i>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+                          <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+                          <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
+                      </svg>
+                    </i>
+                    Print
+                  </span>
+                  <span *ngIf="isPrinting">Printing...</span>
+                </button>
+                <button class="btn btn-sm btn-dark" type="button" data-bs-toggle="dropdown">
+                  <i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                    </svg>
+                  </i>
+                  Download
+                </button>
+                <div class="dropdown-menu bg-active">
+                    <a class="dropdown-item" (click)="fetchContent(true)">
+                        <i class="me-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-table" viewBox="0 0 16 16">
+                                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
+                            </svg>
+                        </i>
+                        Spreadsheet
+                    </a>
+                </div>
+            </div>
+          </div>
+
+          <div *ngIf="!no_data" class="col-12 mt-20 px-30 animated bounceInUp" #printthis>
+            <div class="box" id="printbody">
+              <div id="printhead" class="box-header without-border pb-2">
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- <img src="../../../../assets/img/default-logo.png" height="100" width="100" alt="School logo"> -->
+                        <img src="{{school_logo_path}}" height="100" width="100" (error)="school_logo_path = '../../../../assets/img/default-logo.png'" alt="School logo">
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <h1>{{school_profile?.name}}</h1>
+                        <h4>{{classData.examname}}</h4>
+                        <h4>{{classData.classname}}</h4>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <h4 *ngIf="school_profile?.address.trim().length > 0">{{school_profile?.address}}</h4>
+                        <h4 *ngIf="school_profile?.phone.trim().length > 0">{{school_profile?.phone}}</h4>
+                        <h4 *ngIf="school_profile?.email.trim().length > 0">{{school_profile?.email}}</h4>
+                    </div>
+                </div>
+              </div>
+              <div class="box-body pt-0">
+                <div id="printbody1" *ngIf="!show_top_students.only" class="bg-secondary py-1 ps-3 text-bold">
+                  {{classData.classname}} - {{classData.examname}} - Report
+                  <span *ngIf="selected_kcse_mean.item != null">(Compared to KCSE {{selected_kcse_mean.item.year}})</span>
+                </div>
+                <div id="printbody2" class="row g-3">
+                    <div class="col-lg-3 col-md-12">
+                        <div class="row g-3 mt-15 mb-5">
+                          <div *ngIf="classData?.aggregate_stats?.first != undefined" class="col text-center">
+                              <div class="fs-6">{{classData?.aggregate_stats?.first.name}}</div>
+                              <div class="fs-20 text-success">
+                                <strong>
+                                  {{classData?.aggregate_stats?.first.value}}
+                                  <span *ngIf="classData?.aggregate_stats?.first.suffix != undefined">{{classData?.aggregate_stats?.first.suffix}}</span>
+                                </strong>
+                              </div>
+                              <div class="fs-8 text-muted" *ngIf="(selected_kcse_mean.item == null || selected_kcse_mean.item == undefined) && classData?.aggregate_stats?.first.change != undefined">
+                                {{classData?.aggregate_stats?.first.change}}
+                                <i *ngIf="classData?.aggregate_stats?.first.change > 0" class="fa fa-level-up text-success" aria-hidden="true"></i>
+                                <i *ngIf="classData?.aggregate_stats?.first.change == 0" class="fa fa-long-arrow-right text-primary" aria-hidden="true"></i>
+                                <i *ngIf="classData?.aggregate_stats?.first.change < 0" class="fa fa-level-down text-danger" aria-hidden="true"></i>
+                              </div>
+                              <div class="fs-8 text-muted" *ngIf="selected_kcse_mean.item != null">
+                                {{classData.kcse_mean_change | number: '1.2-4}}
+                                <i *ngIf="classData.kcse_mean_change > 0" class="fa fa-level-up text-success" aria-hidden="true"></i>
+                                <i *ngIf="classData.kcse_mean_change == 0" class="fa fa-long-arrow-right text-primary" aria-hidden="true"></i>
+                                <i *ngIf="classData.kcse_mean_change < 0" class="fa fa-level-down text-danger" aria-hidden="true"></i>
+                              </div>
+                          </div>
+                          <div *ngIf="classData?.aggregate_stats?.second != undefined" class="col text-center">
+                              <div class="fs-6">{{classData?.aggregate_stats?.second.name}}</div>
+                              <div class="fs-20 text-success">
+                                <strong>
+                                  {{classData?.aggregate_stats?.second.value}}
+                                  <span *ngIf="classData?.aggregate_stats?.second.suffix != undefined">{{classData?.aggregate_stats?.second.suffix}}</span>
+                                </strong>
+                              </div>
+                              <div *ngIf="classData?.aggregate_stats?.second.change != undefined" class="fs-8 text-fade">{{classData?.aggregate_stats?.second.change}}
+                              <span class="fa-hover">
+                                <i *ngIf="classData?.aggregate_stats?.second.change > 0" class="fa fa-level-up text-success" aria-hidden="true"></i>
+                                <i *ngIf="classData?.aggregate_stats?.second.change == 0" class="fa fa-long-arrow-right text-primary" aria-hidden="true"></i>
+                                <i *ngIf="classData?.aggregate_stats?.second.change < 0" class="fa fa-level-down text-danger" aria-hidden="true"></i>
+                              </span>
+                              </div>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row g-3 mt-10">
+                        <div class="col text-center">
+                            <div class="fs-6">Mean Grade</div>
+                            <div class="fs-20"><strong>{{classData?.aggregate_stats?.mean_grade}}</strong></div>
+                        </div>
+                        <div class="col text-center">
+                            <!-- <div class="fs-6">Students</div>
+                            <div class="fs-20"><strong>267</strong></div> -->
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6">
+                        <div class="d-flex align-items-center pe-2 justify-content-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z"/>
+                            </svg>
+                            <span class="ps-5 fs-7">Perfomance of {{schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) : ('common.year' | translate) + classData?.exam_form}} streams</span>
+                        </div>
+                        <div class="d-flex align-items-center pe-2 justify-content-center mt-20">
+                            <highcharts-chart
+                                style="width: 98%;display: block"
+                                *ngIf="isHighcharts"
+                                [Highcharts]="Highcharts"
+                                [options]="highchart_stream_comparison">
+                            </highcharts-chart>
+                        </div>
+                        <!-- <div class="container bg-secondary-light">
+                            <div class="row pt-5">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                    <label class="form-label">Change Exam:</label>
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                        class="form-control-dropdown"
+                                        [items]="items"
+                                        [clearable]="false"
+                                        [(ngModel)]="selectedItem">
+                                    </ng-select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                    <label class="form-label">Change Stream</label>
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                        class="form-control-dropdown"
+                                        [items]="items"
+                                        [clearable]="false"
+                                        [(ngModel)]="selectedItem">
+                                    </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="col-lg-3 col-md-12">
+                        <div class="d-flex justify-content-center mb-10">
+                            <span class="text-center">Students who sat for the exam</span>
+                        </div>
+                        <div class="d-flex align-items-center pe-2 justify-content-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-mortarboard" viewBox="0 0 16 16">
+                                <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5ZM8 8.46 1.758 5.965 8 3.052l6.242 2.913L8 8.46Z"/>
+                                <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46l-3.892-1.556Z"/>
+                            </svg>
+                        </div>
+                        <div class="d-flex align-items-center pe-2 justify-content-center mt-20">
+                            <div>
+                                <div class="fw-bolder me-5 text-muted fs-30 text-center">{{classData?.aggregate_stats?.entries}}</div>
+                                <div class="fw-bolder me-5 text-muted fs-30 text-center">Students</div>
+                                <!-- <span class="fw-bolder me-5 text-muted fs-40 text-center">45<br>Students</span> -->
+                            </div>
+                        </div>
+                        <!-- <div class="row mt-50">
+                            <div class="col-2"></div>
+                            <div class="col-8">
+                                <div class="btn-group-vertical">
+                                    <button class="waves-effect waves-light btn btn-dark rounded btn-sm" type="button">Merit List</button>
+                                    <button class="waves-effect waves-light btn btn-dark rounded mt-5 btn-sm" type="button">Most improved List</button>
+                                    <div class="btn-group my-5 rounded">
+                                        <button type="button" class="waves-effect waves-light btn btn-dark dropdown-toggle btn-sm" data-bs-toggle="dropdown">
+                                            Report Forms
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Separated link</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                        </div> -->
+                    </div>
+                </div>
+                <div id="printbody3" *ngIf="!show_top_students.only && classData?.subjects?.list?.length > 0" class="bg-secondary py-1 ps-3 text-bold mt-2">
+                    SUBJECT STATISTICS
+                </div>
+                <div id="printbody4" *ngIf="!show_top_students.only && classData?.subjects?.list?.length > 0" class="row mt-2 px-20">
+                    <div class="table-responsive">
+                        <table class="table  table-sm table-bordered mb-0"  matSort (matSortChange)="sortData($event)" id="tebo">
+                            <tbody>
+                              <tr>
+                                <th scope="col" mat-sort-header="subject">Name</th>
+                                <th scope="col" mat-sort-header="value">{{classData.subjects.value_type}}</th>
+                                <th *ngIf="classData.subjects.show_previous" scope="col" mat-sort-header="previous">Previous {{classData.subjects.value_type}}</th>
+                                <th scope="col" mat-sort-header="change">Change</th>
+                                <th scope="col">Trend</th>
+                                <th scope="col" mat-sort-header="grade">Grade</th>
+                              </tr>
+                            </tbody>
+                            <tbody>
+                              <tr *ngFor="let subs of sortedData">
+                                <th scope="row">{{ subs.subject }}</th>
+                                <td>
+                                  {{ subs.value }}
+                                  <span *ngIf="classData.subjects.suffix != null">{{classData.subjects.suffix}}</span>
+                                </td>
+                                <td *ngIf="classData.subjects.show_previous">{{ subs.previous }}</td>
+                                <td>
+                                  <span *ngIf="selected_kcse_mean.item == null || selected_kcse_mean.item == undefined">
+                                    <span *ngIf="subs.change > 0">+</span>
+                                    {{ subs.change }}
+                                  </span>
+                                  <span *ngIf="selected_kcse_mean.item != null">
+                                    <span *ngIf="subs.kcse_mean_change > 0">+</span>
+                                    {{ subs.kcse_mean_change | number: '1.2-4 }}
+                                  </span>
+                                </td>
+                                <td *ngIf="selected_kcse_mean.item == null || selected_kcse_mean.item == undefined">
+                                    <i *ngIf="subs.change > 0" class="fa fa-level-up text-success" aria-hidden="true"></i>
+                                    <i *ngIf="subs.change == 0" class="fa fa-long-arrow-right text-primary" aria-hidden="true"></i>
+                                    <i *ngIf="subs.change < 0" class="fa fa-level-down text-danger" aria-hidden="true"></i>
+                                </td>
+                                <td *ngIf="selected_kcse_mean.item != null">
+                                  <i *ngIf="subs.kcse_mean_change > 0" class="fa fa-level-up text-success" aria-hidden="true"></i>
+                                  <i *ngIf="subs.kcse_mean_change == 0" class="fa fa-long-arrow-right text-primary" aria-hidden="true"></i>
+                                  <i *ngIf="subs.kcse_mean_change < 0" class="fa fa-level-down text-danger" aria-hidden="true"></i>
+                                </td>
+                                <td>{{ subs.grade }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+                <div id="printbody5" *ngIf="!show_top_students.only && classData?.current_class_summary_list?.length > 0" class="bg-secondary py-1 ps-3 text-bold mt-20 break-before">
+                    CLASS GRADE SUMMARY
+                </div>
+                <div id="printbody6" *ngIf="!show_top_students.only && classData?.current_class_summary_list?.length > 0" class="row mt-20 px-20">
+                    <div class="table-responsive">
+                        <table class="table  table-sm table-bordered mb-0">
+                            <tbody>
+                              <tr>
+                                <th scope="col" *ngFor="let cgHeading of classData.labels_current_class_summary" class="text-capitalize">{{ cgHeading }}</th>
+                              </tr>
+                            </tbody>
+                            <tbody>
+                              <tr *ngFor="let subs of classData.current_class_summary_list">
+                                <td *ngFor="let label of classData.labels_current_class_summary">{{ subs[label] }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+
+                <!-- CLASS SUBJECT MEANS/OVERALL STATISTICS -->
+                <div *ngIf="!show_top_students.only" class="row">
+                    <div class="col-md-6 col-12  mt-20">
+                        <div class="bg-secondary py-1 ps-3 text-bold">
+                            CLASS SUBJECT MEANS
+                        </div>
+                        <div class="mt-20">
+                            <highcharts-chart
+                                [Highcharts]="Highcharts_subMeans"
+                                [options]="highchart_subject_mean"
+
+                                style="width: 100%; display: block"
+                            ></highcharts-chart>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12 mt-20">
+                        <div class=" bg-secondary py-1 ps-3 text-bold">
+                            OVERALL CLASS STATISTICS
+                        </div>
+                        <div class="mt-20">
+                            <highcharts-chart
+                                [Highcharts]="Highcharts_classStats"
+                                [options]="highchart_students_per_grade"
+
+                                style="width: 100%; display: block"
+                            ></highcharts-chart>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngFor="let sub of classData.merit_summary_list">
+                  <!-- OVERALL -->
+                  <div class="bg-secondary py-1 ps-3 text-bold mt-20">
+                    {{ sub.subject }}
+                  </div>
+                  <div class="row mt-20 px-20">
+                      <div class="col-12">
+                        Grade Summary - {{sub.subject}}
+                      </div>
+                      <div class="table-responsive" *ngIf="!show_top_students.only && sub.stream_data.length > 0">
+                          <table class="table  table-sm table-bordered mb-0">
+                              <thead>
+                                <tr *ngIf="sub.subject == 'overall'">
+                                  <ng-container *ngFor="let label of classData.labels_stream_data_overall">
+                                    <th scope="col" *ngIf="label != 'TSC No' || ( school_profile?.tscInAnalysisReport && label === 'TSC No')">{{label}}</th>
+                                  </ng-container>
+                                </tr>
+                                <tr *ngIf="sub.subject != 'overall'">
+                                  <ng-container *ngFor="let label of classData.labels_stream_data_subjects">
+                                    <th scope="col" *ngIf="label != 'TSC No' || ( school_profile?.tscInAnalysisReport && label === 'TSC No')">{{label}}</th>
+                                  </ng-container>
+                                </tr>
+                              </thead>
+                              <tbody *ngIf="sub.subject == 'overall'">
+                                <tr *ngFor="let d of sub.stream_data" [ngClass]="{'bg-primary-light': d.streamid == selected_stream.streamid, 'fw-bold': d.overall_status == 1}">
+                                  <ng-container *ngFor="let label of classData.labels_stream_data_overall">
+                                    <td scope="col" *ngIf="label != 'TSC No' || ( school_profile?.tscInAnalysisReport && label === 'TSC No')">{{ d[label] }}</td>
+                                  </ng-container>
+                                </tr>
+                              </tbody>
+                              <tbody *ngIf="sub.subject != 'overall'">
+                                <tr *ngFor="let d of sub.stream_data" [ngClass]="{'bg-primary-light': d.streamid == selected_stream.streamid, 'fw-bold': d.overall_status == 1}">
+                                  <ng-container *ngFor="let label of classData.labels_stream_data_subjects">
+                                    <td scope="col" *ngIf="label != 'TSC No' || ( school_profile?.tscInAnalysisReport && label === 'TSC No')">{{ d[label] }}</td>
+                                  </ng-container>
+                                </tr>
+                              </tbody>
+                            </table>
+                      </div>
+                  </div>
+                  <div class="table-responsive mt-20" *ngIf="!show_top_students.only && sub?.gender_data?.length > 0">
+                      <table class="table  table-sm table-bordered mb-0">
+                          <thead>
+                            <tr *ngIf="sub.subject == 'overall'">
+                              <th scope="col" *ngFor="let label of classData.labels_gender_data_overall" class="text-capitalize">
+                                {{label}}
+                              </th>
+                            </tr>
+                            <tr *ngIf="sub.subject != 'overall'">
+                              <th scope="col" *ngFor="let label of classData.labels_gender_data_subjects" class="text-capitalize">
+                                {{label}}
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody *ngIf="sub.subject == 'overall'">
+                            <tr *ngFor="let d of sub.gender_data">
+                              <td style="border: 2px solid black" *ngFor="let label of classData.labels_gender_data_overall">
+                                {{ d[label] }}
+                              </td>
+                            </tr>
+                          </tbody>
+                          <tbody *ngIf="sub.subject != 'overall'">
+                            <tr *ngFor="let d of sub.gender_data">
+                              <td style="border: 2px solid black" *ngFor="let label of classData.labels_gender_data_subjects">
+                                {{ d[label] }}
+                              </td>
+                            </tr>
+                          </tbody>
+                      </table>
+                  </div>
+                  <div *ngFor="let top_students_category of ['overall', 'boys', 'girls']">
+                    <div *ngIf="(sub.subject == 'overall' || (sub.subject != 'overall' && show_top_students.subjects)) && sub.top_students[top_students_category].length > 0">
+                      <div *ngIf="top_students_category == 'overall'" class="col-12 mt-20">
+                        Top Students - {{sub.subject}}
+                      </div>
+                      <div *ngIf="top_students_category != 'overall'" class="col-12 mt-20">
+                        Top {{top_students_category}} - {{sub.subject}}
+                      </div>
+                      <div class="table-responsive">
+                          <table class="table  table-sm table-bordered mb-0">
+                              <thead>
+                                <tr *ngIf="sub.subject == 'overall'">
+                                  <th scope="col" *ngFor="let label of classData.labels_top_students_overall">
+                                    {{label}}
+                                  </th>
+                                </tr>
+                                <tr *ngIf="sub.subject != 'overall'">
+                                    <th scope="col" *ngFor="let label of classData.labels_top_students_subjects">
+                                      {{label}}
+                                    </th>
+                                </tr>
+                              </thead>
+                              <tbody *ngIf="sub.subject == 'overall'">
+                                <tr *ngFor="let d of sub.top_students[top_students_category]">
+                                    <td style="border: 2px solid black" *ngFor="let label of classData.labels_top_students_overall">
+                                      {{d[label]}}
+                                    </td>
+                                </tr>
+                              </tbody>
+                              <tbody *ngIf="sub.subject != 'overall'">
+                                  <tr *ngFor="let d of sub.top_students[top_students_category]">
+                                      <td style="border: 2px solid black" *ngFor="let label of classData.labels_top_students_subjects">
+                                        {{d[label]}}
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div ng-if="show_top_students.subjects && !show_top_students.only && print_options.one_subject_per_page" class="page-break"></div> -->
+                </div>
+
+                <!-- HOUSE AVERAGES -->
+                <div *ngIf="!show_top_students.only && classData.house_averages != undefined && classData.house_averages.houses.length > 0">
+                  <div class="bg-secondary py-1 ps-3 text-bold mt-20">
+                    HOUSE AVERAGES
+                  </div>
+                  <div class="row mt-20 px-20">
+                      <div class="table-responsive">
+                          <table class="table table-sm table-bordered mb-0">
+                              <thead>
+                                <tr>
+                                  <th scope="col" *ngFor="let ha_label of classData.house_averages.labels">{{ha_label.label}}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let h of classData.house_averages.houses">
+                                  <td *ngFor="let ha_label of classData.house_averages.labels">{{ h[ha_label.label_fixed] }}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                  </div>
+                </div>
+
+                <!-- PERFORMANCE OVER TIME -->
+                <div *ngIf="!show_top_students.only">
+                  <div class="bg-secondary py-1 ps-3 text-bold mt-20">
+                    PERFOMANCE OVER TIME
+                  </div>
+                  <div class="row mt-20 px-20">
+                      <highcharts-chart
+                          *ngIf="isHighcharts"
+                          style="width: 101.6%; display: block"
+                          [Highcharts]="HighchartStreams"
+                          [options]="highchart_time_series">
+                      </highcharts-chart>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>

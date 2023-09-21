@@ -1,0 +1,106 @@
+<div class="row">
+    <div *ngIf="studentReport.classTeacher"
+        class="col-sm-12 col-md-12 singature-div"
+        style="padding: 3px 12px 11px 12px">
+        <table style="width: 100%;">
+            <thead></thead>
+            <tbody>
+                <tr>
+                    <td class="td-fit-nowrap text-start">
+                        <span class="zreport-label remark-title"
+                            style="padding-left: 0">
+                            {{ 'printouts.reportForms.classTRemarks' | translate }}
+                            <span *ngIf="studentReport.classTeacher.name">
+                                -
+                                {{studentReport.classTeacher.name}}
+                            </span>
+                        </span>
+                    </td>
+                    <td class="td-fit-nowrap text-end"
+                        style="padding-left: 30px;">
+                        <span *ngIf="!(userRoles$ | async)?.isStudent"
+                            class="zreport-label pull-right">
+                            {{ 'printouts.reportForms.signature' | translate }}
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-fit-nowrap" class="text-start">
+                        <span *ngIf="showClassTeacherComments">
+                            <span
+                                *ngIf="showCustomComments && studentReport.classTeacherRemarks.length > 0"
+                                class="fw-normal">{{studentReport.classTeacherRemarksCustom}}</span>
+                            <span
+                                *ngIf="!(showCustomComments && studentReport.classTeacherRemarksCustom.length > 0)"
+                                class="fw-normal">
+                                {{ studentReport.classTeacherRemarks }}
+                            </span>
+                        </span>
+                    </td>
+                    <td class="td-fit-nowrap text-end"
+                        style="padding: 3px 10px 0 30px">
+                        <div
+                            *ngIf="classTeacherSignatureUrl && showClassTeacherSignature && !(userRoles$ | async)?.isStudent">
+                            <img style="width: auto;min-width: 2.5cm;max-height: 2.5em;max-width: 100%" src="{{classTeacherSignatureUrl}}" alt="">
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-sm-12 col-md-9"
+        style="float: none; margin: 0 auto;padding: 0 34px 0 27px">
+        <div class="col-sm-12 col-md-12 zreport-dashed-border"></div>
+    </div>
+
+    <div *ngIf="schoolInfo?.principal"
+        class="col-sm-12 col-md-12 signature-div"
+        style="padding: 3px 12px 11px 12px">
+        <table style="width: 100%;">
+            <thead></thead>
+            <tbody>
+                <tr>
+                    <td class="text-start">
+                        <span class="zreport-label remark-title"
+                            style="padding-left: 0">
+                            {{ 'printouts.reportForms.headTRemarks'
+                            | translate:
+                            {principal:
+                            schoolInfo?.principal?.title} }}
+                            <span
+                                *ngIf="schoolInfo?.principal?.name !== undefined">
+                                -
+                                {{schoolInfo?.principal?.name}}</span></span>
+                    </td>
+                    <td class="text-end" style="padding-left: 30px">
+                        <span *ngIf="!(userRoles$ | async)?.isStudent"
+                            class="zreport-label pull-right">{{
+                            'printouts.reportForms.signature' |
+                            translate
+                            }}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-start fw-normal">
+                        <span
+                            *ngIf="showPrincipalComments">{{studentReport.principalRemarks}}</span>
+                    </td>
+                    <td class="text-end td-fit-nowrap fw-normal td-5"
+                        style="padding: 3px 10px 0 30px">
+                        <div *ngIf="schoolInfo?.principal?.signature && showPrincipalSignature && !(userRoles$ | async)?.isStudent">
+                            <img style="width: auto;min-width: 2.5cm;max-height: 2.5em;max-width: 100%" src="{{schoolInfo?.principal?.signature}}" alt="">
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--Used in downloading as pdf-->
+<div hidden>
+	<img id="school-logo" crossorigin="anonymous" [src]="schoolInfo?.logo ? schoolInfo?.logo+'?cacheblock=true' : ''" alt="logo" class="logo" width="160" height="160">
+	<img id="class-teacher-signature" crossorigin="anonymous" [src]="classTeacherSignatureUrl ? classTeacherSignatureUrl+'?cacheblock=true' : ''" alt="logo" class="logo" width="160" height="160">
+	<img id="principal-signature" crossorigin="anonymous" [src]="schoolInfo?.principal?.signature ? schoolInfo?.principal?.signature+'?cacheblock=true' : ''" alt="logo" class="logo" width="160" height="160">
+</div>

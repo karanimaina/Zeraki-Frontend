@@ -1,0 +1,14 @@
+@media print {
+	html {
+		zoom: 75%;
+	}
+
+	div.card {
+		border: unset !important;
+		box-shadow: unset !important;
+	}
+
+	.zreport-page .col-md-10 {
+		width: unset !important;
+	}
+}

@@ -1,0 +1,153 @@
+<!-- Main content -->
+<section class="content mt-config">
+    <div class="box">
+        <!-- <pre>{{selectedExamDetails|json}}</pre> -->
+        <div class="box-body">
+            <form class="row">
+				<!-- Exam -->
+                <div class="form-group col-sm-12">
+                    <label for="" class="control-label">
+                        {{"exams.uploadExams.textExam"|translate}}
+                    </label>
+                    <select name="name" id="" [(ngModel)]="selectedExam" (change)="examChange()" class="form-select">
+                        <option *ngFor="let exam of exams" [value]="exam.seriesid">{{exam.name}}</option>
+                    </select>
+                </div>
+				<!-- Intake -->
+                <div class="col-sm-4 form-group">
+                    <label for="">
+                        {{ schoolTypeData?.formoryear | formOrYear }}
+                    </label>
+					<input class="form-control" value="{{selectedExamDetails?.exam_form}}" disabled/>
+                </div>
+				<!-- Term -->
+                <div class="col-sm-4 form-group">
+                    <label for="">
+                        {{"exams.uploadExams.textTerm"|translate}}
+                    </label>
+                    <input class="form-control" value="{{selectedExamDetails?.term}}" disabled/>
+                </div>
+				<!-- Year -->
+                <div class="col-sm-4 form-group">
+                    <label for="">
+                        {{"exams.uploadExams.textYear"|translate}}
+                    </label>
+                    <input class="form-control" value="{{selectedExamDetails?.year}}" disabled/>
+                </div>
+
+                <div class="col-sm-12 form-group">
+                    <app-excel-download-template
+                        [labelText]="'exams.uploadExams.textDocumentDescribe' | translate"
+                        [subjects]="subjects"
+                        [fileName]="'exams.uploadExams.excelTemplateDownload.fileName' | translate"
+                        [templateHeaders]="excelTemplateHeaders"
+						(templateHeadersChange)="updatedExcelHeaders($event)"
+                        [entries]="defaultExcelEntries"
+                        (uploadedEntries)="readUploadedStudentMarks($event)"
+                        (headerErrors)="setHeaderErrors($event)">
+                    </app-excel-download-template>
+                </div>
+
+                <div class="form-group mb-0" style="display: flex; justify-content: space-between;">
+					<!-- back -->
+                    <button class="btn btn-secondary btn-sm" [routerLink]="['/main/exams/manage']">
+                        {{"exams.uploadExams.btnTextBack"|translate}}
+                    </button>
+					<!-- Loading -->
+                    <span *ngIf="uploadingContent" class="btn btn-default btn-sm"><i class="fa fa-spin fa-spinner"></i>
+                        {{"exams.uploadExams.btnTextLoading"|translate}}
+                    </span>
+					<!-- Upload Class Results -->
+                    <button *ngIf="!uploadingContent" (click)="processFile()" class="class btn btn-info btn-sm">
+                        {{"exams.uploadExams.btnTextUploadClassResults"|translate}}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<!-- Control Sidebar  -->
+<aside class="control-sidebar" [ngClass]="{'control-sidebar-open':rightSidebar}">
+
+
+    <div>
+        <span class="font-bold no-margins text-danger">
+            <!-- Error -->
+            {{"exams.uploadExams.textError"|translate}}
+        </span>
+        <br>
+        <small>
+            <!-- The following errors were encountered  -->
+            {{"exams.uploadExams.textErrorList"|translate}}
+        </small>
+        <button style="margin-top: -19px;" (click)="rightSidebar = false"
+            class="pull-right btn waves-effect waves-light btn-sm btn-danger">
+            <i class="text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+              </i>
+        </button>
+    </div>
+    <hr>
+    <div *ngIf="rightSidebar && custom_errors.length> 0  ">
+
+        <div class="media-list mt-20" *ngFor="let error of custom_errors">
+            <!--
+            ================================
+            Forbidden columns Section
+            ================================
+            -->
+            <div *ngIf="error.title == 'Forbidden Columns'" class="media py-10 px-0">
+                <div class="media-body">
+                    <p class="fs-16">
+                        <strong>{{error.title}}</strong>
+                    </p>
+                    <p *ngFor="let msg of error.msg">{{msg}}</p>
+
+                    <strong>
+                        <!-- Allowed Columns -->
+                        {{"exams.uploadExams.textAllowedColumns"|translate}}
+                    </strong>
+                    <table class="table table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <!-- Column -->
+                                    {{"exams.uploadExams.textColumn"|translate}}
+                                </th>
+                                <th>
+                                    <!-- Meaning -->
+                                    {{"exams.uploadExams.textMeaning"|translate}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let t of error.allowedHeaders">
+                                <td>{{t.key}}</td>
+                                <td>{{t.meaning}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--
+            ================================
+            Data Error Section
+            ================================
+            -->
+            <div *ngIf="error.title != 'Forbidden Columns'" class="media py-10 px-0">
+                <div class="media-body">
+                    <p class="fs-16">
+                        <strong>{{error.title}}</strong>
+                    </p>
+                    <p *ngFor="let msg of error.msg">{{msg}}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</aside>
+<!-- /.control-sidebar -->

@@ -1,0 +1,32 @@
+<div class="row">
+	<ng-container
+		*ngIf="isLoading; else schoolMetricsDisplay">
+		<ng-container *ngFor="let i of [].constructor(4)">
+			<div class="col-6 col-lg-3">
+				<div class="box">
+					<div class="box-body">
+						<app-loader-div [height]="45"></app-loader-div>
+					</div>
+				</div>
+			</div>
+		</ng-container>
+	</ng-container>
+
+	<ng-template #schoolMetricsDisplay>
+		<ng-container *ngFor="let metricItem of schoolMetrics | keyvalue: returnZero">
+			<div class="col-6 col-lg-2_5">
+				<div class="box lg-height">
+					<div class="box-body py-3">
+						<div class="d-flex justify-content-between">
+							<i class="widget-icon fa fa-calendar"></i>
+							<div class="text-end fw-600">
+								<p>{{ metricItem.key | camelCaseToWord }}</p>
+								<span>{{ metricItem.value }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ng-container>
+	</ng-template>
+</div>

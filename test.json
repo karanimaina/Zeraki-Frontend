@@ -1,0 +1,18 @@
+[
+  {
+    "classLevel": 1,
+    "subjectId": 1,
+    "topics": [
+      {
+        "topicId": 1,
+        "topicName": "Topic 1",
+        "competencies": [
+          {
+            "competencyId": 1,
+            "competencyName": "Competency 1"
+          }
+        ]
+      }
+    ]
+  }
+]

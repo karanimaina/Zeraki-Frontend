@@ -1,0 +1,23 @@
+.show-sample i{
+    transition: all 0.2s ease-in-out;
+    transform: rotate(0deg);
+}
+
+.show-sample.active i{
+    transform: rotate(180deg);
+}
+
+.sample-table{
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+.sample-table.active{
+    max-height: 500px;
+    opacity: 1;
+}
+
+.sample-gs-btn{
+    cursor: pointer;
+}

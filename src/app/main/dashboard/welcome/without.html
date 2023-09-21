@@ -1,0 +1,725 @@
+
+<section class="content mt-config">
+    <div class="row">
+      <div class="col-12">
+        <div *ngIf="bannerExists" class="box bg-img bg-info box-inverse box-slided-up" data-overlay="5">
+          <div class="box-header no-border">
+            <div class="row">
+              <div class="col-4 text-start">
+                <span class="badge" data-overlay="5">New</span>
+              </div>
+              <div class="col-4 text-center">
+                <span class="fs-5">{{banner?.title}}</span>
+              </div>
+              <div class="col-4 text-end">
+                <ul class="box-controls pull-right">
+                  <li><a class="box-btn-close"></a></li>
+                  <li><a class="box-btn-slide"></a></li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- <span class="badge" data-overlay="5">New</span>
+            <span class="mx-auto">Heading</span>
+            <ul class="box-controls pull-right">
+              <li><a class="box-btn-close"></a></li>
+              <li><a class="box-btn-slide"></a></li>
+            </ul> -->
+          </div>
+          <div class="box-body pt-0">
+            <h4 class="fw-200 mb-0">{{banner?.description}}</h4>
+            <!-- <p class="text-light">Here's the banner content description.</p> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-8 col-12">
+            <!-- <div class="box no-shadow mb-0 bg-transparent">
+              <div class="box-header no-border px-0">
+                <h4 class="box-title">Your Courses</h4>
+                <div class="box-controls pull-right d-md-flex d-none">
+                  <a href="#">View All</a>
+                </div>
+              </div>
+            </div> -->
+            <div class="row dash-comp">
+                <div class="col-12">
+                    <div class="box g-forms shadow-sm">
+                        <div class="box-body bg-img" style="background-image: url(../../../../assets/img/bg-5.png); padding: 2rem;" data-overlay-light="9">
+                            <div class="ps-lg-50 d-lg-flex align-items-center justify-content-between">
+                                <div class="d-md-flex align-items-center mb-30 mb-lg-0 w-p100 text-center">
+                                    <img src='{{userDp}}' (error)="userDp = '../../../../assets/img/avatar/p_avatar_blue.png'" width="150" height="150" class="rounded-circle" alt="" />
+                                    <div class="ms-30">
+                                        <h2 class="mb-10 text-dark">Welcome,</h2>
+                                        <!-- <h1 class="mb-0 text-fade">{{ loggedInUser.name }}</h1> -->
+                                        <h1 class="mb-0 text-fade">{{ userInfo?.name }}</h1>
+                                    </div>
+                                </div>
+                             </div>
+                            <div class="d-lg-flex align-items-center justify-content-between mt-30">
+                                <div class="d-md-flex align-items-center mb-30 mb-lg-0 w-p100">
+                                    <!-- <img src="../../../../assets/img/custom-1.svg" class="img-fluid max-w-150" alt="" /> -->
+                                    <div class="ms-30">
+                                        <h4 class="mb-10 text-dark">Manage exams from the comfort of your mobile phone</h4>
+                                        <!-- <p class="mb-0 text-fade">It is a long established fact that a reader will be distracted <br>of a page when looking at its layout. </p> -->
+                                    </div>
+                                </div>
+                                <div class=" text-end">
+                                    <button routerLink='/main/dashboard/global' type="button" class="waves-effect waves-light btn-block btn btn-info btn-sm" style="white-space: nowrap;">Latest Results</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-6">
+                    <a [routerLink]="['/main/students']" class="box g-forms">
+                    <div class="box-body small-card">
+                        <div class="d-flex align-items-center justify-content-between">
+                        <div class="text-start">
+                            <h5 class="text-dark">Students</h5>
+                            <div class="mt-5 d-flex align-items-start justify-content-start">
+                            <h4 class="fs-20 text-primary"><strong>{{ dashSummary?.members }}</strong></h4>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <div class="icon rounded-circle w-40 h-40 text-center l-h-40">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-mortarboard text-dark" viewBox="0 0 16 16">
+                                <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5ZM8 8.46 1.758 5.965 8 3.052l6.242 2.913L8 8.46Z"/>
+                                <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46l-3.892-1.556Z"/>
+                            </svg>
+                            <!-- <span class="fs-30 icon-Bulb1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span>							 -->
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-6">
+                    <a [routerLink]="['/main/teachers']" class="box">
+                    <div class="box-body small-card">
+                        <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h5 class="text-dark">Teachers</h5>
+                            <div class="mt-5 d-flex align-items-start justify-content-start">
+                            <h4 class="countnm fs-20 text-primary"><strong>{{ dashSummary?.teachers }}</strong></h4>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="icon rounded-circle w-40 h-40 text-center l-h-40">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-people text-dark" viewBox="0 0 16 16">
+                                <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+                            </svg>
+                            <!-- <span class="fs-30 icon-Bulb1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span>							 -->
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-6">
+                    <a [routerLink]="['/main/staff']" class="box">
+                    <div class="box-body small-card">
+                        <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h5 class="text-dark">Staff</h5>
+                            <div class="mt-5 d-flex align-items-start justify-content-start">
+                            <h4 class="countnm fs-20 text-primary"><strong>{{ dashSummary?.workers }}</strong></h4>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="icon rounded-circle w-40 h-40 text-center l-h-40">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-badge text-dark" viewBox="0 0 16 16">
+                                <path d="M6.5 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                <path d="M4.5 0A2.5 2.5 0 0 0 2 2.5V14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2.5A2.5 2.5 0 0 0 11.5 0h-7zM3 2.5A1.5 1.5 0 0 1 4.5 1h7A1.5 1.5 0 0 1 13 2.5v10.795a4.2 4.2 0 0 0-.776-.492C11.392 12.387 10.063 12 8 12s-3.392.387-4.224.803a4.2 4.2 0 0 0-.776.492V2.5z"/>
+                            </svg>
+                            <!-- <span class="fs-30 icon-Bulb1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span>							 -->
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-6">
+                    <a [routerLink]="['/main/classes']" class="box">
+                    <div class="box-body small-card">
+                        <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h5 class="text-dark">Streams</h5>
+                            <div class="mt-5 d-flex align-items-start justify-content-start">
+                            <h4 class="countnm fs-20 text-primary"><strong>{{ dashSummary?.classes }}</strong></h4>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="icon rounded-circle w-40 h-40 text-center l-h-40">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-house text-dark" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                                <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                            </svg>
+                            <!-- <span class="fs-30 icon-Bulb1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span>							 -->
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-12">
+          <!-- <pre>{{userRoles|json}}</pre> -->
+            <!-- <mat-card class="demo-inline-calendar-card">
+            <mat-calendar></mat-calendar>
+            </mat-card> -->
+            <div *ngIf="closestEvs.length > 0" class="px-2">
+              <div class="box no-shadow mb-0 bg-transparent">
+                <div class="box-header no-border px-0 pt-0">
+                  <span><h4 class="box-title">Events</h4></span>
+                  <span class="pull-right">
+                    <button type="button" *ngIf="userRoles.isSchoolAdmin" class="btn btn-small btn-info text-center"  (click)="addNew()" data-bs-toggle="modal" data-bs-target="#add-new-events">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                      </svg>
+                      Add
+                    </button>
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div *ngFor="let evt of closestEvs" class="box bs-5 border-dark rounded" style="margin-bottom: 0.7rem;">
+                  <div class="box-body" style="padding: 1rem;">
+                    <div class="flex-grow-1">
+                      <div class="d-flex align-items-center pe-2 justify-content-between">
+                        <h4 class="fw-500">
+                          {{evt.title}}
+                        </h4>
+                        <div class="dropdown">
+                          <a data-bs-toggle="dropdown" href="#" class="px-10 pt-5"><i class="ti-more-alt"></i></a>
+                          <div class="dropdown-menu dropdown-menu-end bg-active">
+                            <!-- <a class="dropdown-item" href="#">
+                              <i>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                  <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                  </svg>
+                              </i>
+                              Send Reminders
+                            </a> -->
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#add-new-events" (click)="editEvents(evt)"><i class="ti-settings"></i> Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" (click)="deleteEvent(evt)">
+                              <i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                </svg>
+                              </i>
+                              Delete
+                            </a>
+                        </div>
+                        </div>
+                      </div>
+                      <p class="fs-16">
+                        {{evt?.startDate | date:'dd MMM, h:mm a'}}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div *ngFor="let evt of closestEvs" class="box bs-5 border-dark rounded" style="margin-bottom: 0.7rem;">
+                  <div class="box-body" style="padding: 1rem;">
+                    <div class="flex-grow-1">
+                      <div class="d-flex align-items-center pe-2 justify-content-between">
+                        <h4 class="fw-500">
+                          {{evt.title}}
+                        </h4>
+                        <div class="dropdown">
+                          <a data-bs-toggle="dropdown" href="#" class="px-10 pt-5"><i class="ti-more-alt"></i></a>
+                          <div class="dropdown-menu dropdown-menu-end bg-active">
+                            <!-- <a class="dropdown-item" href="#">
+                              <i>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                  <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                  </svg>
+                              </i>
+                              Send Reminders
+                            </a> -->
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#add-new-events" (click)="editEvents(evt)"><i class="ti-settings"></i> Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" (click)="deleteEvent(evt)">
+                              <i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                </svg>
+                              </i>
+                              Delete
+                            </a>
+                        </div>
+                        </div>
+                      </div>
+                      <p class="fs-16">
+                        {{evt?.startDate | date:'dd MMM, h:mm a'}}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div *ngFor="let evt of closestEvs" class="box bs-5 border-dark rounded" style="margin-bottom: 0.7rem;">
+                  <div class="box-body" style="padding: 1rem;">
+                    <div class="flex-grow-1">
+                      <div class="d-flex align-items-center pe-2 justify-content-between">
+                        <h4 class="fw-500">
+                          {{evt.title}}
+                        </h4>
+                        <div class="dropdown">
+                          <a data-bs-toggle="dropdown" href="#" class="px-10 pt-5"><i class="ti-more-alt"></i></a>
+                          <div class="dropdown-menu dropdown-menu-end bg-active">
+                            <!-- <a class="dropdown-item" href="#">
+                              <i>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                  <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                  </svg>
+                              </i>
+                              Send Reminders
+                            </a> -->
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#add-new-events" (click)="editEvents(evt)"><i class="ti-settings"></i> Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" (click)="deleteEvent(evt)">
+                              <i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                </svg>
+                              </i>
+                              Delete
+                            </a>
+                        </div>
+                        </div>
+                      </div>
+                      <p class="fs-16">
+                        {{evt?.startDate | date:'dd MMM, h:mm a'}}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <!-- <a [routerLink]="['/main/events']" class="text-info" style="cursor: pointer;">
+                      View All
+                  </a> -->
+                  <button type="button" class="btn btn-small btn-info text-center">
+                    View All
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle ms-2" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+              <div *ngIf="closestEvs.length == 0" class="box h-lg-394">
+                <div class="box-header no-border">
+                  <h4 class="box-title text-center events-title">Events</h4>
+                </div>
+                <div class="box-body px-0 pt-0">
+                  <div class="px-5">
+                      <div>
+                      </div>
+                      <h4 class="text-center mb-20 mt-lg-118">No upcoming events</h4>
+
+                      <div class="row mt-auto bd-highlight mx-20">
+                        <button  type="button" class="btn btn-sm btn-info" [routerLink]="['/main/events']">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                            </svg>
+                            Add
+                        </button>
+                      </div>
+                  </div>
+                </div>
+                <!-- <div class="box-body pt-0">
+                    <div class="box no-shadow mb-0">
+                        <div class="box-body px-0 pt-0">
+                            <ul class="nav nav-pills mt-10">
+                                <li class=" nav-item"> <a href="#navpills2-1" class="nav-link active" data-bs-toggle="tab" aria-expanded="false">Calendar</a> </li>
+                                <li class="nav-item"> <a href="#navpills2-2" class="nav-link" data-bs-toggle="tab" aria-expanded="false">Events</a> </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="navpills2-1" class="tab-pane active">
+                                    <div class="row">
+                                        <mat-calendar [dateClass]="dateClass()" [selected]="selectedDateRange" (selectedChange)="selectDate($event)"></mat-calendar>
+                                    </div>
+                                </div>
+                                <div id="navpills2-2" class="tab-pane">
+                                    <div *ngIf="closestEvs.length > 0">
+                                        <div class="box no-shadow mb-0">
+                                            <div class="box-header no-border">
+                                            <h4 class="box-title text-center events-title">Events</h4>
+                                            <span class="pull-right">
+                                                <button type="button" class="btn btn-small btn-dark text-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                </svg>
+                                                Add
+                                                </button>
+                                            </span>
+                                            </div>
+                                        </div>
+                                        <div class="px-5">
+                                            <div class="box border-external rounded">
+                                            <div class="box-body pb-0">
+                                                <div class="flex-grow-1">
+                                                <div class="d-flex align-items-center pe-2 justify-content-between">
+                                                    <h4 class="fw-500">
+                                                    Programming
+                                                    </h4>
+                                                    <div class="dropdown">
+                                                    <a data-bs-toggle="dropdown" href="#" class="px-10 pt-5"><i class="ti-more-alt"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-end bg-active">
+                                                        <a class="dropdown-item" href="#">
+                                                        <i>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                                            </svg>
+                                                        </i>
+                                                        Send Reminders
+                                                        </a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                <p class="fs-16">
+                                                    Every Day 10am to 11am
+                                                </p>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="box bt-5 border-internal rounded">
+                                            <div class="box-body pb-0">
+                                                <div class="flex-grow-1">
+                                                <div class="d-flex align-items-center pe-2 justify-content-between">
+                                                    <h4 class="fw-500">
+                                                    Core Language
+                                                    </h4>
+                                                    <div class="dropdown">
+                                                    <a data-bs-toggle="dropdown" href="#" class="px-10 pt-5"><i class="ti-more-alt"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-end bg-active">
+                                                        <a class="dropdown-item" href="#">
+                                                        <i>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                                            </svg>
+                                                        </i>
+                                                        Send Reminders
+                                                        </a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                <p class="fs-16">
+                                                    Every Day 12pm to 01pm
+                                                </p>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-center">
+                                            <a [routerLink]="['/main/events']" class="text-primary" style="cursor: pointer;">
+                                                View All
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="closestEvs.length == 0">
+                                        <div class="box no-shadow mb-0">
+                                            <div class="box-header no-border">
+                                            <h4 class="box-title text-center events-title">Events</h4>
+                                            </div>
+                                        </div>
+                                        <div class="px-5">
+                                            <div class="box rounded">
+                                            <div class="box-body p-1">
+                                                <h4 class="text-center mb-20">No upcoming events</h4>
+                                                <div class="row">
+                                                <button type="button" class="btn btn-sm btn-dark">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                    </svg>
+                                                    Add
+                                                </button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+              </div>
+        </div>
+    </div>
+  </section>
+
+
+
+
+
+
+  <!-- <div class="zwhatsapp ng-scope">
+    <div class="panel" style="display: block;">
+        <div class="panel-title hbuilt">
+            <div class="chat-user">
+                <span role="link" class="pull-right chat-close text-white &amp;&amp; user_init.customer_care_number"><i class="fa fa-close"></i></span>
+                <img class="chat-avatar" src="assets_new/images/z-ws-logo.jpg" alt="">
+                <span class="online" style="display: inline;"></span>
+                <div class="chat-user-name">
+                    <span class="text-white title">Zeraki </span><br>
+                    <span class="text-white description">Happy to help 😊</span>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body p-sm">
+            <div class="z-sms" style="opacity: 1;">
+                <div class="ztitle">Zeraki </div>
+                <div class="zbody">
+                    <div>Hi there <strong style="color: rgb(32, 33, 36);">👋</strong></div>
+                    <br>
+                    <div>Need help? Reach out to us right here, and we'll get back to you as soon as we can!</div>
+                </div>
+                <div class="ztime">1:43 PM</div>
+            </div>
+        </div>
+        <div class="panel-footer p-sm">
+            <a href="https://api.whatsapp.com/send?phone=+2540798 666 000&amp;text=Hello+Zeraki+Team..." target="_blank">
+                <i class="fa fa-whatsapp"></i> Start Chat
+            </a>
+        </div>
+    </div>
+    <button type="zwbutton" id="whatsapp-btn" class="btn btn-info">
+        <i class="fa fa-whatsapp"></i>
+    </button>
+  </div> -->
+
+
+  <!-- Modal Add Event -->
+  <div class="modal fade none-border" id="add-new-events">
+  <div class="modal-dialog">
+    <form #eventForm="ngForm" class="form" (ngSubmit)="eventForm.form.valid && addEvent(eventForm)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><strong>Add Event</strong></h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="box-body">
+          <div *ngIf="!event.schoolEventId" class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">Event Name</label>
+                <input type="text" class="form-control" placeholder="Event Name" name="title" #title="ngModel" [(ngModel)]="event.title"
+                  [ngClass]="{ 'is-invalid': eventForm.submitted && title.invalid }"
+                  required>
+                  <div *ngIf="eventForm.submitted && title.errors?.required" class="form-control-feedback text-danger">
+                    <small>Title cannot be empty.</small>
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">Event Participants</label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                    [items]="ev_participants"
+                    placeholder="Select participants"
+                    class="form-control-dropdown"
+                    style="background: inherit;"
+                    [dropdownPosition]="'bottom'"
+                    [clearable]="false"
+                    name="participants"
+                    #participants="ngModel"
+                    [(ngModel)]="eventSession.participant"
+                    [ngClass]="{ 'b-1 && border-danger': eventForm.submitted && participants.invalid }"
+                    required>
+                </ng-select>
+                <div *ngIf="eventForm.submitted && participants.errors?.required" class="form-control-feedback text-danger">
+                    <small>Participants cannot be empty.</small>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="eventSession.participant == 'Parents'" class="col-md-12">
+              <div class="form-group">
+                <label class="form-label">Form<span class="text-danger">*</span></label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                    [items]="forms"
+                    placeholder="Select form"
+                    class="form-control-dropdown"
+                    [multiple]="true"
+                    [dropdownPosition]="'bottom'"
+                    [clearable]="false"
+                    name="form_selected"
+                    #form="ngModel"
+                    [(ngModel)]="eventSession.participantDescription"
+                    [ngClass]="{ 'b-1 && border-danger': eventForm.submitted && form.invalid }"
+                    required>
+                </ng-select>
+                <div *ngIf="eventForm.submitted && form.errors?.required" class="form-control-feedback text-danger">
+                    <small>Form cannot be empty.</small>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="eventSession.participant == 'Teachers'" class="col-md-12">
+              <div class="form-group">
+                <label class="form-label">Specific<span class="text-danger">*</span></label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                    [items]="teacherGroups"
+                    placeholder="Select teachers"
+                    class="form-control-dropdown"
+                    [dropdownPosition]="'bottom'"
+                    [multiple]="true"
+                    [hideSelected]="true"
+                    [clearable]="false"
+                    name="form_selected"
+                    #ev_teachers="ngModel"
+                    bindLabel="name"
+                    [(ngModel)]="eventSession.participantDescription"
+                    [ngClass]="{ 'b-1 && border-danger': eventForm.submitted && ev_teachers.invalid }"
+                    required>
+                </ng-select>
+                <div *ngIf="eventForm.submitted && ev_teachers.errors?.required" class="form-control-feedback text-danger">
+                    <small>Groups cannot be empty.</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="form-label">Event Dates</div>
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-6">
+                      <input (click)="toggleRange('single')" type="radio" id="single_radio" class="with-gap radio-col-info" name="single_radio" [checked]="single_option" />
+                      <label for="single_radio">Single</label>
+                    </div>
+                    <div class="col-lg-6 col-sm-6">
+                      <input (click)="toggleRange('range')" type="radio" id="range_radio" class="with-gap radio-col-info" name="range_radio" [checked]="range_option" />
+                      <label for="range_radio">Range</label>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field *ngIf="range_option" appearance="fill" style="width: 100%;">
+                  <mat-label class="calender-btn">Enter a date range</mat-label>
+                  <mat-date-range-input [rangePicker]="picker" [min]="todayDate" required>
+                    <input matStartDate placeholder="Start date" name="startDate" [(ngModel)]="eventSession.startTime">
+                    <input matEndDate placeholder="End date" name="endDate" [(ngModel)]="eventSession.endTime">
+                  </mat-date-range-input>
+                  <mat-datepicker-toggle matSuffix [for]="picker" class="calender-btn"></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker class="calender-btn"></mat-date-range-picker>
+                </mat-form-field>
+                <!-- <div *ngIf="range_option">
+                  <label class="form-label">Date and time range:</label>
+
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                    <i class="fa fa-clock-o"></i>
+                    </div>
+                    <input type="text" class="form-control pull-right" id="reservationtime">
+                  </div>
+                </div> -->
+
+                <!-- <div *ngIf="range_option" class="form-group">
+                  <label class="form-label">Date range:</label>
+
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control pull-right" id="reservation">
+                  </div>
+                </div> -->
+
+                <!-- <mat-form-field *ngIf="single_option" appearance="fill" style="width: 100%;">
+                  <mat-label class="calender-btn">Pick a date</mat-label>
+                  <input matInput [matDatepicker]="picker" name="singleDate" [(ngModel)]="event.startDate" [min]="todayDate" required>
+                  <mat-datepicker-toggle matSuffix [for]="picker" class="calender-btn"></mat-datepicker-toggle>
+                  <mat-datepicker type="datetime" #picker class="calender-btn"></mat-datepicker>
+                </mat-form-field> -->
+                <div *ngIf="single_option">
+                  <label class="form-label">Select date and time</label>
+                  <div>
+                    <input class="form-control" type="datetime-local" name="singleDate" #startDate="ngModel" [(ngModel)]="event.startDate" [min]="todayDate" required>
+                  </div>
+                  <div *ngIf="eventForm.submitted && startDate.errors?.required" class="form-control-feedback text-danger">
+                    <small>Date cannot be empty.</small>
+                  </div>
+                </div>
+                <!-- <div *ngIf="single_option">
+                  <label class="form-label">Event Type</label>
+                  <div class="input-group date">
+                    <input type="datetime-local" class="form-control pull-right">
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <div *ngIf="event.schoolEventId" class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-label">Event Name</label>
+                <input type="text" class="form-control" placeholder="Event Name" name="title" #title="ngModel" [(ngModel)]="event.title">
+              </div>
+            </div>
+            <!-- <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-label">Event Date</label>
+                <mat-form-field appearance="fill" style="width: 100%;">
+                  <mat-label class="calender-btn">Pick a date</mat-label>
+                  <input matInput [matDatepicker]="picker" name="singleDate" [(ngModel)]="event.eventDate">
+                  <mat-datepicker-toggle matSuffix [for]="picker" class="calender-btn"></mat-datepicker-toggle>
+                  <mat-datepicker #picker class="calender-btn"></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div> -->
+            <div class="col-md-12">
+              <label class="form-label">Sessions</label>
+              <!-- <div *ngFor="let sess of event.sessions">
+                {{sess.description}}
+              </div> -->
+              <div class="table-responsive">
+                <table class="table table-sm table-striped mb-0">
+                    <tbody>
+                        <tr *ngFor="let sess of event.sessions;let i =index">
+                            <td class="td-fit-nowrap">{{ i+1 }}</td>
+                            <td class="td-fit-nowrap">{{sess.description}}</td>
+                            <td class="td-fit-nowrap">
+                              <button data-bs-toggle="modal" data-bs-target="#add-new-session" (click)="editSession(sess)" class="btn btn-success btn-sm" type="button">
+                                    <i>
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                        <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                      </svg>
+                                    </i>
+                                    Edit
+                              </button>
+                            </td>
+                            <td class="td-fit-nowrap">
+                              <button  class="btn btn-danger btn-sm" type="button">
+                                    <i class="fa fa-trash-o"></i>
+                                    Delete
+                              </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button #closeEventModal type="button" class="btn btn-sm btn-danger me-2 pull-left" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-sm btn-info save-category pull-right">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  </div>
+  <!-- END MODAL -->
+
+

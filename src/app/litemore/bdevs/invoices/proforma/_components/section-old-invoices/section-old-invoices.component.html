@@ -1,0 +1,222 @@
+<div class="box">
+    <div class="box-header hbuilt">
+        <div class="row">
+            <div class="col-sm-6">
+                <p class="mb-0 box-title">
+					{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.oldInvoices'|translate}}
+				</p>
+            </div>
+            <div class="col-sm-6 text-end" *ngIf='isCollectOldInvoice'>
+                <button class="btn btn-xs btn-success" (click)="closeCollectOldInvoice()">{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.close'|translate}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body" *ngIf='!isCollectOldInvoice'>
+        <div *ngIf="schoolProfomas?.oldInvoices?.length>0">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.invoiceNumber'|translate}}</th>
+                            <th>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.mainItem'|translate}}</th>
+                            <th>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.createdOn'|translate}}</th>
+                            <th>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.updatedOn'|translate}}</th>
+                            <th>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.extensionDate'|translate}}</th>
+                            <th>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.dueDate'|translate}}</th>
+                            <th>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.amountInvoiced'|translate}} </th>
+                            <th>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.balance'|translate}}</th>
+                            <th>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.invoiceItems'|translate}}</th>
+                            <th>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.status'|translate}}</th>
+                            <th>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.daysLeft'|translate}} </th>
+                            <th>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.action'|translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let x of schoolProfomas?.oldInvoices">
+                            <td>{{x.invoiceNumber}}</td>
+                            <td style="min-width: 140px">{{x.mainInvoiceItem}}</td>
+                            <td>{{x.creationDate}}</td>
+                            <td>{{x.updatedOn}}</td>
+                            <td style="min-width: 10em;">
+                                <form #oInvDateForm="ngForm" (ngSubmit)="updateOldInvoiceDate(oInvDateForm,x)">
+                                    <table style="width: 100%">
+                                        <tbody>
+                                            <tr>
+                                                <td *ngIf="!x.edit || !x.editExtensionDate">
+                                                    <span>
+                                                        {{x.extensionDate }}
+                                                    </span>
+                                                    <span class="badge badge-dark"
+                                                        *ngIf="x.extensionDate ===null || x.extensionDate==='' ">
+                                                        {{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.noExtensionDateSet'|translate}}
+                                                    </span>
+                                                </td>
+                                                <td *ngIf="x.edit && !x.editExtensionDate">
+                                                    <button (click)="initEditExtensionDate(x,true)"
+                                                        class="btn btn-xs btn-default waves-effect waves-light">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr *ngIf="x.edit && x.editExtensionDate">
+                                                <td>
+                                                    <input name="extentsion_date_temp"
+                                                        [(ngModel)]="x.extension_date_temp" type="date" required
+                                                        #dtemp="ngModel"
+                                                        [ngClass]="{'is-invalid':(oInvDateForm.submitted && dtemp.invalid)}"
+                                                        class="form-control">
+                                                </td>
+                                            </tr>
+                                            <tr *ngIf="x.edit && x.editExtensionDate">
+                                                <td>
+                                                    <button class="btn btn-sm btn-success btn-block">{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.update'|translate}}</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </td>
+                            <td>{{x.dueDate}}</td>
+                            <td style="min-width: 10em;">
+								<form #oldInvoiceAmountForm="ngForm" (ngSubmit)="updateOldInvoiceAmount(oldInvoiceAmountForm,x)">
+                                    <table style="width: 100%">
+                                        <tbody>
+                                            <tr>
+                                                <td *ngIf="!x.edit || !x.editGrossAmount">
+                                                    <span>
+                                                        {{ x.grossAmount | localCurrency | async}}
+                                                    </span>
+                                                </td>
+                                                <td *ngIf="x.edit && !x.editGrossAmount">
+                                                    <button (click)="initEditInvoiceAmount(x,true)"
+                                                        class="btn btn-xs btn-default waves-effect waves-light">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr *ngIf="x.edit && x.editGrossAmount">
+                                                <td>
+                                                    <input name="gross_amount_temp"
+                                                        [(ngModel)]="x.gross_amount_temp" type="number" required
+                                                        #gtemp="ngModel"
+                                                        [ngClass]="{'is-invalid':(oldInvoiceAmountForm.submitted && gtemp.invalid)}"
+                                                        class="form-control">
+                                                </td>
+                                            </tr>
+                                            <tr *ngIf="x.edit && x.editGrossAmount">
+                                                <td>
+                                                    <button class="btn btn-sm btn-success btn-block">{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.update'|translate}}</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+							</td>
+                            <td>{{x.amountRemaining | localCurrency | async}}</td>
+                            <td>{{x.invoiceItems}}</td>
+                            <td>
+                                <span *ngIf="x.paymentStatus" class="text-success">{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.complete'|translate}}</span>
+                                <span *ngIf="!x.paymentStatus" class="text-danger">{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.incomplete'|translate}}</span>
+                            </td>
+                            <td>{{x.daysLeft}}</td>
+                            <td>
+                                <div class="btn-group position-static">
+                                    <button class="btn btn-sm btn-secondary waves-effect waves-light dropdown-toggle"
+                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.action'|translate}}</button>
+                                    <div class="dropdown-menu">
+										<!-- collect -->
+                                        <a
+                                            *appLitemoreUserAccess="[LitemoreUserRole.FINANCE_MANAGER, LitemoreUserRole.FINANCE, LitemoreUserRole.CX_MANAGER, LitemoreUserRole.CX]"
+                                            class="dropdown-item"
+                                            (click)="makeCollectionOldInvoice(x)">
+											{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.collect'|translate}}
+										</a>
+										<!-- print -->
+                                        <a class="dropdown-item" (click)="showOldInvoicePrint(x)">{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.print'|translate}}</a>
+                                        <!-- edit -->
+										<ng-container *appLitemoreUserAccess="[LitemoreUserRole.LITEMORE_ADMIN, LitemoreUserRole.CX_MANAGER, LitemoreUserRole.CX, LitemoreUserRole.FINANCE_MANAGER, LitemoreUserRole.FINANCE]">
+											<a *ngIf="!x.edit" class="dropdown-item" (click)="editOldInvoice(x,true)">{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.edit'|translate}}</a>
+											<a *ngIf="x.edit" class="dropdown-item text-success"
+												(click)="editOldInvoice(x,false)">{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.done'|translate}}
+											</a>
+										</ng-container>
+										<!-- send reminder -->
+										<a class="dropdown-item" (click)='showUpdateInvoice(x)'>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.sendReminder'|translate}}</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class=" text-end">
+                <span> {{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.page'|translate}} {{ schoolProfomas.currentPage}} {{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.of'|translate}} {{schoolProfomas.totalPages}} </span>
+                <button class="btn btn-sm btn-secondary waves-effect waves-light" style="margin-right: 5px;"
+                    (click)="profomaPrevClicked()">
+                    &lsaquo;
+                </button>
+
+                <button class="btn btn-sm btn-secondary waves-effect waves-light" (click)="profomaNextClicked()">
+                    &rsaquo;
+                </button>
+            </div>
+        </div>
+        <div *ngIf="schoolProfomas?.oldInvoices?.length == 0">
+			{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.noOldInvoicesFound'|translate}}
+        </div>
+    </div>
+    <!--
+            /********************************
+                Collection for old invoice
+            /********************************
+            -->
+    <div class="panel-body" *ngIf='isCollectOldInvoice'>
+        <form class="row" #oldInvCltForm="ngForm" (ngSubmit)="recordCollection(oldInvCltForm)">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="text-capitalize">{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.paymentReceivedBy'|translate}}</label>
+                    <p disabled class="form-control form-control-static">{{loggedInUser?.name}}</p>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.enterAmount'|translate}}</label>
+                    <input type="number" required class="form-control" id="collection_amount" name="collection_amount" ngModel
+                        #c_amnt="ngModel" placeholder="{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.enterAmount'|translate}}"
+                        [ngClass]="{'is-invalid':(oldInvCltForm.submitted && c_amnt.invalid)}" />
+                    <div class="text-danger" *ngIf="(oldInvCltForm.submitted && c_amnt.invalid)">
+                        <div *ngIf="c_amnt?.errors?.required">{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.amountIsRequired'|translate}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.additionalInformation'|translate}}</label>
+                    <input class="form-control" id="collection_method" name="collection_method" ngModel
+                        placeholder="{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.additionalInformation'|translate}}" />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.collectionDate'|translate}}</label>
+                    <input required class="form-control" id="collection_date" name="collection_date" ngModel type="date"
+                        #c_date="ngModel" [ngClass]="{'is-invalid':(oldInvCltForm.submitted && c_date.invalid)}" />
+                    <div class="text-danger" *ngIf="(oldInvCltForm.submitted && c_date.invalid)">
+                        <div *ngIf="c_date?.errors?.required">{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.collectionDateIsRequired'|translate}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group text-end mb-0">
+                    <button class="btn btn-success">{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.saveCollection'|translate}}</button>
+                </div>
+            </div>
+        </form>
+
+        <p><b>{{'litemore.bdevs.invoices.proforma.components.sectionOldInvoices.collectionList'|translate}}</b></p>
+
+        <app-manage-invoice-collections [invoice]="selectedInvoice" [userInit]="userInit"
+            [schoolInfo]="schoolInfo">
+        </app-manage-invoice-collections>
+    </div>
+</div>

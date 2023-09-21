@@ -1,0 +1,89 @@
+<div>
+  <div class="h5 fw-bold mt-3 mb-1">
+    {{ schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) : schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) : schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' | translate) }} {{ currentClass }} {{ "dashboard.intakeAttendaceReport.title" | translate }} -
+    {{ "dashboard.intakeAttendaceReport.term" | translate }} {{selectedTerm}} {{selectedYear}}
+  </div>
+  <div class="box mt-3 mx-auto">
+    <div class="p-50 mx-auto text-center" *ngIf="loading">
+      <div>{{ "dashboard.intakeAttendaceReport.loadingMessage" | translate }}</div>
+      <div><img height="50" width="60" src="assets/img/loading-bars.svg" alt="Loading-bars"></div>
+    </div>
+    <highcharts-chart
+      *ngIf="!loading"
+      [Highcharts]="Highcharts"
+      [options]="streamsChartOptions"
+      [(update)]="updateLevelFlag"
+      style="width: 95%; height: 300px; display: block;"
+    ></highcharts-chart>
+  </div>
+</div>
+<div class="">
+  <div class="my-3 h5 fw-bold">{{ schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) : schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) : schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' | translate) }} {{ currentClass }} Students</div>
+  <div class="box p-3">
+    <div class="d-flex flex-row my-3">
+      <span class="fw-bolder me-20">{{ "dashboard.intakeAttendaceReport.filterBy" | translate }}:</span>
+      <div class="me-20" *ngFor="let filterBy of filterByOptions">
+        <input (change)="updateFilterByOption($event, filterBy.value)" type="checkbox" id="basic_checkbox_{{filterBy.value}}" [checked]="selectedFilterBy == filterBy.value" class="filled-in chk-col-info">
+        <label for="basic_checkbox_{{filterBy.value}}" >{{ filterBy.name }}</label>
+      </div>
+    </div>
+    <div>
+      <div class="form-group max-w-400">
+        <input *ngIf="selectedFilterBy !== 3" type="text"
+               class="form-control"
+               [type]="selectedFilterBy === 1 ? 'number' : 'text'"
+               [(ngModel)]="searchText"
+               (ngModelChange)="filterByAdmOrName($event)"
+               [placeholder]="selectedFilterBy == 1 ? admNoTableHeader : studentNameText">
+        <ng-select [notFoundText]="'common.noItemsFound' | translate" *ngIf="selectedFilterBy == 3"
+                   id="streams"
+                   [(ngModel)]="selectedStream"
+                   placeholder="{{ 'dashboard.intakeAttendaceReport.selectStreamPlaceholder' | translate }}"
+                   (ngModelChange)="filterByStream($event)">
+          <ng-option value="">{{ "dashboard.intakeAttendaceReport.allStreams" | translate }}</ng-option>
+          <ng-option *ngFor="let stream of streams" [value]="stream.streamId">
+            {{ stream.streamName }}
+          </ng-option>
+        </ng-select>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table matSort (matSortChange)="sortData($event)"  class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th [mat-sort-header]="admNoTableHeader">{{ admNoTableHeader }}</th>
+          <th [mat-sort-header]="nameTableHeader">{{ nameTableHeader }}</th>
+          <th [mat-sort-header]="streamTableHeader">{{ streamTableHeader }}</th>
+          <th [mat-sort-header]="daysPresentTableHeader">{{ daysPresentTableHeader }}</th>
+          <th [mat-sort-header]="daysAbsentTableHeader">{{ daysAbsentTableHeader }}</th>
+          <th [mat-sort-header]="totalDaysTableHeader">{{ totalDaysTableHeader }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="!loading && sortedStudents.length == 0" class="h-50">
+          <td class="text-center" colspan="7">
+            <span class="text-warning h5">{{ "dashboard.intakeAttendaceReport.noAttendanceTaken" | translate }}</span>
+          </td>
+        </tr>
+        <tr *ngIf="loading">
+          <td colspan="7" class="text-center">
+            <div><img height="30" width="40" src="assets/img/loading-bars.svg" alt="Loading-bars"></div>
+          </td>
+        </tr>
+        <tr *ngFor="let stud of sortedStudents; let i = index" [routerLink]="'/main/students/analytics/'+stud.userId" [queryParams]="{term: selectedTerm, rYear: selectedYear}">
+          <td>{{i+1}}</td>
+          <td>{{ stud.admNo }}</td>
+          <td>{{ stud.studentName }}</td>
+          <td>{{ stud.streamName }}</td>
+          <td>{{ stud.presentDays }}</td>
+          <td>{{ stud.absentDays }}</td>
+          <td>
+            <span>{{ (stud.presentDays + stud.absentDays) }}</span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

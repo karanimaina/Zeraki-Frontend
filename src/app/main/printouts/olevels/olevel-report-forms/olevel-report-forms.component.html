@@ -1,0 +1,395 @@
+<div class="content mt-config">
+	<!-- filters and options -->
+  <div [hidden]="!userRoles || userRoles?.isStudent">
+		<!-- filters -->
+	  <div class="box box-widget" [ngClass]="{'box-slided-up': false}">
+		  <div class="box-header with-border p-header">
+			  <div class="user-block">
+				  <h4 class="box-title">
+					  {{ 'printouts.oLevelRForm.title' | translate }}
+				  </h4>
+			  </div>
+			  <ul class="box-controls pull-right">
+				  <li><a class="box-btn-slide text-dark fs-16" href="#"></a></li>
+			  </ul>
+		  </div>
+		  <div class="box-body">
+			  <form [formGroup]="reportForm" class="form" (ngSubmit)="getReportForms()">
+				  <div class="row">
+					  <!-- term -->
+					  <div class="col-md-6">
+						  <div class="form-group">
+							  <label class="form-label">{{ 'printouts.oLevelRForm.rForm.term.label' | translate }}</label>
+							  <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="[1, 2, 3]" [selectOnTab]="true" appendTo="body"
+										 [dropdownPosition]="'bottom'" required
+										 formControlName="term"
+										 [placeholder]="'printouts.oLevelRForm.rForm.term.placeholder' | translate"
+										 [ngClass]="{'is-invalid': submitted && f['term'].errors}"
+										 (change)="onTermChanged()">
+							  </ng-select>
+							  <div *ngIf="submitted && f['term'].errors" class="invalid-feedback">
+								  <div *ngIf="f['term'].errors['required']">{{ 'printouts.oLevelRForm.rForm.term.termError' | translate }}</div>
+							  </div>
+						  </div>
+					  </div>
+					  <!-- year -->
+					  <div class="col-md-6">
+						  <div class="form-group">
+							  <label class="form-label">{{ 'printouts.oLevelRForm.rForm.year.label' | translate }}</label>
+							  <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="academicYears" [selectOnTab]="true" appendTo="body"
+										 [dropdownPosition]="'bottom'" required
+										 formControlName="year"
+										 [placeholder]="'printouts.oLevelRForm.rForm.year.placeholder' | translate"
+										 bindValue="ayid"
+										 bindLabel="name"
+										 [ngClass]="{'is-invalid': submitted && f['year'].errors}">
+							  </ng-select>
+							  <div *ngIf="submitted && f['year'].errors" class="invalid-feedback">
+								  <div *ngIf="f['year'].errors['required']">{{ 'printouts.oLevelRForm.rForm.year.yearError' | translate }}</div>
+							  </div>
+						  </div>
+					  </div>
+					  <!-- senior -->
+					  <div class="col-md-6">
+						  <div class="form-group">
+							  <label class="form-label">{{schoolTypeData?.formoryear | formOrYear}}</label>
+							  <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="currentFormList" [selectOnTab]="true"
+										 appendTo="body" [dropdownPosition]="'bottom'"
+										 required
+										 formControlName="rform"
+										 bindLabel="classlevel"
+										 bindValue="intakeid"
+										 [placeholder]="'printouts.oLevelRForm.rForm.level.placeholder' | translate:{level:schoolTypeData?.formoryear | formOrYear}"
+										 [ngClass]="{'is-invalid': submitted && f['rform'].errors}">
+							  </ng-select>
+							  <div *ngIf="submitted && f['rform'].errors" class="invalid-feedback">
+								  <div *ngIf="f['rform'].errors['required']">{{ schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) :
+									  schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) :
+										  schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' |
+											  translate) }} {{ 'printouts.oLevelRForm.rForm.level.levelError' | translate }}</div>
+							  </div>
+						  </div>
+					  </div>
+					  <!-- stream -->
+					  <div class="col-md-6">
+						  <div class="form-group">
+							  <label class="form-label">{{ 'printouts.oLevelRForm.rForm.stream.label' | translate }}</label>
+							  <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="streamList" [selectOnTab]="true" appendTo="body"
+										 [dropdownPosition]="'bottom'" required
+										 formControlName="stream"
+										 bindLabel="name"
+										 bindValue="streamid"
+										 [placeholder]="'printouts.oLevelRForm.rForm.stream.placeholder' | translate"
+										 [ngClass]="{'is-invalid': submitted && f['stream'].errors}"
+										 (change)="onIntakeStreamChanged($event)">
+							  </ng-select>
+							  <div *ngIf="submitted && f['stream'].errors" class="invalid-feedback">
+								  <div *ngIf="f['stream'].errors['required']">{{ 'printouts.oLevelRForm.rForm.stream.streamError' | translate }}</div>
+							  </div>
+						  </div>
+					  </div>
+					  <!-- exam -->
+					  <div class="col-12">
+						  <app-ng-select
+							  [label]="'printouts.oLevelRForm.rForm.exam.label' | translate"
+							  [items]="streamExamSeries"
+							  [selectOnTab]="true"
+							  [loading]="isLoadingStreamExamSeries"
+							  formControlName="exam"
+							  bindLabel="seriesName"
+							  bindValue="seriesId"
+							  [placeholder]="'printouts.oLevelRForm.rForm.exam.placeholder' | translate">
+						  </app-ng-select>
+					  </div>
+				  </div>
+
+				  <div>
+					  <small class="fw-bold text-muted pb-2">{{ 'printouts.studentReport.yearSummary.yearSummaryReportOptional' | translate }}</small>
+					  <div class="row pt-2">
+						  <!-- Terms -->
+						  <div class="col-md-6">
+							  <div class="form-group">
+								  <app-ng-select
+									  [label]="'printouts.studentReport.yearSummary.terms' | translate"
+									  [placeholder]="'printouts.oLevelRForm.rForm.term.placeholder' | translate"
+									  [items]="[1, 2, 3]"
+									  formControlName="yearSummaryTerms"
+									  [selectOnTab]="true"
+									  [multiple]="true">
+								  </app-ng-select>
+							  </div>
+						  </div>
+
+						  <!-- Exams -->
+						  <div class="col-md-6">
+							  <div class="form-group">
+								  <app-ng-select
+									  [label]="'printouts.studentReport.yearSummary.exams' | translate"
+									  [placeholder]="'printouts.oLevelRForm.rForm.exam.placeholder' | translate"
+									  [items]="exams$ | async"
+									  bindLabel="seriesName"
+									  bindValue="seriesId"
+									  groupBy="term"
+									  [selectOnTab]="true"
+									  formControlName="yearSummaryExams"
+									  [multiple]="true">
+								  </app-ng-select>
+							  </div>
+						  </div>
+					  </div>
+				  </div>
+				  <button type="submit"
+						  [hidden]="loading"
+						  class="btn btn-sm btn-info pull-right report-btn">
+					  {{ 'printouts.oLevelRForm.rForm.getRFormsBtn' | translate }}
+				  </button>
+				  <button type="button"
+						  hidden
+						  class="eval-btn">
+				  </button>
+				  <div *ngIf="loading" class="pull-right">
+					  {{ 'printouts.oLevelRForm.rForm.generating' | translate }}
+					  <img src="../../../../../assets/img/loading-bars.svg" alt="Loading-bars">
+				  </div>
+			  </form>
+		  </div>
+	  </div>
+
+		<!-- options -->
+	  <div *ngIf="showReportForms" class="box box-widget animated bounceInUp">
+		  <div class="box-header with-border p-header">
+			  <div class="user-block">
+				  <h4 class="box-title">{{ 'printouts.oLevelRForm.options.title' | translate }}</h4>
+			  </div>
+			  <ul class="box-controls pull-right">
+				  <li><a class="box-btn-slide" href="#"></a></li>
+			  </ul>
+		  </div>
+		  <div class="box-body">
+			  <form class="form">
+				  <div class="row">
+					  <div class="col-md-9 mx-auto">
+
+						  <div class="col-12">
+							  <h6>{{ 'printouts.oLevelRForm.options.fee.label' | translate }}</h6>
+						  </div>
+						  <div class="col-12">
+							  <h6 class="box-title mb-15"><span class="text-info" style="cursor: pointer;"
+																(click)="downloadTemplate()">{{ 'printouts.commonAttr.download.title' | translate }}<i
+								  class="ti-download ms-1 me-10"></i></span>{{ 'printouts.oLevelRForm.options.fee.info' | translate }}</h6>
+						  </div>
+
+						  <div class="row">
+							  <div class="col-12">
+								  <div class="form-group">
+									  <label for="formFile" class="form-label">{{ 'printouts.oLevelRForm.options.fee.chooseFile' | translate }} <span
+										  class="text-danger">*</span></label>
+									  <input *ngIf="!isMobileApp" required name="file"
+											 (change)="detectFiles($event)" class="form-control" type="file"
+											 id="formFile"
+											 data-validation-required-message="This field is required">
+									  <!-- <input *ngIf="isMobileApp" (click)="Android.onInputFile()" required name="file" [(ngModel)]="results_file" (change)="detectFiles($event)" class="form-control" type="file" id="formFile" required data-validation-required-message="This field is required"> -->
+								  </div>
+							  </div>
+							  <div class="col-md-6">
+								  <div class="form-group">
+									  <label for="example-date-input" class="form-label">{{ 'printouts.oLevelRForm.options.closedOn' | translate }}</label>
+									  <input class="form-control" type="date" id="example-date-input"
+											 name="closingDate" [(ngModel)]="closingDate">
+								  </div>
+							  </div>
+							  <div class="col-md-6">
+								  <div class="form-group">
+									  <label class="form-label">{{ 'printouts.oLevelRForm.options.nextTermBeginsOn' | translate }}</label>
+									  <input class="form-control" type="date" name="openingDate"
+											 [(ngModel)]="openingDate">
+								  </div>
+							  </div>
+						  </div>
+						  <div class="row">
+							  <div class="col-md-6">
+								  <h6 class="text-bold text-muted">{{ 'printouts.oLevelRForm.options.assessments.title' | translate }}</h6>
+								  <div class="col-12">
+									  <input type="checkbox" id="show_exams" class="filled-in chk-col-info"
+											 name="show_exams" [checked]="showExamsSlot"
+											 [(ngModel)]="showExamsSlot" />
+									  <label for="show_exams">{{ 'printouts.oLevelRForm.options.assessments.label1' | translate }}</label>
+								  </div>
+								  <div class="col-12">
+									  <input type="checkbox" id="show_raw_score" class="filled-in chk-col-info"
+											 name="show_raw_score" [checked]="showRawScore"
+											 [(ngModel)]="showRawScore" />
+									  <label for="show_raw_score">{{ 'printouts.oLevelRForm.options.assessments.label6' | translate }}</label>
+								  </div>
+								  <div class="col-12">
+									  <input type="checkbox" id="show_competency_areas" class="filled-in chk-col-info"
+											 name="show_competency_areas" [checked]="showCompetencyAreas"
+											 [(ngModel)]="showCompetencyAreas" />
+									  <label for="show_competency_areas">{{ 'printouts.oLevelRForm.options.assessments.label2' | translate }}</label>
+								  </div>
+								  <div class="col-12">
+									  <input type="checkbox" id="show_projects" class="filled-in chk-col-info"
+											 name="show_projects" [checked]="showProjects"
+											 [(ngModel)]="showProjects" />
+									  <label for="show_projects">{{ 'printouts.oLevelRForm.options.assessments.label4' | translate }}</label>
+								  </div>
+								  <div class="col-12">
+									  <input type="checkbox" id="show_activities_and_values" class="filled-in chk-col-info"
+											 name="show_activities_and_values" [checked]="showActivitiesAndValues"
+											 [(ngModel)]="showActivitiesAndValues" />
+									  <label for="show_activities_and_values">{{ 'printouts.oLevelRForm.options.assessments.label3' | translate }}</label>
+								  </div>
+								  <div class="col-12">
+									  <input type="checkbox" id="show_attendance_report" class="filled-in chk-col-info"
+											 name="show_attendance_report" [checked]="showAttendanceReport"
+											 [(ngModel)]="showAttendanceReport" />
+									  <label for="show_attendance_report">{{ 'printouts.oLevelRForm.options.assessments.label5' | translate }}</label>
+								  </div>
+								  <div class="col-12">
+									  <input type="checkbox" id="show_score_descriptor" class="filled-in chk-col-info"
+											 name="show_score_descriptor" [checked]="showScoreDescriptor"
+											 [(ngModel)]="showScoreDescriptor" />
+									  <label for="show_score_descriptor">{{ 'printouts.oLevelRForm.options.assessments.label7' | translate }}</label>
+								  </div>
+								  <div class="col-12">
+									  <input type="checkbox" id="show_year_summary_report" class="filled-in chk-col-info"
+											 name="show_year_summary_report"
+											 [checked]="showYearSummaryReport"
+											 [(ngModel)]="showYearSummaryReport"
+											 (ngModelChange)="onShowYearSummaryReportChange()"/>
+									  <label for="show_year_summary_report">{{ 'printouts.oLevelRForm.options.assessments.yearSummaryReport' | translate }}</label>
+								  </div>
+								  <div class="col-12 mb-3">
+									  <input type="checkbox" id="show_grade_descriptor" class="filled-in chk-col-info"
+											 name="show_grade_descriptor"
+											 [checked]="showGradeDescriptor"
+											 [(ngModel)]="showGradeDescriptor"
+											 (ngModelChange)="onShowGradeDescriptorChange()" />
+									  <label for="show_grade_descriptor">{{ 'printouts.oLevelRForm.options.assessments.gradeDescriptor' | translate }}</label>
+								  </div>
+
+								  <h6 class="text-bold text-muted">{{ 'printouts.oLevelRForm.options.others.title' | translate }}</h6>
+								  <div class="col-12">
+									  <input type="checkbox" id="show_watermark" class="filled-in chk-col-info"
+											 name="show_exams" [checked]="showWatermark"
+											 [(ngModel)]="showWatermark" />
+									  <label for="show_watermark">{{ 'printouts.oLevelRForm.options.others.label1' | translate }}</label>
+								  </div>
+							  </div>
+							  <div class="col-md-6">
+								  <!-- remarks -->
+								  <h6 class="text-bold text-muted">{{ 'printouts.oLevelRForm.options.remarks.title' | translate }}</h6>
+								  <!-- subject teacher remarks -->
+								  <div class="col-12">
+									  <input type="checkbox" id="show_st_remarks" class="filled-in chk-col-info"
+											 name="show_st_remarks" [checked]="showSubjectTeacherComments"
+											 [(ngModel)]="showSubjectTeacherComments" />
+									  <label for="show_st_remarks">{{ 'printouts.oLevelRForm.options.remarks.subjectTeacher' | translate }}</label>
+								  </div>
+								  <!-- class teacher remarks -->
+								  <div class="col-12">
+									  <input type="checkbox" id="show_cl_remarks" class="filled-in chk-col-info"
+											 name="show_cl_remarks" [checked]="showClassTeacherComments"
+											 [(ngModel)]="showClassTeacherComments" (ngModelChange)="onShowClassTeacherCommentsChange()" />
+									  <label for="show_cl_remarks">{{ 'printouts.oLevelRForm.options.remarks.classTeacher' | translate }}</label>
+								  </div>
+								  <!-- house teacher remarks -->
+								  <div class="col-12" [class.mb-3]="!(schoolInfo && schoolInfo.principal)">
+									  <input type="checkbox" id="show_houseT_remarks" class="filled-in chk-col-info"
+											 name="show_houseT_remarks" [checked]="showHouseTeacherComments"
+											 [(ngModel)]="showHouseTeacherComments" (ngModelChange)="onShowHouseTeacherCommentsChange()" />
+									  <label for="show_houseT_remarks">{{ 'printouts.oLevelRForm.options.remarks.houseTeacher' | translate }}</label>
+								  </div>
+								  <!-- principal remarks -->
+								  <div class="col-12 mb-3" *ngIf="schoolInfo && schoolInfo.principal">
+									  <input type="checkbox" id="show_p_remarks" class="filled-in chk-col-info"
+											 name="show_p_remarks" [checked]="showPrincipalComments"
+											 [(ngModel)]="showPrincipalComments" (ngModelChange)="onShowPrincipalCommentsChange()" />
+									  <label for="show_p_remarks">
+										  {{ 'printouts.oLevelRForm.options.remarks.label1' | translate }}
+										  <span class="text-lowercase"
+												*ngIf="schoolInfo.principal['title']">{{schoolInfo.principal.title}}</span>
+										  <span
+											  *ngIf="!schoolInfo.principal['title']">{{ 'printouts.oLevelRForm.options.remarks.label2' | translate }}</span>'s
+										  {{ 'printouts.oLevelRForm.options.remarks.label3' | translate }}
+									  </label>
+								  </div>
+
+								  <!-- signatures -->
+								  <h6 class="text-bold text-muted">{{ 'printouts.oLevelRForm.options.signature.title' | translate }}</h6>
+								  <!-- class teacher signature -->
+								  <div class="col-12">
+									  <input type="checkbox" id="show_ct_sig" class="filled-in chk-col-info"
+											 name="show_ct_sig" [checked]="showClassTeacherSignature"
+											 [(ngModel)]="showClassTeacherSignature" (ngModelChange)="onShowClassTeacherSignatureChange()" />
+									  <label for="show_ct_sig">{{ 'printouts.oLevelRForm.options.signature.label' | translate }}</label>
+								  </div>
+								  <!-- house teacher signature -->
+								  <div class="col-12">
+									  <input type="checkbox" id="showHouseTeacherSignature" class="filled-in chk-col-info"
+											 name="showHouseTeacherSignature" [checked]="showHouseTeacherSignature"
+											 [(ngModel)]="showHouseTeacherSignature" (ngModelChange)="onShowHouseTeacherSignatureChange()" />
+									  <label for="showHouseTeacherSignature">{{ 'printouts.oLevelRForm.options.signature.labelHouseTeacher' | translate }}</label>
+								  </div>
+								  <!-- principal signature -->
+								  <div class="col-12" *ngIf="schoolInfo && schoolInfo.principal">
+									  <input type="checkbox" id="show_p_sig" class="filled-in chk-col-info"
+											 name="show_p_sig" [checked]="showPrincipalSignature"
+											 [(ngModel)]="showPrincipalSignature" (ngModelChange)="onShowPrincipalSignatureChange()" />
+									  <label for="show_p_sig">
+										  {{ 'printouts.oLevelRForm.options.signature.label1' | translate }}
+										  <span class="text-lowercase"
+												*ngIf="schoolInfo.principal['title']">{{schoolInfo.principal.title}}</span>
+										  <span
+											  *ngIf="schoolInfo.principal['title'] == ''">{{ 'printouts.oLevelRForm.options.signature.label2' | translate }}</span>'s
+										  {{ 'printouts.oLevelRForm.options.signature.label3' | translate }}
+									  </label>
+								  </div>
+							  </div>
+
+						  </div>
+					  </div>
+				  </div>
+			  </form>
+		  </div>
+	  </div>
+  </div>
+
+	<!-- no report forms UI -->
+  <div class=" d-block mx-md-120 mx-sm-0 mt-md-40 mt-sm-20 mb-20" *ngIf="submitted && !showReportForms && !loading">
+    <div class="text-center">
+      <h4 class="text-warning">{{ 'printouts.oLevelRForm.noReportFormsFound' | translate }}</h4>
+    </div>
+  </div>
+
+	<!-- report forms UI -->
+  <div *ngIf="evaluationReportForms">
+    <div class="d-flex flex-column col-12 col-md-10 mx-auto justify-content-center">
+      <app-student-report [showClassTeacherComments]="showClassTeacherComments"
+                          [showPrincipalComments]="showPrincipalComments"
+                          [showHouseTeacherComments]="showHouseTeacherComments"
+                          [showClassTeacherSignature]="showClassTeacherSignature"
+                          [showHouseTeacherSignature]="showHouseTeacherSignature"
+                          [showPrincipalSignature]="showPrincipalSignature"
+                          [showExamsSlot]="showExamsSlot"
+                          [openingDate]="openingDate"
+                          [closingDate]="closingDate"
+                          [reportForms]="evaluationReportForms"
+                          [feeData]="feeData"
+                          [showCompetencyAreas]="showCompetencyAreas"
+                          [showAttendanceReport]="showAttendanceReport"
+                          [showSubjectTeacherComments]="showSubjectTeacherComments"
+                          [showProjects]="showProjects"
+                          [showActivitiesAndValues]="showActivitiesAndValues"
+                          [showRawScore]="showRawScore"
+                          [showScoreDescriptor]="showScoreDescriptor"
+                          [showReportForms]="showReportForms"
+                          [showWatermark]="showWatermark"
+						  [showYearSummaryReport]="showYearSummaryReport"
+						  [showGradeDescriptor]="showGradeDescriptor"
+						  [summayReportTermName]="termNameFromSelectedTerms"
+      ></app-student-report>
+    </div>
+  </div>
+
+</div>

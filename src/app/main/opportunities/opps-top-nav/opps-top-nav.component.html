@@ -1,0 +1,26 @@
+<div class="navbar-light top-wrapper fixed-top bg-primary">
+    <ul class="nav nav-pill customtab2 nav-filled text-center">
+        <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/main/opportunities/vac']" routerLinkActive="active" #rlaVac="routerLinkActive" [ngClass]="rlaVac.isActive ? 'active' : ''">
+                <span class="me-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sunrise" viewBox="0 0 16 16">
+                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l1.5 1.5a.5.5 0 0 1-.708.708L8.5 2.707V4.5a.5.5 0 0 1-1 0V2.707l-.646.647a.5.5 0 1 1-.708-.708l1.5-1.5zM2.343 4.343a.5.5 0 0 1 .707 0l1.414 1.414a.5.5 0 0 1-.707.707L2.343 5.05a.5.5 0 0 1 0-.707zm11.314 0a.5.5 0 0 1 0 .707l-1.414 1.414a.5.5 0 1 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zM8 7a3 3 0 0 1 2.599 4.5H5.4A3 3 0 0 1 8 7zm3.71 4.5a4 4 0 1 0-7.418 0H.499a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1h-3.79zM0 10a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 0 10zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                </span>
+                <span>{{ 'opportunities.topNav.vacancies' | translate }}</span>
+                <!-- <span class="hidden-sm-up">Manage<br/> Classes</span> -->
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/main/opportunities/swap']" routerLinkActive="active" #rlaSwap="routerLinkActive" [ngClass]="rlaSwap.isActive ? 'active' : ''">
+                <span class="me-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>
+                    </svg>
+                </span>
+                <span>{{ 'opportunities.topNav.swap' | translate }}</span>
+                <!-- <span class="hidden-sm-up">Manage<br/> Classes</span> -->
+            </a>
+        </li>
+    </ul>
+</div>

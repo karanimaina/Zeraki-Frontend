@@ -1,0 +1,104 @@
+<div class="box box-widget">
+	<div class="box-header with-border p-header">
+		<div class="user-block">
+			<h4 class="box-title">
+				{{ 'printouts.topNav.transcripts' | translate }}
+			</h4>
+		</div>
+		<ul class="box-controls pull-right">
+			<li><a class="box-btn-slide text-dark fs-16" href="#"></a></li>
+		</ul>
+	</div>
+	<div class="box-body">
+		<form [formGroup]="transcriptFormGroup" (ngSubmit)="submitForm()">
+			<div class="row">
+				<!-- Year -->
+				<div class="col-md-4">
+					<div class="form-group">
+						<app-ng-select
+							[label]="'printouts.oLevelRForm.rForm.year.label' | translate"
+							[placeholder]="'printouts.oLevelRForm.rForm.year.placeholder' | translate"
+							[items]="academicYears$ | async"
+							bindValue="academicYearId"
+							bindLabel="beginYear"
+							formControlName="academicYearId"
+							[selectOnTab]="true">
+						</app-ng-select>
+					</div>
+				</div>
+
+
+
+				<!-- Class -->
+				<div class="col-md-4">
+					<div class="form-group">
+						<app-ng-select
+							[label]="(formOrYear$ | async) || ''"
+							[placeholder]="'printouts.oLevelRForm.rForm.level.placeholder' | translate:{level: formOrYear$ | async}"
+							[items]="currentFormList$ | async"
+							bindLabel="classlevel"
+							bindValue="intakeid"
+							formControlName="form"
+							[selectOnTab]="true">
+						</app-ng-select>
+					</div>
+				</div>
+
+				<!-- Stream -->
+				<div class="col-md-4">
+					<div class="form-group">
+						<app-ng-select
+							[label]="'printouts.oLevelRForm.rForm.stream.label' | translate"
+							[placeholder]="'printouts.oLevelRForm.rForm.stream.placeholder' | translate"
+							[items]="currentStreamList$ | async"
+							bindLabel="name"
+							bindValue="streamid"
+							formControlName="streamId"
+							[selectOnTab]="true">
+						</app-ng-select>
+					</div>
+				</div>
+
+				<!-- Term -->
+				<div class="col-md-6">
+					<div class="form-group">
+						<app-ng-select
+							[label]="'printouts.oLevelRForm.rForm.term.label' | translate"
+							[placeholder]="'printouts.oLevelRForm.rForm.term.placeholder' | translate"
+							[items]="[1, 2, 3]"
+							formControlName="yearSummaryTerms"
+							[selectOnTab]="true"
+							[multiple]="true">
+						</app-ng-select>
+					</div>
+				</div>
+
+				<!-- Exams -->
+				<div class="col-md-6">
+					<div class="form-group">
+						<app-ng-select
+							[label]="'printouts.oLevelRForm.rForm.exam.label' | translate"
+							[placeholder]="'printouts.oLevelRForm.rForm.exam.placeholder' | translate"
+							[items]="exams$ | async"
+							bindLabel="seriesName"
+							bindValue="seriesId"
+							groupBy="term"
+							[selectOnTab]="true"
+							formControlName="yearSummarySeriesId"
+							[multiple]="true">
+						</app-ng-select>
+					</div>
+				</div>
+			</div>
+
+			<div class="mt-2">
+				<button
+					type="submit"
+					class="btn btn-sm btn-info waves-effect waves-light  pull-right"
+					[class.box-btn-slide-close]="transcriptFormGroup.valid">
+					{{ 'printouts.transcripts.getTranscriptsBtn' | translate }}
+				</button>
+			</div>
+		</form>
+	</div>
+</div>

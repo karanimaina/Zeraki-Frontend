@@ -1,0 +1,782 @@
+<!-- Loader -->
+<span *ngIf="!userInfo?.name; then loading else showContent"></span>
+
+<ng-template #loading>
+  <app-connection-lost *ngIf="!networkService.online; else showLoading"></app-connection-lost>
+  <ng-template #showLoading>
+    <section>
+      <div class="row">
+        <div class="box">
+          <div class="box-body">
+            <app-loader-div [height]="50"></app-loader-div>
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="box-body">
+            <app-loader-div [height]="100"></app-loader-div>
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="box-body">
+            <app-loader-div [height]="150"></app-loader-div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </ng-template>
+
+</ng-template>
+<!-- Main content -->
+<ng-template #showContent>
+  <section>
+    <div class="row">
+			<!-- banner -->
+      <div class="col-12">
+				<ng-container *ngIf="banners && banners?.length;">
+					<div class="mb-4">
+						<owl-carousel-o [options]="carouselOptions">
+							<ng-container *ngFor="let banner of banners; index as index">
+								<ng-template carouselSlide [id]="index.toString()">
+									<!-- mobile -->
+									<div class="d-md-none">
+										<a href="https://learning.zeraki.co.ke/" target="_blank">
+											<img [src]="banner.mobileImageUrl" style="max-height: 10em;">
+										</a>
+									</div>
+									<!-- tablet -->
+									<div class="d-none d-md-block d-lg-none">
+										<a href="https://learning.zeraki.co.ke/" target="_blank">
+											<img [src]="banner.desktopImageUrl" style="max-height: 15em;">
+										</a>
+									</div>
+									<!-- desktop -->
+									<div class="d-none d-lg-block">
+										<a href="https://learning.zeraki.co.ke/" target="_blank">
+											<img [src]="banner.desktopImageUrl" style="max-height: 20em;">
+										</a>
+									</div>
+								</ng-template>
+							</ng-container>
+						</owl-carousel-o>
+					</div>
+				</ng-container>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 0.1rem;">
+      <div class="col-lg-7 col-12">
+        <!-- <div class="box no-shadow mb-0 bg-transparent">
+              <div class="box-header no-border px-0">
+                <h4 class="box-title">Your Courses</h4>
+                <div class="box-controls pull-right d-md-flex d-none">
+                  <a href="#">View All</a>
+                </div>
+              </div>
+              border border-2 border-info
+            </div> -->
+        <div class="row dash-comp">
+          <div class="col-12">
+            <!-- ----------------------------------------------- -->
+            <!-- Display on large screen show-on-large-screen -->
+            <!-- ----------------------------------------------- -->
+            <div class="box g-forms shadow-sm" style="border-radius: 10px;">
+              <div class="box-body bg-img p-sm-30 mobile-bg"
+                style="background-image: url(assets/img/dashboard/welcome.png); padding: 1rem; background-position: center;"
+                data-overlay="5">
+                <div class="d-lg-flex align-items-start justify-content-between text-white">
+                  <div class="d-md-flex align-items-start mb-lg-0 w-p100 text-start">
+                    <div class="image-cropper d-none d-sm-inline-block">
+                      <img src='{{userDp}}' (error)="userDp = '../../../../assets/img/avatar/p_avatar_blue.png'"
+                        class="image-cropper-content" alt="" />
+                    </div>
+                    <!-- <img src='{{userDp}}' (error)="userDp = '../../../../assets/img/avatar/p_avatar_blue.png'" width="100"
+                    height="100" class="rounded-circle" alt="" /> -->
+                    <div class="ms-sm-30 mt-sm-10">
+                      <h4 class="mb-10 text-start">
+                        <b>{{ 'dashboard.welcome.welcome' | translate}}</b>
+                        <span> {{userInfo?.name}}</span>,
+                      </h4>
+                      <!-- <h1 class="mb-0 text-fade">{{ loggedInUser.name }}</h1> -->
+                      <!-- <h4 class="mb-0 text-muted text-start"></h4> -->
+                      <p class="mb-0">{{ 'dashboard.welcome.manage' | translate}} <b>{{
+                          'dashboard.welcome.examsSmall' | translate}}</b> {{ 'dashboard.welcome.from' |
+                        translate}}<br />{{ 'dashboard.welcome.of' | translate}} <b>{{
+                          'dashboard.welcome.mobile' | translate}}</b></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-lg-flex align-items-center justify-content-between mt-10">
+                  <span></span>
+                  <div class=" text-end">
+
+                    <!-- <button *ngIf="schoolDataType && !schoolDataType.isOLevelSchool" routerLink="/main/dashboard/global"
+                      type="button" class="btn-block btn bg-zeraki-green-gradient text-white btn-sm"
+                      style="white-space: nowrap;">{{
+                      'dashboard.welcome.latest' | translate}}</button> -->
+                    <button *ngIf="schoolDataType && schoolDataType.isOLevelSchool" routerLink='/main/classes/myclass'
+                      type="button" class="btn-block btn bg-zeraki-green-gradient text-white btn-sm"
+                      style="white-space: nowrap;">{{ 'dashboard.welcome.classes' | translate}}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="padding-right: 0;">
+            <div class="col-6">
+              <div class="box border-radius-10 mb-15" [routerLink]="['/main/teachers']">
+                <div class="box-body p-10">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                      <div class="me-15 bg-info-light card-logo rounded text-center"
+                        [ngClass]="isDesktopDevice ? 'h-65 w-65 l-h-60' : 'h-30 w-30 l-h-30'">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-people card-icon"
+                          viewBox="0 0 16 16">
+                          <path
+                            d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
+                        </svg>
+                      </div>
+                      <div class="d-flex flex-column fw-500">
+                        <a href="#" class="text-dark hover-primary mb-1 fw-700 fs-18">{{ (dashSummary$ | async)?.teachers | numberFormat }}</a>
+                        <span class="text-fade catd-name" [ngClass]="isDesktopDevice ? 'fs-18' : 'fs-12'">{{
+                          'dashboard.welcome.teachers' | translate}}</span>
+                      </div>
+                    </div>
+                    <!-- <a><span *ngIf="isDesktopDevice">{{ 'dashboard.welcome.view' | translate}}</span><i class="ms-1 fa fa-chevron-right"></i></a> -->
+                    <a>
+                      <span class="icon-Arrow-right" [ngClass]="isDesktopDevice ? 'fs-20' : 'fs-20'"><span
+                          class="path1"></span><span class="path2"></span></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6" style="padding-right: 0;">
+              <div class="box border-radius-10 mb-15" [routerLink]="['/main/students']">
+                <div class="box-body p-10">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                      <div class="me-15 bg-info-light card-logo rounded text-center"
+                        [ngClass]="isDesktopDevice ? 'h-65 w-65 l-h-60' : 'h-30 w-30 l-h-30'">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-mortarboard "
+                          viewBox="0 0 16 16">
+                          <path
+                            d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5ZM8 8.46 1.758 5.965 8 3.052l6.242 2.913L8 8.46Z" />
+                          <path
+                            d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46l-3.892-1.556Z" />
+                        </svg>
+                      </div>
+                      <div class="d-flex flex-column fw-500">
+                        <a href="#" class="text-dark hover-primary mb-1 fw-700  fs-18">{{ (dashSummary$ |
+                          async)?.members |
+                          numberFormat }}</a>
+                        <span class="text-fade catd-name" [ngClass]="isDesktopDevice ? 'fs-18' : 'fs-12'">{{
+                          'dashboard.welcome.students' | translate}} </span>
+                      </div>
+                    </div>
+                    <a>
+                      <span class="icon-Arrow-right" [ngClass]="isDesktopDevice ? 'fs-20' : 'fs-20'"><span
+                          class="path1"></span><span class="path2"></span></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="padding-right: 0;">
+            <div class="col-6">
+              <div class="box border-radius-10 mb-15" [routerLink]="['/main/staff']">
+                <div class="box-body p-10">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                      <div class="me-15 bg-info-light card-logo rounded text-center"
+                        [ngClass]="isDesktopDevice ? 'h-65 w-65 l-h-60' : 'h-30 w-30 l-h-30'">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-people card-icon"
+                          viewBox="0 0 16 16">
+                          <path d="M6.5 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                          <path
+                            d="M4.5 0A2.5 2.5 0 0 0 2 2.5V14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2.5A2.5 2.5 0 0 0 11.5 0h-7zM3 2.5A1.5 1.5 0 0 1 4.5 1h7A1.5 1.5 0 0 1 13 2.5v10.795a4.2 4.2 0 0 0-.776-.492C11.392 12.387 10.063 12 8 12s-3.392.387-4.224.803a4.2 4.2 0 0 0-.776.492V2.5z" />
+                        </svg>
+                      </div>
+                      <div class="d-flex flex-column fw-500">
+                        <a href="#" class="text-dark hover-primary mb-1 fw-700 fs-18">{{ (dashSummary$ | async)?.workers
+                          |
+                          numberFormat }}</a>
+                        <span class="text-fade catd-name" [ngClass]="isDesktopDevice ? 'fs-18' : 'fs-12'">{{
+                          "layout.staff" | translate}}</span>
+                      </div>
+                    </div>
+                    <!-- <a><span *ngIf="isDesktopDevice">{{ 'dashboard.welcome.view' | translate}}</span><i class="ms-1 fa fa-chevron-right"></i></a> -->
+                    <a>
+                      <span class="icon-Arrow-right" [ngClass]="isDesktopDevice ? 'fs-20' : 'fs-20'"><span
+                          class="path1"></span><span class="path2"></span></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+            <div class="col-6" style="padding-right: 0;">
+              <div class="box border-radius-10 mb-15" [routerLink]="['/main/classes/manage']">
+                <div class="box-body p-10">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                      <div class="me-15 bg-info-light card-logo rounded text-center"
+                        [ngClass]="isDesktopDevice ? 'h-65 w-65 l-h-60' : 'h-30 w-30 l-h-30'">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-mortarboard "
+                          viewBox="0 0 16 16">
+                          <path fill-rule="evenodd"
+                            d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
+                          <path fill-rule="evenodd"
+                            d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
+                        </svg>
+                      </div>
+                      <div class="d-flex flex-column fw-500">
+                        <a href="#" class="text-dark hover-primary mb-1 fw-700  fs-18">{{ (dashSummary$ |
+                          async)?.classes |
+                          numberFormat }}</a>
+                        <span class="text-fade catd-name" [ngClass]="isDesktopDevice ? 'fs-18' : 'fs-12'">{{
+                          'dashboard.welcome.streams' | translate}} </span>
+                      </div>
+                    </div>
+                    <!-- <a><span *ngIf="isDesktopDevice">{{ 'dashboard.welcome.view' | translate}}</span><i class="fa fa-chevron-right"></i></a> -->
+                    <a>
+                      <span class="icon-Arrow-right" [ngClass]="isDesktopDevice ? 'fs-20' : 'fs-20'"><span
+                          class="path1"></span><span class="path2"></span></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row p-0 mx-auto">
+          </div>
+
+
+        </div>
+      </div>
+      <div class="col-lg-5 col-12">
+        <div class="box border-radius-10 d-none d-md-block">
+          <div class="box-header" [ngClass]="{'border-success':(displayCalendar)}">
+            <div class="row">
+              <div class="col-12 col-xl-6">
+                <h4 class="box-title text-center events-title">{{ 'dashboard.welcome.upcomingEv' | translate}}</h4>
+              </div>
+              <div class="col-12 col-xl-6 text-end">
+                <div class="btn-group" style="margin-right: 5px;">
+                  <button class="btn btn-sm" (click)="displayCalendar = false"
+                    [ngClass]="{'btn-secondary':(displayCalendar ==false),'btn-default':(displayCalendar == true)}">
+                    <i class="fa fa-list"></i>
+                  </button>
+                  <button class="btn btn-sm btn-secondary" (click)="displayCalendar = true"
+                    [ngClass]="{'btn-secondary':(displayCalendar==true),'btn-default':(displayCalendar == false)}">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+                <button type="button" *ngIf="(userRoles$ | async)?.isSchoolAdmin" class="btn btn-sm btn-success"
+                  (click)="addNew()" data-bs-toggle="modal" data-bs-target="#add-newdash-events">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus"
+                    viewBox="0 0 16 16">
+                    <path
+                      d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                  </svg>
+                  {{ 'dashboard.welcome.addEvent' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="box-body" *ngIf="displayCalendar">
+            <full-calendar [options]="calendarOptionsSmall"></full-calendar>
+          </div>
+
+          <div class="box-body" [hidden]="displayCalendar" style="height: 342px; overflow: auto;">
+
+            <ng-scrollbar #scrollable track="all" pointerEventsMethod="scrollbar" style="overflow-y: auto;">
+              <ng-container *ngIf="closestEvs.length > 0">
+                <div *ngFor="let evt of closestEvs" (click)="editEvent(evt); editSession(evt.sessions[0])"
+                  class="box-body pb-0 rounded-3 shadow" style="padding-top: 1rem;">
+                  <div class="d-flex justify-content-start mb-10">
+                    <div>
+                      <i class="fa fa-circle-o fs-12" style="color: #6f42c1;"></i>
+                    </div>
+                    <div class="d-flex flex-column fw-500 ms-15">
+                      <a href="#" class="text-dark hover-primary mb-1 fs-16">{{evt.startDate | date}}</a>
+                      <span class="text-fade">{{evt.title}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="box-footer">
+                  <div class="row">
+                    <a [routerLink]="['/main/events']" class="col-12 ms-2 text-info">
+                      {{ 'dashboard.welcome.viewAll' | translate}}
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-right-circle ms-1" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                          d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="closestEvs.length == 0">
+                <div>{{ 'events.manage.noEvs' | translate }}</div>
+              </ng-container>
+            </ng-scrollbar>
+
+          </div>
+        </div>
+
+        <div class="py-1 d-md-none mb-40">
+          <h4 class="pull-left">{{ 'dashboard.welcome.upcomingEv' | translate}}</h4>
+          <button type="button" *ngIf="((userRoles$ | async)?.isSchoolAdmin && closestEvs.length > 0)"
+            class="btn btn-small bg-zeraki-green-gradient pull-right text-white" (click)="addNew()"
+            data-bs-toggle="modal" data-bs-target="#add-newdash-events">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus"
+              viewBox="0 0 16 16">
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+            </svg>
+            {{ 'dashboard.welcome.addEvent' | translate}}
+          </button>
+        </div>
+        <div *ngIf="closestEvs.length > 0" class="box h-lg-450 d-md-none" style="background-color: transparent;">
+          <div *ngFor="let evt of closestEvs" (click)="editEvent(evt); editSession(evt.sessions[0])"
+            class="box-body pb-0 rounded-3 shadow" style="padding-top: 1rem;">
+            <div class="d-flex justify-content-start mb-10">
+              <div>
+                <i class="fa fa-circle-o fs-12" style="color: #6f42c1;"></i>
+              </div>
+              <div class="d-flex flex-column fw-500 ms-15">
+                <a href="#" class="text-dark hover-primary mb-1 fs-16">{{evt.startDate | date}}</a>
+                <span class="text-fade">{{evt.title}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <div class="row">
+              <a [routerLink]="['/main/events']" class="col-12 ms-2 text-info">
+                {{ 'dashboard.welcome.viewAll' | translate}}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-arrow-right-circle ms-1" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="closestEvs.length == 0" class="box h-lg-450 d-md-none" style="background-color: transparent;">
+          <div class="box-body text-center">
+            <h5>{{ 'dashboard.welcome.noEvs' | translate}}</h5>
+            <div class="row">
+              <button (click)="addNew()" data-bs-toggle="modal" data-bs-target="#add-newdash-events"
+                class="btn btn-sm btn-info mt-10 col-12">{{
+                'dashboard.welcome.createEv' | translate}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="schoolDataType && !schoolDataType.isOLevelSchool">
+      <app-global></app-global>
+    </ng-container>
+    <ng-container *ngIf="schoolDataType && schoolDataType.isOLevelSchool">
+      <app-olevel-summary-report></app-olevel-summary-report>
+    </ng-container>
+  </section>
+</ng-template>
+
+<div class="modal fade none-border" id="add-newdash-events">
+  <div class="modal-dialog">
+    <form #eventForm="ngForm" class="form" (ngSubmit)="eventForm.form.valid && addEvent(eventForm)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><strong>{{ 'dashboard.welcome.addEvent' | translate}}</strong></h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="box-body">
+          <div *ngIf="!event.schoolEventId" class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">{{ 'dashboard.welcome.eventName' | translate}}</label>
+                <input type="text" class="form-control" placeholder="{{ 'dashboard.welcome.eventName' | translate}}"
+                  name="title" #title="ngModel" [(ngModel)]="event.title"
+                  [ngClass]="{ 'is-invalid': eventForm.submitted && title.invalid }" required>
+                <div *ngIf="eventForm.submitted && title.errors?.required" class="form-control-feedback text-danger">
+                  <small>{{ 'dashboard.welcome.eventNameErrMes' | translate}}.</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">{{ 'dashboard.welcome.evParticipants' | translate}}</label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                  placeholder="{{ 'dashboard.welcome.selParticipants' | translate}}" class="form-control-dropdown"
+                  style="background: inherit;" [dropdownPosition]="'bottom'" [clearable]="false" name="participants"
+                  #participants="ngModel" [(ngModel)]="eventSession.participant"
+                  [ngClass]="{ 'b-1 && border-danger': eventForm.submitted && participants.invalid }" required>
+                  <ng-option [value]="'Teachers'">{{ 'events.manage.teachers' | translate }}</ng-option>
+                  <ng-option [value]="'Parents'">{{ 'events.manage.parents' | translate }}</ng-option>
+                  <ng-option [value]="'All'">{{ 'events.manage.all' | translate }}</ng-option>
+                </ng-select>
+                <div *ngIf="eventForm.submitted && participants.errors?.required"
+                  class="form-control-feedback text-danger">
+                  <small>{{ 'dashboard.welcome.evParticipantsErrMes' | translate}}.</small>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="eventSession.participant == 'Parents'" class="col-md-12">
+              <div class="form-group">
+                <label class="form-label">{{ schoolDataType?.formoryear | formOrYear }}<span class="text-danger">*</span></label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                  placeholder="{{ 'common.formPlaceholder' | translate: {formoryear: schoolDataType?.formoryear | formOrYear} }}"
+                  class="form-control-dropdown" [multiple]="true" [dropdownPosition]="'bottom'" [clearable]="false"
+                  name="form_selected" #form="ngModel" [(ngModel)]="eventSession.participantDescription"
+                  [ngClass]="{ 'b-1 && border-danger': eventForm.submitted && form.invalid }" required>
+                  <ng-option [value]="'One'">{{ 'events.manage.one' | translate }}</ng-option>
+                  <ng-option [value]="'Two'">{{ 'events.manage.two' | translate }}</ng-option>
+                  <ng-option [value]="'Three'">{{ 'events.manage.three' | translate }}</ng-option>
+                  <ng-option [value]="'Four'">{{ 'events.manage.four' | translate }}</ng-option>
+                </ng-select>
+                <div *ngIf="eventForm.submitted && form.errors?.required" class="form-control-feedback text-danger">
+                  <small>{{schoolDataType?.formoryear | formOrYear}} {{ 'dashboard.welcome.evFormErrMes' |
+                    translate}}.</small>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="eventSession.participant == 'Teachers'" class="col-md-12">
+              <div class="form-group">
+                <label class="form-label">{{ 'dashboard.welcome.specific' | translate}}<span
+                    class="text-danger">*</span></label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="teacherGroups"
+                  placeholder="{{ 'common.teachersPlaceholder' | translate}}" class="form-control-dropdown"
+                  [dropdownPosition]="'bottom'" [multiple]="true" [clearable]="false" name="form_selected"
+                  #ev_teachers="ngModel" bindLabel="name" [(ngModel)]="eventSession.participantDescription"
+                  [ngClass]="{'b-1 && border-danger': eventForm.submitted && ev_teachers.invalid }" required>
+                </ng-select>
+                <div *ngIf="eventForm.submitted && ev_teachers.errors?.required"
+                  class="form-control-feedback text-danger">
+                  <small>{{ 'dashboard.welcome.specErrMes' | translate}}.</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="form-label">{{ 'dashboard.welcome.evDates' | translate}}</div>
+                <div class="row">
+                  <div class="col-lg-6 col-sm-6">
+                    <input (click)="toggleRange('single')" type="radio" id="single_radio"
+                      class="with-gap radio-col-info" name="single_radio" [checked]="single_option" />
+                    <label for="single_radio">{{ 'dashboard.welcome.single' | translate}}</label>
+                  </div>
+                  <div class="col-lg-6 col-sm-6">
+                    <input (click)="toggleRange('range')" type="radio" id="range_radio" class="with-gap radio-col-info"
+                      name="range_radio" [checked]="range_option" />
+                    <label for="range_radio">{{ 'dashboard.welcome.range' | translate}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div *ngIf="range_option" class="row">
+                  <div class="col-md-12 mb-sm-10 mb-xs-10">
+                    <label class="form-label">{{ 'events.manage.enterRange' | translate }}</label>
+                    <div class="input-group">
+                      <div [owlDateTimeTrigger]="dt1" class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input [min]="todayDate" [selectMode]="'range'" [owlDateTime]="dt1"
+                        [placeholder]="'events.manage.enterRange' | translate" type="text" class="form-control"
+                        data-inputmask="'alias': 'dd/mm/yyyy'" data-mask
+                        [ngClass]="{'is-invalid':(eventForm.submitted && multipleDate.invalid)}" name="multipleDate"
+                        #multipleDate="ngModel" [(ngModel)]="event.startDate" required>
+                      <owl-date-time #dt1></owl-date-time>
+
+                    </div>
+                    <div *ngIf="eventForm.submitted && multipleDate.errors?.required"
+                      class="form-control-feedback text-danger">
+                      <small>{{ 'events.manage.evDateErrMes' | translate }}.</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="single_option">
+                  <div class="col-md-12 mb-sm-10 mb-xs-10">
+                    <label class="form-label">{{ 'dashboard.welcome.pickDate' | translate}}</label>
+                    <div class="input-group">
+                      <div [owlDateTimeTrigger]="dt2" class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input [owlDateTime]="dt2" placeholder="{{ 'dashboard.welcome.pickDatePlaceholder' | translate}}"
+                        type="text" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask
+                        name="singleDate" #startDate="ngModel" [(ngModel)]="event.startDate" [min]="todayDate" required>
+                      <owl-date-time #dt2></owl-date-time>
+                      <div *ngIf="eventForm.submitted && startDate.errors?.required"
+                        class="form-control-feedback text-danger">
+                        <small>{{ 'dashboard.welcome.dateErrMes' | translate}}.</small>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button #closeNewEventModal type="button" class="btn btn-sm btn-outline btn-dark me-2 pull-left"
+            data-bs-dismiss="modal">{{ 'dashboard.welcome.close' | translate}}</button>
+          <button type="submit" class="btn btn-sm btn-outline btn-info save-category pull-right">{{
+            'dashboard.welcome.saveEv' | translate}}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<a #viewEditEvHidden hidden class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#view-edit-event"></a>
+<!-- Modal view/Edit -->
+
+<div class="modal fade none-border center-modal" id="view-edit-event">
+  <div *ngIf="!addEditEvent" class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header pb-0">
+        <h4 class="modal-title"><strong>{{ 'dashboard.welcome.viewEv' | translate}}</strong></h4>
+        <button type="button" (click)="addEditEvent = true" *ngIf="(userRoles$ | async)?.isSchoolAdmin"
+          class="btn btn-sm pull-right edit" aria-label="Edit">
+          <i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen"
+              viewBox="0 0 16 16">
+              <path
+                d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+            </svg>
+          </i>
+        </button>
+        <button #closeViewEv type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="box">
+        <div class="box-body p-25 pt-10 mailbox-nav">
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <h4><span class="nav-link px-0 fw-bolder"><strong class="text-info">{{editEv.title}}</strong></span></h4>
+            </li>
+            <div class="text-fade">{{ 'dashboard.welcome.eventDetails' | translate}}</div>
+            <li class="nav-item">
+              <a class="nav-link">
+                <i>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock"
+                    viewBox="0 0 16 16">
+                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                  </svg>
+                </i>
+                {{editEv.startDate | date:'medium'}}
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link">
+                <i>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-people" viewBox="0 0 16 16">
+                    <path
+                      d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
+                  </svg>
+                </i>
+                {{editEventSession.participant}}
+              </a>
+            </li>
+            <li *ngIf="editEventSession.participant == 'Teachers'" class="nav-item">
+              <a class="nav-link">
+                <i>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-person" viewBox="0 0 16 16">
+                    <path
+                      d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                  </svg>
+                </i>
+                {{editEventSession.participantDescription}}
+              </a>
+            </li>
+            <li *ngIf="editEventSession.participant == 'Parents'" class="nav-item">
+              <a class="nav-link">
+                <i>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-person" viewBox="0 0 16 16">
+                    <path
+                      d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                  </svg>
+                </i>
+                {{schoolDataType?.formoryear | formOrYear}} {{editEventSession.participantDescription}}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="addEditEvent" class="modal-dialog">
+    <form #addEditEventForm="ngForm" class="form"
+      (ngSubmit)="addEditEventForm.form.valid && saveEditEvent(addEditEventForm)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><strong>{{ 'dashboard.welcome.editEv' | translate}}</strong></h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="box-body py-0">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-label">{{ 'dashboard.welcome.evName' | translate}}</label>
+                <input type="text" class="form-control" placeholder="{{ 'dashboard.welcome.eventName' | translate}}"
+                  name="title" #title="ngModel" [(ngModel)]="editEv.title">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">{{ 'dashboard.welcome.participants' | translate}}</label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                  placeholder="{{ 'dashboard.welcome.selParticipants' | translate}}" class="form-control-dropdown"
+                  style="background: inherit;" [dropdownPosition]="'bottom'" [clearable]="false" name="participants"
+                  #participants="ngModel" [(ngModel)]="editEventSession.participant"
+                  [ngClass]="{ 'b-1 && border-danger': addEditEventForm.submitted && participants.invalid }">
+                  <ng-option [value]="'Teachers'">{{ 'events.manage.teachers' | translate }}</ng-option>
+                  <ng-option [value]="'Parents'">{{ 'events.manage.parents' | translate }}</ng-option>
+                  <ng-option [value]="'All'">{{ 'events.manage.all' | translate }}</ng-option>
+                </ng-select>
+                <div *ngIf="addEditEventForm.submitted && participants.errors?.required"
+                  class="form-control-feedback text-danger">
+                  <small>{{ 'dashboard.welcome.partsErrMes' | translate}}.</small>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="editEventSession.participant == 'Parents'" class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">{{schoolDataType?.formoryear | formOrYear}}<span
+                    class="text-danger">*</span></label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                  placeholder="{{ 'common.formPlaceholder' | translate}}" class="form-control-dropdown"
+                  [multiple]="true" [dropdownPosition]="'bottom'" [clearable]="false" name="form_selected"
+                  #form="ngModel" [(ngModel)]="editEventSession.participantDescription"
+                  [ngClass]="{ 'b-1 && border-danger': addEditEventForm.submitted && form.invalid }">
+                  <ng-option [value]="'One'">{{ 'events.manage.one' | translate }}</ng-option>
+                  <ng-option [value]="'Two'">{{ 'events.manage.two' | translate }}</ng-option>
+                  <ng-option [value]="'Three'">{{ 'events.manage.three' | translate }}</ng-option>
+                  <ng-option [value]="'Four'">{{ 'events.manage.four' | translate }}</ng-option>
+                </ng-select>
+                <div *ngIf="addEditEventForm.submitted && form.errors?.required"
+                  class="form-control-feedback text-danger">
+                  <small>{{schoolDataType?.formoryear | formOrYear}} {{ 'dashboard.welcome.evFormErrMes' |
+                    translate}}.</small>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="editEventSession.participant == 'Teachers'" class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">{{ 'dashboard.welcome.specific' | translate}}<span
+                    class="text-danger">*</span></label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="teacherGroups"
+                  placeholder="{{ 'common.teachersPlaceholder' | translate}}" class="form-control-dropdown"
+                  [dropdownPosition]="'bottom'" [multiple]="true" [clearable]="false" name="form_selected"
+                  #ev_teachers="ngModel" bindLabel="name" [(ngModel)]="editEventSession.participantDescription"
+                  [ngClass]="{ 'b-1 && border-danger': addEditEventForm.submitted && ev_teachers.invalid }">
+                </ng-select>
+                <div *ngIf="addEditEventForm.submitted && ev_teachers.errors?.required"
+                  class="form-control-feedback text-danger">
+                  <small>{{ 'dashboard.welcome.specErrMes' | translate}}.</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="form-label">{{ 'dashboard.welcome.evDates' | translate}}</div>
+                <div class="row">
+                  <div class="col-lg-6 col-sm-6">
+                    <input (click)="toggleSessRange('single')" type="radio" id="sess_single_radio"
+                      class="with-gap radio-col-info" name="sess_single_radio" [checked]="sess_single_option" />
+                    <label for="sess_single_radio">{{ 'dashboard.welcome.single' | translate}}</label>
+                  </div>
+                  <div class="col-lg-6 col-sm-6">
+                    <input (click)="toggleSessRange('range')" type="radio" id="sess_range_radio"
+                      class="with-gap radio-col-info" name="sess_range_radio" [checked]="sess_range_option" />
+                    <label for="sess_range_radio">{{ 'dashboard.welcome.range' | translate}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div *ngIf="sess_range_option" class="row">
+                  <div class="col-md-12 mb-sm-10 mb-xs-10">
+                    <label class="form-label">{{ 'events.manage.enterRange' | translate }}</label>
+                    <div class="input-group">
+                      <div [owlDateTimeTrigger]="dt1" class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input [min]="todayDate" [selectMode]="'range'" [owlDateTime]="dt1"
+                        [placeholder]="'events.manage.enterRange' | translate" type="text" class="form-control"
+                        data-inputmask="'alias': 'dd/mm/yyyy'" data-mask
+                        [ngClass]="{'is-invalid':(eventForm.submitted && multipleDate.invalid)}" name="multipleDate"
+                        #multipleDate="ngModel" [(ngModel)]="editEventSession.startTime" required>
+                      <owl-date-time #dt1></owl-date-time>
+
+                    </div>
+                    <div *ngIf="eventForm.submitted && multipleDate.errors?.required"
+                      class="form-control-feedback text-danger">
+                      <small>{{ 'events.manage.evDateErrMes' | translate }}.</small>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div *ngIf="sess_single_option">
+                  <label class="form-label">{{ 'dashboard.welcome.evDate' | translate}}</label>
+                  <div class="input-group">
+                    <div [owlDateTimeTrigger]="dt1" class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input [owlDateTime]="dt1" placeholder="{{ 'dashboard.welcome.pickDatePlaceholder' | translate}}"
+                      type="text" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask
+                      name="singleSessDate" #singleSessDate="ngModel" [(ngModel)]="editEventSession.startTime"
+                      [min]="todayDate" required>
+                    <owl-date-time #dt1></owl-date-time>
+                    <div *ngIf="addEditEventForm.submitted && singleSessDate.errors?.required"
+                      class="form-control-feedback text-danger">
+                      <small>{{ 'dashboard.welcome.evDateErrMes' | translate}}.</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button *ngIf="(editEv.schoolEventId && (userRoles$ | async)?.isSchoolAdmin && editEv.startDate > todayDate)"
+            type="button" class="btn btn-sm btn-outline btn-danger save-category pull-left"
+            (click)="deleteEvent(editEv)">
+            <i>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
+                viewBox="0 0 16 16">
+                <path
+                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                <path fill-rule="evenodd"
+                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+              </svg>
+            </i>
+            {{ 'dashboard.welcome.delEvent' | translate}}
+          </button>
+          <button #closeEventModal hidden type="button" class="btn btn-sm btn-danger me-2 pull-left"
+            data-bs-dismiss="modal">{{ 'dashboard.welcome.close' | translate}}</button>
+          <button type="submit" *ngIf="editEv.startDate > todayDate"
+            class="btn btn-sm btn-info save-category pull-right">{{ 'dashboard.welcome.saveEv' | translate}}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

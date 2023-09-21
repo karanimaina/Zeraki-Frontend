@@ -1,0 +1,452 @@
+<!-- ENTER USERNAME FORM -->
+<form
+    *ngIf="!isCorrectUsername && !(login_options.show_forgot_username_view) && !login_options.reset_password && !resetSuccessful"
+    #usrForm="ngForm" (ngSubmit)="usrForm.form.valid && loginUser(usrForm)">
+    <!-- DO NOT DELETE!! USE TO DISPLAY LOGIN ALERTS -->
+    <div class="col-12" style="padding: 0 0 16px 0"
+        *ngIf="usernameSent.message?.length > 0 && check_email_response.status != 500">
+        <div class='alert alert-success' style="padding: 8px">
+            <div [innerHTML]="'homePage.login.usernameSent' | translate: {message: usernameSent.message}"></div>
+        </div>
+    </div>
+    <div class="col-md-12 col-xs-12" style="padding: 0 0 16px 0"
+        *ngIf="check_email_response.status == 500 && check_email_response.message.length > 0">
+        <div class='alert alert-danger' style="padding: 8px">
+            <label style="margin-bottom: 5px" *ngIf="check_email_response.title.length > 0" translate
+                [translateParams]="check_email_response">homePage.login.check_email_response.title</label>
+            <div
+                [innerHTML]="'homePage.login.check_email_response.message' | translate : {message: check_email_response.message}">
+            </div>
+        </div>
+    </div>
+    <div class="col-12" style="padding: 0 0 16px 0"
+        *ngIf="check_email_response?.body?.status == 500 && check_email_response?.body?.show_forgot_username">
+        <div class='alert alert-success' style="padding: 8px">
+            <label style="margin-bottom: 5px" *ngIf="check_email_response.body.title.length > 0" translate
+                [translateParams]="check_email_response.body">homePage.login.check_email_response.title</label>
+            <div
+                [innerHTML]="'homePage.login.check_email_response.message' | translate : {message: check_email_response.body.message}">
+            </div>
+        </div>
+    </div>
+    <div class="col-12" style="padding: 0 0 16px 0" *ngIf="login_options.invalidUsername?.length > 0">
+        <div class='alert alert-danger' style="padding: 8px">
+            <label style="margin-bottom: 5px"><strong class="fw-bold">{{ "homePage.login.errors.invalidUsername.label" | translate
+                    }}</strong></label>
+            <div>
+                {{ "homePage.login.errors.invalidUsername.text" | translate }}
+                <strong class="fw-bold">
+                    {{ "homePage.login.forgotUser" | translate }}
+                </strong> {{ "homePage.login.errors.below" | translate }}.
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label">{{ "homePage.login.username" | translate }}</label>
+        <a class="pull-right text-success" (click)="login_options.show_forgot_username_view = true"
+            style="cursor: pointer; text-decoration-line: none;">{{ "homePage.login.forgotUser" | translate }}?</a>
+        <div class="input-group mb-2">
+            <span class="input-group-text bg-transparent">
+                <i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-person" viewBox="0 0 16 16">
+                        <path
+                            d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                    </svg>
+                </i>
+            </span>
+            <input type="email" class="form-control ps-15 bg-transparent" id="email" name="email"
+                [(ngModel)]="user.username" placeholder="{{ 'homePage.login.usernamePlaceholder' | translate }}"
+                required>
+        </div>
+    </div>
+    <div class="form-group mb-0 d-flex justify-content-end">
+        <button [disabled]="isCheckingUsername" class="btn btn-block btn-success text-white" type="submit">
+            <span *ngIf="!isCheckingUsername">{{ "homePage.login.continueBtn" | translate }}</span>
+            <span *ngIf="isCheckingUsername">
+                {{ "homePage.login.verifyingBtn" | translate }} <i class="fa fa-spinner fa-spin"></i>
+            </span>
+        </button>
+    </div>
+</form>
+
+
+
+<!-- CORRECT USERNAME ENTER PASSWORD FORM -->
+<form
+    *ngIf="isCorrectUsername && !(login_options.show_forgot_username_view || login_options.password_reset?.reset || login_options.reset_password)  && !resetSuccessful"
+    #pfForm="ngForm" (ngSubmit)="pfForm.form.valid && loginUser(pfForm)">
+    <div class="col-12 p-0" *ngIf="auth_options.login_error_data?.message?.length > 0">
+        <div class='alert alert-danger' style="padding: 8px">
+            <label style="margin-bottom: 5px">
+              <strong>
+                {{ 'homePage.login.auth_options.login_error_data.authFailed' | translate }}
+              </strong>
+            </label>
+            <div [innerHTML]="auth_options.login_error_data?.message"></div>
+        </div>
+    </div>
+    <div class="col-md-12 col-xs-12" style="padding: 0 0 5px 0">
+        <div class="panel-body social-board ps-0 pt-0">
+            <div class="social-profile clearfix">
+                <a class="pull-left me-5">
+                    <img class="avatar-lg rounded-circle" [src]="login_options.school_url">
+                </a>
+                <div class="media-body pt-1">
+                    <h5 class="pb-0 mb-0"><strong class="fw-bold">{{ "homePage.login.check_em_response.email" | translate: { email:
+                        check_email_response.body?.email} }}</strong></h5>
+                    <small class="text-muted">{{ "homePage.login.check_em_response.school_name" | translate: {
+                        school_name: check_email_response?.body?.school_name} }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+		<input hidden name="username" [value]="user.username">
+        <label class="form-label text-black text-opacity-75">{{ "homePage.login.password" | translate }}</label>
+        <a class="text-success pull-right" (click)="forgotPasswordAnalytics()"
+            style="cursor: pointer; text-decoration-line: none;">{{ "homePage.login.forgotPass" | translate }}?</a>
+        <div class="input-group mb-2">
+
+            <input [type]="showPassword" class="form-control ps-15 bg-transparent" name="password" [(ngModel)]="user.password"
+                placeholder="********" required>
+            <span class="input-group-text bg-transparent" (click)="onshowLoginPwd()">
+                <i *ngIf="showPassword === 'password'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                        <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"/>
+                        <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"/>
+                    </svg>
+                </i>
+                <i *ngIf="showPassword === 'text'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                    </svg>
+                </i>
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group mb-0  btns">
+        <button [disabled]="isLoading" class="btn btn-success text-white text-center col-12" type="submit">
+            <span *ngIf="!isLoading">{{ "homePage.login.continueBtn" | translate }}</span>
+            <span *ngIf="isLoading">
+                {{ "homePage.login.signing_in" | translate }} <i class="fa fa-spinner fa-spin"></i>
+            </span>
+        </button>
+        <!-- <a class="text-muted" href="#!">Forgot password?</a>  -->
+    </div>
+    <div class="text-center row">
+        <a (click)="showLogin()" class="text-success" style="cursor: pointer;">
+            <span>{{ "homePage.login.change_user" | translate }}</span>
+        </a>
+    </div>
+    <!-- <div class="d-flex p-2 bd-highlight col-12">
+        <button class="btn btn-success text-white" type="submit">
+            <span *ngIf="!isLoading">Continue</span>
+            <span *ngIf="isLoading">
+            Signing in <i class="fa fa-spinner fa-spin"></i>
+            </span>
+        </button>
+        <a class="text-muted" href="#!">Forgot password?</a>
+    </div> -->
+</form>
+
+
+<!-- FORGOT USERNAME REQUEST -->
+<form #fgUsForm="ngForm" *ngIf="login_options.show_forgot_username_view  && !resetSuccessful"
+    (ngSubmit)="fgUsForm.form.valid && forgotUsernameRequestAnalytics()">
+    <div *ngIf="(forgot_username_response.status != 500  && forgot_username_response.status != 400)" class="col-12"
+        style="padding: 0 0 0 0">
+        <div class='alert alert-success' style="padding: 8px">
+            <label style="margin-bottom: 5px"><strong class="fw-bold">{{ "homePage.login.forgot_username.find_username.label" | translate }}</strong></label>
+            <div>{{ "homePage.login.forgot_username.find_username.content" | translate }}.</div>
+        </div>
+    </div>
+    <div *ngIf="(forgot_username_response.status == 500 || forgot_username_response.status == 400)"
+        class="col-md-12 col-xs-12" style="padding: 0 0 0 0">
+        <div *ngIf="forgot_username_response.message.length > 0" class='alert alert-danger' style="padding: 8px">
+            <label style="margin-bottom: 5px"><strong class="fw-bold">{{ "homePage.login.forgot_username.error.label" | translate }}</strong></label>
+            <div *ngIf="forgot_username_response.status == 400"
+              [innerHTML]="'homePage.login.forgot_username.error.phoneNumberNotFound' | translate:{phoneNumber: user.forgotusername_phone}">
+            </div>
+            <div *ngIf="forgot_username_response.status == 500"
+                [innerHTML]="'homePage.login.forgot_username.error.content' | translate:{message: forgot_username_response.message}">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label text-black text-opacity-75">{{ "homePage.login.forgot_username.phone.label" | translate
+            }}</label>
+        <div class="input-group mb-2">
+            <span class="input-group-text bg-transparent">
+                <i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-telephone" viewBox="0 0 16 16">
+                        <path
+                            d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+                    </svg>
+                </i>
+            </span>
+            <input type="text" class="form-control ps-15 bg-transparent" name="phone"
+                [(ngModel)]="user.forgotusername_phone"
+                placeholder="{{ 'homePage.login.forgot_username.phone.placeholder' | translate }}" required>
+        </div>
+    </div>
+
+    <div class="form-group mb-0  btns">
+        <button [disabled]="requestingUsername" class="btn btn-success text-white text-center col-12" type="submit">
+            <span *ngIf="!requestingUsername">{{ "homePage.login.forgot_username.submit.continue" | translate }}</span>
+            <span *ngIf="requestingUsername">
+                {{ "homePage.login.forgot_username.submit.sending" | translate }} <i class="fa fa-spinner fa-spin"></i>
+            </span>
+        </button>
+        <!-- <a class="text-muted" href="#!">Forgot password?</a>  -->
+    </div>
+    <div class="text-center row">
+        <a (click)="showLogin()" class="text-success" style="cursor: pointer;">
+            <span>{{ "homePage.login.forgot_username.back" | translate }}</span>
+        </a>
+    </div>
+</form>
+
+
+
+
+<!-- ENTER PHONE TO RESET PASSWORD FORM -->
+<form #fgPassForm="ngForm" *ngIf="login_options.reset_password">
+    <!-- <div *ngIf="login_options.password_reset.no_phone">
+        <div class="col-md-12 col-xs-12">
+            <div class='alert alert-success' style="padding: 8px">
+                <label *ngIf="login_options.password_reset.title.length > 0">{{login_options.password_reset.title}}</label>
+                <div [innerHTML]="login_options.password_reset.message"></div>
+            </div>
+        </div>
+        <div class="col-md-12 col-xs-12">
+            <button type="button" (click)="showLogin()" class="btn btn-success btn-block">Continue</button>
+        </div>
+    </div> -->
+    <div>
+        <div *ngIf="!reset_code_received && !resetSuccessful">
+            <div class="col-md-12 col-xs-12 px-0"
+                *ngIf="!login_options.password_reset.message && error_reset_msg == ''">
+                <div class='alert alert-success' style="padding: 8px"
+                    *ngIf="(check_email_response.body?.password_reset?.title && check_email_response.body?.password_reset?.message)">
+                    <label><strong class="fw-bold">{{ "homePage.login.forgot_password.reset_password.title" | translate: {title:
+                        check_email_response?.body?.password_reset?.title} }}</strong></label>
+                    <div [innerHTML]="'homePage.login.forgot_password.reset_password.content' | translate: {message: check_email_response?.body?.password_reset?.message}">
+                        <!-- {{ "homePage.login.forgot_password.reset_password.content" | translate: {message: check_email_response?.body?.password_reset?.message} }} -->
+                    </div>
+                </div>
+            </div>
+            <!-- <pre>{{check_email_response?.password_reset?.label}}</pre> -->
+            <div class="col-md-12 col-xs-12 px-0" *ngIf="check_email_response?.password_reset">
+                <div class='alert' [ngClass]="(error_reset_msg == '' && check_email_response?.password_reset?.label)? 'alert-success': 'alert-danger'"
+                    style="padding: 8px">
+                    <ng-container
+                        *ngIf="!(check_email_response?.password_reset?.title && check_email_response?.password_reset?.message)">
+                        <label><strong class="fw-bold">{{ "homePage.login.forgot_password.reset_password.title" | translate: {title: check_email_response?.password_reset?.hardLabel} }}</strong></label>
+                        <br />
+                        <label>{{ "homePage.login.forgot_password.reset_password.label" | translate: {label: phoneLabel} }}</label>
+                    </ng-container>
+                    <ng-container *ngIf="!(check_email_response?.password_reset?.label)">
+                        <label style="margin-bottom: 5px"><strong class="fw-bold">{{"homePage.login.forgot_password.error_reset_msg.title" |
+                            translate: {title: check_email_response?.password_reset?.title } }}</strong></label>
+                    </ng-container>
+                    <div *ngIf="check_email_response?.password_reset?.message"
+                        [innerHTML]="'homePage.login.forgot_password.error_reset_msg.message1' | translate: {message1: check_email_response?.password_reset?.message}">
+                    </div>
+                    <div *ngIf="error_reset_msg != ''"
+                        [innerHTML]="'homePage.login.forgot_password.error_reset_msg.message2' | translate: {message2: error_reset_msg}">
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!(check_email_response?.password_reset?.no_phone || check_email_response?.body?.password_reset?.no_phone)" class="col-md-12 col-xs-12" style="padding: 0 0 0 0">
+                <label class="form-label" for="p_phone">{{ "homePage.login.forgot_password.input.label" | translate }}</label>
+                <div class="input-group mb-2">
+                    <span class="input-group-text bg-transparent">
+                        <i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path
+                                    d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+                            </svg>
+                        </i>
+                    </span>
+                    <input type="text"
+                        placeholder="{{ 'homePage.login.forgot_password.input.placeholder' | translate: {phone_placeholder: phone_placeholder} }}"
+                        title="{{ 'homePage.login.forgot_password.input.title' | translate }}" name="p_phone"
+                        id="p_phone" #p_phone="ngModel" [(ngModel)]="user.phone"
+                        class="form-control ps-15 bg-transparent" required>
+                </div>
+            </div>
+            <!-- <div class="col-md-12 col-xs-12" style="padding: 0 0 0 0" *ngIf="auth_options.login_error_msg != ''">
+                                                    <span class="small text-danger">{{auth_options.login_error_msg}}</span>
+                                                </div> -->
+            <div class="col-md-12 col-xs-12" style="padding: 0 0 0 0" *ngIf="connectionError">
+                <span class="small text-danger">{{ "homePage.login.forgot_password.button.connectionerror_msg" |
+                    translate: {connectionerror_msg: connectionerror_msg} }}</span>
+            </div>
+            <div *ngIf="!(check_email_response?.password_reset?.no_phone || check_email_response?.body?.password_reset?.no_phone)" class="col-md-12 col-xs-12" style="padding: 16px 0 0 0">
+                <button type="button" (click)="requestResetCodeAnalytics()" class="btn btn-success btn-block col-12">{{
+                    "homePage.login.forgot_password.button.continue" | translate }}</button>
+            </div>
+            <div *ngIf="(check_email_response?.password_reset?.no_phone || check_email_response?.body?.password_reset?.no_phone)" class="col-md-12 col-xs-12" style="padding: 16px 0 0 0">
+                <button type="button" (click)="showLogin()" class="btn btn-success btn-block col-12">{{
+                    "homePage.login.forgot_password.button.continue" | translate }}</button>
+            </div>
+            <div *ngIf="!(check_email_response?.password_reset?.no_phone || check_email_response?.body?.password_reset?.no_phone)" class="col-md-12 col-xs-12 text-center" style="padding: 16px 0 0 0">
+                <a (click)="showLogin()" style="cursor: pointer;"><span class="small text-success">{{
+                        "homePage.login.forgot_password.button.back" | translate }}</span></a>
+            </div>
+        </div>
+        <div *ngIf="reset_code_received && !resetSuccessful">
+            <div *ngIf="request_code_success_msg">
+                <div class="panel-body p-0">
+                    <div class="col-md-12 col-xs-12 px-0">
+                        <div class='alert alert-success'
+                            [ngClass]="resetCodeMessage != ''? 'alert-danger': 'alert-success'" style="padding: 8px">
+                            <label style="margin-bottom: 5px" *ngIf="false">{{
+                                "homePage.login.reset_unsuccessful.check_phone_response.title" | translate: {title:
+                                check_phone_response.title} }}</label>
+                            <div *ngIf="resetCodeMessage == ''"
+                                [innerHTML]="'homePage.login.reset_unsuccessful.check_phone_response.message1' | translate: {message1: request_code_success_msg}">
+                            </div>
+                            <div *ngIf="resetCodeMessage != ''"
+                                [innerHTML]="'homePage.login.reset_unsuccessful.check_phone_response.message2' | translate: {message2: resetCodeMessage}">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-12 col-xs-12" style="padding: 0 0 0 0">
+                        <button type="button" (click)="showLogin()" class="btn btn-success btn-block">Back</button>
+                    </div> -->
+                </div>
+            </div>
+            <div>
+                <div class="panel-body pt-0 px-0">
+                    <form #loginForm="ngForm" autocomplete="off" (ngSubmit)="loginForm.form.valid && sendResetCodeAnalytics()">
+                        <!-- <div class="col-md-12 col-xs-12" style="padding: 0 0 16px 0">
+                            <div class='alert alert-success' style="padding: 8px">
+                                <label style="margin-bottom: 5px" *ngIf="check_phone_response.title.length > 0">{{check_phone_response.title}}</label>
+                                <div [innerHTML]="check_phone_response.message"></div>
+                            </div>
+                        </div> -->
+                        <div class="col-md-12 col-xs-12" style="padding: 0 0 0 0">
+                            <label class="form-label" for="phone">{{
+                                "homePage.login.reset_unsuccessful.reset_input.label" | translate }}</label>
+                                <input type="text" placeholder="*****"
+                                    title="{{ 'homePage.login.reset_unsuccessful.reset_input.title' | translate }}" required autocomplete="off"
+                                    name="resetcode" id="resetcode" [(ngModel)]="user.reset_code"
+                                    class="form-control">
+
+                        </div>
+                        <div class="col-md-12 col-xs-12 form-group" style="padding: 16px 0 0 0">
+                            <label class="form-label" for="password">{{
+                                "homePage.login.reset_unsuccessful.new_password.label" | translate }}</label>
+                            <div class="input-group">
+                                <input [type]="showResetPassword"
+                                    title="{{ 'homePage.login.reset_unsuccessful.new_password.title' | translate }}"
+                                    placeholder="******" required name="password" id="password" [(ngModel)]="newPassword" autocomplete="nope"
+                                    class="form-control">
+                                <span class="input-group-text bg-transparent" (click)="onshowResetPwd()">
+                                    <i *ngIf="showResetPassword === 'password'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                                            <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"/>
+                                            <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"/>
+                                        </svg>
+                                    </i>
+                                    <i *ngIf="showResetPassword === 'text'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                        </svg>
+                                    </i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12 form-group" style="padding: 16px 0 0 0">
+                            <label class="form-label" for="password2">{{
+                                "homePage.login.reset_unsuccessful.retype_password.label" | translate }}</label>
+                                <div class="input-group">
+                                    <input [type]="showResetPassword"
+                                        title="{{ 'homePage.login.reset_unsuccessful.retype_password.title' | translate }}"
+                                        placeholder="******" required name="password2" id="password2"
+                                        [(ngModel)]="confirmPassword" class="form-control">
+                                    <span class="input-group-text bg-transparent" (click)="onshowResetPwd()">
+                                        <i *ngIf="showResetPassword === 'password'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                                                <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"/>
+                                                <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"/>
+                                            </svg>
+                                        </i>
+                                        <i *ngIf="showResetPassword === 'text'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                            </svg>
+                                        </i>
+                                    </span>
+                                </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12" style="padding: 0 0 0 0" *ngIf="connectionError">
+                            <span class="small text-danger">{{ "homePage.login.reset_unsuccessful.connectionerror_msg" |
+                                translate: {connectionerror_msg: connectionerror_msg} }}</span>
+                        </div>
+                        <!-- <div class="col-md-12 col-xs-12" style="padding: 0 0 0 0" *ngIf="resetCodeMessage != ''">
+                            <span class="small text-danger">{{resetCodeMessage}}</span>
+                        </div> -->
+                        <div class="col-md-12 col-xs-12" style="padding: 16px 0 0 0">
+                            <button type="submit" class="btn btn-success btn-block col-12">{{"homePage.login.reset_unsuccessful.buttons.continue" | translate }}</button>
+                        </div>
+                        <div class="col-md-12 col-xs-12 text-center" style="padding: 16px 0 0 0">
+                            <a (click)="showLogin()" style="cursor: pointer;"><span class="small text-success">{{
+                                    "homePage.login.reset_unsuccessful.buttons.back" | translate }}</span></a>
+                        </div>
+                    </form>
+                </div>
+                <!-- <div *ngIf="login_options.password_reset.check_resetcode_response.status == 200">
+                    <form id="loginForm" (ngSubmit)="changePassword()">
+                        <div class="col-md-12 col-xs-12" style="padding: 0 0 0 0">
+                            <label class="control-label" for="password">New Password</label>
+                            <input type="password" title="Please enter the new password" placeholder="******" required pattern="[\s\S]*\S[\s\S]*" value="" name="password" id="password" [(ngModel)]="reset.password" class="form-control">
+                        </div>
+                        <div class="col-md-12 col-xs-12" style="padding: 16px 0 0 0">
+                            <label class="control-label" for="password2">Re-Type New Password</label>
+                            <input type="password" title="Please confirm the new password" placeholder="******" required pattern="[\s\S]*\S[\s\S]*" value="" name="password2" id="password2" [(ngModel)]="reset.password2" class="form-control">
+                        </div>
+                        <div class="col-md-12 col-xs-12" style="padding: 0 0 0 0" *ngIf="connectionError">
+                            <span class="small text-danger">{{connectionerror_msg}}</span>
+                        </div>
+                        <div class="col-md-12 col-xs-12" style="padding: 0 0 0 0" *ngIf="error_reset">
+                            <span class="small text-danger">{{error_reset_msg}}</span>
+                        </div>
+                        <div class="col-md-12 col-xs-12" style="padding: 16px 0 0 0">
+                            <button type="submit" class="btn btn-success btn-block">Continue</button>
+                        </div>
+                        <div class="col-md-12 col-xs-12 text-center" style="padding: 16px 0 0 0">
+                            <a (click)="showLogin()"><span class="small text-success">Back To Login</span></a>
+                        </div>
+                    </form>
+                </div> -->
+            </div>
+        </div>
+        <div *ngIf="resetSuccessful">
+            <div class="panel-body text-success">
+                {{ "homePage.login.reset_successful" | translate: {reset_pass_message: reset_pass_message} }}
+            </div>
+        </div>
+    </div>
+    <!-- <div *ngIf="!(login_options.show_forgot_username_view || login_options.password_reset?.reset)" class="row btns">
+        <div class="form-group mb-0">
+            <button class="btn btn-success text-white text-center col-12" type="submit">
+                Continue
+            </button>
+        </div>
+        <div class="text-center row">
+            <a (click)="showLogin()" class="text-success" style="cursor: pointer;">
+                <span>Back To Login</span>
+            </a>
+        </div>
+    </div> -->
+</form>

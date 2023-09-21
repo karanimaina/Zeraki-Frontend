@@ -1,0 +1,32 @@
+<app-choose-school-top-nav [networkStatus]="networkStatus"></app-choose-school-top-nav>
+<section class="mt-config content">
+    <div class="row">
+        <div *ngIf="isLoading;then showLoading else displayContent"></div>
+        <ng-template #showLoading>
+            <div class="col-md-5 col-sm-12 mx-auto">
+                <div class="box">
+                    <div class="box-body">
+                        <app-loader-div [height]="148"></app-loader-div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #displayContent>
+            <div class="col-md-5 col-sm-12 mx-auto">
+                <div class="box mx-auto">
+                    <div class="box-header">
+                        <span class="box-title">
+                            Account Disabled
+                        </span>
+                    </div>
+                    <div class="box-body">
+                        <p>Your <b>Zeraki Analytics Account </b> has been <b>disabled</b>. Please contact <b>{{userInit?.customer_care_number}}</b> for re-activation.</p>
+                    </div>
+                    <div class="box-footer text-center">
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+    </div>
+</section>

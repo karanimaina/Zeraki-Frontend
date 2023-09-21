@@ -1,0 +1,347 @@
+<section class="content mt-config">
+    <div class="row">
+        <div class="col-12">
+            <div class="box box-widget">
+              <div class="box-header with-border p-header">
+                <div class="user-block">
+                    <h4 class="box-title">Merit List</h4>
+                </div>
+                <ul class="box-controls pull-right">
+                    <li><a class="box-btn-slide text-dark fs-16" href="#"></a></li>
+                </ul>
+              </div>
+              <div class="box-body">
+                    <form #mlForm="ngForm" class="form" (ngSubmit)="mlForm.form.valid && getMeritList()">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                <label class="form-label">{{schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) :
+                                    schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) :
+                                    schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' |
+                                    translate)}}</label>
+                                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                    [items]="schoolTypeData?.current_forms_list"
+                                    [selectOnTab]="true"
+                                    appendTo="body"
+                                    [dropdownPosition]="'bottom'"
+                                    [disabled]="fetching_examsList_inprogress || fetching_examsData_inprogress"
+                                    required
+                                    name="sform"
+                                    [(ngModel)]="selected.intake"
+                                    (ngModelChange)="invalidateStreams(); fetchIntakeStreamExams(selected.intake, null)"
+                                    bindLabel="classlevel"
+                                    placeholder="Select {{schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) :
+                                    schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) :
+                                    schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' |
+                                    translate)}}">
+                                </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                <label class="form-label">Stream</label>
+                                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                    [items]="selected?.intake?.streams"
+                                    [selectOnTab]="true"
+                                    appendTo="body"
+                                    [dropdownPosition]="'bottom'"
+                                    [disabled]="fetching_examsList_inprogress || fetching_examsData_inprogress"
+                                    required
+                                    name="stream"
+                                    [(ngModel)]="selected.stream"
+                                    (ngModelChange)="fetchIntakeStreamExams(selected.intake, selected.stream)"
+                                    bindLabel="name"
+                                    placeholder="Select stream (Optional)">
+                                </ng-select>
+                                </div>
+                            </div>
+                            <div *ngIf="!fetching_examsList_inprogress && exams?.length > 0" class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Exam</label>
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                        [items]="exams"
+                                        bindLabel="name"
+                                        name="selectedExam"
+                                        appendTo="body"
+                                        [dropdownPosition]="'bottom'"
+                                        groupBy="term"
+                                        [disabled]="fetching_examsData_inprogress"
+                                        [(ngModel)]="selected.exam"
+                                        placeholder="Select Exam">
+                                        <ng-template ng-optgroup-tmp let-item="item">
+                                            {{item.term || 'Unnamed group'}}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="!(exams.length > 0) && no_exams_msg.length > 0" class="row bg-warning">
+                            <h5>{{no_exams_msg}}</h5>
+                        </div>
+                        <div *ngIf="fetching_examsList_inprogress" class="pull-right">
+                            <img src="../../../../assets/img/loading-bars.svg" alt="Loading-bars">
+                            <!-- <img src="../../../../assets/css/vendors_css.css" alt="Loading-bars"> -->
+                        </div>
+                        <button *ngIf="selected?.exam?.name?.length > 0 && (selected.intake.intakeid > 0 || selected.stream.streamid > 0) && !fetching_examsData_inprogress" type="submit" class="btn btn-sm btn-info pull-right box-btn-slide-close">
+                            Get Merit List
+                        </button>
+                    </form>
+
+              </div>
+            </div>
+
+            <div *ngIf="fetching_examsData_inprogress" class="mt-40 text-center">
+                <div>
+                    <img src="../../../../assets/img/loading-bars.svg" height="70" width="100" alt="Loading-bars">
+                </div>
+            </div>
+
+            <div *ngIf="!(data?.list?.length > 0) && getting_data_complete" class="animated bounceInLeft">
+                <div class="box bg-warning ">
+                    <div class="box-header">
+                        <h4 class="text-center">No data found</h4>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- DOWNLOAD BTN -->
+            <div *ngIf="data?.list?.length > 0" class="d-flex justify-content-end" #startEL>
+                <div *ngIf="finally.show" class="btn-group">
+                    <button class="btn btn-sm btn-dark me-5" type="button" (click)="viewPrintFormat()">Print Format</button>
+                    <button *ngIf="isMobileApp" class="btn btn-sm btn-dark me-5" type="button" (click)="exportToExcel(false)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-download" viewBox="0 0 16 16">
+                            <path d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"/>
+                            <path d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"/>
+                        </svg>
+                        Download Merit List
+                    </button>
+                    <button *ngIf="!isMobileApp" class="btn btn-sm btn-dark" type="button" data-bs-toggle="dropdown">
+                        <i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                            </svg>
+                        </i>
+                        Download
+                    </button>
+                    <div class="dropdown-menu bg-active">
+                        <a class="dropdown-item" (click)="exportToExcel(true)">
+                            <i class="me-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-table" viewBox="0 0 16 16">
+                                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
+                                </svg>
+                            </i>
+                            As Spreadsheet
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div *ngIf="data?.list?.length > 0" class="row mt-20 animated bounceInUp">
+                <div class="box">
+                    <!-- <div class="box-header without-border">
+                      <div class="row">
+                          <div class="col-md-6 text-start">
+                              <h1>Zeraki Demo School</h1>
+                              <div>P.O BOX 358-30100</div>
+                              <div>Kisii</div>
+                              <div>0719446154</div>
+                              <div>thisisatest@gmail.com</div>
+                          </div>
+                          <div class="col-md-6 text-end mt-10">
+                              <img src="../../../../assets/img/default-logo.png" height="100" width="100" alt="School logo">
+                          </div>
+                      </div>
+                    </div> -->
+                    <div class="box-body">
+                        <h6 class="col-12">{{data.examname}}</h6>
+                        <div class="col-12 mt-20">
+                            <div class="table-responsive">
+                                <table class="table  table-sm table-bordered mb-0">
+                                    <tbody>
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col" *ngFor="let label of data.labels">{{ label.header }}</th>
+                                      </tr>
+                                    </tbody>
+                                    <tbody>
+                                      <tr  *ngFor="let stud of data?.list; index as i">
+                                        <th scope="row">{{ count + i + 1 }}</th>
+                                        <td *ngFor="let l of data.labels">
+                                            <span *ngIf="!stud[l.label]?.isSubjectMarks">
+                                                {{stud[l.label]}}
+                                            </span>
+                                            <span *ngIf="stud[l.label]?.isSubjectMarks">
+                                                <div>{{ stud[l.label]['score']}}</div>
+                                                <div>{{ stud[l.label]['grade']}}</div>
+                                            </span>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                 </table>
+                            </div>
+                            <!-- PAGINATION -->
+                            <div class="mt-20">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination pagination-sm justify-content-end">
+                                      <li class="page-item">
+                                        <a class="page-link" (click)="page = 0; getPerformanceList(page)" tabindex="-1">First</a>
+                                      </li>
+                                      <li class="page-item" [ngClass]="{'disabled': page == 0}">
+                                        <a class="page-link" (click)="page = page - 1; getPerformanceList(page)" aria-label="Previous" aria-disabled="true">
+                                          <span aria-hidden="true">&lt;</span>
+                                        </a>
+                                      </li>
+                                      <!-- <li class="page-item active" aria-current="page"><a class="page-link" (click)="page = 0; getPerformanceList(page)">1</a></li> -->
+                                      <li class="page-item"><a class="page-link" (click)="getPerformanceList(page)">{{page + 1}}</a></li>
+                                      <!-- <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+                                      <li class="page-item" [ngClass]="{'disabled': page == getPage()}">
+                                        <a class="page-link" (click)="page = page + 1; getPerformanceList(page)" aria-label="Next">
+                                          <span aria-hidden="true">&gt;</span>
+                                        </a>
+                                      </li>
+                                      <li class="page-item">
+                                        <a class="page-link" (click)="page = getPage(); getPerformanceList(page)">Last</a>
+                                      </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRINT BTN -->
+            <div *ngIf="showPrintFormat" class="animated bounceInUp" #scrollHere>
+                <!-- <div class="row"> -->
+                    <button class="btn btn-sm btn-dark me-5" type="button" (click)="hidePrintFormat()">Hide Print Format</button>
+                    <button class="btn btn-sm btn-dark me-5 pull-right d-none d-md-inline-block" type="button" (click)="printPage2('printbody')" [disabled]="isPrinting">
+                        <span *ngIf="!isPrinting">
+                            <i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+                                    <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+                                    <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
+                                </svg>
+                            </i>
+                            Print
+                        </span>
+                        <span *ngIf="isPrinting">Printing...</span>
+                    </button>
+                <!-- </div> -->
+            </div>
+
+            <div *ngIf="showPrintFormat" class="mt-20 animated bounceInUp" id="printthis">
+                <div id="printbody">
+                    <div class="box">
+                        <div class="box-header without-border">
+                        <div class="row">
+                            <div class="col-4">
+                                <img src="{{school_logo_path}}" height="100" width="100" alt="School logo">
+                            </div>
+                            <div class="col-4 text-center">
+                                <h1>{{ school_profile.name }}</h1>
+                                <!-- <h3>{{ exam }}</h3> -->
+                                <h3>{{ complete_list.examname }}</h3>
+                            </div>
+                            <div class="col-4 text-end fw-bold">
+                                <h4 *ngIf="school_profile.address.trim().length > 0">{{ school_profile.address }}</h4>
+                                <h4 *ngIf="school_profile.phone.trim().length > 0">{{ school_profile.phone }}</h4>
+                                <h4 *ngIf="school_profile.email.trim().length > 0">{{ school_profile.email }}</h4>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="table-responsive mt-20">
+                                <table class="table table-sm table-bordered table-hover table-vertical-center">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th [attr.colspan]="complete_list.labels.length">{{ complete_list.examname }}</th>
+                                        </tr>
+                                        <tr class="text-uppercase bg-lightest">
+                                            <th *ngFor="let l of complete_list.labels">{{ l.header }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let d of complete_list.list">
+                                            <td *ngFor="let l of complete_list.labels">
+                                                <span *ngIf="!d[l.label]?.isSubjectMarks" class="nowrap">
+                                                    {{d[l.label]}}
+                                                </span>
+                                                <span *ngIf="d[l.label]?.isSubjectMarks" class="nowrap">
+                                                    <span>{{d[l.label]['score_grade']}}</span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div *ngIf="data.merit_summary_list.length > 0" class="table-responsive mt-20">
+                                <table class="table table-sm table-bordered table-hover table-vertical-center">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th [attr.colspan]="data.merit_summary_list_labels.length">Grade Breakdown</th>
+                                        </tr>
+                                        <tr class="text-uppercase bg-lightest">
+                                            <th *ngFor="let label of data.merit_summary_list_labels">{{ label }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let d of data.merit_summary_list">
+                                            <td *ngFor="let label of data.merit_summary_list_labels">
+                                                {{d[label]}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div *ngIf="data.gender_data?.length > 0" class="table-responsive mt-20">
+                                <table class="table table-sm table-bordered table-hover table-vertical-center">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th [attr.colspan]="data.gender_data_labels?.length">Gender Summary</th>
+                                        </tr>
+                                        <tr class="text-uppercase bg-lightest">
+                                            <th *ngFor="let label of data.gender_data_labels">{{ label }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let d of data.gender_data">
+                                            <td *ngFor="let label of data.gender_data_labels">
+                                                {{d[label]}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div *ngIf="data.current_class_summary_list?.length > 0" class="table-responsive mt-20 break-before">
+                                <table class="table table-sm table-bordered table-hover table-vertical-center">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th [attr.colspan]="data.current_class_summary_list_labels?.length">Class Grade Summary</th>
+                                        </tr>
+                                        <tr class="text-uppercase bg-lightest">
+                                            <th *ngFor="let label of data.current_class_summary_list_labels">{{ label }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let s of data.current_class_summary_list">
+                                            <td *ngFor="let label of data.current_class_summary_list_labels">
+                                                {{s[label]}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

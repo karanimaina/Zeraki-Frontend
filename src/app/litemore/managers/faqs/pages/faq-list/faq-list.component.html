@@ -1,0 +1,162 @@
+<!-- Content Header (Page header) -->
+<div class="content-header d-md-none">
+  <div class="d-flex align-items-center">
+    <div class="me-auto">
+      <h3 class="page-title">{{ 'litemore.faqs.list.title' | translate }}</h3>
+      <div class="d-inline-block align-items-center">
+        <nav>
+          <ol class="breadcrumb text-dark">
+            <li class="breadcrumb-item" aria-current="page">{{ 'litemore.faqs.list.title' | translate }}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+  <div class="row">
+    <div *ngIf="faqListLoading; then showLoadingSection else showDataSection"></div>
+  </div>
+</section>
+
+<!-- loading section -->
+<ng-template #showLoadingSection>
+  <div class="row">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-body">
+          <app-loader-div [height]="50"></app-loader-div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-body">
+          <app-loader-div [height]="250"></app-loader-div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- data section -->
+<ng-template #showDataSection>
+  <div class="box d-none d-md-block">
+    <div class="box-header with-border">
+      <h4 class="box-title d-none d-md-inline-block">{{ 'litemore.faqs.list.title' | translate }}</h4>
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="box-header with-border">
+      <h4 class="box-title">{{ 'litemore.faqs.list.generalQuestions' | translate }}</h4>
+      <p>{{ 'litemore.faqs.list.generalQeustionsDescription' | translate }}</p>
+    </div>
+  </div>
+
+  <div class="col-12 p-0">
+    <div class="box">
+      <div *ngIf="faqList.length == 0" class="box-body text-center">
+        <h4>{{ 'litemore.faqs.list.emptyList' | translate }}</h4>
+      </div>
+    </div>
+
+    <div *ngFor="let faqListItem of faqList; let faqListItemIndex = index" class="p-0 mt-1">
+      <div class="pb-3">
+        <strong class="fs-5">{{ faqListItem.name }}</strong>
+      </div>
+
+      <div class="accordion accordion-flush" [id]="'accordionFaq' + (faqListItemIndex + 1)">
+        <div *ngFor="let faq of faqListItem.faqs; let odd = odd; let faqIndex = index" class="box p-0">
+
+          <div class="accordion-item">
+            <h2 class="accordion-header m-0"
+              [id]="'heading' + (faqListItemIndex + 1).toString() + (faqIndex + 1).toString()">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#collapse' + (faqListItemIndex + 1).toString() + (faqIndex + 1).toString()"
+                aria-expanded="true"
+                [attr.aria-controls]="'collapse' + (faqListItemIndex + 1).toString() + (faqIndex + 1).toString()">
+                <i class="fa fa-plus text-primary pull-left text-muted" style="color: #5d9cec"></i>
+                <span class="ps-1" style="word-wrap:break-word">{{ faq.title }}</span>
+              </button>
+            </h2>
+            <div [id]="'collapse' + (faqListItemIndex + 1).toString() + (faqIndex + 1).toString()"
+              class="accordion-collapse collapse"
+              [attr.aria-labelledby]="'heading' + (faqListItemIndex + 1).toString() + (faqIndex + 1).toString()"
+              [attr.data-bs-parent]="'#accordionFaq' + (faqListItemIndex + 1)">
+              <div class="accordion-body" [innerHtml]="faq.description"></div>
+              <div *ngIf="odd" class="px-3">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="hpanel">
+                      <div class="panel-body" style="padding: 0">
+                        <div class="row text-center px-15" style="padding: 0 0 8px 8px">
+                          <ng-container *ngFor="let image of albums; let i=index">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3" style="margin:0;padding: 8px 8px 0 0">
+                              <img [src]="image.thumb" style="width: 100%; cursor: pointer; height: auto"
+                                (click)="openLightbox(i)" />
+                              <div>{{ 'common.figure' | translate }} {{ i + 1 }}</div>
+                            </div>
+                          </ng-container>
+                        </div>
+                        <!-- <div class="lightBoxGallery col-md-12 col-xs-12" style="padding: 0 0 8px 8px">
+                          <a class="col-md-3 col-xs-3" style="margin:0;padding: 8px 8px 0 0"
+                            href="assets/img/gallery/1.jpg" title="{{'(1/5) ' + faq.title}}"
+                            [attr.data-gallery]="'#blueimp-gallery-' + faq.faqid">
+                            <img style="width: 100%; height: auto" src="assets/img/gallery/1.jpg">
+                            <div>Figure 1</div>
+                          </a>
+                          <a class="col-md-3 col-xs-3" style="margin:0;padding: 8px 8px 0 0"
+                            href="assets/img/gallery/2.jpg" title="{{'(2/5) ' + faq.title}}"
+                            [attr.data-gallery]="'#blueimp-gallery-' + faq.faqid">
+                            <img style="width: 100%; height: auto" src="assets/img/gallery/1.jpg">
+                            <div>Figure 2</div>
+                          </a>
+                          <a class="col-md-3 col-xs-3" style="margin:0;padding: 8px 8px 0 0"
+                            href="assets/img/gallery/3.jpg" title="{{'(3/5) ' + faq.title}}"
+                            [attr.data-gallery]="'#blueimp-gallery-' + faq.faqid">
+                            <img style="width: 100%; height: auto" src="assets/img/gallery/1.jpg">
+                            <div>Figure 3</div>
+                          </a>
+                          <a class="col-md-3 col-xs-3" style="margin:0;padding: 8px 8px 0 0"
+                            href="assets/img/gallery/4.jpg" title="{{'(4/5) ' + faq.title}}"
+                            [attr.data-gallery]="'#blueimp-gallery-' + faq.faqid">
+                            <img style="width: 100%; height: auto" src="assets/img/gallery/1.jpg">
+                            <div>Figure 4</div>
+                          </a>
+                          <a class="col-md-3 col-xs-3" style="margin:0;padding: 8px 8px 0 0"
+                            href="assets/img/gallery/5.jpg" title="{{'(5/5) ' + faq.title}}"
+                            [attr.data-gallery]="'#blueimp-gallery-' + faq.faqid">
+                            <img style="width: 100%; height: auto" src="assets/img/gallery/1.jpg">
+                            <div>Figure 5</div>
+                          </a>
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+                <!-- <div id="{{'blueimp-gallery-' + faq.faqid}}" class="blueimp-gallery blueimp-gallery-controls">
+                  <div class="slides"></div>
+                  <h3 class="title"></h3>
+                  <a class="prev">‹</a>
+                  <a class="next">›</a>
+                  <a class="close">×</a>
+                  <a class="play-pause"></a>
+                  <ol class="indicator"></ol>
+                </div> -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,11 @@
+<div class="navbar-light top-wrapper fixed-top bg-primary">
+    <ul class="nav nav-pill customtab2 nav-filled text-center">
+        <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/main/shop/']" routerLinkActive="active"
+             #zShop="routerLinkActive" [ngClass]="zShop.isActive ? 'active' : ''">
+               <i class="fa fa-shopping-bag"></i>
+                <span> {{ 'shop.topNav.zerakiShop' | translate }}</span>
+            </a>
+        </li>
+    </ul>
+</div>

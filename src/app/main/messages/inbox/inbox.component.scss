@@ -1,0 +1,17 @@
+.pagination {
+    margin-bottom: 0rem;
+}
+
+.pagination li a {
+    border: 1px solid;
+}
+
+@media (min-width: 768px) {
+    .dl-horizontal dd {
+        margin-left: 0px;
+    }
+    .dl-horizontal dt {
+        width: 70px;
+        text-align: left;
+    }
+}

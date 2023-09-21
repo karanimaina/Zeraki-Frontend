@@ -1,0 +1,18 @@
+.lookup input {
+    padding-left: 20px !important;
+}
+
+.media {
+    align-items: inherit;
+    padding: 0rem;
+}
+
+.media > * {
+    margin: 0rem; 
+}
+
+@media (max-width: 1024px) {
+    .media, .media-action.lead, .media-action, .lead{
+        opacity: 1;
+    }
+}

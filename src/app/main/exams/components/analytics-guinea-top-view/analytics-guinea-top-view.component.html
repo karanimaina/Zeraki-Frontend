@@ -1,0 +1,283 @@
+<div *ngIf="isLoadingData && fetchDataCount == 0; then showLoading; else showContent"></div>
+<ng-template #showLoading>
+    <div class="row">
+        <div class="col-4">
+            <app-loader-div [height]="250"></app-loader-div>
+        </div>
+        <div class="col-4">
+            <app-loader-div [height]="250"></app-loader-div>
+        </div>
+        <div class="col-4">
+            <app-loader-div [height]="250"></app-loader-div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #showContent>
+    <section class="show-on-large-screen">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-4">
+                <ng-template [ngTemplateOutlet]="sectionMentionStats"></ng-template>
+            </div>
+            <div class="col-12 col-sm-6 col-md-5">
+                <ng-template [ngTemplateOutlet]="sectionGraph"></ng-template>
+                <ng-template [ngTemplateOutlet]="sectionDropdowns"></ng-template>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <ng-template [ngTemplateOutlet]="sectionReportLinks"></ng-template>
+            </div>
+        </div>
+    </section>
+
+    <section class="show-on-mobile">
+        <div class="row">
+            <div class="col-12">
+                <ng-template [ngTemplateOutlet]="sectionMentionStats"></ng-template>
+            </div>
+
+            <div class="col-12">
+                <ng-template [ngTemplateOutlet]="sectionReportLinks"></ng-template>
+            </div>
+            <div class="col-12">
+                <ng-template [ngTemplateOutlet]="sectionGraph"></ng-template>
+            </div>
+            <div class="col-12">
+                <ng-template [ngTemplateOutlet]="sectionDropdowns"></ng-template>
+            </div>
+        </div>
+    </section>
+</ng-template>
+
+<ng-template #sectionMentionStats>
+    <div class="box" style="height: 95%">
+        <div class="box-body p-15">
+            <div class="fs-24 fw-bold mt-0 mb-10">
+                {{ classData.classname }}
+                <br />
+                <div class="text-center fs-18 label label-info" *ngIf="isSubjectAnalysis">
+                    {{ subject }}
+                </div>
+                <div class="text-muted fw-400 fs-18">
+					<span>
+						{{ schoolTypeData?.majorLabel }}
+					</span>
+                     - {{ classData.examname }}
+                </div>
+            </div>
+            <section class="text-muted">
+                <!--
+                    First, second,third, for grades 11,12,13
+                    fourth, fith,sixth for grades 7-10
+                 -->
+                <!-- Statistics Section for college level schools first,second,third -->
+                <div *ngIf="
+            (classData?.exam_form < 11);
+            then collegeStats;
+            else highschoolStats
+          "></div>
+                <ng-template #highschoolStats>
+                    <div class="bs-5 border-success fs-20 ps-10 my-25"
+                        *ngIf="classData?.aggregate_stats?.first != undefined">
+                        <h4 class="mb-5">
+                            {{ classData?.aggregate_stats?.first?.name }}
+                        </h4>
+                        <p class="mb-5 ps-16 fs-16">
+                            {{ 'exams.analyticsGuineaTopView.meanPoints' | translate }}
+                            <small class="text-success pull-right">
+                                <i>({{ classData?.aggregate_stats?.first?.mention }})</i>
+                                {{ classData?.aggregate_stats?.first?.value }}
+                            </small>
+                        </p>
+                    </div>
+
+                    <div class="bs-5 border-info fs-20 ps-10 my-30"
+                        *ngIf="classData?.aggregate_stats?.second != undefined">
+                        <h4 class="mb-5">
+                            {{ classData?.aggregate_stats?.second?.name }}
+                        </h4>
+                        <p class="fs-16 mb-10 fs-16">
+                            {{ 'exams.analyticsGuineaTopView.meanPoints' | translate }}
+                            <small class="text-info fs-14 fw-bold pull-right">
+                                <i>({{ classData?.aggregate_stats?.second?.mention }})</i>
+                                {{ classData?.aggregate_stats?.second?.value }}
+                            </small>
+                        </p>
+                    </div>
+
+                    <div class="bs-5 border-secondary ps-10" *ngIf="classData?.aggregate_stats?.third != undefined">
+                        <h4 class="fs-20 mb-5">
+                            {{ classData?.aggregate_stats?.third?.name }}
+                        </h4>
+                        <p class="mb-0 fs-16">
+                            {{ 'exams.analyticsGuineaTopView.meanPoints' | translate }}
+                            <small class="text-secondary pull-right">
+                                <i>({{ classData?.aggregate_stats?.third?.mention }})</i>
+                                {{ classData?.aggregate_stats?.third?.value }}
+                            </small>
+                        </p>
+                    </div>
+                </ng-template>
+
+                <!-- Statistics Section for college level schools
+            fouth,fifth,sixth
+         -->
+                <ng-template #collegeStats>
+                    <div class="bs-5 border-success fs-20 ps-10 my-25"
+                        *ngIf="classData?.aggregate_stats?.fourth != undefined">
+                        <h4 class="mb-5">
+                            {{ classData?.aggregate_stats?.fourth?.name }}
+                        </h4>
+                        <p class="mb-5 ps-16 fs-16">
+                            {{ 'exams.analyticsGuineaTopView.meanPoints' | translate }}
+                            <small class="text-success pull-right">
+                                <i>({{ classData?.aggregate_stats?.fourth?.mention }})</i>
+                                {{ classData?.aggregate_stats?.first?.value }}
+                            </small>
+                        </p>
+                    </div>
+
+                    <div class="bs-5 border-info fs-20 ps-10 my-30"
+                        *ngIf="classData?.aggregate_stats?.fifth != undefined">
+                        <h4 class="mb-5">
+                            {{ classData?.aggregate_stats?.fifth?.name }}
+                        </h4>
+                        <p class="fs-16 mb-10 fs-16">
+                            {{ 'exams.analyticsGuineaTopView.meanPoints' | translate }}
+                            <small class="text-info fs-14 fw-bold pull-right">
+                                <i>({{ classData?.aggregate_stats?.fifth?.mention }})</i>
+                                {{ classData?.aggregate_stats?.fifth?.value }}
+                            </small>
+                        </p>
+                    </div>
+
+                    <div class="bs-5 border-secondary ps-10" *ngIf="classData?.aggregate_stats?.sixth != undefined">
+                        <h4 class="fs-20 mb-5">
+                            {{ classData?.aggregate_stats?.sixth?.name }}
+                        </h4>
+                        <p class="mb-0 fs-16">
+                            {{ 'exams.analyticsGuineaTopView.meanPoints' | translate }}
+                            <small class="text-secondary pull-right">
+                                <i>({{ classData?.aggregate_stats?.sixth?.mention }})</i>
+                                {{ classData?.aggregate_stats?.sixth?.value }}
+                            </small>
+                        </p>
+                    </div>
+                </ng-template>
+            </section>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #sectionReportLinks>
+    <!-- style="min-height: 363px;" -->
+    <div class="box" style="height: 95%">
+        <div class="box-body p-15">
+            <h3 class="fs-24 fw-bold mt-0">
+				{{ 'exams.analyticsGuineaTopView.studentsNo' | translate: {studentsNo: classData?.aggregate_stats?.entries} }}
+                <br />
+                <span class="text-muted fw-400 fs-18">{{ classData?.aggregate_stats?.entries }}
+                    {{ "exams.analysis.labelStudentsWhoSatForTheExam" | translate }}</span>
+            </h3>
+            <section class="text-muted btn-block">
+                <!-- Display this button options for an exam analysis -->
+                <ng-container *ngIf="!isSubjectAnalysis">
+                    <div class="bs-0 border-success fs-20 ps-10 my-25">
+                        <button (click)="viewMeritList()" class="waves-effect waves-light btn btn-success rounded btn"
+                            type="button">
+                            {{ "exams.analysis.btnTextMeritList" | translate }}
+                        </button>
+                    </div>
+
+                    <div class="border-info fs-20 ps-10 my-30">
+                        <button (click)="mostImproved()" class="waves-effect waves-light btn btn-success rounded fs-14"
+                            type="button">
+                            {{ "exams.analysis.btnTextMostImproved" | translate }}
+                        </button>
+                    </div>
+
+                    <div *ngIf="(userRoles$ | async)?.isSchoolAdmin" class="btn-group my-5 w-100 ps-10">
+                        <button type="button" class="waves-effect waves-light btn btn-success dropdown-toggle"
+                            data-bs-toggle="dropdown">
+                            {{ "exams.analysis.btnTextReportForms" | translate }}
+                        </button>
+                        <div class="dropdown-menu">
+                            <ng-container *ngFor="let x of classData.streams">
+                                <a class="dropdown-item" *ngIf="x.streamid > 0" (click)="viewReportForm(x)">{{ x.text
+                                    }}</a>
+                            </ng-container>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <!-- display this button options for a subject exam analysis -->
+                <ng-container *ngIf="isSubjectAnalysis">
+                    <div class="bs-0 border-success fs-20 ps-10 my-25">
+                        <button (click)="getAllStudents()"
+                            class="waves-effect waves-light btn btn-success rounded btn-sm" type="button">
+                            <!-- View Student Result's -->
+                            {{
+                            "exams.analysisSubject.btnTextViewStudentResults" | translate
+                            }}
+                        </button>
+                    </div>
+                </ng-container>
+            </section>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #sectionGraph>
+    <div class="box">
+        <div class="box-header without-border pb-0">
+            <span class="box-title">
+				{{ "exams.analyticsGuineaTopView.trendGraph" | translate }}
+			</span>
+        </div>
+        <div class="box-body pt-10" style="min-height: 211px">
+            <highcharts-chart *ngIf="guinea_graphData" [Highcharts]="highcharts" [options]="chartOptions" [(update)]="updateFlag"
+                style="width: 100%; height: 180px; display: block">
+            </highcharts-chart>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #sectionDropdowns>
+    <div class="box">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-4">
+                    <div class="form-group mb-0">
+                        <label class="form-label">{{
+                            "exams.analysis.labelChangeExam" | translate
+                            }} </label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate" class="form-control-dropdown"
+                            [items]="classData?.exams" groupBy="term" [clearable]="false" [(ngModel)]="selected_exam"
+                            (ngModelChange)="change_selected_exam()" bindLabel="name">
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-4 bs-1">
+                    <label class="form-label" for="selectMajor">
+						<span>
+						{{ schoolTypeData?.majorLabel }}
+					</span>
+					</label>
+                    <ng-select id="selectMajor"
+                               [notFoundText]="'common.noItemsFound' | translate"
+                               class="form-control-dropdown"
+                        [items]="majors" [clearable]="false" bindValue="id" [(ngModel)]="selected_major"
+                        (change)="change_selected_major()" bindLabel="name">
+                    </ng-select>
+                </div>
+                <div class="col-12 col-sm-12 col-md-4">
+                    <label class="form-label">{{
+                        "exams.analysis.labelChangeStream" | translate
+                        }}</label>
+                    <ng-select [notFoundText]="'common.noItemsFound' | translate" class="form-control-dropdown"
+                        [items]="classData?.streams" bindLabel="text" [(ngModel)]="selected_stream"
+                        (ngModelChange)="change_selected_stream()">
+                    </ng-select>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

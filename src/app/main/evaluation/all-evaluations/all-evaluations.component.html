@@ -1,0 +1,166 @@
+<app-evaluation-top-nav linkTitle="assessment-navigation" [linkUrl]="classId.toString()"></app-evaluation-top-nav>
+
+<section class="content mt-config col-xxxl-9 mx-xxxl-auto">
+  <!-- header 1 -->
+  <div class="d-flex flex-row justify-content-between align-items-center">
+    <ng-container *ngIf="isLoadingAssessmentHeader; else displayAssessmentHeader">
+      <div class="row w-p50">
+        <div class="col-12 my-3">
+          <app-loader-div height="28"></app-loader-div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #displayAssessmentHeader>
+      <h2>
+        {{ assessmentHeader }}
+      </h2>
+    </ng-template>
+
+    <div>
+      <button class="btn btn-secondary btn-sm no-wrap" type="button" (click)="navigateBack()">
+        <i class="fa fa-angle-left"></i>
+        {{ "evaluation.all.backBtn" | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- header 2 -->
+  <div class="d-lg-flex justify-content-between align-items-center">
+    <!-- filters -->
+    <div class="d-flex flex-row justify-content-md-between justify-content-lg-start align-items-center">
+      <!-- academic year -->
+      <div class="form-group w-200 me-1">
+        <label class="control-label mb-2 mb-md-1" for="year">{{ "evaluation.all.acadYearLabel" | translate }}</label>
+        <ng-select
+          [clearable]="false"
+          [notFoundText]="'common.noItemsFound' | translate"
+          id="year"
+          [placeholder]="'evaluation.all.acadYearLabel' | translate"
+          [items]="academicYears"
+          bindValue="ayid"
+          bindLabel="name"
+          [(ngModel)]="selectedAcademicYearID"
+          (ngModelChange)="onAcademicYearChange($event)">
+        </ng-select>
+      </div>
+      <!-- term -->
+      <div class="form-group w-200 ms-1">
+        <label class="control-label mb-2 mb-md-1" for="term">{{ "common.term" | translate }}</label>
+        <ng-select
+          [clearable]="false"
+          [notFoundText]="'common.noItemsFound' | translate"
+          id="term"
+          [placeholder]="'common.term' | translate"
+          [items]="academicTerms"
+          bindLabel="label"
+          bindValue="value"
+          [(ngModel)]="selectedAcademicTermID"
+          (ngModelChange)="onAcademicTermChange($event)">
+        </ng-select>
+      </div>
+    </div>
+
+    <!-- evaluation report btn -->
+    <ng-container *ngIf="(routeState == 'evaluation') && !isLoadingAssessmentHeader">
+      <div class="d-none d-lg-inline-block">
+        <ng-template
+          [ngTemplateOutlet]="evaluationReportBtn"
+          [ngTemplateOutletContext]="{ term: {term: selectedAcademicTermID} }">
+        </ng-template>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="row mt-3 mt-lg-0" *ngIf="isLoading; else loadingComplete">
+    <div *ngFor="let num of [].constructor(4)" class="col-xs-10 offset-xs-1 col-sm-6 col-md-4 col-xl-3 mb-3">
+      <app-loader-div height="140" class=""></app-loader-div>
+    </div>
+  </div>
+
+  <ng-template #loadingComplete>
+    <div class="mb-3 d-flex flex-row justify-content-between align-items-center d-lg-none">
+      <!-- term -->
+      <div class="text-dark h5 my-auto">
+        {{ 'common.term' | translate }} {{ selectedAcademicTermID }} ({{ selectedYear }})
+      </div>
+      <!-- evaluation report btn -->
+      <ng-container *ngIf="routeState == 'evaluation'">
+        <ng-template
+          [ngTemplateOutlet]="evaluationReportBtn"
+          [ngTemplateOutletContext]="{ term: {term: selectedAcademicTermID} }">
+        </ng-template>
+      </ng-container>
+    </div>
+
+    <ng-container *ngIf="(evaluationData && !evaluationData.terms.length); else evaluationDataAvailable">
+      <div class="row">
+        <!-- new assessment -->
+        <div class="col-12 col-sm-6 col-md-4 col-xl-3">
+          <ng-template [ngTemplateOutlet]="newAssessmentCard"></ng-template>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #evaluationDataAvailable>
+      <div *ngFor="let term of evaluationData?.terms" class="mt-2 mt-md-0">
+        <div class="row">
+          <div class="col-xs-10 offset-xs-1 col-sm-6 col-md-4 col-xl-3"
+            *ngFor="let evaluation of getAssessments(term); let evaluationIndex = index">
+            <app-single-evaluation [evaluation]="evaluation"
+              [evaluationTitle]="evaluationData?.subjectName+ ' - ' + (schoolTypeData?.formoryear | formOrYear) + ' '+ evaluationData?.classLevel +' '+ evaluationData?.streamName"
+              [term]="term" [classId]="classId" [streamId]="evaluationData?.streamId!"
+              [isLastAssessment]="getAssessments(term).length - 1 == evaluationIndex" [evaluationIndex]="evaluationIndex"
+              [assessmentType]="routeState" (onDeleteEvaluation)="confirmDelete($event)"
+              (onDeleteWithVerification)="confirmDeleteWithVerification($event)">
+            </app-single-evaluation>
+          </div>
+
+          <!-- new assessment -->
+          <div class="col-xs-10 offset-xs-1 col-sm-6 col-md-4 col-xl-3">
+            <ng-template [ngTemplateOutlet]="newAssessmentCard"></ng-template>
+          </div>
+        </div>
+      </div>
+
+      <!-- If no academic year exists -->
+      <div *ngIf="!evaluationData?.terms?.length" class="col-xs-10 offset-xs-1 col-sm-6 col-md-4 col-xl-3">
+        <ng-template [ngTemplateOutlet]="newAssessmentCard"></ng-template>
+      </div>
+    </ng-template>
+  </ng-template>
+</section>
+
+<!--Sweet Alert-->
+<div class="d-none">
+  <div #sweetAlertContent></div>
+</div>
+
+<!-- New Assessment -->
+<ng-template #newAssessmentCard>
+  <app-new-assessment
+    [routeState]="routeState"
+    [assessmentName]="assessmentName"
+    [classId]="classId"
+    [evaluationData]="evaluationData"
+    [academicYears]="academicYears"
+    [selectedYear]="selectedYear"
+    [selectedAcademicTermID]="selectedAcademicTermID"
+    [latestTermID]="latestTermID"
+    (successModalResult)="handleSuccessModalResult($event)">
+  </app-new-assessment>
+</ng-template>
+
+
+<!-- Evaluation Report button -->
+<ng-template #evaluationReportBtn let-term="term">
+  <button
+    class="btn btn-primary btn-sm"
+    (click)="navigateToEvaluationReport(term.term, selectedAcademicYearID)"
+    [matTooltip]="evaluationData?.subjectName +' Term '+ term.term + ' Evaluation Report'"
+    [matTooltipPosition]="'above'"
+    [disabled]="isLoadingAssessments || (evaluationData?.terms?.length === 0)">
+      <i class="si si-book-open"></i>
+      {{ "evaluation.all.pageTitle" | translate:{term: term.term} }}
+  </button>
+</ng-template>

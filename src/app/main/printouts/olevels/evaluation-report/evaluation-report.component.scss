@@ -1,0 +1,68 @@
+
+.table-action i{
+  cursor: pointer;
+  padding: 6px 6px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+  margin: auto;
+}
+
+.table-action i:hover {
+  background-color: rgba(41, 170, 226, 0.2);
+}
+
+.fields-menu{
+  padding-top: 10px;
+  padding-right: 5px;
+  padding-left: 5px;
+  z-index: auto;
+  box-shadow: rgb(50 50 93 / 25%) 0px 2px 5px -1px, rgb(0 0 0 / 30%) 0px 1px 3px -1px;
+}
+
+.fields{
+  padding-left: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.fields div{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.fields div:not(:last-child){
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(204, 204, 204, 0.38);
+}
+
+.c-checkbox{
+  line-height: unset;
+  font-weight: 500;
+}
+
+.fields-btn{
+  background: white;
+  padding: 4px;
+  font-weight: bolder;
+  border-radius: 4px;
+}
+/*Bootstrap dropdown*/
+.dropdown.dropdown-menu,
+.dropdown .dropdown-menu {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+
+  max-height: 0;
+  display: block;
+  overflow: hidden;
+  opacity: 0;
+}
+.dropdown.show.dropdown-menu,
+.dropdown .show.dropdown-menu { /* For Bootstrap 4, use .dropdown.show instead of .dropdown.open */
+  max-height: 300px;
+  opacity: 1;
+}

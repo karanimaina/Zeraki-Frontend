@@ -1,0 +1,170 @@
+<button
+	class="btn btn-success btn-sm waves-effect waves-light mx-1"
+	data-bs-toggle="modal"
+	[attr.data-bs-target]="'#county-addition-modal'"
+	(click)="resetAdditionForm()">
+	<i>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			width="18"
+			height="18"
+			fill="currentColor"
+			class="bi bi-plus"
+			viewBox="0 0 16 16">
+			<path
+				d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+		</svg>
+	</i>
+	<span>
+		{{
+			"litemore.managers.counties.components.countyAdditionModal.county"
+				| translate
+		}}
+	</span>
+</button>
+
+<div
+	class="modal fade"
+	[id]="'county-addition-modal'"
+	data-bs-backdrop="static"
+	data-bs-keyboard="false"
+	tabindex="-1"
+	aria-labelledby="county-addition-modalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content rounded-3 text-body">
+			<div class="modal-header">
+				<h5 class="modal-" id="extra-act-update-modalLabel">
+					{{
+						"litemore.managers.counties.components.countyAdditionModal.addCounty"
+							| translate
+					}}
+				</h5>
+				<button
+					type="button"
+					[id]="'btn-county-add-modal'"
+					class="btn-close"
+					data-bs-dismiss="modal"></button>
+			</div>
+
+			<div class="modal-body">
+				<form [formGroup]="additionForm" (ngSubmit)="onAddCountySubmit()">
+					<div class="row">
+						<!-- name -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<label for="name" class="form-label">
+									{{ "common.name" | translate }}
+									<span
+										*ngIf="name?.hasValidator(requiredValidator)"
+										class="text-danger"
+										>*</span
+									>
+								</label>
+								<input
+									formControlName="name"
+									id="name"
+									type="text"
+									class="form-control"
+									placeholder="{{ 'common.name' | translate }}"
+									name="a_name"
+									[ngClass]="{
+										'b-1 border-danger rounded': fieldHasErrors(name!)
+									}"
+									required />
+								<ng-container *ngIf="fieldHasErrors(name!)">
+									<small *ngIf="name?.errors?.['required']" class="text-danger">
+										{{ "common.formErrors.requiredError" | translate }}
+									</small>
+								</ng-container>
+							</div>
+						</div>
+
+						<!-- region -->
+						<div class="form-group col-12">
+							<label class="form-label">
+								{{ "common.region" | translate }}
+								<span
+									*ngIf="regionId?.hasValidator(requiredValidator)"
+									class="text-danger"
+									>*</span
+								>
+							</label>
+							<ng-select
+								[items]="regions"
+								placeholder="Select Region"
+								formControlName="regionId"
+								bindLabel="name"
+								bindValue="regionId"
+								[loading]="(getRegionsStatus$ | async) === APIStatus.LOADING">
+							</ng-select>
+							<!-- <app-field-errors [control]="regionId!" [label]="'Region'"></app-field-errors> -->
+							<ng-container *ngIf="fieldHasErrors(regionId!)">
+								<small
+									*ngIf="regionId?.errors?.['required']"
+									class="text-danger">
+									{{ "common.formErrors.requiredError" | translate }}
+								</small>
+							</ng-container>
+						</div>
+
+						<!-- code -->
+						<div class="col-12">
+							<div class="form-group mb-3">
+								<label for="code" class="form-label">
+									{{ "common.code" | translate }}
+									<span
+										*ngIf="code?.hasValidator(requiredValidator)"
+										class="text-danger"
+										>*</span
+									>
+								</label>
+								<input
+									formControlName="code"
+									id="code"
+									type="text"
+									class="form-control"
+									placeholder="{{ 'common.code' | translate }}"
+									name="a_name"
+									[ngClass]="{
+										'b-1 border-danger rounded': fieldHasErrors(code!)
+									}"
+									required />
+								<ng-container *ngIf="fieldHasErrors(code!)">
+									<small *ngIf="code?.errors?.['required']" class="text-danger">
+										{{ "common.formErrors.requiredError" | translate }}
+									</small>
+								</ng-container>
+							</div>
+						</div>
+
+						<!-- actions -->
+						<div class="modal-footer d-flex justify-content-center">
+							<button
+								type="submit"
+								class="btn btn-primary"
+								[disabled]="isAddingCounty">
+								<span
+									*ngIf="isAddingCounty"
+									class="spinner-border spinner-border-sm"
+									role="status"
+									aria-hidden="true">
+								</span>
+								<span [class.ms-2]="isAddingCounty">{{
+									"common.submit" | translate
+								}}</span>
+							</button>
+
+							<button
+								type="button"
+								class="btn btn-secondary"
+								data-bs-dismiss="modal">
+								<span>{{ "common.cancel" | translate }}</span>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

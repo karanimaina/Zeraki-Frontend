@@ -1,0 +1,56 @@
+<div class="box animated bounceInUp box-shadowed">
+	<div class="box-body">
+		<div class="text-success fw-bold">
+			<i class="fa fa-bolt me-2"></i>
+			<span *ngIf="!updateSubjects">{{ 'classes.new.successClassAddition' | translate }}</span>
+			<span *ngIf="updateSubjects">{{ 'classes.new.successSubjectAddition' | translate }}</span>
+		</div>
+		<div class="pt-2 ps-3 mt-3 pb-1 mb-3 border-left border-success">
+			<p *ngIf="updateSubjects">
+				{{ 'classes.new.successSubjectAdditionToStream' | translate }}
+				{{ formOrYear | formOrYear }}
+				{{ streamDetails?.form }}
+				{{ streamDetails?.name }}
+			</p>
+			<p *ngIf="!updateSubjects">
+				{{ 'classes.new.classAdded' | translate: {streamName: (formOrYear | formOrYear)+' '+(streamDetails?.form || '')+' '+(streamDetails?.name || '')} }}
+			</p>
+			<p class="">
+				{{ 'classes.new.nextQuiz' | translate }}
+			</p>
+		</div>
+		<div class="d-flex flex-row justify-content-between hidden-xs-down">
+			<button *ngIf="!updateSubjects && !schoolSetup" class="btn btn-sm btn-success" routerLink="/main/students/new">
+				{{ 'classes.new.addStudents' | translate }}
+			</button>
+			<button *ngIf="updateSubjects" class="btn btn-sm btn-success" (click)="addAnother()">
+				{{ 'classes.new.addSubjects' | translate }}
+			</button>
+			<button *ngIf="!updateSubjects" class="btn btn-sm btn-success" (click)="addAnother()">
+				{{ 'classes.new.addClass' | translate }}
+			</button>
+			<button *ngIf="updateSubjects" class="btn btn-sm btn-secondary" (click)="goBack()">
+				<i class="bi bi-arrow-left"></i>
+				{{ 'classes.new.back' | translate }}
+			</button>
+		</div>
+		<div class="d-flex flex-row justify-content-between hidden-sm-up">
+			<button *ngIf="!updateSubjects && !schoolSetup" class="btn btn-sm btn-success" routerLink="/main/students/new">
+				<i class="bi bi-plus-circle"></i>
+				{{ 'common.students' | translate }}
+			</button>
+			<button *ngIf="updateSubjects" class="btn btn-sm btn-success" (click)="addAnother()">
+				<i class="bi bi-plus-circle"></i>
+				{{ 'common.subjects.title' | translate }}
+			</button>
+			<button *ngIf="!updateSubjects" class="btn btn-sm btn-success" (click)="addAnother()">
+				<i class="bi bi-plus-circle"></i>
+				{{ formOrYear | formOrYear }}
+			</button>
+			<button *ngIf="updateSubjects" class="btn btn-sm btn-secondary" (click)="goBack()">
+				<i class="bi bi-arrow-left"></i>
+				{{ 'common.back' | translate }}
+			</button>
+		</div>
+	</div>
+</div>

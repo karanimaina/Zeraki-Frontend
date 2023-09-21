@@ -1,0 +1,111 @@
+<form [formGroup]="termAndYearFormGroup" (ngSubmit)="fetchExamSeriesWithoutExamGroups()">
+	<div class="row">
+		<div class="col-sm-6">
+			<app-ng-select
+				formControlName="term"
+				[label]="'common.semester'|translate"
+				[placeholder]="'common.semester'|translate"
+				[items]="[1,2,3]">
+			</app-ng-select>
+		</div>
+		<div class="col-sm-6">
+			<app-ng-select
+				formControlName="academicYearId"
+				[label]="'common.year'|translate"
+				[placeholder]="'exams.consolidatedExams.optionTextAcademicYear' |translate"
+				[items]="academicYears"
+				[loading]="fetchingAcademicYears"
+				bindLabel="name"
+				bindValue="ayid">
+			</app-ng-select>
+		</div>
+		<div>
+			<button type="submit"
+					class="btn btn-sm btn-info waves-effect waves-light pull-right"
+					[disabled]="fetchingExamSeries">
+				<i class="fa fa-search" *ngIf="!fetchingExamSeries"></i>
+				<span *ngIf="fetchingExamSeries" class="spinner-border spinner-border-sm" role="status"
+					  aria-hidden="true"></span>
+				{{"exams.consolidatedExams.textSpecifyClasses"|translate}}
+			</button>
+		</div>
+	</div>
+</form>
+<form [formGroup]="formExamsFormGroup" (ngSubmit)="createTermAverageExam()">
+	<div *ngIf="examSeriesResponse?.examsfound">
+		<div class="row">
+			<div class="col-12">
+				<app-ng-select
+					formControlName="intakeId"
+					[label]="('common.select' | translate) + ' ' + schoolTypeData?.formoryear"
+					[placeholder]="schoolTypeData?.formoryear || ''"
+					[items]="examSeriesResponse?.forms">
+				</app-ng-select>
+			</div>
+
+			<div class="col-12" *ngIf="selectedIntake">
+				<h5>{{ 'exams.createExam.examsTakenForClass' | translate: {class: selectedIntake} }}</h5>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+						<tr>
+							<th style="width: 44px"></th>
+							<th>{{ 'exams.exam' | translate }}</th>
+							<th>{{ 'common.type' | translate }}</th>
+						</tr>
+						</thead>
+						<tbody>
+						<ng-container formArrayName="assignmentIds">
+							<tr *ngFor="let assignment of intakeAssignments; let assignmentIndex = index">
+								<td>
+									<div class="px-2">
+										<input [formControlName]="assignmentIndex"
+											   type="checkbox"
+											   [id]="assignment.seriesid"
+											   class="filled-in chk-col-info">
+										<label [for]="assignment.seriesid" class="p-0 m-0" style="height: 15px"></label>
+									</div>
+								</td>
+								<td class="p-10">{{assignment.name}}</td>
+								<td class="text-uppercase ps-1">
+									<span *ngIf="!schoolTypeData.isIvorianSchool">{{ 'exams.createExam.labelAssignment' | translate }}</span>
+									<span *ngIf="schoolTypeData.isIvorianSchool">{{assignment.seriesType}}</span>
+								</td>
+							</tr>
+						</ng-container>
+						<ui-guinea-secondary-school [template]="examRowsTemplate"></ui-guinea-secondary-school>
+						<ng-template #examRowsTemplate>
+							<tr *ngFor="let exam of intakeExams">
+								<td>
+									<div class="px-2">
+										<input [formControlName]="'examId'"
+											   type="radio"
+											   [id]="exam.seriesid"
+											   [value]="exam.seriesid"
+											   class="with-gap radio-col-primary">
+										<label [for]="exam.seriesid" class="p-0 m-0" style="height: 15px"></label>
+									</div>
+								</td>
+								<td class="p-10">{{exam.name}}</td>
+								<td class="text-uppercase ps-1">
+									{{ 'exams.createExam.labelExam' | translate }}
+								</td>
+							</tr>
+						</ng-template>
+						</tbody>
+					</table>
+				</div>
+				<div>
+					<button type="submit"
+							class="btn btn-sm btn-info waves-effect waves-light pull-right"
+							[disabled]="creatingTermAverage">
+						<i class="fa fa-plus-circle" *ngIf="!creatingTermAverage"></i>
+						<span *ngIf="creatingTermAverage" class="spinner-border spinner-border-sm" role="status"
+							  aria-hidden="true"></span>
+						{{"exams.createExam.btnTextCreate"|translate}}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

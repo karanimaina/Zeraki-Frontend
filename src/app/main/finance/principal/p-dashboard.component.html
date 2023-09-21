@@ -1,0 +1,359 @@
+<!-- FINANCE Top Nav -->
+<app-finance-top-nav></app-finance-top-nav>
+
+
+<section class="content mt-config">
+    <ng-template *ngIf="isLoading; then showLoadingSection else showDataSection"></ng-template>
+
+    <!-- Loading section -->
+    <ng-template #showLoadingSection>
+        <div class="row">
+            <div class="col-12 col-md-6 col-xl-4">
+                <div class="box">
+                    <div class="box-body">
+                        <app-loader-div [height]="180"></app-loader-div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-xl-4">
+                <div class="box">
+                    <div class="box-body">
+                        <app-loader-div [height]="180"></app-loader-div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-xl-4">
+                <div class="box">
+                    <div class="box-body">
+                        <app-loader-div [height]="180"></app-loader-div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <!-- Data section -->
+    <ng-template #showDataSection>
+        <div class="row" *ngIf="!showStudentView">
+            <!-- --------------------------------- -->
+            <!-- Collections Wdget Section  -->
+            <!-- --------------------------------- -->
+            <div *ngIf="!(userRoles$ | async)?.isStudent" class="col-sm-12 col-md-6 col-xl-4">
+                <div class="box">
+                    <div class="box-header without-border p-15 pb-0">
+                        <app-svg-collection [svgType]="'collections'"></app-svg-collection> <span
+                            class="box-title text-muted">Collections</span>
+                    </div>
+
+                    <div class="box-body p-15">
+                        <div class="row">
+                            <!-- Term/semester button section -->
+                            <div class="col-12 term-widget-section">
+                                <button class="btn btn-outline btn-sm btn-zeraki-green"
+                                    (click)="getDashboardStatisticsByTerm(term.id)" *ngFor="let term of terms$"
+                                    [class]="currentTerm == term.id ? 'active' : '' ">
+                                    {{ term.name | uppercase }}
+                                </button>
+
+                                <button 
+                                    type="button" 
+                                    class="btn btn-outline btn-sm btn-zeraki-green"
+                                    [class]="filterByYear ? 'active' : '' "
+                                    data-bs-toggle="dropdown">
+                                    {{ currentAcademicYear.beginDate | date: 'yyyy' }}
+                                    <i class="ms-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                        </svg>
+                                    </i>
+                                </button>
+                                <div class="dropdown-menu bg-active">
+                                    <a *ngFor="let year of  academicYears" class="dropdown-item" [class]="(year.id == currentAcademicYear.id) ? 'bg-primary' : '' " (click)="getDashboardStatisticsByYear(year.id)">
+                                        {{ year.year }}
+                                    </a>
+                                </div>
+
+                            </div>
+                            <!-- Progress bar section -->
+                            <div class="col-12">
+
+                                <!-- Total Collection Section -->
+                                <div class="pt-15">
+                                    <h4 class="mb-0"><b>{{ dashboardStatistics.collectedAmount | currency }}</b></h4>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar progress-bar-success" role="progressbar"
+                                            [attr.aria-valuenow]="getRatio(dashboardStatistics)" aria-valuemin="0"
+                                            aria-valuemax="100"
+                                            [style]=" ' width: ' + getRatio(dashboardStatistics) +  '%' ">
+                                            <span class="sr-only">{{ getRatio(dashboardStatistics) }}% Collection</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Collection per intake/form/class section -->
+                                <div *ngFor="let intake of dashboardStatistics.collectionVsInvoiceList;let i = index">
+                                    <p class="mb-0"><b class="me-10"> {{ intake.intakeName }}</b> <span
+                                            class="text-muted"> {{ intake.collected | currency }}
+                                            out
+                                            of {{ intake.invoiced | currency }}</span> </p>
+                                    <div class="progress progress-sm"
+                                        [class]="i == (dashboardStatistics.collectionVsInvoiceList.length - 1) ? 'mb-0':''">
+                                        <div class="progress-bar progress-bar-success" role="progressbar"
+                                            [attr.aria-valuenow]="getRatio(intake)" aria-valuemin="0"
+                                            aria-valuemax="100" [style]=" ' width: ' + getRatio(intake) +  '%' ">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- --------------------------------- -->
+            <!-- Balances Widget Section -->
+            <!-- --------------------------------- -->
+            <div *ngIf="intakeView && !(userRoles$ | async)?.isStudent" class="col-sm-12 col-md-6 col-xl-4">
+
+                <!-- <app-search-student [studentAdmno]="selectedStudentAdmno" (studentDataEvt)="onStudentData($event)" (studentFoundEvt)="onStudentFound($event)"
+                    (streamEvt)="onStream($event)"></app-search-student> -->
+
+
+
+                <div class="box">
+                    <div class="box-header without-border p-15 pb-0">
+                        <app-svg-collection [svgType]="'balance'"></app-svg-collection> <span
+                            class="box-title text-muted">Balances</span>
+                    </div>
+
+                    <div class="box-body p-15">
+
+                        <div class="row">
+                            <!-- Section total balances -->
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="" class="text-muted text-uppercase">
+                                        Total Balance
+                                    </label>
+                                    <div class="fs-18">
+                                        <span class="text-muted"></span>
+                                        <b>{{
+                                            (dashboardStatistics.invoicedAmount - dashboardStatistics.collectedAmount) |
+                                            currency }}</b>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- section accordion -->
+                            <div class="col-12">
+
+                                <app-search-student [studentAdmno]="selectedStudentAdmno"
+                                    (studentDataEvt)="onStudentData($event)" (studentFoundEvt)="onStudentFound($event)"
+                                    (streamEvt)="onStream($event)"></app-search-student>
+
+                                <div class="accordion accordion-flush" id="balanceAccordion">
+                                    <div class="accordion-item"
+                                        *ngFor="let a of streamData; last as isLast; index as index">
+                                        <h2 class="accordion-header" id="flush-heading{{index}}">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse"
+                                                [attr.data-bs-target]='"#flush-collapse"+index' aria-expanded="false"
+                                                [attr.aria-controls]='"#flush-collapse"+a'>
+                                                {{a.intake.intakeName}} <span
+                                                    class="text-balance accordion-amount">{{a.intake.balanceDue |
+                                                    currency}}</span>
+                                            </button>
+                                        </h2>
+                                        <div id="flush-collapse{{index}}" class="accordion-collapse collapse"
+                                            [attr.aria-labelledby]='"flush-heading"+index'
+                                            data-bs-parent="#balanceAccordion">
+                                            <div class="accordion-body"
+                                                [class]="(a.intake.streamView || a.intake.studentView) ? 'p-0':''">
+                                                <!-- 1.Display stream view -->
+                                                <ng-container *ngIf="a.intake.intakeView">
+
+                                                    <div class="table-responsive">
+                                                        <table class="table table-lg mb-0">
+                                                            <tbody>
+                                                                <ng-container *ngFor="let b of a.streams;
+                                                                     let i = index">
+                                                                    <tr [ngClass]="{'fw-bolder' : (b.streamView)} "
+                                                                        (click)="loadFeeBalanceByStream(b,index,i)">
+                                                                        <td class="text-start">{{b.streamName}}</td>
+                                                                        <td class="text-end">
+                                                                            <span class="text-balance">{{b.balanceDue |
+                                                                                currency}}</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr *ngIf="b.streamView">
+                                                                        <td colspan="2">
+                                                                            <ng-container>
+                                                                                <app-stream-balance
+                                                                                    [studentList]="studentList"
+                                                                                    [stream]="stream"
+                                                                                    [parentIndex]="index"
+                                                                                    [streamIndex]="i"
+                                                                                    (toggleStudentView)="populateStudentData($event)"
+                                                                                    (toggleBalView)="closeStreamView($event)"
+                                                                                    (studentFoundEvt)="onStudentFound($event)">
+                                                                                </app-stream-balance>
+                                                                            </ng-container>
+                                                                        </td>
+                                                                    </tr>
+                                                                </ng-container>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- --------------------------------- -->
+            <!-- Money in/money out  Section -->
+            <!-- --------------------------------- -->
+            <div *ngIf="!(userRoles$ | async)?.isStudent" class="col-sm-12 col-md-6 col-xl-4">
+                <div class="box">
+                    <div class="box-header without-border p-15 pb-0">
+                        <app-svg-collection [svgType]="'transact'"></app-svg-collection> <span
+                            class="box-title text-muted">{{formatPeriod(selectedPeriod)}}</span>
+                        <div class="box-controls pull-right">
+
+                            <ul style="list-style: none;padding-left:0;">
+                                <li class="dropdown">
+                                    <button class="dropdown-toggle btn btn-success-light fw-bolder px-10"
+                                        id="dropdownMenuButton1" data-bs-toggle="dropdown" href="#">{{
+                                        currentAccTypeName }}</button>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                                        <a *ngFor="let option of accountTypes" class="dropdown-item"
+                                            (click)="accountTypeChange(option.id)">{{ option.name }}</a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul style="list-style: none;">
+                                <li class="dropdown">
+                                    <button class="dropdown-toggle fw-bolder btn btn-success-light px-10"
+                                        data-bs-toggle="dropdown" href="#">{{formatPeriod(selectedPeriod)}}</button>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a *ngFor="let option of availablePeriods" class="dropdown-item"
+                                            (click)="periodChange(option)">{{ formatPeriod(option) }}</a>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                    <!-- Section Money in balances -->
+                    <div class="box-body p-15">
+                        <div class="row">
+
+                            <div class="col-12">
+
+                                <div class="fs-18 text-muted text-capitalize fw-600">
+                                    money in
+                                </div>
+                                <div *ngIf="moneyIn?.length > 0;then moneyInView else noMoneyIn"></div>
+                                <ng-template #moneyInView>
+                                    <div class="table-responsive text-capitalize">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr class="text-muted">
+                                                    <td class="text-start">Votehead</td>
+                                                    <td class="text-end">Amount</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let a of moneyIn">
+                                                    <th class="text-start text-muted">{{a.voteHeadName}}</th>
+                                                    <td class="text-end"> <span class="text-success">{{a.amount |
+                                                            currency}}</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </ng-template>
+
+
+                                <ng-template #noMoneyIn>
+                                    <div class="d-flex justify-content-between bt-3 pt-5">
+                                        <span class="text-muted">NO DATA</span>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section money out -->
+                    <div class="box-body p-15">
+                        <div class="row">
+
+                            <div class="col-12">
+
+                                <div class="fs-18 text-muted text-capitalize fw-600">
+                                    money out
+                                </div>
+                                <div *ngIf="moneyOut?.length > 0;then moneyOutView else noMoneyOut"></div>
+                                <ng-template #moneyOutView>
+                                    <div class="table-responsive text-capitalize">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr class="text-muted">
+                                                    <td class="text-start">Company</td>
+                                                    <td class="text-end">Balance</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let a of moneyOut">
+                                                    <th class="text-start text-muted">{{a.clientName}}</th>
+                                                    <td class="text-end"> <span class="text-danger">{{a.amount |
+                                                            currency}}</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </ng-template>
+
+                                <ng-template #noMoneyOut>
+                                    <div class="d-flex justify-content-between bt-3 pt-5">
+                                        <span class="text-muted">NO DATA</span>
+                                    </div>
+                                </ng-template>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row" *ngIf="showStudentView">
+            <div class="col-sm-12">
+                <app-student-balance *ngIf="showStudentView" [studentData]="studentData" [stream]="stream"
+                    (toggleBalView)="closeStudentView($event)">
+                </app-student-balance>
+            </div>
+        </div>
+    </ng-template>
+</section>
+
+<!-- ==================================================================================== -->

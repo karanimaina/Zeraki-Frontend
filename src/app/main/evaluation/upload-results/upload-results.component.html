@@ -1,0 +1,148 @@
+<app-evaluation-top-nav linkTitle="{{ 'evaluation.uploadResults.linkTitle' | translate }}" [linkUrl]="'/main/evaluation/upload/'"></app-evaluation-top-nav>
+
+<section class="content mt-config">
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="h4 fw-bolder mb-3 text-capitalize">{{ "evaluation.uploadResults.pageTitle" | translate: {assessmentType: assessmentType} }}</div>
+        <div class="mb-3">
+          <button class="btn btn-secondary btn-sm no-wrap" (click)="navigateBack()">
+            <i class="si si-arrow-left-circle"></i>
+            {{ 'evaluation.uploadResults.backBtn' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="box-body">
+          <div class="row">
+            <div class="col-md-4 form-group">
+              <label class="control-label mb-3" for="evaluation-marks">{{ 'evaluation.uploadResults.maxMarksLabel' | translate }}</label>
+              <input id="evaluation-marks" type="number" min="0" class="form-control" placeholder="{{ 'evaluation.uploadResults.maxMarksPlaceholder' | translate }}" [(ngModel)]="maxScore"/>
+              <small class="text-danger" *ngIf="maxScore < 1">{{ 'evaluation.uploadResults.maxMarksError' | translate }}</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="term">
+              <!-- Upload Type -->
+              {{"evaluation.uploadResults.textUploadType"|translate}}
+            </label>
+
+            <div class="radio-button">
+              <input name="addTeacherType" type="radio" id="radio_7" (click)="onUploadTypeChange('key')"
+                class="radio-col-info with-gap" [checked]="keyInMarks">
+              <label for="radio_7">
+                <!-- Key in marks -->
+                {{"evaluation.uploadResults.textKeyInMarks"|translate}}
+              </label>
+
+              <input name="addTeacherType" type="radio" id="radio_9" (click)="onUploadTypeChange('upload')"
+                class="radio-col-info with-gap" [checked]="uploadFromExcel">
+              <label for="radio_9">
+                <!-- Upload results from a spreedsheet -->
+                {{"evaluation.uploadResults.textUploadResultsFromSpreadsheet"|translate}}
+              </label>
+            </div>
+          </div>
+
+          <!-- OPTION 1: KEYING IN MARKS -->
+          <ng-container *ngIf="keyInMarks">
+            <div class="my-2 fw-bold">{{ 'evaluation.uploadResults.studentsLabel' | translate }}</div>
+
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>{{ 'evaluation.uploadResults.table.admNo' | translate }}</th>
+                  <th>{{ 'evaluation.uploadResults.table.name' | translate }}</th>
+                  <th style="width: 15%; min-width: 70px;">{{ 'evaluation.uploadResults.table.marks' | translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let stud of students; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{stud.admno }}</td>
+                  <td>{{ stud.name }}</td>
+                  <td class="text-center">
+                    <input (change)="setStudentMarks(stud.userid, $event)" [max]="maxScore" type="number" class="form-control" placeholder="Marks" [value]="getStudentMarks(stud.userid)"/>
+                    <small class="text-danger" *ngIf="excessStudentMarks(stud.userid)">{{ 'evaluation.uploadResults.maxScoreExceeded' | translate }}</small>
+                  </td>
+                </tr>
+                <ng-container *ngIf="students.length == 0">
+                  <tr *ngFor="let stud of classMembers; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{stud.admno }}</td>
+                    <td>{{ stud.name }}</td>
+                    <td class="text-center">
+                      <input (change)="setStudentMarks(stud.userid, $event)" [max]="maxScore" type="number" class="form-control" placeholder="Marks" [value]="getStudentMarks(stud.userid)"/>
+                      <small class="text-danger" *ngIf="excessStudentMarks(stud.userid)">{{ 'evaluation.uploadResults.maxScoreExceeded' | translate }}</small>
+                    </td>
+                  </tr>
+                </ng-container>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="border-secondary border border-radius-10 new-students-container" [ngClass]="{'active p-3 mt-3' : addingStudentActive && nonClassMembers.length > 0}">
+              <div>
+                <h4 class="fw-bolder">{{ "classes.new.newStudents" | translate }}</h4>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive-sm">
+                      <table class="table table-hover">
+                        <thead>
+                        <tr>
+                          <th style="width: 20%;">{{ "evaluation.manage.table.admNo" | translate }}</th>
+                          <th style="width: 30%">{{ "evaluation.manage.table.name" | translate }}</th>
+                          <th style="width: 30%">{{ "evaluation.manage.table.marks" | translate: {maxMarks: maxScore} }}</th>
+                          <th class="text-center">{{ "evaluation.manage.table.actions" | translate: {maxMarks: maxScore} }}</th>
+                        </tr>
+                        </thead>
+                        <tbody class="new-students-body">
+                        <ng-template #parent></ng-template>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <button *ngIf="addingStudentActive && nonClassMembers.length > 0"  class="btn btn-dark btn-sm" (click)="addNewStudentRow()">
+                  <i class="fa fa-user-circle-o"></i>
+                  {{ "classes.new.newStudent" | translate }}
+                </button>
+                <button *ngIf="nonClassMembers.length > 0"  class="btn btn-secondary btn-outline btn-sm ms-2" (click)="addingStudentActive = false">
+                  {{ "common.cancel" | translate }}
+                </button>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- OPTION 2: UPLOAD FROM SPREADSHEET -->
+          <ng-container *ngIf="uploadFromExcel">
+            <app-excel-download-template
+                    [fileName]="'evaluation.uploadResults.excelTemplateDownload.fileName' | translate: {assessmentType: assessmentType}"
+                    [templateHeaders]="excelTemplateHeaders"
+                    [entries]="excelStudentEntries"
+                    (uploadedEntries)="uploadResultsFromExcel($event)">
+            </app-excel-download-template>
+          </ng-container>
+
+          <div>
+            <button *ngIf="!addingStudentActive && nonClassMembers.length > 0"  class="btn btn-dark btn-sm mt-4" (click)="addingStudentActive = true">
+              <i class="fa fa-user-circle-o"></i>
+              {{ "classes.new.addStudents" | translate }}
+            </button>
+            <button class="btn btn-primary btn-sm pull-right my-1" (click)="uploadResults()">
+              <span *ngIf="isUploadingResults" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              {{ isUploadingResults ? ('evaluation.uploadResults.uploading' | translate) : ('evaluation.uploadResults.uploadBtn' | translate) }}
+              <i *ngIf="!isUploadingResults" class="si si-cloud-upload"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

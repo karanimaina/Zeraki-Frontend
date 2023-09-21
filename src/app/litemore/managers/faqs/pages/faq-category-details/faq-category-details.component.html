@@ -1,0 +1,174 @@
+<!-- Content Header (Page header) -->
+<div class="content-header d-md-none">
+  <div class="d-flex align-items-center">
+    <div class="me-auto">
+      <h3 class="page-title">{{ 'litemore.faqs.categories.details.title' | translate }}</h3>
+      <div class="d-inline-block align-items-center">
+        <nav>
+          <ol class="breadcrumb text-dark">
+            <li class="breadcrumb-item" aria-current="page">{{ 'litemore.faqs.categories.details.title' | translate }}
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+  <div class="row">
+    <div *ngIf="faqCategoryDetailsLoading; then showLoadingSection else showDataSection"></div>
+  </div>
+</section>
+
+<!-- loading section -->
+<ng-template #showLoadingSection>
+  <div class="row">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-body">
+          <app-loader-div [height]="50"></app-loader-div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-body">
+          <app-loader-div [height]="250"></app-loader-div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- data section -->
+<ng-template #showDataSection>
+  <div class="col-12">
+    <div class="box d-none d-md-block">
+      <div class="box-header with-border">
+        <h4 class="box-title d-none d-md-inline-block">{{ 'litemore.faqs.categories.details.title' | translate }}</h4>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col-6">
+        <button class="btn btn-primary btn-sm" (click)="addNewFaqCategory()">
+          {{ 'litemore.faqs.addNew' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="box">
+        <div class="col-md-12 col-xs-12">
+          <div class="hpanel hgreen text-left">
+            <div class="panel-heading hbuilt mt-3 mb-4 pb-3 border-2 border-primary">
+              <div></div>
+              <span class="px-4 fw-bold">
+                {{ 'litemore.faqs.faqCategory' | translate }} - {{faqCategoryDetails.name}}
+              </span>
+            </div>
+
+            <div class="panel-body">
+              <form id="saveStaffGroupsForm" name="saveStaffGroupsForm" (submit)="addNewFaq()">
+                <div *ngIf="faqCategoryDetails.faqs.length === 0" class="col-md-12 no-padding">
+                  <div class='col-md-12 col-xs-12 no-padding'>
+                    <span>{{ 'litemore.faqs.emptyList' | translate }}</span>
+                  </div>
+                </div>
+
+                <div *ngIf="faqCategoryDetails.faqs.length > 0" class='col-md-12 col-xs-12 no-padding'>
+                  <div class="table-responsive col-md-12 col-xs-12" style="margin: 0;padding: 0">
+                    <table class="table table-striped table-hover table-bordered" style="margin: 0">
+                      <thead>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let t of faqCategoryDetails.faqs; index as index">
+                          <td style="vertical-align: middle" class='td-fit'>{{index + 1}}</td>
+                          <td class="ps-10" style="vertical-align: middle">
+                            <div class="col-xs-12 col-md-12" style="padding: 0"
+                              *ngIf="!t.edit && t.faqid !== undefined">
+                              <div class="col-xs-12 col-md-12" style="padding: 0 0 0 0">
+                                <label class="control-label fw-bold" for="title">
+                                  {{ 'common.title' | translate }}</label>
+                                <div>{{t.title}}</div>
+                              </div>
+                              <div class="col-xs-12 col-md-12" style="padding: 16px 0 0 0">
+                                <label class="control-label fw-bold" for="text">
+                                  {{ 'common.description' | translate }}</label>
+                                <div [innerHtml]="t.description"></div>
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-md-12" style="padding: 0" *ngIf="t.edit || t.faqid === undefined">
+                              <div class="col-xs-12 col-md-12" style="padding: 0 0 0 0">
+                                <label class="control-label fw-bold" for="title">
+                                  {{ 'common.title' | translate }}</label>
+                                <textarea style="max-width: 100%;min-width: 100%" placeholder="" class="form-control"
+                                  rows="2" name="title" id="title" [(ngModel)]="t.title_temp" pattern="[\s\S]*\S[\s\S]*"
+                                  required></textarea>
+                              </div>
+                              <div class="col-xs-12 col-md-12" style="padding: 16px 0 0 0">
+                                <label class="control-label fw-bold" for="text">
+                                  {{ 'common.description' | translate }}</label>
+                                <div class="panel-body no-padding" style="min-height: 5em">
+                                  <ckeditor [(ngModel)]="t.description_temp" [config]="{height:550}"
+                                    id="descriptionEdit" name="description" #editorEdit="ngModel">
+                                  </ckeditor>
+                                </div>
+                                <!--<textarea style="max-width: 100%;min-width: 100%" placeholder="" class="form-control" rows="5" name="text" id="text" [(ngModel)]="t.description_temp" pattern="[\s\S]*\S[\s\S]*" required></textarea>-->
+                              </div>
+                            </div>
+                          </td>
+                          <td class="td-fit-nowrap" style="vertical-align: middle">
+                            <div *ngIf="t.faqid !== undefined && !add_new_group">
+                              <button (click)="deleteFaq(index, t.faqid)" class="btn btn-success btn-xs" type="button">
+                                <i class="fa fa-trash-o"></i>
+                              </button>
+                              <!--<div class="btn-group" *ngIf="!t.edit">
+                                        <button data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">Action
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right" ng-class="::getDropDownClass(1)">
+                                            <li>
+                                                <a ng-class="::getDropDownClass(2)" (click)="editStaffGroup($event, index, true);$event.stopPropagation()">Edit</a>
+                                            </li>
+                                            <li ng-class="::getDropDownClass(3)"></li>
+                                            <li>
+                                                <a ng-class="::getDropDownClass(2)" (click)="deleteStaffGroup($event, index, t);$event.stopPropagation()"><span class="text-info">Delete</span></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <button (click)="editStaffGroup($event, index, false);$event.stopPropagation()" *ngIf="t.edit" class="btn btn-default btn-sm" type="button">Cancel</button>
+                                    <button (click)="updateDetails($event, index, t);$event.stopPropagation()" *ngIf="t.edit" class="btn btn-success btn-sm" type="button">Save</button>-->
+                            </div>
+                            <div *ngIf="t.faqid === undefined">
+                              <button (click)="removeNewGroup(index)" class="btn btn-success btn-xs" type="button">
+                                <i class="fa fa-trash-o"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div *ngIf='add_new_group' class='col-md-12 col-xs-12' style='margin: 0;padding: 16px 0 0 0'>
+                    <button (click)="discardNewGroups()" class="btn btn-dark btn-sm pull-left" type="button">{{
+                      'common.cancel' | translate }}</button>
+                    <button class="btn btn-success btn-sm pull-right" type="submit">{{ 'litemore.faqs.saveNew' |
+                      translate }}</button>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

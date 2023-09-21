@@ -1,0 +1,42 @@
+<section class="content mt-config">
+    <div class="col-12 px-xl-120">
+        <div *ngFor="let optionGroup of optionGroups;" class="box">
+            <form class="form">
+                <div class="box-body">
+                    <div class="row">
+                        <div *ngFor="let option of optionGroup.options; index as optionIndex" [ngClass]="{'pt-20 && bt-3': optionIndex != 0}">
+                            <div class="mb-3">
+                                <p class="text-bold">{{option.title}}</p>
+                                <div class="row">
+                                    <div class="col-xl-10 col-9">{{option.text}}</div>
+                                    <div *ngIf="choiceHasTextAndValue(option.choices)" class="col-xl-2 col-3">
+                                        <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                   [items]="option.choices"
+                                                   [name]="option.tag"
+                                                   [(ngModel)]="option.value"
+                                                   (ngModelChange)="onChoiceChange(option)"
+                                                   [clearable]=false
+                                                   bindLabel="text"
+                                                   bindValue="value"
+                                                   required>
+                                        </ng-select>
+                                    </div>
+                                    <div *ngIf="!choiceHasTextAndValue(option.choices)" class="col-xl-2 col-3">
+                                        <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                                   [items]="option.choices"
+                                                   [name]="option.tag"
+                                                   [(ngModel)]="option.value"
+                                                   (ngModelChange)="onChoiceChange(option)"
+                                                   [clearable]=false
+                                                   required>
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

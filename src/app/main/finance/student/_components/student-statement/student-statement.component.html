@@ -1,0 +1,88 @@
+<div class="box-header without-border pb-0">
+    <app-svg-collection [svgType]="'transact'"></app-svg-collection> <span class="box-title text-muted">Statement</span>
+</div>
+<div class="box-body py-10">
+    <!-- <div class="pt-5 pb-2" style="white-space: nowrap;">
+        <div>Term 1</div>
+        <div class="text-muted">5th January - 20th April</div>
+    </div> -->
+    <p *ngIf="(studentData?.studentStatements?.length < 1)">
+        No statements present
+    </p>
+    <div *ngIf="(termStatements?.length > 0)" class="accordion accordion-flush" id="accordionFlushExample">
+        <ng-container *ngFor="let statement of termStatements; index as idx">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne_{{idx}}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        [attr.data-bs-target]="'#flush-collapseOne_'+idx" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <div class="pt-5 pb-2" style="white-space: nowrap;">
+                            <div>{{statement?.termName}}</div>
+                            <div class="text-muted">{{statement?.startDate | date: 'mediumDate'}}-{{statement?.endDate |
+                                date: 'mediumDate'}}</div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="flush-collapseOne_{{idx}}" class="accordion-collapse collapse" [attr.aria-labelledby]="'flush-headingOne_'+idx"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class="text-start">
+                                    <tr>
+                                        <td>Item</td>
+                                        <td class="hidden-md-up">Amount</td>
+                                        <td class="hidden-down">Invoiced</td>
+                                        <td class="hidden-down">Paid</td>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let studStmts of statement.statements">
+                                    <tr (click)="studStmts.visible = !studStmts.visible">
+                                        <td>
+                                            <h5 class="fw-bold fs-16 text-capitalize">
+                                                {{ studStmts.type }}
+                                            </h5>
+                                            <!-- <small class="fst-italic fw-lighter">{{ studStmts.narration }}</small> -->
+                                        </td>
+                                        <td class="hidden-md-up">
+                                            <h5 class="fw-bold text-warning">
+                                                {{ studStmts.bill | currency }}
+                                            </h5>
+                                            <h5 class="text-success fw-bold">
+                                                {{ studStmts.paid | currency }}
+                                            </h5>
+                                        </td>
+                                        <td class="text-start hidden-down">
+                                            <h5 class="fw-bold text-warning">
+                                                {{ studStmts.bill | currency }}
+                                            </h5>
+                                            <small *ngIf="studStmts.bill" class="fst-italic fw-lighter">{{
+                                                studStmts.txnDate
+                                                |
+                                                date:'shortDate' }}</small>
+                                        </td>
+                                        <td class="text-start hidden-down">
+                                            <h5 class="text-success fw-bold">
+                                                {{ studStmts.paid | currency }}
+                                            </h5>
+                                            <small *ngIf="studStmts.paid" class="fst-italic fw-lighter">{{
+                                                studStmts.bankingDate |
+                                                date:'shortDate' }}</small>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="studStmts.narration.length > 0 && studStmts.visible">
+                                        <td colspan='2' style="border-top: 0; border-bottom: 0">
+                                            <!-- <span class="fw-bolder">{{ 'messages.group.message' | translate }}</span> -->
+                                            <div [innerHTML]="studStmts.narration" style="white-space: pre-wrap"
+                                                class="phone-wrap my-2">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

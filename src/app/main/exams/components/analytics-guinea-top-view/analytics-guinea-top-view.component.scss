@@ -1,0 +1,28 @@
+section>div{
+    cursor: default;
+    transition: .5s;
+}
+
+section>div:hover{
+    transform:scale(1.0004);
+}
+
+.btn-block button{
+    display: block;
+    width: 100%;
+}
+
+.form-control-dropdown{
+    z-index: 9999;
+}
+
+.w-100{
+    width: 100% !important;
+}
+.border-secondary{
+    border-color: #343a40 !important;
+}
+
+.text-secondary{
+    color: #343a40 !important;
+}

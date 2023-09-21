@@ -1,0 +1,83 @@
+<div *ngIf="isAddIntakeView; then addIntake else editExam"></div>
+<!-- section edit exam -->
+<ng-template #editExam>
+    <section class="mt-config content">
+        <div class="box">
+            <div class="box-header with-border">
+                <h4 class="box-title">
+                    <!-- Edit Exam -->
+                    {{"exams.editExams.textEditExam"|translate}}
+                </h4>
+                <div class="box-controls pull-right">
+                    <div class="box-header-actions">
+                        <button (click)="addIntakeView()"
+                        class="btn waves-effect waves-light btn-sm btn-primary">
+                        <!-- Add {{schoolData?.formoryear}} -->
+                        {{"exams.editExams.btnTextAdd"|translate:{formoryear:schoolData?.formoryear} }}
+                    </button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <form [formGroup]="examNameForm" (ngSubmit)="updateExamName()">
+                    <div class="form-group">
+                        <label for="examNameId" style="font-weight: 600;">
+                            <!-- Exam Name -->
+                            {{"exams.editExams.textExamName"|translate}}
+                        </label>
+                        <input type="text"
+                               #examNameInput
+                               formControlName="name"
+                         class="form-control"
+                          placeholder='{{"exams.editExams.textExamName"|translate}}'
+                           required name="name"
+                             [ngClass]="{'is-invalid': this.isSubmitted && f['name'].errors }">
+                             <div class="text-danger" *ngIf="this.isSubmitted && f['name'].errors">
+                                 <div *ngIf="f['name'].errors['required']">
+                                     <!-- Exam name is required -->
+                                     {{"exams.editExams.textExamNameRequired"|translate}}
+                                 </div>
+                             </div>
+                    </div>
+
+                    <div class="form-group mb-0" style="display: flex; justify-content: space-between;">
+                        <button type="button" (click)="back()" class="btn btn-sm btn-light text-start">
+                            <!-- Back -->
+                            <i class="fa fa-arrow-left"></i>
+                            {{"exams.editExams.btnTextBack" | translate}}
+                        </button>
+                        <div style="display:inline-block">
+                            <span *ngIf="isEditExam;then showUpdateButton else showEditButton"></span>
+                            <ng-template #showUpdateButton>
+                                <button class="btn btn-sm btn-info waves-effect waves-light" [disabled]="loading">
+                                    <!-- Update -->
+                                    <i *ngIf="!loading" class="fa fa-check-circle-o"></i>
+                                    <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    {{loading ? ("exams.editExams.btnTextUpdating"|translate) : ("exams.editExams.btnTextUpdate"|translate)}}
+                                </button>
+                            </ng-template>
+                            <ng-template #showEditButton>
+                                <button (click)="initEditExam()" class="btn btn-sm btn-secondary waves-effect waves-light">
+                                    <i class="fa fa-edit"></i>
+                                    <!-- Edit -->
+                                    {{ "exams.editExams.btnTextUpdateName"|translate }}
+                                </button>
+                            </ng-template>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</ng-template>
+
+<!-- section add intake to existing exam -->
+<ng-template #addIntake>
+    <app-add-intake
+    [exam]="selectedExamForEdit"
+    [forms]="forms"
+    [schoolData]="schoolData"
+    (closeAddIntake)="closeAddIntakeView()"
+    (addedIntakes)="filterAddedIntakes($event)">
+    </app-add-intake>
+</ng-template>

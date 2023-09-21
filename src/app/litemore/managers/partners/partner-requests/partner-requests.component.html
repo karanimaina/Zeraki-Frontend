@@ -1,0 +1,128 @@
+<!-- Content Header (Page header) -->
+<div class="content-header d-md-none">
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h3 class="page-title">{{ 'litemore.partner.titleReq' | translate }}</h3>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb text-dark">
+                        <li class="breadcrumb-item" aria-current="page">
+							{{'litemore.managers.partners.partnerRequest.partners'|translate}}
+						</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{'litemore.managers.partners.partnerRequest.requests'|translate}}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+    <div class="row">
+        <div *ngIf="isLoadingParterRequests; then showLoadingSection else showDataSection"></div>
+        <ng-template #showLoadingSection>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="box">
+                        <div class="box-body">
+                            <app-loader-div [height]="50"></app-loader-div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="box">
+                        <div class="box-body">
+                            <app-loader-div [height]="250"></app-loader-div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #showDataSection>
+            <div class="col-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title d-none d-md-inline-block">{{ 'litemore.partner.titleReq' | translate }}</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- <div *ngIf="teacherListError">
+                <div class="box div box-body">
+                    <p class="mb-0">We couldn't find any vacancies</p>
+                </div>
+            </div> -->
+            <div class="col-12">
+                <div class="box">
+                    <div *ngIf="dataSource.filteredData.length > 0" class="box-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col" class="text-uppercase">
+                                            {{ 'common.name' | translate }}
+                                        </th>
+                                        <th [hidden]="partners_edi_in_progress" scope="col" class="text-uppercase">
+                                            {{ 'common.username' | translate }}
+                                        </th>
+                                        <th scope="col" class="text-uppercase">
+                                            {{ 'litemore.school' | translate }}
+                                        </th>
+                                        <th scope="col"
+                                            class="text-uppercase">{{ 'common.phone' | translate }}</th>
+                                        <th [hidden]="partners_edi_in_progress" scope="col"
+                                            class="text-uppercase">
+                                            {{ 'litemore.code' | translate }}</th>
+                                        <th scope="col" class="text-uppercase text-center" style="min-width: 200px;">{{ 'common.actions' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let p of dataSource?.filteredData; first as isFirst;index as i;trackBy: trackByFn">
+                                        <th scope="row">{{ i+1 }}</th>
+                                        <td>{{p.name}}</td>
+                                        <td>{{p.email}}</td>
+                                        <td>{{p.school}}</td>
+                                        <td>{{p.phone}}</td>
+                                        <td>{{p.code}}</td>
+                                        <td class="text-center">
+                                            <button (click)="makePartner(p, true)" type="button" class="waves-effect waves-light btn btn-secondary btn-sm mx-1">
+                                                <i>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
+                                                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                                                        <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                                    </svg>
+                                                </i>
+                                                <span class="ms-1">{{ 'litemore.accept' | translate }}</span>
+                                            </button>
+                                            <button (click)="rejectPartner(p)" type="button" class="waves-effect waves-light btn btn-warning btn-sm mx-1">
+                                                <i>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-lg" viewBox="0 0 16 16">
+                                                        <path d="M7.005 3.1a1 1 0 1 1 1.99 0l-.388 6.35a.61.61 0 0 1-1.214 0L7.005 3.1ZM7 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z"/>
+                                                    </svg>
+                                                </i>
+                                                <span class="ms-1">{{ 'litemore.reject' | translate }}</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div *ngIf="dataSource.filteredData.length == 0" class="box-body text-center">
+                        <h4>{{ 'litemore.partner.emptyListReq' | translate }}</h4>
+                    </div>
+                    <!-- <div class="box-footer pb-0">
+
+                    </div> -->
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</section>
+<!-- /.content -->

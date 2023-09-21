@@ -1,0 +1,641 @@
+<div class="splashBody" [hidden]="!showSplash">
+    <div class="color-line"></div>
+    <div class="splashCentre">
+        <div class="mb-70 pb-50 title-anim">
+            <h1>Zeraki Analytics</h1>
+        </div>
+        <div class="loader align-self-center pt-5">
+            <div class="loader__bar"></div>
+            <div class="loader__bar"></div>
+            <div class="loader__bar"></div>
+            <div class="loader__bar"></div>
+            <div class="loader__bar"></div>
+            <div class="loader__ball"></div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isDesktopDevice">
+    <div id="page-top" [hidden]="showSplash" style="overflow-x: hidden;">
+        <div class="intro">
+            <!-- Navigation-->
+            <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+                <div class="container-xxl">
+                    <a class="navbar-brand pb-2" href="#page-top"><img
+                            src="../../../assets/img/logos/zeraki_analytics_logo.svg" alt="logo" /></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        Menu
+                        <i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-list" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+                            </svg>
+                        </i>
+                    </button>
+                    <!-- <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse pb-2" id="navbarResponsive"> -->
+                    <div class="collapse navbar-collapse pb-2" id="navbarResponsive">
+                        <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                            <!-- language selection -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle d-none d-sm-inline-block" style="min-width: 100px;"
+                                    href="#" id="navbarLanguageSelectionDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img [alt]="'common.languages.' + currentLanguage?.label?.toLowerCase() | translate"
+                                        [src]="'/assets/img/country-flags/' + (currentLanguage?.flagCode) + '.svg'"
+                                        style="height: 10px; transform: translateY(-2px);" />
+                                    {{ 'common.languages.' + currentLanguage?.label?.toLowerCase() | translate }}
+                                </a>
+
+                                <ul class="dropdown-menu animated fadeIn rounded"
+                                    aria-labelledby="navbarLanguageSelectionDropdown">
+                                    <ng-container *ngFor="let language of languages">
+                                        <li style="cursor: pointer;">
+                                            <a class="dropdown-item my-0 lang"
+                                                [style.font-weight]="(currentLanguage?.code === language.code) ? 'bold' : 'normal'"
+                                                (click)="switchLanguage(language.code)">
+                                                <img [alt]="'common.languages.' + currentLanguage?.label?.toLowerCase() | translate"
+                                                    [src]="'/assets/img/country-flags/' + (language?.flagCode) + '.svg'"
+                                                    style="height: 10px;" />
+                                                {{ 'common.languages.' + language.label?.toLowerCase() | translate }}
+                                            </a>
+                                        </li>
+                                    </ng-container>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item"><a class="nav-link" (click)="scrollTo(features)"
+                                    data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                                    aria-controls="navbarResponsive" aria-expanded="false"
+                                    aria-label="Toggle navigation">{{ "homePage.topNav.features" | translate }}</a></li>
+                            <li class="nav-item"><a class="nav-link d-none d-md-block" (click)="scrollTo(testimonial)"
+                                    data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                                    aria-controls="navbarResponsive" aria-expanded="false"
+                                    aria-label="Toggle navigation">{{ "homePage.topNav.testimonial" | translate }}</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link d-none d-md-block" (click)="scrollTo(about)"
+                                    data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                                    aria-controls="navbarResponsive" aria-expanded="false"
+                                    aria-label="Toggle navigation">{{ "homePage.topNav.about" | translate }}</a></li>
+                            <li class="nav-item"><a class="nav-link d-none d-md-block" (click)="scrollTo(contact)"
+                                    data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                                    aria-controls="navbarResponsive" aria-expanded="false"
+                                    aria-label="Toggle navigation">{{ "homePage.topNav.contact" | translate }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Master head-->
+            <header>
+                <div class="container h-auto">
+                    <div class="heading mb-5 hidden-lg-up" style="text-align: center;">
+                        <h3 class="showcase text-white">{{ "homePage.header" | translate }}</h3>
+                        <p class="description text-white fs-14">{{ "homePage.subHeader" | translate }} <br />{{
+                            "homePage.subHeader2" | translate }}</p>
+                        <a
+                            href='https://play.google.com/store/apps/details?id=ke.co.litemore.zanalytics&hl=en&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+                            <img src='../../../assets/img/google-play-badge.svg' alt='Get it on Google Play'
+                                width="auto" height="46" style="padding: 0" />
+                        </a>
+                    </div>
+                    <div class="d-flex h-auto">
+                        <div class="heading me-auto text-start hidden-md-down">
+                            <h1 class="showcase text-white">{{ "homePage.header" | translate }}</h1>
+                            <p class="description text-white">{{ "homePage.subHeader" | translate }} <br />{{
+                                "homePage.subHeader2" | translate }}</p>
+                            <a
+                                href='https://play.google.com/store/apps/details?id=ke.co.litemore.zanalytics&hl=en&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+                                <img src='../../../assets/img/google-play-badge.svg' alt='Get it on Google Play'
+                                    width="auto" height="46" style="padding: 0" />
+                            </a>
+                        </div>
+                        <div *ngIf="appAccessStatus?.accessible == undefined || appAccessStatus?.accessible"
+                            class="card border-success text-start" style="width: 30rem;">
+                            <div class="card-header">
+                                <ul class="nav nav-pills card-header-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <button class="nav-link active action-tabs" id="login-tab" data-bs-toggle="tab"
+                                            style="margin-right: 4px;" data-bs-target="#login" role="tab"
+                                            (click)="login=!login">
+                                            {{ "homePage.login.button" | translate }}
+                                            <!-- [ngClass]="{'text-secondary': login == false}" -->
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link action-tabs" id="register-tab" data-bs-toggle="tab"
+                                            data-bs-target="#register" role="tab" (click)="login=!login">
+                                            {{ "homePage.register.button" | translate }}
+                                            <!-- [ngClass]="{'text-secondary': login == true}" -->
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body tab-content pt-0">
+                                <div class="tab-pane fade show active mt-2" id="login" role="tabpanel"
+                                    aria-labelledby="login-tab">
+
+                                    <app-new-desktop></app-new-desktop>
+
+                                </div>
+                                <div class="tab-pane fade text-black text-opacity-75" id="register" role="tabpanel"
+                                    aria-labelledby="register-tab">
+                                    <div>
+                                        <!-- DO NOT DELETE!! USE TO display REGISTRATION ALERTS -->
+                                        <div>
+                                            <div class="col-md-12 col-xs-12 mb-0 p-3 text-wrap"
+                                                style="color: #3c763d; background-color: #dff0d8;">
+                                                <span>
+                                                    {{ "homePage.register.info1" | translate }}
+                                                    <strong>
+                                                        <a href="tel:+254798 666 000" target="_blank"
+                                                            style="text-decoration: none;">
+                                                            <!-- <span class="icon-Call1 fs-22"></span> -->
+                                                            {{ "homePage.register.number" | translate }}
+                                                        </a>
+                                                    </strong> {{ "homePage.register.info3" | translate }}
+                                                    <strong>
+                                                        <a target="_blank" style="text-decoration: none;">
+                                                            <!-- <span class="icon-Call1 fs-22"></span> -->
+                                                            info@zeraki.co.ke
+                                                        </a>
+                                                    </strong>
+                                                    {{ "homePage.register.info5" | translate }}
+                                                    <strong>
+                                                        <a data-bs-toggle="tab" data-bs-target="#register" role="tab"
+                                                            (click)="login=!login" class="text-primary">
+                                                            <!-- <span class="icon-Call1 fs-22"></span> -->
+                                                            {{ "homePage.register.info6" | translate }}
+                                                        </a>
+                                                    </strong> {{ "homePage.register.info7" | translate }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="appAccessStatus?.accessible != undefined && !appAccessStatus?.accessible"
+                            class="card border-success text-start" style="width: 30rem;">
+                            <div class="card-header">
+                                <ul class="nav nav-pills card-header-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <button class="nav-link active action-tabs" id="access-tab" data-bs-toggle="tab"
+                                            style="margin-right: 4px;" data-bs-target="#access" role="tab">
+                                            {{ "homePage.inaccessible.title" | translate: { msg_title:
+                                            appAccessStatus.msg_title} }}
+                                            <!-- [ngClass]="{'text-secondary': login == false}" -->
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-body tab-content pt-0">
+                                <div class="tab-pane fade show active pt-1" id="access" role="tabpanel"
+                                    aria-labelledby="access-tab">
+                                    <!-- DO NOT DELETE!! -->
+                                    <div class="col-md-12 col-xs-12" style="padding: 16px">
+                                        <label style="margin-bottom: 5px">{{ "homePage.inaccessible.body" | translate: {
+                                            msg_body: appAccessStatus.msg_body} }}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+
+        <!-- Features-->
+        <!-- <section class="page-section" id="features" #features> -->
+        <!-- <div class="container">
+                <div class="text-center">
+                    <h2 class="fs-2 pb-5 text-uppercase">Features</h2>
+                </div>
+                <div class="row text-center hidden-md-down">
+                    <div class="col-md-12">
+                        <img alt='Results Analysis' src='../../../assets/img/features.svg' width="90%" height="auto"/>
+                    </div>
+                </div>
+                <div class="row text-center hidden-lg-up">
+                    <div class="team-member">
+                        <img class="mx-auto rounded-circle" alt='Results Analysis' src='../../../assets/img/analysis.svg' width="150" height="50"/>
+                        <h4>Results Analysis</h4>
+                        <p class="text-muted">Analyze exam results on the go from your phone.</p>
+                    </div>
+                    <div class="team-member">
+                        <img class="mx-auto rounded-circle" alt='Results Entry' src='../../../assets/img/entry.svg' width="150" height="150"/>
+                        <h4>Results Entry</h4>
+                        <p class="text-muted">Enter exam results via the app from the comfort of your home.</p>
+                    </div>
+                    <div class="team-member">
+                        <img class="mx-auto rounded-circle" alt='Text Messaging' src='../../../assets/img/sms.svg' width="150" height="150"/>
+                        <h4>Text Messaging</h4>
+                        <p class="text-muted">Send text messages to multiple parents with a single button click</p>
+                    </div>
+                </div>
+                <div class="row text-center hidden-lg-up">
+                    <div class="team-member">
+                        <img class="mx-auto rounded-circle" alt='Reports' src='../../../assets/img/reports.svg' width="150" height="150"/>
+                        <h4>Reports</h4>
+                        <p class="text-muted">Generate detailed spreadsheet and PDF reports e.g. report forms, transcripts e.t.c.</p>
+                    </div>
+                    <div class="team-member">
+                        <img class="mx-auto rounded-circle" alt='Student Profiles' src='../../../assets/img/profiles.svg' width="150" height="150"/>
+                        <h4>Student Profiles</h4>
+                        <p class="text-muted">Access any student's biographical and contact information anytime, anywhere</p>
+                    </div>
+                    <div class="team-member">
+                        <img class="mx-auto rounded-circle" src="../../../assets/img/parents.svg" alt="Team" />
+                        <h4>Access By Parents</h4>
+                        <p class="text-muted">Parents can log in to the app to access their children’s academic records and fee balance.</p>
+                    </div>
+                </div>
+            </div> -->
+        <div class="container" id="features" #features>
+            <p class="text-center pt-5 zeraki-heading">{{ "homePage.features.heading" | translate }}</p>
+            <div class="text-center"><img src="../../../assets/img/template/za-240x60_c.png" height="30px"></div>
+        </div>
+        <div class="features-boxed">
+            <div class="container">
+                <div class="intro"></div>
+                <div class="row justify-content-center features">
+                    <div class="col-sm-6 col-md-5 col-lg-4 item">
+                        <div>
+                            <img class="icon" src="../../../assets/img/template/1.png">
+                            <h3 class="name">{{ "homePage.features.content1" | translate }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-5 col-lg-4 item">
+                        <div><img class="icon" src="../../../assets/img/template/m2.png">
+                            <h3 class="name">{{ "homePage.features.content2" | translate }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-5 col-lg-4 item">
+                        <div><img class="icon" src="../../../assets/img/template/m3.png">
+                            <h3 class="name">{{ "homePage.features.content3" | translate }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-5 col-lg-4 item">
+                        <div><img class="icon" src="../../../assets/img/template/m4.png">
+                            <h3 class="name">{{ "homePage.features.content4" | translate }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-5 col-lg-4 item">
+                        <div><img class="icon" src="../../../assets/img/template/m5.png">
+                            <h3 class="name">{{ "homePage.features.content5" | translate }}<br></h3>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-5 col-lg-4 item">
+                        <div><img class="icon" src="../../../assets/img/template/m6.png">
+                            <h3 class="name">{{ "homePage.features.content6" | translate }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </section> -->
+        <!-- Portfolio Grid-->
+
+        <!-- Testimonial-->
+        <div id="testimonial" class="testimonials-clean pb-5 d-none d-md-block" #testimonial>
+            <div class="container">
+                <div class="intro">
+                    <p class="text-center py-5 zeraki-heading">{{ "homePage.testimonial.header" | translate }}</p>
+                    <p class="text-center">{{ "homePage.testimonial.sub_header" | translate }}</p>
+                </div>
+                <div class="row people">
+                    <div class="col-md-6 col-lg-4 item">
+                        <div class="box">
+                            <p class="description">{{ "homePage.testimonial.content1" | translate }}</p>
+                        </div>
+                        <div class="author"><img class="rounded-circle"
+                                src="../../../assets/img/template/ss1-220x220_c.png">
+                            <h5 class="name">James Gichuki</h5>
+                            <p class="title">Kahuhia Girls</p>
+                            <p id="iconss"><i class="fa fa-star icons"></i><i class="fa fa-star icons"></i><i
+                                    class="fa fa-star icons"></i><i class="fa fa-star icons"></i><i
+                                    class="fa fa-star icons"></i></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 item">
+                        <div class="box">
+                            <p class="description">{{ "homePage.testimonial.content2" | translate }} &amp; {{
+                                "homePage.testimonial.content2_1" | translate }}</p>
+                        </div>
+                        <div class="author"><img class="rounded-circle"
+                                src="../../../assets/img/template/qq2-220x220_c.png">
+                            <h5 class="name">Raphael Otieno</h5>
+                            <p class="title">Maranda School</p>
+                            <p id="iconss"><i class="fa fa-star icons"></i><i class="fa fa-star icons"></i><i
+                                    class="fa fa-star icons"></i><i class="fa fa-star icons"></i><i
+                                    class="fa fa-star icons"></i></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 item">
+                        <div class="box">
+                            <p class="description">{{ "homePage.testimonial.content3" | translate }}</p>
+                        </div>
+                        <div class="author"><img class="rounded-circle"
+                                src="../../../assets/img/template/qq3-220x220_c.png">
+                            <h5 class="name">Petronilla Mugiro</h5>
+                            <p class="title">Uthiru Girls High School</p>
+                            <p id="iconss"><i class="fa fa-star icons"></i><i class="fa fa-star icons"></i><i
+                                    class="fa fa-star icons"></i><i class="fa fa-star icons"></i><i
+                                    class="fa fa-star icons"></i></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Satisfied Schools -->
+        <div class="container-xxl text-center d-none d-md-block" id="satisfied" #satisfied>
+            <p class="py-4 zeraki-heading mt-5">{{ "homePage.satisfied_schools.header" | translate }}</p>
+            <owl-carousel-o [options]="customOptions">
+                <ng-template carouselSlide [width]="313" id="anjego"><img
+                        src="../../../assets/img/template/Anjego-Friends-High-School.png"></ng-template>
+                <ng-template carouselSlide [width]="313" id="asumbi"><img
+                        src="../../../assets/img/template/Asumbi-Girls-High-School.png"></ng-template>
+                <ng-template carouselSlide [width]="313" id="barani"><img
+                        src="../../../assets/img/template/Barani-Secondary-School.png"></ng-template>
+                <ng-template carouselSlide [width]="313" id="beth"><img
+                        src="../../../assets/img/template/Beth-Mugo-High-School.png"></ng-template>
+                <ng-template carouselSlide [width]="313" id="bungoma"><img
+                        src="../../../assets/img/template/Bungoma-High-School.png"></ng-template>
+                <ng-template carouselSlide [width]="313" id="buru"><img
+                        src="../../../assets/img/template/Buru-Buru-Girls-School.png"></ng-template>
+                <ng-template carouselSlide [width]="313" id="butula"><img
+                        src="../../../assets/img/template/Butula-School.png"></ng-template>
+            </owl-carousel-o>
+        </div>
+        <div #about class="d-none d-md-block">
+            <div class="d-flex align-items-center mt-5" data-bs-parallax-bg="true" id="about"
+                style="height: 500px;background-image: url(../../../assets/img/template/U.png);background-position: center;background-size: cover;">
+                <div class="container">
+                    <p class="text-center zeraki-heading2">{{ "homePage.about.header" | translate }}</p>
+                    <h6 class="text-center text-white zerakitxt mt-5"><strong>{{ "homePage.about.content" | translate
+                            }}</strong></h6>
+                </div>
+            </div>
+        </div>
+        <div [hidden]="true" class="container d-none d-md-block" id="faq">
+            <p class="text-center py-4 zeraki-heading mt-5">{{ "homePage.faq.header" | translate }}</p>
+            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-4 row-cols-xl-4">
+                <div class="col">
+                    <p class="text-center zeraki-heading3"><strong>{{ "homePage.faq.admin.title" | translate }}</strong>
+                    </p>
+                    <mat-accordion>
+                        <mat-expansion-panel hideToggle class="my-20">
+                            <mat-expansion-panel-header>
+                                <mat-panel-description>
+                                    {{ "homePage.faq.admin.faqTitle" | translate }}
+                                </mat-panel-description>
+                                <!-- <mat-panel-description>
+                            This is a summary of the content
+                            </mat-panel-description> -->
+                            </mat-expansion-panel-header>
+                            <p>{{ "homePage.faq.admin.faqBody" | translate }}</p>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel hideToggle class="my-20">
+                            <mat-expansion-panel-header>
+                                <mat-panel-description>
+                                    {{ "homePage.faq.admin.faqTitle" | translate }}
+                                </mat-panel-description>
+                                <!-- <mat-panel-description>
+                                This is a summary of the content
+                            </mat-panel-description> -->
+                            </mat-expansion-panel-header>
+                            <p>{{ "homePage.faq.admin.faqBody" | translate }}</p>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+                <div class="col">
+                    <p class="text-center zeraki-heading3"><strong>{{ "homePage.faq.parent.title" | translate
+                            }}</strong></p>
+                    <mat-accordion>
+                        <mat-expansion-panel hideToggle class="my-20">
+                            <mat-expansion-panel-header>
+                                <mat-panel-description>
+                                    {{ "homePage.faq.admin.faqTitle" | translate }}
+                                </mat-panel-description>
+                                <!-- <mat-panel-description>
+                            This is a summary of the content
+                            </mat-panel-description> -->
+                            </mat-expansion-panel-header>
+                            <p>{{ "homePage.faq.admin.faqBody" | translate }}</p>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel hideToggle class="my-20">
+                            <mat-expansion-panel-header>
+                                <mat-panel-description>
+                                    {{ "homePage.faq.admin.faqTitle" | translate }}
+                                </mat-panel-description>
+                                <!-- <mat-panel-description>
+                                This is a summary of the content
+                            </mat-panel-description> -->
+                            </mat-expansion-panel-header>
+                            <p>{{ "homePage.faq.admin.faqBody" | translate }}</p>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+                <div class="col">
+                    <p class="text-center zeraki-heading3"><strong>{{ "homePage.faq.new.title" | translate }}</strong>
+                    </p>
+                    <mat-accordion>
+                        <mat-expansion-panel hideToggle class="my-20">
+                            <mat-expansion-panel-header>
+                                <mat-panel-description>
+                                    {{ "homePage.faq.admin.faqTitle" | translate }}
+                                </mat-panel-description>
+                                <!-- <mat-panel-description>
+                            This is a summary of the content
+                            </mat-panel-description> -->
+                            </mat-expansion-panel-header>
+                            <p>{{ "homePage.faq.admin.faqBody" | translate }}</p>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel hideToggle class="my-20">
+                            <mat-expansion-panel-header>
+                                <mat-panel-description>
+                                    {{ "homePage.faq.admin.faqTitle" | translate }}
+                                </mat-panel-description>
+                                <!-- <mat-panel-description>
+                                This is a summary of the content
+                            </mat-panel-description> -->
+                            </mat-expansion-panel-header>
+                            <p>{{ "homePage.faq.admin.faqBody" | translate }}</p>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+                <div class="col">
+                    <p class="text-center zeraki-heading3"><strong>{{ "homePage.faq.teacher.title" | translate
+                            }}</strong></p>
+                    <mat-accordion>
+                        <mat-expansion-panel hideToggle class="my-20">
+                            <mat-expansion-panel-header>
+                                <mat-panel-description>
+                                    {{ "homePage.faq.admin.faqTitle" | translate }}
+                                </mat-panel-description>
+                                <!-- <mat-panel-description>
+                            This is a summary of the content
+                            </mat-panel-description> -->
+                            </mat-expansion-panel-header>
+                            <p>{{ "homePage.faq.admin.faqBody" | translate }}</p>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel hideToggle class="my-20">
+                            <mat-expansion-panel-header>
+                                <mat-panel-description>
+                                    {{ "homePage.faq.admin.faqTitle" | translate }}
+                                </mat-panel-description>
+                                <!-- <mat-panel-description>
+                                This is a summary of the content
+                            </mat-panel-description> -->
+                            </mat-expansion-panel-header>
+                            <p>{{ "homePage.faq.admin.faqBody" | translate }}</p>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact-->
+        <div class="container d-none d-md-block" id="contact" #contact>
+            <p class="text-center py-4 zeraki-heading mt-5">{{ "homePage.contact.header" | translate }}</p>
+            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2">
+                <div class="col">
+                    <div class="responsive__tabs">
+                        <ul class="nav nav-tabs nav-fill" role="tablist">
+                            <li class="nav-item" role="presentation"><a
+                                    class="nav-link active d-xl-flex justify-content-xl-center align-items-xl-center"
+                                    role="tab" data-toggle="tab" style="cursor: pointer;"><i
+                                        class="material-icons pr-3">phone</i>{{ "homePage.contact.contact_us" |
+                                    translate }}</a></li>
+                            <!-- <li class="nav-item" role="presentation"><a class="nav-link d-xl-flex justify-content-xl-center align-items-xl-center" role="tab" data-toggle="tab" href="#tab-6"><i class="material-icons pr-3">attachment</i>Request a Quote</a></li> -->
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" role="tabpanel" id="tab-5">
+                                <form #csForm="ngForm" class="py-5"
+                                    (ngSubmit)="csForm.form.valid && sendCustomerMessage()">
+                                    <div
+                                        class="form-row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-2">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label>{{ "homePage.contact.input_name.label" | translate }}</label>
+                                                <input class="form-control form-control-lg" type="text" name="name"
+                                                    [(ngModel)]="customer_message.name" required #cName="ngModel"
+                                                    [ngClass]="{ 'b-1 && border-danger': csForm.submitted && cName.invalid }">
+                                                <div *ngIf="csForm.submitted && cName.errors?.required"
+                                                    class="form-control-feedback text-danger">
+                                                    <small>{{ "homePage.contact.input_name.error" | translate
+                                                        }}.</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label>{{ "homePage.contact.input_email.label" | translate }}</label>
+                                                <input class="form-control form-control-lg" type="email" name="email"
+                                                    [(ngModel)]="customer_message.email" required inputmode="email"
+                                                    [placeholder]="'homePage.contact.input_email.placeholder' | translate"
+                                                    #cMail="ngModel"
+                                                    [ngClass]="{ 'b-1 && border-danger': csForm.submitted && cMail.invalid }">
+                                                <div *ngIf="csForm.submitted && cMail.errors?.required"
+                                                    class="form-control-feedback text-danger">
+                                                    <small>{{ "homePage.contact.input_email.error" | translate
+                                                        }}.</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label>{{ "homePage.contact.input_mobile.label" | translate }}</label>
+                                                <input class="form-control form-control-lg" type="text" name="mobile"
+                                                    #cPhone="ngModel" [(ngModel)]="customer_message.phone" required
+                                                    inputmode="tel" placeholder="07## ### ###"
+                                                    [ngClass]="{ 'b-1 && border-danger': csForm.submitted && cPhone.invalid }">
+                                                <div *ngIf="csForm.submitted && cPhone.errors?.required"
+                                                    class="form-control-feedback text-danger">
+                                                    <small>{{ "homePage.contact.input_mobile.error" | translate
+                                                        }}.</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row row-cols-1">
+                                        <div class="col">
+                                            <label>{{ "homePage.contact.input_message.label" | translate }}</label>
+                                            <textarea class="form-control form-control-lg" name="message"
+                                                [(ngModel)]="customer_message.message"
+                                                [placeholder]="'homePage.contact.input_message.placeholder' | translate"
+                                                required #cMessage="ngModel"
+                                                [ngClass]="{ 'b-1 && border-danger': csForm.submitted && cMessage.invalid }">
+                                            </textarea>
+                                            <div *ngIf="csForm.submitted && cMessage.errors?.required"
+                                                class="form-control-feedback text-danger">
+                                                <small>{{ "homePage.contact.input_message.error" | translate }}.</small>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <button class="btn btn-success btn-sm mt-4" type="submit">
+                                                {{ "homePage.contact.button.text" | translate }}
+                                                <i>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+                                                    </svg>
+                                                </i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col"><img class="img-fluid w-100" src="../../../assets/img/template/conn.png"></div>
+            </div>
+        </div>
+        <div id="zerakifooter" class="footer-dark">
+            <footer>
+                <div class="container-xxl">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3 item"><img class="mb-3"
+                                src="../../../assets/img/template/Zeraki-horizontal_white.png" height="30px">
+                            <p>Litemore Ltd.<br>P.O. Box 51235 - 00100<br>Nairobi, Kenya<br><strong>+254 790 493
+                                    495</strong></p>
+                        </div>
+                        <div class="col-sm-6 col-md-3 item">
+                            <h3>{{ "homePage.footer.products" | translate }}</h3>
+                            <ul>
+                                <li><a href="#">Zeraki Analytics</a></li>
+                                <li><a href="https://zeraki.shop/" target="_blank">Zeraki Shop</a></li>
+                                <li><a href="https://finance.zeraki.co.ke/" target="_blank">Zeraki Finance</a></li>
+                                <li><a href="https://learning.zeraki.co.ke/" target="_blank">Zeraki Learning</a></li>
+                                <li><a href="https://timetable.zeraki.co.ke/" target="_blank">Zeraki Timetable</a></li>
+                                <li><a href="#">Zeraki Touch</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 item text">
+                            <h3>{{ "homePage.footer.about" | translate }}</h3>
+                            <p>{{ "homePage.footer.text" | translate }}. <br><br>{{ "homePage.footer.text2" | translate
+                                }}.&nbsp;</p>
+                        </div>
+                        <div class="col item social"><a href="https://www.facebook.com/ZerakiApp/" target="_blank"><i
+                                    class="icon ion-social-facebook"></i></a><a href="https://twitter.com/zerakiapp"
+                                target="_blank"><i class="icon ion-social-twitter"></i></a><a href="#"><i
+                                    class="icon ion-social-youtube-outline"></i></a><a
+                                href="https://www.instagram.com/zerakiapp/" target="_blank"><i
+                                    class="icon ion-social-instagram-outline"></i></a></div>
+                    </div>
+                    <p class="copyright">© 2022. {{ "homePage.footer.copyright" | translate }}. Litemore Limited. {{
+                        "homePage.footer.text3" | translate }} <i class="fa fa-heart-o"></i>&nbsp;By Litemore.</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isMobileDevice || isTabletDevice">
+    <app-auth-mobile [hidden]="showSplash"></app-auth-mobile>
+</div>

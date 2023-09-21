@@ -1,0 +1,15 @@
+<div [ngClass]="{'form-group': label}">
+	<label *ngIf="label" class="control-label mb-1 text-capitalize">
+		{{ label }}
+		<span *ngIf="control?.hasValidator(requiredValidator)" class="text-danger">*</span>
+	</label>
+	<input
+		class="form-control"
+		[type]="type"
+		[formControl]="control!"
+		[placeholder]="placeholder"
+		[ngClass]="{ 'is-invalid': hasErrors }"
+		[min]="min" [max]="max">
+	<app-input-error-message [control]="control!" [labelText]="label">
+	</app-input-error-message>
+</div>

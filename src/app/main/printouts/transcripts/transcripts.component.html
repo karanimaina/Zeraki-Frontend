@@ -1,0 +1,1245 @@
+<!--  For KCSE and other schools-->
+<ng-container
+	*ngIf="
+		schoolTypeData &&
+		!schoolTypeData.isOLevelSchool &&
+		!(user_roles$ | async)?.isSchoolAdmin
+	">
+	<!-- PRINTOUTS TOP NAV FOR NON-ADMINS -->
+	<div class="navbar-light top-wrapper fixed-top bg-primary">
+		<ul class="nav nav-pill customtab2 nav-filled text-center">
+			<li class="nav-item">
+				<a class="nav-link active">
+					<span class="me-2">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="16"
+							height="16"
+							fill="currentColor"
+							class="bi bi-list-columns"
+							viewBox="0 0 16 16">
+							<path
+								fill-rule="evenodd"
+								d="M0 .5A.5.5 0 0 1 .5 0h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 0 .5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-13 2A.5.5 0 0 1 .5 2h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-13 2A.5.5 0 0 1 .5 4h10a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-13 2A.5.5 0 0 1 .5 6h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-13 2A.5.5 0 0 1 .5 8h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-13 2a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-13 2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-13 2a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z" />
+						</svg>
+					</span>
+					<span>{{ "printouts.topNav.transcripts" | translate }} </span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</ng-container>
+
+<section class="content mt-config">
+	<div class="row">
+		<div class="col-12">
+			<div
+				class="box"
+				[ngClass]="{ 'box-slided-up': paramsPresent == true }"
+				[hidden]="(user_roles$ | async)?.isStudent">
+				<div class="box-header with-border">
+					<h4 class="box-title">
+						{{ "printouts.transcripts.title" | translate }}
+					</h4>
+					<ul class="box-controls pull-right">
+						<li>
+							<a #hideParent class="box-btn-slide text-dark fs-16" href="#"></a>
+						</li>
+					</ul>
+				</div>
+				<div class="box-body">
+					<form
+						#trForm="ngForm"
+						class="form"
+						(ngSubmit)="trForm.form.valid && getStudentTranscripts()">
+						<div class="row">
+							<div class="col-md-6 form-group">
+								<label class="form-label">{{
+									schoolTypeData?.formoryear | formOrYear
+								}}</label>
+
+								<ng-select
+									[notFoundText]="'common.noItemsFound' | translate"
+									[items]="schoolTypeData?.current_forms_list ?? null"
+									[disabled]="
+										fetching_examsList_inprogress ||
+										fetching_examsData_inprogress
+									"
+									[selectOnTab]="true"
+									appendTo="body"
+									[dropdownPosition]="'bottom'"
+									required
+									name="tform"
+									[(ngModel)]="selected.intake"
+									(ngChange)="invalidateStreams()"
+									bindLabel="classlevel"
+									[placeholder]="
+										'printouts.transcripts.levelPlaceholder'
+											| translate
+												: { level: schoolTypeData?.formoryear | formOrYear }
+									">
+								</ng-select>
+							</div>
+							<div class="col-md-6 form-group">
+								<label class="form-label">{{
+									"printouts.transcripts.stream.label" | translate
+								}}</label>
+								<ng-select
+									[notFoundText]="'common.noItemsFound' | translate"
+									[items]="selected?.intake?.streams"
+									[disabled]="
+										fetching_examsList_inprogress ||
+										fetching_examsData_inprogress
+									"
+									[selectOnTab]="true"
+									appendTo="body"
+									[dropdownPosition]="'bottom'"
+									required
+									name="stream"
+									[(ngModel)]="selected.stream"
+									bindLabel="name"
+									[placeholder]="
+										'printouts.transcripts.stream.placeholder' | translate
+									">
+								</ng-select>
+							</div>
+							<div class="col-12 form-group mb-0 text-end">
+								<button
+									*ngIf="
+										selected?.intake?.intakeid > 0 &&
+										selected?.stream?.streamid > 0 &&
+										!fetching_examsData_inprogress
+									"
+									type="submit"
+									class="btn btn-sm btn-info waves-effect waves-light box-btn-slide-close">
+									{{ "printouts.transcripts.getTranscriptsBtn" | translate }}
+								</button>
+								<!-- Used to close box during navigation hence hidden must remain true -->
+								<button
+									#hideBox
+									[hidden]="true"
+									type="button"
+									class="btn btn-sm btn-info waves-effect waves-light box-btn-slide-close"></button>
+
+								<div *ngIf="fetching_examsData_inprogress">
+									<img src="assets/img/loading-bars.svg" alt="Loading-bars" />
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div *ngIf="!no_data && !finally.show" class="mt-40 text-center">
+				<h4 *ngIf="items.length == 1">
+					{{
+						"printouts.transcripts.generatingTranscript"
+							| translate : { count: items.length }
+					}}
+				</h4>
+				<h4 *ngIf="items.length > 1">
+					{{
+						"printouts.transcripts.generatingTranscripts"
+							| translate : { count: items.length }
+					}}
+				</h4>
+				<div>
+					<img
+						src="assets/img/loading-bars.svg"
+						height="70"
+						width="100"
+						alt="Loading-bars" />
+				</div>
+			</div>
+
+			<div *ngIf="no_data && itemsFound">
+				<div class="box">
+					<div class="box-body">
+						<h5>{{ "printouts.transcripts.noData" | translate }}</h5>
+					</div>
+				</div>
+			</div>
+
+			<!-- options -->
+			<div
+				*ngIf="finally.show && !no_data"
+				class="box box-widget animated bounceInUp">
+				<div class="box-header with-border">
+					<h4 class="box-title">
+						{{ "printouts.transcripts.options" | translate }}
+					</h4>
+					<ul class="box-controls pull-right">
+						<li><a class="box-btn-slide text-dark fs-16" href="#"></a></li>
+					</ul>
+				</div>
+				<div class="box-body">
+					<form class="form">
+						<div class="row">
+							<div class="col-md-9 mx-auto">
+								<div class="row">
+									<!-- marks/points -->
+									<div class="col-12">
+										<input
+											type="checkbox"
+											id="marks-points"
+											class="filled-in chk-col-info"
+											name="marks-points"
+											[checked]="tr_options.displayMarks"
+											[(ngModel)]="tr_options.displayMarks" />
+										<label for="marks-points">{{
+											"printouts.transcripts.showMarks" | translate
+										}}</label>
+									</div>
+									<!-- student rank -->
+									<div class="col-12">
+										<input
+											type="checkbox"
+											id="stud-rank"
+											class="filled-in chk-col-info"
+											name="stud-rank"
+											[checked]="tr_options.displayPosition"
+											[(ngModel)]="tr_options.displayPosition" />
+										<label for="stud-rank">{{
+											"printouts.transcripts.showRank" | translate
+										}}</label>
+									</div>
+									<!-- grade descriptors -->
+									<ui-kenyan-school [template]="gradeDescriptorsCheckbox"></ui-kenyan-school>
+									<ui-ghana-school [template]="gradeDescriptorsCheckbox"></ui-ghana-school>
+									<ui-zambia-school [template]="gradeDescriptorsCheckbox"></ui-zambia-school>
+
+									<ng-template #gradeDescriptorsCheckbox>
+										<div class="col-12">
+											<input
+												type="checkbox"
+												id="grade-desc"
+												class="filled-in chk-col-info"
+												name="grade-desc"
+												[checked]="tr_options.displayGradeDescription"
+												[(ngModel)]="tr_options.displayGradeDescription" />
+											<label for="grade-desc">{{
+												"printouts.transcripts.showGradeDesc" | translate
+											}}</label>
+										</div>
+									</ng-template>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<!-- DOWNLOAD BTN -->
+			<div
+				*ngIf="finally.show && !no_data && (user_roles$ | async)?.isSchoolAdmin"
+				class="d-flex justify-content-end animated bounceInUp mb-20">
+				<button
+					class="btn btn-dark btn-sm d-none d-md-inline-block"
+					type="button"
+					(click)="printPage2('printbody')"
+					[disabled]="isGeneratingPdfPrint">
+					<i *ngIf="isGeneratingPdfPrint" class="fa fa-spin fa-spinner"></i>
+					<i *ngIf="!isGeneratingPdfPrint">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="16"
+							height="16"
+							fill="currentColor"
+							class="bi bi-printer"
+							viewBox="0 0 16 16">
+							<path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+							<path
+								d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
+						</svg>
+					</i>
+					{{ "printouts.commonAttr.printBtn" | translate }}
+				</button>
+				<!-- <button
+					(click)="generatePdf()"
+					[disabled]="isGeneratingPdfDownload"
+					class="btn btn-sm btn-dark ms-5">
+					<i *ngIf="isGeneratingPdfDownload" class="fa fa-spin fa-spinner"></i>
+					<i *ngIf="!isGeneratingPdfDownload" class="fa fa-download"></i>
+					{{ "common.download" | translate }}
+				</button> -->
+			</div>
+
+			<div
+				*ngIf="finally.show && !no_data"
+				class="col-12 mt-20 px-30 animated bounceInUp">
+				<div *ngFor="let data of items" class="box break-after">
+					<div class="box-header without-border px-70">
+						<div class="row">
+							<div class="col-4">
+								<!-- <img src="../../../../assets/img/avatar/p_avatar_blue.png" class="rounded-circle" width="160" height="160" alt="Student image"> -->
+								<img
+									src="{{ data.image_path }}"
+									class="rounded"
+									height="122"
+									width="122"
+									alt="Student image" />
+							</div>
+							<div class="col-4 text-center">
+								<h4 class="fw-bold">{{ school_profile?.name }}</h4>
+								<h5 class="fw-bold">
+									{{ "printouts.transcripts.academicTranscript" | translate }}
+								</h5>
+							</div>
+							<div class="col-4 text-end">
+								<!-- <img src="../../../../assets/img/default-logo.png" height="100" width="100" alt="School logo"> -->
+								<img
+									[src]="school_logo_path"
+									height="122"
+									width="auto"
+									alt="School logo" />
+							</div>
+						</div>
+						<div style="padding: 16px 0px 0px 0px"></div>
+						<div class="row">
+							<div class="col-6 text-start">
+								<h6 class="fw-bold">
+									{{ "printouts.transcripts.name" | translate }}:
+									{{ data.name }}
+								</h6>
+								<h6 class="fw-bold">
+									{{ "printouts.transcripts.admNo" | translate }}:
+									{{ data.admno }}
+								</h6>
+								<h6 class="fw-bold">
+									{{ "printouts.transcripts.current" | translate }}
+									{{
+										schoolTypeData?.formoryear?.includes("Form")
+											? ("common.form" | translate)
+											: ("common.year" | translate)
+									}}: {{ data.currentClass }}
+								</h6>
+								<h6 *ngIf="data?.upi?.trim().length > 0" class="fw-bold">
+									{{ upiTranslation }}: {{ data.upi }}
+								</h6>
+								<h6 *ngIf="data?.kcpe_score > 0" class="fw-bold">
+									{{ "printouts.transcripts.kcpe" | translate }}:
+									{{ data.kcpe_score }}
+								</h6>
+							</div>
+							<div class="col-6 text-end">
+								<h6
+									*ngIf="school_profile?.address.trim().length > 0"
+									class="fw-bold">
+									{{ school_profile?.address }}
+								</h6>
+								<h6
+									*ngIf="school_profile?.phone.trim().length > 0"
+									class="fw-bold">
+									{{ school_profile?.phone }}
+								</h6>
+								<h6
+									*ngIf="school_profile?.email.trim().length > 0"
+									class="fw-bold">
+									{{ school_profile?.email }}
+								</h6>
+							</div>
+						</div>
+						<!-- <div style="padding: 0px 0px 16px 0px"></div> -->
+					</div>
+					<div class="box-body">
+						<div class="px-50">
+							<div class="table-responsive">
+								<table class="table table-sm table-bordered mb-0">
+									<thead style="line-height: 1.25">
+										<tr>
+											<th
+												scope="col"
+												rowspan="2"
+												style="width: 75%; border: 2px solid black !important">
+												{{ "printouts.transcripts.subject" | translate }}
+											</th>
+											<th
+												*ngFor="let f of data.forms"
+												[attr.colspan]="f.terms"
+												class="text-center"
+												style="border: 2px solid black !important">
+												{{ f.name }}
+											</th>
+										</tr>
+										<tr>
+											<th
+												*ngFor="let t of data.terms"
+												scope="col"
+												class="text-center"
+												style="border: 2px solid black !important">
+												{{ t.name }}
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											*ngFor="let s of data.subjects; index as i"
+											[ngClass]="{ 'striped-bg': i % 2 === 0 }"
+											class="even">
+											<th
+												scope="row"
+												style="border: 2px solid black !important">
+												{{ s.name }}
+											</th>
+											<td
+												*ngFor="let t of data.terms"
+												class="fw-bold"
+												style="border: 2px solid black !important">
+												<table class="table table-sm mb-0">
+													<tbody>
+														<tr style="border-color: transparent">
+															<!--                                                          <table  *ngIf="(tr_options.displayMarks && data.results[t.key]['subjectData'][s.name]?.marks != null && data.results[t.key]['subjectData'][s.name].marks > - 1) || (tr_options.displayMarks && data.results[t.key]['subjectData'][s.name]?.grade != undefined)">-->
+															<!--                                                            <tbody>-->
+															<!--                                                              <td *ngIf="tr_options.displayMarks && data.results[t.key]['subjectData'][s.name]?.marks != null && data.results[t.key]['subjectData'][s.name].marks > - 1">-->
+															<!--                                                                  <span class="text-start">-->
+															<!--                                                                      {{data.results[t.key]['subjectData'][s.name].marks}}%-->
+															<!--                                                                  </span>-->
+															<!--                                                              </td>-->
+															<!--                                                              <td *ngIf="tr_options.displayMarks && data.results[t.key]['subjectData'][s.name]?.grade != undefined">-->
+															<!--                                                                  <span class="text-start" style="padding-left: 5px;">-->
+															<!--                                                                      {{data.results[t.key]['subjectData'][s.name].grade}}-->
+															<!--                                                                  </span>-->
+															<!--                                                              </td>-->
+															<!--                                                            </tbody>-->
+															<!--                                                          </table>-->
+
+															<ng-container
+																class="row"
+																*ngIf="
+																	(tr_options.displayMarks &&
+																		data.results[t.key]?.['subjectData'][s.name]
+																			?.marks != null &&
+																		data.results[t.key]?.['subjectData'][s.name]
+																			.marks > -1) ||
+																	(tr_options.displayMarks &&
+																		data.results[t.key]?.['subjectData'][s.name]
+																			?.grade != undefined)
+																">
+																<ng-container
+																	class="col-6 text-start"
+																	*ngIf="
+																		tr_options.displayMarks &&
+																		data.results[t.key]?.['subjectData'][s.name]
+																			?.marks != null &&
+																		data.results[t.key]?.['subjectData'][s.name]
+																			.marks > -1
+																	">
+																	<td>
+																		<span>
+																			{{
+																				data.results[t.key]?.["subjectData"][
+																					s.name
+																				].marks
+																			}}%
+																		</span>
+																	</td>
+																</ng-container>
+																<ng-container
+																	class="col-4 text-start"
+																	*ngIf="
+																		tr_options.displayMarks &&
+																		data.results[t.key]?.['subjectData'][s.name]
+																			?.grade != undefined
+																	">
+																	<td>
+																		<span>
+																			{{
+																				data.results[t.key]?.["subjectData"][
+																					s.name
+																				].grade
+																			}}
+																		</span>
+																	</td>
+																</ng-container>
+															</ng-container>
+															<td
+																*ngIf="
+																	!tr_options.displayMarks &&
+																	data.results[t.key]?.['subjectData'][s.name]
+																		?.grade != undefined
+																">
+																<span class="pull-left text-start">
+																	{{
+																		data.results[t.key]?.["subjectData"][s.name]
+																			.grade
+																	}}
+																</span>
+															</td>
+															<td
+																*ngIf="
+																	data.results[t.key]?.['subjectData'][s.name]
+																		?.marks == undefined &&
+																	data.results[t.key]?.['subjectData'][s.name]
+																		?.grade == undefined
+																"
+																class="text-center">
+																<span>-</span>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+										</tr>
+										<tr class="fw-bold" *ngIf="tr_options.displayMarks">
+											<td style="border: 2px solid black !important">
+												{{ isSouthAfricanSchool ? ("printouts.transcripts.average" | translate) : ("printouts.transcripts.mean" | translate) }}
+											</td>
+											<td
+												class="nowrap"
+												*ngFor="let t of data.terms"
+												style="
+													border: 2px solid black !important;
+													white-space: nowrap;
+												">
+												<span>
+													<span *ngIf="data.results[t.key]?.avg !== undefined">
+														{{ data.results[t.key]?.avg | number : "1.2-2" }}%
+													</span>
+													<span *ngIf="data.results[t.key]?.avg === undefined"
+														>-</span
+													>
+												</span>
+											</td>
+										</tr>
+										<tr class="fw-bold" *ngIf="tr_options.displayMarks">
+											<td style="border: 2px solid black !important">
+												{{ "printouts.transcripts.total" | translate }}
+											</td>
+											<td
+												class="nowrap"
+												*ngFor="let t of data.terms"
+												style="
+													border: 2px solid black !important;
+													white-space: nowrap;
+												">
+												<span>
+													<span
+														*ngIf="
+															data.results[t.key]?.total_marks !== undefined
+														">
+														{{ data.results[t.key]?.total_marks }}
+														<span
+															*ngIf="
+																data.results[t.key]?.total_marks_outof !==
+																undefined
+															"
+															>{{
+																" / " + data.results[t.key]?.total_marks_outof
+															}}
+														</span>
+													</span>
+													<span
+														*ngIf="
+															data.results[t.key]?.total_marks === undefined
+														"
+														>-</span
+													>
+												</span>
+											</td>
+										</tr>
+										<tr class="fw-bold" *ngIf="tr_options.displayMarks">
+											<td style="border: 2px solid black !important">
+												{{ "printouts.transcripts.totalPoints" | translate }}
+											</td>
+											<td
+												class="nowrap"
+												*ngFor="let t of data.terms"
+												style="
+													border: 2px solid black !important;
+													white-space: nowrap;
+												">
+												<span>
+													<span
+														*ngIf="
+															data.results[t.key]?.total_points !== undefined
+														">
+														{{ data.results[t.key]?.total_points }}
+														<span
+															*ngIf="
+																data.results[t.key]?.total_points_outof !==
+																undefined
+															"
+															>{{
+																" / " + data.results[t.key]?.total_points_outof
+															}}</span
+														>
+													</span>
+													<span
+														*ngIf="
+															data.results[t.key]?.total_points === undefined
+														"
+														>-</span
+													>
+												</span>
+											</td>
+										</tr>
+										<tr class="fw-bold" *ngIf="tr_options.displayPosition">
+											<td style="border: 2px solid black !important">
+												{{ "printouts.transcripts.overallRank" | translate }}
+											</td>
+											<td
+												class="nowrap"
+												*ngFor="let t of data.terms"
+												style="
+													border: 2px solid black !important;
+													white-space: nowrap;
+												">
+												<span>
+													<span
+														*ngIf="data.results[t.key]?.classRank !== undefined">
+														{{ data.results[t.key]?.classRank }}
+														<span
+															*ngIf="
+																data.results[t.key]?.classRankTotal !== undefined
+															"
+															>{{
+																" / " + data.results[t.key]?.classRankTotal
+															}}</span
+														>
+													</span>
+													<span
+														*ngIf="data.results[t.key]?.classRank === undefined"
+														>-</span
+													>
+												</span>
+											</td>
+										</tr>
+										<tr class="fw-bold">
+											<td style="border: 2px solid black !important">
+												{{ "printouts.transcripts.overallGrade" | translate }}
+											</td>
+											<td
+												class="nowrap"
+												*ngFor="let t of data.terms"
+												style="
+													border: 2px solid black !important;
+													white-space: nowrap;
+												">
+												<span>
+													<span
+														*ngIf="data.results[t.key]?.meanGrade !== undefined">
+														{{ data.results[t.key]?.meanGrade }}
+													</span>
+													<span
+														*ngIf="data.results[t.key]?.meanGrade === undefined"
+														>-</span
+													>
+												</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div style="padding: 16px 0px 0px 0px"></div>
+
+						<ui-kenyan-school [template]="gradeDescriptorsKE"></ui-kenyan-school>
+						<ui-ghana-school [template]="gradeDescriptorsKE"></ui-ghana-school>
+
+						<ng-template #gradeDescriptorsKE>
+							<div
+								*ngIf="tr_options.displayGradeDescription"
+								class="row px-40 mx-auto text-bold">
+								<h4 class="col-12">
+									{{ "printouts.transcripts.grades.title" | translate }}
+								</h4>
+								<div class="col-2">
+									<div>{{ "printouts.transcripts.grades.a" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.a_" | translate }}</div>
+								</div>
+								<div class="col-2">
+									<div>{{ "printouts.transcripts.grades.b" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.b_" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.b__" | translate }}</div>
+								</div>
+								<div class="col-2">
+									<div>{{ "printouts.transcripts.grades.c" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.c_" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.c__" | translate }}</div>
+								</div>
+								<div class="col-2">
+									<div>{{ "printouts.transcripts.grades.d" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.d_" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.d__" | translate }}</div>
+								</div>
+								<div class="col-2">
+									<div>{{ "printouts.transcripts.grades.e" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.x" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.y" | translate }}</div>
+								</div>
+							</div>
+						</ng-template>
+
+						<ui-zambia-school [template]="gradeDescriptorsUI"></ui-zambia-school>
+
+						<ng-template #gradeDescriptorsUI>
+							<app-grade-descriptor
+								*ngIf="tr_options.displayGradeDescription"
+								[gradingSystems]="data.gradingSystem">
+							</app-grade-descriptor>
+						</ng-template>
+
+						<div style="padding: 32px 0px 0px 0px"></div>
+						<div *ngIf="!(user_roles$ | async)?.isStudent" class="px-50">
+							<div class="row text-bold mx-auto bb-dotted pb-30">
+								<div
+									*ngIf="!(user_roles$ | async)?.isStudent"
+									class="row text-bold mx-auto bb-dotted">
+									<div class="col-6">
+										<h5>
+											{{ "printouts.transcripts.hod" | translate }}
+										</h5>
+										<div *ngIf="school_profile?.dos?.signature" class="mt-10">
+											<!-- <img src="../../../../assets/img/OW.png" height="50" width="70" alt="Sig"> -->
+											<img
+												[src]="school_profile?.dos?.signature"
+												height="50"
+												width="70"
+												alt="Sig" />
+										</div>
+										<div *ngIf="school_profile?.dos?.name">
+											{{ school_profile?.dos?.name }}
+										</div>
+									</div>
+									<div class="col-6">
+										<h5>
+											{{ school_profile?.principal?.title }}
+										</h5>
+										<div
+											*ngIf="school_profile?.principal?.signature"
+											class="mt-10">
+											<!-- <img src="../../../../assets/img/OW.png" height="50" width="70" alt="Sig"> -->
+											<img
+												[src]="school_profile?.principal?.signature"
+												height="50"
+												width="70"
+												alt="Sig" />
+										</div>
+										<div *ngIf="school_profile?.principal?.name">
+											{{ school_profile?.principal?.name }}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="break-after: page"></div>
+				</div>
+			</div>
+
+			<!-- Print Body -->
+			<div
+				style="padding: 0 5px 0 5px; line-height: 1; align-items: center"
+				class="d-none"
+				id="printbody">
+				<div
+					*ngFor="let data of items"
+					class="box break-after"
+					style="font-size: 8px">
+					<div class="box-header without-border px-70">
+						<div class="row">
+							<div class="col-4">
+								<!-- <img src="../../../../assets/img/avatar/p_avatar_blue.png" class="rounded-circle" width="160" height="160" alt="Student image"> -->
+								<img
+									src="{{ data.image_path }}"
+									class="rounded"
+									height="122"
+									width="122"
+									alt="Student image" />
+							</div>
+							<div class="col-4 text-center">
+								<h4>{{ school_profile?.name }}</h4>
+								<h5>
+									{{ "printouts.transcripts.academicTranscript" | translate }}
+								</h5>
+							</div>
+							<div class="col-4 text-end">
+								<!-- <img src="../../../../assets/img/default-logo.png" height="100" width="100" alt="School logo"> -->
+								<img
+									[src]="school_logo_path"
+									height="122"
+									width="auto"
+									alt="School logo" />
+							</div>
+						</div>
+						<div style="padding: 5px 0px 0px 0px"></div>
+						<!-- <div class="row" style="font-size: 6px;line-height: 0.6;"> -->
+						<div class="row">
+							<!-- <div class="col-6 text-start" style="font-size: 6px;line-height: 0.6;"> -->
+							<div class="col-6 text-start">
+								<h6 class="fw-bold" style="font-size: 10pt">
+									{{ "printouts.transcripts.name" | translate }}:
+									{{ data.name }}
+								</h6>
+								<h6 class="fw-bold" style="font-size: 10pt">
+									{{ "printouts.transcripts.admNo" | translate }}:
+									{{ data.admno }}
+								</h6>
+								<h6 class="fw-bold" style="font-size: 10pt">
+									{{ "printouts.transcripts.current" | translate }}
+									{{
+										schoolTypeData?.formoryear?.includes("Form")
+											? ("common.form" | translate)
+											: ("common.year" | translate)
+									}}: {{ data.currentClass }}
+								</h6>
+								<h6
+									*ngIf="data?.upi?.trim().length > 0"
+									class="fw-bold"
+									style="font-size: 10pt">
+									{{ upiTranslation }}: {{ data.upi }}
+								</h6>
+								<h6
+									*ngIf="data?.kcpe_score > 0"
+									class="fw-bold"
+									style="font-size: 10pt">
+									{{ "printouts.transcripts.kcpe" | translate }}:
+									{{ data.kcpe_score }}
+								</h6>
+							</div>
+							<div class="col-6 text-end">
+								<h6
+									*ngIf="school_profile?.address.trim().length > 0"
+									class="fw-bold"
+									style="font-size: 10pt">
+									{{ school_profile?.address }}
+								</h6>
+								<h6
+									*ngIf="school_profile?.phone.trim().length > 0"
+									class="fw-bold"
+									style="font-size: 10pt">
+									{{ school_profile?.phone }}
+								</h6>
+								<h6
+									*ngIf="school_profile?.email.trim().length > 0"
+									class="fw-bold"
+									style="font-size: 10pt">
+									{{ school_profile?.email }}
+								</h6>
+							</div>
+						</div>
+						<div style="padding: 0px 0px 5px 0px"></div>
+					</div>
+					<div class="box-body">
+						<div class="px-50" style="padding: 0 5px 0 5px">
+							<div class="table-responsive">
+								<table class="table table-sm table-bordered mb-0">
+									<thead style="line-height: 1">
+										<tr style="font-size: 10pt">
+											<th
+												scope="col"
+												rowspan="2"
+												style="width: 75%; border: 2px solid black !important">
+												{{ "printouts.transcripts.subject" | translate }}
+											</th>
+											<th
+												*ngFor="let f of data.forms"
+												[attr.colspan]="f.terms"
+												class="text-center"
+												style="border: 2px solid black !important">
+												{{ f.name }}
+											</th>
+										</tr>
+										<tr style="font-size: 10pt">
+											<th
+												*ngFor="let t of data.terms"
+												scope="col"
+												class="text-center"
+												style="border: 2px solid black !important">
+												{{ t.name }}
+											</th>
+										</tr>
+									</thead>
+									<!-- <tbody style="vertical-align: middle;"> -->
+									<tbody>
+										<tr
+											*ngFor="let s of data.subjects; index as i"
+											[ngClass]="{ 'striped-bg': i % 2 === 0 }"
+											class="even fw-bold"
+											style="font-size: 10pt">
+											<th
+												scope="row"
+												style="border: 2px solid black !important">
+												{{ s.name }}
+											</th>
+											<td
+												*ngFor="let t of data.terms"
+												style="border: 2px solid black !important">
+												<table>
+													<tbody>
+														<tr
+															style="border-color: transparent; line-height: 1">
+															<td>
+																<table
+																	*ngIf="
+																		(tr_options.displayMarks &&
+																			data.results[t.key]?.['subjectData'][s.name]
+																				?.marks != null &&
+																			data.results[t.key]?.['subjectData'][s.name]
+																				.marks > -1) ||
+																		(tr_options.displayMarks &&
+																			data.results[t.key]?.['subjectData'][s.name]
+																				?.grade != undefined)
+																	">
+																	<tbody>
+																		<tr>
+																			<td
+																				*ngIf="
+																					tr_options.displayMarks &&
+																					data.results[t.key]['subjectData'][
+																						s.name
+																					]?.marks != null &&
+																					data.results[t.key]['subjectData'][
+																						s.name
+																					].marks > -1
+																				">
+																				<span class="text-start">
+																					{{
+																						data.results[t.key]["subjectData"][
+																							s.name
+																						].marks
+																					}}%
+																				</span>
+																			</td>
+																			<td
+																				*ngIf="
+																					tr_options.displayMarks &&
+																					data.results[t.key]['subjectData'][
+																						s.name
+																					]?.grade != undefined
+																				">
+																				<span
+																					class="text-start"
+																					style="padding-left: 5px">
+																					{{
+																						data.results[t.key]["subjectData"][
+																							s.name
+																						].grade
+																					}}
+																				</span>
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</td>
+
+															<!--                                                          <ng-container class="row" *ngIf="(tr_options.displayMarks && data.results[t.key]['subjectData'][s.name]?.marks != null && data.results[t.key]['subjectData'][s.name].marks > - 1) || (tr_options.displayMarks && data.results[t.key]['subjectData'][s.name]?.grade != undefined)">-->
+															<!--                                                            <ng-container class="col-6 text-start" *ngIf="tr_options.displayMarks && data.results[t.key]['subjectData'][s.name]?.marks != null && data.results[t.key]['subjectData'][s.name].marks > - 1">-->
+															<!--                                                              <td>-->
+															<!--                                                                  <span>-->
+															<!--                                                                      {{data.results[t.key]['subjectData'][s.name].marks}}%-->
+															<!--                                                                  </span>-->
+															<!--                                                              </td>-->
+															<!--                                                            </ng-container>-->
+															<!--                                                            <ng-container class="col-4 text-start" *ngIf="tr_options.displayMarks && data.results[t.key]['subjectData'][s.name]?.grade != undefined">-->
+															<!--                                                              <td>-->
+															<!--                                                                  <span>-->
+															<!--                                                                      {{data.results[t.key]['subjectData'][s.name].grade}}-->
+															<!--                                                                  </span>-->
+															<!--                                                              </td>-->
+															<!--                                                            </ng-container>-->
+															<!--                                                          </ng-container>-->
+
+															<!--                                                            <td *ngIf="tr_options.displayMarks && data.results[t.key]['subjectData'][s.name]?.marks != null && data.results[t.key]['subjectData'][s.name].marks > - 1">-->
+															<!--                                                                <span class="pull-left">-->
+															<!--                                                                    {{data.results[t.key]['subjectData'][s.name].marks}}%-->
+															<!--                                                                </span>-->
+															<!--                                                            </td>-->
+															<!--                                                            <td *ngIf="tr_options.displayMarks && data.results[t.key]['subjectData'][s.name]?.grade != undefined">-->
+															<!--                                                                <span class="pull-right text-start">-->
+															<!--                                                                    {{data.results[t.key]['subjectData'][s.name].grade}}-->
+															<!--                                                                </span>-->
+															<!--                                                            </td>-->
+															<td
+																*ngIf="
+																	!tr_options.displayMarks &&
+																	data.results[t.key]['subjectData'][s.name]
+																		?.grade != undefined
+																">
+																<span class="pull-left text-start">
+																	{{
+																		data.results[t.key]["subjectData"][s.name]
+																			.grade
+																	}}
+																</span>
+															</td>
+															<td
+																*ngIf="
+																	data.results[t.key]?.['subjectData'][s.name]
+																		?.marks == undefined &&
+																	data.results[t.key]?.['subjectData'][s.name]
+																		?.grade == undefined
+																"
+																class="text-center">
+																<span>-</span>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+										</tr>
+										<tr
+											class="fw-bold"
+											*ngIf="tr_options.displayMarks"
+											style="line-height: 1; font-size: 10pt">
+											<td style="border: 2px solid black !important">
+												{{ isSouthAfricanSchool ? ("printouts.transcripts.average" | translate) : ("printouts.transcripts.mean" | translate) }}
+											</td>
+											<td
+												class="nowrap"
+												*ngFor="let t of data.terms"
+												style="
+													border: 2px solid black !important;
+													white-space: nowrap;
+												">
+												<span>
+													<span *ngIf="data.results[t.key]?.avg !== undefined">
+														{{ data.results[t.key]?.avg | number : "1.2-2" }}%
+													</span>
+													<span *ngIf="data.results[t.key]?.avg === undefined"
+														>-</span
+													>
+												</span>
+											</td>
+										</tr>
+										<tr
+											class="fw-bold"
+											style="line-height: 1; font-size: 10pt"
+											*ngIf="tr_options.displayMarks">
+											<td style="border: 2px solid black !important">
+												{{ "printouts.transcripts.total" | translate }}
+											</td>
+											<td
+												class="nowrap"
+												*ngFor="let t of data.terms"
+												style="
+													border: 2px solid black !important;
+													white-space: nowrap;
+												">
+												<span>
+													<span
+														*ngIf="
+															data.results[t.key]?.total_marks !== undefined
+														">
+														{{ data.results[t.key]?.total_marks }}
+														<span
+															*ngIf="
+																data.results[t.key]?.total_marks_outof !==
+																undefined
+															"
+															>{{
+																" / " + data.results[t.key]?.total_marks_outof
+															}}
+														</span>
+													</span>
+													<span
+														*ngIf="
+															data.results[t.key]?.total_marks === undefined
+														"
+														>-</span
+													>
+												</span>
+											</td>
+										</tr>
+										<tr
+											class="fw-bold"
+											*ngIf="tr_options.displayMarks"
+											style="line-height: 1; font-size: 10pt">
+											<td style="border: 2px solid black !important">
+												{{ "printouts.transcripts.totalPoints" | translate }}
+											</td>
+											<td
+												class="nowrap"
+												*ngFor="let t of data.terms"
+												style="
+													border: 2px solid black !important;
+													white-space: nowrap;
+												">
+												<span>
+													<span
+														*ngIf="
+															data.results[t.key]?.total_points !== undefined
+														">
+														{{ data.results[t.key]?.total_points }}
+														<span
+															*ngIf="
+																data.results[t.key]?.total_points_outof !==
+																undefined
+															"
+															>{{
+																" / " + data.results[t.key]?.total_points_outof
+															}}</span
+														>
+													</span>
+													<span
+														*ngIf="
+															data.results[t.key]?.total_points === undefined
+														"
+														>-</span
+													>
+												</span>
+											</td>
+										</tr>
+										<tr
+											class="fw-bold"
+											*ngIf="tr_options.displayPosition"
+											style="line-height: 1; font-size: 10pt">
+											<td style="border: 2px solid black !important">
+												{{ "printouts.transcripts.overallRank" | translate }}
+											</td>
+											<td
+												class="nowrap"
+												*ngFor="let t of data.terms"
+												style="
+													border: 2px solid black !important;
+													white-space: nowrap;
+												">
+												<span>
+													<span
+														*ngIf="data.results[t.key]?.classRank !== undefined">
+														{{ data.results[t.key]?.classRank }}
+														<span
+															*ngIf="
+																data.results[t.key]?.classRankTotal !== undefined
+															"
+															>{{
+																" / " + data.results[t.key]?.classRankTotal
+															}}</span
+														>
+													</span>
+													<span
+														*ngIf="data.results[t.key]?.classRank === undefined"
+														>-</span
+													>
+												</span>
+											</td>
+										</tr>
+										<tr class="fw-bold" style="line-height: 1; font-size: 10pt">
+											<td style="border: 2px solid black !important">
+												{{ "printouts.transcripts.overallGrade" | translate }}
+											</td>
+											<td
+												class="nowrap"
+												*ngFor="let t of data.terms"
+												style="
+													border: 2px solid black !important;
+													white-space: nowrap;
+												">
+												<span>
+													<span
+														*ngIf="data.results[t.key]?.meanGrade !== undefined">
+														{{ data.results[t.key]?.meanGrade }}
+													</span>
+													<span
+														*ngIf="data.results[t.key]?.meanGrade === undefined"
+														>-</span
+													>
+												</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div style="padding: 16px 0px 0px 0px"></div>
+
+						<ui-kenyan-school [template]="gradeDescriptorsKE"></ui-kenyan-school>
+						<ui-ghana-school [template]="gradeDescriptorsKE"></ui-ghana-school>
+
+						<ng-template #gradeDescriptorsKE>
+							<div
+								*ngIf="tr_options.displayGradeDescription"
+								style="line-height: 1.5"
+								class="row px-40 mx-auto text-bold">
+								<h4 class="col-12" style="font-size: 10pt">
+									{{ "printouts.transcripts.grades.title" | translate }}
+								</h4>
+								<div class="col-2 fw-bold" style="font-size: 8pt">
+									<div>{{ "printouts.transcripts.grades.a" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.a_" | translate }}</div>
+								</div>
+								<div class="col-2 fw-bold" style="font-size: 8pt">
+									<div>{{ "printouts.transcripts.grades.b" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.b_" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.b__" | translate }}</div>
+								</div>
+								<div class="col-2 fw-bold" style="font-size: 8pt">
+									<div>{{ "printouts.transcripts.grades.c" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.c_" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.c__" | translate }}</div>
+								</div>
+								<div class="col-2 fw-bold" style="font-size: 8pt">
+									<div>{{ "printouts.transcripts.grades.d" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.d_" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.d__" | translate }}</div>
+								</div>
+								<div class="col-2 fw-bold" style="font-size: 8pt">
+									<div>{{ "printouts.transcripts.grades.e" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.x" | translate }}</div>
+									<div>{{ "printouts.transcripts.grades.y" | translate }}</div>
+								</div>
+							</div>
+						</ng-template>
+
+						<ui-zambia-school [template]="gradeDescriptorsUI"></ui-zambia-school>
+
+						<ng-template #gradeDescriptorsUI>
+							<app-grade-descriptor
+								*ngIf="tr_options.displayGradeDescription"
+								[gradingSystems]="data.gradingSystem"
+								[isPrintFormat]="true">
+							</app-grade-descriptor>
+						</ng-template>
+
+						<div style="padding: 32px 0px 0px 0px"></div>
+						<div *ngIf="!(user_roles$ | async)?.isStudent" class="px-50">
+							<div class="row text-bold mx-auto bb-dotted pb-30">
+								<div class="col-6">
+									<h5 style="font-size: 10pt">
+										{{ "printouts.transcripts.hod" | translate }}
+									</h5>
+									<div *ngIf="school_profile?.dos?.signature" class="mt-10">
+										<!-- <img src="../../../../assets/img/OW.png" height="50" width="70" alt="Sig"> -->
+										<img
+											[src]="school_profile?.dos?.signature"
+											height="50"
+											width="70"
+											alt="Sig" />
+									</div>
+									<div
+										*ngIf="school_profile?.dos?.name"
+										class="fw-bold"
+										style="font-size: 10pt">
+										{{ school_profile?.dos?.name }}
+									</div>
+								</div>
+								<div class="col-6">
+									<h5 style="font-size: 10pt">
+										{{ school_profile?.principal?.title }}
+									</h5>
+									<div
+										*ngIf="school_profile?.principal?.signature"
+										class="mt-10">
+										<!-- <img src="../../../../assets/img/OW.png" height="50" width="70" alt="Sig"> -->
+										<img
+											[src]="school_profile?.principal?.signature"
+											height="50"
+											width="70"
+											alt="Sig" />
+									</div>
+									<div
+										*ngIf="school_profile?.principal?.name"
+										class="fw-bold"
+										style="font-size: 10pt">
+										{{ school_profile?.principal?.name }}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="break-after: page"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

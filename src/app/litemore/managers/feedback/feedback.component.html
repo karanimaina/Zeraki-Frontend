@@ -1,0 +1,102 @@
+<!-- Content Header (Page header) -->
+<div class="content-header d-md-none">
+  <div class="d-flex align-items-center">
+    <div class="me-auto">
+      <h3 class="page-title">{{ 'litemore.feedback.title' | translate }}</h3>
+      <div class="d-inline-block align-items-center">
+        <nav>
+          <ol class="breadcrumb text-dark">
+            <li class="breadcrumb-item" aria-current="page">{{ 'litemore.feedback.title' | translate }}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main content -->
+<section class="content mt-config">
+  <div class="row">
+    <div *ngIf="feedBackListLoading; then showLoadingSection else showDataSection"></div>
+  </div>
+</section>
+
+<!-- loading section -->
+<ng-template #showLoadingSection>
+  <div class="row">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-body">
+          <app-loader-div [height]="50"></app-loader-div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="box">
+        <div class="box-body">
+          <app-loader-div [height]="250"></app-loader-div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- data section -->
+<ng-template #showDataSection>
+  <div class="col-12">
+    <div class="box">
+      <div class="box-header with-border d-none d-md-block">
+        <h4 class="box-title d-none d-md-inline-block">{{ 'litemore.feedback.title' | translate }}</h4>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="box">
+        <div *ngIf="dataSource.filteredData.length == 0" class="box-body text-center">
+          <h4>{{ 'litemore.feedback.emptyList' | translate }}</h4>
+        </div>
+
+        <div *ngIf="dataSource.filteredData.length > 0" class="box-body">
+          <div class="table-responsive">
+            <table class="table table-sm table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col" class="text-uppercase" style="min-width: 125px;">
+                    {{ 'common.date' | translate }}
+                  </th>
+                  <th scope="col" class="text-uppercase" style="min-width: 125px;">
+                    {{ 'common.name' | translate }}
+                  </th>
+                  <th scope="col" class="text-uppercase" style="min-width: 125px;">
+                    {{ 'common.phone' | translate }}
+                  </th>
+                  <th scope="col" class="text-uppercase" style="min-width: 275px;">
+                    {{ 'common.school' | translate }}
+                  </th>
+                  <th scope="col" class="text-uppercase">
+                    {{ 'litemore.feedback.title' | translate }}
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let feedbackItem of dataSource?.filteredData; first as isFirst; index as i">
+                  <th scope="row">{{ i+1 }}</th>
+                  <td>{{ feedbackItem.date }}</td>
+                  <td>{{ feedbackItem.name }}</td>
+                  <td>{{ feedbackItem.phone }}</td>
+                  <td>{{ feedbackItem.school }}</td>
+                  <td>{{ feedbackItem.text }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

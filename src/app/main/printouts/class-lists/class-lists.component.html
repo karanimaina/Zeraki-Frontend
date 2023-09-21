@@ -1,0 +1,110 @@
+<!--  For KCSE and other schools-->
+<ng-container *ngIf="schoolTypeData && !schoolTypeData.isOLevelSchool && !(userRoles$ | async)?.isSchoolAdmin">
+    <!-- PRINTOUTS TOP NAV FOR NON-ADMINS -->
+    <div class="navbar-light top-wrapper fixed-top bg-primary">
+        <ul class="nav nav-pill customtab2 nav-filled text-center">
+            <li class="nav-item">
+                <a class="nav-link active">
+                <span class="me-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-list-columns-reverse" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M0 .5A.5.5 0 0 1 .5 0h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 0 .5Zm4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10A.5.5 0 0 1 4 .5Zm-4 2A.5.5 0 0 1 .5 2h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 4h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 6h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 8h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5Z" />
+                    </svg>
+                </span>
+                <span>{{ 'printouts.topNav.class' | translate }} {{ 'printouts.topNav.lists' | translate }} </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</ng-container>
+
+<section class="content mt-config">
+    <div class="row">
+        <div class="col-12">
+            <!-- class list select options (intake, stream, subject) -->
+            <div *ngIf="(userRoles$ | async)?.isSchoolAdmin" class="box box-widget" [ngClass]="{'box-slided-up': has_params == true}">
+                <div class="box-header with-border">
+                    <h4 class="box-title">{{ 'printouts.classList.title' | translate }}</h4>
+                    <ul class="box-controls pull-right">
+                        <li><a class="box-btn-slide" href="#"></a></li>
+                    </ul>
+                </div>
+
+                <div class="box-body">
+                    <form #clForm="ngForm" class="form" (ngSubmit)="clForm.form.valid && updateParams()">
+                        <div class="row">
+                            <!-- intake -->
+                            <div class="col-md-4 form-group">
+                                <label class="form-label">{{schoolTypeData?.formoryear | formOrYear}}</label>
+                                <ng-select
+                                    [notFoundText]="'common.noItemsFound' | translate"
+                                    appendTo="body"
+                                    [dropdownPosition]="'bottom'"
+								    [disabled]="isRetrievingClassList"
+									[selectOnTab]="true"
+                                    [clearable]="false"
+                                    name="selected_intake"
+									[(ngModel)]="selected.intake"
+									[items]="allFormsList"
+									(ngModelChange)="onIntakeChanged(selected.intake?.intakeid)"
+                                    placeholder="{{ 'printouts.classList.clForm.class.placeholder' | translate: {formoryear: (schoolTypeData?.formoryear | formOrYear)} }}">
+                                </ng-select>
+                            </div>
+                            <!-- stream -->
+                            <div class="col-md-4 form-group">
+                                <label class="form-label">
+                                  {{ 'printouts.classList.clForm.stream.label' | translate }}
+                                </label>
+                                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                    placeholder="{{ 'printouts.classList.clForm.stream.placeholder' | translate }}"
+                                    [items]="selected?.intake?.streams" appendTo="body" [dropdownPosition]="'bottom'"
+                                    [selectOnTab]="true"
+                                    [disabled]="isRetrievingClassList"
+                                    name="selected_stream" [(ngModel)]="selected.stream" bindLabel="name"
+                                    (change)="onStreamChange(selected.stream?.streamid)">
+                                </ng-select>
+                            </div>
+                            <!-- subject -->
+                            <div class="col-md-4 form-group">
+                                <label class="form-label">{{ 'printouts.classList.clForm.subject.label' | translate
+                                    }}</label>
+                                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                                    placeholder="{{ 'printouts.classList.clForm.subject.placeholder' | translate }}"
+                                    [items]="subjects" appendTo="body" [dropdownPosition]="'bottom'"
+                                    [loading]="isLoadingSubjects"
+                                    [loadingText]="'common.loading' | translate"
+                                    [selectOnTab]="true"
+                                    [disabled]="isRetrievingClassList"
+                                    name="selected_subject" [(ngModel)]="selected.subject" bindLabel="name">
+                                </ng-select>
+                            </div>
+                            <!-- submit btn -->
+                            <div class="col-sm-12 form-group mb-0 text-end">
+                                <button type="submit"
+                                    *ngIf="(selected?.intake?.intakeid > 0 || selected?.stream?.streamid > 0) && !isRetrievingClassList"
+                                    class="btn btn-sm btn-info btn waves-effect waves-light box-btn-slide-close">
+                                    {{ 'printouts.classList.clForm.classListBtn' | translate }}
+                                </button>
+                                <div *ngIf="isRetrievingClassList">
+                                    <img src="assets/img/loading-bars.svg" alt="Loading-bars">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+			<app-class-list
+				[intakeId]="intakeId"
+				[streamId]="streamId"
+				[subjectId]="subjectId"
+				[seriesId]="seriesId"
+				[egroupId]="egroupId"
+				[classId]="classId"
+				(isFetchingClassList)="isFetchingClassList($event)">
+			</app-class-list>
+        </div>
+    </div>
+</section>

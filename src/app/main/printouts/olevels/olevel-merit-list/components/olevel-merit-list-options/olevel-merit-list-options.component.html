@@ -1,0 +1,39 @@
+<div class="box box-widget" *ngIf="schoolInfo$ | async as schoolInfo">
+	<div class="box-header with-border p-header">
+		<div class="user-block">
+			<h4 class="box-title">{{ 'printouts.oLevelRForm.options.title' | translate }}</h4>
+		</div>
+		<ul class="box-controls pull-right">
+			<li><a class="box-btn-slide" href="#"></a></li>
+		</ul>
+	</div>
+
+	<div class="box-body">
+		<form [formGroup]="meritListOptionsForm">
+			<div class="row">
+				<div class="col-md-9 mx-auto">
+					<div class="row">
+						<!-- Assessments -->
+						<div class="col-md-6">
+							<h6 class="text-bold text-muted">{{ 'printouts.oLevelRForm.options.assessments.title' | translate }}</h6>
+							<!-- Projects -->
+							<div class="col-12">
+								<app-checkbox
+									formControlName="showProjects"
+									[label]="'printouts.oLevelRForm.options.assessments.label4'  | translate">
+								</app-checkbox>
+							</div>
+							<!-- Exams -->
+							<div class="col-12">
+								<app-checkbox
+									formControlName="showExams"
+									[label]="'printouts.oLevelRForm.options.assessments.label1'  | translate">
+								</app-checkbox>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

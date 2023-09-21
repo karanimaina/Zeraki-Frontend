@@ -1,0 +1,87 @@
+<ng-container *ngIf="showSplash">
+    <app-splash></app-splash>
+</ng-container>
+<ng-container *ngIf="!showSplash">
+
+    <body class="hold-transition sidebar-mini theme-primary fixed" [ngClass]="isChecked ? 'dark-skin' : 'light-skin'">
+
+        <div class="wrapper">
+            <!-- <div id="loader"></div> -->
+            <app-top-nav [networkStatus]="networkStatus" [isJointAccount]="isJointAccount"></app-top-nav>
+
+            <div class="view-toggle">
+                <!-- Content Wrapper. Contains page content -->
+                <div class="content-wrapper">
+                    <div class="container-full">
+
+
+
+                        <div class="mt-topNav {{networkStatus? '': 'offline'}}" style="padding: 1.5rem;">
+                            <router-outlet></router-outlet>
+                        </div>
+
+                        <!-- Bottom Mobile Navbar -->
+                        <app-mobile-nav></app-mobile-nav>
+                    </div>
+                </div>
+
+                <!-- /.content-wrapper -->
+                <div class="d-none d-md-block">
+                    <footer class="main-footer fixed-bottom">
+                        <!-- <div class="pull-right d-none d-sm-inline-block">
+                  <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
+                <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)">FAQ</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">Purchase Now</a>
+                </li>
+              </ul>
+              </div> -->
+                        &copy; 2022 <a href="https://www.zeraki.co.ke/">Zeraki</a>. {{ 'common.allRightsReserved' |
+                        translate }}.
+                    </footer>
+                </div>
+            </div>
+
+
+
+        </div>
+        <!-- ./wrapper -->
+
+        <!-- ./side demo panel -->
+        <!-- <div class="sticky-toolbar bg-primary">
+      <a id="tel-popup" href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="Call" class="waves-effect waves-light btn btn-success btn-flat mb-5 btn-sm px-5">
+        <span class="icon-Call1"><span class="path1"></span><span class="path2"></span></span>
+      </a>
+      <a id="whatsapp-popup" href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="WhatsApp" class="waves-effect waves-light btn btn-success btn-flat mb-5 btn-sm">
+        <span class="fa fa-whatsapp"><span class="path1"></span><span class="path2"></span></span>
+      </a>
+      <a id="chat-popup" href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="Feedback" class="waves-effect waves-light btn btn-success btn-flat btn-sm px-5 pb-1">
+        <span class="icon-Chat2"><span class="path1"></span><span class="path2"></span></span>
+      </a>
+    </div> -->
+
+        <!-- <div class="sticky-toolbar">
+      <a href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="Buy Now" class="waves-effect waves-light btn btn-success btn-flat mb-5 btn-sm" target="_blank">
+        <span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+            <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+          </svg>
+        </span>
+      </a>
+        <a id="chat-popup" href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="WhatsApp" class="waves-effect waves-light btn btn-success btn-flat btn-sm">
+        <span class="fa fa-whatsapp"><span class="path1"></span><span class="path2"></span></span>
+      </a>
+      <a id="chat-popup" href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="WhatsApp" class="waves-effect waves-light btn btn-success btn-flat btn-sm">
+        <span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-plus" viewBox="0 0 16 16">
+            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855a.75.75 0 0 0-.124 1.329l4.995 3.178 1.531 2.406a.5.5 0 0 0 .844-.536L6.637 10.07l7.494-7.494-1.895 4.738a.5.5 0 1 0 .928.372l2.8-7Zm-2.54 1.183L5.93 9.363 1.591 6.602l11.833-4.733Z"/>
+            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5Z"/>
+          </svg>
+        </span>
+      </a>
+    </div> -->
+
+    </body>
+</ng-container>

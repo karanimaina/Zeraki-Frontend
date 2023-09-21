@@ -1,0 +1,50 @@
+<div *ngIf="data?.total > 0" class="row">
+    <div class="table-responsive col-12">
+      <table class="table table-bordered table-sm table-hover mb-0">
+        <thead>
+          <tr>
+              <th scope="col">#</th>
+              <th scope="col">{{ 'messages.inbox.from' | translate }}</th>
+              <th scope="col">{{ 'messages.inbox.type' | translate }}</th>
+              <th scope="col">{{ 'messages.inbox.subject' | translate }}</th>
+              <th scope="col">{{ 'messages.inbox.date' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let message of data?.messages; index as i" (click)="setCurrentMessage(message)"  [ngClass]="{'fw-bold && fs-6': (!(message.messageRead) || message.messageRead == false)}" style="cursor: pointer;">
+              <th scope="row">{{ i + data?.first }}</th>
+              <td>{{ message.from.name }}</td>
+              <td>
+                <span class="badge badge-info" [ngClass]="{'badge-success': message.category.categoryid == 1, 'badge-primary': message.category.categoryid == 2, 'badge-warning': message.category.categoryid == 3}">
+                  {{ message.category.name }}
+                </span>
+              </td>
+              <td>{{ message.title }}</td>
+              <td>{{ message.date }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-12 mt-10">
+      <ul class="pagination pagination-sm mb-0 pull-right">
+        <li class="page-item text-sm mt-1 me-2">{{data?.first + " - " + data?.last + " of " + data?.total}}</li>
+        <li class="page-item mx-1" [ngClass]="{'disabled': !data?.previous}">
+          <button (click)="previousPage()" style="border: 1px solid #b7c1d1;" class="btn btn-sm waves-effect waves-light" aria-label="Previous">
+            <i class="bi bi-arrow-left-short"></i>
+          </button>
+        </li>
+        <!-- <li class="page-item">
+          <button type="button" class="btn btn-sm disabled">{{page + 1}}</button>
+        </li> -->
+        <li class="page-item mx-1" [ngClass]="{'disabled': !data?.next}">
+          <button (click)="nextPage()" style="border: 1px solid #b7c1d1;" class="btn btn-sm  waves-effect waves-light" aria-label="Next">
+            <i class="bi bi-arrow-right-short"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+  <div *ngIf="data?.total == 0">
+    <h4>{{ 'messages.inbox.noMessages' | translate }}</h4>
+  </div>

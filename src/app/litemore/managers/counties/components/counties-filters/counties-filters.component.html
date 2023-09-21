@@ -1,0 +1,31 @@
+<app-submit-form [formGroup]="filterForm" (onSubmit)="onFilterFormSubmit()">
+	<section>
+		<div class="row">
+			<!-- region -->
+			<div class="form-group col-12">
+				<label class="form-label">{{
+					"litemore.managers.counties.components.countiesFilter.region"
+						| translate
+				}}</label>
+				<ng-select
+					[items]="regions"
+					placeholder="{{
+						'litemore.managers.counties.components.countiesFilter.selectRegion'
+							| translate
+					}}"
+					formControlName="selectedRegion"
+					bindLabel="name"
+					bindValue="regionId"
+					[loading]="(getRegionsStatus$ | async) === APIStatus.LOADING"
+					(change)="onRegionChange($event)">
+				</ng-select>
+				<app-field-errors
+					[control]="selectedRegion!"
+					[label]="
+						'litemore.managers.counties.components.countiesFilter.region'
+							| translate
+					"></app-field-errors>
+			</div>
+		</div>
+	</section>
+</app-submit-form>

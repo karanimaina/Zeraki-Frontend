@@ -1,0 +1,21 @@
+<div class="mt-5">
+    <div style="display: flex; justify-content: space-between !important;">
+        <div class="text-start">
+            <h3 class="fw-bold">{{school_profile?.name}}</h3>
+            <div *ngIf="school_profile?.address.length > 0" class="fw-bold">
+                {{school_profile?.address}}</div>
+            <div *ngIf="school_profile?.phone.length > 0" class="fw-bold">
+                {{school_profile?.phone}}</div>
+            <div *ngIf="school_profile?.email.length > 0" class="fw-bold"
+                style="padding-bottom: 5px">{{school_profile?.email}}</div>
+        </div>
+        <div>
+            <img [src]="school_profile?.logo" height="100" width="100"
+                alt="School image" (error)="school_profile.logo = '../../../../assets/img/default-logo.png'"
+                style="display: block;margin: auto;background-color: #F1F3F6;">
+            <!-- <img src="../../../../../assets/img/default-logo.png" height="100"
+                width="100" alt="School logo"> -->
+        </div>
+    </div>
+    <p style="border-bottom: 2px solid #62cb31;"></p>
+</div>

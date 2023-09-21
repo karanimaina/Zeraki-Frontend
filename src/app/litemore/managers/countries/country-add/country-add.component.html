@@ -1,0 +1,9 @@
+<app-country-stepper
+	[completedStep1]="countrySaved"
+	[completedStep2]="companyDetailsSaved"
+	[countryDivisions$]="countryDivisions$"
+	[getCountryDivisionsStatus$]="getCountryDivisionsStatus$"
+	(addCountryEvt)="onAddCountrySubmit($event)"
+	(addCompanyDetailsEvt)="onAddCompanyDetailsSubmit($event)"
+	[isAddingCountry]="isAddingCountry"
+	(paymentDetailsEvt)="onAddPaymentDetails($event)"></app-country-stepper>

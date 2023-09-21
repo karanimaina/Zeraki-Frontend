@@ -1,0 +1,5081 @@
+{
+  "currency": {
+    "code": "ክሽ",
+    "name": "የኬኒያ ሺሊንግ"
+  },
+  "homePage": {
+    "header": "ከደረጃዎች በላይ",
+    "subHeader": "Zeraki Analytics ውሳኔዎችን ለማድረግ የሚያስፈልግዎትን ግንዛቤ ይሰጥዎታል",
+    "subHeader2": "ስለ ልጅዎ፣ ክፍልዎ ወይም ትምህርት ቤትዎ።",
+    "topNav": {
+      "features": "ዋና መለያ ጸባያት",
+      "testimonial": "ምስክርነት",
+      "about": "ስለ",
+      "contact": "ተገናኝ"
+    },
+    "login": {
+      "button": "ግባ",
+      "username": "የተጠቃሚ ስም",
+      "usernamePlaceholder": "መግቢያ ቁጥር@schoolcode",
+      "continueBtn": "ቀጥል",
+      "forgotUser": "የተጠቃሚ ስም ረሳው",
+      "forgotPass": "መክፈቻ ቁልፉን ረሳኽው",
+      "verifyingBtn": "ማረጋገጥ",
+      "invalidUsername": "ትምህርት ቤትዎ የዜራኪ ትንታኔ የማይጠቀም ከሆነ፣ እባክዎን በ +254798 666 000 ወይም info@zeraki.co.ke ላይ ያግኙን እና በቅርቡ እንመለሳለን። ቀድሞውንም መለያ ካለህ ለመግባት መምረጥ ትችላለህ።",
+      "password": "ፕስወርድ",
+      "continue": "ቀጥል",
+      "signing_in": "በመግባት ላይ",
+      "change_user": "ተጠቃሚ ቀይር",
+      "remember_password": "የይለፍ ቃል አስታውስ",
+      "usernameSent": "{{message}}",
+      "initErrors": {
+        "activtion_message": "መለያዎን ለማግበር ኢሜልዎን ያረጋግጡ",
+        "connectionerror_message": "እባክዎ የበይነመረብ ግንኙነትዎን ያረጋግጡ"
+      },
+      "errors": {
+        "below": "በታች",
+        "invalidUsername": {
+          "label": "የተሳሳተ የተጠቃሚ ስም",
+          "text": "በዚያ የተጠቃሚ ስም መለያ ማግኘት አልቻልንም። እባክዎን ለእርዳታ የክፍል መምህሩን/የትምህርት ዲንን ያግኙ ወይም ጠቅ ያድርጉ"
+        }
+      },
+      "login_options": {
+        "invalidUsername": "{{invalidUsername}}"
+      },
+      "check_email_response": {
+        "title": "{{title}}",
+        "message": "{{message}}"
+      },
+      "auth_options": {
+        "login_error_data": {
+          "message": "{{message}}",
+          "authFailed": "ማረጋገጥ አልተሳካም",
+          "content1": "የይለፍ ቃልህ የተሳሳተ ነው። የይለፍ ቃልህን ከረሳህ ጠቅ አድርግ",
+          "strong": " መክፈቻ ቁልፉን ረሳኽው",
+          "below": " በታች"
+        },
+        "login_error_msg": "እባክዎ ምስክርነቶችዎን ያረጋግጡ እና እንደገና ይሞክሩ"
+      },
+      "check_em_response": {
+        "email": "{{email}}",
+        "school_name": "{{school_name}}"
+      },
+      "forgot_username": {
+        "find_username": {
+          "label": "የተጠቃሚ ስም አግኝ",
+          "content": "የተጠቃሚ ስምህን ለማግኘት ስልክ ቁጥርህን ተጠቀም"
+        },
+        "error": {
+          "label": "ስህተት",
+          "content": "{{message}}",
+          "phoneNumberNotFound": "ከ {{ phoneNumber }} ጋር የተገናኙ የዜራኪ መለያዎች የሉም"
+        },
+        "phone": {
+          "label": "የእርስዎ ስልክ ቁጥር",
+          "placeholder": "0700000000"
+        },
+        "submit": {
+          "continue": "ቀጥል",
+          "sending": "በመላክ ላይ"
+        },
+        "back": "ተጠቃሚ ቀይር",
+        "usernameSent": "የተጠቃሚ ስም ወደ ስልክ ተልኳል።"
+      },
+      "forgot_password": {
+        "reset_password": {
+          "enterPhone": "Enter phone number",
+          "title": "{{title}}",
+          "label": "{{label}}",
+          "content": "{{message}}"
+        },
+        "error_reset_msg": {
+          "title": "{{title}}",
+          "message1": "{{message1}}",
+          "message2": "{{message2}}"
+        },
+        "input": {
+          "label": "{{phoneLabel}}",
+          "label2": "በ {{ digits }} የሚያልቅ ስልክ ቁጥርዎን ያስገቡ",
+          "labelDefault": "ስልክ ቁጥር",
+          "placeholder": "{{phone_placeholder}}",
+          "placeholderDefault": "0700000000",
+          "title": "እባክዎን ስልክ ቁጥርዎን ያስገቡ"
+        },
+        "submit_error": {
+          "connectionerror_msg": "{{connectionerror_msg}}"
+        },
+        "button": {
+          "connectionerror_msg": "{{connectionerror_msg}}",
+          "continue": "ቀጥል",
+          "back": "ተጠቃሚ ቀይር"
+        }
+      },
+      "reset_unsuccessful": {
+        "check_phone_response": {
+          "title": "{{title}}",
+          "message1": "{{message1}}",
+          "message2": "{{message2}}"
+        },
+        "reset_input": {
+          "label": "ኮድ ዳግም አስጀምር",
+          "title": "እባክዎ የእርስዎን ዳግም ማስጀመሪያ ኮድ ያስገቡ",
+          "placeholder": "******"
+        },
+        "new_password": {
+          "label": "አዲስ የይለፍ ቃል",
+          "title": "እባክዎ አዲሱን የይለፍ ቃል ያስገቡ",
+          "placeholder": "*******"
+        },
+        "retype_password": {
+          "label": "አዲስ የይለፍ ቃል እንደገና ይተይቡ",
+          "title": "እባክዎ አዲሱን የይለፍ ቃል ያረጋግጡ",
+          "placeholder": "*******"
+        },
+        "connectionerror_msg": "{{connectionerror_msg}}",
+        "buttons": {
+          "continue": "ቀጥል",
+          "back": "ወደ መግቢያ ተመለስ"
+        }
+      },
+      "reset_password": "የይለፍ ቃል ዳግም አስጀምር",
+      "reset_successful": "{{reset_pass_message}}",
+      "reset_pass_message": "ዳግም ማስጀመር ተሳክቷል። በማዞር ላይ..."
+    },
+    "register": {
+      "button": "ይመዝገቡ",
+      "info1": "ትምህርት ቤትዎ የዜራኪ ትንታኔ የማይጠቀም ከሆነ፣ እባክዎን በ ላይ ያግኙን።",
+      "number": "+254798 666 000",
+      "info3": "ወይም",
+      "info5": "እና በቅርቡ ወደ እርስዎ እንመለሳለን. እንዲሁም መርጠው መሄድ ይችላሉ።",
+      "info6": "ግባ",
+      "info7": "አስቀድመው መለያ ካለዎት",
+      "toastMessages": {
+        "passwordChangeSuccess": "የይለፍ ቃልህ በተሳካ ሁኔታ ተለውጧል"
+      }
+    },
+    "inaccessible": {
+      "title": "{{msg_title}}",
+      "body": "{{msg_body}}"
+    },
+    "features": {
+      "heading": "ለምን መምረጥ አለብህ?",
+      "content1": "በጉዞ ላይ ጥቅም ላይ ሊውል የሚችል ፈጣን እና በቀላሉ ተደራሽ የሆነ ስርዓት",
+      "content2": "በትክክል ምን እንደሚፈልጉ የሚያውቅ ሊታወቅ የሚችል ትንታኔ",
+      "content3": "ለማዋቀር ቀላል እና ቀድሞ የነበረ የቴክኖሎጂ እውቀት አያስፈልግም",
+      "content4": "ለመምህራን እና አስተዳደር በቦታው ላይ ስልጠና",
+      "content5": "ወደ ባለሙያ የደንበኛ ድጋፍ ቡድን ሰዓቱን መድረስ",
+      "content6": "የውሂብ መጥፋትን በሚያረጋግጥ በደመና አገልጋዮች ላይ ተስተናግዷል"
+    },
+    "testimonial": {
+      "header": "ምስክርነቶች",
+      "sub_header": "ደንበኞቻችን ይወዱናል! ከዚህ በታች የሚሉትን ያንብቡ",
+      "content1": "ወደ ዘራኪ ከቀየርንባቸው ዋና ዋና ምክንያቶች አንዱ አጠቃቀሙን እንዴት ቀላል እንደሆነ እና እርስዎ ከተደናቀፉ እንኳን የደንበኛ እንክብካቤ ቡድናቸው በደቂቃዎች ውስጥ ወደ ትክክለኛው መንገድ ይመልስዎታል።",
+      "content2": "የዘራኪ ትንታኔ ለነገው ክፍል በጣም ምቹ ነው። ለሁለቱም የፈተና ትንታኔዎች በአስተማሪው እጅ ውስጥ ፍጹም ዋጋ ያለው መሳሪያ ነው",
+      "content2_1": " የተማሪ አስተዳደር",
+      "content3": "ዘራኪ ብዙ ጊዜ እንድቆጥብ ረድቶኛል - ፈተናዎቼን ለመተንተን ፣ ለወላጆች ጽሑፍ መላክ እና ሁሉንም ምልክቶች ከአንድ መድረክ ላይ አስገባለሁ ፣ ለምርጥዎ ዘራኪ አመሰግናለሁ"
+    },
+    "satisfied_schools": {
+      "header": "እርካታ ያላቸው ትምህርት ቤቶች"
+    },
+    "about": {
+      "header": "ማን ነን",
+      "content": "ዘራኪ ቴክኖሎጂን በመጠቀም በአፍሪካ ጥራት ያለው ትምህርት ለመስጠት ያጋጠሙትን ከባድ ፈተናዎች ለመፍታት ነው። የእኛ በጣም ጥሩ መፍትሄዎች፣ በመረጃ ላይ የተመሰረተ ውሳኔ መስጠትን የሚያነቃቁ ግንዛቤዎችን ያቅርቡ፣ ጥራት ያለው መመሪያ የማግኘት እድል ይሰጣሉ እና ጭንቀቱን ከዕለት ተዕለት አስተዳደራዊ ተግባራት ያስወግዳል። በየደረጃው እና በየቦታው የመምህራንን እና የተማሪዎችን ህይወት ለማሻሻል እንጥራለን። የኛ ዋና ምርት ዘርኪ ትንታኔ ትምህርታዊ መረጃዎች የሚሰበሰቡበት፣ የሚተነተኑበት እና ጥቅም ላይ የሚውሉበትን መንገድ እየለወጠ ነው።"
+    },
+    "faq": {
+      "header": "የሚጠየቁ ጥያቄዎች",
+      "admin": {
+        "title": "እኔ አስተዳዳሪ ነኝ",
+        "faqTitle": "የበለጠ አስደሳች ጥያቄዎችን እንዴት እጠይቃለሁ?",
+        "faqBody": "ይህ የፓነሉ ዋና ይዘት ነው።"
+      },
+      "parent": {
+        "title": "እኔ ወላጅ ነኝ"
+      },
+      "new": {
+        "title": "አዲስ ነኝ"
+      },
+      "teacher": {
+        "title": "እኔ መምህር ነኝ"
+      }
+    },
+    "contact": {
+      "header": "ተገናኝ",
+      "contact_us": "አግኙን",
+      "input_name": {
+        "label": "ስም",
+        "error": "እባክህ ስምህን አቅርብ"
+      },
+      "input_email": {
+        "label": "ኢሜይል",
+        "placeholder": "example@gmail.com",
+        "error": "እባክዎ ኢሜልዎን ያቅርቡ"
+      },
+      "input_mobile": {
+        "label": "ሞባይል",
+        "placeholder": "07#######",
+        "error": "እባክዎ ቁጥርዎን ያቅርቡ"
+      },
+      "input_message": {
+        "label": "መልእክት",
+        "placeholder": "መልእክትህ እዚህ...",
+        "error": "እባክህ መልእክት አስገባ"
+      },
+      "button": {
+        "text": "መልዕክት ላክ"
+      },
+      "toastMessages": {
+        "success": "መልእክትህ በተሳካ ሁኔታ ተልኳል።",
+        "error": "መልእክት በመላክ ላይ ስህተት አጋጥሟል"
+      }
+    },
+    "footer": {
+      "products": "ምርቶች",
+      "about": "ስለ ዘራኪ",
+      "text": "ዘራኪ ቴክኖሎጂን በመጠቀም በአፍሪካ ጥራት ያለው ትምህርት ለመስጠት ያጋጠሙትን ከባድ ፈተናዎች ለመፍታት ነው።",
+      "text2": "የእኛ በጣም ጥሩ መፍትሄዎች ፣ በመረጃ ላይ የተመሠረተ ውሳኔ መስጠትን የሚያነቃቁ ግንዛቤዎችን ያቅርቡ ፣ ጥራት ያለው ትምህርት ማግኘት እና ጭንቀትን ከዕለት ተዕለት አስተዳደራዊ ተግባራት ያስወግዳል",
+      "copyright": "መብቱ በህግ የተጠበቀ ነው",
+      "text3": "ጋር የተሰራ"
+    },
+    "app_info": {
+      "label": "እባክዎ ከታች አንድ አማራጭ ይምረጡ",
+      "teacher": "መምህር ነኝ",
+      "t_content": "የትምህርት ቤቴን መረጃ ማግኘት እፈልጋለሁ",
+      "parent": "ወላጅ ነኝ",
+      "p_content": "የልጄን መረጃ ማግኘት እፈልጋለሁ",
+      "next": "ቀጣይ",
+      "continue": "ቀጥል"
+    }
+  },
+  "behaviour": {
+    "topNav": {
+      "textClassBehaviour": "ክፍል ባህሪ",
+      "textClass": "ክፍል",
+      "textBehaviour": "ባህሪ",
+      "textResidenceBehaviour": "የመኖሪያ ባህሪ",
+      "textResidence": "መኖሪያ",
+      "textNewRecord": "አዲስ መዝገብ",
+      "textNew": "አዲስ",
+      "textRecord": "መዝገብ",
+      "textInfractionsApproval": "ጥሰቶች ማጽደቅ",
+      "textInfractions": "ጥሰቶች",
+      "textApproval": "ማጽደቅ",
+      "textManageBehaviour": "ባህሪን ያስተዳድሩ",
+      "textManage": "አስተዳድር"
+    },
+    "classBehaviour": {
+      "textAcademicYear": "የትምህርት ዘመን",
+      "textTerm": "ጊዜ",
+      "textMeanPoints": "አማካይ ነጥቦች",
+      "textStudents": "ተማሪዎች",
+      "textRecentRecords": "የቅርብ ጊዜ መዝገቦች",
+      "textStudentPoints": "የተማሪ ነጥቦች",
+      "textAwards": "ሽልማቶች",
+      "textAward": "ሽልማት",
+      "textOf": "የ",
+      "textNoRecordsFound": "ምንም መዝገቦች አልተገኙም።",
+      "textAdmno": "የመግቢያ ቁጥር",
+      "textName": "ስም",
+      "textDetails": "ዝርዝሮች",
+      "textType": "ዓይነት",
+      "textPoints": "ነጥቦች",
+      "textClass": "ክፍል",
+      "textResidence": "መኖሪያ",
+      "textAddedOn": "ታክሏል።",
+      "textAddedBy": "የተጨመረው በ",
+      "textComment": "አስተያየት",
+      "btnTextView": "ይመልከቱ",
+      "textNoPointsFound": "ምንም ነጥቦች አልተገኙም።",
+      "textGender": "ጾታ",
+      "textStatus": "ሁኔታ",
+      "textNoAwardsFound": "ምንም ሽልማቶች አልተገኙም።",
+      "textNoDataFound": "ምንም ውሂብ አልተገኘም።",
+      "toastMessages": {
+        "loadBehaviourTimeline": {
+          "error": "ስህተት ተፈጥሯል"
+        },
+        "loadStatisctics": {
+          "error": "ስህተት ተፈጥሯል"
+        },
+        "loadClassRecent": {
+          "error": "ስህተት ተፈጥሯል"
+        },
+        "loadClassStudentPoints": {
+          "error": "ስህተት ተፈጥሯል"
+        },
+        "loadAwards": {
+          "error": "ስህተት ተፈጥሯል"
+        }
+      }
+    },
+    "infractionsApproval": {
+      "textMyClassPendingApproval": "የእኔ ክፍል በመጠባበቅ ላይ ያሉ ማፅደቆች",
+      "textMyPendingApproval": "የእኔ ክፍል በመጠባበቅ ላይ ያሉ ማፅደቆች",
+      "textAllPendingApproval": "ሁሉም በመጠባበቅ ላይ ያሉ ማጽደቆች",
+      "textOf": "የ",
+      "textNoRecordsFound": "ምንም መዝገቦች አልተገኙም።",
+      "textAdmno": "የመግቢያ ቁጥር",
+      "textName": "ስም",
+      "textDetails": "ዝርዝሮች",
+      "textPoints": "ነጥቦች",
+      "textClass": "ክፍል",
+      "textResidence": "መኖሪያ",
+      "textAddedOn": "ታክሏል።",
+      "textAddedBy": "የተጨመረው በ",
+      "textComment": "አስተያየት",
+      "btnTextApprove": "አጽድቅ",
+      "btnTextView": "ይመልከቱ",
+      "toastMessages": {
+        "saveSuccess": "የጥሰት መዝገብ በተሳካ ሁኔታ ተቀምጧል"
+      },
+      "swal": {
+        "titleApprove": "ጥሰት መዝገብ አጽድቅ",
+        "titleReject": "ጥሰት መዝገብን ውድቅ ያድርጉ",
+  			"textApprove": "እርግጠኛ ነዎት የተገለጸውን የመብት ጥሰት መዝገብ ማጽደቅ ይፈልጋሉ?",
+  			"textReject": "እርግጠኛ ነህ የተገለጸውን የመብት ጥሰት መዝገብ አለመቀበል ትፈልጋለህ?"
+      }
+    },
+    "intakeBehavoiur": {
+      "textTerm": "ጊዜ",
+      "textAcademicYear": "የትምህርት ዘመን",
+      "textMeanPoints": "አማካይ ነጥቦች",
+      "textStudents": "ተማሪዎች",
+      "textRecentRecords": "የቅርብ ጊዜ መዝገቦች",
+      "textStudentPoints": "የተማሪ ነጥቦች",
+      "textAwards": "ሽልማቶች",
+      "textOf": "የ",
+      "textNoRecordsFound": "ምንም መዝገቦች አልተገኙም።",
+      "textAdmno": "የመግቢያ ቁጥር",
+      "textName": "ስም",
+      "textDetails": "ዝርዝሮች",
+      "textType": "ዓይነት",
+      "textPoints": "ነጥቦች",
+      "textClass": "ክፍል",
+      "textResidence": "መኖሪያ",
+      "textAddedOn": "ታክሏል።",
+      "textAddedBy": "የተጨመረው በ",
+      "textComment": "አስተያየት",
+      "btnTextView": "ይመልከቱ",
+      "textNoPointsFound": "ምንም ነጥቦች አልተገኙም።",
+      "textGender": "ጾታ",
+      "textStatus": "ሁኔታ",
+      "textNoDataFound": "ምንም ውሂብ አልተገኘም።",
+      "toastMessages": {
+        "loadBehaviourTimeline": {
+          "error": "ስህተት ተፈጥሯል"
+        },
+        "loadStatisctics": {
+          "error": "ስህተት ተፈጥሯል"
+        },
+        "loadClassRecent": {
+          "error": "ስህተት ተፈጥሯል"
+        },
+        "loadClassStudentPoints": {
+          "error": "ስህተት ተፈጥሯል"
+        },
+        "loadAwards": {
+          "error": "ስህተት ተፈጥሯል"
+        }
+      }
+    },
+    "manageBehaviour": {
+      "textBehaviourType": "የባህሪ አይነት",
+      "textInfractions": "ጥሰቶች",
+      "textMerits": "ክብር",
+      "textLeadershipPositions": "የአመራር ቦታዎች",
+      "textClaireValues": "CLAIRE እሴቶች",
+      "btnTextAdd": "አክል",
+      "inputPlaceHolderLevel": "ደረጃ",
+      "textFieldRequired": "ይሄ ቦታ ይፈለጋል",
+      "textDescription": "መግለጫ",
+      "textPoints": "ነጥቦች",
+      "btnTextClose": "ገጠመ",
+      "textInfractionLevelsNotFound": "ምንም የመተላለፊያ ደረጃዎች አልተገኙም።",
+      "textLevel": "ደረጃ",
+      "textTitle": "ርዕስ",
+      "textUpdatedOn": "የዘመነ በርቷል።",
+      "textUpdatedBy": "የዘመነው በ",
+      "textAction": "ድርጊት",
+      "btnTextViewInfractions": "ጥሰቶችን ይመልከቱ",
+      "btnTextEdit": "አርትዕ",
+      "btnTextSave": "አስቀምጥ",
+      "textInfractionLevel": "ጥሰት ደረጃ",
+      "btnTextBack": "ተመለስ",
+      "btnTextAddInfraction": "ጥሰትን ይጨምሩ",
+      "textInfractionRequired": "ጥሰት ያስፈልጋል",
+      "textInfractionActionRequired": "ጥሰት እርምጃ ያስፈልጋል",
+      "textNoInfractionsFound": "ምንም ጥሰቶች አልተገኙም።",
+      "btnTextDelete": "ሰርዝ",
+      "btnTextCancel": "ሰርዝ",
+      "textDescriptionRequired": "መግለጫ ያስፈልጋል",
+      "textPointsRequired": "ነጥቦች ያስፈልጋሉ።",
+      "textFrequency": "ድግግሞሽ",
+      "textSelectFrequency": "ድግግሞሽ ይምረጡ",
+      "textFrequencyRequired": "ድግግሞሽ ያስፈልጋል",
+      "textAward": "ሽልማት",
+      "textAwardRequired": "ሽልማት ያስፈልጋል",
+      "textNoMeritsFound": "ምንም ጥቅሞች አልተገኙም።",
+      "textMeritDetails": "የክብር ዝርዝሮች",
+      "textNoLeadershipPositionsFound": "ምንም የአመራር ቦታዎች አልተገኙም።",
+      "textPositionDetails": "የአቀማመጥ ዝርዝሮች",
+      "textNoClaireFound": "ምንም ክሌየር አልተገኘም።",
+      "btnTextViewItems": "እቃዎችን ይመልከቱ",
+      "textClaire": "ክሌር",
+      "btnTextAddClaire": "ክሌርን ጨምር",
+      "toastMessages": {
+        "addInfractionSuccess": "ጥሰት በተሳካ ሁኔታ ታክሏል።",
+        "updateInfractionSuccess": "ጥሰት በተሳካ ሁኔታ ዘምኗል",
+        "deleteInfractionSuccess": "ጥሰት በተሳካ ሁኔታ ተሰርዟል።",
+        "addInfractionItemSuccess": "ጥሰት ንጥል በተሳካ ሁኔታ ታክሏል።",
+        "updateInfractionItemSuccess": "ጥሰት ንጥል ነገር በተሳካ ሁኔታ ተዘምኗል",
+        "deleteInfractionItemSuccess": "ጥሰት ንጥል ነገር በተሳካ ሁኔታ ተሰርዟል።",
+        "addMeritSuccess": "ሜሪት በተሳካ ሁኔታ ታክሏል።",
+        "updateMeritSuccess": "ሜሪት በተሳካ ሁኔታ ዘምኗል",
+        "deleteMeritSuccess": "ሜሪት በተሳካ ሁኔታ ተሰርዟል።",
+        "addLeadershipSuccess": "አመራር በተሳካ ሁኔታ ታክሏል።",
+        "deleteLeadershipSuccess": "አመራር በተሳካ ሁኔታ ተሰርዟል።",
+        "addClaireSuccess": "ክሌር በተሳካ ሁኔታ አክላለች።",
+        "updateClaireSuccess": "ክሌር በተሳካ ሁኔታ ዘምኗል",
+        "deleteClaireSuccess": "ክሌር በተሳካ ሁኔታ ተሰርዟል።",
+        "addClaireItemSuccess": "የክሌር ንጥል ነገር በተሳካ ሁኔታ ታክሏል።",
+        "updateClaireItemSuccess": "የክሌር ንጥል ነገር በተሳካ ሁኔታ ዘምኗል",
+        "deleteClaireItemSuccess": "የክሌር ንጥል ነገር በተሳካ ሁኔታ ተሰርዟል።"
+      },
+      "swal": {
+        "titleDeleteInfraction": "የጥሰት ደረጃን ሰርዝ!",
+  			"textDeleteInfraction": "እርግጠኛ ነዎት ጥሰት ደረጃ {{ description }} መሰረዝ ይፈልጋሉ?",
+        "titleDeleteInfractionItem": "ጥሰት ሰርዝ!",
+  			"textDeleteInfractionItem": "እርግጠኛ ነህ የ {{ description }} ጥሰትን መሰረዝ ትፈልጋለህ?",
+        "titleDeleteMerit": "አወንታዊ ባህሪን ሰርዝ!",
+  			"textDeleteMerit": "እርግጠኛ ነዎት አወንታዊ ባህሪን {{ description }} መሰረዝ ይፈልጋሉ?",
+        "titleDeleteLeadership": "የአመራር ቦታን ሰርዝ!",
+  			"textDeleteLeadership": "እርግጠኛ ነዎት የአመራር ቦታ {{ description }} መሰረዝ ይፈልጋሉ?",
+        "titleDeleteClaire": "የCLAIRE እሴትን ሰርዝ!",
+  			"textDeleteClaire": "እርግጠኛ ነዎት Claire እሴት {{ description }} መሰረዝ ይፈልጋሉ?",
+        "titleDeleteClaireItem": "የCLAIRE ንጥልን ሰርዝ!",
+  			"textDeleteClaireItem": "እርግጠኛ ነህ ክሌርን {{ description }} መሰረዝ ትፈልጋለህ?"
+      }
+    },
+    "newRecord": {
+      "textSelectStudentsForm": "በመጀመሪያ፣ የተማሪው(ዎች) አባል የሆነበትን ቅጽ ይምረጡ",
+      "textSelectForm": "ቅጽ ይምረጡ",
+      "textSelectStudents": "በሁለተኛ ደረጃ ተማሪውን ይምረጡ",
+      "textSpecifyStudents": "በመጨረሻ፣ የተማሪ(ዎች) ባህሪን ይግለጹ",
+      "textInfraction": "ጥሰት",
+      "textRecentRecords": "የቅርብ ጊዜ መዝገቦች",
+      "textLeadershipPosition": "የአመራር አቀማመጥ",
+      "textClaire": "ክላይር",
+      "textInfractionLevel": "ጥሰት ደረጃ",
+      "textSelectInfractionLevel": "የጥሰት ደረጃን ይምረጡ",
+      "textSelectInfraction": "ጥሰትን ይምረጡ",
+      "textMerit": "ክብር",
+      "textSelectPoitiveBehaviour": "አዎንታዊ ባህሪን ይምረጡ",
+      "textClaireValue": "የክሌር ዋጋ",
+      "textSelectClaireValue": "ክሌር እሴትን ይምረጡ",
+      "textItem": "ንጥል",
+      "textSelectItem": "ንጥል ይምረጡ",
+      "textSelectClaireItem": "ክሌር ንጥል ይምረጡ",
+      "textComment": "አስተያየት",
+      "btnTextSaveRecord": "መዝገብ አስቀምጥ",
+      "toastMessages": {
+        "saveSuccess": "የተማሪ ባህሪ በተሳካ ሁኔታ ተቀምጧል"
+      },
+      "swal": {
+        "title": "የባህሪ መዝገብ አክል!",
+  			"text": "እርግጠኛ ነዎት ይህን የባህሪ መዝገብ ወደተገለጹት ተማሪ(ዎች) ማከል ይፈልጋሉ?"
+      }
+    },
+    "residenceBehaviour": {
+      "textTerm": "ጊዜ",
+      "textAcademicYear": "የትምህርት ዘመን",
+      "textMeanPoints": "አማካይ ነጥቦች",
+      "textStudents": "ተማሪዎች"
+    },
+    "residenceStudentBehaviour": {
+      "textTerm": "ጊዜ",
+      "textAcademicYear": "የትምህርት ዘመን",
+      "textRecentRecords": "የቅርብ ጊዜ መዝገቦች",
+      "textStudentPoints": "የተማሪ ነጥቦች",
+      "textAwards": "ሽልማቶች",
+      "textOf": "የ",
+      "textNoRecordsFound": "ምንም መዝገቦች አልተገኙም።",
+      "textAdmno": "የመግቢያ ቁጥር",
+      "textName": "ስም",
+      "textDetails": "ዝርዝሮች",
+      "textType": "ዓይነት",
+      "textPoints": "ነጥቦች",
+      "textClass": "ክፍል",
+      "textResidence": "መኖሪያ",
+      "textAddedOn": "ታክሏል።",
+      "textAddedBy": "የተጨመረው በ",
+      "textComment": "አስተያየት",
+      "btnTextView": "ይመልከቱ",
+      "textNoPointsFound": "ምንም ነጥቦች አልተገኙም።",
+      "textGender": "ጾታ",
+      "textStatus": "ሁኔታ"
+    },
+    "streamBehaviour": {
+      "textTerm": "ጊዜ",
+      "textAcademicYear": "የትምህርት ዘመን",
+      "textRecentRecords": "የቅርብ ጊዜ መዝገቦች",
+      "textStudentPoints": "የተማሪ ነጥቦች",
+      "textAwards": "ሽልማቶች",
+      "textOf": "የ",
+      "textNoRecordsFound": "ምንም መዝገቦች አልተገኙም።",
+      "textAdmno": "የመግቢያ ቁጥር",
+      "textName": "ስም",
+      "textDetails": "ዝርዝሮች",
+      "textType": "ዓይነት",
+      "textPoints": "ነጥቦች",
+      "textClass": "ክፍል",
+      "textResidence": "መኖሪያ",
+      "textAddedOn": "ታክሏል።",
+      "textAddedBy": "የተጨመረው በ",
+      "textComment": "አስተያየት",
+      "btnTextView": "ይመልከቱ",
+      "textNoPointsFound": "ምንም ነጥቦች አልተገኙም።",
+      "textGender": "ጾታ",
+      "textStatus": "ሁኔታ",
+      "textNoDataFound": "ምንም ውሂብ አልተገኘም።"
+    },
+    "studentBehaviour": {
+      "textAnalytics": "ትንታኔ",
+      "textProfile": "መገለጫ",
+      "textMessage": "መልእክት",
+      "textTerm": "ጊዜ",
+      "textAcademicYear": "የትምህርት ዘመን",
+      "textRecentRecords":"የቅርብ ጊዜ መዝገቦች",
+      "textOf":"የ",
+      "textNoRecordsFound":"ምንም መዝገቦች አልተገኙም።",
+      "textDetails": "ዝርዝሮች",
+      "textType": "ዓይነት",
+      "textPoints": "ነጥቦች",
+      "textClass": "ክፍል",
+      "textResidence": "መኖሪያ",
+      "textAddedOn": "ታክሏል።",
+      "textAddedBy": "የተጨመረው በ",
+      "swal": {
+        "title": "መዝገብ ሰርዝ!",
+  			"text": "እርግጠኛ ነህ የተገለጸውን መዝገብ መሰረዝ ትፈልጋለህ?"
+      },
+      "toastMessages": {
+        "deleteSuccess": "የተማሪ ባህሪ መዝገብ በተሳካ ሁኔታ ተሰርዟል!",
+        "deleteError": "የተማሪ ባህሪ ሊሰረዝ አልቻለም። እባክዎ ቆየት ብለው ይሞክሩ"
+      }
+    }
+  },
+  "bom": {
+    "add": {
+      "options": {
+        "headerText": "አማራጮች",
+        "keyInOption": "በBOM/PA አባል ዝርዝሮች ውስጥ ቁልፍ",
+        "uploadFromSpreadSheetOption": "የBOM/PA አባላትን ከተመን ሉህ ይስቀሉ።"
+      },
+      "keyInOptionForm": {
+        "title": "ርዕስ",
+        "fullName": "ሙሉ ስም",
+        "phoneNumber": "ስልክ ቁጥር",
+        "phoneNumberPlaceholderText": "07#######",
+        "nationalIdNumber": "ብሔራዊ መታወቂያ ቁጥር.",
+        "group": "ቡድን",
+        "groups": "ቡድኖች",
+        "addBtn": "አክል"
+      },
+      "keyInOptionFormErrors": {
+        "title": "ርዕስ ያስፈልጋል",
+        "fullName": "ስም ያስፈልጋል"
+      },
+      "uploadFromSpreadSheetOptionForm": {
+        "fileInputLabel": {
+          "downloadText": "አውርድ",
+          "remainingText": "እና አብነት ይሙሉ ከዚያም ከታች ይስቀሉት. (እባክዎ የአምዱ ራስጌዎች እንዳሉ ይተዉት)"
+        },
+        "excelTemplateDownload": {
+          "fileName": "BOM-PA ስቀል - አብነት",
+          "workSheetName": "BOM-PA ስቀል - አብነት",
+          "workSheetColumnHeaders": {
+            "name": "ስም",
+            "title": "ርዕስ",
+            "phone": "ስልክ",
+            "nationalIdNumber": "ብሄራዊ_መታወቂያ_አይ",
+            "group": "ቡድን"
+          }
+        },
+        "tableSectionHeaders": {
+          "name": "ስም",
+          "title": "ርዕስ",
+          "phone": "ስልክ",
+          "nationalIdNumber": "ብሔራዊ መታወቂያ ቁጥር.",
+          "group": "ቡድን"
+        },
+        "uploadBtn": "ስቀል"
+      },
+      "uploadFromSpreadSheetOptionFormErrors": {
+        "fileInput": "ከሰራተኛ አባላት ዝርዝር ጋር የተመን ሉህ ይምረጡ"
+      },
+      "toastMessages": {
+        "addSuccess": "BOM/PA በተሳካ ሁኔታ ታክሏል!"
+      }
+    },
+    "groups": {
+      "title": "BOM/PA ቡድኖች",
+      "addBtn": "BOM/PA ቡድን አክል",
+      "notFound": "ምንም የBOM/PA ቡድኖች አልተገኙም።",
+      "addForm": {
+        "name": "የቦም ቡድን ስም አስገባ",
+        "namePlaceholder": "የቦም ቡድን",
+        "cancelBtn": "ሰርዝ",
+        "saveBtn": "አስቀምጥ"
+      },
+      "addFormErrors": {
+        "name": "የቡድን ስም ያስፈልጋል",
+        "unableToUpload": "የቦም/ፓ ቡድኖችን መጫን አልተቻለም"
+      },
+      "tableHeaders": {
+        "name": "ስም",
+        "action": "ድርጊት"
+      },
+      "listItem": {
+        "editBtn": "አርትዕ",
+        "editCancelBtn": "ሰርዝ",
+        "editSaveBtn": "አስቀምጥ",
+        "deleteBtn": "ሰርዝ",
+        "deleteConfirmationModal": {
+          "title": "የBOM/PA ቡድንን ሰርዝ!",
+          "text": "እርግጠኛ ነህ የ{{ groupName }} ቡድንን ማስወገድ ትፈልጋለህ?",
+          "cancelButtonText": "ሰርዝ",
+          "confirmButtonText": "እሺ"
+        }
+      },
+      "toastMessages": {
+        "addSuccess": "የተጠቃሚ ቡድን በተሳካ ሁኔታ ታክሏል!",
+        "updateSuccess": "የተጠቃሚ ቡድን በተሳካ ሁኔታ ዘምኗል!",
+        "deleteSuccess": "የተጠቃሚ ቡድን በተሳካ ሁኔታ ተሰርዟል!"
+      }
+    },
+    "topNav": {
+      "manage": "አስተዳድር",
+      "view": "ይመልከቱ",
+      "add": "አክል",
+      "groups": "ቡድኖች",
+      "bom": "BOM/PA"
+    },
+    "manageBom": {
+      "title": "BOM/PA",
+      "searchPlaceholder": "ፈልግ",
+      "viewPrintFormatBtn": "የህትመት ቅርጸት ይመልከቱ",
+      "noBomFound": "ምንም የBOM/PA መዝገቦች አልተገኙም።",
+      "printFormat": {
+        "options": {
+          "headerText": "አማራጮች",
+          "showGroupsOption": "ቡድኖችን አሳይ",
+          "showPhoneNumbersOption": "ስልክ ቁጥሮች አሳይ",
+          "showNationalIdNumberOption": "ብሔራዊ መታወቂያ ቁጥር አሳይ"
+        },
+        "closePrintFormatBtn": "የህትመት ቅርጸት ዝጋ",
+        "printBtn": "አትም",
+        "downloadBtn": "አውርድ",
+        "downloadPDFBtn": "ፒዲኤፍ አውርድ",
+        "downloadExcelBtn": "ኤክሴል አውርድ",
+        "excelDownload": {
+          "fileName": "BOM_PA",
+          "workSheetName": "ሉህ1",
+          "workSheetColumnHeaders": {
+            "name": "ስም",
+            "phone": "ስልክ",
+            "nationalIdNumber": "ብሄራዊ_መታወቂያ_አይ",
+            "group": "ቡድን"
+          }
+        },
+        "schoolLogoAltText": "የትምህርት ቤት አርማ",
+        "tableHeaderText": "BOM/PA ዝርዝር",
+        "tableColumnHeaders": {
+          "name": "ስም",
+          "phone": "ስልክ",
+          "nationalIdNumber": "ብሔራዊ መታወቂያ ቁጥር.",
+          "groups": "ቡድኖች"
+        }
+      },
+      "bomListItem": {
+        "imageAltText": "የአስተማሪ ምስል",
+        "editBtn": "ይመልከቱ"
+      },
+      "bomListItemUpdate": {
+        "profilePhoneNumber": "ስልክ",
+        "profileSignatureAltText": "ፊርማ",
+        "profileDeleteBtn": "ሰርዝ",
+        "profileDeleteConfirmationModal": {
+          "title": "የBOM/PA አባልን ሰርዝ!",
+          "text": "እርግጠኛ ነዎት {{ name }}ን ከትምህርት ቤቱ ማስወገድ ይፈልጋሉ?",
+          "cancelButtonText": "ሰርዝ",
+          "confirmButtonText": "እሺ"
+        },
+        "form": {
+          "headerText": "የቦም/ፓ ዝርዝሮችን ያዘምኑ",
+          "name": "ስም",
+          "username": "የተጠቃሚ ስም",
+          "phoneNumber": "ስልክ ቁጥር",
+          "phoneNumberPlaceholderText": "07#######",
+          "title": "ርዕስ",
+          "idNumber": "የመታወቂያ ቁጥር",
+          "groups": "ቡድኖች",
+          "groupsEmpty": "ምንም ቡድኖች አልተገኙም።",
+          "bio": "ባዮ",
+          "closeBtn": "ገጠመ",
+          "saveBtn": "አስቀምጥ",
+          "editBtn": "አርትዕ"
+        }
+      },
+      "toastMessages": {
+        "updateSuccess": "ተጠቃሚ በተሳካ ሁኔታ ዘምኗል!",
+        "deleteSuccess": "ተጠቃሚ በተሳካ ሁኔታ ተሰርዟል።"
+      }
+    }
+  },
+  "dashboard": {
+    "topNav": {
+      "dashboard": "ዳሽቦርድ",
+      "global": "ዓለም አቀፍ",
+      "view": "ይመልከቱ",
+      "my": "የኔ",
+      "subjects": "ርዕሰ ጉዳዮች",
+      "mySubjects": "የእኔ ርዕሰ ጉዳዮች",
+      "graduate": "ምረቃ",
+      "classes": "ክፍሎች"
+    },
+    "global": {
+      "className": "{{classname}}",
+      "examName": "{{examname}}",
+      "aggregate_stats": {
+        "first": {
+          "label": "{{label}}"
+        },
+        "second": {
+          "label": "{{label}}"
+        },
+        "third": {
+          "label": "{{label}}"
+        },
+        "fourth": {
+          "label": "{{label}}"
+        }
+      }
+    },
+    "mySubjects": {
+      "classOf": "ክፍል የ",
+      "graduationYear": "{{graduation_year}}",
+      "examName": "{{examname}}",
+      "aggregate_stats": {
+        "first": {
+          "label": "{{label}}"
+        },
+        "second": {
+          "label": "{{label}}"
+        },
+        "third": {
+          "label": "{{label}}"
+        },
+        "fourth": {
+          "label": "{{label}}"
+        }
+      }
+    },
+    "myClasses": {
+      "title": "{{classname}} - {{subject}}",
+      "examname": "{{examname}}",
+      "aggregate_stats": {
+        "first": {
+          "label": "{{label}}"
+        },
+        "second": {
+          "label": "{{label}}"
+        },
+        "third": {
+          "label": "{{label}}"
+        },
+        "fourth": {
+          "label": "{{label}}"
+        }
+      },
+      "noSubject": "ምንም አይነት የትምህርት አይነት መረጃ አልተገኘም።",
+      "noData": "ምንም የክፍል ውሂብ አልተገኘም።",
+      "ct": {
+        "classname": "{{classname}}",
+        "examname": "{{examname}}",
+        "aggregate_stats": {
+          "first": {
+            "label": "{{label}}"
+          },
+          "second": {
+            "label": "{{label}}"
+          },
+          "third": {
+            "label": "{{label}}"
+          },
+          "fourth": {
+            "label": "{{label}}"
+          }
+        }
+      },
+      "cs": {
+        "classname": "{{classname}}",
+        "examname": "{{examname}}",
+        "aggregate_stats": {
+          "first": {
+            "label": "{{label}}"
+          },
+          "second": {
+            "label": "{{label}}"
+          },
+          "third": {
+            "label": "{{label}}"
+          },
+          "fourth": {
+            "label": "{{label}}"
+          }
+        }
+      }
+    },
+    "welcome": {
+      "new": "አዲስ",
+      "bannerTitle": "{{title}}",
+      "bannerDescription": "{{description}}",
+      "welcome": "እንኳን ደህና መጣህ",
+      "view": "ይመልከቱ",
+      "manage": "አስተዳድር",
+      "exams": "ፈተናዎች",
+      "from": "ከምቾትዎ",
+      "of": "ከምቾትዎ",
+      "mobile": "ሞባይል",
+      "latest": "የቅርብ ጊዜ ውጤቶች",
+      "classes": "የእኔ ክፍሎች",
+      "teachers": "አስተማሪዎች",
+      "students": "ተማሪዎች",
+      "staff": "ሰራተኞች",
+      "streams": "ዥረቶች",
+      "addEvent": "ክስተት አክል",
+      "upcomingEv": "መጪ ክስተቶች",
+      "viewAll": "ሁሉንም ክስተቶች ይመልከቱ",
+      "noEvs": "ምንም መጪ ክስተቶች የሉም",
+      "createEv": "ክስተት ፍጠር",
+      "eventName": "የክስተት ስም",
+      "eventNameErrMes": "ርዕስ ባዶ ሊሆን አይችልም።",
+      "evParticipants": "የክስተት ተሳታፊዎች",
+      "selParticipants": "ተሳታፊዎችን ይምረጡ",
+      "evParticipantsErrMes": "ተሳታፊዎች ባዶ ሊሆኑ አይችሉም",
+      "evFormErrMes": "ባዶ ሊሆን አይችልም",
+      "specific": "የተወሰነ",
+      "evDates": "የክስተት ቀኖች",
+      "single": "ነጠላ",
+      "range": "ክልል",
+      "enterRange": "የቀን ክልል አስገባ",
+      "pickDate": "ቀን ይምረጡ",
+      "pickDatePlaceholder": "ቀን/ሰዓት ይምረጡ",
+      "dateErrMes": "ቀኑ ባዶ ሊሆን አይችልም።",
+      "close": "ገጠመ",
+      "viewEv": "ክስተት ይመልከቱ",
+      "eventDetails": "የክስተት ዝርዝሮች",
+      "editEv": "ክስተት አርትዕ",
+      "evName": "የክስተት ስም",
+      "participants": "ተሳታፊዎች",
+      "partsErrMes": "ተሳታፊዎች ባዶ ሊሆኑ አይችሉም",
+      "specErrMes": "ቡድኖች ባዶ ሊሆኑ አይችሉም",
+      "evDate": "የክስተት ቀን",
+      "evDateErrMes": "ቀኑ ባዶ ሊሆን አይችልም።",
+      "delEvent": "ክስተት ሰርዝ",
+      "saveEv": "ክስተት አስቀምጥ",
+      "toastMessages": {
+        "addEventSuccess": "ክስተት በተሳካ ሁኔታ ታክሏል።",
+        "updateEventSuccess": "ክስተቱ በተሳካ ሁኔታ ዘምኗል",
+        "deleteEventSuccess": "ክስተት በተሳካ ሁኔታ ተሰርዟል።",
+        "addEventSessionSuccess": "የክስተት ክፍለ ጊዜ በተሳካ ሁኔታ ታክሏል።",
+        "updateEventSessionSuccess": "የክስተት ክፍለ ጊዜ በተሳካ ሁኔታ ዘምኗል",
+        "deleteEventSessionSuccess": "የክስተት ክፍለ ጊዜ በተሳካ ሁኔታ ተሰርዟል።"
+      }
+    },
+    "attendanceReport": {
+      "title": "የመገኘት ሪፖርት",
+      "term": "ጊዜ",
+      "loadingMessage": "የመገኘት ሪፖርት በማምጣት ላይ...",
+      "charts": {
+        "category1": "ከፍተኛ 1",
+        "category2": "ከፍተኛ 2",
+        "category3": "ከፍተኛ 3",
+        "category4": "ከፍተኛ 4"
+      },
+      "toastMessages": {
+        "error": "የትምህርት ቤት ክትትል ሪፖርት ማግኘት አልተሳካም፡ ምክንያት፡ {{ reason }}"
+      }
+    },
+    "intakeAttendaceReport": {
+      "title": "የመገኘት ሪፖርት",
+      "term": "ጊዜ",
+      "loadingMessage": "የመገኘት ሪፖርት በማምጣት ላይ...",
+      "filterBy": "አጣራ በ",
+      "allStreams": "ሁሉም ዥረቶች",
+      "selectStreamPlaceholder": "ዥረት ይምረጡ",
+      "noAttendanceTaken": "በዚህ ክፍል ውስጥ ላሉ ተማሪዎች ምንም መገኘት አልተወሰደም።",
+      "tableHeaders": {
+        "admno": "Adm ቁጥር",
+        "name": "ስም",
+        "stream": "ዥረት",
+        "daysPresent": "የአሁን ቀናት",
+        "daysAbsent": "ቀናት የሉም",
+        "totalDays": "ጠቅላላ ቀናት"
+      },
+      "studentName": "የተማሪ ስም",
+      "toastMessages": {
+        "error": "ለቅበላ የመገኘት ሪፖርት ማምጣት አልተሳካም። ምክንያት፡ {{ reason }}"
+      }
+    },
+    "olevelSummary": {
+      "errorOccurred": "የአስተዳዳሪ ሪፖርት በማምጣት ላይ ሳለ የሆነ ችግር ተፈጥሯል። ምክንያት፡ {{ reason }}"
+    }
+  },
+  "classes": {
+    "commonAttr": {
+      "my": "የኔ",
+      "attendance": "መገኘት",
+      "classes": "ክፍሎች",
+      "subjects": "ርዕሰ ጉዳዮች",
+      "subject": "ርዕሰ ጉዳይ",
+      "stream": "ዥረት",
+      "streams": "ዥረቶች",
+      "manage": "አስተዳድር",
+      "manageSubjects": "ርዕሰ ጉዳዮችን ያስተዳድሩ",
+      "delete": "ሰርዝ",
+      "back": "ተመለስ",
+      "code": "ኮድ",
+      "action": "ድርጊት",
+      "topics": "ርዕሶች",
+      "competency": "ብቃት",
+      "competencies": "ብቃቶች",
+      "close": "ገጠመ",
+      "noStudentsFound":"ምንም ተማሪዎች አልተገኙም።",
+      "saveChanges": "ለውጦችን አስቀምጥ"
+    },
+    "attendanceReport": {
+      "backBtn": "ተመለስ",
+      "title": "የመገኘት ሪፖርት",
+      "filterBy": "አጣራ በ",
+      "filterByOptions": {
+        "term": {
+          "label": "ጊዜ",
+          "placeholder": "ውል ይምረጡ"
+        },
+        "date": {
+          "label": "ቀን",
+          "startDate": "የመጀመሪያ ቀን",
+          "endDate": "የመጨረሻ ቀን"
+        }
+      },
+      "filterByBtn": "የማጣሪያ ተገኝነት",
+      "table": {
+        "admNo": "Adm ቁጥር",
+        "name": "ስም",
+        "daysPresent": "የአሁን ቀናት",
+        "daysAbsent": "ቀናት የሉም",
+        "totalDays": "ጠቅላላ ቀናት",
+        "noDataFound": "ምንም ውሂብ አልተገኘም።"
+      }
+    },
+    "topNav": {
+      "my": "የኔ",
+      "class": "ክፍል",
+      "addNew": "አዲስ አስገባ"
+    },
+    "manage": {
+      "table": {
+        "boys": "ወንዶች",
+        "girls": "ልጃገረዶች",
+        "students": "ተማሪዎች",
+        "classSupervisor": "ክፍል ተቆጣጣሪ",
+        "action": "ድርጊት",
+        "total": "ጠቅላላ"
+      }
+    },
+    "manageStream": {
+      "title": "ርዕሰ ጉዳዮች",
+      "addSubjectBtn": "ርዕሰ ጉዳይ ጨምር",
+      "table": {
+        "stream": "ዥረት",
+        "subject": "ርዕሰ ጉዳይ",
+        "boys": "ወንዶች",
+        "girls": "ልጃገረዶች",
+        "students": "ተማሪዎች",
+        "subjectTeacher": "የትምህርት መምህር (1)",
+        "subjectTeacher2": "የትምህርት መምህር (2)",
+        "subjectTeacher3": "የትምህርት አይነት መምህር (3)",
+        "subjectTeacher4": "የትምህርት አይነት መምህር (4)",
+        "subjectTeacher5": "የትምህርት መምህር (5)",
+        "assignTeacherPlaceholder": "መምህር መድብ",
+        "removeTeacherPlaceholder": "ርዕሰ ጉዳይ አስተማሪን ያስወግዱ",
+        "total": "ጠቅላላ",
+        "swal": {
+          "titleDeleteSubjectClass": "ርዕሰ ጉዳይ ሰርዝ!",
+          "textDeleteSubjectClass": "እርግጠኛ ነህ {{ formOrYear }} {{ form }} {{ stream }} {{ subjectName }}ን መሰረዝ ትፈልጋለህ?",
+          "confirmButtonText": "አዎ ይሰርዙት!",
+          "titleDeleteSubjectClassSuccess": "ተሰርዟል!",
+          "textDeleteSubjectClassSuccess": "{{ subjectName }} ተሰርዟል!",
+          "titleDeleteSubjectClassError": "መሰረዝ አልተቻለም!"
+        }
+      }
+    },
+    "manageSubject": {
+      "addNew": "አዲስ አስገባ",
+      "newTopic": "አዲስ ርዕስ",
+      "noTopics": "ምንም ርዕሶች አልተገኙም። አዲስ ርዕስ ለመጨመር አዲስ አክል የሚለውን ቁልፍ ጠቅ ያድርጉ።",
+      "noCompetencies": "ለዚህ ርዕስ ምንም ብቃቶች አልተገኙም። አንድ ለመጨመር አዲስ አክል የሚለውን ቁልፍ ጠቅ ያድርጉ።",
+      "selectLevelLabel": "{{ levelName }} ይምረጡ",
+      "topicName": "ርዕስ ስም",
+      "topicNameError": "የርዕስ ስም ያስፈልጋል",
+      "classLevel": "የክፍል ደረጃ",
+      "classLevelError": "ደረጃ ያስፈልጋል",
+      "topicAdded": "ርዕስ በተሳካ ሁኔታ ታክሏል።",
+      "topicEdited": "ርዕስ በተሳካ ሁኔታ ተስተካክሏል።",
+      "topicDeleted": "ርዕስ በተሳካ ሁኔታ ተሰርዟል።",
+      "newCompetency": "አዲስ ብቃት",
+      "competencyName": "የብቃት ስም",
+      "competencyNameError": "የብቃት ስም ያስፈልጋል",
+      "competencyAdded": "ብቃት በተሳካ ሁኔታ ታክሏል።",
+      "competencyUpdated": "ብቃት በተሳካ ሁኔታ ዘምኗል",
+      "competencyDeleted": "ብቃት በተሳካ ሁኔታ ተሰርዟል።",
+      "filterByClassLevel": "በክፍል ደረጃ አጣራ",
+      "selectClassLevel": "የክፍል ደረጃን ይምረጡ",
+      "table": {
+        "admNo": "Adm ቁጥር",
+        "name": "ስም",
+        "teacher": "መምህር",
+        "removeSubjectTeacher": "የትምህርት አስተማሪን ያስወግዱ",
+        "assignTeacher": "መምህር መድብ",
+        "removeSelectedStudents": "የተመረጡ ተማሪዎችን ያስወግዱ"
+      },
+      "swal": {
+        "titleRemoveClassMemberTeacher": "መምህርን አትመደቡ!",
+        "textRemoveClassMemberTeacher": "እርግጠኛ ነዎት {{ teacher }}ን ከ {{ student }} ንቀል ይፈልጋሉ?",
+        "confirmButtonTextRemoveClassMemberTeacher": "አዎ፣ አትመደቡ!",
+        "titleRemoveClassMemberTeacherSuccess": "ተሰርዟል!",
+        "textRemoveClassMemberTeacherSuccess": "አስተማሪ ከተማሪ ያልተመደበ።",
+        "titleRemoveStudents": "ተማሪዎችን ያስወግዱ!",
+        "textRemoveStudents": "እርግጠኛ ነዎት የተመረጡትን ተማሪዎች ከ{{className}} ማስወገድ ይፈልጋሉ?",
+        "confirmButtonTextRemoveStudents": "አዎ አስወግድ!"
+      }
+    },
+    "myClasses": {
+      "mySubjects": "እኔ የማስተምራቸው ርዕሰ ጉዳዮች",
+      "noClasses": "ለእርስዎ ምንም ክፍል አልተመደበም።",
+      "noSubjects": "ለእርስዎ ምንም ዓይነት ርዕሰ ጉዳይ አልተሰጠም።",
+      "students": "ተማሪዎች",
+      "newAssessment": "አዲስ ግምገማ",
+      "viewAssessments": "ግምገማዎችን ይመልከቱ",
+      "table": {
+        "name": "ስም",
+        "actions": "ድርጊቶች",
+        "comments": "አስተያየቶች"
+      },
+      "classesSupervised": "ቁጥጥር የሚደረግባቸው ክፍሎች"
+    },
+    "new": {
+      "successClassAddition": "ክፍል በተሳካ ሁኔታ ታክሏል።",
+      "successSubjectAddition": "ርዕሰ ጉዳዮች በተሳካ ሁኔታ ተጨምረዋል።",
+      "successSubjectAdditionToStream": "ርዕሰ ጉዳዮች በተሳካ ሁኔታ ታክለዋል።",
+      "addClass": "ሌላ ክፍል ጨምር",
+      "addStudents": "ተማሪዎችን ያክሉ",
+      "newStudent": "አዲስ ተማሪ",
+      "newStudents": "አዲስ ተማሪዎች",
+      "classForm": {
+        "title": "ርዕሰ ጉዳዮችን ያክሉ",
+        "selectForm": {
+          "placeholder": "ይምረጡ"
+        },
+        "graduationYear": {
+          "label": "የምረቃ ዓመት",
+          "placeholder": "የምረቃ ዓመት ይምረጡ"
+        },
+        "stream": {
+          "label": "ዥረት",
+          "placeholder": "ሰሜን",
+          "title": "እባክዎ የዥረቱ ስም ያስገቡ",
+          "requiredError": "ዥረቱ ባዶ ሊሆን አይችልም።"
+        },
+        "subject": {
+          "label": "በዚህ ክፍል የተሰሩ ርዕሰ ጉዳዮችን ይምረጡ",
+          "addedInfo": "የሚታከሉባቸውን ጉዳዮች ይምረጡ",
+          "placeholder": "ርዕሰ ጉዳይ ይምረጡ",
+          "requiredError": "ርዕሰ ጉዳዩ ባዶ ሊሆን አይችልም።"
+        }
+      },
+      "addBtn": "አክል",
+      "toastMessages": {
+        "saveSuccess": "ክፍል በተሳካ ሁኔታ ተቀምጧል"
+      }
+    },
+    "streams": {
+      "title": "ዥረቶች",
+      "table": {
+        "boys": "ወንዶች",
+        "girls": "ልጃገረዶች",
+        "students": "ተማሪዎች",
+        "classTeacher": "ክፍል መምህር",
+        "actions": "ድርጊቶች",
+        "removeClassTeacher": "የክፍል አስተማሪን ያስወግዱ",
+        "selectSupervisor": "ተቆጣጣሪ ይምረጡ",
+        "editName": "ስም አርትዕ",
+        "cancelBtn": "ሰርዝ",
+        "saveBtn": "አስቀምጥ",
+        "deleteBtn": "ሰርዝ",
+        "total": "ጠቅላላ"
+      },
+      "swal": {
+        "titleDeleteStream": "{{ formOrYear }} {{ form }} {{ stream }} ይሰረዝ?",
+        "textDeleteStream": "ይህንን መመለስ አይችሉም!",
+        "confirmButtonTextDeleteStream": "አዎ ይሰርዙት!",
+        "titleRemoveDeleteStreamSuccess": "ተሰርዟል!",
+        "titleRemoveDeleteStreamError": "መሰረዝ አልተቻለም!"
+      }
+    },
+    "subjectComments": {
+      "title": "ርዕሰ ጉዳይ አስተያየቶች",
+      "printFormat": "የህትመት ቅርጸት",
+      "printBtn": "የህትመት ቅርጸት ይመልከቱ",
+      "editBtn": "ሁሉንም ያርትዑ",
+      "cancelBtn": "ሰርዝ",
+      "saveBtn": "አስቀምጥ",
+      "commentInput": "አስተያየት አስገባ..."
+    },
+    "takeAttendance": {
+      "title": "የመገኘት ሪፖርት ይመልከቱ",
+      "subTitle": "ተካፋይ ይሁኑ",
+      "table": {
+        "admNo": "Adm ቁጥር",
+        "name": "ስም"
+      },
+      "saveBtn": "ተገኝነትን ያስቀምጡ",
+      "saving": "ተገኝነትን በማስቀመጥ ላይ",
+      "toastMessages": {
+        "saveSuccess": "መገኘት በተሳካ ሁኔታ ተመዝግቧል"
+      },
+      "swal": {
+        "titleSaveAtendance": "ተገኝነት አስገባ?",
+        "textSaveAtendance": "እርግጠኛ ነዎት ይህን የመገኘት መዝገብ ማስገባት ይፈልጋሉ?"
+      }
+    }
+  },
+  "evaluation": {
+    "all": {
+      "backBtn": "ተመለስ",
+      "noData": "ለተመረጠው ዓመት ምንም ግምገማዎች አልተገኙም ({{ year }})",
+      "acadYearLabel": "የትምህርት ዘመን",
+      "acadYearPlaceholder": "የትምህርት ዓመት ይምረጡ",
+      "termLabel": "ቃል {{term}}",
+      "pageTitle": "የግምገማ ሪፖርት (ጊዜ {{term}})",
+      "singleEvaluation": {
+        "evaluationName": "{{evaluationName}}",
+        "evaluationTitle": "{{title}}",
+        "withMarksLabel": "ምልክት ያላቸው ተማሪዎች፡-",
+        "totalStudents": "ጠቅላላ ተማሪዎች፡-",
+        "uploadResultsBtn": "የሰቀላ ውጤቶች",
+        "viewBtn": "{{type}} ይመልከቱ",
+        "deleteBtn": "ሰርዝ"
+      },
+      "toastMessages": {
+        "deleteSuccess": "ግምገማ በተሳካ ሁኔታ ተሰርዟል።",
+        "deleteExamSuccess": "ፈተና በተሳካ ሁኔታ ተሰርዟል።",
+        "deleteProjectSuccess": "ፕሮጀክቱ በተሳካ ሁኔታ ተሰርዟል።"
+      },
+      "swal": {
+        "title1": "እርግጠኛ ነህ?",
+  			"text1": "ይህንን መመለስ አይችሉም!",
+        "confirmButtonText1": "አዎ ይሰርዙት!",
+  			"cancelButtonText1": "አይ፣ ሰርዝ!",
+        "title2": "ግምገማን ሰርዝ",
+  			"text2": "ይህ ግምገማ የተማሪ ውጤት አለው። <br> ለማጥፋት፡- <b> {{ evaluationName }} </b> ይተይቡ",
+        "inputPlaceholder": "የግምገማ ስም ይተይቡ",
+        "inputValidatorText": "ስሙ ትክክል አይደለም።"
+      }
+    },
+    "create": {
+      "backBtn": "ተመለስ",
+      "createNewLabel": "አዲስ ፍጠር",
+      "assessmentTypeLabel": "የግምገማ አይነት",
+      "selectAssessmentTypeError": "እባክዎ የግምገማ አይነት ይምረጡ",
+      "evaluationTypesLabel": "የግምገማ ዓይነቶች",
+      "topicLabel": "ርዕሶች",
+      "selectEvaluationTypeError": "እባክዎ የግምገማ አይነት ይምረጡ",
+      "selectTopicError": "እባክህ ርዕስ ምረጥ",
+      "noEvaluationTypesError": "በአሁኑ ጊዜ ምንም ዓይነት የግምገማ ዓይነቶች አልተዘጋጁም። እባክዎ ቆየት ብለው ይሞክሩ",
+      "noTopicsError": "በአሁኑ ጊዜ ምንም ርዕሰ ጉዳዮች አልተዘጋጁም። እባክዎ ቆየት ብለው ይሞክሩ",
+      "competencyAreasLabel": "የብቃት ቦታዎች",
+      "selectCompetencyAreaError": "እባክዎ ቢያንስ አንድ የብቃት ቦታ ይምረጡ",
+      "noCompetencyAreasError": "ይህ ርዕሰ ጉዳይ በአሁኑ ጊዜ ምንም የብቃት ቦታ የለውም፣ እባክዎ ቆይተው እንደገና ይሞክሩ",
+      "titleLabel": "የፕሮጀክት ርዕስ",
+      "titlePlaceholder": "የፕሮጀክት ርዕስ አስገባ",
+      "titleRequired": "የፕሮጀክት ርዕስ ያስፈልጋል",
+      "termLabel": "ጊዜ",
+      "termPlaceholder": "ቃል ይምረጡ",
+      "termRequiredError": "ጊዜ ያስፈልጋል",
+      "yearLabel": "አመት",
+      "yearPlaceholder": "ዓመት ይምረጡ",
+      "yearRequiredError": "አመት ያስፈልጋል",
+      "createBtn": "{{type}} ይፍጠሩ",
+      "toastMessages": {
+        "createExamError": "ፈተናን መፍጠር ላይ ስህተት: {{ examName }}",
+        "createEvaluationError": "ግምገማ መፍጠር አልተሳካም። ምክንያት፡ {{ reason }}"
+      },
+      "swal": {
+        "exam": "ፈተና",
+        "evaluation": "ግምገማ",
+        "titleOption1": "ፈተና ተፈጠረ!",
+        "titleOption2": "ግምገማ ተፈጥሯል!",
+        "title": "መልዕክት ላክ?",
+  			"text": "አሁን የተማሪዎችን ምልክቶች ወደ {{ type }} ማከል ትችላለህ",
+        "confirmButtonText": "የሰቀላ ውጤቶች",
+        "cancelButtonText": "ወደ ርዕሰ ጉዳዮች ተመለስ"
+      }
+    },
+    "topNav": {
+      "evaluations": "ግምገማዎች",
+      "exams": "ፈተናዎች",
+      "projects": "ፕሮጀክቶች"
+    },
+    "manage": {
+      "backBtn": "ተመለስ",
+      "assessmentTitle": "{{assessmentName}} ውጤቶች",
+      "evaluationNameLabel": "የግምገማ ስም",
+      "evaluationNamePlaceholder": "የግምገማ ስም",
+      "maximumMarksLabel": "ከፍተኛ ማርኮች",
+      "studentsLabel": "ተማሪዎች",
+      "noStudentSelected": "ምንም ተማሪ አልተመረጠም።",
+      "table": {
+        "admNo": "Adm ቁጥር",
+        "name": "ስም",
+        "marks": "ማርኮች (x/{{maxMarks}})",
+        "calculatedScore": "የተሰላ ውጤት",
+        "comment": "አስተያየት",
+        "actions": "ድርጊቶች",
+        "maxMarksError": "ምልክቶች አሉታዊ ሊሆኑ አይችሉም",
+        "maxValueExceeded": "ከፍተኛው ዋጋ አልፏል",
+        "marksRequired": "ማርክ ያስፈልጋል",
+        "saveAllBtn": "ሁሉንም አስቀምጥ"
+      },
+      "toastMessages": {
+        "deleteMarksError": "ምልክቶች አልተሰረዙም። ምክንያት፡ {{ reason }}",
+        "uploadResultsSuccess": "ውጤቶቹ በተሳካ ሁኔታ ተዘምነዋል",
+        "uploadProjectResultsSuccess": "የፕሮጀክት ውጤቶች በተሳካ ሁኔታ ተሰቅለዋል።",
+        "uploadExamsSuccess": "ፈተናዎች በተሳካ ሁኔታ ተጭነዋል",
+        "deleteSuccess": "ምልክቶች በተሳካ ሁኔታ ተሰርዘዋል",
+        "studentAdded": "ተማሪ በተሳካ ሁኔታ ታክሏል።"
+      }
+    },
+    "uploadResults": {
+      "linkTitle": "የሰቀላ ውጤቶች",
+      "backBtn": "ተመለስ",
+      "pageTitle": "ለ {{assessmentType}} ውጤቶች ይስቀሉ።",
+      "maxMarksLabel": "ከፍተኛ ማርኮች",
+      "maxMarksPlaceholder": "ከፍተኛ ምልክቶች",
+      "maxMarksError": "ከፍተኛው ነጥብ ከዜሮ በላይ መሆን አለበት።",
+      "maxScoreExceeded": "ከፍተኛው ነጥብ አልፏል",
+      "studentsLabel": "ተማሪዎች",
+      "uploading": "በመስቀል ላይ...",
+      "uploadBtn": "የሰቀላ ውጤቶች",
+      "table": {
+        "admNo": "Adm ቁጥር",
+        "name": "ስም",
+        "marks": "ምልክቶች"
+      },
+      "toastMessages": {
+        "uploadSuccess": "ውጤቶች በተሳካ ሁኔታ ተሰቅለዋል።"
+      }
+    }
+  },
+  "events": {
+    "topNav": {
+      "manage": "ክስተቶችን አስተዳድር",
+      "newsLetters": "ጋዜጣዎች"
+    },
+    "manage": {
+      "addEvent": "ክስተት አክል",
+      "upcomingEv": "መጪ ክስተቶች",
+      "viewAll": "ሁሉንም ክስተቶች ይመልከቱ",
+      "noEvs": "ምንም መጪ ክስተቶች የሉም",
+      "createEv": "ክስተት ፍጠር",
+      "eventName": "የክስተት ስም",
+      "eventNameErrMes": "ርዕስ ባዶ ሊሆን አይችልም።",
+      "evParticipants": "የክስተት ተሳታፊዎች",
+      "selParticipants": "ተሳታፊዎችን ይምረጡ",
+      "evParticipantsErrMes": "ተሳታፊዎች ባዶ ሊሆኑ አይችሉም",
+      "evFormErrMes": "ባዶ ሊሆን አይችልም",
+      "specific": "የተወሰነ",
+      "evDates": "የክስተት ቀኖች",
+      "single": "ነጠላ",
+      "range": "ክልል",
+      "enterRange": "የቀን ክልል አስገባ",
+      "pickDate": "ቀን ይምረጡ",
+      "pickDatePlaceholder": "ቀን/ሰዓት ይምረጡ",
+      "dateErrMes": "ቀኑ ባዶ ሊሆን አይችልም።",
+      "close": "ገጠመ",
+      "viewEv": "ክስተት ይመልከቱ",
+      "eventDetails": "የክስተት ዝርዝሮች",
+      "editEv": "ክስተት አርትዕ",
+      "evName": "የክስተት ስም",
+      "participants": "ተሳታፊዎች",
+      "partsErrMes": "ተሳታፊዎች ባዶ ሊሆኑ አይችሉም",
+      "specErrMes": "ቡድኖች ባዶ ሊሆኑ አይችሉም",
+      "evDate": "የክስተት ቀን",
+      "evDateErrMes": "ቀኑ ባዶ ሊሆን አይችልም።",
+      "delEvent": "ክስተት ሰርዝ",
+      "saveEv": "ክስተት አስቀምጥ",
+      "startDate": "የመጀመሪያ ቀን",
+      "endDate": "የመጨረሻ ቀን",
+      "handleDateSelectTitle": "እባክዎ ለዝግጅትዎ አዲስ ርዕስ ያስገቡ",
+      "toastMessages": {
+        "addSuccess":"ክስተት በተሳካ ሁኔታ ታክሏል!",
+        "updateSuccess":"ክስተቱ በተሳካ ሁኔታ ዘምኗል!",
+        "deleteSuccess":"ክስተት በተሳካ ሁኔታ ተሰርዟል!",
+        "deleteSessionSuccess":"የክስተት ክፍለ ጊዜ በተሳካ ሁኔታ ተሰርዟል!"
+      }
+    },
+    "newsletter": {
+      "newsletters": "ጋዜጣ(ዎች)",
+      "newsletter": "ጋዜጣ",
+      "add": "ጋዜጣ አክል",
+      "createdBy": "የተፈጠረ",
+      "createdOn": "ላይ ተፈጠረ",
+      "view": "ይመልከቱ",
+      "edit": "አርትዕ",
+      "delete": "ሰርዝ",
+      "noNewsletters": "ምንም ጋዜጣዎች አልተገኙም።",
+      "close": "ገጠመ",
+      "newsletterContent": "አ065075a246350z0",
+      "create": "ጋዜጣ ፍጠር",
+      "upload": "ጋዜጣ ስቀል",
+      "document": "ሰነድ",
+      "title": "ርዕስ",
+      "titlePlaceholder": "የጋዜጣ ርዕስ",
+      "titleErrMes": "ርዕስ ያስፈልጋል",
+      "noneSelected": "ምንም ጋዜጣ አልተመረጠም።",
+      "pdfErr": "እባክዎን በ pdf ቅርጸት ይስቀሉ።",
+      "description": "መግለጫ",
+      "descErrMes": "መግለጫ ያስፈልጋል",
+      "submit": "አስገባ",
+      "update": "አዘምን",
+      "editNewsletter": "ጋዜጣ አርትዕ",
+      "toastMessages": {
+        "deleteError": "ጋዜጣ መሰረዝ አልተቻለም"
+      },
+      "swal": {
+        "title": "ጋዜጣ ይሰረዝ?",
+        "text": "እርግጠኛ ነህ ጋዜጣ፡ {{ title }}ን መሰረዝ ትፈልጋለህ?",
+        "text2": "ጋዜጣ በተሳካ ሁኔታ ተሰርዟል።"
+      }
+    }
+  },
+  "exams": {
+    "publishResults": "ውጤቶችን አትም",
+    "results": "ውጤቶች",
+    "exam": "ፈተና",
+    "selectExam": "ፈተናን ይምረጡ",
+    "status": "ሁኔታ",
+    "downloadResults": "የውርድ ውጤቶች",
+    "noResultsToPub": "ምንም የሚታተም ውጤት የለም።",
+    "noResultsToPub2": "ለማተም ምንም ውጤቶች አልተገኙም።",
+    "publishCs": {
+      "swal1": {
+        "title": "እርግጠኛ ነህ?",
+        "text": "ውጤቶቹን ካተሙ በኋላ ለማርትዕ ለክፍል ተቆጣጣሪ አይገኙም።"
+      },
+      "swal2": {
+        "title": "ውጤቶች በተሳካ ሁኔታ ታትመዋል",
+        "text": "የቅጹ ውጤቶች በተሳካ ሁኔታ ታትመዋል"
+      }
+    },
+    "addIntake": {
+      "headerH4": "ወደ ፈተና {{formoryear}} ይጨምሩ",
+      "closeBtn": "ገጠመ",
+      "intakeFormTitle": "ለፈተና የተቀመጠውን {{formoryear}} ይጨምሩ",
+      "intakeFormIntakes": "{{formoryear}} {{form}}",
+      "intakeFormPlaceHolder": "ሊወሰዱ የሚችሉ አነስተኛ ርዕሰ ጉዳዮች",
+      "cancelBtn": "ሰርዝ",
+      "createBtn": "ፍጠር",
+      "allIntakesTakingExamMsg": "ሁሉም {{formoryear}}s ይህንን ፈተና እየወሰዱ ነው።",
+      "toastMessages": {
+        "formErrors": {
+          "minSubjectsMissing": "ለ፡ {{formOrYear }} {{ form }} አነስተኛ የትምህርት ዓይነቶችን አስገባ",
+          "minSubjectsLess": "ዝቅተኛ የትምህርት ዓይነቶች ለ፡ {{ formOrYear }} {{ form }} ከ{{minsubjects}} ያነሱ ሊሆኑ አይችሉም",
+          "noFormSelected": "ቢያንስ አንድ ቅጽ ይምረጡ"
+        }
+      }
+    },
+    "analysis": {
+      "className": "{{classname}}",
+      "examName": "{{examname}}",
+      "aggregateStats": {
+        "first": {
+          "name": "{{name}}",
+          "value": "{{value}}",
+          "suffix": "{{suffix}}",
+          "change": "{{change}}"
+        },
+        "second": {
+          "name": "{{name}}",
+          "value": "{{value}}",
+          "suffix": "{{suffix}}",
+          "change": "{{change}}"
+        },
+        "meanGrade": {
+          "label": "አማካኝ ደረጃ",
+          "value": "{{value}}"
+        },
+        "labelClassAverages": "የክፍል አማካኞች"
+      },
+      "kcseMeanChange": "{{kcse_mean_change}}",
+      "performanceStreamsTitle": "የ{{classname}} ዥረቶች አፈጻጸም",
+      "labelChangeExam": "ፈተናን ቀይር",
+      "labelChangeStream": "ዥረት ቀይር",
+      "labelStreamComparison": "የዥረት ንጽጽር",
+      "labelStudentsWhoSatForTheExam": "ለፈተና የተቀመጡ ተማሪዎች",
+      "studentEntries": "{{entries}} ተማሪዎች",
+      "btnTextMeritList": "የክብር ዝርዝር",
+      "btnTextMostImproved": "በጣም የተሻሻለ ዝርዝር",
+      "btnTextReportForms": "ቅጾችን ሪፖርት ያድርጉ",
+      "textSubjectPerformance": "የርእሰ ጉዳይ አፈጻጸም",
+      "tableTextPerformance": {
+        "head": {
+          "name": "ስም",
+          "points": "ነጥቦች",
+          "change": "መለወጥ",
+          "grade": "ደረጃ"
+        }
+      },
+      "textSubjectPerformanceOverTime": "በጊዜ ሂደት አፈጻጸም",
+      "textGradeBreakdown": "የደረጃ መከፋፈል",
+      "btnTextViewPrintFormat": "የህትመት ቅርጸት ይመልከቱ",
+      "toastMessages": {
+        "error": "በዚህ ጊዜ የተመን ሉህ መፍጠር አልተቻለም"
+      }
+    },
+    "analysisSubject": {
+      "className": "{{classname}}",
+      "subjectName": "{{subjectname}}",
+      "examName": "{{examname}}",
+      "aggregateStats": {
+        "first": {
+          "name": "{{name}}",
+          "value": "{{value}}",
+          "suffix": "{{suffix}}",
+          "change": "{{change}}"
+        },
+        "second": {
+          "name": "{{name}}",
+          "value": "{{value}}",
+          "suffix": "{{suffix}}",
+          "change": "{{change}}"
+        },
+        "meanGrade": {
+          "label": "አማካይ ደረጃ",
+          "value": "{{value}}"
+        },
+        "labelClassAverages": "የክፍል አማካኞች"
+      },
+      "streamMean": "የዥረት አማካኝ",
+      "kcseMeanChange": "{{kcse_mean_change}}",
+      "performanceStreamsTitle": "የ{{classname}} ዥረቶች አፈጻጸም",
+      "labelChangeExam": "ፈተናን ቀይር",
+      "labelChangeStream": "ዥረት ቀይር",
+      "labelStreamComparison": "የዥረት ንጽጽር",
+      "labelStudentsWhoSatForTheExam": "ለፈተና የተቀመጡ ተማሪዎች",
+      "studentEntries": "{{entries}} ተማሪዎች",
+      "btnTextViewStudentResults": "የተማሪ ውጤቶችን ይመልከቱ",
+      "textSubjectPerformanceOverTime": "በጊዜ ሂደት አፈጻጸም",
+      "textGradeBreakdown": "የደረጃ መከፋፈል",
+      "btnTextViewPrintFormat": "የህትመት ቅርጸት ይመልከቱ"
+    },
+    "analysisSubjectMeritList": {
+      "subjectMeritListTitle": "{{formoryear}} {{form}} {{stream}} - {{subject}} - {{examname}}",
+      "admNo": "አድምኖ",
+      "total": "ጠቅላላ",
+      "name": "ስም",
+      "grade": "ደረጃ",
+      "targetGrade": "የዒላማ ደረጃ",
+      "btnTextDownloadAsSpreedsheet": "እንደ የተመን ሉህ አውርድ",
+      "excelDownload": {
+        "workSheetColumnHeaders": {
+          "admno": "አድምኖ",
+          "name": "ስም",
+          "marks": "ምልክቶች",
+          "grade": "ደረጃ"
+        },
+        "markList": "ማርክ ሊስት"
+      }
+    },
+    "classAnalysis": {
+      "btnTextClosePrintFormat": "የህትመት ቅርጸት ዝጋ",
+      "btnTextPrint": "አትም",
+      "btnTextPrinting": "ማተም",
+      "btnTextDownload": "አውርድ",
+      "btnTextSpreadsheet": "የተመን ሉህ",
+      "btnDownloadSpreadsheet": "Download spreadsheet",
+      "downloadText": "The analysis report is ready. Click the button below to download",
+      "titleTextNoReportsFound": "ምንም ዘገባዎች አልተገኙም።",
+      "titleTextOptions": "አማራጮች",
+      "titleTextTopStudents": "ከፍተኛ ተማሪዎች",
+      "labelTextShowSubjectTopStudents": "የትምህርት ዓይነቶችን ከፍተኛ ተማሪዎችን አሳይ",
+      "labelTextShowTopStudentsOnly": "ምርጥ ተማሪዎችን ብቻ አሳይ",
+      "labelTextKCSEYearToCompareWith": "KCSE ዓመት ጋር ለማነጻጸር",
+      "titleTextSchoolName": "{{schoolname}}",
+      "titleTextExamName": "{{examname}}",
+      "titleTextClassName": "{{classname}}",
+      "textSchoolAddress": "{{address}}",
+      "labelTextTopStudents": "ከፍተኛ ተማሪዎች",
+      "labelTextReport": "ሪፖርት አድርግ",
+      "labelTextComparedToKcse": "ከ KCSE ጋር ሲነጻጸር",
+      "labelTextMeanGrade": "አማካይ ደረጃ",
+      "textStudentsWhoSatForTheExam": "ለፈተና የተቀመጡ ተማሪዎች",
+      "textPerformanceOfStreams": "የ{{examform}} ዥረቶች አፈጻጸም",
+      "textStudentsWhoSatForExam": "ለፈተና የተቀመጡ ተማሪዎች",
+      "textStudentPopulation": "{{students}}",
+      "titleTextStudents": "ተማሪዎች",
+      "labelTextSubjectStatistics": "የርዕሰ ጉዳይ ስታቲስቲክስ",
+      "tableHeaderTextName": "ስም",
+      "tableHeaderTextPrevious": "ያለፈው {{valueType}}",
+      "tableHeaderTextSubjectType": "{{valueType}}",
+      "tableHeaderTextChange": "ለውጥ",
+      "tableHeaderTextGrade": "ደረጃ",
+      "tableHeaderTextTrend": "አዝማሚያ",
+      "labelTextClassGradeSummary": "የክፍል ደረጃ ማጠቃለያ",
+      "labelTextClassSubjectMeans": "የክፍል ርዕሰ ጉዳይ ማለት ነው።",
+      "labelTextOverallClassStatistics": "አጠቃላይ የክላስ ስታቲስቲክስ",
+      "labelTextGradeSummary": "የክፍል ማጠቃለያ - {{subject}}",
+      "labelTextTopStudent": "ከፍተኛ ተማሪዎች - {{subject}}",
+      "labelTextTopStudentCategory": "ከፍተኛ {{topStudentCategory}} - {{subject}}",
+      "labelTextGradeSummaryByGender": "የክፍል ማጠቃለያ - {{subject}} - በጾታ",
+      "labelTextHouseAverages": "የቤት አማካኝ",
+      "labelTextPerformanceOverTime": "በጊዜ ሂደት አፈጻጸም",
+      "toastMessages": {
+        "fetchContentError": "በዚህ ጊዜ የተመን ሉህ መፍጠር አልተቻለም"
+      }
+    },
+    "configExam": {
+      "titleTextExamName": "{{examname}}",
+      "titleTextSubjectPapers": "ርዕሰ ጉዳዮች",
+      "tableHeaderTextName": "ስም",
+      "tableHeaderTextPapers": "ወረቀቶች",
+      "btnTextEnableAll": "ሁሉንም አንቃ",
+      "tableHeaderTextPaperName": "የወረቀት ስም",
+      "tableHeaderTextRatio": "ምጥጥን",
+      "tableHeaderTextStatus": "ሁኔታ",
+      "inputPlaceHolderRatio": "ምጥጥን",
+      "labelTextUnset": "አልተዋቀረም።",
+      "labelTextActive": "ንቁ",
+      "labelTextDisabled": "ተሰናክሏል",
+      "tableBodyTextPaperOne": "ወረቀት 1",
+      "tableBodyTextPaperTwo": "ወረቀት 2",
+      "tableBodyTextPaperThree": "ወረቀት 3",
+      "btnTextSave": "አስቀምጥ",
+      "btnTextEdit": "አርትዕ",
+      "btnTextClose": "ገጠመ",
+      "btnTextBack": "ተመለስ",
+      "btnTextEditAddPaper": "ወረቀትን ያርትዑ / ያክሉ",
+      "toastMessages": {
+        "saveForDefaultPaperErrorRatiosError": "ነባሪዎችን ማስቀመጥ አልተቻለም",
+        "enableAllPaperErrorRatiosError": "ሁሉንም ወረቀቶች ማግበር አልተቻለም",
+        "savePapersForm": {
+          "invalidPaperNames": "እባክዎ ትክክለኛ የወረቀት ስሞችን ይጥቀሱ። እያንዳንዱ የወረቀት ስም ቢያንስ 2 ቁምፊዎች ሊኖሩት ይገባል",
+          "invalidRatios": "እባክዎ ልክ የሆኑ ሬሾዎችን ይጥቀሱ። ሬሾዎቹ ከ0 በላይ መሆን አለባቸው"
+        },
+        "papersModifiedSuccess": "ወረቀቶች በተሳካ ሁኔታ ተስተካክለዋል።",
+        "newDefaultsSavedSuccess": "አዲስ ነባሪዎች በተሳካ ሁኔታ ተቀምጠዋል",
+        "papersActivatedSuccess": "ሁሉም ወረቀቶች በተሳካ ሁኔታ ነቅተዋል።",
+        "paperDeletedSuccess": "ወረቀቶች በተሳካ ሁኔታ ተስተካክለዋል።"
+      },
+      "swal": {
+        "textSavePaperRatio": "ይህን አዲስ ምጥጥን አዲሱ ነባሪ እንዲሆን ማስቀመጥ ይፈልጋሉ?",
+        "confirmButtonText": "ለዚህ ፈተና ብቻ",
+        "cancelButtonText": "እንደ ነባሪ አዘጋጅ",
+        "titleSavePaperRatio2": "እንደ ነባሪ አዘጋጅ",
+        "textSavePaperRatio2": "ነባሪ እሴቶችን ልታቀናብር ነው። በድርጊት ይቀጥሉ?",
+        "textSavePaperRatio3": "ሁሉንም የርእሰ ጉዳይ የወረቀት ምጥጥን ልታነቃ ነው። በድርጊት ይቀጥሉ?",
+        "textSavePaperRatio4": "ይህን አዲስ ምጥጥን አዲሱ ነባሪ እንዲሆን {{ name }} ይፈልጋሉ?"
+      }
+    },
+    "consolidatedExams": {
+      "labelTextExamName": "የፈተና ስም",
+      "textExamNameRequired": "የፈተና ስም ያስፈልጋል",
+      "labelTextTerm": "ጊዜ",
+      "optionTextSelectTerm": "ውል ይምረጡ",
+      "textTermRequired": "ጊዜ ያስፈልጋል",
+      "textYear": "አመት",
+      "optionTextAcademicYear": "የትምህርት ዘመን",
+      "textYearIsRequired": "አመት ያስፈልጋል",
+      "textNoExamsWereFound": "ምንም ፈተናዎች አልተገኙም።",
+      "textSpecifyClasses": "ክፍሎችን ይግለጹ",
+      "textFormsThatSatForExam": "ለፈተና የተቀመጠ {{formoryear}}",
+      "btnTextCreate": "ፍጠር",
+      "alertTitleSuccess": "የፈተና ስኬት ይፍጠሩ",
+      "alertBodyText": "የተጠናከረ ፈተና በተሳካ ሁኔታ ተፈጥሯል።",
+      "alertBtnConfirmText": "እሺ",
+      "toastMessages": {
+        "topErrorMsg": "ምንም ፈተናዎች አልተገኙም።",
+        "addGroupForm": {
+          "atLeastTwoExamsError": "እባክዎ በ{{ formOrYear }} {{ form }} ውስጥ ቢያንስ ሁለት ፈተናዎችን ይምረጡ",
+          "noFormSelected":"እባክዎ ቢያንስ አንድ ቅጽ ይምረጡ",
+          "incorrectRatio": "እባክህ ለ{{ examName }} በ{{ formOrYear }} {{ form }} ውስጥ ትክክለኛውን ምጥጥን ይግለጹ"
+        }
+      }
+    },
+    "createExam": {
+      "labelTextExamType": "የፈተና ዓይነት",
+      "labelTextOrdinaryExam": "መደበኛ ፈተና",
+      "labelTextConsolidatedExam": "የተጠናከረ ፈተና",
+      "labelTextYearAverage": "አማካይ አመት",
+      "labelTextKcse": "KCSE",
+      "labelTextExamName": "የፈተና ስም",
+      "labelTextExamIsRequired": "የፈተና ስም ያስፈልጋል",
+      "labelTextTerm": "ጊዜ",
+      "labelTextSelectTerm": "ውል ይምረጡ",
+      "optionTextOne": "1",
+      "optionTextTwo": "2",
+      "optionTextThree": "3",
+      "textTermIsRequired": "የጊዜ ገደብ ያስፈልጋል",
+      "labelTextYear": "አመት",
+      "optionTextSelectYear": "ዓመት ይምረጡ",
+      "textYearIsRequired": "አመት ያስፈልጋል",
+      "textFormsThatSatForExam": "ለፈተና የተቀመጠ {{formoryear}}",
+      "textForm": "ቅፅ",
+      "inputPlaceholderMinNumberOfExams": "ለ {{formoryear}} ዝቅተኛ የፈተናዎች ብዛት",
+      "textMinNumberOfExams": "ለቅጽ አነስተኛውን የፈተናዎች ብዛት ያስገቡ",
+      "textMin": "ዋጋ ከ 7 በላይ ወይም እኩል መሆን አለበት።",
+      "btnTextCreate": "ፍጠር",
+      "alertTitleSuccess": "የፈተና ስኬት ይፍጠሩ",
+      "alertBodyText": "ፈተና በተሳካ ሁኔታ ተፈጥሯል።",
+      "alertBtnConfirmText": "እሺ",
+      "toastMessages": {
+        "createExamForm": {
+          "subjectsWaning": "በቅጹ የተከናወኑ ርዕሰ ጉዳዮችን ያስገቡ፡ {{ form }}",
+          "formSelectionWarning": "ቢያንስ አንድ ቅጽ ይምረጡ"
+        }
+      },
+      "kcseResutsUploadPreviousExcelTemplate": {
+        "fileName": "ቀዳሚውን የKCSE ርዕሰ ጉዳይ ስቀል - አብነት",
+        "workSheetName": "ያለፈውን የKCSE ርዕሰ ጉዳይ ስቀል",
+        "workSheetColumnHeaders": {
+          "subject": "ርዕሰ ጉዳይ",
+          "year1": "2010",
+          "year2": "2022",
+          "year3": "2013"
+        }
+      },
+      "kcseResutsUploadExcelTemplate": {
+        "fileName": "የKCSE ውጤቶችን ስቀል - አብነት",
+        "workSheetName": "የKCSE ውጤቶችን ስቀል",
+        "workSheetColumnHeaders": {
+          "indexNumber": "ኢንዴክስ_አይ",
+          "name": "ስም",
+          "totalPoints": "ጠቅላላ_ነጥብ",
+          "meanGrade": "አማካይ_ደረጃ"
+        }
+      }
+    },
+    "deletedExams": {
+      "textDeletedExams": "የተሰረዙ ፈተናዎች",
+      "textOrdinaryExams": "መደበኛ ፈተናዎች",
+      "textName": "ስም",
+      "textAcademicYear": "የትምህርት ዘመን",
+      "textTerm": "ጊዜ",
+      "textOfferedInForm": "በ {{formoryear}} ውስጥ ቀርቧል",
+      "textNoOrdinaryExamsFound": "ምንም መደበኛ ፈተናዎች አልተገኙም።",
+      "textClass": "ክፍል",
+      "textDeletedBy": "ተሰርዟል።",
+      "textDeletionDate": "የተሰረዘበት ቀን",
+      "textAction": "ድርጊት",
+      "btnTextRecover": "ማገገም",
+      "btnTextDelete": "ሰርዝ",
+      "textKCSEExams": "የKCSE ፈተናዎች",
+      "textNoKcseExamsFound": "ምንም የKCSE ፈተናዎች አልተገኙም።",
+      "alertConfirmDeleteTitle": "ፈተና እስከመጨረሻው ይሰረዝ?",
+      "alertConfirmDeleteText": "ፈተናዎችን '{{exam}}' ሊሰርዙ ነው። በድርጊት ይቀጥሉ?",
+      "alertConfirmRecoverTitle": "የማገገም ፈተና?",
+      "alertConfirmRecoverText": "ፈተና '{{exam}}' እንደገና ልታደርጉ ነው። በድርጊት ይቀጥሉ?",
+      "toastMessages": {
+        "recoverExamError": "{{ examName }}ን መልሶ ማግኘት አልተቻለም",
+        "deleteExamError": "{{ examName }}ን መሰረዝ አልተቻለም",
+        "recoverExamSuccess": "ፈተና በተሳካ ሁኔታ ተመልሷል",
+        "deleteExamSuccess": "ፈተና በተሳካ ሁኔታ ተሰርዟል።"
+      }
+    },
+    "editExams": {
+      "textEditExam": "ፈተናን አርትዕ",
+      "btnTextAdd": "{{formoryear}} ያክሉ",
+      "textExamName": "የፈተና ስም",
+      "textExamNameRequired": "የፈተና ስም ያስፈልጋል",
+      "btnTextBack": "ተመለስ",
+      "btnTextUpdate": "አዘምን",
+      "btnTextEdit": "አርትዕ",
+      "toastMessages": {
+        "examNotChangedWarning": "የፈተናው ስም አልተቀየረም!",
+        "updateSuccess": "ፈተና በተሳካ ሁኔታ ዘምኗል!"
+      }
+    },
+    "editTopNav": {
+      "textEditExam": "ፈተናን አርትዕ",
+      "textExam": "ፈተና",
+      "textEdit": "አርትዕ"
+    },
+    "examsTopNav": {
+      "textMy": "የኔ",
+      "textClasses": "ክፍሎች",
+      "textMyClasses": "የእኔ ክፍሎች",
+      "textManage": "አስተዳድር",
+      "textExams": "ፈተናዎች",
+      "textExam": "ፈተና",
+      "textManageExams": "ፈተናዎችን ያስተዳድሩ",
+      "textCreate": "ፍጠር",
+      "textCreateExam": "ፈተና ፍጠር",
+      "textGrading": "ደረጃ መስጠት",
+      "textSystems": "ስርዓቶች",
+      "textGradingSystems": "የደረጃ አሰጣጥ ስርዓቶች",
+      "coefficient": "Coefficient",
+      "system": "System",
+      "mentions":"Mentions",
+      "textSubjectPaperRatios": "ርዕሰ ጉዳይ የወረቀት ሬሾዎች",
+      "textSubjectPaper": "ርዕሰ ጉዳይ ወረቀት",
+      "textRatio": "ሬሾዎች",
+      "textDeletedExams": "የተሰረዙ ፈተናዎች",
+      "textDeleted": "ተሰርዟል።"
+    },
+    "gradingSystem": {
+      "textName": "ስም",
+      "textAction": "ድርጊት",
+      "btnTextView": "ይመልከቱ",
+      "btnTextDelete": "ሰርዝ",
+      "noneFound": "No grading systems found",
+      "textGsName": "የደረጃ አሰጣጥ ስርዓት ስም",
+      "textGsNameRequired": "የደረጃ አሰጣጥ ስርዓት ስም ያስፈልጋል",
+      "textGsGrid": "የደረጃ አሰጣጥ ፍርግርግ (ከዝቅተኛው ጋር ይጀምሩ)",
+      "textLow": "ዝቅተኛ",
+      "textHigh": "ከፍተኛ",
+      "textGrade": "ደረጃ",
+      "textPoints": "ነጥቦች",
+      "textActions": "ድርጊቶች",
+      "btnTextAdd": "አክል",
+      "btnTextRemove": "አስወግድ",
+      "btnTextSaveGs": "የደረጃ አሰጣጥ ስርዓትን አስቀምጥ",
+      "toastMessages": {
+        "repeatedPointsWarning": "ነጥቦች {{point }} ተደጋግሟል",
+        "repeatedGradeWarning": "ደረጃ {{ grade }} ተደግሟል",
+        "invalidHighValueEntry": "ልክ ያልሆነ ከፍተኛ ዋጋ በመግቢያ {{ value }}",
+        "invalidLowEntryValueEntry": "በመግቢያው ላይ ልክ ያልሆነ ዝቅተኛ ዋጋ {{ value }}",
+        "atLeastTwoGradesWarning": "የውጤት አሰጣጥ ስርዓቱ ቢያንስ ሁለት ክፍሎች ሊኖሩት ይገባል።",
+        "missingGradingSystemWarning": "የውጤት አሰጣጥ ስርዓት ስም ያቅርቡ!",
+        "deleteSuccess": "የውጤት አሰጣጥ ስርዓት በተሳካ ሁኔታ ተሰርዟል!"
+      },
+      "swal": {
+        "titleDelete": "የውጤት አሰጣጥ ስርዓትን ሰርዝ!",
+        "textDelete": "እርግጠኛ ነዎት {{ title }}ን መሰረዝ ይፈልጋሉ?",
+        "titleAddSuccess": "የውጤት አሰጣጥ ስርዓት በተሳካ ሁኔታ ተፈጥሯል።",
+        "textAddSuccess": "የውጤት አሰጣጥ ስርዓት <b> {{ title }} </b> በተሳካ ሁኔታ ተፈጥሯል"
+      }
+    },
+    "kcseExams": {
+      "textForm": "ቅፅ",
+      "textName": "ስም",
+      "textSelectForm": "ቅጽ ይምረጡ",
+      "textExam": "ፈተና",
+      "textYear": "አመት",
+      "textUploadPrevious": "በ ውስጥ የቀደመውን የKCSE ትምህርት አማካይ ነጥቦችን ይስቀሉ።",
+      "textFollowingFormat": "የሚከተለው ቅርጸት",
+      "textUploadResults": "የKCSE ውጤቶችን በ ውስጥ ከታች ይስቀሉ።",
+      "btnTextUpload": "የKCSE ውጤቶችን ስቀል",
+      "btnTextLoading": "በመጫን ላይ",
+      "textError": "ስህተት",
+      "textFollowingErrors": "የሚከተሉት ስህተቶች አጋጥሟቸዋል",
+      "textAllowedColumns": "የተፈቀዱ ዓምዶች",
+      "textColumn": "አምድ",
+      "textMeaning": "ትርጉም",
+      "swal": {
+        "title": "ረጅም ሂደት!",
+        "text": "ይህ እርምጃ ትንሽ ጊዜ ሊወስድ ይችላል. እባካችሁ ታገሱ።",
+        "title2": "ስኬትን ይጫኑ!"
+      }
+    },
+    "manageExams": {
+      "textAcademicYear": "የትምህርት ዘመን",
+      "textExam": "ፈተና",
+      "textClass": "ክፍል",
+      "textStatus": "ሁኔታ",
+      "textAction": "ድርጊት",
+      "btnTextEditExam": "ፈተናን አርትዕ",
+      "btnTextSubjectPapers": "ርዕሰ ጉዳዮች",
+      "btnTextUploadResults": "የሰቀላ ውጤቶች",
+      "btnTextPublishResults": "ውጤቶችን አትም",
+      "btnTextAnalyzeResults": "ውጤቶችን ተንትን",
+      "btnTextDelete": "ሰርዝ",
+      "btnTextSendResults": "ውጤቶች ላክ",
+      "btnTextUnpublishResults": "ውጤቶችን አትታተም",
+      "alertTitle": "ፈተና ይሰረዝ?",
+      "alertText": "እርግጠኛ ነዎት {{exam}} ን መሰረዝ ይፈልጋሉ?",
+      "toastMessages": {
+        "unpublishSuccess": "ፈተና በተሳካ ሁኔታ ታትሟል",
+        "isDeleteSuccess": "ክዋኔውን ሰርዝ በተሳካ ሁኔታ ተከናውኗል"
+      },
+      "swal": {
+        "title": "ፈተናን ሰርዝ",
+        "text": "እርግጠኛ ነዎት {{ name }}ን መሰረዝ ይፈልጋሉ?",
+        "title2": "ፈተናን አትታተም!",
+        "text2": "እርግጠኛ ነዎት {{ name }}ን አለማተም ይፈልጋሉ?"
+      }
+    },
+    "markList": {
+      "btnTextDownload": "አውርድ",
+      "btnTextPdf": "ፒዲኤፍ",
+      "btnTextSpreadsheet": "የተመን ሉህ",
+      "textMarkList": "ዝርዝር ምልክት ያድርጉ",
+      "textAdmno": "አድምኖ",
+      "textName": "ስም",
+      "textStream": "ዥረት",
+      "excelDownload": {
+        "workSheetName": "ዝርዝር ምልክት ያድርጉ",
+        "workSheetColumnHeaders": {
+          "admno": "አድምኖ",
+          "name": "ስም",
+          "stream": "ዥረት"
+        },
+        "markList": "ማርክ ሊስት"
+      },
+      "toastMessages": {
+        "excelDownloadSuccess": "Download ስኬት"
+      }
+    },
+    "myClasses": {
+      "textExam": "ፈተና",
+      "textNoExamsFound": "ለአሁኑ ዓመት ምንም ፈተናዎች አልተገኙም።",
+      "textSubjectClasses": "የትምህርት ዓይነቶች",
+      "textName": "ስም",
+      "textStatus": "ሁኔታ",
+      "textAction": "ድርጊት",
+      "btnTextUpload": "ስቀል",
+      "btnTextPublish": "አትም",
+      "btnTextAnalyze": "ይተንትኑ",
+      "btnTextView": "ይመልከቱ",
+      "textStreams": "ዥረቶች",
+      "textClassesSupervised": "ቁጥጥር የሚደረግባቸው ክፍሎች",
+      "swal": {
+        "title": "እርግጠኛ ነህ?",
+        "text": "የተመረጠውን የትምህርት አይነት ውጤት ከሰቀሉ በኋላ የክፍል መምህሩ ፈተናውን እንደገና ማተም ይኖርበታል።"
+      }
+    },
+    "publishExamsConsolidated": {
+      "textPublishConsolidatedExamForm": "የማጠናከሪያ ፈተናን አትም - ቅጽ",
+      "textExam": "ፈተና",
+      "textRatio": "ምጥጥን",
+      "textRankingCriteria": "የደረጃ አሰጣጥ መስፈርቶች",
+      "textRankByMeanMarks": "በአማካኝ ማርክ",
+      "textRankByKcsePoints": "በKCSE ነጥቦች ደረጃ",
+      "textRankByMeanPoints": "በአማካኝ ነጥብ ደረጃ",
+      "textGs": "የደረጃ አሰጣጥ ስርዓት",
+      "textSelectGs": "የደረጃ አሰጣጥ ስርዓትን ይምረጡ",
+      "textSelectAGs": "የውጤት አሰጣጥ ስርዓት ይምረጡ",
+      "textSubject": "ርዕሰ ጉዳይ",
+      "textPreviewGs": "የደረጃ አሰጣጥ ስርዓትን አስቀድመው ይመልከቱ",
+      "textPreviewGrades": "ደረጃዎችን አስቀድመው ይመልከቱ",
+      "btnTextPublishResults": "ውጤቶችን አትም",
+      "swal": {
+        "title": "ረጅም ሂደት!",
+        "text": "ውሂቡ ሲሰላ ይህ እርምጃ ትንሽ ረዘም ያለ ጊዜ ሊወስድ ይችላል።",
+        "title2": "ፈተና ስኬትን አትም!",
+        "text2": "የፈተና ውጤቶቹ በተሳካ ሁኔታ ታትመዋል"
+      }
+    },
+    "publishExams": {
+      "textPublishExam": "ውጤቶችን አትም {{formoryear}} {{form}}",
+      "textExam": "ፈተና",
+      "textStatusClassResults": "የክፍል ውጤቶች ሁኔታ",
+      "textClass": "ክፍል",
+      "textStatus": "ሁኔታ",
+      "btnTextView": "ይመልከቱ",
+      "btnTextEdit": "አርትዕ",
+      "btnTextCancel": "ሰርዝ",
+      "btnTextSave": "አስቀምጥ",
+      "btnTextAction": "ድርጊት",
+      "btnDownloadResults": "የውርድ ውጤቶች",
+      "textMinNumberSubject": "ሊወሰዱ የሚችሉ አነስተኛ የትምህርት ዓይነቶች",
+      "titleTextMinimum": "እባክዎ ዝቅተኛውን ያስገቡ",
+      "textRankingCriteria": "የደረጃ አሰጣጥ መስፈርቶች",
+      "textRankByMeanMarks": "በአማካኝ ማርክ",
+      "textRankByKcsePoints": "በKCSE ነጥቦች ደረጃ",
+      "textRankByMeanPoints": "በአማካኝ ነጥብ ደረጃ",
+      "textOverallGs": "አጠቃላይ የደረጃ አሰጣጥ ስርዓት",
+      "textSelectGs": "የደረጃ አሰጣጥ ስርዓትን ይምረጡ",
+      "textSubjectGs": "የትምህርት ደረጃ አሰጣጥ ስርዓት",
+      "textSubject": "ርዕሰ ጉዳይ",
+      "textGs": "የደረጃ አሰጣጥ ስርዓት",
+      "textCombineSocialandRe": "ማህበራዊ ጥናቶችን እና ሃይማኖታዊ ትምህርትን ያጣምሩ",
+      "textRatio": "ምጥጥን",
+      "textSocialStudies": "ማህበራዊ ጥናቶች",
+      "textReligiousEducation": "የሃይማኖት ትምህርት",
+      "inputTitleText": "እባክዎ ሬሾውን ያስገቡ",
+      "btnTextBack": "ተመለስ",
+      "btnTextPublishResults": "ውጤቶችን አትም",
+      "textReminderSubjectTeacher": "አስታዋሽ - ርዕሰ ጉዳይ መምህር",
+      "btnTextDiscardReminders": "አስታዋሾችን አስወግድ",
+      "btnTextSendReminders": "አስታዋሾችን ላክ",
+      "textNoResultsToPublish": "ምንም የማተም ውጤቶች የሉም",
+      "textDescribeNoResultsToPublish": "ለማተም ምንም ውጤቶች አልተገኙም።",
+      "toastMessages": {
+        "sendRemindersSuccess": "አስታዋሾች በተሳካ ሁኔታ ተልከዋል።",
+        "saveMinSubjectsSuccess": "አነስተኛ የትምህርት ዓይነቶች በተሳካ ሁኔታ ተቀምጠዋል"
+      },
+      "swal": {
+        "title": "እርግጠኛ ነህ?",
+  			"text": "ውጤቶቹን ካተሙ በኋላ ለማርትዕ አይገኙም። ውሂቡ ሲሰላ ይህ እርምጃ ትንሽ ረዘም ያለ ጊዜ ሊወስድ ይችላል።",
+        "title2": "ፈተና ስኬትን አትም!",
+        "text2": "የፈተና ውጤቶቹ በተሳካ ሁኔታ ታትመዋል"
+      }
+    },
+    "publishStatus": {
+      "textResultPublishSuccess": "ውጤቶች በተሳካ ሁኔታ ታትመዋል",
+      "textExamPublishSuccess": "የፈተና ውጤቶቹ በተሳካ ሁኔታ ታትመዋል",
+      "btnTextBack": "ተመለስ",
+      "textExamPublishing": "የፈተና ህትመት",
+      "textsubjectWithoutResults": "ውጤት የሌለው ርዕሰ ጉዳይ",
+      "textSeletSubjectAccess": "ለየርዕሰ ጉዳይ አስተማሪዎች መዳረሻ ለመስጠት የትምህርት ዓይነቶችን ይምረጡ",
+      "textClass": "ክፍል",
+      "textSubject": "ርዕሰ ጉዳይ",
+      "textSubjectTeacher": "ርዕሰ ጉዳይ መምህር",
+      "textStudentWithoutMarks": "ምልክት የሌለው ተማሪ",
+      "textStatus": "ሁኔታ",
+      "textDontHaveMarks": "ምልክቶች የሉትም።",
+      "textAllHaveMarks": "ሁሉም {{students}} ምልክት አላቸው።",
+      "textPendingPublishingBy": "መታተምን በመጠባበቅ ላይ በ",
+      "textSubjectTeacjer": "ርዕሰ ጉዳይ መምህር",
+      "textClassTeacher": "ክፍል መምህር",
+      "textClassSupervisor": "ክፍል ተቆጣጣሪ",
+      "textDean": "ዲን",
+      "btnTextView": "ይመልከቱ",
+      "btnTextUpload": "ስቀል",
+      "textSubjectWithoutResults": "ውጤት የሌለው ርዕሰ ጉዳይ",
+      "textStudents": "ተማሪዎች",
+      "btnTextUploadResults": "የሰቀላ ውጤቶች",
+      "btnTextCancel": "ሰርዝ",
+      "btnTextDownloadResults": "የውርድ ውጤቶች",
+      "btnTextGrantAccessToTeachers": "የርእሰ ጉዳይ አስተማሪዎች ፍቃድ ይስጡ",
+      "textAllHaveNoResults": "ሁሉም ርዕሰ ጉዳዮች ምንም ውጤት የላቸውም",
+      "btnTextPublishResults": "ውጤቶችን አትም",
+      "publishinfo": "* አንዳንድ የትምህርት አይነት አስተማሪዎች የርእሰ ጉዳያቸውን ውጤታቸውን አሳትመዋል፣ ስለዚህ አዲስ ውጤቶችን ማከል አይችሉም። የርእሰ ጉዳይ አስተማሪዎች ውጤት እንዲያስገቡ ለማስቻል ከላይ ያለውን 'ለርዕሰ ጉዳይ አስተማሪዎች መዳረሻ ስጡ' የሚለውን ቁልፍ ጠቅ ያድርጉ።",
+      "toastMessages": {
+        "unpublishSuccess": "ፈተና በተሳካ ሁኔታ ታትሟል",
+        "unpublishSeriesSuccess": "ተከታታይ ፈተና በተሳካ ሁኔታ ታትሟል"
+      },
+      "swal": {
+        "title": "እርግጠኛ ነህ?",
+  			"text": "የተመረጠውን የትምህርት አይነት ውጤት ከሰቀሉ በኋላ የክፍል መምህሩ ፈተናውን እንደገና ማተም ይኖርበታል።",
+        "text2": "ውጤቶቹን ካተሙ በኋላ ለክፍል መምህሩ ለአርትዖት አይገኙም።",
+        "text3": "ይህ እርምጃ የርእሰ ጉዳይ አስተማሪዎች እንዲደርሱ ያስችላቸዋል፣ ይህም ውጤት እንዲያስገቡ ያስችላቸዋል።"
+      }
+    },
+    "publishSubjectStatus": {
+      "textSubjectPaper": "ርዕሰ ጉዳይ ወረቀት",
+      "btnTextBack": "ተመለስ",
+      "textView": "ይመልከቱ",
+      "textEdit": "አርትዕ",
+      "textViewBy": "ይመልከቱ በ",
+      "textEditBy": "አርትዕ በ",
+      "textAdmissionNumber": "የመግቢያ ቁጥር",
+      "textIndexNumber": "መረጃ ጠቋሚ ቁጥር",
+      "textSelectExam": "ፈተናን ይምረጡ",
+      "textMaximumMarks": "ከፍተኛ ማርኮች",
+      "btnTextCancel": "ሰርዝ",
+      "btnTextSave": "አስቀምጥ",
+      "textNewResults": "አዲስ ውጤቶች",
+      "btnTextSubjectPaper": "ርዕሰ ጉዳይ ወረቀት",
+      "textName": "ስም",
+      "textScore": "ነጥብ",
+      "textAtion": "ድርጊት",
+      "textGradeX": "ደረጃ X",
+      "textGradeY": "ደረጃ Y",
+      "btnTextDelete": "ሰርዝ",
+      "btnTextSaveNewResults": "አዲስ ውጤቶችን ያስቀምጡ",
+      "textAddResults": "ውጤቶችን አክል",
+      "textDownloadResults": "የውርድ ውጤቶች",
+      "textDeleteResults": "ውጤቶችን ሰርዝ",
+      "textPublish": "አትም",
+      "textPublishAllPapers": "ሁሉንም ወረቀቶች ያትሙ",
+      "btnTextCancelDelete": "ሰርዝ ሰርዝ",
+      "btnTextDeleteSelected": "ሰርዝ ተመርጧል",
+      "toastMessages": {
+        "uspecifiedValueWarning": "እባክዎ ትክክለኛ ዋጋ ይግለጹ",
+        "invalidMarksWarning": "ልክ ያልሆኑ ምልክቶች ውጤቱ ከ{{max }} ያነሰ መሆን አለበት",
+        "resultsAddSuccess": "ውጤቶች በተሳካ ሁኔታ ታክለዋል።",
+        "marksUpdateSuccess": "ማርክ በተሳካ ሁኔታ ዘምኗል",
+        "deleteResultsSuccess": "ውጤቶች በተሳካ ሁኔታ ተሰርዘዋል",
+        "saveOutOfSuccess": "በተሳካ ሁኔታ ተቀምጧል",
+        "saveNewResultsSuccess": "አዲስ ውጤቶች በተሳካ ሁኔታ ተቀምጠዋል"
+      },
+      "swal": {
+        "title": "ውጤቶችን ሰርዝ!",
+  			"text": "እርግጠኛ ነዎት የተመረጡትን ውጤቶች መሰረዝ ይፈልጋሉ? እርምጃው ሊቀለበስ አይችልም።",
+        "title2": "እርግጠኛ ነህ?",
+        "text2": "ውጤቶቹን ካተሙ በኋላ ለርዕሰ ጉዳይ መምህሩ ለአርትዖት አይገኙም።",
+        "title3": "ውጤቶች በተሳካ ሁኔታ ታትመዋል",
+        "text3": "የርዕሰ ጉዳይ ውጤቶቹ በተሳካ ሁኔታ ታትመዋል",
+        "noResultsFoundTitle": "ምንም ውጤቶች አልተገኙም።",
+        "noResultsFoundMsg": "ለማተም ምንም ውጤቶች አልተገኙም።"
+      }
+    },
+    "sendResults": {
+      "textSendResults": "ውጤቶችን ላክ",
+      "textSendResultsTo": "ውጤቶችን ላክ ወደ",
+      "textAll": "ሁሉም",
+      "textSpecificStream": "የተወሰነ ዥረት",
+      "textSpecificStudent": "የተወሰነ ተማሪ",
+      "textStream": "ዥረት",
+      "textSelectStream": "ዥረት ይምረጡ",
+      "textStudent": "ተማሪ",
+      "textSendToSelectedGrades": "ለተመረጡት ተማሪዎች ላክ",
+      "textOptionalMessage": "አማራጭ መልእክት",
+      "textOnlySendOptionalMsg": "የአማራጭ መልእክት ብቻ ይላኩ (የፈተና ውጤቶች አብረው አይላኩም)",
+      "btnTextSend": "ላክ",
+      "textSendingMessages": "መልዕክቶችን መላክ",
+      "toastMessages": {
+        "optionalMessageWarning": "እባክዎን የአማራጭ መልእክት ይግለጹ",
+        "minGradeWarning": "እባክዎ ቢያንስ አንድ ክፍል ይምረጡ"
+      }
+    },
+    "sendResultsConsolidated": {
+      "textSendResults": "ውጤቶች ላክ",
+      "textSendResultsTo": "ውጤቶችን ላክ ወደ",
+      "textAll": "ሁሉም",
+      "textSpecificStream": "የተወሰነ ዥረት",
+      "textSpecificStudent": "የተወሰነ ተማሪ",
+      "textStream": "ዥረት",
+      "textSelectStream": "ዥረት ይምረጡ",
+      "textStudent": "ተማሪ",
+      "textSendToSelectedGrades": "ለተመረጡት ተማሪዎች ላክ",
+      "textOptionalMessage": "አማራጭ መልእክት",
+      "textOnlySendOptionalMsg": "የአማራጭ መልእክት ብቻ ይላኩ (የፈተና ውጤቶች አብረው አይላኩም)",
+      "btnTextSend": "ላክ",
+      "textSendingMessages": "መልዕክቶችን መላክ",
+      "toastMessages": {
+        "optionalMessageWarning": "እባኮትን የአማራጭ መልእክት ይግለጹ",
+        "minGradeWarning": "እባክዎ ቢያንስ አንድ ክፍል ይምረጡ"
+      },
+      "swal": {
+        "title": "ኤስኤምኤስ ስኬትን ላክ",
+        "text": "ውጤቶቹ በተሳካ ሁኔታ ተልከዋል።"
+      }
+    },
+    "subjectPaperRatios": {
+      "textSubjectPaperRatios": "ርዕሰ ጉዳይ የወረቀት ሬሾዎች",
+      "textPaperOutOf": "ወረቀት ከ",
+      "textSubject": "ርዕሰ ጉዳይ",
+      "textPaperContributionPercentage": "የወረቀት አስተዋጽዖ መቶኛ",
+      "paperOutOf": "paperOf",
+      "paper1OutOf": "ወረቀት 1 (ከX ውጪ)",
+      "paper2OutOf": "ወረቀት 2 (ከY ውጪ)",
+      "paper3OutOf": "ወረቀት 3 (ከ z ውጪ)",
+      "paper1Percent": "ወረቀት 1 (%)",
+      "paper2Percent": "ወረቀት 2 (%)",
+      "paper3Percent": "ወረቀት 3 (%)",
+      "btnTextEdit": "አርትዕ",
+      "btnTextCancel": "ሰርዝ",
+      "btnTextSave": "አስቀምጥ",
+      "toastMessages": {
+        "noChangesMadeWarning": "ምንም ለውጦች አልተደረጉም።",
+        "submitEditPaperPresetsSuccess": "በተሳካ ሁኔታ ገብቷል።"
+      }
+    },
+    "uploadExams": {
+      "textExam": "ፈተና",
+      "textForm": "ቅፅ",
+      "textTerm": "ጊዜ",
+      "textYear": "አመት",
+      "textDownload": "አውርድ",
+      "textDocumentDescribe": "እና አብነት ይሙሉ ከዚያም ከታች ይስቀሉት. (ያልተወሰዱ ርዕሶችን መሰረዝ ትችላለህ። እባክህ ሌሎቹን የአምድ ራስጌዎች እንዳለ ተዋቸው።)",
+      "excelTemplateDownload": {
+        "fileName": "የሰቀላ ውጤቶች - አብነት",
+        "workSheetName": "የሰቀላ ውጤቶች - አብነት",
+        "workSheetColumnHeaders": {
+          "admissionNumber": "አድምኖ",
+          "name": "ስም",
+          "stream": "ዥረት"
+        }
+      },
+      "btnTextBack": "ተመለስ",
+      "btnTextLoading": "በመጫን ላይ",
+      "btnTextUploadClassResults": "የክፍል ውጤቶች ይስቀሉ",
+      "textError": "ስህተት",
+      "textErrorList": "የሚከተሉት ስህተቶች አጋጥሟቸዋል",
+      "textAllowedColumns": "የተፈቀዱ ዓምዶች",
+      "textColumn": "አምድ",
+      "textMeaning": "ትርጉም",
+      "toastMessages": {
+        "formSubmissionError": "መጀመሪያ የ Excel ፋይል ስቀል"
+      },
+      "swal": {
+        "title": "የጎደሉ ዥረቶች!",
+  			"text": "የጎደሉትን ጅረቶች በራስ ሰር ለመፍጠር ከዚህ ገጽ ግርጌ ያለውን አመልካች ሳጥን ይምረጡ",
+        "title2": "ረጅም ሂደት!",
+        "text2": "ይህ እርምጃ ትንሽ ጊዜ ሊወስድ ይችላል. እባካችሁ ታገሱ።",
+        "title3": "ስኬትን ይጫኑ!"
+      }
+    },
+    "uploadedExamsSubject": {
+      "textResultsUploadSuccess": "ውጤቶቹ በተሳካ ሁኔታ ተሰቅለዋል።",
+      "btnTextBack": "ተመለስ",
+      "textUploadResults": "የሰቀላ ውጤቶች",
+      "textUploadType": "የሰቀላ አይነት",
+      "textKeyInMarks": "በምልክቶች ውስጥ ቁልፍ",
+      "textUploadResultsFromSpreadsheet": "ውጤቶችን ከተመን ሉህ ስቀል",
+      "textUploadBy": "ስቀል በ",
+      "textIndexNumber": "መረጃ ጠቋሚ ቁጥር",
+      "textAdmissionNumber": "የመግቢያ ቁጥር",
+      "textExam": "ፈተና",
+      "textMaximumMarks": "ከፍተኛ ማርኮች",
+      "textUnamedTerm": "ያልተሰየመ ቃል",
+      "textStudentsWithResults": "ውጤት ያላቸው ተማሪዎች",
+      "inputPlaceHolderMaximumMarks": "'ከዋጋ ውጭ' ለምሳሌ. 30",
+      "textMaximumNotEmpty": "ከፍተኛ ምልክቶች ባዶ ሊሆኑ አይችሉም",
+      "textMaximumNotGreaterThan1000": "ከፍተኛው ምልክቶች > 1000 መሆን አይችሉም",
+      "textSubjectPaper": "ርዕሰ ጉዳይ ወረቀት",
+      "textSubjectPaperNotEmpty": "የርዕሰ ጉዳይ ወረቀት ባዶ ሊሆን አይችልም",
+      "textTerm": "ጊዜ",
+      "textYear": "አመት",
+      "textStudentWithResults": "ውጤት ያላቸው ተማሪዎች",
+      "textAdmno": "የመግቢያ ቁጥር",
+      "textName": "ስም",
+      "textMarks": "ምልክቶች",
+      "textDownload": "አውርድ",
+      "textFillTemplate": "እና አብነቱን ይሙሉ ከዚያም ከታች ይስቀሉት. (እባክዎ የአምዱ ራስጌዎችን እንደነበሩ ይተዉት)",
+      "excelTemplateDownload": {
+        "fileName": "የሰቀላ የርዕሰ ጉዳይ ውጤቶች - አብነት",
+        "workSheetName": "ሉህ 1",
+        "workSheetColumnHeaders": {
+          "indexNumber": "indexno",
+          "admissionNumber": "አድምኖ",
+          "name": "ስም",
+          "marks": "ምልክቶች"
+        }
+      },
+      "textStudentWithoutResults": "ተማሪዎች ያለ ውጤት",
+      "textAllStudentsHaveResults": "ሁሉም ተማሪዎች ውጤት አላቸው።",
+      "textGradeX": "ደረጃ X",
+      "textGradeY": "ደረጃ Y",
+      "textNewStudents": "አዲስ ተማሪዎች",
+      "btnTextDelete": "ሰርዝ",
+      "btnTextAddStudent": "ተማሪ ጨምር",
+      "btnTextUploadSubjectResults": "የርዕሰ ጉዳይ ውጤቶችን ስቀል",
+      "toastMessages": {
+        "invalidFormFieldsWarning": "እባክዎ ልክ ያልሆኑ የቅጽ መስኮችን ይፍቱ"
+      },
+      "swal": {
+        "title": "ረጅም ሂደት!",
+        "text": "ይህ እርምጃ ትንሽ ጊዜ ሊወስድ ይችላል. እባካችሁ ታገሱ።",
+        "title2": "የውጤቶች ጭነት!",
+        "text2": "እርግጠኛ ነህ እነዚህን ውጤቶች መስቀል ትፈልጋለህ?"
+      }
+    },
+    "yearAverageExams": {
+      "textForm": "አ08877a8d779d2z0",
+      "textSelectForm": "{{formoryear}} ይምረጡ",
+      "textAcademicYear": "የትምህርት ዘመን",
+      "textSelectAcademicYear": "የትምህርት ዓመትን ይምረጡ",
+      "textSelectExams": "ፈተናዎችን ይምረጡ",
+      "textTerm": "ጊዜ",
+      "textExams": "ፈተናዎች",
+      "textSelectExam": "ፈተናን ይምረጡ",
+      "textRankingCriteria": "የደረጃ አሰጣጥ መስፈርቶች",
+      "textRankByMeanMarks": "በአማካኝ ማርክ",
+      "textRankByKcsePoints": "በKCSE ነጥቦች ደረጃ",
+      "textRankByMeanPoints": "በአማካኝ ነጥብ ደረጃ",
+      "textMinimumSubjectsTaken": "ሊወሰዱ የሚችሉ አነስተኛ የትምህርት ዓይነቶች",
+      "inputMinimumTitle": "እባክዎ ዝቅተኛውን ያስገቡ",
+      "textOverallGs": "አጠቃላይ የደረጃ አሰጣጥ ስርዓት",
+      "textSelectGs": "የደረጃ አሰጣጥ ስርዓትን ይምረጡ",
+      "textSubjectGs": "የትምህርት ደረጃ አሰጣጥ ስርዓት",
+      "textSubject": "ርዕሰ ጉዳይ",
+      "textGs": "የደረጃ አሰጣጥ ስርዓት",
+      "textSelect": "ይምረጡ",
+      "textGenerateYearAverage": "አማካኝ አመት ይፍጠሩ",
+      "textGenerating": "በማመንጨት ላይ",
+      "alertConfirmTitle": "እርግጠኛ ነህ ?",
+      "alertConfirmText": "እርግጠኛ ነዎት YearAverage መፍጠር ይፈልጋሉ?",
+      "alertSuccessTitle": "የፈተና ስኬት ይፍጠሩ",
+      "alertSuccessText": "የአመቱ አማካይ ፈተና በተሳካ ሁኔታ ተፈጥሯል።",
+      "toastMessages": {
+        "atLeastTwoEamsWarning": "ቢያንስ ሁለት ፈተናዎችን ይምረጡ",
+        "missingGradingSystemWarning": "የውጤት አሰጣጥ ስርዓት ይምረጡ",
+        "missingSubjectGradingSystemWarning": "ለርዕሰ ጉዳይ {{ subject }} የውጤት አሰጣጥ ስርዓት ይምረጡ"
+      }
+    },
+  "mentions":{
+    "mentions": "መጥቀስ",
+    "addMention": "መጥቀስ ፍጠር",
+    "createMention": "ምንም የተጠቀሱ አልተገኙም ",
+    "noMentionsFound": "አስወግድ",
+    "low": "መጥቀስን አስቀምጥ",
+    "high": "ዝጋ",
+    "mention": "ፍርግርግን ጥቀስ (ከዝቅተኛው ጋር ጀምር)",
+    "comment": "እስከ {{ነጥብ}} ያሉ ነጥቦችን [ስኬት መፍጠርን ጥቀስ",
+    "actions": "መጥቀስ {{ስም}} በተሳካ ሁኔታ ተፈጥሯል",
+    "edit": " አልተቻለም 'ትጠቅስ መፍጠር አልችልም መስፈርት",
+    "view": "መጥቀስ ፍጠር0",
+    "add": "መጥቀስ ፍጠር1",
+    "mentionName": "መጥቀስ ፍጠር2",
+    "name": "መጥቀስ ፍጠር3",
+    "cancel": "መጥቀስ ፍጠር4",
+    "remove": "መጥቀስ ፍጠር5",
+    "saveMention": "መጥቀስ ፍጠር6",
+    "close": "መጥቀስ ፍጠር7",
+    "mentionGrid": "መጥቀስ ፍጠር8",
+    "points": "መጥቀስ ፍጠር9",
+    "mentionCreateSuccess": "ምንም የተጠቀሱ አልተገኙም 0",
+    "mentionCreateSuccessMsg": "ምንም የተጠቀሱ አልተገኙም 1",
+    "mentionCouldntCreate": "ምንም የተጠቀሱ አልተገኙም 2",
+    "deleteMention": "ምንም የተጠቀሱ አልተገኙም 3",
+    "confirmDeleteMentionText": "ምንም የተጠቀሱ አልተገኙም 4",
+    "textProceed": "ምንም የተጠቀሱ አልተገኙም 5",
+    "textCancel": "መጥቀስ ፍጠር4",
+    "textAnErrorOccured": "ምንም የተጠቀሱ አልተገኙም 6",
+    "textFailed": "ምንም የተጠቀሱ አልተገኙም 7",
+    "textFailedComment": "ምንም የተጠቀሱ አልተገኙም 8",
+    "textSufficient": "ምንም የተጠቀሱ አልተገኙም 9",
+    "textSufficientComment": "አስወግድ0",
+    "textSatisfactory": "አስወግድ1",
+    "textSatisfactoryComment": "አስወግድ2",
+    "textGood": "አስወግድ3",
+    "textGoodComment": "አስወግድ4",
+    "textVeryGood": "አስወግድ5",
+    "textVeryGoodComment": "አስወግድ6",
+    "textExcellent": "አስወግድ7",
+    "textExcellentComment": "አስወግድ6",
+    "textFieldIsRequired": "አስወግድ8",
+    "textMentionGrid": "አስወግድ9",
+    "textEnterAValue": "መጥቀስን አስቀምጥ0",
+    "textProvideComment": "መጥቀስን አስቀምጥ1"
+  }
+  },
+  "invoice": {
+    "accountLock": {
+      "countDown": {
+        "days": "ቀናት",
+        "hours": "ሰዓታት",
+        "minutes": "ደቂቃዎች",
+        "seconds": "ሰከንዶች"
+      },
+      "viewProformaInvoiceBtn": "የፕሮፎርማ ክፍያ መጠየቂያ ደረሰኝን ይመልከቱ",
+      "contactUsBtn": "አግኙን",
+      "contactUs": "ያግኙን፡:  {{phoneNumber}}"
+    },
+    "invoiceTopNav": {
+      "school": "ትምህርት ቤት {{docType}}"
+    },
+    "invoice": {
+      "topNav": {
+        "invoice": "ደረሰኝ"
+      },
+      "noInvoiceFound": "ምንም ደረሰኝ አልተገኘም።",
+      "backBtn": "ተመለስ",
+      "printBtn": "አትም",
+      "kraPin": "KRA ፒን",
+      "billTo": "ቢል ለ",
+      "dueDate": "የመጨረሻ ማስረከቢያ ቀን",
+      "description": "መግለጫ",
+      "netAmount": "የተጣራ መጠን",
+      "vat": "ተ.እ.ታ (16%)",
+      "grossAmount": "ጠቅላላ መጠን",
+      "total": "ጠቅላላ",
+      "paymentDate": "የክፍያ ቀን",
+      "amount": "AMOUNT",
+      "totalDue": "ጠቅላላ ጊዜው ያለፈበት"
+    },
+    "proformaInvoice": {
+      "topNav": {
+        "proformaInvoice": "የዋጋ መሰብሰቢያ ደረሰኝ"
+      },
+      "noInvoiceFound": "ምንም ደረሰኝ አልተገኘም።",
+      "backBtn": "ተመለስ",
+      "printBtn": "አትም",
+      "kraPin": "KRA ፒን",
+      "billTo": "ቢል ለ",
+      "dueDate": "የመጨረሻ ማስረከቢያ ቀን",
+      "description": "መግለጫ",
+      "netAmount": "የተጣራ መጠን",
+      "vat": "ተ.እ.ታ (16%)",
+      "grossAmount": "ጠቅላላ መጠን",
+      "total": "ጠቅላላ",
+      "paymentDate": "የክፍያ ቀን",
+      "amount": "AMOUNT",
+      "totalDue": "ጠቅላላ ጊዜው ያለፈበት"
+    }
+  },
+  "finance": {
+    "commonAttr": {
+      "fee": "ክፍያ",
+      "statement": "መግለጫ",
+      "balance": "ሚዛን",
+      "structure": "መዋቅር",
+      "school": "ትምህርት ቤት",
+      "finance": "ፋይናንስ",
+      "student": "ተማሪ"
+    },
+    "topNav": {
+      "pledges": "ቃል ኪዳኖች"
+    },
+    "feeBalance": {
+      "searchBox": {
+        "title": "ፍለጋ በ",
+        "admNo": "የመግቢያ ቁጥር",
+        "student": "ተማሪ",
+        "name": "ስም",
+        "form": "ቅፅ",
+        "amountAbove": "መጠን በላይ",
+        "amountBelow": "ከታች ያለው መጠን"
+      },
+      "searchForm": {
+        "admNo": {
+          "label": "የመግቢያ ቁጥር",
+          "admError": "የመግቢያ ቁጥር ባዶ ሊሆን አይችልም።"
+        },
+        "student": {
+          "label": "ተማሪ",
+          "studError": "ሜዳ ባዶ ሊሆን አይችልም።"
+        },
+        "name": {
+          "label": "ስም",
+          "nameError": "ስም ባዶ ሊሆን አይችልም።"
+        },
+        "form": {
+          "label": "ቅፅ",
+          "placeholder": "ቅጽ ይምረጡ",
+          "formError": "ቅጹ ባዶ ሊሆን አይችልም።"
+        },
+        "stream": {
+          "label": "ዥረት",
+          "placeholder": "ዥረት ይምረጡ",
+          "streamError": "ዥረቱ ባዶ ሊሆን አይችልም።"
+        },
+        "amountAbove": {
+          "label": "መጠን ከላይ",
+          "amountError": "ከላይ ያለው መጠን ባዶ ሊሆን አይችልም።"
+        },
+        "amountBelow": {
+          "label": "ከታች ያለው መጠን",
+          "amountError": "ከዚህ በታች ያለው መጠን ባዶ ሊሆን አይችልም።"
+        }
+      },
+      "searchBtn": "ፈልግ",
+      "table": {
+        "noData": "ምንም ተማሪ አልተገኘም።",
+        "admNo": "Adm ቁጥር",
+        "name": "ስም",
+        "class": "ክፍል",
+        "stream": "ዥረት",
+        "amount": "መጠን",
+        "action": "ድርጊት",
+        "viewBtn": "ተጨማሪ አሳይ",
+        "pagination": "ገጽ {{pageNumber}} የ {{totalPages}}",
+        "fPagination": "ከ {{start}} እስከ {{last}} ግቤቶችን በማሳየት ላይ"
+      },
+      "collections": {
+        "refDate": "የማጣቀሻ ቀን",
+        "receiptDate": "የመቀበያ ቀን",
+        "paymentMode": "የክፍያ ሁነታ",
+        "receiptNo":"ደረሰኝ ቁጥር.",
+        "txnCode": "የግብይት ኮድ",
+        "bbcollection": "ከስብስብ በፊት ሚዛን",
+        "bacollection": "ከስብስብ በኋላ ሚዛን"
+      },
+      "pledges": {
+        "dueDate": "የመጨረሻ ማስረከቢያ ቀን",
+        "pleaderName": "የአማላጅ ስም",
+        "pleaderRship": "የተማጽኖ ግንኙነት",
+        "contactInfo":"የመገኛ አድራሻ",
+        "overdue": "ዘግይቷል",
+        "pending": "በመጠባበቅ ላይ"
+      }
+    },
+    "feeStructure": {
+      "searchForm": {
+        "year": {
+          "label": "አመት",
+          "placeholder": "ዓመት ይምረጡ"
+        },
+        "term": {
+          "label": "ጊዜ",
+          "placeholder": "ውል ይምረጡ"
+        },
+        "searchBtn": "ፈልግ"
+      },
+      "noData": "ምንም የክፍያ መዋቅር አልተገኘም።",
+      "form": "ቅፅ",
+      "term": "ጊዜ",
+      "bTotal": "የድንበር አጠቃላይ",
+      "beginDate": "የቃል መጀመሪያ ቀን",
+      "endDate": "የጊዜ ማብቂያ ቀን",
+      "voteHead": "ራስ ምረጥ",
+      "amount": "መጠን",
+      "boardingOrDay": "የመሳፈሪያ/ቀን",
+      "all": "ሁሉም",
+      "dayScholars": "የቀን ምሁራን",
+      "boarding": "መሳፈር"
+    },
+    "pFeeBalance": {
+      "studProfile": "የተማሪ መገለጫ"
+    },
+    "pFeeStatement": {
+      "noData": "ምንም መዝገቦች አልተገኙም!",
+      "admNo": "Adm ቁጥር",
+      "class": "ክፍል",
+      "issuedOn": "ላይ የተሰጠ",
+      "date": "ቀን",
+      "title": "ርዕስ",
+      "description": "መግለጫ",
+      "amount": "መጠን"
+    },
+    "pFeeStructure": {
+      "noData": "ምንም መዝገቦች አልተገኙም።",
+      "form": {
+        "year": {
+          "label": "አመት",
+          "placeholder": "ዓመት ይምረጡ"
+        },
+        "term": {
+          "label": "ውል ይምረጡ"
+        },
+        "classListBtn": "የክፍል ዝርዝር ያግኙ"
+      },
+      "feeStructure": "የክፍያ መዋቅር(ዎች)",
+      "term": "ጊዜ",
+      "year": "አመት",
+      "admNo": "Adm ቁጥር",
+      "voteHead": "ራስ ምረጥ",
+      "amount": "መጠን",
+      "status": "ሁኔታ",
+      "statusTypes": {
+        "deleted": "ተሰርዟል።",
+        "active": "ንቁ",
+        "awaitingApproval": "ማጽደቅን በመጠባበቅ ላይ",
+        "approved": "ጸድቋል",
+        "invoiced": "የክፍያ መጠየቂያ ደረሰኝ",
+        "closed": "ዝግ"
+      }
+    },
+    "schoolFinance": {
+      "dayDropdown": {
+        "today": "ዛሬ",
+        "thisTerm": "ይህ ቃል",
+        "lastTerm": "የመጨረሻ ጊዜ",
+        "monthsAgo": "6 ወራት",
+        "yearsAgo": "1 ዓመት"
+      },
+      "expected": "የሚጠበቀው",
+      "collected": "ተሰብስቧል",
+      "balance": "ሚዛን",
+      "toastMessages": {
+        "getFinanceStatsError": "ስህተት አጋጥሞታል።"
+      }
+    }
+  },
+  "layout": {
+    "home": "ቤት",
+    "dashboard": "ዳሽቦርድ",
+    "exams": "ፈተናዎች",
+    "calendar": "የቀን መቁጠሪያ",
+    "messages": "መልዕክቶች",
+    "more": "ተጨማሪ",
+    "menu_items": "የምናሌ ዕቃዎች",
+    "classes": "ክፍሎች",
+    "students": "ተማሪዎች",
+    "teachers": "አስተማሪዎች",
+    "staff": "ሰራተኞች",
+    "bom": "BOM/PA",
+    "printouts": "የህትመት ውጤቶች",
+    "products": "ዘራኪ ምርቶች",
+    "finance": "ፋይናንስ",
+    "timetable": "የጊዜ ሰሌዳ",
+    "learning": "መማር",
+    "shop": "ይግዙ",
+    "others": "ሌሎች",
+    "opportunities": "እድሎች",
+    "behaviour": "ባህሪ",
+    "top": {
+      "userInfo": {
+        "schoolname_short": "{{schoolname_short}}",
+        "schoolName": "{{schoolname}}",
+        "name": "{{name}}",
+        "email": "{{email}}"
+      },
+      "searchStudent": "ተማሪን ፈልግ",
+      "unreadReadMessages": "ያልተነበቡ መልዕክቶች",
+      "messages": "መልዕክቶች",
+      "clearAll": "ሁሉንም ያፅዱ",
+      "notTitle": "{{title}}",
+      "noUnreadMessages": "ያልተነበቡ መልዕክቶች የሉም",
+      "viewAll": "ሁሉንም ይመልከቱ",
+      "profile": "መገለጫ",
+      "changePassword": "የሚስጥር ቁልፍ ይቀይሩ",
+      "settings": "ቅንብሮች",
+      "logout": "ውጣ",
+      "toastMessages": {
+        "logoutSuccess": "የመውጣት ስኬት",
+        "noMessagesPreset": "ምንም መልዕክቶች የሉም"
+      }
+    }
+  },
+  "learning": {
+    "welcomeBack": "እንኳን ደህና መጣህ",
+    "loginText": "አሁን መግባት ትችላለህ",
+    "zerakiLearning": "ዘራኪ ትምህርት",
+    "learningLink": "https://learning.zeraki.co.ke",
+    "using": "የእርስዎን ዘራኪን በመጠቀም",
+    "username": "የተጠቃሚ ስም",
+    "and": "እና",
+    "password": "ፕስወርድ"
+  },
+  "messages": {
+    "commonAttr": {
+      "back": "ተመለስ",
+      "messages": "መልዕክቶች"
+    },
+    "buy": {
+      "noData": "ምንም የኤስኤምኤስ ግዢዎች አልተገኙም።",
+      "texts": "ጽሑፎች",
+      "remaining": "የቀረው",
+      "smsCredits": "የኤስኤምኤስ ምስጋናዎች",
+      "purchases": {
+        "info": "በMPESA በኩል የኤስኤምኤስ ክሬዲቶችን ለመግዛት ከዚህ በታች ያሉትን ዝርዝሮች ይጠቀሙ፡-",
+        "paybill": "የክፍያ መጠየቂያ ቁጥር",
+        "account": "መለያ ቁጥር",
+        "note": "ማስታወሻ ያዝ",
+        "noteText1": "1) ከKsh የሚበልጥ መጠን ያስገቡ። 50/-",
+        "noteText2": "2) በMPESA ውስጥ የገለፁት መለያ ቁጥር ልክ ከላይ እንደሚታየው ማለትም SMS{{smsCode}} መሆኑን ያረጋግጡ። ማንኛውንም ደብዳቤ ወይም ቁጥር ችላ ካልዎት, ክፍያው ውድቅ ይሆናል",
+        "noteText3": "3) አንዴ ክፍያ ከፈጸሙ በኋላ፣ ሳፋሪኮም ክፍያው ለ {{paybillName}} መከፈሉን ያሳውቅዎታል።",
+        "charges": "የኤስኤምኤስ ክፍያዎች Ksh ናቸው። 1/- በኤስኤምኤስ"
+      },
+      "smsPurchases": "የኤስኤምኤስ ግዢዎች",
+      "date": "ቀን",
+      "phone": "ስልክ ቁጥር",
+      "mpesaCode": "የMPESA ኮድ",
+      "amount": "መጠን",
+      "viewReceipt": "ደረሰኝ ይመልከቱ"
+    },
+    "compose": {
+      "completeMessage": "ሙሉ መልእክት...",
+      "recipients": {
+        "title": "ተቀባዮች",
+        "students": "ተማሪዎች",
+        "teachers": "አስተማሪዎች",
+        "boms": "BOM/PA",
+        "staff": "ሰራተኞች",
+        "alumni": "የቀድሞ ተማሪዎች",
+        "others": "ሌሎች"
+      },
+      "next": "ቀጥሎ",
+      "messageType": "የመልእክት አይነት",
+      "allStudents": "ሁሉም ተማሪዎች",
+      "specificStudents": "ልዩ ተማሪዎች",
+      "specificClasses": "የተወሰኑ ክፍሎች",
+      "examResults": "የፈተና ውጤቶች",
+      "levelPlaceholder": "{{level}} ይምረጡ",
+      "noStudents": "ምንም ተማሪዎች አልተገኙም።",
+      "students": "ተማሪዎች",
+      "studentsPlaceholder": "ተማሪዎችን ይምረጡ",
+      "selectStreams": "ዥረቶችን ይምረጡ (ሁሉም ዥረቶች በነባሪነት የተመረጡ)",
+      "selectStream": "ዥረት ይምረጡ",
+      "streamsPlaceholder": "ዥረት ምረጥ...",
+      "noExams": "ምንም ፈተናዎች አልተገኙም።",
+      "exam": "ፈተና",
+      "examPlaceholder": "ፈተና ይምረጡ",
+      "noTeachers": "ምንም አስተማሪዎች አልተገኙም።",
+      "allTeachers": "ሁሉም አስተማሪዎች",
+      "specificTeachers": "ልዩ አስተማሪዎች",
+      "teacherGroups": "የአስተማሪ ቡድኖች",
+      "teachers": "አስተማሪዎች",
+      "teachersPlaceholder": "አስተማሪዎች ይምረጡ",
+      "teacherGroupsPlaceholder": "የአስተማሪ ቡድኖችን ይምረጡ",
+      "noBom": "ምንም የቦም አባላት አልተገኙም።",
+      "allBom": "ሁሉም የBOM/PA አባላት",
+      "specificBom": "የተወሰነ BOM/PA አባላት",
+      "bomGroups": "BOM/PA ቡድኖች",
+      "bomMembers": "BOM/PA አባላት",
+      "bomMembersPlaceholder": "የBOM/PA አባላትን ይምረጡ",
+      "bomGroupsPlaceholder": "BOM/PA ቡድኖችን ይምረጡ",
+      "allStaff": "ሁሉም የሰራተኞች አባላት",
+      "specificStaff": "የተወሰኑ ሰራተኞች አባላት",
+      "staffGroups": "የሰራተኞች ቡድኖች",
+      "staffMembers": "የሰራተኞች አባላት",
+      "staffMembersPlaceholder": "የሰራተኛ አባላትን ይምረጡ",
+      "staffGroupsPlaceholder": "የሰራተኛ ቡድኖችን ይምረጡ",
+      "graduationClass": "የምረቃ ክፍል",
+      "graduationClassPlaceholder": "የምረቃ ክፍል ይምረጡ",
+      "finalStep": "የመጨረሻ ደረጃ",
+      "info1": "ከታች የሚታየው ለወላጆች የሚላከው መልእክት አብነት ነው። የሚታየው የመግቢያ ዝርዝሮች የናሙና ዝርዝሮች ናቸው፣ እና ትክክለኛው መልእክቶች ለእያንዳንዱ ተማሪ እውነተኛ ምስክርነቶችን ይይዛሉ።",
+      "info2": "ውድ ወላጅ፣ ተማሪዎቻችን ከቤት መማራቸውን እንዲቀጥሉ ለማስቻል ከዘራኪ ጋር በመተባበር ዲጂታል የመማሪያ ቁሳቁሶችን ለማቅረብ ችለናል።",
+      "info3": "ትምህርቱን ለማግኘት እባኮትን ከታች ያለውን ሊንክ ይጫኑ እና ዘርኪ መማርን ከፕሌይ ስቶር ያውርዱ፡ https://bit.ly/ZerakiLearning",
+      "info4": "ለመግባት የሚከተሉትን ምስክርነቶች ይጠቀሙ፡-",
+      "username": "የተጠቃሚ ስም: XXXX@schoolcode",
+      "password": "የይለፍ ቃል: XXXX",
+      "info5": "ማንኛውም ፈተና ካጋጠመዎት ዘራኪን በስልክ ቁጥር 0790 493 495 ያግኙ",
+      "send": "ላክ",
+      "processing": "በማቀነባበር ላይ",
+      "subject": "ርዕሰ ጉዳይ",
+      "subjectPlaceholder": "የመልእክት ርዕስ",
+      "subjectError": "ርዕሰ ጉዳዩ ባዶ ሊሆን አይችልም።",
+      "category": "ምድብ",
+      "categoryPlaceholder": "የመልእክት ምድብ",
+      "message": "መልእክት",
+      "messagePlaceholder": "የመልእክት ይዘት",
+      "messageError": "መልእክት ባዶ ሊሆን አይችልም።",
+      "messageCount": "የመልእክት ብዛት፡ {{msgCount}} ({{msgCharacterCount}} ቁምፊዎች)",
+      "senderIDError": "(ትምህርት ቤቱ ልዩ የላኪ መታወቂያ ስለሌለው የትምህርት ቤቱ ስም በእያንዳንዱ መልእክት መጨረሻ ላይ መታከል አለበት)",
+      "sendTextMessage": "የጽሑፍ መልእክት ይላኩ።",
+      "sendEmail": "ኢሜል ይላኩ",
+      "noStudentsFound": "ምንም ተማሪዎች አልተገኙም።",
+      "noExamResults": "ምንም የፈተና ውጤቶች አልተገኙም።",
+      "sendResultsTo": "ውጤቶችን ላክ ወደ",
+      "specificClass": " ሁሉም {{level}} ተማሪዎች",
+      "specificStream": "የተወሰነ ዥረት",
+      "specificStudent": "የተወሰነ ተማሪ",
+      "noExamGrades": "ምንም የፈተና ውጤቶች አልተገኙም።",
+      "sendWithSelectedGrade": "ለተመረጡት ተማሪዎች ላክ",
+      "optionalMessage": "አማራጭ መልእክት",
+      "optionalMessagePlaceholder": "ከፈተና ውጤቶች ጋር አብሮ የሚላክ አማራጭ መልእክት",
+      "onlySendOptionalMessage": "የአማራጭ መልእክት ብቻ ይላኩ (የፈተና ውጤቶች አብረው አይላኩም)",
+      "phoneNumber": "ስልክ ቁጥር",
+      "phoneNumberError": "ትክክለኛ ቁጥር(ዎች) ይተይቡ እና አስገባን ይጫኑ",
+      "email": "ኢሜይል",
+      "emailError": "ትክክለኛ ኢሜይል(ዎች) ይተይቡ እና አስገባን ይጫኑ",
+      "toastMessages": {
+        "missingPhoneOrEmailWarning": "እባክዎን የተቀባዩን ስልክ ቁጥር ወይም ኢሜይል ያቅርቡ",
+        "unspecifiedStudentsWarning": "እባክዎን ተማሪዎቹን ይጥቀሱ",
+        "unspecifiedClassesWarning": "እባክዎን ክፍሎቹን ይግለጹ",
+        "unspecifiedTeachersWarning": "እባክዎን መምህራኖቹን ይጥቀሱ",
+        "unspecifiedTeacherGroupsWarning": "እባክዎን የአስተማሪ ቡድኖችን ይግለጹ",
+        "unspecifiedOfficialsWarning": "እባክዎን ኦፊሰሮችን ይጥቀሱ",
+        "unspecifiedBomWarning": "እባክዎ የBOM/PA ቡድኖችን ይግለጹ",
+        "unspecifiedGraduatedClassWarning": "እባክዎ የተመረቀ ክፍል ይጥቀሱ",
+        "unspecifiedStaffGroupsWarning": "እባክዎን የሰራተኛ ቡድኖችን ይግለጹ",
+        "messageSentSuccess": "መልእክት ተልኳል።",
+        "messageSentError": "መልእክት መላክ አልተቻለም። እባክዎ ቆየት ብለው ይሞክሩ"
+      },
+      "swal": {
+        "title": "መልዕክት ላክ?",
+        "text": "እርግጠኛ ነዎት ይህን መልእክት ለተመረጡት ተቀባዮች መላክ ይፈልጋሉ?",
+        "title2": "Zeraki የመማሪያ ምስክርነቶችን ይላክ?",
+        "text2": "እርግጠኛ ነህ የZeraki Learning ምስክርነቶችን ለሁሉም ተማሪዎች መላክ ትፈልጋለህ?",
+        "title3": "ውጤቶች ይላኩ?",
+        "text3": "እርግጠኛ ነህ የፈተናውን ውጤት ለተመረጡት ተቀባዮች መላክ ትፈልጋለህ?"
+      }
+    },
+    "inbox": {
+      "from": "ከ",
+      "type": "ዓይነት",
+      "subject": "ርዕሰ ጉዳይ",
+      "date": "ቀን",
+      "noMessages": "ምንም መልዕክቶች የሉም"
+    },
+    "topNav": {
+      "view": "ይመልከቱ",
+      "inbox": "የገቢ መልእክት ሳጥን",
+      "read": "አንብብ",
+      "compose": "ጻፍ",
+      "message": "መልእክት",
+      "trackSmsUsage": "የኤስኤምኤስ አጠቃቀምን ይከታተሉ",
+      "trackSms": "ኤስኤምኤስ ይከታተሉ",
+      "usage": "አጠቃቀም",
+      "buy": "ግዛ",
+      "sms": "ኤስኤምኤስ"
+    },
+    "group": {
+      "subject": "ርዕሰ ጉዳይ",
+      "info": "መረጃ",
+      "sender": "ላኪ",
+      "date": "ቀን",
+      "message": "መልእክት",
+      "recipients": "ተቀባዮች",
+      "intendedRecipients": "የታቀዱ ተቀባዮች",
+      "delivered": "ደረሰ",
+      "failed": "አልተሳካም።",
+      "smsCredits": "የኤስኤምኤስ ምስጋናዎች",
+      "from": "ከ",
+      "admNo": "Adm ቁጥር",
+      "to": "ለ",
+      "type": "ዓይነት",
+      "name": "ስም",
+      "status": "ሁኔታ",
+      "resend": "እንደገና ላክ",
+      "resendMessage": "መልእክት እንደገና ላክ",
+      "deliveryInfo": "የመላኪያ መረጃ",
+      "credit": "ክሬዲት",
+      "credits": "ምስጋናዎች",
+      "smsSummaryUsage": "የኤስኤምኤስ ማጠቃለያ አጠቃቀም",
+      "hideMessage": "መልእክት ደብቅ",
+      "viewMessage": "መልእክት ይመልከቱ",
+      "noMessages": "ምንም የጽሑፍ መልዕክቶች የሉም",
+      "toastMessages": {
+        "resendMessageSuccess": "መልዕክቶች በተሳካ ሁኔታ ተመልሰዋል።"
+      },
+      "swal": {
+        "title": "መልእክት እንደገና ላክ",
+        "text": "እርግጠኛ ነዎት መልዕክቱን ወደ {{ name }} መላክ ይፈልጋሉ?"
+      }
+    },
+    "receipt": {
+      "receiptNo": "ደረሰኝ ቁጥር.",
+      "print": "አትም",
+      "to": "ለ",
+      "phone": "ስልክ",
+      "receiptDate": "የመቀበያ ቀን",
+      "description": "መግለጫ",
+      "purchaser": "ገዥ",
+      "mpesaCode": "MPesa ኮድ",
+      "date": "ቀን",
+      "cost": "ወጪ",
+      "purchaseOfSmsCredits": "የኤስኤምኤስ ክሬዲት ግዢ",
+      "total": "ጠቅላላ",
+      "comments": "አስተያየቶች",
+      "smsCharges": "የኤስኤምኤስ ክፍያዎች KSH ናቸው። 1/- በኤስኤምኤስ"
+    },
+    "track": {
+      "remaining": "የቀሩ የኤስኤምኤስ ክሬዲቶች",
+      "texts": "ጽሑፎች",
+      "sms": "የኤስኤምኤስ አጠቃቀም",
+      "title": "ርዕስ",
+      "sender": "ላኪ",
+      "type": "ዓይነት",
+      "intendedRecipients": "የታቀዱ ተቀባዮች",
+      "delivered": "ደረሰ",
+      "failed": "አልተሳካም።",
+      "smsCredits": "የኤስኤምኤስ ምስጋናዎች",
+      "date": "ቀን",
+      "view": "ይመልከቱ",
+      "credit": "ክሬዲት",
+      "credits": "ምስጋናዎች",
+      "noMessages": "ምንም የጽሑፍ መልዕክቶች የሉም"
+    }
+  },
+  "opportunities": {
+    "topNav": {
+      "vacancies": "ክፍት የስራ ቦታዎች",
+      "swap": "መለዋወጥ"
+    },
+    "vacancies": {
+      "teachingStaffBtn": "የማስተማር ሰራተኞች",
+      "nonTeachingStaffBtn": "የማስተማር ሠራተኞች",
+      "addBtn": "አክል",
+      "title": "ክፍት የስራ ቦታዎች",
+      "searchPlaceholderText": "ርዕስ/ርዕስ ፈልግ",
+      "addVacancy": {
+        "vacancy": {
+          "headerText": "ክፍት የስራ ቦታ",
+          "teachingStaffOption": "የማስተማር ሰራተኞች",
+          "nonTeachingStaffOption": "የማስተማር ሰራተኞች",
+          "nextBtn": "ቀጥሎ"
+        },
+        "details": {
+          "headerText": "ዝርዝሮች",
+          "form": {
+            "title": "ርዕስ",
+            "titlePlaceholderText": "ርዕስ ጨምር",
+            "deadlineDate": "የመጨረሻው ቀን",
+            "deadlineDateHelperText": "dd/ሚሜ/ዓዓ",
+            "description": {
+              "headerText": "መግለጫ",
+              "textOption": "ጽሑፍ",
+              "fileOption": "ፋይል",
+              "fileOptionHelperText": "pdf ፎርማት ተጠቀም",
+              "cancelBtn": "ሰርዝ",
+              "downloadBtn": "አውርድ",
+              "reuploadBtn": "እንደገና መጫን",
+              "toEditText": "ለማረም"
+            }
+          },
+          "formErrors": {
+            "title": "ርዕስ ባዶ ሊሆን አይችልም።",
+            "deadlineDate": "በቀን ማመልከት ባዶ ሊሆን አይችልም።",
+            "description": {
+              "fileOption": "ፋይል ባዶ ሊሆን አይችልም።",
+              "description": "መግለጫ ባዶ ሊሆን አይችልም።"
+            }
+          },
+          "subjectCombinations": {
+            "headerText": "የርዕሰ ጉዳይ ጥምር",
+            "backBtn": "ተመለስ",
+            "nextBtn": "ቀጥሎ"
+          },
+          "subjectCombinationsErrors": {
+            "maximumSubjects": "ከፍተኛው የርእሶች ብዛት ተመርጧል"
+          }
+        },
+        "posting": {
+          "headerText": "በመለጠፍ ላይ",
+          "form": {
+            "schoolInfo": "ትምህርት ቤት",
+            "schoolInfoPlaceholderText": "የትምህርት ቤቱን ስም ያስገቡ",
+            "county": "ካውንቲ",
+            "countyPlaceholderText": "ካውንቲ ይምረጡ",
+            "subCounty": "ክፍለ ሀገር",
+            "subCountyPlaceholderText": "ንዑስ-ካውንቲ ይምረጡ",
+            "backBtn": "ተመለስ",
+            "nextBtn": "ቀጥሎ"
+          },
+          "formErrors": {
+            "schoolInfo": "ትምህርት ቤት ባዶ ሊሆን አይችልም",
+            "county": "ካውንቲ ባዶ መሆን አይችልም።"
+          }
+        },
+        "userDetails": {
+          "headerText": "ጨርስ፡ የተጠቃሚ ዝርዝሮች",
+          "form": {
+            "displayName": "መጠሪያው ስም",
+            "displayNamePlaceholderText": "የማሳያ ስም ያክሉ",
+            "displayNameHelperText": "በቅንብሮች ውስጥ መቀየር ይቻላል",
+            "phoneNumber": "ስልክ ቁጥር",
+            "phoneNumberPlaceholderText": "ስልክ ቁጥር ጨምር",
+            "phoneNumberHelperText": "በቅንብሮች ውስጥ መቀየር ይቻላል",
+            "showPhoneNumber": "ስልክ ቁጥር አሳይ",
+            "showPhoneNumberHelperText": "ስልክ ቁጥር በክፍት የስራ መደቦች ዝርዝር ላይ ይታያል",
+            "resetBtn": "ዳግም አስጀምር",
+            "backBtn": "ተመለስ",
+            "saveBtn": "አስቀምጥ"
+          },
+          "formErrors": {
+            "displayName": "ስም ባዶ ሊሆን አይችልም።",
+            "phoneNumber": "ስልክ ቁጥር ባዶ ሊሆን አይችልም።"
+          },
+          "backToVacanciesBtn": "ወደ ክፍት የስራ ቦታዎች ተመለስ"
+        }
+      },
+      "tableHeaders": {
+        "title": "ርዕስ",
+        "subjectCombination": "የርዕሰ ጉዳይ ጥምረት",
+        "school": "ትምህርት ቤት",
+        "postedBy": "የለጠፈው ሰው",
+        "datePosted": "የተለጠፈበት ቀን",
+        "actions": "ድርጊቶች"
+      },
+      "vacancy": {
+        "viewBtn": "ይመልከቱ",
+        "editBtn": "አርትዕ",
+        "deleteBtn": "ሰርዝ",
+        "details": {
+          "headerText": "{{ type }} ክፍት የስራ ቦታ",
+          "title": "ርዕስ",
+          "subjectCombinations": "የርዕሰ-ጉዳዩ ጥምረት",
+          "description": {
+            "headerText": "መግለጫ",
+            "downloadText": "አውርድ",
+            "remainingText": "መግለጫ ለማየት ፋይል"
+          },
+          "deadlineDate": "የመጨረሻው ቀን",
+          "schoolInfo": "ትምህርት ቤት",
+          "county": "ካውንቲ",
+          "subCounty": "ክ/ሀገር",
+          "contactDetails": "የእውቂያ ዝርዝሮች",
+          "closeBtn": "ገጠመ"
+        }
+      },
+      "paginationInfo": "ገጽ {{ currentPage }} የ {{ totalPages }}",
+      "emptyList": "ምንም ክፍት የስራ ቦታዎች የሉም",
+      "toastMessages": {
+        "saveSuccess": "ክፍት የስራ ቦታ በተሳካ ሁኔታ ተቀምጧል",
+        "updateSuccess": "ክፍት የስራ ቦታ በተሳካ ሁኔታ ዘምኗል",
+        "deleteSuccess": "ክፍት የስራ ቦታ በተሳካ ሁኔታ ተሰርዟል።"
+      },
+      "swal": {
+        "title": "ክፍት የስራ ቦታ ሰርዝ!",
+        "text": "እርግጠኛ ነዎት ክፍት ቦታን መሰረዝ ይፈልጋሉ - {{ ርዕስ }}",
+        "confirmButtonText": "አዎ ይሰርዙት!"
+      }
+    },
+    "swap": {
+      "title": "መተግበሪያዎች",
+      "searchPlaceholderText": "ርዕሰ ጉዳይ/ካውንቲ ወደ",
+      "searchPlaceholderTextMobile": "ፈልግ",
+      "addBtn": "አክል",
+      "addSwap": {
+        "from": {
+          "headerText": "ከ",
+          "form": {
+            "schoolInfo": "ትምህርት ቤት",
+            "schoolInfoPlaceholderText": "የትምህርት ቤቱን ስም ያስገቡ",
+            "county": "ካውንቲ",
+            "countyPlaceholderText": "ካውንቲ ይምረጡ",
+            "subCounty": "ክፍለ ሀገር",
+            "subCountyPlaceholderText": "ንዑስ-ካውንቲ ይምረጡ",
+            "backBtn": "ተመለስ",
+            "nextBtn": "ቀጥሎ"
+          },
+          "formErrors": {
+            "schoolInfo": "ትምህርት ቤት ባዶ ሊሆን አይችልም",
+            "county": "ካውንቲ ባዶ መሆን አይችልም።"
+          }
+        },
+        "to": {
+          "headerText": "ለ",
+          "form": {
+            "county": "ካውንቲ",
+            "countyPlaceholderText": "ካውንቲ ይምረጡ",
+            "subCounty": "ክፍለ ሀገር",
+            "subCountyPlaceholderText": "ንዑስ-ካውንቲ ይምረጡ",
+            "backBtn": "ተመለስ",
+            "nextBtn": "ቀጥሎ"
+          },
+          "formErrors": {
+            "county":"ካውንቲ ባዶ መሆን አይችልም።"
+          }
+        },
+        "subjectCombinations": {
+          "headerText": "የርዕሰ ጉዳይ ጥምር",
+          "backBtn": "ተመለስ",
+          "nextBtn": "ቀጥሎ"
+        },
+        "subjectCombinationsErrors": {
+          "maximumSubjects": "ከፍተኛው የርእሶች ብዛት ተመርጧል"
+        },
+        "userDetails": {
+          "headerText": "ጨርስ፡ የተጠቃሚ ዝርዝሮች",
+          "form": {
+            "displayName": "መጠሪያው ስም",
+            "displayNamePlaceholderText": "የማሳያ ስም ያክሉ",
+            "displayNameHelperText": "በቅንብሮች ውስጥ መቀየር ይቻላል",
+            "phoneNumber": "ስልክ ቁጥር",
+            "phoneNumberPlaceholderText": "ስልክ ቁጥር ጨምር",
+            "phoneNumberHelperText": "በቅንብሮች ውስጥ መቀየር ይቻላል",
+            "showPhoneNumber": "ስልክ ቁጥር አሳይ",
+            "showPhoneNumberHelperText": "ስልክ ቁጥሩ በስዋፕ ዝርዝር ላይ ይታያል",
+            "resetBtn": "ዳግም አስጀምር",
+            "backBtn": "ተመለስ",
+            "saveBtn": "አስቀምጥ"
+          },
+          "formErrors": {
+            "displayName": "ስም ባዶ ሊሆን አይችልም።",
+            "phoneNumber": "ስልክ ቁጥር ባዶ ሊሆን አይችልም።"
+          },
+          "backToSwapListBtn": "ወደ ስዋፕ ዝርዝር ተመለስ"
+        }
+      },
+      "tableHeaders": {
+        "name": "ስም",
+        "subjectCombination": "የርዕሰ ጉዳይ ጥምረት",
+        "school": "ትምህርት ቤት",
+        "from": "ከ",
+        "to": "ለ",
+        "datePosted": "የተለጠፈበት ቀን",
+        "actions": "ድርጊቶች"
+      },
+      "application": {
+        "viewBtn": "ይመልከቱ",
+        "editBtn": "አርትዕ",
+        "deleteBtn": "ሰርዝ",
+        "swapDetails": {
+          "headerText": "ዝርዝሮችን መለዋወጥ",
+          "from": "ከ",
+          "to": "ለ",
+          "subjectCombination": "የርዕሰ ጉዳይ ጥምረት",
+          "contactDetails": "የእውቂያ ዝርዝሮች",
+          "closeBtn": "ገጠመ"
+        }
+      },
+      "paginationInfo": "ገጽ {{ currentPage }} የ {{ totalPages }}",
+      "emptyList": "ምንም መለዋወጥ የለም።",
+      "toastMessages": {
+        "saveSuccess": "ስዋፕ ተቀምጧል ስኬታማ",
+        "updateSuccess": "ስዋፕ በተሳካ ሁኔታ ተዘምኗል",
+        "deleteSuccess": "ስዋፕ በተሳካ ሁኔታ ተሰርዟል።",
+        "deleteSwapError": "ሲሰረዝ ስህተት!"
+      },
+      "swal": {
+        "title": "ስዋፕን ሰርዝ!",
+        "text": "እርግጠኛ ነህ ስዋፕን መሰረዝ ትፈልጋለህ - {{name1 }}፣ {{name2}}",
+        "confirmButtonText": "አዎ ይሰርዙት!"
+      }
+    },
+    "match": {
+      "fromNairobiBtn": {
+        "text": "ከ፡ ናይሮቢ",
+        "option1": "ናኩሩ",
+        "option2": "ሞምባሳ",
+        "option3": "ኪሱሙ"
+      },
+      "requestsFromNairobi": "ጥያቄዎች ከ: ናይሮቢ",
+      "johnDoe": "ጆን ዶ",
+      "pick": "ይምረጡ",
+      "date1": "ታህሳስ 12",
+      "date2": "2020 9:00 ጥዋት",
+      "has": "ያለው",
+      "twoSubjects": "2 ርዕሰ ጉዳዮች",
+      "mollyDoe": "ሞሊ ዶ",
+      "date3": "ታህሳስ 18",
+      "fourSubjects": "4 ርዕሰ ጉዳዮች",
+      "akonDoe": "አኮን ዶ",
+      "date4": "ታህሳስ 22",
+      "oneSubject": "1 ርዕሰ ጉዳይ",
+      "maicalDoe": "ማይካል ዶ",
+      "date5": "ታህሳስ 23",
+      "threeSubject": "3 ርዕሰ ጉዳዮች",
+      "molly": {
+        "name": "ስም: ሞሊ",
+        "tscNumber": "TSC ቁጥር፡ 05023"
+      },
+      "johen": {
+        "name": "ስም: ጆን",
+        "tscNumber": "TSC ቁጥር፡ 001001"
+      },
+      "approveBtn": "አጽድቅ",
+      "toKisumuBtn": {
+        "text": "ለ፡ ኪሱሙ",
+        "option1": "ናኩሩ",
+        "option2": "ሞምባሳ",
+        "option3": "ኪሱሙ"
+      },
+      "requestsToKisumu": "ጥያቄዎች ወደ፡ ኪሱሙ",
+      "johenDoe": "ጆን ዶ"
+    }
+  },
+  "printouts": {
+    "commonAttr": {
+      "stream": "ዥረት",
+      "exam": "ፈተና",
+      "students": "ተማሪዎች",
+      "printBtn": "አትም",
+      "landscape": "የመሬት ገጽታ",
+      "portrait": "የቁም ሥዕል",
+      "editBtn": "አርትዕ",
+      "saveBtn": "አስቀምጥ",
+      "backBtn": "ተመለስ",
+      "printing": "በማተም ላይ...",
+      "generating": "በማመንጨት ላይ...",
+      "download": {
+        "title": "አውርድ",
+        "action": "በማውረድ ላይ",
+        "pdf": "ፒዲኤፍ",
+        "excel": "የተመን ሉህ"
+      }
+    },
+    "analysisReport": {
+      "title": "ትንተና ሪፖርት",
+      "classPlaceholder": "{{class}} ይምረጡ",
+      "streamPlaceholder": "ዥረት ምረጥ (አማራጭ)",
+      "examPlaceholder": "ፈተናን ይምረጡ",
+      "reportBtn": "የትንታኔ ሪፖርቶችን ያግኙ",
+      "noReport": "ምንም ዘገባዎች አልተገኙም።",
+      "options": "አማራጮች",
+      "top": "ከላይ",
+      "topStudents": "ከፍተኛ ተማሪዎች",
+      "showSubjectTopStudents": "የትምህርት ዓይነቶችን ከፍተኛ ተማሪዎችን አሳይ",
+      "showTopStudentsOnly": "ምርጥ ተማሪዎችን ብቻ አሳይ",
+      "kcseYear": {
+        "label": "ለማነጻጸር Kcse ዓመት፡-",
+        "placeholder": "KCSE ዓመትን ይምረጡ"
+      },
+      "report": "ሪፖርት አድርግ",
+      "meanGrade": "አማካይ ደረጃ",
+      "comparedToKcse": "ከKCSE {{year}} ጋር ሲነጻጸር)",
+      "classPerformance": "የ{{class}} ዥረቶች አፈጻጸም",
+      "students": "ለፈተና የተቀመጡ ተማሪዎች",
+      "subjectStatistics": "ርዕሰ ጉዳይ ስታቲስቲክስ",
+      "name": "ስም",
+      "previous": "ቀዳሚ",
+      "change": "ለውጥ",
+      "trend": "አዝማሚያ",
+      "grade": "ደረጃ",
+      "gradeSummary": "የክፍል ደረጃ ማጠቃለያ",
+      "gradeSummary2": "የክፍል ማጠቃለያ",
+      "subjectMean": "የክፍል ርዕሰ ጉዳይ ማለት ነው።",
+      "overallStatistics": "አጠቃላይ ክፍል ስታቲስቲክስ",
+      "houseAverages": "የቤት አማካኞች",
+      "performanceOverTime": "በጊዜ ሂደት አፈጻጸም",
+      "toastMessages": {
+        "fetchContentError": "በዚህ ጊዜ የተመን ሉህ መፍጠር አልተቻለም"
+      }
+    },
+    "classList": {
+      "title": "የክፍል ዝርዝር",
+      "noData": "ምንም ተማሪዎች አልተገኙም።",
+      "studentImg": "የተማሪ ምስል",
+      "clForm": {
+        "class": {
+          "placeholder": "{{formoryear}} ይምረጡ"
+        },
+        "stream": {
+          "label": "ዥረት",
+          "placeholder": "ዥረት ምረጥ (አማራጭ)"
+        },
+        "subject": {
+          "label": "ርዕሰ ጉዳይ",
+          "placeholder": "ርዕሰ ጉዳይ ይምረጡ (አማራጭ)"
+        },
+        "classListBtn": "የክፍል ዝርዝር ያግኙ"
+      },
+      "options": {
+        "title": "አማራጮች",
+        "listType": "የዝርዝር ዓይነት",
+        "basic": "መሰረታዊ",
+        "custom": "ብጁ",
+        "optionsInfo": "በክፍል ዝርዝሩ ላይ እንዲታዩ የሚፈልጓቸውን ንጥሎች ይምረጡ፡-"
+      },
+      "showMoreBtn": "ተጨማሪ አሳይ",
+      "excelDownload": {
+        "workSheetColumnHeaders": {
+          "phone": "ስልክ"
+        }
+      }
+    },
+    "evaluationReport": {
+      "title": "የግምገማ ሪፖርት",
+      "noData": "ምንም የግምገማ ሪፖርት አልተገኘም።",
+      "comment": "አጠቃላይ አስተያየት እዚህ ያስገቡ",
+      "filterColumns": "አምዶችን አጣራ",
+      "evalForm": {
+        "term": {
+          "label": "ጊዜ",
+          "placeholder": "ቃል ይምረጡ",
+          "termError": "ጊዜ ያስፈልጋል"
+        },
+        "year": {
+          "label": "አመት",
+          "placeholder": "ዓመት ይምረጡ",
+          "yearError": "አመት ያስፈልጋል"
+        },
+        "level": {
+          "placeholder": "{{level}} ይምረጡ",
+          "levelError": "ደረጃ ያስፈልጋል"
+        },
+        "stream": {
+          "label": "ዥረት",
+          "placeholder": "ዥረት ይምረጡ",
+          "streamError": "ዥረት ያስፈልጋል"
+        },
+        "subject": {
+          "label": "ርዕሰ ጉዳይ",
+          "placeholder": "ርዕሰ ጉዳይ ይምረጡ",
+          "subjectError": "ርዕሰ ጉዳይ ያስፈልጋል"
+        },
+        "getEvaluationBtn": "የግምገማ ሪፖርት ያግኙ",
+        "getProjectBtn": "የፕሮጀክት ሪፖርት ያግኙ",
+        "generating": "ሪፖርት ማመንጨት"
+      },
+      "table": {
+        "admNo": "Adm ቁጥር",
+        "name": "ስም",
+        "eval": "ኢቫል",
+        "average": "አማካኝ",
+        "descriptor": "ገላጭ",
+        "comment": "አጠቃላይ አስተያየት",
+        "subjectComment": "ርዕሰ ጉዳይ አስተያየት",
+        "action": "ድርጊት",
+        "classAverage": "የክፍል አማካኝ"
+      },
+      "toastMessages": {
+        "saveStudentCommentWarning": "የሌላ ተማሪ አስተያየት ከማከልዎ በፊት እባክዎ የአሁኑን ተማሪ አስተያየት ያስቀምጡ",
+        "saveRemarkSuccess": "አስተያየት በተሳካ ሁኔታ ተቀምጧል"
+      }
+    },
+    "leavingCerts": {
+      "title": "የምስክር ወረቀቶችን መተው",
+      "noData": "ምንም ተማሪዎች አልተገኙም!",
+      "lcForm": {
+        "graduatedClass": {
+          "label": "የተመረቀ የትምህርት ዓመትን ይምረጡ",
+          "placeholder": "የተመረቀ የትምህርት ዓመት"
+        },
+        "stream": {
+          "label": "ዥረት",
+          "placeholder": "ዥረት ይምረጡ",
+          "streamError": "ዥረቱ ባዶ ሊሆን አይችልም።"
+        },
+        "searchBtn": "ፈልግ"
+      },
+      "table": {
+        "title": "የተማሪ ዝርዝር",
+        "admNo": "Adm ቁጥር",
+        "name": "ስም",
+        "stream": "ዥረት",
+        "action": "ድርጊት",
+        "viewCert": "የምስክር ወረቀት ይመልከቱ",
+        "pagination": "ገጽ {{page}} የ {{total}}"
+      },
+      "country": "የኬንያ ሪፐብሊክ",
+      "ministry": "የትምህርት ሚኒስቴር",
+      "certTitle": "ሁለተኛ ደረጃ ትምህርት ቤት መልቀቂያ ሰርተፍኬት",
+      "admNoOrSerial": "መግቢያ/ተከታታይ ቁጥር",
+      "upi": "UPI ቁጥር.",
+      "certifyInfo": "ያንን ለማረጋገጥ ነው።",
+      "certifyInfo2": "ወደዚህ ትምህርት ቤት የገቡት።",
+      "certifyInfo3": "እና በቅፅ ተመዝግቧል",
+      "certifyInfo4": "እና ገባ",
+      "from": "ከ",
+      "form": "ቅጽ",
+      "certifyInfo5a": "በአጥጋቢ ሁኔታ ካጠናቀቀ በኋላ",
+      "certifyInfo5b": "ተቀባይነት ያለው ኮርስ ለ",
+      "dob": "የትውልድ ቀን",
+      "inAdmReg": "(በመግቢያ መዝገብ ላይ)",
+      "certifyInfo6": "የ {{headTitle}} የተማሪውን አቅም፣ ኢንዱስትሪ እና ምግባር ሪፖርት",
+      "studSignature": "የተማሪ ፊርማ",
+      "dateOfIssue": "የተሰጠበት ቀን",
+      "signature": "ፊርማ",
+      "certifyInfo7": "ይህ ሰርተፍኬት ያለ ምንም ማጥፋት ወይም ለውጥ ነው።",
+      "toastMessages": {
+        "showDocumentError": "እባኮትን የትምህርት ቤቱን ርእሰ መምህር በትምህርት ቤቱ ፕሮፋይል ውስጥ ያዘጋጁ"
+      },
+      "swal": {
+        "admissionNumber": "የመግቢያ ቁጥር",
+        "admissionDate": "የመግቢያ ቀን",
+        "enrollmentForm": "የምዝገባ ቅጽ",
+        "graduationDate": "የምርቃት ቀን",
+        "graduationForm": "የምረቃ ቅጽ",
+        "dateOfBirth": "የትውልድ ቀን",
+        "issueDate": "የተሰጠበት ቀን",
+        "generalComments": "አጠቃላይ አስተያየቶች",
+        "title": "የምስክር ወረቀት ማየት አልተሳካም!",
+  			"sms1": "የሚከተለው መረጃ አልተሰጠም።",
+  			"sms2": "መረጃውን ለመጨመር ይቀጥሉ?"
+      }
+    },
+    "meritList": {
+      "title": "የክብር ዝርዝር",
+      "noData": "ምንም ውሂብ አልተገኘም።",
+      "mlForm": {
+        "class": {
+          "placeholder": "{{class}}ን ይምረጡ"
+        },
+        "stream": {
+          "label": "ዥረት",
+          "placeholder": "ዥረት ምረጥ (አማራጭ)"
+        },
+        "exam": {
+          "label": "ፈተና",
+          "placeholder": "ፈተናን ይምረጡ"
+        },
+        "meritListBtn": "የክብር ዝርዝር ያግኙ"
+      },
+      "downloadBtn": "የሜሪት ዝርዝር አውርድ",
+      "asSpreadSheet": "እንደ ተመን ሉህ",
+      "excelTemplateDownload": {
+        "workSheetName": "ውጤቶች"
+      },
+      "asPdf": "እንደ ፒዲኤፍ",
+      "printFormat": "የህትመት ቅርጸት",
+      "hidePrintFormat": "የህትመት ቅርጸትን ደብቅ",
+      "firstPage": "አንደኛ",
+      "lastPage": "የመጨረሻ",
+      "gradeBreakdown": "የደረጃ መከፋፈል",
+      "gradeSummary": "የክፍል ማጠቃለያ",
+      "classGradeSummary": "የክፍል ደረጃ ማጠቃለያ",
+      "toastMessages": {
+        "generatePdfSuccess": "{{ ርዕስ }} በተሳካ ሁኔታ ወርዷል",
+        "generatePdfError": "ስህተት ተከስቷል፡ {{ title }}ን ማውረድ አይቻልም"
+      }
+    },
+    "oLevelRForm": {
+      "title": "ቅጾችን ሪፖርት ያድርጉ",
+      "noData": "ምንም የግምገማ ሪፖርት አልተገኘም።",
+      "rForm": {
+        "term": {
+          "label": "ጊዜ",
+          "placeholder": "ውል ይምረጡ",
+          "termError": "ጊዜ ያስፈልጋል"
+        },
+        "year": {
+          "label": "አመት",
+          "placeholder": "ዓመት ይምረጡ",
+          "yearError": "የትምህርት ዓመት ያስፈልጋል"
+        },
+        "level": {
+          "placeholder": "{{level}} ይምረጡ",
+          "levelError": "ደረጃ ያስፈልጋል"
+        },
+        "stream": {
+          "label": "ዥረት",
+          "placeholder": "ዥረት ይምረጡ",
+          "streamError": "ዥረት ያስፈልጋል"
+        },
+        "getRFormsBtn": "የሪፖርት ቅጾችን ያግኙ",
+        "generating": "ሪፖርቶችን በማመንጨት ላይ..."
+      },
+      "options": {
+        "title": "አማራጮች",
+        "fee": {
+          "label": "የክፍያ መግለጫዎች",
+          "info": "እና የክፍያውን አብነት ይሙሉ ከዚያም ከታች ይስቀሉት። (እባክዎ ሌሎቹን የአምድ ራስጌዎች እንደነበሩ ይተውዋቸው።)",
+          "chooseFile": "ፋይል ይምረጡ"
+        },
+        "excelTemplateDownload": {
+          "fileName": "የተማሪ ክፍያዎች - አብነት",
+          "workSheetName": "ሉህ 1",
+          "workSheetColumnHeaders": {
+            "admno": "አድምኖ",
+            "name": "ስም",
+            "termBalance": "የጊዜ_ሚዛን",
+            "nextTermFees": "የቀጣይ_ጊዜ_ክፍያዎች"
+          }
+        },
+        "closedOn": "ትምህርት ቤት ተዘግቷል።",
+        "nextTermBeginsOn": "የሚቀጥለው ቃል በርቶ ይጀምራል",
+        "assessments": {
+          "title": "ግምገማዎች",
+          "label1": "የምርመራ ውጤቶችን አሳይ",
+          "label2": "የብቃት ቦታዎችን አሳይ",
+          "label3": "እንቅስቃሴዎችን እና እሴቶችን አሳይ",
+          "label4": "ፕሮጀክቶችን አሳይ",
+          "label5": "የመገኘት ሪፖርት አሳይ"
+        },
+        "remarks": {
+          "title": "አስተያየቶች",
+          "label1": "አሳይ",
+          "label2": "ዋና",
+          "label3": "አስተያየቶች",
+          "classTeacher": "የክፍል አስተማሪን አስተያየት አሳይ",
+          "subjectTeacher": "በርዕሰ ጉዳይ አስተማሪ አስተያየቶችን አሳይ"
+        },
+        "signature": {
+          "title": "ፊርማዎች",
+          "label": "የክፍል መምህር ፊርማ አሳይ",
+          "label1": "አሳይ",
+          "label2": "ዋና",
+          "label3": "ፊርማ"
+        }
+      }
+    },
+    "studentReport": {
+      "name": "ስም",
+      "admNo": "ኤዲኤም አይ",
+      "term": "TERM",
+      "attendanceReport": "የመገኘት ሪፖርት",
+      "assessmentReport": "የግምገማ ሪፖርት",
+      "daysPresent": "የአሁን ቀናት",
+      "daysAbsent": "ቀናት የሉም",
+      "total": "ጠቅላላ",
+      "subject": "ርዕሰ ጉዳይ",
+      "chapter": "ምዕራፍ",
+      "competencies": "ብቃቶች",
+      "totalPoints": "ጠቅላላ ነጥቦች",
+      "average": "አማካኝ",
+      "score": "ነጥብ",
+      "rawScore": "ጥሬ ነጥብ",
+      "comment": "አስተያየት",
+      "exam": "ፈተና",
+      "examComment": "የፈተና አስተያየት",
+      "teacher": "መምህር",
+      "generalSkills": "አጠቃላይ ችሎታዎች",
+      "genericSkills": "አጠቃላይ ችሎታዎች",
+      "facilitatorRemarks": "የአመቻች አስተያየቶች",
+      "averagePoints": "የተመዘገቡ አማካኝ ነጥቦች",
+      "identifier": "መለያ",
+      "scoreRange": "የውጤት ክልል",
+      "descriptor": "ገላጭ",
+      "classTComment": "የክፍል አስተማሪ አስተያየት",
+      "keyWords": "ጥቅም ላይ የዋሉ ቁልፍ ቃላት / የቃላት መግለጫ.",
+      "signature": "ፊርማ",
+      "headTComment": "የዋና መምህር አስተያየት",
+      "feeBalance": "የክፍያ ሒሳብ",
+      "nextTermFees": "የቀጣይ ጊዜ ክፍያዎች",
+      "totalPayable": "ጠቅላላ የሚከፈል",
+      "schoolClosedOn": "ትምህርት ቤት ተዘግቷል።",
+      "nextTermBegins": "የሚቀጥለው ቃል በርቶ ይጀምራል",
+      "avr": "AVR",
+      "tp": "ቲፒ",
+      "remarks": "አስተያየቶች",
+      "projects": "ፕሮጀክቶች",
+      "projectTitle": "የፕሮጀክት ርዕስ",
+      "activities": "ተግባራት",
+      "activitiesAndValues": "ተግባራት እና እሴቶች",
+      "valuesExhibited": "የታዩ እሴቶች",
+      "outstanding": "የላቀ",
+      "moderate": "መጠነኛ",
+      "basic": "መሰረታዊ",
+      "keyWordsList": {
+        "competency": "ብቃት",
+        "competencyDesc": "ለአንድ የእውቀት፣ የክህሎት እና የእሴቶች አካል ከተጋለጡ በኋላ በአንድ ርዕስ፣ ቃል ወይም አመት መጨረሻ ላይ የተማሪው አጠቃላይ የሚጠበቀው ችሎታ",
+        "descriptorDesc": "ቀልጣፋው ምን ያህል በተሰጠው ርዕስ ውስጥ የታቀዱትን የትምህርት ውጤቶችን እንዳሳካ ዝርዝሮችን ይሰጣል",
+        "genericSkillsDesc": "እነዚህ በሁሉም የትምህርት ዓይነቶች ላይ የሚተገበሩ እና በ 21 ኛው ክፍለ ዘመን እና በስራው ዓለም ውስጥ በብዛት የሚፈለጉ ከፍተኛ ቅደም ተከተል ያላቸው ለስላሳ ክህሎቶች ናቸው",
+        "identifierDesc": "ተማሪዎችን በተቀመጡት ብቃቶች እንደየትምህርት ውጤታቸው የሚለይ መለያ/ክፍል ነው።",
+        "scoreDesc": "ብቃትን ለሚያካትቱ የተለያዩ የትምህርት ውጤቶች የተገኘውን አማካይ ውጤት ያመለክታል",
+        "score1": "ጥቂቶች ሎስ አግኝተዋል፣ ግን ለአጠቃላይ ስኬት በቂ አይደሉም",
+        "score2": "ብዙ ሎዎች ተሳክተዋል፣ ለአጠቃላይ ስኬት በቂ",
+        "score3": "አብዛኛው ወይም ሁሉም ሎስ የተገኘው ለአጠቃላይ ስኬት ነው።"
+      }
+    },
+    "topNav": {
+      "class": "ክፍል",
+      "lists": "ዝርዝሮች",
+      "evaluations": "ግምገማዎች",
+      "report": "ሪፖርት አድርግ",
+      "forms": "ቅጾች",
+      "analysis": "ትንተና",
+      "merit": "ክብር",
+      "transcripts": "ግልባጮች",
+      "leavingCert": "የምስክር ወረቀቶችን መተው",
+      "more": "ተጨማሪ"
+    },
+    "reportForms": {
+      "noData": "ምንም ዘገባዎች አልተገኙም።",
+      "completePercentage": "{{response}}% ተጠናቋል",
+      "reportForms": "ቅጾችን ሪፖርት ያድርጉ",
+      "rForm": {
+        "level": {
+          "placeholder": "{{level}} ይምረጡ"
+        },
+        "stream": {
+          "label": "ዥረት",
+          "placeholder": "ዥረት ይምረጡ"
+        },
+        "exam": {
+          "label": "ፈተና",
+          "placeholder": "ፈተናን ይምረጡ"
+        },
+        "reportFormsBtn": "የሪፖርት ቅጾችን ያግኙ"
+      },
+      "generatingReport": "{{count}} ሪፖርት በማመንጨት ላይ...",
+      "generatingReports": "የ {{count}} ሪፖርቶችን በማመንጨት ላይ...",
+      "options": "አማራጮች",
+      "feeStatements": {
+        "title": "የክፍያ መግለጫዎች",
+        "info": "እና የክፍያውን አብነት ይሙሉ ከዚያም ከታች ይስቀሉት። (እባክዎ ሌሎቹን የአምድ ራስጌዎች እንደነበሩ ይተውዋቸው።)",
+        "chooseFile": "ፋይል ይምረጡ"
+      },
+      "excelTemplateDownload": {
+        "fileName": "የተማሪ ክፍያዎች - አብነት",
+        "workSheetName": "ሉህ 1",
+        "workSheetColumnHeaders": {
+          "admno": "አድምኖ",
+          "name": "ስም",
+          "termBalance": "የጊዜ_ሚዛን",
+          "nextTermFees": "የቀጣይ_ጊዜ_ክፍያዎች"
+        }
+      },
+      "closedOn": "ትምህርት ቤት ተዘግቷል።",
+      "nextTermBeginsOn": "የሚቀጥለው ቃል በርቶ ይጀምራል",
+      "remarks": "አስተያየቶች",
+      "showCTRemarks": "የክፍል አስተማሪ አስተያየቶችን አሳይ",
+      "show": "አሳይ",
+      "remarksLower": "አስተያየቶች",
+      "principal": "ዋና",
+      "customComments": "ብጁ አስተያየቶች",
+      "showCustomComments": "ብጁ አስተያየቶችን አሳይ",
+      "showParentSignature": "የወላጅ ፊርማ ማስገቢያ አሳይ",
+      "name": "ስም",
+      "admNo": "ADMNO",
+      "upi": "ዩፒአይ",
+      "kcpe": "KCPE",
+      "vap": "ቪኤፒ",
+      "subjectPerfVsClass": "የርእሰ ጉዳይ አፈጻጸም - ተማሪ vs ክፍል",
+      "subject": "ርዕሰ ጉዳይ",
+      "dev": "DEV.",
+      "grade": "ግሬድ",
+      "rank": "ማዕረግ",
+      "comment": "አስተያየት",
+      "teacher": "መምህር",
+      "subjectMarks": "(X/{{subjectMaxMarks}})",
+      "gr": "GR.",
+      "studPerformance": "የ {{studentName}} አፈጻጸም በጊዜ ሂደት",
+      "classTRemarks": "የክፍል አስተማሪ አስተያየቶች",
+      "showClassTSignature": "የክፍል መምህር ፊርማ አሳይ",
+      "signature": "ፊርማ",
+      "signatureLower": "ፊርማ",
+      "signatures": "ፊርማዎች",
+      "headTRemarks": "የ {{principal}} አስተያየቶች",
+      "termBalance": "የዚህ ቃል ሂሳብ፡-",
+      "nextTermFees": "የቀጣይ ጊዜ ክፍያዎች፡-",
+      "totalPayable": "የሚከፈልባቸው ጠቅላላ ክፍያዎች፡-",
+      "schoolClosedOn": "ትምህርት ቤት ተዘግቷል፡-",
+      "nextTermBegins": "የሚቀጥለው ቃል የሚጀምረው በ፡",
+      "parentSignature": "የወላጅ ፊርማ፡-",
+      "subjectRemarks": "ርዕሰ ጉዳይ አስተያየቶች",
+      "toastMessages": {
+        "downloadSuccess": "ማውረድ ተጠናቅቋል!"
+      },
+      "swal": {
+        "title": "ረጅም ሂደት ተጀምሯል!",
+        "text": "ይህ ለማጠናቀቅ የተወሰነ ጊዜ ሊወስድ ይችላል፣ በድርጊት ይቀጥሉ?"
+      }
+    },
+    "transcripts": {
+      "title": "ግልባጮች",
+      "noData": "ምንም ግልባጭ አልተገኙም።",
+      "noExams": "ምንም ፈተናዎች አልተገኙም።",
+      "levelPlaceholder": "{{level}} ይምረጡ",
+      "stream": {
+        "label": "ዥረት",
+        "placeholder": "ዥረት ይምረጡ"
+      },
+      "getTranscriptsBtn": "ግልባጭ ያግኙ",
+      "generatingTranscript": "{{count}} ግልባጭ በማመንጨት ላይ። ቆይ በናተህ...",
+      "generatingTranscripts": "የ {{count}} ግልባጮች በማመንጨት ላይ። ቆይ በናተህ...",
+      "options": "አማራጮች",
+      "showMarks": "ምልክቶችን/ነጥቦችን አሳይ",
+      "showRank": "የተማሪ ደረጃን አሳይ",
+      "showGradeDesc": "የክፍል መግለጫዎችን አሳይ",
+      "academicTranscript": "የአካዳሚክ ግልባጭ",
+      "name": "ስም",
+      "admNo": "የመግቢያ ቁጥር",
+      "current": "የአሁኑ",
+      "upi": "UPI NUMBER",
+      "subject": "ርዕሰ ጉዳይ",
+      "kcpe": "KCPE ውጤት",
+      "mean": "አማካኝ ምልክቶች",
+      "total": "ጠቅላላ ምልክቶች",
+      "totalPoints": "ጠቅላላ ነጥቦች",
+      "overallRank": "አጠቃላይ ደረጃ",
+      "overallGrade": "አጠቃላይ ደረጃ",
+      "grades": {
+        "title": "ደረጃዎች",
+        "a": "እጅግ በጣም ጥሩ",
+        "a_": "ሀ - በጣም ጥሩ",
+        "b": "B+ ጥሩ",
+        "b_": "ቢ በትክክል ጥሩ",
+        "b__": "ቢ - ከአማካይ በላይ",
+        "c": "C+ አማካኝ",
+        "c_": "ሲ አማካኝ",
+        "c__": "ሐ - ከፍተኛ ዓላማ",
+        "d": "D+ ከአማካይ በታች",
+        "d_": "D ደካማ",
+        "d__": "መ - ደካማ",
+        "e": "ኢ ድሆች",
+        "x": "X የለም",
+        "y": "Y መደበኛ ያልሆነ"
+      },
+      "hod": "H.O.D አካዳሚክስ / D.O.S",
+      "principal": "ዋና"
+    },
+    "assessments": {
+      "latestProject": "የቅርብ ጊዜ ፕሮጀክት",
+      "perStream": "በዥረት"
+    }
+  },
+  "school": {
+    "chooseSchool": "ትምህርት ቤት ይምረጡ"
+  },
+  "settings": {
+    "topNav": {
+      "schoolInfo": "ትምህርት ቤት",
+      "profile": "መገለጫ",
+      "options": "አማራጮች",
+      "user": "ተጠቃሚ",
+      "roles": "ሚናዎች"
+    },
+    "schoolInfoProfile": {
+      "messages": "መልዕክቶች",
+      "profileForm": {
+        "headerText": "የትምህርት ቤት መገለጫ",
+        "schoolName": "የትምህርት ቤት ስም",
+        "schoolNamePlaceholderText": "የሙሉ ትምህርት ቤት ስም",
+        "schoolNameShortVersion": "የትምህርት ቤት ስም (አጭር ሥሪት)",
+        "phoneNumber": "ስልክ ቁጥር",
+        "phoneNumberPlaceholderText": "07********",
+        "emailAddress": "የ ኢሜል አድራሻ",
+        "headOfSchool": "የትምህርት ቤት ኃላፊ",
+        "headOfSchoolTitle": "የትምህርት ቤት ኃላፊ",
+        "hodAcademics": "ኤች.ኦ.ዲ. አካዳሚክ / ዲ.ኦ.ኤስ.",
+        "postalAddress": "የፖስታ አድራሻ",
+        "genderType": "የፆታ አይነት",
+        "updateBtn": "አዘምን"
+      },
+      "toastMessages": {
+        "updateSuccess": "የትምህርት ቤት መገለጫ በተሳካ ሁኔታ ዘምኗል!",
+        "updateLogoSuccess": "የትምህርት ቤት አርማ በተሳካ ሁኔታ ዘምኗል!"
+      }
+    },
+    "schoolInfoOptions": {
+      "toastMessages": {
+        "processChangeSuccess": "ሂደቱ በተሳካ ሁኔታ ተቀይሯል!",
+        "updateLogoSuccess": "የትምህርት ቤት አርማ በተሳካ ሁኔታ ዘምኗል!"
+      }
+    },
+    "userProfile": {
+      "topNav": {
+        "updateProfile": "መገለጫ አዘምን"
+      },
+      "email": "ኢሜይል",
+      "username": "USERNAME",
+      "groups": "ቡድኖች",
+      "signature": "ፊርማ",
+      "updateForm": {
+        "headerText": "የተጠቃሚ መገለጫ",
+        "name": "ስም",
+        "phoneNumber": "ስልክ ቁጥር",
+        "phoneNumberPlaceholderText": "07#######",
+        "personalEmail": "የግል ኢሜይል",
+        "personalEmailPlaceholderText": "የግል ኢሜይል አድራሻ",
+        "gender": "ጾታ",
+        "genderPlaceholderText": "ጾታን ይምረጡ...",
+        "genderMaleOption": "ወንድ",
+        "genderFemaleOption": "ሴት",
+        "genderUnspecifiedOption": "አልተገለጸም።",
+        "tscNumber": "TSC ቁጥር",
+        "idNumber": "የመታወቂያ ቁጥር",
+        "bio": "ባዮ",
+        "cancelBtn": "ሰርዝ",
+        "saveBtn": "አስቀምጥ",
+        "editBtn": "አርትዕ"
+      },
+      "updateFormErrors": {
+        "name": "ስም ባዶ ሊሆን አይችልም።",
+        "phoneNumber": "ስልክ ቁጥር ባዶ ሊሆን አይችልም።"
+      },
+      "toastMessages": {
+        "updateTeacherProfileSuccess": "የተጠቃሚ መገለጫ በተሳካ ሁኔታ ዘምኗል",
+        "updateTeacherProfileError": "የተጠቃሚ መገለጫ በአሁኑ ጊዜ ሊዘመን አልቻለም። እባክዎ ቆየት ብለው ይሞክሩ",
+        "deletePhotoSuccess": "ፎቶ በተሳካ ሁኔታ ተሰርዟል።",
+        "updateLogoSuccess": "አርማ በተሳካ ሁኔታ ዘምኗል",
+        "invalidForm": "ልክ ያልሆነ ቅጽ"
+      },
+      "swal": {
+        "title1": "የመገለጫ ሥዕል ይሰርዙ!",
+        "text1": "እርግጠኛ ነህ የመገለጫ ስእልህን መሰረዝ ትፈልጋለህ?",
+        "title2": "ፊርማ ሰርዝ!",
+        "text2": "እርግጠኛ ነህ ፊርማህን መሰረዝ ትፈልጋለህ?"
+      }
+    },
+    "userRoles": {
+      "breadcrumbs": {
+        "title": "የመልእክት ሚናዎች",
+        "roles": "ሚናዎች",
+        "messaging": "መልእክት መላክ"
+      },
+      "showRolesFalseAndAssignRoleFalse": {
+        "headerText": "መልዕክቶች",
+        "description": "ተጠቃሚዎች መልዕክቶችን መላክ ይችላሉ።"
+      },
+      "showRolesAndAssignRoleFalse": {
+        "headerText": "መልእክት መላክ የሚችሉ የትምህርት ቤት አባላት",
+        "assignRoleBtn": "ሚና መድብ",
+        "tableHeaders": {
+          "name": "ስም",
+          "role": "ሚና",
+          "email": "ኢሜይል",
+          "phoneNumber":"ስልክ ቁጥር"
+        },
+        "adminOption": "አስተዳዳሪ",
+        "teacherOption": "መምህር",
+        "staffOption": "ሰራተኞች",
+        "revokeBtn": "መሻር"
+      },
+      "showRolesAndAssignRole": {
+        "headerText": "ሚናን መድብ",
+        "description": "ተጠቃሚዎች መልዕክቶችን መላክ ይችላሉ።",
+        "toggle": {
+          "teachers": "አስተማሪዎች",
+          "selectTeachers": "አስተማሪዎች ይምረጡ",
+          "staffMembers": "የሰራተኞች አባላት",
+          "selectStaff": "ሠራተኞችን ይምረጡ"
+        },
+        "cancelBtn": "ሰርዝ",
+        "saveBtn": "አስቀምጥ"
+      },
+      "toastMessages": {
+        "assignMembersSuccess": "ሚና በተሳካ ሁኔታ ተመድቧል",
+        "assignMembersError": "ሚና ሊመደብ አልቻለም። እባክዎ ቆየት ብለው ይሞክሩ",
+        "revokeRoleSuccess": "የተጠቃሚ ሚና በተሳካ ሁኔታ ተሽሯል።",
+        "revokeRoleError": "የተጠቃሚ ሚና ሊሻር አልቻለም። እባክዎ ቆየት ብለው ይሞክሩ"
+      },
+      "swal": {
+        "title": "የሚና መዝገብ ይሻሩ!",
+        "text": "{{ name }} ከመልእክተኞች ዝርዝር ይወገድ?"
+      }
+    }
+  },
+  "shop": {
+    "topNav": {
+      "zerakiShop": "ዘራኪ ሱቅ"
+    },
+    "greetings": {
+      "firstPart": "ሰላም {{ name }}",
+      "secondPart": "ወደ ዘራኪ ሱቅ እንኳን በደህና መጡ!"
+    },
+    "description": {
+      "youCanOrder": "ማዘዝ ይችላሉ።",
+      "textBooks": "የመማሪያ መጻሕፍት",
+      "revisionMaterials": "የማሻሻያ ቁሳቁሶች",
+      "and": "እና",
+      "otherSchoolSupplies": "ሌሎች የትምህርት ቤት አቅርቦቶች",
+      "forYourChild": "ለልጅዎ እና እንዲወልዱ ያድርጉ",
+      "directly": "በቀጥታ",
+      "toYou": "ላንቺ",
+      "weDeliverWithin": "ውስጥ እናደርሳለን።",
+      "deliveryLocation": "ናይሮቢ እና አካባቢዋ!"
+    },
+    "shopNowBtn": "አሁን ይሸምቱ",
+    "swal": {
+      "fieldName": "ጠባቂ ኢሜይል",
+      "fieldName2": "የግል ኢሜይል አድራሻ",
+      "title": "የኢሜል አድራሻ አልተዘጋጀም።",
+      "text": "ዘራኪ ሱቅን ለመጠቀም፣ የሚሰራ ኢሜይል ሊኖርዎት ይገባል። የኢሜል አድራሻዎን በ{{ fieldName }} መስክ ላይ ያክሉ።",
+      "confirmButtonText": "ኢሜል አክል",
+      "title2": "ኢሜይል አልተረጋገጠም።",
+      "text2": "Zeraki Shop ለመጠቀም የኢሜል አድራሻዎን ማረጋገጥ አለብዎት። የማረጋገጫ ኢሜል መላክ ይፈልጋሉ?",
+      "title3": "የአውታረ መረብ ስህተት",
+      "text3": "ስህተት ተፈጥሯል፣ እባክዎ ቆይተው እንደገና ይሞክሩ",
+      "title4": "ኢሜይል አልተረጋገጠም።",
+      "text4": "ወደ {{ email }} ኢሜይል ልከናል። ኢሜልዎን ለማረጋገጥ በደግነት አገናኙን ጠቅ ያድርጉ።\n\nየማረጋገጫ ኢሜል አላገኘህም? ኢሜልን እንደገና ላክ የሚለውን ጠቅ ያድርጉ",
+      "confirmButtonText4": "ኢሜይል እንደገና ላክ"
+    }
+  },
+  "staff": {
+    "add": {
+      "options": {
+        "headerText": "አማራጮች",
+        "keyInOption": "የሰራተኛ አባል ዝርዝሮች ቁልፍ",
+        "uploadFromSpreadSheetOption": "የሰራተኛ አባላትን ከተመን ሉህ ይስቀሉ።"
+      },
+      "keyInOptionForm": {
+        "title": "ርዕስ",
+        "fullName": "ሙሉ ስም",
+        "phoneNumber": "ስልክ ቁጥር",
+        "phoneNumberPlaceholderText": "07#######",
+        "nationalIdNumber": "ብሔራዊ መታወቂያ ቁጥር.",
+        "group": "ቡድን",
+        "groups": "ቡድኖች",
+        "addBtn": "አክል"
+      },
+      "keyInOptionFormErrors": {
+        "title": "ርዕስ ያስፈልጋል",
+        "fullName": "ስም ያስፈልጋል"
+      },
+      "uploadFromSpreadSheetOptionForm": {
+        "fileInputLabel": {
+          "downloadText": "አውርድ",
+          "remainingText": "እና አብነት ይሙሉ ከዚያም ከታች ይስቀሉት. (እባክዎ የአምዱ ራስጌዎች እንዳሉ ይተዉት)"
+        },
+        "excelTemplateDownload": {
+          "fileName": "ሰቀላ ሰራተኞች - አብነት",
+          "workSheetName": "ሰቀላ ሰራተኞች - አብነት",
+          "workSheetColumnHeaders": {
+            "name": "ስም",
+            "title": "ርዕስ",
+            "phone": "ስልክ",
+            "nationalIdNumber": "ብሄራዊ_መታወቂያ_አይ",
+            "group": "ቡድን"
+          }
+        },
+        "tableSectionHeaders": {
+          "name": "ስም",
+          "title": "ርዕስ",
+          "phone": "ስልክ",
+          "nationalIdNumber": "ብሔራዊ መታወቂያ ቁጥር.",
+          "group": "ቡድን"
+        },
+        "uploadBtn": "ስቀል"
+      },
+      "uploadFromSpreadSheetOptionFormErrors": {
+        "fileInput": "የሰራተኛ አባላት ዝርዝር የያዘ የተመን ሉህ ይምረጡ"
+      },
+      "toastMessages": {
+        "success": "ሰራተኞች በተሳካ ሁኔታ ታክለዋል።"
+      }
+    },
+    "groups": {
+      "title": "የሰራተኞች ቡድኖች",
+      "addBtn": "የሰራተኞች ቡድን ያክሉ",
+      "addForm": {
+        "name": "የሰራተኞች ቡድን ስም ያስገቡ",
+        "namePlaceholder": "የሰራተኞች ቡድን",
+        "cancelBtn": "ሰርዝ",
+        "saveBtn": "አስቀምጥ"
+      },
+      "addFormErrors": {
+        "name": "የቡድን ስም ያስፈልጋል",
+        "unableToUpload": "የሰራተኛ ቡድኖችን መጫን አልተቻለም"
+      },
+      "tableHeaders": {
+        "name": "ስም",
+        "action": "ድርጊት"
+      },
+      "listItem": {
+        "editBtn": "አርትዕ",
+        "editCancelBtn": "ሰርዝ",
+        "editSaveBtn": "አስቀምጥ",
+        "deleteBtn": "ሰርዝ",
+        "deleteConfirmationModal": {
+          "title": "የሰራተኞች ቡድን ሰርዝ!",
+          "text": "እርግጠኛ ነህ የ{{ groupName }} ቡድንን ማስወገድ ትፈልጋለህ?",
+          "cancelButtonText": "ሰርዝ",
+          "confirmButtonText": "እሺ"
+        }
+      },
+      "toastMessages": {
+        "addSuccess": "የሰራተኞች ቡድን በተሳካ ሁኔታ ታክሏል!",
+        "updateSuccess": "የሰራተኞች ቡድን በተሳካ ሁኔታ ዘምኗል!",
+        "deleteSuccess": "የሰራተኞች ቡድን በተሳካ ሁኔታ ተሰርዟል!"
+      }
+    },
+    "topNav": {
+      "manage": "አስተዳድር",
+      "view": "ይመልከቱ",
+      "add": "አክል",
+      "groups": "ቡድኖች",
+      "staff": "ሰራተኞች",
+      "staffGroups": "የሰራተኞች ቡድኖች"
+    },
+    "manageStaff": {
+      "title": "ሰራተኞች",
+      "searchPlaceholder": "ፈልግ",
+      "viewPrintFormatBtn": "የህትመት ቅርጸት ይመልከቱ",
+      "printFormat": {
+        "options": {
+          "headerText": "አማራጮች",
+          "showGroupsOption": "ቡድኖችን አሳይ",
+          "showPhoneNumbersOption": "ስልክ ቁጥሮች አሳይ",
+          "showNationalIdNumberOption": "ብሔራዊ መታወቂያ ቁጥር አሳይ"
+        },
+        "closePrintFormatBtn": "የህትመት ቅርጸት ዝጋ",
+        "printBtn": "አትም",
+        "downloadBtn": "አውርድ",
+        "downloadPDFBtn": "ፒዲኤፍ አውርድ",
+        "downloadExcelBtn": "ኤክሴል አውርድ",
+        "excelDownload": {
+          "fileName": "የሰራተኞች ዝርዝር",
+          "workSheetName": "ሰራተኞች",
+          "workSheetColumnHeaders": {
+            "name": "ስም",
+            "phone": "ስልክ",
+            "nationalIdNumber": "ብሄራዊ_መታወቂያ_አይ",
+            "group": "ቡድን"
+          }
+        },
+        "schoolLogoAltText": "የትምህርት ቤት አርማ",
+        "tableHeaderText": "የሰራተኞች ዝርዝር",
+        "tableColumnHeaders": {
+          "name": "ስም",
+          "phone": "ስልክ",
+          "nationalIdNumber": "ብሔራዊ መታወቂያ ቁጥር.",
+          "groups": "ቡድኖች"
+        }
+      },
+      "staffList": {
+        "noRecords": "ምንም የሰራተኞች መዝገቦች አልተገኙም።"
+      },
+      "staffListItem": {
+        "imageAltText": "የአስተማሪ ምስል",
+        "editBtn": "ይመልከቱ"
+      },
+      "staffListItemUpdate": {
+        "profilePhoneNumber": "ስልክ",
+        "profileSignatureAltText": "ፊርማ",
+        "profileDeleteBtn": "ሰርዝ",
+        "profileDeleteConfirmationModal": {
+          "title": "መሰረዝን ያረጋግጡ",
+          "text": "እርግጠኛ ነዎት {{ name }}ን ከትምህርት ቤቱ ማስወገድ ይፈልጋሉ?",
+          "cancelButtonText": "ሰርዝ",
+          "confirmButtonText": "እሺ"
+        },
+        "form": {
+          "headerText": "የሰራተኞች ዝርዝሮችን ያዘምኑ",
+          "name": "ስም",
+          "username": "የተጠቃሚ ስም",
+          "phoneNumber": "ስልክ ቁጥር",
+          "phoneNumberPlaceholderText": "07#######",
+          "gender": "ጾታ",
+          "genderPlaceholderText": "ጾታን ይምረጡ...",
+          "genderMaleOption": "ወንድ",
+          "genderFemaleOption": "ሴት",
+          "genderUnspecifiedOption": "አልተገለጸም።",
+          "idNumber": "የመታወቂያ ቁጥር",
+          "groups": "ቡድኖች",
+          "groupsEmpty": "ምንም ቡድኖች አልተገኙም።",
+          "bio": "ባዮ",
+          "closeBtn": "ገጠመ",
+          "saveBtn": "አስቀምጥ",
+          "editBtn": "አርትዕ"
+        }
+      },
+      "staffAddition": {
+        "form": {
+          "headerText": "የሰራተኞች መረጃ",
+          "name": "ስም",
+          "username": "የተጠቃሚ ስም",
+          "phoneNumber": "ስልክ ቁጥር",
+          "phoneNumberPlaceholderText": "07#######",
+          "gender": "ጾታ",
+          "genderPlaceholderText": "ጾታ ይምረጡ...",
+          "genderMaleOption": "ወንድ",
+          "genderFemaleOption": "ሴት",
+          "genderUnspecifiedOption": "አልተገለጸም።",
+          "idNumber": "የመታወቂያ ቁጥር",
+          "groups": "ቡድኖች",
+          "bio": "ባዮ",
+          "closeBtn": "ገጠመ",
+          "saveBtn": "አስቀምጥ",
+          "editBtn": "አርትዕ"
+        }
+      },
+      "toastMessages": {
+        "updateStaffSuccess": "ሰራተኞች በተሳካ ሁኔታ ዘምነዋል!",
+        "updateStaffError": "በአሁኑ ጊዜ ሰራተኞችን {{ staffName}} ማዘመን አልቻልንም። እባክዎ ቆየት ብለው ይሞክሩ",
+        "deleteStaffSuccess": "ሰራተኞች በተሳካ ሁኔታ ተሰርዘዋል!",
+        "deleteStaffError": "በአሁኑ ጊዜ ሰራተኞችን {{ staffName}} መሰረዝ አልቻልንም። እባክዎ ቆየት ብለው ይሞክሩ"
+      },
+      "swal": {
+        "title": "መሰረዝን ያረጋግጡ",
+        "text": "እርግጠኛ ነዎት {{ name }}ን ከትምህርት ቤቱ ማስወገድ ይፈልጋሉ?"
+      }
+    }
+  },
+  "students": {
+    "behaviour": "ባህሪ",
+    "disc": "ተግሣጽ",
+    "exActs": "ከመደበኛ ትምህርት ውጭ እንቅስቃሴዎች",
+    "notes": "ማስታወሻዎች",
+    "studAnalysis": "የተማሪ ትንተና",
+    "student": "ተማሪ",
+    "students": "ተማሪዎች",
+    "notExist": "ይህ ተማሪ የለም።",
+    "currStudent": "የአሁን ተማሪ",
+    "kcpeIndex": "የ KCPE መረጃ ጠቋሚ",
+    "kcpeScore": "የKCPE ውጤት",
+    "kcpeYear": "KCPE ዓመት",
+    "guardianName": "ጠባቂ ስም",
+    "primGuardianPhone": "ዋና ጠባቂ ስልክ",
+    "secGuardianPhone": "ሁለተኛ ደረጃ ጠባቂ ስልክ",
+    "guardEmail": "ጠባቂ ኢሜይል",
+    "guardRelation": "ጠባቂ ግንኙነት",
+    "guardRelationTo": "ጠባቂ ከተማሪ ጋር ግንኙነት",
+    "homeAddress": "የቤት አድራሻ",
+    "errorList": "የሚከተሉት ስህተቶች አጋጥሟቸዋል",
+    "photos": "ፎቶዎች",
+    "uploadFeeStmts": "የክፍያ መግለጫዎችን ስቀል",
+    "instructions1": "እና አብነት ይሙሉ ከዚያም ከታች ይስቀሉት. (እባክዎ የአምዱ ራስጌዎች እንዳሉ ይተዉት)",
+    "discipline": {
+      "nav": "የተማሪ ተግሣጽ",
+      "deleted": "ይህ ተማሪ የለም።",
+      "profile": "መገለጫ",
+      "analytics": "ትንታኔ",
+      "message": "መልእክት",
+      "notes": "ማስታወሻዎች",
+      "exActivities": "ከመደበኛ ትምህርት ውጭ እንቅስቃሴዎች",
+      "new": "አዲስ የዲሲፕሊን ጉዳይ",
+      "noCase": "የዲሲፕሊን ጉዳይ የለም።",
+      "recordedBy": "የተመዘገበው በ",
+      "type": "ዓይነት",
+      "caseTitle": "የጉዳይ ርዕስ",
+      "date": "ቀን",
+      "title": "ርዕስ",
+      "description": "መግለጫ",
+      "cancel": "ሰርዝ",
+      "saveCase": "የዲሲፕሊን ጉዳይን አስቀምጥ",
+      "caseDescription": "የጉዳይ መግለጫ",
+      "back": "ተመለስ",
+      "toastMessages": {
+        "caseSaveSuccess": "የዲሲፕሊን ጉዳይ በተሳካ ሁኔታ ተቀምጧል።"
+      },
+      "swal": {
+        "title": "የዲሲፕሊን ጉዳይን ያስቀምጡ!",
+  			"text": "እርግጠኛ ነዎት ይህን የዲሲፕሊን ጉዳይ ማዳን ይፈልጋሉ?",
+        "confirmButtonText": "የሰቀላ ውጤቶች",
+        "cancelButtonText": "ወደ ርዕሰ ጉዳዮች ተመለስ"
+      }
+    },
+    "move": {
+      "moveStudents": "ተማሪዎችን አንቀሳቅስ",
+      "stream": "ዥረት",
+      "select": "የሚንቀሳቀስ ተማሪን ይምረጡ",
+      "cancelMove": "መውሰድን ሰርዝ",
+      "noStuds": "ምንም ተማሪዎች አልተገኙም።",
+      "admno": "አድምኖ",
+      "name": "ስም",
+      "moveTo": "አንቀሳቅስ ወደ",
+      "destination": "መድረሻ",
+      "destStream": "መድረሻ ዥረት",
+      "move": "አንቀሳቅስ",
+      "pendingTransfers": "በመጠባበቅ ላይ ያሉ የዝውውር ጥያቄዎች",
+      "studsAwaiting": "ይሁንታን በመጠባበቅ ላይ ያሉ ተማሪዎች",
+      "back": "ተመለስ",
+      "noStudsAwaiting": "የእርስዎን ፈቃድ የሚጠብቁ ተማሪዎች የሉም",
+      "current": "የአሁኑ",
+      "actions": "ድርጊቶች",
+      "reject": "እምቢ",
+      "accept": "ተቀበል",
+      "rejectAll": "ሁሉንም ውድቅ ያድርጉ",
+      "acceptAll": "ሁሉንም ተቀበል",
+      "cancelRequest": "ጥያቄ ሰርዝ",
+      "noStudentsSelectedError": "እባክዎ ቢያንስ አንድ ተማሪ ይምረጡ",
+      "toastMessages": {
+        "moveSuccess": "ተማሪ በተሳካ ሁኔታ ተንቀሳቅሷል!",
+        "moveError": "ተማሪን በማንቀሳቀስ ላይ ሳለ ስህተት ተከስቷል!",
+        "moveCancelError": "እንቅስቃሴን በመሰረዝ ላይ ስህተት አጋጥሟል!"
+      },
+      "swal": {
+        "title": "ተማሪዎችን አንቀሳቅስ!",
+        "keyWordAccept": "ተቀበል",
+        "keyWordReject": "አለመቀበል",
+  			"text1": "እርግጠኛ ነዎት እነዚህን የማስተላለፊያ ጥያቄዎች {{ keyword }} ይፈልጋሉ?",
+  			"text2": "እርግጠኛ ነዎት ይህን የዝውውር ጥያቄ {{ keyword }} ይፈልጋሉ?",
+        "title2": "ስኬታማ!",
+        "text3": "እርግጠኛ ነዎት ይህን የዝውውር ጥያቄ መሰረዝ ይፈልጋሉ?",
+        "text4": "እርግጠኛ ነዎት የተመረጡትን ተማሪዎች ወደ {{ formOrYear }} {{ form }} {{ stream }} ማዛወር ይፈልጋሉ?"
+      }
+    },
+    "new": {
+      "title": "አዲስ ተማሪ ጨምር",
+      "addNew": "አዲስ አስገባ",
+      "options": "አማራጮች",
+      "keyIn": "የተማሪ ዝርዝሮች ቁልፍ",
+      "uploadFrmSheet": "ተማሪዎችን ከተመን ሉህ ይስቀሉ።",
+      "admnoErrMes": "የመግቢያ ቁጥር ባዶ ሊሆን አይችልም።",
+      "name": "ሙሉ ስም",
+      "nameErrMes": "ስም ባዶ ሊሆን አይችልም።",
+      "notEmpty": "ባዶ ሊሆን አይችልም",
+      "form": "ቅፅ",
+      "formPlaceholder": "{{formoryear}} ይምረጡ",
+      "formErrMes": "{{formoryear}} ባዶ ሊሆን አይችልም።",
+      "streamPlaceholder": "ዥረት ይምረጡ",
+      "dateValidation": "እባክዎ የትውልድ ቀን እና የመግቢያ ቀን በቅርጸቱ ውስጥ መሆናቸውን ያረጋግጡ",
+      "admnoShort": "አድም ቁጥር",
+      "admDate": "Adm. ቀን",
+      "birthCertNo": "የልደት የምስክር ወረቀት ቁጥር",
+      "primarySchool": "የመጀመሪያ ደረጃ ትምህርት ቤት",
+      "genderHelperText": "ከትምህርት ቤት መቼቶች የተመረጠ",
+      "upi": "ዩፒአይ",
+      "excelTemplateDownload": {
+        "fileName": "ሰቀላ-ተማሪዎች",
+        "workSheetName": "ተማሪዎችን ስቀል",
+        "workSheetColumnHeaders": {
+          "admno": "አድምኖ",
+          "name": "ስም",
+          "gender": "ጾታ",
+          "form": "ቅጽ",
+          "stream": "ዥረት",
+          "upi": "ኡፒ",
+          "admissionDate": "የመግቢያ_ቀን",
+          "dob": "የትውልድ ቀን",
+          "birthCertNumber": "የልደት_ሰርተፍኬት_ቁጥር",
+          "primarySchool": "የመጀመሪያ ደረጃ ትምህርት ቤት",
+          "kcpeIndex": "kcpe_index",
+          "kcpeScore": "kcpe_score",
+          "kcpeYear": "kcpe_አመት",
+          "guardianName": "የአሳዳጊ_ስም",
+          "primaryGuardianPhone": "ተቀዳሚ_ሞግዚት_ስልክ",
+          "secondaryGuardianPhone": "ሁለተኛ_አሳዳጊ_ስልክ",
+          "guardianEmail": "ሞግዚት_ኢሜል",
+          "guardianRelation": "የአሳዳጊ_ግንኙነት",
+          "homeAddress": "የቤት አድራሻ",
+          "generalComments": "አጠቃላይ አስተያየቶች"
+        }
+      },
+      "toastMessages": {
+        "addError": "ተማሪ በማከል ላይ ስህተት ተከስቷል!"
+      },
+      "swal": {
+        "title": "ተማሪዎችን መጨመር",
+  			"text": "ይህ እርምጃ ትንሽ ጊዜ ሊወስድ ይችላል. እባካችሁ ታገሱ።",
+        "title2": "ተማሪ(ዎች) በተሳካ ሁኔታ ታክሏል!",
+  			"message1": "{{ number }} ተማሪዎች በተሳካ ሁኔታ ታክለዋል።",
+  			"message2": "{{ number }} ተማሪ በተሳካ ሁኔታ ታክሏል።"
+      }
+    },
+    "search": {
+      "title": "ተማሪን ፈልግ",
+      "by": "ፍለጋ በ",
+      "admnoErrMes": "የመግቢያ ቁጥር ባዶ ሊሆን አይችልም።",
+      "searchRes": "የፍለጋ ውጤቶች",
+      "admno": "አድምኖ",
+      "noRes": "ምንም ውጤቶች አልተገኙም።",
+      "name": "ስም",
+      "nameErrMes": "ስም ባዶ ሊሆን አይችልም።",
+      "form": "ቅፅ",
+      "formErrMes": "ቅጹ ባዶ ሊሆን አይችልም።"
+    },
+    "activities": {
+      "title": "ከመደበኛ ትምህርት ውጭ እንቅስቃሴዎች",
+      "studentLeft": "ይህ ተማሪ የለም።",
+      "studActs": "የተማሪ እንቅስቃሴዎች",
+      "new": "አዲስ ከመደበኛ ትምህርት ውጭ እንቅስቃሴ",
+      "noActs": "ከመደበኛ ትምህርት ውጭ እንቅስቃሴ የለም።",
+      "actName": "የእንቅስቃሴ ስም",
+      "posHeld": "የተያዙ ቦታዎች፣ የተከበሩ ሽልማቶች ወይም የተገኙ ደብዳቤዎች",
+      "actDesc": "የእንቅስቃሴ መግለጫ",
+      "descPlaceholder": "የእንቅስቃሴ መግለጫ",
+      "actType": "የተግባር አይነት",
+      "save": "እንቅስቃሴን አስቀምጥ",
+      "selectActType": "የእንቅስቃሴ አይነት ይምረጡ",
+      "posPlaceholder": "የተያዙ ቦታዎችን፣ የተሸለሙትን ክብር ወይም የተገኙ ደብዳቤዎችን ያክሉ",
+      "toastMessages": {
+        "addSuccess": "እንቅስቃሴ በተሳካ ሁኔታ ተቀምጧል!",
+        "addError": "እንቅስቃሴን በማስቀመጥ ላይ ሳለ አንድ ስህተት ተከስቷል!",
+        "deleteSuccess": "እንቅስቃሴ በተሳካ ሁኔታ ተሰርዟል!",
+        "deleteError": "እንቅስቃሴን በመሰረዝ ላይ ስህተት አጋጥሟል!"
+      },
+      "swal": {
+        "title": "ከመደበኛ ትምህርት ውጭ እንቅስቃሴ ይጨመር?",
+  			"text": "እርግጠኛ ነዎት ይህን እንቅስቃሴ ወደ {{ name }} ማከል ይፈልጋሉ",
+        "title2": "ከመደበኛ ትምህርት ውጭ እንቅስቃሴን ሰርዝ!",
+  			"text2": "እርግጠኛ ነዎት ይህን እንቅስቃሴ መሰረዝ ይፈልጋሉ?"
+      }
+    },
+    "analytics": {
+      "noRes": "ምንም የተማሪ ውጤት የለም።",
+      "examPerf": "የፈተና አፈጻጸም",
+      "changeExam": "ፈተናን ቀይር",
+      "subPerfomance": "የርእሰ ጉዳይ አፈጻጸም",
+      "gr": "ግሬ",
+      "tgGrade": "ትርጉሙ ግሬ",
+      "feeStatement": "የክፍያ መግለጫ",
+      "feeBal": "የክፍያ ሒሳብ",
+      "termFees": "የጊዜ ክፍያዎች",
+      "totalPayable": "ጠቅላላ የሚከፈል",
+      "outstandingBal": "ያልተከፈለ ድምር",
+      "transcript": "ግልባጭ",
+      "reportForm": "የሪፖርት ቅፅ",
+      "transcripts": "ግልባጮች",
+      "currentStudent": "የአሁን ተማሪ",
+      "reportForms": "ቅጾችን ሪፖርት ያድርጉ",
+      "perfOverTime": "በጊዜ ሂደት አፈጻጸም",
+      "meanMarks": "አማካኝ ምልክቶች",
+      "totalPoints": "ጠቅላላ ነጥቦች",
+      "overallPosition": "አጠቃላይ አቀማመጥ",
+      "streamPosition": "የዥረት አቀማመጥ",
+      "meanGrade": "አማካይ ደረጃ"
+    },
+    "messages": {
+      "studInbox": "የተማሪ ገቢ መልእክት ሳጥን",
+      "new": "አዲስ መልእክት",
+      "noMes": "ምንም መልዕክቶች የሉም",
+      "from": "ከ",
+      "type": "ዓይነት",
+      "subject": "ርዕሰ ጉዳይ",
+      "mesSubject": "የመልእክት ርዕስ",
+      "selCategory": "ምድብ ይምረጡ",
+      "mesContent": "የመልእክት ይዘት",
+      "sendText": "የጽሑፍ መልእክት ይላኩ።",
+      "sendEmail": "ኢሜል ይላኩ",
+      "sendMes": "መልዕክት ላክ",
+      "mesDescription": "የመልእክት መግለጫ",
+      "toastMessages": {
+        "messageSentSuccess": "መልእክት በተሳካ ሁኔታ ተልኳል!"
+      },
+      "swal": {
+        "title": "መልዕክት ላክ?",
+  			"text": "ይህን መልእክት ወደ {{ studentName }} መላክ እንደሚፈልጉ እርግጠኛ ነዎት"
+      }
+    },
+    "ol-profile": {
+      "avgPoints": "የተመዘገቡ አማካኝ ነጥቦች",
+      "changeAcYear": "የትምህርት አመት ለውጥ",
+      "genReport": "ሪፖርት ማመንጨት",
+      "attReport": "የመገኘት ሪፖርት",
+      "noAnalysis": "ምንም ትንታኔ የለም።",
+      "forTerm": "ለጊዜ",
+      "asstResults": "የግምገማ ውጤቶች",
+      "toastMessages": {
+        "error": "ስህተት ተከስቷል {{ error }}"
+      }
+    },
+    "profile": {
+      "title": "የተማሪ መገለጫ",
+      "doa": "የመግቢያ ቀን",
+      "bCertNo": "የልደት የምስክር ወረቀት መግቢያ ቁጥር",
+      "pName": "የመጀመሪያ ደረጃ ትምህርት ቤት ስም",
+      "house": "ቤት",
+      "selHouse": "ቤት ይምረጡ",
+      "genComments": "አጠቃላይ አስተያየቶች",
+      "genCPlaceholder": "በተማሪው ችሎታ እና ባህሪ ላይ አስተያየቶችን ያስገቡ",
+      "ofChar": "ከ 400 ቁምፊዎች",
+      "photo": "ፎቶ",
+      "profiles": "መገለጫዎች",
+      "delStudent": "ተማሪን ሰርዝ",
+      "update": "አዘምን",
+      "uProfiles": "መገለጫዎችን አዘምን",
+      "excelTemplateDownload": {
+        "fileName": "የተማሪ መገለጫዎችን ስቀል",
+        "workSheetName": "ሉህ 1",
+        "workSheetColumnHeaders": {
+          "admno": "አድምኖ",
+          "indexNumber": "ኢንዴክስ_ቁጥር",
+          "upi": "ኡፒ",
+          "name": "ስም",
+          "gender": "ጾታ",
+          "house": "ቤት",
+          "dateOfAdmission": "የመግቢያ_ቀን",
+          "dob": "ዶብ",
+          "birthCertNumber": "የልደት_ሰርተፍኬት_ቁጥር",
+          "primarySchool": "የመጀመሪያ ደረጃ ትምህርት ቤት",
+          "kcpeIndex": "kcpe_index",
+          "kcpeScore": "kcpe_score",
+          "kcpeYear": "kcpe_አመት",
+          "guardianName": "የአሳዳጊ_ስም",
+          "primaryGuardianPhone": "ተቀዳሚ_ሞግዚት_ስልክ",
+          "secondaryGuardianPhone": "ሁለተኛ_አሳዳጊ_ስልክ",
+          "guardianEmail": "ሞግዚት_ኢሜል",
+          "guardianRelation": "የአሳዳጊ_ግንኙነት",
+          "homeAddress": "የቤት አድራሻ",
+          "isDayScholar": "የቀን_ምሁር ነው።",
+          "generalComments": "አጠቃላይ አስተያየቶች"
+        }
+      },
+      "instructions": "እባክዎ የትውልድ ቀን እና የመግቢያ ቀን በቅርጸቱ ውስጥ መሆናቸውን ያረጋግጡ",
+      "toastMessages": {
+        "updateSuccess": "የተማሪ መገለጫ በተሳካ ሁኔታ ዘምኗል",
+        "deletePhotoSuccess": "የተማሪ ፎቶ በተሳካ ሁኔታ ተሰርዟል።"
+      },
+      "swal": {
+        "title": "ረጅም ሂደት!",
+  			"text": "ይህ እርምጃ ትንሽ ጊዜ ሊወስድ ይችላል. እባካችሁ ታገሱ።",
+        "title2": "ተማሪ(ዎች) በተሳካ ሁኔታ ዘምኗል!",
+        "message1": "{{ number }} የተማሪዎች መገለጫዎች በተሳካ ሁኔታ ተሰቅለዋል።",
+        "message2": "{{ number }} የተማሪ መገለጫዎች በተሳካ ሁኔታ ተሰቅለዋል።",
+        "title3": "ተማሪ ሰርዝ!",
+  			"text3": "እርግጠኛ ነዎት ይህን ተማሪ መሰረዝ ይፈልጋሉ?",
+        "title4": "ተማሪ(ዎች) በተሳካ ሁኔታ ተሰርዟል!",
+  			"text4": "ተማሪው ከትምህርት ቤቱ ተባረረ። የተማሪው ውጤት ግን በስርዓቱ እንዲቆይ ተደርጓል",
+        "title5": "የመገለጫ ሥዕል ይሰርዙ!",
+  			"text5": "እርግጠኛ ነህ የተማሪውን መገለጫ ፎቶ መሰረዝ ትፈልጋለህ?"
+      }
+    },
+    "residences": {
+      "title": "የተማሪ መኖሪያ ቤቶች",
+      "toastMessages": {
+        "updateDetailsError": "እባክዎ ትክክለኛ ስም ይጥቀሱ",
+        "updateDetailsError2": "በማዘመን ላይ ስህተት ተከስቷል።",
+        "residenceUpdateSuccess": "የተማሪ መኖሪያ በተሳካ ሁኔታ ዘምኗል",
+        "residenceAddSuccess": "የተማሪ መኖሪያ በተሳካ ሁኔታ ታክሏል።"
+      }
+    },
+    "up_Photo": {
+      "instructions": "ከታች ያለውን ቁልፍ ጠቅ ያድርጉ እና ምስሎቹን ይምረጡ (እያንዳንዱ ፋይል በተማሪው የመግቢያ ቁጥር፣ መረጃ ጠቋሚ ቁጥር ወይም UPI ቁጥር መሰየም አለበት)",
+      "option": "አማራጭ",
+      "selOption": "አማራጭ ይምረጡ",
+      "valText": "ለሚፈለገው ማረጋገጫ አይነታ ወደ መስክ ያክሉ",
+      "selImage": "ምስል ይምረጡ",
+      "image": "ምስል",
+      "progress": "እድገት",
+      "status": "ሁኔታ",
+      "complete": "ተጠናቀቀ",
+      "success": "ስኬት",
+      "fail": "አልተሳካም።"
+    },
+    "up_fee": {
+      "title": "የክፍያ ሒሳቦችን/መግለጫዎችን ይስቀሉ።",
+      "feeSum": "የክፍያ ማጠቃለያ እንደ በ",
+      "feeOptions": "የክፍያ አማራጮች",
+      "curFeeBal": "የአሁኑ ክፍያ ቀሪዎች",
+      "upcomingFees": "የመጪው ጊዜ ክፍያ መግለጫዎች",
+      "sendSummary": "የክፍያ ማጠቃለያ በኤስኤምኤስ/ኢሜል ላክ",
+      "sendFees": "ክፍያዎችን ላክ",
+      "feePlaceholder": "ከክፍያ መግለጫው ጋር አብሮ የሚላክ አማራጭ መልእክት",
+      "multipleFilesError": "ብዙ ፋይሎችን መጠቀም አይቻልም",
+      "forbiddenCols": "የተከለከሉ ዓምዶች",
+      "forbiddenColsError": "የተሰቀለው ሰነድ የሚከተሉትን የተከለከሉ ዓምዶች ይዟል።",
+      "excelTemplateDownload": {
+        "fileName": "የተማሪ ክፍያዎችን ስቀል - አብነት",
+        "workSheetName": "የሰቀላ ክፍያዎች",
+        "workSheetColumnHeaders": {
+          "admno": "አድምኖ",
+          "admnoMeaning": "የመግቢያ ቁጥር",
+          "name": "ስም",
+          "nameMeaning": "የተማሪ ስም",
+          "termBalance": "የጊዜ_ሚዛን",
+          "termBalanceMeaning": "የተማሪ ሚዛን",
+          "nextTermFees": "የቀጣይ_ጊዜ_ክፍያዎች",
+          "nextTermFeesMeaning": "የተማሪ ክፍያዎች"
+        }
+      },
+      "toastMessages": {
+        "success": "የክፍያ መግለጫ በተሳካ ሁኔታ ተሰቅሏል።",
+        "error": "የክፍያ መግለጫ በመስቀል ላይ ስህተት አጋጥሟል። እባክዎ ቆየት ብለው ይሞክሩ"
+      }
+    },
+    "up_target" : {
+      "excelTemplateDownload": {
+        "fileName": "የተማሪ ኢላማዎችን ስቀል",
+        "workSheetName": "የዒላማ ደረጃዎች",
+        "workSheetColumnHeaders": {
+          "admno": "አድምኖ",
+          "admnoMeaning": "የመግቢያ ቁጥር",
+          "name": "ስም",
+          "nameMeaning": "የተማሪ ስም"
+        }
+      },
+      "swal": {
+        "title": "የዒላማ ደረጃዎችን ይስቀሉ!",
+  			"text": "እርግጠኛ ነዎት የተገለጹትን የዒላማ ደረጃዎች መስቀል ይፈልጋሉ?",
+        "title2": "ተማሪ(ዎች) በተሳካ ሁኔታ ዘምኗል!"
+      }
+    }
+  },
+  "teachers": {
+    "add": {
+      "options": {
+        "headerText": "አማራጮች",
+        "keyInOption": "የአስተማሪ ዝርዝሮች ቁልፍ",
+        "uploadFromSpreadSheetOption": "መምህራንን ከተመን ሉህ ይስቀሉ።"
+      },
+      "keyInOptionForm": {
+        "fullName": "ሙሉ ስም",
+        "phoneNumber": "ስልክ ቁጥር",
+        "phoneNumberPlaceholderText": "07#######",
+        "tscNumber": "TSC ቁጥር.",
+        "gender": "ጾታ",
+        "genderPlaceholderText": "ጾታን ይምረጡ...",
+        "genderMaleOption": "ወንድ",
+        "genderFemaleOption": "ሴት",
+        "genderUnspecifiedOption": "አልተገለጸም።",
+        "nationalIdNumber": "ብሔራዊ መታወቂያ ቁጥር.",
+        "group": "ቡድን",
+        "groupPlaceholderText": "ቡድን ይምረጡ",
+        "addBtn": "አክል"
+      },
+      "keyInOptionFormErrors": {
+        "fullName": "ይሄ ቦታ ይፈለጋል"
+      },
+      "uploadFromSpreadSheetOptionForm": {
+        "fileInputLabel": {
+          "downloadText": "አውርድ",
+          "remainingText": "እና አብነቱን ይሙሉ ከዚያም ከታች ይስቀሉት. (እባክዎ የአምዱ ራስጌዎችን እንደነበሩ ይተዉት)"
+        },
+        "excelTemplateDownload": {
+          "fileName": "ሰቀላ አስተማሪዎች - አብነት",
+          "workSheetName": "ሰቀላ አስተማሪዎች - አብነት",
+          "workSheetColumnHeaders": {
+            "name": "ስም",
+            "phone": "ስልክ",
+            "tscNumber": "tsc_አይ",
+            "nationalIdNumber": "ብሄራዊ_መታወቂያ_አይ",
+            "gender": "ጾታ",
+            "group": "ቡድን"
+          }
+        },
+        "tableSectionHeaders": {
+          "name": "ስም",
+          "title": "ርዕስ",
+          "phone": "ስልክ",
+          "nationalIdNumber": "ብሔራዊ መታወቂያ ቁጥር.",
+          "group": "ቡድን"
+        },
+        "uploadBtn": "ስቀል"
+      },
+      "uploadFromSpreadSheetOptionFormErrors": {
+        "fileInput": "ከአስተማሪዎች ዝርዝር ጋር የተመን ሉህ ይምረጡ"
+      },
+      "swal": {
+        "title": "ስኬት ይፍጠሩ!",
+        "title2": "ስቀል ስኬት!"
+      }
+    },
+    "groups": {
+      "title": "የአስተማሪ ቡድኖች",
+      "addBtn": "የአስተማሪ ቡድን አክል",
+      "addForm": {
+        "name": "የአስተማሪ ቡድን ስም ያስገቡ",
+        "namePlaceholder": "የአስተማሪ ቡድን",
+        "cancelBtn": "ሰርዝ",
+        "saveBtn": "አስቀምጥ"
+      },
+      "addFormErrors": {
+        "name": "የቡድን ስም ያስፈልጋል",
+        "unableToUpload": "የአስተማሪ ቡድኖችን መጫን አልተቻለም"
+      },
+      "tableHeaders": {
+        "name": "ስም",
+        "action": "ድርጊት"
+      },
+      "list": {
+        "noRecords": "በአስተማሪ ቡድኖች ላይ ምንም መዝገቦች አልተገኙም።"
+      },
+      "listItem": {
+        "editBtn": "አርትዕ",
+        "editCancelBtn": "ሰርዝ",
+        "editSaveBtn": "አስቀምጥ",
+        "deleteBtn": "ሰርዝ",
+        "deleteConfirmationModal": {
+          "title": "{{ name }} ይሰረዝ?",
+          "text": "ይህ ሊቀለበስ አይችልም።",
+          "cancelButtonText": "ሰርዝ",
+          "confirmButtonText": "እሺ"
+        }
+      },
+      "toastMessages": {
+        "addGroupSuccess": "የመምህር ቡድን በተሳካ ሁኔታ ታክሏል።",
+        "addGroupError": "የአስተማሪ ቡድን ማከል አልተቻለም፣ እባክዎ ኢንተርኔት ይፈትሹ እና እንደገና ይሞክሩ!",
+        "updateGroupSuccess": "የአስተማሪ ቡድን በተሳካ ሁኔታ ዘምኗል",
+        "updateGroupError": "የአስተማሪ ቡድንን ማዘመን አልተቻለም፣ እባክዎ ኢንተርኔት ይፈትሹ እና እንደገና ይሞክሩ!",
+        "deleteGroupSuccess": "የአስተማሪ ቡድን በተሳካ ሁኔታ ተሰርዟል።",
+        "deleteGroupError": "የአስተማሪ ቡድንን መሰረዝ አልተቻለም፣ እባክዎ ኢንተርኔት ይፈትሹ እና እንደገና ይሞክሩ"
+      }
+    },
+    "topNav": {
+      "manage": "አስተዳድር",
+      "view": "ይመልከቱ",
+      "addNew": "አዲስ አስገባ",
+      "groups": "ቡድኖች",
+      "teacher": "መምህር",
+      "teachers": "አስተማሪዎች",
+      "teachersGroups": "የመምህራን ቡድኖች"
+    },
+    "manageTeachers": {
+      "title": "አስተማሪዎች",
+      "searchPlaceholder": "ፈልግ",
+      "viewPrintFormatBtn": "የህትመት ቅርጸት ይመልከቱ",
+      "genderRequired": "ጾታ ያስፈልጋል",
+      "groupsRequired": "ቡድን ያስፈልጋል",
+      "printFormat": {
+        "options": {
+          "headerText": "አማራጮች",
+          "showGroupsOption": "ቡድኖችን አሳይ",
+          "showPhoneNumbersOption": "ስልክ ቁጥሮች አሳይ",
+          "showUsernamesOption": "የተጠቃሚ ስሞችን አሳይ",
+          "showNationalIdNumbersOption": "ብሔራዊ መታወቂያ ቁጥር አሳይ"
+        },
+        "closePrintFormatBtn": "የህትመት ቅርጸት ዝጋ",
+        "printBtn": "አትም",
+        "downloadBtn": "አውርድ",
+        "downloadPDFBtn": "ፒዲኤፍ አውርድ",
+        "downloadExcelBtn": "ኤክሴል አውርድ",
+        "excelDownload": {
+          "fileName": "አስተማሪዎች",
+          "workSheetName": "አስተማሪዎች",
+          "workSheetColumnHeaders": {
+            "name": "ስም",
+            "username": "የተጠቃሚ ስም",
+            "phone": "ስልክ",
+            "tscNumber": "tsc_አይ",
+            "nationalIdNumber": "ብሄራዊ_መታወቂያ_አይ",
+            "gender": "ጾታ",
+            "group": "ቡድን"
+          }
+        },
+        "schoolLogoAltText": "የትምህርት ቤት አርማ",
+        "tableHeaderText": "የመምህራን ዝርዝር",
+        "tableColumnHeaders": {
+          "name": "ስም",
+          "username": "የተጠቃሚ ስም",
+          "phone": "ስልክ",
+          "gender": "ጾታ",
+          "tscNumber": "TSC ቁጥር.",
+          "nationalIdNumber": "ብሔራዊ መታወቂያ ቁጥር.",
+          "groups": "ቡድኖች"
+        }
+      },
+      "teacherList": {
+        "noRecords": "ምንም የመምህር መዝገቦች አልተገኙም።"
+      },
+      "teacherListItem": {
+        "adminRibbon": "አስተዳዳሪ",
+        "principalRibbon": "ርዕሰ መምህር",
+        "imageAltText": "የአስተማሪ ምስል",
+        "editBtn": "አርትዕ",
+        "makeAdminBtn": "አስተዳዳሪ ጨምር",
+        "makeAdminModal": {
+          "title": "አስተዳዳሪ አድርግ!",
+          "text": "እርግጠኛ ነዎት {{ name }} አስተዳዳሪ ማድረግ ይፈልጋሉ?",
+          "cancelButtonText": "ሰርዝ",
+          "confirmButtonText": "እሺ"
+        },
+        "revokeAdminBtn": "አስተዳዳሪን ሽረሽ",
+        "revokeAdminModal": {
+          "title": "የአስተዳዳሪ መብቶችን ይሻሩ!",
+          "text": "እርግጠኛ ነዎት የአስተዳዳሪ መብቶችን ከአስተማሪ {{ name }} ማስወገድ ይፈልጋሉ?",
+          "cancelButtonText": "ሰርዝ",
+          "confirmButtonText": "እሺ"
+        }
+      },
+      "teacherListItemUpdate": {
+        "profilePhoneNumber": "ስልክ",
+        "profileSignatureAltText": "ፊርማ",
+        "profileDeleteBtn": "ሰርዝ",
+        "profileDeleteConfirmationModal": {
+          "title": "መምህርን ሰርዝ!",
+          "text": "እርግጠኛ ነዎት {{ name }}ን ከትምህርት ቤቱ ማስወገድ ይፈልጋሉ?",
+          "cancelButtonText": "ሰርዝ",
+          "confirmButtonText": "እሺ"
+        },
+        "form": {
+          "headerText": "የአስተማሪ ዝርዝሮችን አዘምን",
+          "name": "ስም",
+          "personalEmail": "የግል ኢሜይል",
+          "phoneNumber": "ስልክ ቁጥር",
+          "phoneNumberPlaceholderText": "07#######",
+          "gender": "ጾታ",
+          "genderPlaceholderText": "ጾታ ይምረጡ...",
+          "genderMaleOption": "ወንድ",
+          "genderFemaleOption": "ሴት",
+          "genderUnspecifiedOption": "አልተገለጸም።",
+          "tscNumber": "TSC ቁጥር",
+          "idNumber": "የመታወቂያ ቁጥር",
+          "groups": "ቡድኖች",
+          "groupsEmpty": "ምንም ቡድኖች አልተገኙም።",
+          "bio": "ባዮ",
+          "closeBtn": "ገጠመ",
+          "saveBtn": "አስቀምጥ",
+          "editBtn": "አርትዕ"
+        },
+        "formErrors": {
+          "name": "ስም ያስፈልጋል"
+        }
+      },
+      "teacherAddition": {
+        "form": {
+          "headerText": "የአስተማሪ መረጃ",
+          "name": "ስም",
+          "username": "የተጠቃሚ ስም",
+          "phoneNumber": "ስልክ ቁጥር",
+          "phoneNumberPlaceholderText": "07#######",
+          "gender": "ጾታ",
+          "genderPlaceholderText": "ጾታን ይምረጡ...",
+          "genderMaleOption": "ወንድ",
+          "genderFemaleOption": "ሴት",
+          "genderUnspecifiedOption": "አልተገለጸም።",
+          "idNumber": "የመታወቂያ ቁጥር",
+          "groups": "ቡድኖች",
+          "bio": "ባዮ",
+          "closeBtn": "ገጠመ",
+          "saveBtn": "አስቀምጥ",
+          "editBtn": "አርትዕ"
+        }
+      },
+      "toastMessages": {
+        "addAdminRightSuccess": "{{ teacherName }} አሁን አስተዳዳሪ ነው።",
+        "addAdminRightError": "በዚህ ጊዜ አስተማሪን አስተዳዳሪ ማድረግ አልቻልንም። እባክዎ ቆየት ብለው ይሞክሩ",
+        "revokeAdminRightSuccess": "የአስተዳዳሪ መብቶች በተሳካ ሁኔታ ተሽረዋል።",
+        "revokeAdminRightError": "በአሁኑ ጊዜ የአስተዳዳሪ መብቶችን ከመምህሩ መሻር አልቻልንም። እባክዎ ቆየት ብለው ይሞክሩ",
+        "actionDeniedWarning": "በአሁኑ ጊዜ እንደ {{ teacherName }} ገብተዋል። ይህን ተግባር ማከናወን አይችሉም",
+        "updateTeacherSuccess": "የአስተማሪ ዝርዝሮች በተሳካ ሁኔታ ተዘምነዋል",
+        "updateTeacherError": "መምህሩን ማዘመን አልቻልንም። እባክዎ ቆየት ብለው ይሞክሩ",
+        "deleteTeacherSuccess": "መምህር በተሳካ ሁኔታ ተሰርዟል።",
+        "deleteTeacherError": "በአሁኑ ጊዜ አስተማሪን {{ teacherName }} መሰረዝ አልቻልንም። እባክዎ ቆየት ብለው ይሞክሩ"
+      }
+    },
+    "teacherClasses": {
+      "headerText": "የአስተማሪ ክፍሎች"
+    }
+  },
+  "timetable": {
+    "commonAttr": {
+      "loading": "የጊዜ ሰሌዳን በመጫን ላይ",
+      "showTTBtn": "የጊዜ ሰሌዳ አሳይ"
+    },
+    "classTimetable": {
+      "ctForm": {
+        "form": {
+          "label": "ቅፅ",
+          "placeholder": "ቅጽ ይምረጡ"
+        },
+        "stream": {
+          "label": "ዥረት",
+          "placeholder": "ዥረት ይምረጡ"
+        }
+      },
+      "timetable": "የጊዜ ሰሌዳ",
+      "toastMessages": {
+        "loadWarning": "የጊዜ ሰሌዳን መጫን አልተቻለም፣ እባክዎ የበይነመረብ ግንኙነትዎን ያረጋግጡ እና እንደገና ይሞክሩ"
+      }
+    },
+    "teacherTimetable": {
+      "title": "የአስተማሪ የጊዜ ሰሌዳ",
+      "selectTeacher": "መምህርን ይምረጡ",
+      "toastMessages": {
+        "getTimetableError": "የጊዜ ሰሌዳን መጫን አልተቻለም።"
+      }
+    },
+    "topNav": {
+      "teacher": "መምህር",
+      "timetable": "የጊዜ ሰሌዳ",
+      "classTimetable": "የክፍል የጊዜ ሰሌዳ",
+      "class": "ክፍል"
+    }
+  },
+  "changePassword": {
+    "topNav": {
+      "changePassword": "የሚስጥር ቁልፍ ይቀይሩ",
+      "change": "ለውጥ",
+      "password": "ፕስወርድ"
+    },
+    "resetCodeConfirmation": {
+      "title": "ዳግም ማስጀመሪያ ኮድ አለህ?",
+      "yes": "አዎ",
+      "no": "አይ"
+    },
+    "resetCodeSent": "የዳግም ማስጀመሪያ ኮድ ወደ ስልክ ቁጥርዎ ተልኳል። የይለፍ ቃልዎን ለመቀየር ከዚህ በታች ይጠቀሙ",
+    "form": {
+      "newPassword": "አዲስ የይለፍ ቃል",
+      "confirmPassword": "የይለፍ ቃል አረጋግጥ",
+      "resetCode": "ኮድ ዳግም አስጀምር",
+      "btnBack": "ተመለስ",
+      "btnSubmit": "አስገባ"
+    },
+    "formErrors": {
+      "requiredField": "ይሄ ቦታ ይፈለጋል",
+      "passwordMinimum": "የይለፍ ቃሉ ቢያንስ 5 ቁምፊዎች ሊኖሩት ይገባል",
+      "passwordsNotMatching": "የይለፍ ቃሎቹ አይዛመዱም።"
+    },
+    "toastMessages": {
+      "passwordChangeSuccess": "የይለፍ ቃልህ በተሳካ ሁኔታ ተለውጧል"
+    }
+  },
+  "common": {
+    "title": "ርዕስ",
+    "figure": "ምስል",
+    "description": "መግለጫ",
+    "allRightsReserved": "መብቱ በህግ የተጠበቀ ነው",
+    "actions": "ድርጊቶች",
+    "add": "አክል",
+    "adding": "መጨመር",
+    "admno": "የመግቢያ ቁጥር",
+    "adm": "አድም",
+    "analytics": "ትንታኔ",
+    "back": "ተመለስ",
+    "cancel": "ሰርዝ",
+    "cannotBeEmpty": "ባዶ ሊሆን አይችልም",
+    "chooseFile": "ፋይል ይምረጡ",
+    "change": "ለውጥ",
+    "changeTerm": "ውል ቀይር",
+    "class": "ክፍል",
+    "county": "ካውንቲ",
+    "selectCounty": "ካውንቲ ይምረጡ",
+    "region": "ክልል",
+    "registration": "ምዝገባ",
+    "registrationCode": "የምዝገባ ኮድ",
+    "date": "ቀን",
+    "dateFormat": "ዲ/ወ/ ዓ.ም",
+    "delete": "ሰርዝ",
+    "dob": "የትውልድ ቀን",
+    "download": "አውርድ",
+    "downloadExcelReamainingText": "እና አብነት ይሙሉ ከዚያም ከታች ይስቀሉት. (እባክዎ የአምዱ ራስጌዎች እንዳሉ ይተዉት)",
+    "downloadExcel": "Excel አውርድ",
+    "discard": "አስወግድ",
+    "edit": "አርትዕ",
+    "error": "ስህተት",
+    "email": "ኢሜይል",
+    "emailPlaceholderText": "example@zerakischool.ac.ke",
+    "form": "ቅፅ",
+    "formPlaceholder": "{{formoryear}} ይምረጡ",
+    "formErrMes": "{{formoryear}} ባዶ ሊሆን አይችልም።",
+    "invalidForm": "እባክዎን እንደአስፈላጊነቱ ይሙሉ።",
+    "female": "ሴት",
+    "fileEmpty": "ፋይል ባዶ ሊሆን አይችልም።",
+    "gender": "ጾታ",
+    "genderType": "የፆታ አይነት",
+    "genderTypePlaceholderText": "የፆታ አይነትን ይምረጡ",
+    "genderPlaceholderText": "ጾታ ይምረጡ...",
+    "grade": "ደረጃ",
+    "indexNo": "መረጃ ጠቋሚ ቁጥር",
+    "name": "ስም",
+    "namePlaceholderText": "ጆን ዶ",
+    "message": "መልእክት",
+    "male": "ወንድ",
+    "more": "ተጨማሪ",
+    "notes": "ማስታወሻዎች",
+    "one": "አንድ",
+    "optMes": "አማራጭ መልእክት",
+    "rank": "ደረጃ",
+    "rforms": "ቅጾችን ሪፖርት ያድርጉ",
+    "phone": "ስልክ ቁጥር",
+    "phonePlaceholderText": "07#######",
+    "phonePlaceholderText2": "0712 345 678",
+    "perfOverTime": "በጊዜ ሂደት አፈጻጸም",
+    "profile": "መገለጫ",
+    "print": "አትም",
+    "paginationInfo": "ገጽ {{ currentPage }} የ {{ totalPages }}",
+    "save": "አስቀምጥ",
+    "school": "ትምህርት ቤት",
+    "schoolName": "የትምህርት ቤት ስም",
+    "schoolNamePlaceholderText": "ዘራኪ ትምህርት ቤት",
+    "schoolType": "የትምህርት ቤት ዓይነት",
+    "schoolTypePlaceholderText": "የትምህርት ቤት ዓይነት ይምረጡ",
+    "schoolCode": "የትምህርት ቤት ኮድ",
+    "schoolCodePlaceholderText": "zerakischool",
+    "schoolPopulationCategory": "የትምህርት ቤት የህዝብ ምድብ",
+    "schoolPopulationCategoryPlaceholderText": "የትምህርት ቤት የህዝብ ምድብ ይምረጡ",
+    "search": "ፈልግ",
+    "searching": "መፈለግ",
+    "selectTerm": "ቃል ይምረጡ",
+    "selectYear": "ዓመት ይምረጡ",
+    "select": "ይምረጡ",
+    "senior": "ከፍተኛ",
+    "sessionExpired": "ክፍለ ጊዜው አልፎበታል።",
+    "stream": "ዥረት",
+    "streams": "ዥረቶች",
+    "streamErrMes": "ዥረቱ ባዶ ሊሆን አይችልም።",
+    "streamPlaceholder": "ዥረት ይምረጡ",
+    "students": "ተማሪዎች",
+    "submit": "አስገባ",
+    "term": "ጊዜ",
+    "teachers": "አስተማሪዎች",
+    "teachersPlaceholder": "አስተማሪዎች ይምረጡ",
+    "three": "ሶስት",
+    "two": "ሁለት",
+    "noItemsFound": "ምንም ንጥሎች አልተገኙም።",
+    "selectSupervisor": "ተቆጣጣሪ ይምረጡ",
+    "indexNumber": "መረጃ ጠቋሚ ቁጥር",
+    "examMean": "የፈተና አማካይ",
+    "streamMean": "የዥረት አማካኝ",
+    "marks": "ምልክቶች",
+    "totalMarks": "ጠቅላላ ምልክቶች",
+    "meanMarks": "አማካኝ ምልክቶች",
+    "totalPoints": "ጠቅላላ ነጥቦች",
+    "overallPosition": "አጠቃላይ አቀማመጥ",
+    "streamPosition": "የዥረት አቀማመጥ",
+    "meanGrade": "አማካይ ደረጃ",
+    "unspecified": "አልተገለጸም።",
+    "upload": "ስቀል",
+    "upi": "ዩፒአይ",
+    "username": "የተጠቃሚ ስም",
+    "year": "አመት",
+    "termAverage": "አማካይ ጊዜ",
+    "classOfYear": "የ {{ yearAndStream }} ክፍል",
+    "kcpeAverage": "የKCPE አማካይ",
+    "unnamedTerm": "ያልተሰየመ ቃል",
+    "amount": "መጠን",
+    "finance": "ፋይናንስ",
+    "timetable": "የጊዜ ሰሌዳ",
+    "action": "ድርጊት",
+    "requiredError": "ይሄ ቦታ ይፈለጋል",
+    "percent100": "100%",
+    "enabled": "ነቅቷል",
+    "disabled": "ተሰናክሏል።",
+    "validate": "አረጋግጥ",
+    "invalidate": "ትክክል ያልሆነ",
+    "done": "ተከናውኗል",
+    "verify": "አረጋግጥ",
+    "formErrors": {
+      "requiredError": "ይሄ ቦታ ይፈለጋል",
+      "invalidEmail": "ኢሜይል ልክ ያልሆነ ነው።"
+    },
+    "view": "ይመልከቱ",
+    "subjects": {
+      "eng": "እንግሊዝኛ",
+      "kisw": "ኪስዋሂሊ",
+      "math": "ሒሳብ",
+      "bio": "ባዮሎጂ",
+      "phyc": "ፊዚክስ",
+      "chem": "ኬሚስትሪ",
+      "hist": "ታሪክ እና መንግስት",
+      "geog": "ጂኦግራፊ",
+      "cre": "የክርስትና ሃይማኖታዊ ትምህርት",
+      "comp": "የኮምፒውተር ጥናቶች"
+    },
+    "forms": {
+      "form1": "ቅጽ 1",
+      "form2": "ቅጽ 2",
+      "form3": "ቅጽ 3",
+      "form4": "ቅጽ 4"
+    },
+    "classes": {
+      "class1": "ክፍል 1",
+      "class2": "ክፍል 2",
+      "class3": "ክፍል 3",
+      "class4": "ክፍል 4",
+      "class5": "ክፍል 5",
+      "class6": "ክፍል 6",
+      "class7": "ክፍል 7",
+      "class8": "ክፍል 8"
+    },
+    "terms": {
+      "term1": "ቃል 1",
+      "term2": "ቃል 2",
+      "term3": "ቃል 3"
+    },
+    "languages": {
+      "english": "እንግሊዝኛ",
+      "french": "ፈረንሳይኛ",
+      "swahili": "ስዋሕሊ",
+      "rwandese": "ኪንያርዋንዳ",
+      "amharic": "አማርኛ"
+    },
+    "fullcalendar": {
+      "buttonText": {
+        "prev": "ቀዳሚ",
+        "next": "ቀጥሎ",
+        "today": "ዛሬ",
+        "year": "አመት",
+        "month": "ወር",
+        "week": "ሳምንት",
+        "day": "ቀን",
+        "list": "ዝርዝር"
+      },
+      "weekText": "ሳምንት",
+      "allDayText": "ሙሉ ቀን",
+      "moreLinkText": "ተጨማሪ",
+      "noEventsText": "ምንም ክስተቶች የሉም"
+    },
+    "owlDateTime": {
+      "cancelBtnLabel": "ሰርዝ",
+      "setBtnLabel": "አዘጋጅ"
+    },
+    "toastMessages": {
+      "anErrorOccurred": "ስህተት ተፈጥሯል",
+      "anErrorOccurred2": "ስህተት ተፈጥሯል. እባክዎ ቆየት ብለው ይሞክሩ",
+      "searchError": "የፍለጋ ስህተት",
+      "excelDownloadSuccess": "የ Excel ሰነድ በተሳካ ሁኔታ ወርዷል"
+    },
+    "swal": {
+      "confirmButtonTextProceed": "ቀጥል።",
+  		"cancelButtonTextCancel": "ሰርዝ",
+      "confirmButtonTextYes": "አዎ",
+			"cancelButtonTextNo": "አይ",
+      "confirmButtonTextClose": "ገጠመ",
+      "confirmButtonTextOkay": "እሺ",
+      "titleSuccess": "ስኬት!",
+      "titleError": "ስህተት!",
+      "titleConfirmAction": "እርምጃን ያረጋግጡ"
+    }
+  },
+  "shared": {
+    "feedback": {
+      "headerText": "ለዘራኪ ግብረ መልስ ላክ",
+      "message": {
+        "greetings": "ሃይ እንዴት ናችሁ",
+        "body": "አስተያየትዎን ለማጋራት፣ ማንኛውም አይነት ጥያቄ ካለዎት፣ ባህሪን ይጠቁሙ ወይም ችግሩን ለመፍታት እገዛ ከፈለጉ፣ በደግነት እዚህ ያስቀምጡት እና ቡድናችን ወደ እርስዎ ይመለሳል"
+      },
+      "inputFieldPlaceholderText": "መልእክት ላክ...",
+      "toastMessages": {
+        "success": "ግብረመልስ በተሳካ ሁኔታ ገብቷል።"
+      },
+      "sendFeedbackErrorMsg": {
+        "serverError": "የአገልጋይ ስህተት"
+      }
+    },
+    "whatsappDialog": {
+      "headerText": "ዘራኪ",
+      "alwaysActive": "ሁልጊዜ ንቁ",
+      "message": {
+        "greetings":"ሃይ እንዴት ናችሁ",
+        "body": "በዋትስአፕ በቀጥታ ለማግኘት ከታች ያለውን ቁልፍ ተጫኑ"
+      },
+      "startChat": "ውይይት ጀምር"
+    },
+    "telDialog": {
+      "headerText": "ዘራኪን ጥራ",
+      "message": {
+        "greetings": "ሃይ እንዴት ናችሁ",
+        "body": "በ {{ contactNumber }} በቀጥታ እኛን ለማግኘት ከታች ያለውን ቁልፍ ተጫኑ"
+      },
+      "callBtn": "ይደውሉ"
+    },
+    "teamProfile": {
+      "imageAltText": "አሌክስ ኒያንጎሎ",
+      "closeBtn": "ገጠመ"
+    }
+  },
+  "litemore": {
+    "accept": "ተቀበል",
+    "admins": "አስተዳዳሪዎች",
+    "accManager": "የባንክ ሀላፊ",
+    "accOwner": "የመለያ ባለቤት",
+    "clearCache": "መሸጎጫ አጽዳ",
+    "creator": "ፈጣሪ",
+    "code": "ኮድ",
+    "registrationCode": "የምዝገባ ኮድ",
+    "registrationDate": "የምዝገባ ቀን",
+    "registrationNo": "የምዝገባ ቁጥር",
+    "region": "ክልል",
+    "regionError": "ክልል ያስፈልጋል",
+    "regionPlaceholder": "ክልል አስገባ",
+    "reject": "እምቢ",
+    "schoolName":"የትምህርት ቤት ስም",
+    "school":"ትምህርት ቤት",
+    "searchSchools": "ትምህርት ቤት ፈልግ",
+    "senderID": "የላኪ መታወቂያ",
+    "smsBalance": "የኤስኤምኤስ ቀሪ ሂሳብ",
+    "subEndDate": "የደንበኝነት ምዝገባ ማብቂያ ቀን",
+    "type": "ዓይነት",
+    "zerakiPartner": "ዘራኪ አጋር",
+    "valid": {
+      "title": "ትክክለኛ ትምህርት ቤቶች",
+      "emptyList":"ምንም ትክክለኛ ትምህርት ቤቶች የሉም",
+      "showMore": "የበለጠ ትክክለኛ ትምህርት ቤቶችን አሳይ"
+    },
+    "invalid": {
+      "title": "ልክ ያልሆኑ ትምህርት ቤቶች",
+      "emptyList":"ልክ ያልሆኑ ትምህርት ቤቶች የሉም"
+    },
+    "unverified": {
+      "title": "ያልተረጋገጡ ትምህርት ቤቶች",
+      "emptyList": "ያልተረጋገጡ ትምህርት ቤቶች የሉም",
+      "showMore": "ተጨማሪ ያልተረጋገጡ ትምህርት ቤቶችን አሳይ"
+    },
+    "joint": {
+      "title": "የጋራ ትምህርት ቤቶች",
+      "emptyList":"የጋራ ትምህርት ቤቶች የሉም",
+      "showMore": "ተጨማሪ የጋራ ትምህርት ቤቶችን አሳይ"
+    },
+    "demo": {
+      "title": "ማሳያ ትምህርት ቤቶች",
+      "emptyList":"ምንም ማሳያ ትምህርት ቤቶች የሉም",
+      "showMore": "ተጨማሪ ማሳያ ትምህርት ቤቶችን አሳይ"
+    },
+    "partner": {
+      "add":"አዲስ አጋር ያክሉ",
+      "title": "አጋሮች",
+      "titleReq": "የአጋር ጥያቄዎች",
+      "emptyList":"ምንም አጋሮች አልተገኙም።",
+      "emptyListReq":"ምንም የአጋሮች ጥያቄዎች አልተገኙም።",
+      "teachersName": "የአስተማሪ ስም",
+      "createPartner": "አጋር ይፍጠሩ",
+      "createTeacher": "አስተማሪ አጋር ያድርጉ",
+      "createExternal": "የውጭ አጋርን ያክሉ",
+      "teachersNamePlaceholder": "ጆን ዶ",
+      "teachersNameError": "የአስተማሪ ስም ያስፈልጋል",
+      "schoolName":"የትምህርት ቤት ስም",
+      "schoolPlaceholder": "ትምህርት ቤት ይምረጡ",
+      "teachersSchoolError": "የትምህርት ቤት ስህተት",
+      "showPartners": "አጋሮችን አሳይ",
+      "savePartner": "አጋርን አስቀምጥ",
+      "info": "መረጃ",
+      "infoError": "መረጃ ያስፈልጋል",
+      "infoPlaceholder": "መረጃ አስገባ",
+      "isPartner": "አጋር ነው።",
+      "isNotPartner": "አጋር አይደለም።",
+      "makePartner": "አጋር ያድርጉ",
+      "externalNameError": "ስም ያስፈልጋል",
+      "phonePlaceholder": "07#######",
+      "phoneError": "ስልክ ያስፈልጋል"
+    },
+    "feedback": {
+      "title": "ግብረ መልስ",
+      "emptyList":"ምንም ግብረመልስ አልተገኘም።"
+    },
+    "shopPayments": {
+      "title": "ክፍያዎችን ይግዙ",
+      "emptyList":"ምንም የክፍያ መዝገብ አልተገኘም።",
+      "searchForm": {
+        "phoneNumberPlaceholder": "ስልክ ቁጥር ለምሳሌ 254...",
+        "transactionCodePlaceholder": "የግብይት ኮድ",
+        "orderNumberPlaceholder": "የትእዛዝ ቁጥር",
+        "submitBtn": "ፈልግ"
+      },
+      "tableHeaders": {
+        "orderId": "ትዕዛዝ #",
+        "transactionCode": "የግብይት ኮድ",
+        "paymentTime": "የክፍያ ጊዜ"
+      }
+    },
+    "zlCreds": {
+      "title": "ZL ምስክርነቶች",
+      "emptyList":"ምንም መዛግብት አልተገኙም።",
+      "searchForm": {
+        "placeholder": "ትምህርት ቤት ፈልግ"
+      },
+      "tableHeaders": {
+        "sentCreds": "የተላኩ ምስክርነቶች"
+      },
+      "excelDownload": {
+        "workSheetName": "የትምህርት ቤት ዝርዝር"
+      }
+    },
+    "zerakiProducts": {
+      "title": "ዘራኪ ምርቶች",
+      "emptyList":"'{{ searchTerm }}' የሚል ስም ያላቸው ትምህርት ቤቶች አልተገኙም።",
+      "searchForm": {
+        "label": "ትምህርት ቤት ፈልግ",
+        "placeholder": "የትምህርት ቤት ስም"
+      },
+      "toastMessages": {
+        "nothingToUpdateMsg": "የሚዘመን ነገር የለም። ለመዘመን የትምህርት ቤት ምርጫ አስገባ",
+        "productUpdateSuccess": "የትምህርት ቤት ምርቶች በተሳካ ሁኔታ ዘምነዋል"
+      }
+    },
+    "faqs": {
+      "addNew": "አዲስ የሚጠየቁ ጥያቄዎች አክል",
+      "emptyList": "ምንም የሚጠየቁ ጥያቄዎች አልተገኙም።",
+      "saveNew": "አዲስ የሚጠየቁ ጥያቄዎች አስቀምጥ",
+      "faqCategory": "የሚጠየቁ ጥያቄዎች ምድብ",
+      "toastMessages": {
+        "addSuccess": "ተደጋጋሚ ጥያቄዎች በተሳካ ሁኔታ ታክለዋል።",
+        "deleteSuccess": "የሚጠየቁ ጥያቄዎች በተሳካ ሁኔታ ተወግደዋል"
+      },
+      "swal": {
+        "deleteFaqTitle": "የሚጠየቁ ጥያቄዎች ሰርዝ!",
+        "deleteFaqText": "እርግጠኛ ነዎት ይህን FAQ መሰረዝ ይፈልጋሉ?"
+      },
+      "categories": {
+        "title": "የሚጠየቁ ጥያቄዎች ምድቦች",
+        "emptyList": "ምንም የሚጠየቁ ጥያቄዎች ምድቦች አልተገኙም።",
+        "addNew": "አዲስ ምድብ ያክሉ",
+        "viewFaqs": "የሚጠየቁ ጥያቄዎችን ይመልከቱ",
+        "removeGroup": "ቡድን አስወግድ",
+        "saveNewGroup": "አዲስ ቡድኖችን ያስቀምጡ",
+        "details": {
+          "title": "የሚጠየቁ ጥያቄዎች ምድብ ዝርዝሮች"
+        },
+        "toastMessages": {
+          "addFaqCategory": "ምድቦች በተሳካ ሁኔታ ታክለዋል።",
+          "deleteSuccess": "የሚጠየቁ ጥያቄዎች በተሳካ ሁኔታ ተወግደዋል"
+        },
+        "swal": {
+          "deleteFaqCategoryTitle": "የሚጠየቁ ጥያቄዎች ምድብ ሰርዝ!",
+          "deleteFaqCategoryText": "እርግጠኛ ነዎት ይህን ተደጋጋሚ ጥያቄዎች ምድብ መሰረዝ ይፈልጋሉ?"
+        }
+      },
+      "list": {
+        "title": "የሚጠየቁ ጥያቄዎች",
+        "generalQuestions": "አጠቃላይ ጥያቄዎች",
+        "generalQeustionsDescription": "ስለ Zeraki Analytics ሁሉም አጠቃላይ ጥያቄዎች",
+        "emptyList": "ምንም የሚጠየቁ ጥያቄዎች አልተገኙም።"
+      }
+    },
+    "selfSignup": {
+      "title": "ራስን መመዝገብ",
+      "verified": "የተረጋገጠ",
+      "unverified": "ያልተረጋገጠ",
+      "verifiedSchools": "የተረጋገጡ ትምህርት ቤቶች",
+      "myAccount": "አካውንቴ",
+      "selectAccountManager": "መለያ አስተዳዳሪን ይምረጡ",
+      "selectAccountOwner": "የመለያ ባለቤትን ይምረጡ",
+      "emptyList": "ምንም መዝገቦች አልተገኙም።",
+      "noVerifiedSchools": "ምንም የተረጋገጡ ትምህርት ቤቶች አልተገኙም።",
+      "noUnverifiedSchools": "ምንም ያልተረጋገጡ ትምህርት ቤቶች አልተገኙም።",
+      "tableHeaders": {
+        "contactPersonName": "የእውቂያ ሰው ስም",
+        "contactPersonPhone": "የእውቂያ ሰው ስልክ",
+        "accountManager": "የባንክ ሀላፊ",
+        "accountOwner": "የመለያ ባለቤት",
+        "verify": "አረጋግጥ",
+        "invalidate": "ትክክል ያልሆነ"
+      },
+      "schoolDetails": {
+        "form": {
+          "headerText": "የተሟላ የትምህርት ቤት ዝርዝሮች",
+          "zerakiAccManager": "Zeraki መለያ አስተዳዳሪ",
+          "zerakiAccManagerPlaceholderText": "መለያ አስተዳዳሪን ይምረጡ",
+          "contactPersonsName": "የግለሰቡን ስም ያግኙ",
+          "contactPersonsPhone": "የግለሰቡን ስልክ ቁጥር ያግኙ"
+        }
+      },
+      "toastMessages": {
+        "updateSchoolCountySuccess": "የትምህርት ቤት ካውንቲ በተሳካ ሁኔታ ዘምኗል",
+        "updateSchoolAccountManagerSuccess": "የትምህርት ቤት መለያ አስተዳዳሪ በተሳካ ሁኔታ ዘምኗል",
+        "updateSchoolAccountOwnerSuccess": "የትምህርት ቤት መለያ ባለቤት በተሳካ ሁኔታ ዘምኗል",
+        "rejectSchoolSuccess": "ትምህርት ቤት በተሳካ ሁኔታ ውድቅ አደረገ",
+        "invalidateSchoolSuccess": "ትምህርት ቤት በተሳካ ሁኔታ ተበላሽቷል።",
+        "registerSchoolSuccess": "ትምህርት ቤት በተሳካ ሁኔታ ተመዝግቧል",
+        "verifySelfSignUpSchoolSuccess": "ትምህርት ቤት በተሳካ ሁኔታ ተረጋግጧል"
+      },
+      "swal": {
+        "rejectSchoolTitle": "{{ schoolName }} ይሰረዝ?",
+        "rejectSchoolText": "ይህ ቋሚ እርምጃ ነው።",
+        "invalidateSchoolTitle": "{{ schoolName }}ን አያጠፋም?",
+        "invalidateSchoolText": "ትምህርት ቤቱ ልክ ያልሆነ ተብሎ ይዘረዘራል።"
+      }
+    }
+  },
+  "languages": {
+    "english": "እንግሊዝኛ",
+    "french": "ፈረንሳይኛ",
+    "swahili": "ስዋሕሊ",
+    "rwandese": "ኪንያርዋንዳ",
+    "amharic": "አማርኛ"
+  },
+  "zerakiPartner": {
+    "textMyZerakiPartner": "ዘራኪ አጋሮች",
+    "zerakiPartnerTopNav": {
+      "mySchools": "የእኔ ትምህርት ቤቶች",
+      "accountDetails": "የመለያ ዝርዝሮች"
+    },
+    "mySchools": {
+      "noSchoolsFound": "ምንም ትምህርት ቤቶች አልተገኙም",
+      "name": "ስም",
+      "registrationDate": "የምዝገባ ቀን",
+      "county": "ካውንቲ",
+      "accountManager": "የመለያ አስተዳዳሪ"
+    },
+    "accountDetails": {
+      "kraPin": "KRA ፒን",
+      "accountName": "የመለያ ስም (የባለቤት ስም)",
+      "accountNumber": "የእኔ ትምህርት ቤቶች0",
+      "bankName": "የእኔ ትምህርት ቤቶች1",
+      "branchName": "የእኔ ትምህርት ቤቶች2",
+      "isRequired": "የእኔ ትምህርት ቤቶች3",
+      "update": "የእኔ ትምህርት ቤቶች4"
+    }
+  }
+}

@@ -1,0 +1,148 @@
+<!-- FINANCE Top Nav -->
+<app-finance-top-nav></app-finance-top-nav>
+
+<!-- Main content -->
+<section class="content mt-config px-lg-70">
+    <div class="box">
+        <div class="box-header d-flex align-items-center">
+            <ng-container *ngIf="feeStructure">
+                <div class="flex-grow-1">
+                    <ng-container *ngIf="(feeStructure.termId | term | async); let term">
+                        <h4 class="m-0 text-info">{{ term.name }} {{ term.academicYear?.beginDate | date: 'yyyy' }} ( {{
+                            term.termBeginDate | date }} - {{ term.termEndDate | date }} )</h4>
+                    </ng-container>
+                    <ng-container *ngFor="let intake of feeStructure.feeStructureIntakes; let i = index">
+                        <small class="text-fade">
+                            {{ intake.intakeName }}
+                            <span *ngIf="i < feeStructure?.feeStructureIntakes?.length - 1"> | </span>
+                        </small>
+                    </ng-container>
+                </div>
+                <button class="btn btn-sm btn-info me-2 d-none d-md-inline-block" (click)="printPage('fee-structure')">
+                    <i class="fa fa-print"></i> Print
+                </button>
+            </ng-container>
+            <button (click)="location.back()" type="button" class="btn btn-sm btn-dark me-2 pull-right">
+                <i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+                    </svg>
+                </i>
+                {{ 'common.back' | translate }}
+            </button>
+        </div>
+        <div class="box-body">
+            <ng-container *ngIf="feeStructure; else loadingFeeStructure">
+                <div class="table-responsive" id="fee-structure">
+                    <div class="d-none d-print-block">
+                        <app-letter-head></app-letter-head>
+                        <div class="text-center">
+                            <h4 class="text-center">FEE STRUCTURE</h4>
+                            <ng-container *ngFor="let intake of feeStructure.feeStructureIntakes; let i = index">
+                                <b class="text-fade">
+                                    {{ intake.intakeName }}
+                                    <span *ngIf="i < feeStructure?.feeStructureIntakes?.length - 1"> | </span>
+                                </b>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <table class="table table-bordered ">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Vote Head</th>
+                                <ng-container *ngIf="false; else mixedSchoolHeader">
+                                    <!-- visible if school is not mixed -->
+                                    <th>All</th>
+                                </ng-container>
+                                <ng-template #mixedSchoolHeader>
+                                    <!-- Visible if school is mixed -->
+                                    <th>Day</th>
+                                    <th>Boarding</th>
+                                </ng-template>
+                                <ng-container *ngIf="feeStructureGroups?.length">
+                                    <!--visible only if there are groups in the fee structure items-->
+                                    <ng-container *ngIf="false; else mixedGroupsHeader">
+                                        <th *ngFor="let group of feeStructureGroups">{{ group | groupName | async }}</th>
+                                    </ng-container>
+                                    <ng-template #mixedGroupsHeader>
+                                        <th *ngFor="let group of feeStructureGroups">Day {{ group | groupName | async }}
+                                        </th>
+                                        <th *ngFor="let group of feeStructureGroups">Boarding {{ group | groupName | async
+                                            }}
+                                        </th>
+                                    </ng-template>
+                                </ng-container>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let voteHead of feeStructureVoteHeads; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ voteHead | voteHeadName | async | uppercase }}</td>
+                                <ng-container *ngIf="false; else mixedSchoolAmounts">
+                                    <!-- visible if school is not mixed -->
+                                    <td>{{ getAllVoteHeadAmount(voteHead) | number }}</td>
+                                </ng-container>
+                                <ng-template #mixedSchoolAmounts>
+                                    <!-- Visible if school is mixed -->
+                                    <td>{{ getDayVoteHeadAmount(voteHead) | number }}</td>
+                                    <td>{{ getBoardingVoteHeadAmount(voteHead) | number }}</td>
+                                </ng-template>
+                                <ng-container *ngIf="feeStructureGroups?.length">
+                                    <!--visible only if there are groups in the fee structure items-->
+                                    <ng-container *ngIf="false; else mixedGroupsAmounts">
+                                        <td *ngFor="let group of feeStructureGroups">
+                                            {{ getAllGroupAmount(voteHead, group) | number }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-template #mixedGroupsAmounts>
+                                        <td *ngFor="let group of feeStructureGroups">
+                                            {{ getDayGroupAmount(voteHead, group) | number }}
+                                        </td>
+                                        <td *ngFor="let group of feeStructureGroups">
+                                            {{ getBoardingGroupAmount(voteHead, group) | number }}
+                                        </td>
+                                    </ng-template>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <b>Total</b>
+                                </td>
+                                <ng-container *ngIf="false; else mixedSchoolTotals">
+                                    <!-- visible if school is not mixed -->
+                                    <td>{{ getAllTotal() | number }}</td>
+                                </ng-container>
+                                <ng-template #mixedSchoolTotals>
+                                    <!-- Visible if school is mixed -->
+                                    <td>{{ getDayTotal() | number }}</td>
+                                    <td>{{ getBoardingTotal() | number  }}</td>
+                                </ng-template>
+                                <ng-container *ngIf="feeStructureGroups?.length">
+                                    <!--visible only if there are groups in the fee structure items-->
+                                    <ng-container *ngIf="false; else mixedGroupsTotals">
+                                        <td *ngFor="let group of feeStructureGroups">{{ getAllGroupTotal(group) | number }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-template #mixedGroupsTotals>
+                                        <td *ngFor="let group of feeStructureGroups">{{ getDayGroupTotal(group) | number }}
+                                        </td>
+                                        <td *ngFor="let group of feeStructureGroups">{{ getBoardingGroupTotal(group) |
+                                            number }}
+                                        </td>
+                                    </ng-template>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div *ngIf="feeStructure?.instructions" class="b-1 p-4 rounded">
+                        {{ feeStructure?.instructions }}
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #loadingFeeStructure>
+                <app-no-data-refresh></app-no-data-refresh>
+            </ng-template>
+        </div>
+    </div>
+</section>

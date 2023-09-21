@@ -1,0 +1,85 @@
+<!-- Classes Top Nav -->
+<app-classes-top-nav></app-classes-top-nav>
+
+<!-- Main content -->
+<section class="content mt-config">
+    <div class="col-12">
+        <div class="box">
+          <div class="box-header with-border">
+            <span>
+                <h4 class="box-title">
+                    {{ 'classes.subjectComments.title' | translate }} - {{formOrYearObj?.formoryear + basicDetailsObj?.form}} {{basicDetailsObj?.stream}} - {{basicDetailsObj?.subject}}
+                </h4>
+              </span>
+              <span class="pull-right">
+                <button *ngIf="!editAll" type="button" class="btn btn-sm btn-dark" title="{{ 'classes.subjectComments.printFormat' | translate }}">
+                    {{ 'classes.subjectComments.printBtn' | translate }}
+                </button>
+                <button *ngIf="!editAll" (click)="initEditAll(true)" type="button" class="btn btn-sm btn-info ms-5" title="{{ 'classes.subjectComments.editBtn' | translate }}">
+                    {{ 'classes.subjectComments.editBtn' | translate }}
+                </button>
+                <button *ngIf="editAll" (click)="initEditAll()" type="button" class="btn btn-sm btn-warning" title="{{ 'classes.subjectComments.cancelBtn' | translate }}">
+                    {{ 'classes.subjectComments.cancelBtn' | translate }}
+                </button>
+                <button *ngIf="editAll" (click)="saveComments()" type="button" class="btn btn-sm btn-info ms-5" title="{{ 'classes.subjectComments.saveBtn' | translate }}">
+                    {{ 'classes.subjectComments.saveBtn' | translate }}
+                </button>
+              </span>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+              <div class="table-responsive">
+                <table class="table table-sm table-striped table-bordered mb-0">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th *ngFor="let label of subject_comments?.labels;" scope="col">{{ label?.label | titlecase}}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let stud of subject_comments?.students; index as i">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ stud.admno }}</td>
+                        <td>{{ stud.name }}</td>
+                        <td>
+                            <!-- REMOVE stud.comment AND USE <span *ngIf="(!editAll)"> TO SEE WHAT HAPPENS-->
+                            <span *ngIf="!stud.edit">{{ stud.comment?.text }}</span>
+                            <span *ngIf="stud.edit">
+                                <input type="text" name="comment" class="form-control ps-15 bg-transparent" [(ngModel)]="stud.comment_temp.text" placeholder="Enter comment...">
+                            </span>
+                        </td>
+                        <!-- <td *ngIf="!f.supervisor">
+
+                          <ng-select [notFoundText]="'common.noItemsFound' | translate" size="1"
+                            (change)="assignSupervisor(f.intakeid, $event)"
+                            [items]="teachers"
+                            [closeOnSelect]="true"
+                            [searchable]="true"
+                            appendTo="body"
+                            bindLabel="name"
+                            placeholder="Select supervisor">
+                          </ng-select>
+                        </td> -->
+                        <!-- <td><button type="button" class="waves-effect waves-light btn btn-info btn-sm">Class List</button></td> -->
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <div class="col-12">
+        <span>
+            <button (click)="_location.back()" type="button" class="waves-effect waves-light btn btn-secondary btn-sm">
+                <i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+                    </svg>
+                </i>
+              {{ 'classes.commonAttr.back' | translate }}
+            </button>
+        </span>
+    </div>
+  </section>

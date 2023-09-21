@@ -1,0 +1,31 @@
+.w-100{
+  width: 100% !important;
+}
+.ms-neg-1{
+  margin-left: -1px;
+}
+
+.summary{
+  cursor: pointer;
+}
+.summary .summary-1, .attendance-bar, .attendance-section{
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+.summary:hover .summary-1{
+  font-size: 1.1857142857rem !important;
+  font-weight: bolder !important;
+}
+
+.attendance-section:hover{
+  border-bottom: 2px solid #939393 !important;
+  border-left: 2px solid #939393 !important;
+  font-weight: bold !important;
+  cursor: pointer;
+}
+.attendance-section:hover .attendance-bar{
+  background-color: #2c8031fc !important;
+}

@@ -1,0 +1,146 @@
+<div class="ps-0 d-flex flex-row">
+    <div class="col-3 text-center no-padding imageview">
+        <div class="mt-20">
+            <img id="img-{{ studentReport.userId }}"
+				 (load)="imageLoaded()"
+				 (error)="changeImageSrc($event)" src="{{studentReport.profilePicUrl}}"
+				 crossorigin="anonymous"
+				 class="student-image rounded image-cropper-student-print"
+				 width="160" height="150" alt="Student image">
+        </div>
+        <div class="mt-2">
+            <table class="text-start"
+                style="line-height: 1;float: none; font-size:14px; margin: 0 auto;font-weight: bold;color: black">
+                <tbody>
+                    <tr>
+                        <td colspan="2" class="pb-1">
+                            <strong>
+                                {{ 'printouts.reportForms.name' | translate}}:
+                            </strong>
+                            {{studentReport.studentName}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="pb-1">
+                            <strong>
+                                {{ 'printouts.reportForms.admNo' | translate }}:
+                            </strong>
+                            {{studentReport.admNo}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="(studentReport?.upi?.length! > 0)">
+                        <td colspan="2" class="pb-1">
+                            <strong>
+                                {{ 'printouts.reportForms.upi' | translate}}:
+                            </strong>
+                            {{studentReport.upi}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-start text-uppercase pb-1">
+                            <strong>
+                                {{ schoolTypeData?.formoryear | formOrYear }}:
+                            </strong>
+                            {{studentReport.examClassName }}
+                        </td>
+                    </tr>
+                    <tr *ngIf="(studentReport.kcpe > 0)">
+                        <td *ngIf="studentReport.kcpe > 0" class="text-start">
+                            <strong>
+                                {{ 'printouts.reportForms.kcpe' | translate}}:
+                            </strong>
+                            {{studentReport.kcpe}}
+                        </td>
+                        <td *ngIf="studentReport.vap != undefined"
+                            class="text-start ps-20">
+                            <div>
+								<strong>
+									{{ 'printouts.reportForms.vap' | translate}}:
+								</strong>
+								<span *ngIf="studentReport.vap! > 0">+</span>{{studentReport.vap}}
+							</div>
+                        </td>
+                    </tr>
+					<tr *ngIf="showMajor">
+						<td colspan="2">
+							<strong>
+								<span>{{ schoolTypeData.majorLabel }}</span>:
+							</strong>
+							{{studentReport.majorName}}
+						</td>
+					</tr>
+					<!-- GPA -->
+					<ng-container>
+						<ui-zimbabwe-school [template]="gpaTR"></ui-zimbabwe-school>
+						<ui-zambia-school [template]="gpaTR"></ui-zambia-school>
+
+						<ng-template #gpaTR>
+							<ng-container *ngIf="showGPA">
+								<tr>
+									<td colspan="2">
+										<strong>
+											{{ studentReport.aggregateStatistics['seventh']?.name }}:
+										</strong>
+										{{ (studentReport.aggregateStatistics['seventh']?.value | number:'1.1-1') ?? '-' }}
+									</td>
+								</tr>
+							</ng-container>
+						</ng-template>
+					</ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-3 p-0">
+        <!-- <div class="col-xs-12 no-padding"> -->
+        <div class="d-flex flex-row justify-content-between">
+            <ng-container *ngFor="let aggregateItem of ['first', 'second']">
+				<div class="col" *ngIf="studentReport.aggregateStatistics[aggregateItem]">
+					<app-aggregate-statistics
+						[aggregateStatistics]="studentReport.aggregateStatistics[aggregateItem]">
+					</app-aggregate-statistics>
+				</div>
+            </ng-container>
+        </div>
+        <div class="row d-flex flex-row justify-content-between"
+            style="border-top: 1px solid #e4e5e7;margin-top: 5px;padding-top: 5px;">
+            <ng-container *ngFor="let aggregateItem of ['third', 'fourth']">
+				<div class="col" *ngIf="studentReport.aggregateStatistics[aggregateItem]">
+					<app-aggregate-statistics
+						[aggregateStatistics]="studentReport.aggregateStatistics[aggregateItem]">
+					</app-aggregate-statistics>
+				</div>
+            </ng-container>
+        </div>
+        <div class="d-flex flex-row justify-content-between"
+            style="border-top: 1px solid #e4e5e7;margin-top: 5px;padding-top: 5px;">
+            <ng-container
+                *ngFor="let aggregateItem of ['fifth', 'sixth']">
+				<div class="col"
+					 *ngIf="studentReport.aggregateStatistics[aggregateItem] &&
+                        ((aggregateItem == 'fifth' && showStudentOverallRank) ||
+                        (aggregateItem == 'sixth' && showStudentStreamRank))">
+					<app-aggregate-statistics
+						[aggregateStatistics]="studentReport.aggregateStatistics[aggregateItem]"
+						[majorTextCode]="studentReport.majorTextCode">
+					</app-aggregate-statistics>
+				</div>
+            </ng-container>
+        </div>
+        <!-- </div> -->
+    </div>
+    <div class="col-6 text-center">
+        <div style="display: inline-block" class="text-center small"> <i
+                class="fa fa-bar-chart-o"></i>{{'printouts.reportForms.subjectPerfVsClass'
+            | translate }}</div>
+        <div class="mt-10">
+            <highcharts-chart
+				class="subject_comparison"
+				[id]="'subject-comparison-' + studentReport.userId"
+                style="display: block; width: 30em"
+                [Highcharts]="Highcharts!"
+                [options]="subjectComparisonChart">
+            </highcharts-chart>
+        </div>
+    </div>
+</div>

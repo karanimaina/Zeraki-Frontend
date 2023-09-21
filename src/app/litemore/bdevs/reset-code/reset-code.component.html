@@ -1,0 +1,106 @@
+<section class="content mt-config">
+  <div class="row">
+    <!-- header -->
+    <div class="col-12">
+      <div class="box">
+        <div class="box-header">
+          <div class="box-title">{{(loggedInUser$ | async)?.name}} - {{'litemore.bdevs.resetCode.searchResetCode'|translate}}</div>
+        </div>
+
+        <div class="box-body">
+          <div class="row">
+            <!-- header -->
+            <div class="col-12">
+              <a class="btn btn-sm btn-success pull-right" [routerLink]="['/litemore/am']">{{'litemore.bdevs.resetCode.back'|translate}}</a>
+            </div>
+
+            <!-- form -->
+            <form id="searchResetCodeForm" name="searchResetCodeForm" [formGroup]="searchResetCodeForm"
+              (submit)="searchResetCode()">
+              <div class="row">
+                <!-- school name -->
+                <div class="col-12 col-md-6 form-parallel-padding-left">
+                  <label class="control-label" for="name">
+					  {{'litemore.bdevs.resetCode.school'|translate}}
+                    <span *ngIf="schoolID?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                  </label>
+                  <div class="form-group" [class.error]="fieldHasErrors(schoolID!)">
+                    <div class="">
+                      <ng-select formControlName="schoolID" [notFoundText]="'common.noItemsFound' | translate"
+                        [placeholder]="'litemore.bdevs.resetCode.selectSchool'|translate" [searchable]="true" appendTo="body"
+                        class="form-control-dropdown" [items]="data.reset_code_schools" bindLabel="name"
+                        bindValue="schoolid" (change)="prefillSchoolCode($event)">
+                      </ng-select>
+                    </div>
+                    <div *ngIf="fieldHasErrors(schoolID!)" class="help-block">
+                      <ul role="alert">
+                        <li *ngIf="schoolID?.errors?.['required']">
+                          {{ 'common.formErrors.requiredError' | translate }}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- school code -->
+                <div class="col-12 col-md-6 form-parallel-padding-right">
+                  <label class="control-label" for="name">{{'litemore.bdevs.resetCode.schoolCode'|translate}}</label>
+                  <input formControlName="schoolCode" type="text" title="" placeholder="" pattern="[\s\S]*\S[\s\S]*"
+                    name="name" id="name" class="form-control" style="cursor: not-allowed;">
+                </div>
+
+                <!-- admin/username -->
+                <div class="col-12 form-parallel-padding-right mt-">
+                  <label class="control-label" for="name">
+					  {{'litemore.bdevs.resetCode.admnoOrUsername'|translate}}
+                    <span *ngIf="username?.hasValidator(requiredValidator)" class="text-danger">*</span>
+                  </label>
+                  <div class="form-group" [class.error]="fieldHasErrors(username!)">
+                    <div class="input-group">
+                      <input formControlName="username" type="text" title="{{'litemore.bdevs.resetCode.specifyAdmnoUsername'|translate}}"
+                        placeholder="12345 or 12345@schoolcode" required pattern="[\s\S]*\S[\s\S]*" value="" name="name"
+                        id="name" class="form-control">
+                    </div>
+                    <div *ngIf="fieldHasErrors(username!)" class="help-block">
+                      <ul role="alert">
+                        <li *ngIf="username?.errors?.['required']">
+                          {{ 'common.formErrors.requiredError' | translate }}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- submit (search) btn -->
+                <div class="col-12 mt-3">
+                  <button type="submit" class="btn btn-sm btn-success pull-right">{{'litemore.bdevs.resetCode.search'|translate}}</button>
+                </div>
+              </div>
+            </form>
+
+            <!-- result table -->
+            <div class="col-12 success mt-3" *ngIf="reset_code_data?.response?.email != null">
+              <table class="table table-bordered table-striped">
+                <tbody>
+                  <tr>
+                    <td class="td-fit-nowrap text-center text-uppercase"><b>{{'litemore.bdevs.resetCode.username'|translate}}</b></td>
+                    <td class="text-center">{{reset_code_data?.response?.email}}</td>
+                  </tr>
+                  <tr>
+                    <td class="td-fit-nowrap text-center text-uppercase"><b>{{'litemore.bdevs.resetCode.resetCode'|translate}}</b></td>
+                    <td class="text-center">
+                      <span
+                        *ngIf="reset_code_data?.response?.reset_code != null">{{reset_code_data?.response?.reset_code}}</span>
+                      <span *ngIf="reset_code_data?.response?.reset_code == null">{{'litemore.bdevs.resetCode.resetCodeNotFound'|translate}}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,10 @@
+export { ReportFormsComponent } from "./report-forms.component";
+export { CustomCommentsComponent } from "./_components/custom-comments/custom-comments.component";
+export { FeeStatusClosingDateComponent } from "./_components/fee-status-and-closing-date/fee-status-closing-date.component";
+export { RemarksComponent } from "./_components/remarks/remarks.component";
+export { ReportFormHeaderComponent } from "./_components/report-form-header/report-form-header.component";
+export { ReportTableComponent } from "./_components/report-table/report-table.component";
+export { StudentRankComponent } from "./_components/student-rank/student-rank.component";
+export { StudentTimelinePerformanceComponent } from "./_components/student-timeline-performance/student-timeline-performance.component";
+export { AggregateStatisticsComponent } from "./_components/aggregate-statistics/aggregate-statistics.component";
+export { GradeDescriptorsComponent } from "./_components/grade-descriptors/grade-descriptors.component";

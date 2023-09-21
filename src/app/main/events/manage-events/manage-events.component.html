@@ -1,0 +1,601 @@
+<!-- Main content -->
+<section class="content mt-config">
+
+  <div *ngIf="isLoadingEvents; then showLoading else showCalendar"></div>
+
+  <ng-template #showLoading>
+    <div class="row">
+      <div class="col-12">
+        <div class="box">
+          <div class="box-body">
+            <app-loader-div [height]="300"></app-loader-div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #showCalendar>
+    <a #editEvHidden hidden class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#add-new-events">This
+      is
+      a hidden button<i class="ti-settings"></i></a>
+    <div class="row">
+      <div [ngClass]="userRoles?.isSchoolAdmin? 'col-xl-8 && col-lg-8 && col-12': 'col-12'">
+        <div class="box">
+          <div class="box-body d-none d-md-block">
+            <!-- <div class="d-flex justify-content-center"> -->
+            <!-- <mat-calendar #calendar (selectedChange)="selected = $event" [dateClass]="dateClass()" [selected]="selectedDateRange" (selectedChange)="selectDate($event)"></mat-calendar> -->
+            <!-- </div> -->
+            <full-calendar [options]="calendarOptions"></full-calendar>
+          </div>
+          <div class="box-body d-md-none">
+            <full-calendar [options]="calendarOptionsSmall"></full-calendar>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="userRoles?.isSchoolAdmin" class="col-xl-4 col-lg-4 col-12">
+
+        <div class="box">
+          <form #SideEventForm="ngForm" class="form"
+            (ngSubmit)="SideEventForm.form.valid && addEventSide(SideEventForm)">
+            <div class="box-header with-border">
+              <h4 class="box-title">{{ 'events.manage.addEvent' | translate }}</h4>
+            </div>
+            <div class="box-body p-0">
+              <div class="media-list media-list-hover">
+                <div class="media bar-0 d-flex align-items-center">
+                  <!-- <span class="avatar avatar-lg bg-primary-light rounded"><i class="fa fa-user"></i></span> -->
+                  <div class="media-body fw-500">
+                    <div class="form-group">
+                      <label class="form-label">{{ 'events.manage.eventName' | translate }}</label>
+                      <input type="text" class="form-control" placeholder="{{ 'events.manage.eventName' | translate }}"
+                        name="sideTitle" #sideTitle="ngModel" [(ngModel)]="eventSide.title"
+                        [ngClass]="{ 'is-invalid': SideEventForm.submitted && sideTitle.invalid }" required>
+                      <div *ngIf="SideEventForm.submitted && sideTitle.errors?.required"
+                        class="form-control-feedback text-danger">
+                        <small>{{ 'events.manage.eventNameErrMes' | translate }}.</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="media bar-0 d-flex align-items-center">
+                  <div class="media-body">
+                    <div class="form-group">
+                      <label class="form-label">{{ 'events.manage.evParticipants' | translate }}</label>
+                      <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                        placeholder="{{ 'events.manage.selParticipants' | translate }}" class="form-control-dropdown"
+                        style="background: inherit;" [dropdownPosition]="'bottom'" [clearable]="false"
+                        name="sideParticipants" #sideParticipants="ngModel" [(ngModel)]="eventSessionSide.participant"
+                        [ngClass]="{ 'b-1 && border-danger': SideEventForm.submitted && sideParticipants.invalid }"
+                        required>
+                        <ng-option [value]="'Teachers'">{{ 'events.manage.teachers' | translate }}</ng-option>
+                        <ng-option [value]="'Parents'">{{ 'events.manage.parents' | translate }}</ng-option>
+                        <ng-option [value]="'All'">{{ 'events.manage.all' | translate }}</ng-option>
+                      </ng-select>
+                      <div *ngIf="SideEventForm.submitted && sideParticipants.errors?.required"
+                        class="form-control-feedback text-danger">
+                        <small>{{ 'events.manage.evParticipantsErrMes' | translate }}.</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="eventSessionSide.participant == 'Parents' || eventSessionSide.participant == 'Teachers'"
+                  class="media bar-0 d-flex align-items-center">
+                  <div class="media-body">
+                    <div *ngIf="eventSessionSide.participant == 'Parents'" class="col-md-12">
+                      <div class="form-group">
+                        <label class="form-label">{{ 'common.form' | translate }}<span
+                            class="text-danger">*</span></label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                          placeholder="{{ 'common.formPlaceholder' | translate: {formoryear: schoolTypeData?.formoryear | formOrYear} }}"
+                          class="form-control-dropdown" [multiple]="true" [dropdownPosition]="'bottom'"
+                          [clearable]="false" name="formParent" #formParent="ngModel"
+                          [(ngModel)]="eventSessionSide.participantDescription"
+                          [ngClass]="{ 'b-1 && border-danger': SideEventForm.submitted && formParent.invalid }"
+                          required>
+                          <ng-option [value]="'One'">{{ 'events.manage.one' | translate }}</ng-option>
+                          <ng-option [value]="'Two'">{{ 'events.manage.two' | translate }}</ng-option>
+                          <ng-option [value]="'Three'">{{ 'events.manage.three' | translate }}</ng-option>
+                          <ng-option [value]="'Four'">{{ 'events.manage.four' | translate }}</ng-option>
+                        </ng-select>
+                        <div *ngIf="SideEventForm.submitted && formParent.errors?.required"
+                          class="form-control-feedback text-danger">
+                          <small>{{ schoolTypeData?.formoryear }} {{ 'events.manage.evFormErrMes' | translate
+                            }}.</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="eventSessionSide.participant == 'Teachers'" class="col-md-12">
+                      <div class="form-group">
+                        <label class="form-label">{{ 'events.manage.specific' | translate }}<span
+                            class="text-danger">*</span></label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="teacherGroups"
+                          placeholder="{{ 'common.teachersPlaceholder' | translate }}" class="form-control-dropdown"
+                          [dropdownPosition]="'bottom'" [multiple]="true" [clearable]="false" name="ev_teachersSide"
+                          #ev_teachersSide="ngModel" bindLabel="name"
+                          [(ngModel)]="eventSessionSide.participantDescription"
+                          [ngClass]="{ 'b-1 && border-danger': SideEventForm.submitted && ev_teachersSide.invalid }"
+                          required>
+                        </ng-select>
+                        <div *ngIf="SideEventForm.submitted && ev_teachersSide.errors?.required"
+                          class="form-control-feedback text-danger">
+                          <small>{{ 'events.manage.specErrMes' | translate }}.</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="media bar-0 d-flex align-items-center">
+                  <!-- <span class="avatar avatar-lg bg-info-light rounded">
+                    <i>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                        <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
+                      </svg>
+                    </i>
+                  </span> -->
+                  <div class="media-body">
+                    <div class="form-group">
+                      <div class="form-label">{{ 'events.manage.evDates' | translate }}</div>
+                      <div class="row">
+                        <div class="col-lg-6 col-sm-6">
+                          <input (click)="toggleRange('single')" type="radio" id="single_radio"
+                            class="with-gap radio-col-info" name="single_radio" [checked]="single_option" />
+                          <label for="single_radio">{{ 'events.manage.single' | translate }}</label>
+                        </div>
+                        <div class="col-lg-6 col-sm-6">
+                          <input (click)="toggleRange('range')" type="radio" id="range_radio"
+                            class="with-gap radio-col-info" name="range_radio" [checked]="range_option" />
+                          <label for="range_radio">{{ 'events.manage.range' | translate }}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="media bar-0 d-flex align-items-center">
+                  <!-- <span class="avatar avatar-lg bg-info-light rounded">
+                    <i>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                        <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                      </svg>
+                    </i>
+                  </span> -->
+                  <div class="media-body">
+                    <div class="form-group">
+
+                      <!-- Mat range option sample -->
+                      <!-- <mat-form-field *ngIf="range_option" appearance="fill">
+                      <mat-label>Enter a date range</mat-label>
+                      <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                        <input matStartDate formControlName="start" placeholder="Start date">
+                        <input matEndDate formControlName="end" placeholder="End date">
+                      </mat-date-range-input>
+                      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-date-range-picker #picker></mat-date-range-picker>
+
+                      <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+                      <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+                    </mat-form-field> -->
+                      <!-- End -->
+
+                      <!-- Material range option -->
+                      <!-- <mat-form-field *ngIf="range_option" appearance="fill" style="width: 100%;">
+                      <mat-label class="calender-btn">{{ 'events.manage.enterRange' | translate }}</mat-label>
+                      <mat-date-range-input [rangePicker]="picker" [min]="todayDate" required>
+                        <input matStartDate [placeholder]="'events.manage.startDate' | translate" name="startDate"
+                          [(ngModel)]="this.eventSide.startDate">
+                        <input matEndDate [placeholder]="'events.manage.endDate' | translate" name="endDate" [(ngModel)]="this.eventSide.endDate">
+                      </mat-date-range-input>
+                      <mat-datepicker-toggle matSuffix [for]="picker" class="calender-btn"></mat-datepicker-toggle>
+                      <mat-date-range-picker #picker class="calender-btn"></mat-date-range-picker>
+                    </mat-form-field> -->
+                      <!-- End -->
+
+                      <!-- Owl range date -->
+                      <div *ngIf="range_option" class="row">
+                        <div class="col-md-12 mb-sm-10 mb-xs-10">
+                          <label class="form-label">{{ 'events.manage.enterRange' | translate }}</label>
+                          <div class="input-group">
+                            <div [owlDateTimeTrigger]="dt1" class="input-group-addon">
+                              <i class="fa fa-calendar"></i>
+                            </div>
+                            <input [min]="todayDate" [selectMode]="'range'" [owlDateTime]="dt1"
+                              [placeholder]="'events.manage.enterRange' | translate" type="text" class="form-control"
+                              data-inputmask="'alias': 'dd/mm/yyyy'" data-mask
+                              [ngClass]="{'is-invalid':(SideEventForm.submitted && multipleDate.invalid)}"
+                              name="multipleDate" #multipleDate="ngModel" [(ngModel)]="eventSide.startDate" required
+                              (ngModelChange)="seeChange()">
+                            <owl-date-time #dt1></owl-date-time>
+
+                          </div>
+                          <div *ngIf="SideEventForm.submitted && multipleDate.errors?.required"
+                            class="form-control-feedback text-danger">
+                            <small>{{ 'events.manage.evDateErrMes' | translate }}.</small>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End -->
+
+
+                      <div *ngIf="single_option" class="row">
+                        <div class="col-md-12 mb-sm-10 mb-xs-10">
+                          <label class="form-label">{{ 'events.manage.startDate' | translate }}</label>
+                          <div class="input-group">
+                            <div [owlDateTimeTrigger]="dt2" class="input-group-addon">
+                              <i class="fa fa-calendar"></i>
+                            </div>
+                            <input [owlDateTime]="dt2"
+                              placeholder="{{ 'events.manage.pickDatePlaceholder' | translate }}" type="text"
+                              class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask
+                              [ngClass]="{'is-invalid':(SideEventForm.submitted && startDateSingleSide.invalid)}"
+                              name="singleDate" #startDateSingleSide="ngModel" [(ngModel)]="eventSide.startDate"
+                              [min]="todayDate" required>
+                            <owl-date-time #dt2></owl-date-time>
+
+                          </div>
+                          <div *ngIf="SideEventForm.submitted && startDateSingleSide.errors?.required"
+                            class="form-control-feedback text-danger">
+                            <small>{{ 'events.manage.evDateErrMes' | translate }}.</small>
+                          </div>
+                        </div>
+
+                        <!-- /.input group -->
+
+
+
+
+
+                        <!-- Incase end Date/Time is required -->
+                        <!-- <div class="col-md-6">
+                          <label class="form-label">End date</label>
+                          <input class="form-control" type="datetime-local" name="endDate" #endDateArafa="ngModel" [(ngModel)]="eventSide.endDate" [min]="eventSide.startDate" [max]="eventSide.startDate" required>
+                          <div *ngIf="SideEventForm.submitted && endDateArafa.errors?.required" class="form-control-feedback text-danger">
+                            <small>End date cannot be empty.</small>
+                          </div>
+                          <div *ngIf="SideEventForm.submitted && endDateArafa.errors?.min" class="form-control-feedback text-danger">
+                            <small>End date cannot be less than start date.</small>
+                          </div>
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="box-footer text-center p-10">
+              <button type="submit" class="btn w-p100 btn-info-light p-5">{{ 'events.manage.createEv' | translate
+                }}</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </ng-template>
+
+
+</section>
+
+
+
+
+<!-- ========================
+  VIEW/EDIT EVENT MODAL
+ ============================-->
+<a #viewEditEvHidden hidden class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#view-edit-event"></a>
+<!-- Modal view/Edit -->
+
+<div class="modal fade none-border center-modal" id="view-edit-event">
+  <!-- <app-view-events-dialog [editEv]="editEv"></app-view-events-dialog> -->
+
+  <!-- SHOULD BE EXPORTED TO OWN COMPONENT -->
+  <div *ngIf="!addEditEvent" class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header pb-0">
+        <h4 class="modal-title"><strong>{{ 'events.manage.viewEv' | translate }}</strong></h4>
+        <button type="button" *ngIf="userRoles?.isSchoolAdmin" (click)="addEditEvent = true"
+          class="btn btn-sm pull-right edit" aria-label="Edit">
+          <i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen"
+              viewBox="0 0 16 16">
+              <path
+                d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+            </svg>
+          </i>
+        </button>
+        <button #closeViewEv type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="box">
+        <div class="box-body p-25 pt-10 mailbox-nav">
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <h4><span class="nav-link px-0 fw-bolder"><strong class="text-info">{{editEv.title}}</strong></span></h4>
+            </li>
+            <div class="text-fade">{{ 'events.manage.eventDetails' | translate }}</div>
+            <li class="nav-item">
+              <a class="nav-link">
+                <i>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock"
+                    viewBox="0 0 16 16">
+                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                  </svg>
+                </i>
+                {{editEv.startDate | date:'medium'}}
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link">
+                <i>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-people" viewBox="0 0 16 16">
+                    <path
+                      d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
+                  </svg>
+                </i>
+                {{editEventSession.participant}}
+              </a>
+            </li>
+            <li *ngIf="editEventSession.participant == 'Teachers'" class="nav-item">
+              <a class="nav-link">
+                <i>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-person" viewBox="0 0 16 16">
+                    <path
+                      d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                  </svg>
+                </i>
+                {{editEventSession.participantDescription}}
+              </a>
+            </li>
+            <li *ngIf="editEventSession.participant == 'Parents'" class="nav-item">
+              <a class="nav-link">
+                <i>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-person" viewBox="0 0 16 16">
+                    <path
+                      d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                  </svg>
+                </i>
+                {{ schoolTypeData?.formoryear | formOrYear }} {{editEventSession.participantDescription}}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="addEditEvent" class="modal-dialog">
+    <form #addEditEventForm="ngForm" class="form"
+      (ngSubmit)="addEditEventForm.form.valid && saveEditEvent(addEditEventForm)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><strong>{{ 'events.manage.editEv' | translate }}</strong></h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="box-body py-0">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-label">{{ 'events.manage.evName' | translate }}</label>
+                <input type="text" class="form-control" placeholder="{{ 'events.manage.eventName' | translate }}"
+                  name="title" #title="ngModel" [(ngModel)]="editEv.title">
+              </div>
+            </div>
+
+            <!-- ==================================
+              USED TO DISPLAY SESSION LIST
+            ======================================= -->
+            <!-- <div class="col-md-12">
+              <label class="form-label">Sessions</label>
+              <div class="table-responsive">
+                <table class="table table-sm table-striped mb-0">
+                  <tbody>
+                    <tr *ngFor="let sess of editEv.sessions;let i =index">
+                      <td class="td-fit-nowrap">{{ i+1 }}</td>
+                      <td class="td-fit-nowrap">{{sess.description}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div> -->
+
+            <!--====================================================
+              Used when diplaying main event session on event card
+            =======================================================-->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">{{ 'events.manage.participants' | translate }}</label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                  placeholder="{{ 'events.manage.selParticipants' | translate }}" class="form-control-dropdown"
+                  style="background: inherit;" [dropdownPosition]="'bottom'" [clearable]="false" name="participants"
+                  #participants="ngModel" [(ngModel)]="editEventSession.participant"
+                  [ngClass]="{ 'b-1 && border-danger': addEditEventForm.submitted && participants.invalid }">
+                  <ng-option [value]="'Teachers'">{{ 'events.manage.teachers' | translate }}</ng-option>
+                  <ng-option [value]="'Parents'">{{ 'events.manage.parents' | translate }}</ng-option>
+                  <ng-option [value]="'All'">{{ 'events.manage.all' | translate }}</ng-option>
+                </ng-select>
+                <div *ngIf="addEditEventForm.submitted && participants.errors?.required"
+                  class="form-control-feedback text-danger">
+                  <small>{{ 'events.manage.partsErrMes' | translate }}.</small>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="editEventSession.participant == 'Parents'" class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">{{ schoolTypeData?.formoryear | formOrYear }}<span class="text-danger">*</span></label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                  placeholder="{{ 'common.formPlaceholder' | translate }}" class="form-control-dropdown"
+                  [multiple]="true" [dropdownPosition]="'bottom'" [clearable]="false" name="form_selected"
+                  #form="ngModel" [(ngModel)]="editEventSession.participantDescription"
+                  [ngClass]="{ 'b-1 && border-danger': addEditEventForm.submitted && form.invalid }">
+                  <ng-option [value]="'One'">{{ 'events.manage.one' | translate }}</ng-option>
+                  <ng-option [value]="'Two'">{{ 'events.manage.two' | translate }}</ng-option>
+                  <ng-option [value]="'Three'">{{ 'events.manage.three' | translate }}</ng-option>
+                  <ng-option [value]="'Four'">{{ 'events.manage.four' | translate }}</ng-option>
+                </ng-select>
+                <div *ngIf="addEditEventForm.submitted && form.errors?.required"
+                  class="form-control-feedback text-danger">
+                  <small>{{ schoolTypeData?.formoryear }} {{ 'events.manage.evFormErrMes' | translate }}.</small>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="editEventSession.participant == 'Teachers'" class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">{{ 'events.manage.specific' | translate }}<span
+                    class="text-danger">*</span></label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="teacherGroups"
+                  placeholder="{{ 'common.teachersPlaceholder' | translate }}" class="form-control-dropdown"
+                  [dropdownPosition]="'bottom'" [multiple]="true" [clearable]="false" name="form_selected"
+                  #ev_teachers="ngModel" bindLabel="name" [(ngModel)]="editEventSession.participantDescription"
+                  [ngClass]="{ 'b-1 && border-danger': addEditEventForm.submitted && ev_teachers.invalid }">
+                </ng-select>
+                <div *ngIf="addEditEventForm.submitted && ev_teachers.errors?.required"
+                  class="form-control-feedback text-danger">
+                  <small>{{ 'events.manage.specErrMes' | translate }}.</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="form-label">{{ 'events.manage.evDates' | translate }}</div>
+                <div class="row">
+                  <div class="col-lg-6 col-sm-6">
+                    <input (click)="toggleSessRange('single')" type="radio" id="sess_single_radio"
+                      class="with-gap radio-col-info" name="sess_single_radio" [checked]="sess_single_option" />
+                    <label for="sess_single_radio">{{ 'events.manage.single' | translate }}</label>
+                  </div>
+                  <div class="col-lg-6 col-sm-6">
+                    <input (click)="toggleSessRange('range')" type="radio" id="sess_range_radio"
+                      class="with-gap radio-col-info" name="sess_range_radio" [checked]="sess_range_option" />
+                    <label for="sess_range_radio">{{ 'events.manage.range' | translate }}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <!-- <mat-form-field *ngIf="sess_range_option" appearance="fill" style="width: 100%;">
+                  <mat-label class="calender-btn">{{ 'events.manage.enterRange' | translate }}</mat-label>
+                  <mat-date-range-input [rangePicker]="picker" [min]="todayDate">
+                    <input matStartDate [placeholder]="'events.manage.startDate' | translate" name="startDate" #rangeDate="ngModel"
+                      [(ngModel)]="editEventSession.startTime">
+                    <input matEndDate [placeholder]="'events.manage.endDate' | translate" name="endDate" [(ngModel)]="editEventSession.endTime">
+                  </mat-date-range-input>
+                  <mat-datepicker-toggle matSuffix [for]="picker" class="calender-btn"></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker class="calender-btn"></mat-date-range-picker>
+                </mat-form-field> -->
+
+                <!-- Owl range date -->
+                <div *ngIf="sess_range_option" class="row">
+                  <div class="col-md-12 mb-sm-10 mb-xs-10">
+                    <label class="form-label">{{ 'events.manage.enterRange' | translate }}</label>
+                    <div class="input-group">
+                      <div [owlDateTimeTrigger]="dt2" class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input [min]="todayDate" [selectMode]="'range'" [owlDateTime]="dt2"
+                        [placeholder]="'events.manage.enterRange' | translate" type="text" class="form-control"
+                        data-inputmask="'alias': 'dd/mm/yyyy'" data-mask
+                        [ngClass]="{'is-invalid':(addEditEventForm.submitted && multipleDate.invalid)}"
+                        name="multipleDate" #multipleDate="ngModel" [(ngModel)]="editEventSession.startTime" required>
+                      <owl-date-time #dt2></owl-date-time>
+
+                    </div>
+                    <div *ngIf="addEditEventForm.submitted && multipleDate.errors?.required"
+                      class="form-control-feedback text-danger">
+                      <small>{{ 'events.manage.evDateErrMes' | translate }}.</small>
+                    </div>
+                  </div>
+                </div>
+                <!-- End -->
+
+
+                <!-- =====================================================
+                  USING EVENT START AND END TIME FOR SINGLE DAY EVENTS
+                =========================================================== -->
+                <!-- <div *ngIf="sess_single_option" class="row">
+                <div class="col-md-6 mb-sm-10 mb-xs-10">
+                  <label class="form-label">Start date</label>
+                  <input class="form-control" type="datetime-local" name="singleSessDate" #singleSessDate="ngModel"
+                    [(ngModel)]="editEventSession.startTime" [min]="todayDate" required>
+                  <div *ngIf="addEditEventForm.submitted && singleSessDate.errors?.required"
+                    class="form-control-feedback text-danger">
+                    <small>Start date cannot be empty.</small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">End date</label>
+                  <input class="form-control" type="datetime-local" name="singleSessEndDate"
+                    #singleSessEndDate="ngModel" [(ngModel)]="editEventSession.endTime"
+                    [min]="editEventSession.startTime" [max]="editEventSession.startTime" required>
+                  <div *ngIf="addEditEventForm.submitted && singleSessEndDate.errors?.required"
+                    class="form-control-feedback text-danger">
+                    <small>End date cannot be empty.</small>
+                  </div>
+                  <div *ngIf="addEditEventForm.submitted && singleSessEndDate.errors?.min"
+                    class="form-control-feedback text-danger">
+                    <small>End date cannot be less than start date.</small>
+                  </div>
+                </div>
+              </div> -->
+                <!-- END OF USING EVENT START AND END TIME FOR SINGLE DAY EVENTS -->
+
+
+                <div *ngIf="sess_single_option">
+                  <label class="form-label">{{ 'events.manage.evDate' | translate }}</label>
+                  <div class="input-group">
+                    <div [owlDateTimeTrigger]="dt2" class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input [owlDateTime]="dt2" placeholder="{{ 'events.manage.pickDatePlaceholder' | translate }}"
+                      type="text" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask
+                      name="singleSessDate" #singleSessDate="ngModel" [(ngModel)]="editEventSession.startTime"
+                      [min]="todayDate" required>
+                    <owl-date-time #dt2></owl-date-time>
+                    <div *ngIf="addEditEventForm.submitted && singleSessDate.errors?.required"
+                      class="form-control-feedback text-danger">
+                      <small>{{ 'events.manage.evDateErrMes' | translate }}.</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End -->
+
+
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- <button *ngIf="addEditEvent" type="button" (click)="addEditEvent = false" class="btn btn-sm btn-dark save-category pull-left">Cancel</button> -->
+          <!-- <pre>{{editEv.schoolEventId}}, {{userRoles?.isSchoolAdmin}}, {{editEv.startDate > todayDate}}</pre> -->
+          <button *ngIf="(editEv.schoolEventId && userRoles?.isSchoolAdmin && editEv.startDate > todayDate)"
+            type="button" class="btn btn-sm btn-outline btn-danger save-category pull-left"
+            (click)="deleteEvent(editEv)">
+            <i>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
+                viewBox="0 0 16 16">
+                <path
+                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                <path fill-rule="evenodd"
+                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+              </svg>
+            </i>
+            {{ 'events.manage.delEvent' | translate }}
+          </button>
+          <button #closeEventModal hidden type="button" class="btn btn-sm btn-danger me-2 pull-left"
+            data-bs-dismiss="modal">{{ 'events.manage.close' | translate }}</button>
+          <button type="submit" *ngIf="editEv.startDate > todayDate"
+            class="btn btn-sm btn-info save-category pull-right">{{ 'events.manage.saveEv' | translate }}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- END MODAL -->

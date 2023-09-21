@@ -1,0 +1,158 @@
+<!-- <div style="overflow: hidden;height: 100vh;">
+  <div class="color-line"></div>
+    <div class="splashCentre col-12 pt-50">
+      <div class="col-12 col-md-6">
+        <div class="rounded10 flex-fill">
+          <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="../../../assets/img/appinfo/analysis.png" class="d-block"  width="auto" height="180" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="../../../assets/img/appinfo/fee.png" class="d-block" width="auto" height="180" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="../../../assets/img/appinfo/marks_entry.png" class="d-block" width="auto" height="180" alt="...">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+      </div>
+  </div>
+</div> -->
+<div [hidden]="!aboutPage">
+  <!-- <div class="color-line" *ngIf="auth_options.user_type == 0"></div> -->
+  <div class="login-container p-20" *ngIf="auth_options.user_type == 0">
+    <div class="row">
+        <div class="landing-page col-md-12">
+            <div class="text-center m-b-md">
+                <div class="col-xs-12 col-md-12" style="padding: 0 0 36px 0">
+                    <img src="../../../assets/img/logos/zeraki_analytics_logo.svg" width="auto" height="30">
+                </div>
+            </div>
+            <div class="col-md-12 col-xs-12" style="padding: 0">
+                <div class="col-md-12 col-xs-12 " style="padding: 0">
+                    <div class="col-md-12 col-xs-12" style="padding: 0">
+                        <span style="font-weight: 600; color: #34495e">
+                            {{ "homePage.app_info.label" | translate }}
+                        </span>
+                    </div>
+                    <div class="col-md-12 col-xs-12" style="padding: 10px 0 0 0" (click)="setUserType(1)">
+                        <div class="hpanel" style="margin: 0">
+                            <div class="panel-body" style="border-radius: 4px; background: #34495e; border-color: #34495e; padding: 15px">
+                                <div style="font-weight: 600; color: #ffffff">{{ "homePage.app_info.teacher" | translate }} </div><span style="color: #c7ddef">{{ "homePage.app_info.t_content" | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-xs-12" style="padding: 15px 0 0 0" (click)="setUserType(2)">
+                        <div class="hpanel" style="margin: 0">
+                            <div class="panel-body" style="border-radius: 4px; background: #62cb31; border-color: #62cb31; padding: 15px">
+                                <div style="font-weight: 600; color: #ffffff">{{ "homePage.app_info.parent" | translate }} </div><span style="color: rgb(199, 239, 221)">{{ "homePage.app_info.p_content" | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="login-container" style="padding: 0; height: 100vh" *ngIf="auth_options.user_type != 0">
+    <div class="row" style="height: 100%">
+        <div style="height: 100%;padding: 16px 20px">
+            <table style="height: 100%;width: 100%" id="root">
+                <tbody *ngIf="auth_options.user_type != 0">
+                    <tr (swipe)="onSwipe($event)" (swipeleft)="onAppInfoitemSwipe_Left()" (swiperight)="onAppInfoitemSwipe_Right()">
+                        <td style="vertical-align: middle">
+                            <div class="col-md-12 col-xs-12 w3-container" style="padding: 0" *ngFor="let item of auth_options.items">
+                                <div animate-panel child="appinfoanimate" class="col-md-12 col-xs-12 uxunselecttable-text w3-center {{auth_options.animation}}" style="padding: 0" *ngIf="auth_options.section == item.section">
+                                    <div class="col-md-12 col-xs-12 text-center appinfoanimate">
+                                        <img [src]="item.image" width="auto" height="180">
+                                    </div>
+                                    <div class="col-md-12 col-xs-12 text-center appinfoanimate" style="padding: 0 40px 0 40px">
+                                        <div style="font-weight: 600; color: #34495e; padding: 20px 0 10px 0" [innerHTML]="item.title"></div>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12 text-center appinfoanimate" style="padding: 0 40px 0 40px">
+                                        <div class="col-md-12 col-xs-12" style="padding: 0" [innerHTML]="item.info"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 24px">
+                        <td style="vertical-align: middle;padding: 16px 0 0 0">
+                            <div class="col-md-12 col-xs-12" style="padding: 0; font-size: 8px;">
+                                <table style="margin: 0 auto; float: none">
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding: 0">
+                                                <div style="padding: 0 4px" *ngIf="auth_options?.items?.length > 0">
+                                                    <i *ngIf="auth_options.section == 0" class="fa fa-circle appinfoanimate" style="color: rgb(52,73,94, 1)"></i>
+                                                    <i *ngIf="auth_options.section != 0" class="fa fa-circle appinfoanimate" style="color: rgb(52,73,94, 0.1)"></i>
+                                                </div>
+                                            </td>
+                                            <td style="padding: 0">
+                                                <div style="padding: 0 4px" *ngIf="auth_options.items.length > 1">
+                                                    <i *ngIf="auth_options.section == 1" class="fa fa-circle appinfoanimate" style="color: rgb(52,73,94, 1)"></i>
+                                                    <i *ngIf="auth_options.section != 1" class="fa fa-circle appinfoanimate" style="color: rgb(52,73,94, 0.1)"></i>
+                                                </div>
+                                            </td>
+                                            <td style="padding: 0">
+                                                <div style="padding: 0 4px" *ngIf="auth_options.items.length > 2">
+                                                    <i *ngIf="auth_options.section == 2" class="fa fa-circle appinfoanimate" style="color: rgb(52,73,94, 1)"></i>
+                                                    <i *ngIf="auth_options.section != 2" class="fa fa-circle appinfoanimate" style="color: rgb(52,73,94, 0.1)"></i>
+                                                </div>
+                                            </td>
+                                            <td style="padding: 0">
+                                                <div style="padding: 0 4px" *ngIf="auth_options.items.length > 3">
+                                                    <i *ngIf="auth_options.section == 3" class="fa fa-circle appinfoanimate" style="color: rgb(52,73,94, 1)"></i>
+                                                    <i *ngIf="auth_options.section != 3" class="fa fa-circle appinfoanimate" style="color: rgb(52,73,94, 0.1)"></i>
+                                                </div>
+                                            </td>
+                                            <td style="padding: 0">
+                                                <div style="padding: 0 4px" *ngIf="auth_options.items.length > 4">
+                                                    <i *ngIf="auth_options.section == 4" class="fa fa-circle appinfoanimate" style="color: rgb(52,73,94, 1)"></i>
+                                                    <i *ngIf="auth_options.section != 4" class="fa fa-circle appinfoanimate" style="color: rgb(52,73,94, 0.1)"></i>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td> 
+                    </tr>
+                    <tr style="height: 64px">
+                        <td style="vertical-align: middle;padding: 16px 0 0 0">
+                            <button [hidden]="auth_options.current_item.show_login" type="button" class="btn btn-sm btn-block btn-primary col-12" style="height: 48px; border-color: #34495e; margin: 0; background-color: #34495e" (click)="onAppInfoitemSwipe_Left()">
+                                <div style="font-weight: 600; color: #ffffff">{{ "homePage.app_info.next" | translate }}</div>
+                            </button>
+                            <button *ngIf="auth_options.current_item.show_login" type="button" class="btn btn-sm btn-block btn-primary col-12" style="height: 48px; border-color: #34495e; margin: 0; background-color: #34495e" (click)="aboutPage = false">
+                                <div style="font-weight: 600; color: #ffffff">{{ "homePage.app_info.continue" | translate }}</div>
+                            </button>
+                            <!--<button ng-show="auth_options.current_item.show_login" type="button" class="btn btn-sm btn-block btn-success" style="height: 48px; border-color: #62cb31; margin: 0" ui-sref="navigation({show_paths: false})">
+                                <div style="font-weight: 600; color: #ffffff">LOGIN</div>
+                            </button>-->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!aboutPage">
+  <app-auth-mobile></app-auth-mobile>
+</div>

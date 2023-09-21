@@ -1,0 +1,131 @@
+<div class="row mt-3">
+    <div class="col-12">
+        <span class="text-uppercase">
+            {{ 'printouts.tzReportForm.parts.c' | translate }}: {{
+            'common.comments' | translate }}
+        </span>
+    </div>
+
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-condensed print-table fw-bold"
+                style="padding-bottom: 0px;margin-bottom: 0px;border-collapse: collapse;border: 2px solid black!important;">
+                <thead>
+                    <tr>
+                        <th class="td-fit-nowrap" style="border-right: 2px solid black!important">
+                            <span class="text-uppercase zreport-table-contents">
+                                {{ 'common.commentsBy' | translate }}
+                            </span>
+                        </th>
+                        <th class="td-fit-nowrap" style="border-right: 2px solid black!important">
+                            <span class="text-uppercase zreport-table-contents">
+                                {{ 'common.comment' | translate }}
+                            </span>
+                        </th>
+                        <th class="td-fit-nowrap" style="border-right: 2px solid black!important">
+                            <span class="text-uppercase zreport-table-contents">
+                                {{ 'common.name' | translate }}
+                            </span>
+                        </th>
+                        <th class="td-fit-nowrap" style="border-right: 2px solid black!important">
+                            <span class="text-uppercase zreport-table-contents">
+                                {{ 'common.signature' | translate }}
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- homeroom teacher -->
+                    <tr>
+                        <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                            <span class="text-uppercase zreport-table-contents">
+                                1. {{ 'printouts.tzReportForm.comments.homeroomTeacherSec' | translate }}
+                            </span>
+                        </td>
+                        <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                            <span class="zreport-table-contents">
+                                <ng-container *ngIf="show_houseteachers_comments">
+                                    {{ rp.studentComment.houseTeacherComment ?? '' }}
+                                </ng-container>
+                            </span>
+                        </td>
+                        <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                            <span class="text-uppercase zreport-table-contents">
+                                {{ rp.studentComment.houseTeacherName }}
+                            </span>
+                        </td>
+                        <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                            <span class="text-uppercase zreport-table-contents">
+                                <ng-container
+                                    *ngIf="rp.studentComment.houseTeacherSignature && show_houseteachers_signature && !(userRoles$ | async)?.isStudent">
+                                    <img [src]="rp.studentComment.houseTeacherSignature"
+                                        [alt]="'common.signature' | translate" style="height: 30px;">
+                                </ng-container>
+                            </span>
+                        </td>
+                    </tr>
+
+                    <!-- deputy h/m academic -->
+                    <tr>
+                        <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                            <span class="text-uppercase zreport-table-contents">
+                                2. {{ 'printouts.tzReportForm.comments.academicDeputySec' | translate }}
+                            </span>
+                        </td>
+                        <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                            <span class="zreport-table-contents">
+                                <ng-container *ngIf="show_deputy_hm_academic_comments">
+                                    {{ '' }}
+                                </ng-container>
+                            </span>
+                        </td>
+                        <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                            <span class="text-uppercase zreport-table-contents">
+                                {{ '' }}
+                            </span>
+                        </td>
+                        <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                            <span class="text-uppercase zreport-table-contents">
+                                <ng-container
+                                    *ngIf="false && show_deputy_hm_academic_signature && !(userRoles$ | async)?.isStudent">
+                                    <img [src]="null" [alt]="'common.signature' | translate" style="height: 30px;">
+                                </ng-container>
+                            </span>
+                        </td>
+                    </tr>
+
+                    <!-- headmsater -->
+                    <tr>
+                        <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                            <span class="text-uppercase zreport-table-contents">
+                                3. {{ 'printouts.tzReportForm.comments.headTeacherSec' | translate }}
+                            </span>
+                        </td>
+                        <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                            <span class="zreport-table-contents">
+                                <ng-container *ngIf="show_principal_comments">
+                                    {{ rp.studentComment.principalComment ?? '' }}
+                                </ng-container>
+                            </span>
+                        </td>
+                        <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                            <span class="text-uppercase zreport-table-contents">
+                                {{ rp.studentComment.principalName }}
+                            </span>
+                        </td>
+                        <td class="td-fit-nowrap" style="border: 2px solid black!important">
+                            <span class="text-uppercase zreport-table-contents">
+                                <ng-container
+                                    *ngIf="rp.studentComment.principalSignature && show_principal_signature && !(userRoles$ | async)?.isStudent">
+                                    <img [src]="rp.studentComment.principalSignature"
+                                        [alt]="'common.signature' | translate" style="height: 30px;">
+                                </ng-container>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,333 @@
+<section class="content mt-config">
+	<div class="row">
+		<div class="col-lg-12">
+			<app-submit-form [formGroup]="schoolProfileForm" (onSubmit)="updateSchoolProfile()">
+				<div class="row">
+					<div class="col-md-4 ">
+						<div class="box" style="height: 498.58px;">
+							<div class="box box-body b-1 text-center no-shadow rounded-circle" style="height: 100%;">
+								<div>
+									<img [src]="school_logo_path" (error)="school_logo_path = 'assets/img/slogo.png'"
+										id="profile-image" class="img-fluid rounded-circle mb-15 mx-auto" alt=""
+										style="height: 150px; width: 150px;" />
+
+									<!-- <button type="submit" class="btn-xs btn btn-info"
+                                        style="margin-top: 105.5px;margin-left: -39.5px;">
+                                        <i class="fa fa-image"></i>
+                                    </button> -->
+								</div>
+								<input type="file" class="my-20" id="logoFile" formControlName="logoFile"
+									accept="image/jpeg,image/jpg,image/png" (change)="uploadLogo($event)"
+									[ngClass]="{ 'is-invalid': logoFile?.invalid}" />
+
+								<h4 class="text-success"><b>{{schoolProfile?.name}}</b></h4>
+								<!-- <h5 class="text-muted"><b>{{schoolProfile.shortName}}</b></h5> -->
+								<div class="text-start mt-15">
+
+									<div class="form-group">
+										<label class="text-uppercase fw-600">{{
+											'settings.schoolInfoProfile.profileForm.emailAddress' | translate }}</label>
+										<p>
+											{{schoolProfile?.email}}
+										</p>
+									</div>
+									<!-- <div class="form-group">
+                                        <label class="text-uppercase">{{ 'settings.schoolInfoProfile.messages' | translate  }}</label>
+                                        <p>
+                                            {{ 'settings.schoolInfoProfile.messages' | translate  }}
+                                        </p>
+                                    </div> -->
+								</div>
+							</div>
+							<div class="clear">
+
+							</div>
+							<div class="form-group text-end " style="display: flex; justify-content: space-between;">
+								<span></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-8 ">
+						<div class="box">
+							<div class="box-body">
+								<h4><b>{{ 'settings.schoolInfoProfile.profileForm.headerText' | translate }}</b></h4>
+								<fieldset>
+									<div class="row">
+										<!-- school name -->
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-label">{{
+													'settings.schoolInfoProfile.profileForm.schoolName' | translate
+													}}</label>
+												<div class="input-group">
+													<span class="input-group-text">
+														<i class="bi bi-building"></i>
+													</span>
+													<input type="text" id="name" formControlName="name"
+														class="form-control"
+														[placeholder]="'settings.schoolInfoProfile.profileForm.schoolNamePlaceholderText' | translate"
+														[ngClass]="{ 'is-invalid': (schoolProfileForm.isSubmitted && name?.invalid)}"
+														required />
+												</div>
+												<app-field-errors [control]="name!"
+													[label]="'School name'"></app-field-errors>
+											</div>
+										</div>
+										<!-- school name (short) -->
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-label">
+													{{ 'settings.schoolInfoProfile.profileForm.schoolNameShortVersion'
+													|translate }}
+												</label>
+												<div class="input-group">
+													<span class="input-group-text">
+														<i class="bi bi-building"></i>
+													</span>
+													<input type="text" id="shortName" formControlName="shortName"
+														class="form-control"
+														[placeholder]="'settings.schoolInfoProfile.profileForm.schoolNameShortVersion' | translate"
+														[ngClass]="{ 'is-invalid': (schoolProfileForm.isSubmitted && shortName?.invalid)}" />
+												</div>
+												<app-field-errors [control]="shortName!"
+													[label]="'Short name'"></app-field-errors>
+											</div>
+										</div>
+										<!-- phone number -->
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-label">
+													{{ 'settings.schoolInfoProfile.profileForm.phoneNumber' | translate
+													}}
+												</label>
+												<div class="input-group">
+													<span class="input-group-text"><i class="ti-mobile"></i></span>
+													<input type="text" id="phone" formControlName="phone"
+														class="form-control"
+														[placeholder]="'settings.schoolInfoProfile.profileForm.phoneNumberPlaceholderText' | translate"
+														[ngClass]="{ 'is-invalid': (schoolProfileForm.isSubmitted && phone?.invalid)}" />
+												</div>
+												<app-field-errors [control]="phone!"
+													[label]="'School phone'"></app-field-errors>
+											</div>
+										</div>
+										<!-- email -->
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-label">
+													{{ 'settings.schoolInfoProfile.profileForm.emailAddress' |
+													translate}}
+												</label>
+												<div class="input-group">
+													<span class="input-group-text"><i class="ti-email"></i></span>
+													<input type="email" id="email" formControlName="email"
+														class="form-control"
+														[placeholder]="'settings.schoolInfoProfile.profileForm.emailAddress' | translate"
+														[ngClass]="{ 'is-invalid': (schoolProfileForm.isSubmitted && email?.invalid)}" />
+												</div>
+												<app-field-errors [control]="email!"
+													[label]="'School email'"></app-field-errors>
+											</div>
+										</div>
+										<!-- postal address -->
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-label">{{
+													'settings.schoolInfoProfile.profileForm.postalAddress' | translate
+													}}</label>
+												<div class="input-group ">
+													<span class="input-group-text">
+														<i class="bi bi-signpost-split"></i>
+													</span>
+													<input type="email" id="address" formControlName="address"
+														class="form-control" placeholder="P.O. Box 000-00100 Nairobi"
+														[ngClass]="{ 'is-invalid': (schoolProfileForm.isSubmitted && address?.invalid)}" />
+												</div>
+											</div>
+										</div>
+										<!-- gender type -->
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-label">
+													{{'settings.schoolInfoProfile.profileForm.genderType' | translate}}
+												</label>
+												<ng-select [notFoundText]="'common.noItemsFound' | translate"
+													[items]="genderTypes" [searchable]="true" id="genderType"
+													formControlName="genderType" bindLabel="name" bindValue="code"
+													[placeholder]="'common.genderTypePlaceholderText' | translate"
+													[clearable]="false"
+													[ngClass]="{ 'is-invalid': (schoolProfileForm.isSubmitted && genderType?.invalid)}">
+												</ng-select>
+												<app-field-errors [control]="genderType!"
+													[label]="'Gender type'"></app-field-errors>
+											</div>
+										</div>
+										<!-- boarding status -->
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-label">{{
+													'settings.schoolInfoProfile.profileForm.boardingStatus' | translate
+													}}</label>
+												<ng-select id="boardingStatus" formControlName="boardingStatus"
+													[notFoundText]="'common.noItemsFound' | translate"
+													[items]="boardingTypes" bindLabel="name" bindValue="value"
+													[searchable]="true"
+													[placeholder]="'settings.schoolInfoProfile.profileForm.selectBStatus' | translate"
+													[clearable]="false"
+													[ngClass]="{ 'is-invalid': (schoolProfileForm.isSubmitted && boardingStatus?.invalid)}">
+												</ng-select>
+												<app-field-errors [control]="boardingStatus!"
+													[label]="'Boarding status'"></app-field-errors>
+											</div>
+										</div>
+									</div>
+								</fieldset>
+								<fieldset>
+									<div class="row mt-5">
+										<!-- head of school -->
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-label">
+													{{ 'settings.schoolInfoProfile.profileForm.headOfSchool' | translate
+													}}
+													<i class="text-danger">*</i>
+												</label>
+												<ng-container
+													*ngIf="(userRoles$|async)?.isSuperAdmin else headOfSchoolDisabled">
+													<ng-select [notFoundText]="'common.noItemsFound' | translate"
+														[items]="teachers" [searchable]="true" id="principal"
+														formControlName="principalId" bindLabel="name"
+														bindValue="userid" [clearable]="false"
+														[placeholder]="'settings.schoolInfoProfile.profileForm.headOfSchoolPlaceHolder' | translate"
+														[ngClass]="{ 'is-invalid': (schoolProfileForm.isSubmitted && principal?.invalid)}"
+														required>
+													</ng-select>
+												</ng-container>
+												<ng-template #headOfSchoolDisabled>
+													<input type="text"
+														[placeholder]="'settings.schoolInfoProfile.profileForm.headOfSchoolPlaceHolder' | translate"
+														disabled [value]="schoolProfile?.principal?.name"
+														class="form-control" />
+												</ng-template>
+												<app-field-errors [control]="principal!"
+													[label]="'School principal'"></app-field-errors>
+											</div>
+										</div>
+										<!-- head of school title -->
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-label">
+													{{ 'settings.schoolInfoProfile.profileForm.headOfSchoolTitle' |
+													translate }}
+													<i class="text-danger">*</i>
+												</label>
+												<ng-container
+													*ngIf="(userRoles$|async)?.isSuperAdmin else principalTitleDisabled">
+													<ng-select [notFoundText]="'common.noItemsFound' | translate"
+														[items]="titles" [searchable]="true" id="headTitle"
+														formControlName="headTeacherTitle" bindLabel="title"
+														bindValue="title" [clearable]="false"
+														[placeholder]="'settings.schoolInfoProfile.profileForm.headOfSchoolTitlePlaceholder' | translate"
+														[ngClass]="{ 'is-invalid': (schoolProfileForm.isSubmitted && headTitle?.invalid)}"
+														required>
+													</ng-select>
+												</ng-container>
+
+												<ng-template #principalTitleDisabled>
+													<input type="text"
+														[placeholder]="'settings.schoolInfoProfile.profileForm.headOfSchoolTitlePlaceholder' | translate"
+														disabled [value]="schoolProfile?.principal?.title"
+														class="form-control" />
+												</ng-template>
+												<app-field-errors [control]="headTitle!"
+													[label]="'Title'"></app-field-errors>
+											</div>
+										</div>
+										<!-- deputy principal -->
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-label">
+													{{ 'settings.schoolInfoProfile.profileForm.deputyPrincipal' |
+													translate }}
+													<i class="text-danger">*</i>
+												</label>
+												<ng-container
+													*ngIf="(userRoles$|async)?.isSuperAdmin else deputyPrinciplDisabled">
+													<ng-select [notFoundText]="'common.noItemsFound' | translate"
+														[placeholder]="'settings.schoolInfoProfile.profileForm.deputyPrincipalPlaceholder' | translate"
+														[searchable]="true" [items]="teachers"
+														formControlName="deputyPrincipalId" [clearable]="false"
+														bindLabel="name" bindValue="userid">
+													</ng-select>
+												</ng-container>
+												<ng-template #deputyPrinciplDisabled>
+													<input type="text"
+														[placeholder]="'settings.schoolInfoProfile.profileForm.deputyPrincipalPlaceholder' | translate"
+														disabled [value]="this.schoolProfile?.deputyPrincipal?.name"
+														class="form-control" />
+												</ng-template>
+												<app-field-errors [control]="deputyPrincipal!"
+													[label]="'settings.schoolInfoProfile.profileForm.deputyPrincipal' | translate"></app-field-errors>
+											</div>
+										</div>
+										<!-- HOD Academics -->
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="form-label">
+													{{ 'settings.schoolInfoProfile.profileForm.hodAcademics' | translate
+													}}
+													<i class="text-danger">*</i>
+												</label>
+												<ng-container
+													*ngIf="(userRoles$|async)?.isSuperAdmin else hodAcademicsDisabled">
+													<ng-select [notFoundText]="'common.noItemsFound' | translate"
+														[items]="teachers" [searchable]="true" id="hodAcademics"
+														formControlName="dosId" bindLabel="name" bindValue="userid"
+														[placeholder]="'settings.schoolInfoProfile.profileForm.selectDosPlaceholder' | translate"
+														[clearable]="false"
+														[ngClass]="{ 'is-invalid': (schoolProfileForm.isSubmitted && hodAcademics?.invalid)}"
+														required>
+													</ng-select>
+												</ng-container>
+												<ng-template #hodAcademicsDisabled>
+													<input type="text"
+														[placeholder]="'settings.schoolInfoProfile.profileForm.selectDosPlaceholder' | translate"
+														disabled [value]="this.schoolProfile?.dos?.name"
+														class="form-control" />
+												</ng-template>
+												<app-field-errors [control]="headTitle!"
+													[label]="'Title'"></app-field-errors>
+											</div>
+										</div>
+										<div class="mb-10 ps-10 fs-11">
+											<b>
+												<i>
+													{{ 'settings.schoolInfoProfile.profileForm.onlySuperAdminCanEdit' |
+													translate }}
+												</i>
+											</b>
+										</div>
+									</div>
+								</fieldset>
+								<div class="form-group mb-0 mt-10 text-end "
+									style="display: flex; justify-content: space-between;">
+									<div style="display:inline-block">
+
+									</div>
+									<div>
+										<button *ngIf="(userRoles$ | async)?.isSchoolAdmin" type="submit"
+											class="btn btn-sm btn-info">
+											<i class="ti-save-alt"></i>
+											{{ 'settings.schoolInfoProfile.profileForm.updateBtn' | translate }}
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</app-submit-form>
+		</div>
+	</div>
+</section>

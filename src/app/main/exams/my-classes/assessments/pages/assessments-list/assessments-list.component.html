@@ -1,0 +1,255 @@
+<section class="content mt-config">
+	<div class="d-flex justify-content-between align-items-center mb-2">
+		<!-- assessments -->
+		<span class="fw-bold">
+			{{ assessment?.className }} {{ "exams.assessments.assessments" | translate }}
+		</span>
+
+		<!-- new assessment -->
+		<app-assessment-creation
+			[classId]="routeParams?.classId"
+			(onAssessmentCreationSuccess)="onAssessmentCreationSuccess($event)">
+		</app-assessment-creation>
+	</div>
+
+	<!-- academic year -->
+	<div class="box">
+		<div class="box-body">
+			<form [formGroup]="academicYearForm" class="form">
+				<div class="form-group mb-none">
+					<label class="form-label fw-600">
+						{{ "exams.manageExams.textAcademicYear" | translate }}
+					</label>
+					<ng-select
+						[notFoundText]="'common.noItemsFound' | translate"
+						[placeholder]="'common.selectAcademicYear' | translate"
+						[loading]="isLoadingAssessments"
+						[loadingText]="'common.loading' | translate"
+						[items]="academicYears"
+						bindLabel="name"
+						bindValue="ayid"
+						[clearable]="false"
+						formControlName="selectedYear"
+						(change)="onAcademicYearChange($event)">
+					</ng-select>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- assessments -->
+	<ng-container *ngIf="isLoadingAssessments || isLoadingAssessmentList; else assessmentListUI">
+		<div class="box">
+			<div class="box-body">
+				<app-loader-div [height]="35"></app-loader-div>
+				<p></p>
+				<app-loader-div [height]="150"></app-loader-div>
+			</div>
+		</div>
+	</ng-container>
+
+	<ng-template #assessmentListUI>
+		<ng-container *ngIf="!assessment || terms.length === 0; else termsUI">
+			<!-- No assessments found -->
+			<div class="box">
+				<div class="box-body">
+					<p>
+						{{ "exams.assessments.noAssessmentsFound" | translate }}
+					</p>
+				</div>
+			</div>
+		</ng-container>
+
+		<!-- assessment list (grouped by terms) -->
+		<ng-template #termsUI>
+			<ng-container *ngFor="let term of terms.slice().reverse(); index as termIndex">
+				<div class="box text-capitalize">
+					<div class="box-header p-15 d-flex justify-content-between align-items-center">
+						<p class="m-0 fw-700">{{ term.name }}</p>
+
+						<button type="button" class="btn btn-dark btn-sm">
+							<i class="bi bi-clipboard-data"></i>
+							{{ "exams.assessments.report"  | translate }}
+						</button>
+					</div>
+					<div class="box-body">
+						<div class="table-responsive">
+							<table class="table table-sm table-bordered mb-0">
+								<thead>
+									<tr>
+										<!-- Assessment -->
+										<th style="min-width: 10em">
+											{{ "exams.assessments.assessment" | translate }}
+										</th>
+										<!-- Type -->
+										<th style="min-width: 7em">
+											{{ "common.type" | translate }}
+										</th>
+										<!-- Status -->
+										<th style="min-width: 15em">
+											{{ "common.status" | translate }}
+										</th>
+										<!-- Updated By -->
+										<th style="min-width: 10em" class="text-center">
+											{{ "exams.updatedBy" | translate }}
+										</th>
+										<!-- Updated On -->
+										<th style="min-width: 10em" class="text-center">
+											{{ "exams.updatedOn" | translate }}
+										</th>
+										<!-- Actions -->
+										<th [attr.colspan]="3" style="min-width: 40em" class="text-center">
+											{{ "common.actions" | translate }}
+										</th>
+									</tr>
+								</thead>
+								<tbody
+								  	*ngFor="let assessment of term?.exams; index as assessmentIndex; even as isEven"
+									[ngSwitch]="assessment.interrogationId === assessmentToEdit?.interrogationId"
+								  	[ngClass]="{ 'striped': isEven }">
+									<tr
+									  *ngFor="let class of assessment?.classes; index as formIndex">
+									  	<!-- name -->
+										<td
+										  *ngIf="formIndex === 0"
+										  [attr.rowspan]="assessment.classes.length"
+										  class="text-start">
+										  <ng-container *ngSwitchCase="false">
+											<span>{{ assessment.name }}</span>
+										  </ng-container>
+										  <ng-container *ngSwitchCase="true">
+											<input
+												type="text"
+												class="form-control w-p100"
+												autofocus
+												[(ngModel)]="newAssessmentName"
+												(keydown.Enter)="updateAssessment()"
+												(keydown.Meta.Enter)="updateAssessment()"
+												(keydown.Escape)="cancelAssessmentEdit()"
+											/>
+										  </ng-container>
+										</td>
+										<!-- type -->
+										<td class="td-fit-nowrap">{{ assessment.type }}</td>
+										<!-- status -->
+										<td>{{ class.status_label }}</td>
+										<!-- updated by -->
+										<td class="text-center">{{ class?.updatedBy }}</td>
+										<!-- updated on -->
+										<td class="text-center">{{ class?.updatedOn }}</td>
+										<!-- actions -->
+										<ng-container>
+											<!-- edit assessment -->
+											<td
+												[attr.rowspan]="assessment.classes.length"
+												*ngIf="formIndex === 0"
+												class="text-center">
+												<ng-container *ngSwitchCase="false">
+													<button
+														type="button"
+														class="btn btn-sm btn-default"
+														[disabled]="assessment.published"
+														(click)="initAssessmentEdit(assessment)">
+														<i class="bi bi-pen"></i>
+														{{ "exams.assessments.edit" | translate }}
+													</button>
+												</ng-container>
+
+												<ng-container *ngSwitchCase="true">
+													<button
+														type="button"
+														class="btn btn-sm btn-secondary"
+														(click)="cancelAssessmentEdit()"
+														[disabled]="isUpdatingAssessment">
+														<i class="bi bi-x-lg"></i>
+														{{ "common.cancel" | translate }}
+													</button>
+													<button
+														type="button"
+														class="btn btn-sm btn-info ms-2"
+														(click)="updateAssessment()"
+														[disabled]="isUpdatingAssessment">
+														<ng-container *ngIf="isUpdatingAssessment; else editIcon">
+															<span class="fa fa-spinner fa-spin"></span>
+														</ng-container>
+														<ng-template #editIcon>
+															<i class="bi bi-sd-card"></i>
+														</ng-template>
+														{{ "common.save" | translate }}
+													</button>
+												</ng-container>
+											</td>
+											<!-- upload results -->
+											<td
+											  *ngIf="class.status === AssessmentStatus.UPLOAD_RESULTS"
+											  class="text-center">
+												<button class="btn btn-outline btn-info btn-sm">
+													<i class="bi bi-cloud-arrow-up"></i>
+													{{ "exams.manageExams.btnTextUploadResults" | translate }}
+												</button>
+											</td>
+											<!-- publish results -->
+											<td
+											  *ngIf="class.status === AssessmentStatus.PENDING_PUBLISH"
+											  class="text-center">
+												<button class="btn btn-dark btn-sm">
+													<i class="bi bi-box-arrow-in-up"></i>
+													{{ "exams.manageExams.btnTextPublishResults" | translate }}
+												</button>
+											</td>
+											<!-- view results -->
+											<td
+											  *ngIf="class.status === AssessmentStatus.PUBLISHED"
+											  class="text-center">
+												<button class="btn btn-info btn-sm">
+													<i class="bi bi-eye"></i>
+													{{ "exams.assessments.viewResults" | translate }}
+												</button>
+											</td>
+											<!-- delete -->
+											<td
+											  *ngIf="class.delete"
+											  class="text-center">
+												<button
+												  class="btn btn-danger btn-sm"
+												  [disabled]="(isDeletingAssessment && assessmentIdToDelete === assessment.interrogationId)"
+												  (click)="assessmentDeletionConfirmation(assessment.interrogationId, assessment.name, assessmentIndex)">
+													<span
+													  *ngIf="(isDeletingAssessment && assessmentIdToDelete === assessment.interrogationId); else deleteIcon"
+													  class="fa fa-spinner fa-spin">
+													</span>
+													<ng-template #deleteIcon>
+														<i class="bi bi-trash"></i>
+													</ng-template>
+													{{ "exams.manageExams.btnTextDelete" | translate }}
+												</button>
+											</td>
+											<!-- unpublish -->
+											<td
+											  *ngIf="!class.delete && class.unpublish"
+											  class="text-center">
+												<button
+												  class="waves-effect waves-light btn btn-sm btn-outline btn-warning"
+												  [disabled]="(isUnpublishingAssessment && assessmentIdToUnpublish === assessment.interrogationId)"
+												  (click)="assessmentUnpublishConfirmation(assessment.interrogationId, assessment.name)">
+													<span
+													  *ngIf="(isUnpublishingAssessment && assessmentIdToUnpublish === assessment.interrogationId); else unpublishIcon"
+													  class="fa fa-spinner fa-spin">
+													</span>
+													<ng-template #unpublishIcon>
+														<i class="bi bi-box-arrow-down"></i>
+													</ng-template>
+													{{ "exams.manageExams.btnTextUnpublishResults" | translate }}
+												</button>
+											</td>
+										</ng-container>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</ng-container>
+		</ng-template>
+	</ng-template>
+</section>

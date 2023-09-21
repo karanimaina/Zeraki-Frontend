@@ -1,0 +1,327 @@
+<!-- Student Top Nav -->
+<app-students-top-nav></app-students-top-nav>
+
+
+
+<!-- Main content -->
+<section class="content mt-config">
+    <div class="row">
+        <div class="col-12">
+            <div *ngIf="!searchStudentsSuccessStatus" class="box">
+                <div class="box-header with-border">
+                    <h4 class="box-title">{{ 'students.search.by' | translate }}</h4>
+                    <div class="row mt-10">
+                        <div class="col-sm-3">
+                            <input (click)="toggleRadio('admNo')" type="radio" id="admNoRadio"
+                                class="with-gap radio-col-info" [checked]="admNoRadio" />
+                            <label for="admNoRadio">{{ 'common.admno' | translate }}</label>
+                        </div>
+                        <div class="col-sm-3">
+                            <input (click)="toggleRadio('name')" type="radio" id="nameRadio"
+                                class="with-gap radio-col-info" [checked]="nameRadio" />
+                            <label for="nameRadio">{{ 'common.name' | translate }}</label>
+                        </div>
+                        <div class="col-sm-3">
+                            <input (click)="toggleRadio('phoneNo')" type="radio" id="phoneNoRadio"
+                                class="with-gap radio-col-info" [checked]="phoneNoRadio" />
+                            <label for="phoneNoRadio">{{ 'common.phone' | translate }}</label>
+                        </div>
+                        <div class="col-sm-3">
+                            <input (click)="toggleRadio('upi')" type="radio" id="upiRadio"
+                                class="with-gap radio-col-info" [checked]="upiRadio" />
+                            <label for="upiRadio">
+								{{upiTranslation}}
+							</label>
+                        </div>
+                        <div class="col-sm-3">
+                            <input (click)="toggleRadio('indexNo')" type="radio" id="indexNoRadio"
+                                class="with-gap radio-col-info" [checked]="indexNoRadio" />
+                            <label for="indexNoRadio">{{ 'common.indexNo' | translate }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <!-- search by admno -->
+                    <form #sfAdm="ngForm" *ngIf="admNoRadio" class="form" (ngSubmit)="sfAdm.form.valid && doSearch()">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">{{ 'common.admno' | translate }}<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control"
+                                        placeholder="{{ 'common.admno' | translate }}" name="sAdmNo" #sAdmNo="ngModel"
+                                        [(ngModel)]="student.admno" required appEmptyStringValidator
+                                        [ngClass]="{ 'is-invalid': sfAdm.submitted && sAdmNo.invalid }">
+                                    <div *ngIf="sfAdm.submitted && (sAdmNo.errors?.required || sAdmNo.errors?.appEmptyStringValidator)"
+                                        class="form-control-feedback text-danger">
+                                        <small>{{ 'students.search.admnoErrMes' | translate }}.</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-end">
+                                <button type="submit" class="btn btn-info waves-effect waves-light btn-sm  bt-sm">
+                                    <i class="me-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path
+                                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                        </svg>
+                                    </i>
+                                    {{ 'common.search' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Search by name -->
+                    <form #sfName="ngForm" class="form" *ngIf="nameRadio" (ngSubmit)="sfName.form.valid && doSearch()">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">{{ 'students.search.name' | translate }}<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control"
+                                        placeholder="{{ 'students.search.name' | translate }}" name="sName"
+                                        #sName="ngModel" [(ngModel)]="student.name" required appEmptyStringValidator
+                                        [ngClass]="{ 'is-invalid': sfName.submitted && sName.invalid }">
+                                    <div *ngIf="sfName.submitted && (sName.errors?.required || sName.errors?.appEmptyStringValidator)"
+                                        class="form-control-feedback text-danger">
+                                        <small>{{ 'students.search.nameErrMes' | translate }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">{{ schoolTypeData?.formoryear | formOrYear }}</label>
+                                    <ng-select [notFoundText]="'common.noItemsFound' | translate" size="1"
+                                        [items]="schoolTypeData?.current_forms_list || []" [closeOnSelect]="true"
+                                        appendTo="body" [dropdownPosition]="'bottom'" bindLabel="classlevel"
+                                        bindValue="intakeid" name="sForm" #sForm="ngModel"
+                                        [(ngModel)]="student.intakeid"
+                                        [ngClass]="{ 'is-invalid': sfName.submitted && sName.invalid }"
+                                        placeholder="{{ schoolTypeData?.formoryear | formOrYear }}">
+                                    </ng-select>
+                                    <div *ngIf="sfName.submitted && sForm.errors?.required"
+                                        class="form-control-feedback text-danger">
+                                        <small>{{ 'students.search.intakeErrMes' | translate:{intakeName: (schoolTypeData?.formoryear | formOrYear)} }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-end">
+                                <button type="submit" class="btn btn-info waves-effect waves-light btn-sm ">
+                                    <i class="me-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path
+                                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                        </svg>
+                                    </i>
+                                    {{ 'common.search' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                    </form>
+                    <!-- Search by phone -->
+                    <form #sfPhone="ngForm" class="form" *ngIf="phoneNoRadio"
+                        (ngSubmit)="sfPhone.form.valid && doSearch()">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">{{ 'common.phone' | translate }}<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control"
+                                        placeholder="{{ 'common.phone' | translate }}" name="sPhone" #sPhone="ngModel"
+                                        [(ngModel)]="student.phone" required  appEmptyStringValidator
+                                        [ngClass]="{ 'is-invalid': sfPhone.submitted && sPhone.invalid }">
+                                    <div *ngIf="sfPhone.submitted && (sPhone.errors?.required || sPhone.errors?.appEmptyStringValidator)"
+                                        class="form-control-feedback text-danger">
+                                        <small>{{ 'common.phone' | translate }} {{ 'common.cannotBeEmpty' | translate
+                                            }}.</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-end">
+                                <button type="submit" class="btn btn-info waves-effect waves-light btn-sm ">
+                                    <i class="me-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path
+                                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                        </svg>
+                                    </i>
+                                    {{ 'common.search' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </form>
+
+                    <!-- Search by upi -->
+                    <form #sfUpi="ngForm" class="form" *ngIf="upiRadio" (ngSubmit)="sfUpi.form.valid && doSearch()">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">
+										{{upiTranslation}}
+									</label>
+									<span class="text-danger">*</span>
+                                    <input
+                                      	type="text"
+                                      	class="form-control"
+                                      	[placeholder]="upiTranslation"
+                                      	name="sUpi"
+                                      	#sUpi="ngModel"
+                                      	[(ngModel)]="student.upi"
+                                      	required
+                                      	appEmptyStringValidator
+                                      	[ngClass]="{ 'is-invalid': sfUpi.submitted && sUpi.invalid }">
+
+                                   <div
+                                     *ngIf="sfUpi.submitted && (sUpi.errors?.required || sUpi.errors?.appEmptyStringValidator )"
+                                     class="form-control-feedback text-danger">
+                                        <small>
+											{{upiTranslation}}
+											{{ 'common.cannotBeEmpty' | translate }}.
+										</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-end">
+                                <button type="submit" class="btn btn-info waves-effect waves-light btn-sm ">
+                                    <i class="me-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path
+                                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                        </svg>
+                                    </i>
+                                    {{ 'common.search' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- search by index no -->
+                    <form #sfIno="ngForm" class="form" *ngIf="indexNoRadio"
+                        (ngSubmit)="sfIno.form.valid && doSearch()">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">{{ 'common.indexNo' | translate }}<span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control"
+                                        placeholder="{{ 'common.indexNo' | translate }}" name="indexNo"
+                                        #indexNo="ngModel" [(ngModel)]="student.indexNo" required appEmptyStringValidator
+                                        [ngClass]="{ 'is-invalid': sfIno.submitted && indexNo.invalid }">
+                                    <div *ngIf="sfIno.submitted && (indexNo.errors?.required || indexNo.errors?.appEmptyStringValidator)"
+                                        class="form-control-feedback text-danger">
+                                        <small>{{ 'common.indexNo' | translate }} {{ 'common.cannotBeEmpty' | translate
+                                            }}.</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-end">
+                                <button type="submit" class="btn btn-info waves-effect waves-light btn-sm ">
+                                    <i class="me-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path
+                                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                        </svg>
+                                    </i>
+                                    {{ 'common.search' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div *ngIf="searchStudentsSuccessStatus" class="box">
+                <div class="box-header with-border">
+                    <h4 class="box-title">{{ 'students.search.searchRes' | translate }}</h4>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div *ngIf="students.length > 0" class="table-responsive">
+                        <table class="table table-sm table-striped table-bordered mb-0">
+                            <thead>
+                                <tr class="text-uppercase">
+                                    <th>#</th>
+                                    <th *ngIf="indexNoRadio">{{ 'common.indexNo' | translate }}</th>
+                                    <th>{{ 'students.search.admno' | translate }}</th>
+                                    <th *ngIf="upiRadio">
+										{{upiTranslation}}
+									</th>
+                                    <th>{{ 'common.name' | translate }}</th>
+                                    <th *ngIf="phoneNoRadio">{{ 'common.phone' | translate }}</th>
+                                    <th>{{ 'common.class' | translate }}</th>
+
+									<ui-guinea-school [template]="majorTH"></ui-guinea-school>
+									<ui-ivory-coast-school [template]="majorTH"></ui-ivory-coast-school>
+
+									<ng-template #majorTH>
+										<th>{{ 'common.major' | translate }}</th>
+									</ng-template>
+                                    <th colspan="2" class="text-center">{{ 'common.actions' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let stud of students; index as i">
+                                    <th scope="row">{{ i+1 }}</th>
+                                    <td *ngIf="indexNoRadio">{{ stud.indexno }}</td>
+                                    <td>{{ stud.admno }}</td>
+                                    <td *ngIf="upiRadio">{{ stud.upi }}</td>
+                                    <td>{{ stud.name }}</td>
+                                    <td *ngIf="phoneNoRadio">{{ stud.phone }}</td>
+                                    <td>{{ stud.class }}</td>
+									<ui-guinea-school [template]="majorTD"></ui-guinea-school>
+									<ui-ivory-coast-school [template]="majorTD"></ui-ivory-coast-school>
+
+									<ng-template #majorTD>
+										<td>{{ stud.major }}</td>
+									</ng-template>
+                                    <td *appNormalTeacherHidden="true" class="text-center">
+                                        <button routerLink="../prof/{{stud.userid}}" type="button"
+                                            class="waves-effect waves-light btn btn-dark btn-sm">
+                                            <span class="ms-1">{{ 'common.profile' | translate }}</span>
+                                        </button>
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" [routerLink]="['../analytics', stud.userid]"
+                                            class="waves-effect waves-light btn btn-dark btn-sm">
+                                            <span class="ms-1">{{ 'common.analytics' | translate }}</span>
+                                        </button>
+                                    </td>
+                                    <!-- <td><button type="button" class="waves-effect waves-light btn btn-info btn-sm">Class List</button></td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div *ngIf="students.length === 0">
+                        {{ 'students.search.noRes' | translate }} <code>{{ searchTerm }}</code>
+                    </div>
+                    <div class="mt-20">
+                        <button (click)="cancelSearch()" type="button" class="btn btn-sm btn-secondary">
+                            <i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+                                </svg>
+                            </i>
+                            {{ 'common.back' | translate }}
+                        </button>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+
+    </div>
+
+
+</section>

@@ -1,0 +1,105 @@
+<section *ngIf="listGradingSystems">
+	<ng-container *ngIf="isLoadingGradingSystems; then loadingGradingSystems else loadingGradingSystemsComplete"></ng-container>
+
+	<!-- Loading gradingSystems section -->
+	<ng-template #loadingGradingSystems>
+		<app-loader-div [height]="150"></app-loader-div>
+	</ng-template>
+
+	<!-- Complete loading gradingsystem section -->
+	<ng-template #loadingGradingSystemsComplete>
+		<div *ngIf="gradingSystems?.length === 0">
+			<ng-container *ngIf="isMentionSchool; else nonMentionSchoolsEmptyUI">
+				{{ "exams.mentions.noMentionsFound" | translate:{ mention: schoolData?.mentionLabel } }}
+			</ng-container>
+
+			<ng-template #nonMentionSchoolsEmptyUI>
+				<h5>{{"exams.gradingSystem.noneFound" | translate}}</h5>
+			</ng-template>
+		</div>
+
+		<div *ngIf="gradingSystems.length > 0" class="table-responsive text-left" style='margin: 0'>
+			<table class="table table-sm table-striped table-hover table-bordered" style="margin: 0">
+				<thead>
+					<tr>
+						<!-- Name -->
+						<th class="w-p80">
+							{{ "common.name" | translate }}
+						</th>
+						<!-- Actions -->
+						<th colspan="2" class="w-p20 text-center">
+							{{ "common.actions" | translate }}
+						</th>
+					</tr>
+				</thead>
+				<tbody class="m-t-md">
+					<tr *ngFor="let gradingSystem of gradingSystems; index as index">
+						<!-- Name -->
+						<td class="td-fit-nowrap" style="vertical-align: middle;">{{ gradingSystem.title }}</td>
+						<!-- View Action -->
+						<td class="text-center">
+							<button type="button" class="btn btn-secondary btn-sm" (click)="viewGs(gradingSystem)">
+								<i class="me-1">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye"
+										viewBox="0 0 16 16">
+										<path
+											d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+										<path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+									</svg>
+								</i>
+								<span>
+									{{ "exams.gradingSystem.btnTextView" | translate }}
+								</span>
+							</button>
+						</td>
+						<!-- Delete Action -->
+						<td class="text-center">
+							<button type="button" class="btn btn-danger btn-sm" (click)="deleteGradingSystemConfirmation(gradingSystem, index)">
+								<ng-container *ngIf="!gradingSystem.isRemoving; else deletionLoader">
+									<i class="me-1">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
+											viewBox="0 0 16 16">
+											<path
+												d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+											<path fill-rule="evenodd"
+												d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+										</svg>
+									</i>
+									<span>
+										{{"exams.gradingSystem.btnTextDelete"|translate}}
+									</span>
+								</ng-container>
+
+								<ng-template #deletionLoader>
+									<svg width="18" height="18" viewBox="0 0 38 38"
+											xmlns="http://www.w3.org/2000/svg" stroke="#fff">
+											<g fill="none" fill-rule="evenodd">
+													<g transform="translate(1 1)" stroke-width="2">
+															<circle stroke-opacity=".5" cx="18" cy="18" r="18" />
+															<path d="M36 18c0-9.94-8.06-18-18-18">
+																	<animateTransform attributeName="transform"
+																			type="rotate" from="0 18 18" to="360 18 18"
+																			dur="1s" repeatCount="indefinite" />
+															</path>
+													</g>
+											</g>
+									</svg>
+							</ng-template>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</ng-template>
+</section>
+
+<!-- Grading System Details -->
+<section *ngIf="viewGradingSystem">
+	<app-grading-system-details
+		[schoolData]="schoolData"
+		[isMentionSchool]="isMentionSchool"
+		[gradingSystem]="selectedGs"
+		(onCloseGradingSystemDetails)="displayGradingSystemList()">
+	</app-grading-system-details>
+</section>

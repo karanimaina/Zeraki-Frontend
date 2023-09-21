@@ -1,0 +1,78 @@
+<div *ngIf="data.total > 0" class="row">
+    <div class="table-responsive col-12">
+        <table class="table table-sm table-striped table-hover mb-0">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">{{ 'messages.track.title' | translate }}</th>
+                    <th scope="col">{{ 'messages.track.sender' | translate }}</th>
+                    <th scope="col">{{ 'messages.track.type' | translate }}</th>
+                    <th scope="col">{{ 'messages.track.intendedRecipients' | translate }}</th>
+                    <th scope="col">{{ 'messages.track.delivered' | translate }}</th>
+                    <th scope="col">{{ 'messages.track.failed' | translate }}</th>
+                    <th scope="col">{{ 'messages.track.smsCredits' | translate }}</th>
+                    <th scope="col">{{ 'messages.track.date' | translate }}</th>
+                    <th scope="col">{{ 'messages.track.view' | translate }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let message of data.message_groups; index as i" routerLink="./msggroup/{{message.groupid}}">
+                    <th scope="row">{{ i + data.first }}</th>
+                    <td>{{ message.title }}</td>
+                    <td>{{ message.from }}</td>
+                    <td>
+                        <span class="badge"
+                            [ngClass]="{'badge-success': (message.sms_status == 1 && message.all_delivered), 'badge-warning': (message.sms_status == 1 && !message.all_delivered), 'badge-info': (message.sms_status == 0)}">
+                            {{ message.message_type }}
+                        </span>
+                    </td>
+                    <td>{{ message.recipients }}</td>
+                    <td>{{ message.delivered }}</td>
+                    <td>{{ message.failed }}</td>
+                    <td>
+                        {{ message.sms_credits }}
+                        <span *ngIf="message.sms_credits == 1">{{ 'messages.track.credit' | translate }}</span>
+                        <span *ngIf="message.sms_credits > 1 || message.sms_credits == 0">{{ 'messages.track.credits' |
+                            translate }}</span>
+                    </td>
+                    <td>{{ message.date }}</td>
+                    <td (click)="$event.stopPropagation()">
+                        <i routerLink="./msggroup/{{message.groupid}}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                <path
+                                    d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                            </svg>
+                        </i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-12 mt-20">
+        <ul class="pagination pagination-sm pull-right">
+            <li class="page-item text-sm mt-1 me-2">{{data?.first + " - " + data?.last + " of " + data?.total}}</li>
+            <li class="page-item mx-1" [ngClass]="{'disabled': !data?.previous}">
+                <button (click)="previousPage()" style="border: 1px solid #b7c1d1;"
+                    class="btn btn-sm waves-effect waves-light" aria-label="Previous">
+                    <i class="bi bi-arrow-left-short"></i>
+                </button>
+            </li>
+            <!-- <li class="page-item">
+            <button type="button" class="btn btn-sm disabled">{{page + 1}}</button>
+          </li> -->
+            <li class="page-item mx-1" [ngClass]="{'disabled': !data?.next}">
+                <button (click)="nextPage()" style="border: 1px solid #b7c1d1;"
+                    class="btn btn-sm  waves-effect waves-light" aria-label="Next">
+                    <i class="bi bi-arrow-right-short"></i>
+                </button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div *ngIf="data.total == 0">
+    <h3>{{ 'messages.track.noMessages' | translate }}</h3>
+</div>

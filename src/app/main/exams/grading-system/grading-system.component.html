@@ -1,0 +1,58 @@
+<!-- Main content -->
+<section class="content mt-config">
+
+    <div class="box">
+        <div class="box-header with-border d-flex justify-content-between align-items-center">
+			<ng-container *ngIf="!isMentionSchools; else mentionsLabel">
+				<h4 class="box-title">{{ 'common.gradingSystems' | translate }}</h4>
+			</ng-container>
+			<ng-template #mentionsLabel>
+				<h4 class="box-title">{{ schoolData?.mentionLabel }}</h4>
+			</ng-template>
+
+            <div style="display: inline-block;" class="pull-right">
+                <button *ngIf="!createGradingSys" (click)="showCreateGs()" class="btn btn-sm btn-info">
+					<ng-container *ngIf="!isMentionSchools; else createMentionUI">
+						<i class="bi bi-plus"></i>
+						<span>
+							{{ 'common.createGradingSYstem' | translate }}
+						</span>
+					</ng-container>
+                    <ng-template #createMentionUI>
+						<i class="bi bi-plus"></i>
+						<span>
+							{{ "exams.mentions.createMention" | translate:{mention: schoolData?.mentionLabel} }}
+						</span>
+					</ng-template>
+                </button>
+                <button *ngIf="createGradingSys" (click)="showGsList()" class="btn btn-sm btn-dark">
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+                        </svg>
+                    </i>
+                    {{ 'common.close' | translate }}
+                </button>
+            </div>
+        </div>
+
+		<div class="box-body">
+            <!-- Grading System Listing -->
+            <section *ngIf="listGradingSys">
+			   	<app-grading-system-list
+					[isMentionSchool]="isMentionSchools">
+			  	</app-grading-system-list>
+            </section>
+
+			<!-- Grading System Creation -->
+            <section *ngIf="createGradingSys">
+				<app-grading-system-addition
+					[schoolData]="schoolData"
+					(onGradingSystemCreationSuccess)="onGradingSystemCreationSuccess()">
+				</app-grading-system-addition>
+            </section>
+        </div>
+    </div>
+</section>

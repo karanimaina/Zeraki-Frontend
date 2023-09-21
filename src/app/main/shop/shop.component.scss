@@ -1,0 +1,66 @@
+.content{
+    background-image: url(./../../../assets/img/Zer_Analytics.jpg);
+    /*        height: 700px;
+            background-repeat: no-repeat;
+            background-size: 100%, 100%;
+            background-position-y: 85px;
+            background-attachment: fixed;*/
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 0px;
+    margin-top: -15px;
+}
+.isMobileApp{
+    display: none;
+}
+.isDesktopView{
+    display: initial;
+}
+@media(min-width:1000px){
+    .content{
+        height: 100vh;
+    }
+}
+@media(max-width:768px){
+    .content{
+        background-image: url(./../../../assets/img/Zer_Analytics.jpg);
+        height: 850px;
+/*            background-repeat: no-repeat;
+        background-size: 100%, 100%;
+        background-position-y: 85px;
+        background-attachment: fixed;*/
+    }
+
+    .isMobileApp{
+        display: initial;
+    }
+    .isDesktopView{
+        display: none;
+    }
+    .isMobileApp col-12{
+        margin-top: 16%
+    }
+}
+@media(max-width:425px){
+    .isMobileApp{
+
+    }
+    .isMobileApp h4{
+        margin: 0 !important;
+        margin-top: -50px !important;
+    }
+    .isMobileApp col-12{
+        margin-top: 26%
+    }
+
+    .isMobileApp button{
+        display: block;
+    }
+
+    .content{
+        background-size: 1685px, 335px;
+        background-position-x: -939px;
+        min-height: 825px;
+    }
+}

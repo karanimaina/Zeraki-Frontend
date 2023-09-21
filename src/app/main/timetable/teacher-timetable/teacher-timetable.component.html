@@ -1,0 +1,97 @@
+<section class="mt-config content">
+    <!--
+    ============================================
+    Select teacher section
+    ============================================
+    -->
+    <div class="box">
+        <div class="box-body">
+            <form #ttForm="ngForm" class="form" (ngSubmit)="showTeacherTimetableClick(ttForm)">
+                <div class="form-group">
+                    <label for="selected_teacher" class="form-label fw-600">{{
+                        'timetable.teacherTimetable.selectTeacher' | translate }} </label>
+                    <select name="selected_teacher" id="selected_teacher" class="form-select"
+                        [(ngModel)]="selected_teacher">
+                        <option>{{ 'timetable.teacherTimetable.selectTeacher' | translate }}</option>
+                        <option *ngFor="let t of teachers" [value]="t.userid">{{t.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group mb-0 text-end">
+                    <button class="btn btn-sm btn-info waves-effect waves-light">
+                        {{ 'timetable.commonAttr.showTTBtn' | translate }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--
+    ============================================
+    Teacher Timetable section
+    ============================================
+    -->
+
+    <div class="box">
+        <div class="box-header with-border" style="padding:1rem">
+            <h4>{{ 'timetable.teacherTimetable.title' | translate }}: <b>{{teacher?.name}}</b></h4>
+        </div>
+        <div class="box-body">
+            <!-- <p class="mb-0">The school's timetable has not been found</p> -->
+            <div *ngIf="!loadingTable">
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;"></th>
+                                <th style="width: 80px;" class="text-center" *ngFor='let x of timeslots_array'>
+                                    <p style="font-size: 18px">{{x.displayNumber}}</p>
+                                    <p style="width: 80px;margin-left: auto;margin-right: auto;" class="m-b-none">
+                                        {{x.time}}</p>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--Days-->
+                            <tr *ngFor="let day of days">
+                                <td>
+                                    <p style="font-size: 18px;font-weight: bold"
+                                        class="m-b-none text-center text-uppercase">{{day.day}}</p>
+                                </td>
+
+                                <td *ngFor="let x of day.data"
+                                    [style.background-color]="x.lessonContent.subjectCodes.color">
+                                    <p *ngIf="x.type === 'CLASS' && x.lessonContent.teacherCodes !== undefined">
+                                        {{x.lessonContent.teacherCodes}}</p>
+                                    <div style="color: #000"
+                                        *ngIf="x.type === 'CLASS' && x.lessonContent.teacherCodes !== undefined"
+                                        class="table-data">
+                                        <!--{{x.lessonContent.subjectCodes.names}}-->
+                                        <span
+                                            *ngFor="let subject of x.lessonContent.subjectCodes.names; index as index">
+                                            {{subject}}<span
+                                                *ngIf="(index) !==(x.lessonContent.subjectCodes.names.length-1)">/</span>
+                                            <br *ngIf="(index+1)%2 === 0" />
+                                        </span>
+                                    </div>
+                                    <p *ngIf="x.type === 'CLASS' && x.lessonContent.teacherCodes !== undefined"
+                                        class="table-data-class"><span>{{x.lessonContent.streamCodes}}</span></p>
+
+                                    <p *ngIf="x.type !== 'CLASS'" style="visibility: hidden">14</p>
+                                    <p *ngIf="x.type !== 'CLASS'" class="table-data">{{x.lessonContent.content}}</p>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div *ngIf="loadingTable">
+                <div class="text-center" *ngIf="!loadingFailed">
+                    <p>{{ 'timetable.commonAttr.loading' | translate }}</p>
+                    <img src="../../../../assets/img/loading-bars.svg" height="70" width="100" alt="Loading-bars">
+                </div>
+
+                <div *ngIf="loadingFailed">{{teacher_error_message}}</div>
+            </div>
+        </div>
+    </div>
+</section>

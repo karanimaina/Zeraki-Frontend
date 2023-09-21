@@ -1,0 +1,1380 @@
+<section class="mt-config content">
+    <!--
+    =====================================
+    Section select behaviour
+    =====================================
+    -->
+    <div class="box">
+        <div class="box-body">
+            <div class="form-group mb-0">
+                <label class="fw-600">
+                    <!-- Behaviour Type -->
+                    {{'behaviour.manageBehaviour.textBehaviourType'|translate}}
+                </label>
+                <div class="row mt-10">
+                    <div class="col-sm-3">
+                        <input type="radio" [checked]="isInfraction" (click)="isInfractionChecked()"
+                            class="with-gap radio-col-info" id="infractions">
+                        <label for="infractions">
+                            <!-- Infractions -->
+                            {{'behaviour.manageBehaviour.textInfractions'|translate}}
+                        </label>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <input type="radio" [checked]="isMerit" (click)="isMeritChecked()"
+                            class="with-gap radio-col-info" id="merits">
+                        <label for="merits">
+                            <!-- Merits -->
+                            {{'behaviour.manageBehaviour.textMerits'|translate}}
+                        </label>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <input type="radio" [checked]="isLeadershipPosition" (click)="isLeadershipPositionChecked()"
+                            class="with-gap radio-col-info" id="leaderShipPositions">
+                        <label for="leaderShipPositions">
+                            <!-- Leadership Positions -->
+                            {{'behaviour.manageBehaviour.textLeadershipPositions'|translate}}
+                        </label>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <input type="radio" [checked]="isClaire" (click)="isClaireChecked()"
+                            class="with-gap radio-col-info" id="claire">
+                        <label for="claire">
+                            <!-- CLAIRE Values -->
+                            {{'behaviour.manageBehaviour.textClaireValues'|translate}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="box">
+        <!--
+        ------------------------
+        Infraction List Section
+        ------------------------
+        -->
+        <div class="box-body" *ngIf="isInfraction">
+            <!--
+            -------------------------------------------
+            This section is for infraction  List
+            -------------------------------------------
+             -->
+            <div class="row" *ngIf="!isInfractionItem">
+                <div class="col-sm-6">
+                    <p class="fw-600">
+                        <!-- Infractions -->
+                        {{'behaviour.manageBehaviour.textInfractions'|translate}}
+                    </p>
+                </div>
+                <div class="col-sm-6 text-end">
+                    <button *ngIf="!addInfraction" (click)="addInfraction = true"
+                        class="btn waves-effect waves-light btn-sm btn-dark mb-10"> <i class="fa fa-plus"></i>
+                        Add</button>
+                </div>
+
+                <div class="col-sm-12">
+                    <div *ngIf="addInfraction">
+                        <form #infractionForm="ngForm" class="row" (ngSubmit)="addNewInfraction()">
+                            <div class="form-group col-sm-6">
+                                <label for="" class="form-label">
+                                    <!-- Level -->
+                                    {{'behaviour.manageBehaviour.textLevel'|translate}}
+                                </label>
+                                <input type="number" name="level" id="levelId" [(ngModel)]="addInfractionForm.level"
+                                    placeholder="{{'behaviour.manageBehaviour.textLevel'|translate}}" class="form-control" required #inputLevel="ngModel"
+                                    [ngClass]="{'is-invalid':( inputLevel.invalid && infractionForm.submitted)}">
+                                <div class="text-danger" *ngIf="inputLevel.invalid && infractionForm.submitted">
+                                    <span *ngIf="inputLevel.errors?.['required']">
+                                        <!-- This field is required -->
+                                        {{'behaviour.manageBehaviour.textFieldRequired'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="" class="form-label">
+                                    <!-- Description -->
+                                    {{'behaviour.manageBehaviour.textDescription'|translate}}
+                                </label>
+                                <input type="text" placeholder="{{'behaviour.manageBehaviour.textDescription'|translate}}" name="description" id="decriptionId"
+                                    [(ngModel)]="addInfractionForm.description" class="form-control" required
+                                    #inputDescription="ngModel"
+                                    [ngClass]="{'is-invalid':( inputDescription.invalid && infractionForm.submitted)}">
+                                <div class="text-danger" *ngIf="inputDescription.invalid && infractionForm.submitted">
+                                    <span *ngIf="inputDescription.errors?.['required']">
+                                        <!-- This field is required -->
+                                        {{'behaviour.manageBehaviour.textFieldRequired'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12">
+                                <label for="" class="form-label">
+                                    <!-- Points -->
+                                    {{'behaviour.manageBehaviour.textPoints'|translate}}
+                                </label>
+                                <input type="number" placeholder="{{'behaviour.manageBehaviour.textPoints'|translate}}" name="points"
+                                    [(ngModel)]="addInfractionForm.points" class="form-control" required
+                                    #inputPoints="ngModel"
+                                    [ngClass]="{'is-invalid':( inputPoints.invalid && infractionForm.submitted)}">
+                                <div class="text-danger" *ngIf="inputPoints.invalid && infractionForm.submitted">
+                                    <span *ngIf="inputPoints.errors?.['required']">
+                                        <!-- This field is required -->
+                                        {{'behaviour.manageBehaviour.textFieldRequired'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group text-end">
+                                <button type="button" (click)="addInfraction = false"
+                                    class="btn waves-effect waves-light btn-secondary btn-sm m-1">
+                                    <i class="fa fa-remove"></i>
+                                    <!-- Close -->
+                                    {{'behaviour.manageBehaviour.btnTextClose'|translate}}
+                                </button>
+                                <button type="submit" class="btn waves-effect waves-light btn-sm btn-info">
+                                    <i class="fa fa-plus"></i>
+                                    <!-- Add -->
+                                    {{'behaviour.manageBehaviour.btnTextAdd'|translate}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <p
+                        *ngIf="!(bInfractions != undefined && bInfractions != null && bInfractions.list !=undefined &&bInfractions.list.length > 0)">
+                        <!-- No infraction levels found -->
+                        {{'behaviour.manageBehaviour.textInfractionLevelsNotFound'|translate}}
+                    </p>
+
+                    <div class="table-responsive"
+                        *ngIf="bInfractions != undefined && bInfractions != null && bInfractions.list !=undefined &&bInfractions.list.length > 0">
+                        <table class="table table-sm table-bordered table-striped table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <!-- Level -->
+                                        {{'behaviour.manageBehaviour.textLevel'|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Title -->
+                                        {{'behaviour.manageBehaviour.textTitle'|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Points -->
+                                        {{'behaviour.manageBehaviour.textTitle'|translate}}
+                                    </th>
+                                    <th class="hidden-xs">
+                                        <!-- Updated On -->
+                                        {{'behaviour.manageBehaviour.textUpdatedOn'|translate}}
+                                    </th>
+                                    <th class="hidden-xs">
+                                        <!-- Updated By -->
+                                        {{'behaviour.manageBehaviour.textUpdatedBy'|translate}}
+                                    </th>
+                                    <th colspan="3" class="text-center">
+                                        <!-- Action -->
+                                        {{'behaviour.manageBehaviour.textAction'|translate}}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let a of bInfractions.list; let i = index">
+
+                                    <!-- inline view section -->
+
+                                    <td *ngIf="a.edit ==undefined || a.edit == false">{{a.level}}</td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false">{{a.description}}</td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false">{{a.points}}</td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false">{{a.updated_on}}</td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false">{{a.updated_by}}</td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false" class="text-center">
+                                        <button type="button" (click)="viewInfractionItem(a)"
+                                            class="btn waves-effect waves-light btn-sm btn-success m-1">
+                                            <span *ngIf="!infractionLoading"> <i class="fa fa-eye"></i></span>
+                                            <span *ngIf="infractionLoading"> <i
+                                                    class="fa fa-spin fa-spinner"></i></span>
+                                            <!-- View
+                                            Infractions -->
+                                            {{'behaviour.manageBehaviour.btnTextViewInfractions'|translate}}
+                                        </button>
+                                    </td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false" class="text-center">
+                                        <button type="button"
+                                            class="btn waves-effect waves-light btn-sm btn-secondary m-1"
+                                            (click)="initEditInfraction(a)">
+                                            <!-- Edit -->
+                                            {{'behaviour.manageBehaviour.btnTextEdit'|translate}}
+                                        </button>
+                                    </td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false" class="text-center">
+                                        <button class="btn waves-effect waves-light btn-danger btn-sm"
+                                            (click)="deleteInfraction(a,i)" type="button">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+
+                                    <!-- Inline Editing Section -->
+                                    <td *ngIf="a.edit !=undefined && a.edit == true">
+                                        <input type="number" id="levelEditId{{i}}" class="form-control"
+                                            style="max-width:100px" name="levelEdit{{i}}" [(ngModel)]="a.level_temp"
+                                            required #levelEdit="ngModel"
+                                            [ngClass]="{'is-invalid':(levelEdit.invalid && (levelEdit.touched || levelEdit.dirty))}">
+                                    </td>
+                                    <td *ngIf="a.edit !=undefined && a.edit == true">
+                                        <input type="text" id="descriptionEditId{{i}}" class="form-control"
+                                            name="descriptionEdit{{i}}" [(ngModel)]="a.description_temp" required
+                                            #descriptionEdit="ngModel"
+                                            [ngClass]="{'is-invalid':(descriptionEdit.invalid && (descriptionEdit.touched || descriptionEdit.dirty))}">
+                                    </td>
+                                    <td *ngIf="a.edit !=undefined && a.edit == true">
+                                        <input type="number" id="pointsEditId{{i}}" class="form-control"
+                                            style="max-width:100px" name="pointsEdit{{i}}" [(ngModel)]="a.points_temp"
+                                            required #pointsEdit="ngModel"
+                                            [ngClass]="{'is-invalid':(pointsEdit.invalid && (pointsEdit.touched || pointsEdit.dirty))}">
+                                    </td>
+                                    <td *ngIf="a.edit !=undefined && a.edit == true">{{a.updated_on}}</td>
+                                    <td *ngIf="a.edit !=undefined && a.edit == true">{{a.updated_by}}</td>
+                                    <td *ngIf="a.edit !=undefined && a.edit == true" class="text-center">
+                                        <button type="button" (click)="viewInfractionItem(a)"
+                                            class="btn waves-effect waves-light btn-sm btn-success m-1">
+                                            <span *ngIf="!infractionLoading"> <i class="fa fa-eye"></i></span>
+                                            <span *ngIf="infractionLoading"> <i
+                                                    class="fa fa-spin fa-spinner"></i></span>
+                                            <!-- View
+                                            Infractions -->
+                                            {{'behaviour.manageBehaviour.btnTextViewInfractions'|translate}}
+                                        </button>
+                                    </td>
+                                    <td *ngIf="a.edit !=undefined && a.edit == true" class="text-center">
+                                        <button type="button"
+                                            class="btn waves-effect waves-light btn-sm btn-secondary m-1"
+                                            (click)="a.edit = false">
+                                            <!-- Close -->
+                                            {{'behaviour.manageBehaviour.btnTextClose'|translate}}
+                                        </button>
+                                    </td>
+                                    <td *ngIf="a.edit !=undefined && a.edit == true" class="text-center">
+                                        <button class="btn waves-effect waves-light btn-success btn-sm" type="button"
+                                            (click)="updateInfraction(a)">
+                                            <!-- Save -->
+                                            {{'behaviour.manageBehaviour.textSave'|translate}}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--
+            -------------------------------------------
+            This section is for infraction item List
+            -------------------------------------------
+             -->
+            <div class="row" *ngIf="isInfractionItem">
+                <div class="col-sm-6">
+                    <p class="fw-600">Infraction Level - {{selectedInfraction.level}} {{selectedInfraction.description}}
+                    </p>
+                </div>
+                <div class="col-sm-6 text-end">
+                    <button class="btn btn-sm btn-secondary waves-effect waves-light mb-10"
+                        (click)="isInfractionItem = false">
+                        <i class="fa fa-arrow-left"></i>
+                        <!-- Back -->
+                        {{'behaviour.manageBehaviour.btnTextBack'|translate}}
+                    </button>
+                    <button *ngIf="isInfractionItem" (click)="isAddInfractionItem = true" style="margin-left: 5px;"
+                        class="btn waves-effect waves-light btn-sm btn-dark mb-10"> <i class="fa fa-plus"></i>
+                        <!-- Add Infraction -->
+                        {{'behaviour.manageBehaviour.btnTextAddInfraction'|translate}}
+                    </button>
+
+
+                </div>
+
+                <div class="col-sm-12">
+                    <!--add new infraction item section -->
+                    <div *ngIf="isAddInfractionItem">
+                        <form #infractionItemForm="ngForm" class="row" (ngSubmit)="addNewInfractionItem()">
+                            <div class="form-group col-sm-12 ">
+                                <label for="" class="form-label">
+                                    <!-- Infraction -->
+                                    {{'behaviour.manageBehaviour.textInfraction'|translate}}
+                                </label>
+                                <input type="text" name="infractionItemName" placeholder="{{'behaviour.manageBehaviour.textInfraction'|translate}}"
+                                    id="infractionItemId" [(ngModel)]="addInfractionItemForm.description"
+                                    #iItem="ngModel" required
+                                    [ngClass]="{'is-invalid':(iItem.invalid && infractionItemForm.submitted)}"
+                                    class="form-control">
+                                <div class="text-danger" *ngIf="iItem.invalid && infractionItemForm.submitted">
+                                    <span *ngIf="iItem.errors?.['required']">
+                                        <!-- Infraction is required -->
+                                        {{'behaviour.manageBehaviour.textInfractionRequired'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-12">
+                                <label for="" class="form-label">
+                                    <!-- Action -->
+                                    {{'behaviour.manageBehaviour.textAction'|translate}}
+                                </label>
+                                <textarea name="inractionAction" id="infractionActionId" rows="4" placeholder="{{'behaviour.manageBehaviour.textAction'|translate}}"
+                                    class="form-control" [(ngModel)]="addInfractionItemForm.action" #iAction="ngModel"
+                                    required
+                                    [ngClass]="{'is-invalid':(iAction.invalid && infractionItemForm.submitted)}"></textarea>
+                                <div class="text-danger" *ngIf="iAction.invalid && infractionItemForm.submitted">
+                                    <span *ngIf="iAction.errors?.['required']">
+                                        <!-- Infraction Action is required -->
+                                        {{'behaviour.manageBehaviour.textInfractionActionRequired'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group text-end">
+                                <button type="button" (click)="isAddInfractionItem = false"
+                                    class="btn waves-effect waves-light btn-secondary btn-sm m-1">
+                                    <i class="fa fa-remove"></i>
+                                    <!-- Close -->
+                                    {{'behaviour.manageBehaviour.btnTextClose'|translate}}
+                                </button>
+                                <button type="submit" class="btn waves-effect waves-light btn-sm btn-success">
+                                    <i class="fa fa-plus"></i>
+                                     <!-- Add -->
+                                     {{'behaviour.manageBehaviour.btnTextAdd'|translate}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- section disiplay all infraction items -->
+
+                    <p *ngIf="selectedInfraction.items?.list.length==0">
+                        <!-- No infractions found -->
+                        {{'behaviour.manageBehaviour.textNoInfractionsFound'|translate}}
+                    </p>
+                    <div class="table-responsive" *ngIf="selectedInfraction.items?.list.length>0">
+                        <table class="table table-sm table-bordered table-striped table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>
+                                        <!-- Description -->
+                                        {{'behaviour.manageBehaviour.textDescription'|translate}}
+                                    </th>
+                                    <th class="hidden-xs">
+                                        <!-- Updated On -->
+                                        {{'behaviour.manageBehaviour.textUpdatedOn'|translate}}
+                                    </th>
+                                    <th class="hidden-xs">
+                                        <!-- Updated By -->
+                                        {{'behaviour.manageBehaviour.textUpdatedBy'|translate}}
+                                    </th>
+                                    <th colspan="2" class="text-center">
+                                        <!-- Action -->
+                                        {{'behaviour.manageBehaviour.textAction'|translate}}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let a of selectedInfraction.items.list; let i = index">
+                                    <td>{{i+1}}</td>
+                                    <!-- display when not in edt mode -->
+                                    <td *ngIf="a.edit ==undefined || a.edit == false">{{a.description}}
+                                        <br>
+                                        <strong> <span class="badge badge-warning">
+                                            <!-- Action -->
+                                            {{'behaviour.manageBehaviour.textAction'|translate}}
+                                        </span> {{a.action}} </strong>
+                                    </td>
+
+                                    <!-- display in edit mode -->
+                                    <td *ngIf="a.edit != undefined && a.edit == true">
+                                        <input type="text" name="desctiptionItemEditName" id="descriptionItemEditId"
+                                            class="form-control" [(ngModel)]="a.description_temp" #desIName="ngModel"
+                                            placeholder="{{'behaviour.manageBehaviour.textInfraction'|translate}}" required
+                                            [ngClass]="{'is-invalid':(desIName.invalid && (desIName.dirty || desIName.touched))}" />
+                                        <br>
+
+                                        <textarea name="actionDes" id="actionDesId" rows="3" placeholder="{{'behaviour.manageBehaviour.textAction'|translate}}"
+                                            class="form-control" [(ngModel)]="a.action_temp" #actName="ngModel" required
+                                            [ngClass]="{'is-invalid':(actName.invalid && (actName.dirty || actName.touched) )}"
+                                           ></textarea>
+                                    </td>
+
+
+
+                                    <td>{{a.updated_on}}</td>
+                                    <td>{{a.updated_by}}</td>
+                                    <!-- display when not in edt mode -->
+                                    <td *ngIf="a.edit ==undefined || a.edit == false" class="text-center">
+                                        <button type="button"
+                                            class="btn waves-effect waves-light btn-sm btn-secondary m-1"
+                                            (click)="initEditInfractionItem(a)">
+                                            <i class="fa fa-edit"></i>
+                                             <!-- Edit -->
+                                             {{'behaviour.manageBehaviour.btnTextEdit'|translate}}
+                                            </button>
+                                    </td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false" class="text-center">
+                                        <button class="btn waves-effect waves-light btn-danger btn-sm"
+                                            (click)="deleteInfractionItem(a,i)" type="button">
+                                            <i class="fa fa-trash-o"></i>
+                                            <!-- Delete -->
+                                            {{'behaviour.manageBehaviour.btnTextDelete'|translate}}
+                                        </button>
+                                    </td>
+                                    <!-- display in edit mode -->
+                                    <td *ngIf="a.edit != undefined && a.edit == true" class="text-center">
+                                        <button type="button" (click)="a.edit = false"
+                                            class="btn waves-effect waves-light btn-sm btn-secondary m-1">
+                                            <!-- Cancel -->
+                                            {{'behaviour.manageBehaviour.btnTextCancel'|translate}}
+                                        </button>
+                                    </td>
+                                    <td *ngIf="a.edit != undefined && a.edit == true" class="text-center">
+                                        <button class="btn waves-effect waves-light btn-success btn-sm"
+                                            (click)="updateInfractionItem(a)" type="button">
+                                            <!-- Save -->
+                                            {{'behaviour.manageBehaviour.btnTextSave'|translate}}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--
+        ------------------------
+        Merit List Section
+        ------------------------
+        -->
+        <div class="box-body" *ngIf="isMerit">
+            <div class="row">
+                <div class="col-sm-6">
+                    <p class="fw-600">
+                        <!-- Merits -->
+                        {{'behaviour.manageBehaviour.textMerits'|translate}}
+                    </p>
+                </div>
+                <div class="col-sm-6 text-end">
+                    <button *ngIf="!addMerit" (click)="toggleAddMerit()"
+                        class="btn waves-effect waves-light btn-sm btn-dark mb-10"> <i class="fa fa-plus"></i>
+                        <!-- Add -->
+                        {{'behaviour.manageBehaviour.btnTextAdd'|translate}}
+                    </button>
+                </div>
+
+                <div class="col-sm-12">
+                    <div *ngIf="addMerit">
+                        <form #createMeritForm="ngForm" class="row" (ngSubmit)="addNewMerit()">
+                            <div class="col-sm-12 form-group">
+                                <label for="">
+                                    <!-- Description -->
+                                    {{'behaviour.manageBehaviour.textDescription'|translate}}
+                                </label>
+                                <input type="text" class="form-control" placeholder="{{'behaviour.manageBehaviour.textDescription'|translate}}"
+                                    name="meritDescriptionName" id="meritDescriptionId"
+                                    [(ngModel)]="addMeritForm.description" required #mDes="ngModel"
+                                    [ngClass]="{'is-invalid':(mDes.invalid && createMeritForm.submitted)}" />
+                                <div class="text-danger" *ngIf="mDes.invalid && createMeritForm.submitted">
+                                    <span *ngIf="mDes.errors?.['required']">
+                                        <!-- Description is required -->
+                                        {{'behaviour.manageBehaviour.textDescriptionRequired'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 form-group">
+                                <label for="">
+                                    <!-- Points -->
+                                    {{'behaviour.manageBehaviour.textPoints'|translate}}
+                                </label>
+                                <input type="number" class="form-control" placeholder="{{'behaviour.manageBehaviour.textPoints'|translate}}" name="meritPointsName"
+                                    id="meritPointsId" [(ngModel)]="addMeritForm.points" required #mPoints="ngModel"
+                                    [ngClass]="{'is-invalid':(mPoints.invalid && createMeritForm.submitted)}">
+                                <div class="text-danger" *ngIf="mPoints.invalid && createMeritForm.submitted">
+                                    <span *ngIf="mPoints.errors?.['required']">
+                                        <!-- Points is required -->
+                                        {{'behaviour.manageBehaviour.textPointsReqired'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 form-group">
+                                <label for="">
+                                    <!-- Frequency -->
+                                    {{'behaviour.manageBehaviour.textFrequency'|translate}}
+                                </label>
+                                <select name="mFreq" id="mFreq" class="form-select"
+                                    [(ngModel)]="addMeritForm.frequencyid" required #mFreq='ngModel'
+                                    [ngClass]="{'is-invalid':(mFreq.invalid && createMeritForm.submitted)}">
+                                    <option value="">
+                                        <!-- Select frequency -->
+                                        {{'behaviour.manageBehaviour.textSelectFrequency'|translate}}
+                                    </option>
+                                    <option *ngFor="let a of bFrequency.list" [value]="a.frequencyid">
+                                        {{a.frequencyname}}</option>
+                                </select>
+                                <div class="text-danger" *ngIf="mFreq.invalid && createMeritForm.submitted">
+                                    <span *ngIf="mFreq.errors?.['required']">
+                                        <!-- Frequency is required -->
+                                        {{'behaviour.manageBehaviour.textFrequencyRequired'|translate}}
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <label for="">
+                                    <!-- Award -->
+                                    {{'behaviour.manageBehaviour.textAward'|translate}}
+                                </label>
+                                <input type="text" class="form-control" placeholder="{{'behaviour.manageBehaviour.textAward'|translate}}" name="mAward" id="mAward"
+                                    [(ngModel)]="addMeritForm.award" required #mAwards="ngModel"
+                                    [ngClass]="{'is-invalid':(mAwards.invalid && createMeritForm.submitted)}">
+                                <div class="text-danger" *ngIf="mAwards.invalid && createMeritForm.submitted">
+                                    <span *ngIf="mAwards.errors?.['required']">
+                                        <!-- Award is required -->
+                                        {{'behaviour.manageBehaviour.textAwardRequired'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group text-end">
+                                <button (click)="toggleAddMerit()"
+                                    class="btn waves-effect waves-light btn-sm btn-secondary m-1" type="button">
+                                    <i class="fa fa-remove"></i>
+                                    <!-- Close -->
+                                    {{'behaviour.manageBehaviour.btnTextClose'|translate}}
+                                </button>
+
+                                <button type="submit" class="btn btn-sm btn-info">
+                                    <i class="fa fa-plus"></i>
+                                    <!-- Add -->
+                                    {{'behaviour.manageBehaviour.btnTextAdd'|translate}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <p
+                        *ngIf="!(bMerits != undefined && bMerits !=null && bMerits?.list != null && bMerits?.list.length>0)">
+                        <!-- No merits found -->
+                        {{'behaviour.manageBehaviour.textNoMeritsFound'|translate}}
+                    </p>
+                    <div class="table-responsive"
+                        *ngIf="bMerits != undefined && bMerits !=null && bMerits?.list != null && bMerits?.list.length>0">
+                        <table class="table table-sm table-bordered table-striped table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th [attr.colspan]="(meritEditing) ? 5:1">
+                                        <!-- Merit Details -->
+                                        {{'behaviour.manageBehaviour.textMeritDetails'|translate}}
+                                    </th>
+                                    <th *ngIf="!meritEditing" class="hidden-xs">
+                                        <!-- Points -->
+                                        {{'behaviour.manageBehaviour.textPoints'|translate}}
+                                    </th>
+                                    <th *ngIf="!meritEditing" class="hidden-xs">
+                                        <!-- Frequency -->
+                                        {{'behaviour.manageBehaviour.textFrequency'|translate}}
+                                    </th>
+                                    <th *ngIf="!meritEditing" class="hidden-xs">
+                                        <!-- Updated On -->
+                                        {{'behaviour.manageBehaviour.textUpdatedOn'|translate}}
+                                    </th>
+                                    <th *ngIf="!meritEditing" class="hidden-xs">
+                                        <!-- Updated By -->
+                                        {{'behaviour.manageBehaviour.textUpdatedBy'|translate}}
+                                    </th>
+                                    <th colspan="2" class="text-center">
+                                        <!-- Action -->
+                                        {{'behaviour.manageBehaviour.textAction'|translate}}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let a of bMerits?.list; let i = index">
+                                    <td>{{i+1}}
+                                        <!-- <pre>{{a|json}}</pre> -->
+                                    </td>
+                                    <!-- display inline -->
+                                    <td *ngIf="a.edit == undefined || a.edit == false"
+                                        [attr.colspan]="(meritEditing) ? 5:1">{{a.description}}
+                                        <br>
+                                        <strong> <span class="badge badge-info">Award</span> {{a.award}} </strong>
+                                    </td>
+                                    <td *ngIf="!meritEditing">{{a.points}}</td>
+                                    <td *ngIf="!meritEditing">
+                                        {{ getFrequency(a.frequencyid).frequencyname }}</td>
+                                    <td *ngIf="!meritEditing">{{a.updated_on}}</td>
+                                    <td *ngIf="!meritEditing">{{a.updated_by}}</td>
+                                    <td *ngIf="a.edit == undefined || a.edit == false" class="text-center">
+                                        <button type="button"
+                                            class="btn waves-effect waves-light btn-sm btn-secondary m-1"
+                                            (click)="initMeritEdit(a)">Edit</button>
+                                    </td>
+                                    <td *ngIf="a.edit == undefined || a.edit == false" class="text-center">
+                                        <button class="btn waves-effect waves-light btn-danger btn-sm"
+                                            (click)="deleteMerit(a,i)" type="button">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                    <!-- edit inline -->
+                                    <td *ngIf="a.edit != undefined && a.edit == true" colspan="5">
+
+
+                                        <div class="row">
+                                            <div class="col-sm-12 form-group">
+                                                <label for="" class="fw-600">
+                                                    <!-- Description -->
+                                                    {{'behaviour.manageBehaviour.textDescription'|translate}}
+                                                </label>
+                                                <input type="text" class="form-control" placeholder="{{'behaviour.manageBehaviour.textDescription'|translate}}"
+                                                    name="mDesEdit" id="mDesEdit" [(ngModel)]="a.description_temp"
+                                                    required #mDesEdit="ngModel"
+                                                    [ngClass]="{'is-invalid':(mDesEdit.invalid && (mDesEdit.touched || mDesEdit.dirty))}" />
+                                                <div class="text-danger"
+                                                    *ngIf="mDesEdit.invalid && (mDesEdit.touched || mDesEdit.dirty)">
+                                                    <span *ngIf="mDesEdit.errors?.['required']">
+                                                        <!-- Description is required -->
+                                                        {{'behaviour.manageBehaviour.textDescriptionRequired'|translate}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <label for="" class="fw-600">
+                                                    <!-- Points -->
+                                                    {{'behaviour.manageBehaviour.textPoints'|translate}}
+                                                </label>
+                                                <input type="number" class="form-control" placeholder="{{'behaviour.manageBehaviour.textPoints'|translate}}"
+                                                    name="mPointsEdit" id="mPointsEdit" [(ngModel)]="a.points_temp"
+                                                    required #mPointsEdit="ngModel"
+                                                    [ngClass]="{'is-invalid':(mPointsEdit.invalid && (mPointsEdit.touched || mPointsEdit.dirty))}">
+                                                <div class="text-danger"
+                                                    *ngIf="mPointsEdit.invalid && (mPointsEdit.touched || mPointsEdit.dirty)">
+                                                    <span *ngIf="mPointsEdit.errors?.['required']">
+                                                        <!-- Points is required -->
+                                                        {{'behaviour.manageBehaviour.textPointsRequired'|translate}}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6 form-group">
+                                                <label for="" class="fw-600">
+                                                    <!-- Frequency -->
+                                                    {{'behaviour.manageBehaviour.textFrequency'|translate}}
+                                                </label>
+                                                <select name="mFreqEdit" id="mFreqEdit" class="form-select"
+                                                    [(ngModel)]="a.frequencyid_temp" required #mFreqEdit='ngModel'
+                                                    [ngClass]="{'is-invalid':(mFreqEdit.invalid && (mFreqEdit.touched || mFreqEdit.dirty))}">
+                                                    <option value="">
+                                                        <!-- Select frequency -->
+                                                        {{'behaviour.manageBehaviour.textSelectFrequency'|translate}}
+                                                    </option>
+                                                    <option *ngFor="let a of bFrequency.list" [value]="a.frequencyid">
+                                                        {{a.frequencyname}}</option>
+                                                </select>
+                                                <div class="text-danger"
+                                                    *ngIf="mFreqEdit.invalid && (mFreqEdit.touched || mFreqEdit.dirty)">
+                                                    <span *ngIf="mFreqEdit.errors?.['required']">
+                                                        <!-- Frequency is required -->
+                                                        {{'behaviour.manageBehaviour.textFrequencyRequired'|translate}}
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-sm-12 form-group">
+                                                <label for="" class="fw-600">
+                                                    <!-- Award -->
+                                                    {{'behaviour.manageBehaviour.textAward'|translate}}
+                                                </label>
+                                                <input type="text" class="form-control" placeholder="{{'behaviour.manageBehaviour.textAward'|translate}}"
+                                                    name="mAwardsEdit" id="mAwardsEdit" [(ngModel)]="a.award_temp"
+                                                    required #mAwardsEdit="ngModel"
+                                                    [ngClass]="{'is-invalid':(mAwardsEdit.invalid && (mAwardsEdit.touched || mAwardsEdit.dirty) )}">
+                                                <div class="text-danger"
+                                                    *ngIf="mAwardsEdit.invalid && (mAwardsEdit.touched || mAwardsEdit.dirty)">
+                                                    <span *ngIf="mAwardsEdit.errors?.['required']">
+                                                        <!-- Award is required -->
+                                                        {{'behaviour.manageBehaviour.textAwardRequired'|translate}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td *ngIf="a.edit != undefined && a.edit == true" class="text-center">
+                                        <button type="button"
+                                            class="btn waves-effect waves-light btn-sm btn-secondary m-1"
+                                            (click)="a.edit = false;meritEditing = false">
+                                            <!-- Cancel -->
+                                            {{'behaviour.manageBehaviour.btnTextCancel'|translate}}
+                                        </button>
+                                    </td>
+                                    <td *ngIf="a.edit != undefined && a.edit == true" class="text-center">
+                                        <button class="btn waves-effect waves-light btn-success btn-sm" type="button"
+                                            (click)="updateMerit(a)">
+                                            <!-- Save -->
+                                            {{'behaviour.manageBehaviour.btnTextSave'|translate}}
+                                        </button>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--
+        ------------------------
+        Leardership List Section
+        ------------------------
+        -->
+        <div class="box-body" *ngIf="isLeadershipPosition">
+            <div class="row">
+                <div class="col-sm-6">
+                    <p class="fw-600">
+                        <!-- Leadership Positions -->
+                        {{'behaviour.manageBehaviour.textLeadershipPositions'|translate}}
+                    </p>
+                </div>
+                <div class="col-sm-6 text-end">
+                    <button *ngIf="!addLeadership" (click)="toggleAddLeadership()"
+                        class="btn waves-effect waves-light btn-sm btn-dark mb-10"> <i class="fa fa-plus"></i>
+                        <!-- Add -->
+                        {{'behaviour.manageBehaviour.btnTextAdd'|translate}}
+                    </button>
+                </div>
+
+                <div class="col-sm-12">
+                    <div *ngIf="addLeadership">
+                        <form #createLeadershipForm="ngForm" class="row" (ngSubmit)="addNewLeadership()">
+                            <div class="col-sm-12 form-group">
+                                <label for="">
+                                    <!-- Description -->
+                                    {{'behaviour.manageBehaviour.textDescription'|translate}}
+                                </label>
+                                <input type="text" class="form-control" placeholder="{{'behaviour.manageBehaviour.textDescription'|translate}}"
+                                    name="meritDescriptionName" id="meritDescriptionId"
+                                    [(ngModel)]="addLeadershipForm.description" required #lDes="ngModel"
+                                    [ngClass]="{'is-invalid':(lDes.invalid && createLeadershipForm.submitted)}" />
+                                <div class="text-danger" *ngIf="lDes.invalid && createLeadershipForm.submitted">
+                                    <span *ngIf="lDes.errors?.['required']">
+                                        <!-- Description is required -->
+                                        {{'behaviour.manageBehaviour.textDescriptionRequired'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 form-group">
+                                <label for="">
+                                    <!-- Points -->
+                                    {{'behaviour.manageBehaviour.textPoints'|translate}}
+                                </label>
+                                <input type="number" class="form-control" placeholder="{{'behaviour.manageBehaviour.textPoints'|translate}}" name="meritPointsName"
+                                    id="meritPointsId" [(ngModel)]="addLeadershipForm.points" required #lPoints="ngModel"
+                                    [ngClass]="{'is-invalid':(lPoints.invalid && createLeadershipForm.submitted)}">
+                                <div class="text-danger" *ngIf="lPoints.invalid && createLeadershipForm.submitted">
+                                    <span *ngIf="lPoints.errors?.['required']">
+                                        <!-- Points is required -->
+                                        {{'behaviour.manageBehaviour.textPointsReqired'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 form-group">
+                                <label for="">
+                                    <!-- Frequency -->
+                                    {{'behaviour.manageBehaviour.textFrequency'|translate}}
+                                </label>
+                                <select name="mFreq" id="mFreq" class="form-select"
+                                    [(ngModel)]="addLeadershipForm.frequencyid" required #lFreq='ngModel'
+                                    [ngClass]="{'is-invalid':(lFreq.invalid && createLeadershipForm.submitted)}">
+                                    <option value="">
+                                        <!-- Select frequency -->
+                                        {{'behaviour.manageBehaviour.textSelectFrequency'|translate}}
+                                    </option>
+                                    <option *ngFor="let a of bFrequency.list" [value]="a.frequencyid">
+                                        {{a.frequencyname}}</option>
+                                </select>
+                                <div class="text-danger" *ngIf="lFreq.invalid && createLeadershipForm.submitted">
+                                    <span *ngIf="lFreq.errors?.['required']">
+                                        <!-- Frequency is required -->
+                                        {{'behaviour.manageBehaviour.textFrequencyRequired'|translate}}
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <label for="">
+                                    <!-- Award -->
+                                    {{'behaviour.manageBehaviour.textAward'|translate}}
+                                </label>
+                                <input type="text" class="form-control" placeholder="{{'behaviour.manageBehaviour.textAward'|translate}}" name="lAward" id="lAward"
+                                    [(ngModel)]="addLeadershipForm.award" required #lAwards="ngModel"
+                                    [ngClass]="{'is-invalid':(lAwards.invalid && createLeadershipForm.submitted)}">
+                                <div class="text-danger" *ngIf="lAwards.invalid && createLeadershipForm.submitted">
+                                    <span *ngIf="lAwards.errors?.['required']">
+                                        <!-- Award is required -->
+                                        {{'behaviour.manageBehaviour.textAwardRequired'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group text-end">
+                                <button (click)="toggleAddLeadership()"
+                                    class="btn waves-effect waves-light btn-sm btn-secondary m-1" type="button">
+                                    <i class="fa fa-remove"></i>
+                                    <!-- Close -->
+                                    {{'behaviour.manageBehaviour.btnTextClose'|translate}}
+                                </button>
+
+                                <button type="submit" class="btn btn-sm btn-info">
+                                    <i class="fa fa-plus"></i>
+                                    <!-- Add -->
+                                    {{'behaviour.manageBehaviour.btnTextAdd'|translate}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <p
+                    *ngIf="!(bLeadership != undefined && bLeadership !=null && bLeadership?.list != null && bLeadership?.list.length>0)">
+                    <!-- No Leadership positions found -->
+                    {{'behaviour.manageBehaviour.textNoLeadershipPositionsFound'|translate}}
+                </p>
+                <div class="table-responsive"
+                    *ngIf="bLeadership != undefined && bLeadership !=null && bLeadership?.list != null && bLeadership?.list.length>0">
+
+                        <table class="table table-sm table-bordered table-striped table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th [attr.colspan]="(meritEditing) ? 5:1">
+                                        <!-- Position Details -->
+                                        {{'behaviour.manageBehaviour.textPositionDetails'|translate}}
+                                    </th>
+                                    <th *ngIf="!meritEditing" class="hidden-xs">
+                                        <!-- Points -->
+                                        {{'behaviour.manageBehaviour.textPoints'|translate}}
+                                    </th>
+                                    <th *ngIf="!meritEditing" class="hidden-xs">
+                                        <!-- Frequency -->
+                                        {{'behaviour.manageBehaviour.textFrequency'|translate}}
+                                    </th>
+                                    <th *ngIf="!meritEditing" class="hidden-xs">
+                                        <!-- Updated On -->
+                                        {{'behaviour.manageBehaviour.textUpdatedOn'|translate}}
+                                    </th>
+                                    <th *ngIf="!meritEditing" class="hidden-xs">
+                                        <!-- Updated By -->
+                                        {{'behaviour.manageBehaviour.textUpdatedBy'|translate}}
+                                    </th>
+                                    <th colspan="2" class="text-center">
+                                        <!-- Action -->
+                                        {{'behaviour.manageBehaviour.textAction'|translate}}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr *ngFor="let a of bLeadership?.list; let i = index">
+                                    <td>{{i+1}}
+                                        <!-- <pre>{{a|json}}</pre> -->
+                                    </td>
+                                    <!-- display inline -->
+                                    <td *ngIf="a.edit == undefined || a.edit == false"
+                                        [attr.colspan]="(meritEditing) ? 5:1">{{a.description}}
+                                        <br>
+                                        <strong> <span class="badge badge-info">Award</span> {{a.award}} </strong>
+                                    </td>
+                                    <td *ngIf="!meritEditing">{{a.points}}</td>
+                                    <td *ngIf="!meritEditing">
+                                        {{ getFrequency(a.frequencyid).frequencyname }}</td>
+                                    <td *ngIf="!meritEditing">{{a.updated_on}}</td>
+                                    <td *ngIf="!meritEditing">{{a.updated_by}}</td>
+                                    <td *ngIf="a.edit == undefined || a.edit == false" class="text-center">
+                                        <button type="button"
+                                            class="btn waves-effect waves-light btn-sm btn-secondary m-1"
+                                            (click)="initMeritEdit(a)">
+                                            <!-- Edit -->
+                                            {{'behaviour.manageBehaviour.btnTextEdit'|translate}}
+                                        </button>
+                                    </td>
+                                    <td *ngIf="a.edit == undefined || a.edit == false" class="text-center">
+                                        <button class="btn waves-effect waves-light btn-danger btn-sm"
+                                            (click)="deleteLeadership(a,i)" type="button">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                    <!-- edit inline -->
+                                    <td *ngIf="a.edit != undefined && a.edit == true" colspan="5">
+
+
+                                        <div class="row">
+                                            <div class="col-sm-12 form-group">
+                                                <label for="" class="fw-600">
+                                                    <!-- Description -->
+                                                    {{'behaviour.manageBehaviour.textDescription'|translate}}
+                                                </label>
+                                                <input type="text" class="form-control" placeholder="{{'behaviour.manageBehaviour.textDescription'|translate}}"
+                                                    name="mDesEdit" id="mDesEdit" [(ngModel)]="a.description_temp"
+                                                    required #mDesEdit="ngModel"
+                                                    [ngClass]="{'is-invalid':(mDesEdit.invalid && (mDesEdit.touched || mDesEdit.dirty))}" />
+                                                <div class="text-danger"
+                                                    *ngIf="mDesEdit.invalid && (mDesEdit.touched || mDesEdit.dirty)">
+                                                    <span *ngIf="mDesEdit.errors?.['required']">
+                                                        <!-- Description is
+                                                        required -->
+                                                        {{'behaviour.manageBehaviour.textDescriptionRequired'|translate}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <label for="" class="fw-600">
+                                                    <!-- Points -->
+                                                    {{'behaviour.manageBehaviour.textPoints'|translate}}
+                                                </label>
+                                                <input type="number" class="form-control" placeholder="{{'behaviour.manageBehaviour.textPoints'|translate}}"
+                                                    name="mPointsEdit" id="mPointsEdit" [(ngModel)]="a.points_temp"
+                                                    required #mPointsEdit="ngModel"
+                                                    [ngClass]="{'is-invalid':(mPointsEdit.invalid && (mPointsEdit.touched || mPointsEdit.dirty))}">
+                                                <div class="text-danger"
+                                                    *ngIf="mPointsEdit.invalid && (mPointsEdit.touched || mPointsEdit.dirty)">
+                                                    <span *ngIf="mPointsEdit.errors?.['required']">
+                                                        <!-- Points is
+                                                        required -->
+                                                        {{'behaviour.manageBehaviour.textPoints'|translate}}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6 form-group">
+                                                <label for="" class="fw-600">
+                                                    <!-- Frequency -->
+                                                    {{'behaviour.manageBehaviour.textFrequency'|translate}}
+                                                </label>
+                                                <select name="mFreqEdit" id="mFreqEdit" class="form-select"
+                                                    [(ngModel)]="a.frequencyid_temp" required #mFreqEdit='ngModel'
+                                                    [ngClass]="{'is-invalid':(mFreqEdit.invalid && (mFreqEdit.touched || mFreqEdit.dirty))}">
+                                                    <option value="">
+                                                        <!-- Select frequency -->
+                                                        {{'behaviour.manageBehaviour.textSelectFrequency'|translate}}
+                                                    </option>
+                                                    <option *ngFor="let a of bFrequency.list" [value]="a.frequencyid">
+                                                        {{a.frequencyname}}</option>
+                                                </select>
+                                                <div class="text-danger"
+                                                    *ngIf="mFreqEdit.invalid && (mFreqEdit.touched || mFreqEdit.dirty)">
+                                                    <span *ngIf="mFreqEdit.errors?.['required']">
+                                                        <!-- Frequency is
+                                                        required -->
+                                                        {{'behaviour.manageBehaviour.textFrequencyRequired'|translate}}
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-sm-12 form-group">
+                                                <label for="" class="fw-600">
+                                                    <!-- Award -->
+                                                    {{'behaviour.manageBehaviour.textAward'|translate}}
+                                                </label>
+                                                <input type="text" class="form-control" placeholder="{{'behaviour.manageBehaviour.textAward'|translate}}"
+                                                    name="mAwardsEdit" id="mAwardsEdit" [(ngModel)]="a.award_temp"
+                                                    required #mAwardsEdit="ngModel"
+                                                    [ngClass]="{'is-invalid':(mAwardsEdit.invalid && (mAwardsEdit.touched || mAwardsEdit.dirty) )}">
+                                                <div class="text-danger"
+                                                    *ngIf="mAwardsEdit.invalid && (mAwardsEdit.touched || mAwardsEdit.dirty)">
+                                                    <span *ngIf="mAwardsEdit.errors?.['required']">
+                                                        <!-- Award is
+                                                        required -->
+                                                        {{'behaviour.manageBehaviour.textAwardRequired'|translate}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td *ngIf="a.edit != undefined && a.edit == true" class="text-center">
+                                        <button type="button"
+                                            class="btn waves-effect waves-light btn-sm btn-secondary m-1"
+                                            (click)="a.edit = false;meritEditing = false">
+                                            <!-- Cancel -->
+                                            {{'behaviour.manageBehaviour.btnTextCancel'|translate}}
+                                        </button>
+                                    </td>
+                                    <td *ngIf="a.edit != undefined && a.edit == true" class="text-center">
+                                        <button class="btn waves-effect waves-light btn-success btn-sm" type="button"
+                                            (click)="updateMerit(a)">
+                                            <!-- Save -->
+                                            {{'behaviour.manageBehaviour.btnTextSave'|translate}}
+                                        </button>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--
+        ------------------------
+        CLaire List Section
+        ------------------------
+        -->
+        <div class="box-body" *ngIf="isClaire">
+            <!--
+            -------------------------------------------
+            This section is for infraction  List
+            -------------------------------------------
+             -->
+             <div class="row" *ngIf="!isClaireItem">
+                <div class="col-sm-6">
+                    <p class="fw-600">
+                        <!-- Claire Values -->
+                        {{'behaviour.manageBehaviour.textClaireValues'|translate}}
+                    </p>
+                </div>
+                <div class="col-sm-6 text-end">
+                    <button *ngIf="!addClaire" (click)="addClaire = true"
+                        class="btn waves-effect waves-light btn-sm btn-dark mb-10"> <i class="fa fa-plus"></i>
+                        <!-- Add -->
+                        {{'behaviour.manageBehaviour.btnTextAdd'|translate}}
+                    </button>
+                </div>
+
+                <div class="col-sm-12">
+                    <div *ngIf="addClaire">
+                        <form #createClaireForm="ngForm" class="row" (ngSubmit)="addNewClaire()">
+                            <div class="form-group col-sm-6">
+                                <label for="" class="form-label">
+                                    <!-- Title -->
+                                    {{'behaviour.manageBehaviour.textTitle'|translate}}
+                                </label>
+                                <input type="text" name="level" id="levelId" [(ngModel)]="addClaireForm.description"
+                                    placeholder="{{'behaviour.manageBehaviour.textTitle'|translate}}" class="form-control" required #cTitle="ngModel"
+                                    [ngClass]="{'is-invalid':(  cTitle.invalid && createClaireForm.submitted)}">
+                                <div class="text-danger" *ngIf="cTitle.invalid && createClaireForm.submitted">
+                                    <span *ngIf="cTitle.errors?.['required']">
+                                        <!-- This field is required -->
+                                        {{'behaviour.manageBehaviour.textFieldRequired'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="" class="form-label">
+                                    <!-- Points -->
+                                    {{'behaviour.manageBehaviour.textPoints'|translate}}
+                                </label>
+                                <input type="number" placeholder="{{'behaviour.manageBehaviour.textPoints'|translate}}" name="cpointsname" id="cpointsid"
+                                    [(ngModel)]="addClaireForm.points" class="form-control" required
+                                    #cPoints="ngModel"
+                                    [ngClass]="{'is-invalid':(  cPoints.invalid && createClaireForm.submitted)}">
+                                <div class="text-danger" *ngIf="cPoints.invalid && createClaireForm.submitted">
+                                    <span *ngIf="cPoints.errors?.['required']">
+                                        <!-- This field is required -->
+                                        {{'behaviour.manageBehaviour.textFieldRequired'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group text-end">
+                                <button type="button" (click)="addClaire = false"
+                                    class="btn waves-effect waves-light btn-secondary btn-sm m-1">
+                                    <i class="fa fa-remove"></i>
+                                     <!-- Close -->
+                                     {{'behaviour.manageBehaviour.btnTextClose'|translate}}
+                                </button>
+                                <button type="submit" class="btn waves-effect waves-light btn-sm btn-info">
+                                    <i class="fa fa-plus"></i>
+                                     <!-- Add -->
+                                     {{'behaviour.manageBehaviour.btnTextAdd'|translate}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <p
+                        *ngIf="!(bClaire != undefined && bClaire != null && bClaire.list !=undefined &&bClaire.list.length > 0)">
+                        <!-- No Claires found -->
+                        {{'behaviour.manageBehaviour.textNoClaireFound'|translate}}
+                    </p>
+
+                    <div class="table-responsive"
+                        *ngIf="bClaire != undefined && bClaire != null && bClaire.list !=undefined &&bClaire.list.length > 0">
+                        <table class="table table-sm table-bordered table-striped table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>
+                                        <!-- Title -->
+                                        {{'behaviour.manageBehaviour.textTitle'|translate}}
+                                    </th>
+                                    <th>
+                                        <!-- Points -->
+                                        {{'behaviour.manageBehaviour.textPoints'|translate}}
+                                    </th>
+                                    <th class="hidden-xs">
+                                        <!-- Updated On -->
+                                        {{'behaviour.manageBehaviour.textUpdatedOn'|translate}}
+                                    </th>
+                                    <th class="hidden-xs">
+                                        <!-- Updated By -->
+                                        {{'behaviour.manageBehaviour.textUpdatedBy'|translate}}
+                                    </th>
+                                    <th colspan="3" class="text-center">
+                                        <!-- Action -->
+                                        {{'behaviour.manageBehaviour.textAction'|translate}}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let a of bClaire.list; let i = index">
+
+                                    <!-- inline view section -->
+
+                                    <td>{{i+1}}</td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false">{{a.description}}</td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false">{{a.points}}</td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false">{{a.updated_on}}</td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false">{{a.updated_by}}</td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false" class="text-center">
+                                        <button type="button" (click)="viewClaireItem(a)"
+                                            class="btn waves-effect waves-light btn-sm btn-success m-1">
+                                            <span *ngIf="!claireLoading"> <i class="fa fa-eye"></i></span>
+                                            <span *ngIf="claireLoading"> <i
+                                                    class="fa fa-spin fa-spinner"></i></span>
+                                            <!-- View
+                                            Items -->
+                                            {{'behaviour.manageBehaviour.textViewItems'|translate}}
+                                        </button>
+                                    </td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false" class="text-center">
+                                        <button type="button"
+                                            class="btn waves-effect waves-light btn-sm btn-secondary m-1"
+                                            (click)="initEditClaire(a)">
+                                            <!-- Edit -->
+                                            {{'behaviour.manageBehaviour.btnTextEdit'|translate}}
+                                        </button>
+                                    </td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false" class="text-center">
+                                        <button class="btn waves-effect waves-light btn-danger btn-sm"
+                                            (click)="deleteClaire(a,i)" type="button">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+
+                                    <!-- Inline Editing Section -->
+
+                                    <td *ngIf="a.edit !=undefined && a.edit == true">
+                                        <input type="text" id="titleEditId{{i}}" class="form-control"
+                                            name="titleEdit{{i}}" [(ngModel)]="a.description_temp" required
+                                            #titleEdit="ngModel"
+                                            [ngClass]="{'is-invalid':(titleEdit.invalid && (titleEdit.touched || titleEdit.dirty))}">
+                                    </td>
+                                    <td *ngIf="a.edit !=undefined && a.edit == true">
+                                        <input type="number" id="pointsEditId{{i}}" class="form-control"
+                                            style="max-width:100px" name="pointsEdit{{i}}" [(ngModel)]="a.points_temp"
+                                            required #cPointsEdit="ngModel"
+                                            [ngClass]="{'is-invalid':(cPointsEdit.invalid && (cPointsEdit.touched || cPointsEdit.dirty))}">
+                                    </td>
+                                    <td *ngIf="a.edit !=undefined && a.edit == true">{{a.updated_on}}</td>
+                                    <td *ngIf="a.edit !=undefined && a.edit == true">{{a.updated_by}}</td>
+                                    <td *ngIf="a.edit !=undefined && a.edit == true" class="text-center">
+                                        <button type="button" (click)="viewClaireItem(a)"
+                                            class="btn waves-effect waves-light btn-sm btn-success m-1">
+                                            <span *ngIf="!claireLoading"> <i class="fa fa-eye"></i></span>
+                                            <span *ngIf="claireLoading"> <i
+                                                    class="fa fa-spin fa-spinner"></i></span>
+                                            <!-- View
+                                            Infractions -->
+                                            {{'behaviour.manageBehaviour.btnTextViewInfractions'|translate}}
+                                        </button>
+                                    </td>
+                                    <td *ngIf="a.edit !=undefined && a.edit == true" class="text-center">
+                                        <button type="button"
+                                            class="btn waves-effect waves-light btn-sm btn-secondary m-1"
+                                            (click)="a.edit = false">
+                                            <!-- Close -->
+                                            {{'behaviour.manageBehaviour.btnTextClose'|translate}}
+                                        </button>
+                                    </td>
+                                    <td *ngIf="a.edit !=undefined && a.edit == true" class="text-center">
+                                        <button class="btn waves-effect waves-light btn-success btn-sm" type="button"
+                                            (click)="updateClaire(a)">
+                                            <!-- Save -->
+                                            {{'behaviour.manageBehaviour.btnTextSave'|translate}}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--
+            -------------------------------------------
+            This section is for infraction item List
+            -------------------------------------------
+             -->
+            <div class="row" *ngIf="isClaireItem">
+                <div class="col-sm-6">
+                    <p class="fw-600">
+                        <!-- Claire -->
+                        {{'behaviour.manageBehaviour.textClaire'|translate}}
+                        - {{selectedClaire.description}}
+                    </p>
+                </div>
+                <div class="col-sm-6 text-end">
+                    <button class="btn btn-sm btn-secondary waves-effect waves-light mb-10"
+                        (click)="isClaireItem = false;isAddClaireItem = false;">
+                        <i class="fa fa-arrow-left"></i>
+                        <!-- Back -->
+                        {{'behaviour.manageBehaviour.btnTextBack'|translate}}
+                    </button>
+                    <button *ngIf="isClaireItem" (click)="isAddClaireItem = true" style="margin-left: 5px;"
+                        class="btn waves-effect waves-light btn-sm btn-dark mb-10"> <i class="fa fa-plus"></i>
+                        <!-- Add Claire -->
+                        {{'behaviour.manageBehaviour.btnTextAddClaire'|translate}}
+                    </button>
+
+
+                </div>
+
+                <div class="col-sm-12">
+                    <!--add new infraction item section -->
+                    <div *ngIf="isAddClaireItem">
+                        <form #claireItemForm="ngForm" class="row" (ngSubmit)="addNewClaireItem()">
+                            <div class="form-group col-sm-12 ">
+                                <label for="" class="form-label">
+                                    <!-- Description -->
+                                    {{'behaviour.manageBehaviour.textDescription'|translate}}
+                                </label>
+                                <input type="text" name="claireItemDescription" placeholder="{{'behaviour.manageBehaviour.textDescription'|translate}}"
+                                    id="claireItemDescriptionId" [(ngModel)]="newClaireItem.description"
+                                    #ciItem="ngModel" required
+                                    [ngClass]="{'is-invalid':(ciItem.invalid && claireItemForm.submitted)}"
+                                    class="form-control">
+                                <div class="text-danger" *ngIf="ciItem.invalid && claireItemForm.submitted">
+                                    <span *ngIf="ciItem.errors?.['required']">
+                                        <!-- Description is required -->
+                                        {{'behaviour.manageBehaviour.textDescriptionRequired'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group text-end">
+                                <button type="button" (click)="isAddClaireItem = false"
+                                    class="btn waves-effect waves-light btn-secondary btn-sm m-1">
+                                    <i class="fa fa-remove"></i> <!-- Close -->
+                                    {{'behaviour.manageBehaviour.btnTextClose'|translate}}
+                                </button>
+                                <button type="submit" class="btn waves-effect waves-light btn-sm btn-success">
+                                    <i class="fa fa-plus"></i> <!-- Add -->
+                                    {{'behaviour.manageBehaviour.btnTextAdd'|translate}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- section disiplay all infraction items -->
+
+                    <p *ngIf="selectedClaire.items?.list.length==0">
+                        <!-- No Claire Items found -->
+                        <!-- Close -->
+                        {{'behaviour.manageBehaviour.textNoClaireFound'|translate}}
+                    </p>
+                    <div class="table-responsive" *ngIf="selectedClaire.items?.list.length>0">
+                        <table class="table table-sm table-bordered table-striped table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>
+                                        <!-- Description -->
+                                        {{'behaviour.manageBehaviour.textDescription'|translate}}
+                                    </th>
+                                    <th class="hidden-xs">
+                                        <!-- Updated On -->
+                                        {{'behaviour.manageBehaviour.textUpdatedOn'|translate}}
+                                    </th>
+                                    <th class="hidden-xs">
+                                        <!-- Updated By -->
+                                        {{'behaviour.manageBehaviour.textUpdatedBy'|translate}}
+                                    </th>
+                                    <th colspan="2" class="text-center">
+                                        <!-- Action -->
+                                        {{'behaviour.manageBehaviour.textAction'|translate}}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let a of selectedClaire.items.list; let i = index">
+                                    <td>{{i+1}}</td>
+                                    <!-- display when not in edt mode -->
+                                    <td *ngIf="a.edit ==undefined || a.edit == false">{{a.description}}
+                                        <br>
+                                        <strong> <span class="badge badge-warning">
+                                            <!-- Action -->
+                                            {{'behaviour.manageBehaviour.textAction'|translate}}
+                                        </span> {{a.action}} </strong>
+                                    </td>
+
+                                    <!-- display in edit mode -->
+                                    <td *ngIf="a.edit != undefined && a.edit == true">
+                                        <input type="text" name="desctiptionItemEditName" id="descriptionItemEditId"
+                                            class="form-control" [(ngModel)]="a.description_temp" #cdesIName="ngModel"
+                                            placeholder="{{'behaviour.manageBehaviour.textInfraction'|translate}}" required
+                                            [ngClass]="{'is-invalid':(cdesIName.invalid && (cdesIName.dirty || cdesIName.touched))}" />
+
+
+                                    </td>
+
+
+
+                                    <td>{{a.updated_on}}</td>
+                                    <td>{{a.updated_by}}</td>
+                                    <!-- display when not in edt mode -->
+                                    <td *ngIf="a.edit ==undefined || a.edit == false" class="text-center">
+                                        <button type="button"
+                                            class="btn waves-effect waves-light btn-sm btn-secondary m-1"
+                                            (click)="initEditClaireItem(a)">
+                                            <i class="fa fa-edit"></i> <!-- Edit -->
+                                            {{'behaviour.manageBehaviour.btnTextEdit'|translate}}</button>
+                                    </td>
+                                    <td *ngIf="a.edit ==undefined || a.edit == false" class="text-center">
+                                        <button class="btn waves-effect waves-light btn-danger btn-sm"
+                                            (click)="deleteClaireItem(a,i)" type="button">
+                                            <i class="fa fa-trash-o"></i> <!-- Delete -->
+                                            {{'behaviour.manageBehaviour.btnTextDelete'|translate}}
+                                        </button>
+                                    </td>
+                                    <!-- display in edit mode -->
+                                    <td *ngIf="a.edit != undefined && a.edit == true" class="text-center">
+                                        <button type="button" (click)="a.edit = false"
+                                            class="btn waves-effect waves-light btn-sm btn-secondary m-1">
+                                            <!-- Cancel -->
+                                            {{'behaviour.manageBehaviour.btnTextCancel'|translate}}</button>
+                                    </td>
+                                    <td *ngIf="a.edit != undefined && a.edit == true" class="text-center">
+                                        <button class="btn waves-effect waves-light btn-success btn-sm"
+                                            (click)="updateClaireItem(a)" type="button">
+                                             <!-- Save -->
+                                             {{'behaviour.manageBehaviour.btnTextSave'|translate}}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</section>

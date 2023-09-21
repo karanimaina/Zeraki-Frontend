@@ -1,0 +1,50 @@
+/** Customize scrollbar with the css variables **/
+$zeraki-blue: #2ea5de;
+$zeraki-purple: purple;
+
+ng-scrollbar {
+    --scrollbar-size: 4px;
+}
+
+.sidebar-menu>li>a {
+    padding: 1.5px 0px;
+}
+
+.sidebar-menu li.header {
+    padding: 15px 25px 10px 25px;
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+.sidebar-menu {
+    padding: 10px 0px 50px 0px;
+}
+
+a {
+    cursor: pointer;
+}
+
+.sidebar-menu li>a>.pull-right-container {
+    margin-top: -5px;
+}
+
+.treeview-menu>li>a>i {
+    padding-right: 10px;
+}
+
+li.active {
+    color: $zeraki-purple !important;
+    border-left: 5px solid $zeraki-purple !important;
+}
+
+li.active.treeview>a {
+    color: $zeraki-purple !important;
+}
+
+li.active.treeview>a>i {
+    color: $zeraki-purple !important;
+}
+
+.sidebar-menu>li:hover a {
+    color: $zeraki-purple !important;
+}

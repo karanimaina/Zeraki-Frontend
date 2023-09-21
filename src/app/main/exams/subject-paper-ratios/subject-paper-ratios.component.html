@@ -1,0 +1,209 @@
+<!-- Main content -->
+<section class="content mt-config">
+	<div class="box">
+		<div class="box-header with-border">
+			<h4 class="box-title">
+				<!-- Subject Paper Ratios -->
+				{{ "exams.subjectPaperRatios.textSubjectPaperRatios" | translate }}
+			</h4>
+		</div>
+		<div class="box-body">
+			<div
+				*ngIf="
+					isLoadingSPRatios;
+					then loadingSPRatios;
+					else loadingSPRatiosComplete
+				"
+			></div>
+			<ng-template #loadingSPRatios>
+				<app-loader-div [height]="150"></app-loader-div>
+			</ng-template>
+			<!-- Load Complete Section -->
+			<ng-template #loadingSPRatiosComplete>
+				<form [formGroup]="subjectPaperRatiosFormGroup">
+					<div class="table-responsive text-left" style="margin: 0">
+						<table
+							class="table table-sm table-striped table-hover table-bordered"
+							style="margin: 0"
+						>
+							<thead>
+								<tr>
+									<th rowspan="2">
+										<!-- Subject -->
+										{{ "exams.subjectPaperRatios.textSubject" | translate }}
+									</th>
+									<th
+										[attr.colspan]="subjectPapers.length"
+										style="border-bottom: 1px solid #ddd"
+										rowspan="1"
+									>
+										<!-- Paper Out Of -->
+										{{ "exams.subjectPaperRatios.paperOutOf" | translate }}
+									</th>
+									<th
+										[attr.colspan]="subjectPapers.length"
+										style="border-bottom: 1px solid #ddd"
+										rowspan="1"
+									>
+										{{
+											"exams.subjectPaperRatios.textPaperContributionPercentage"
+												| translate
+										}}
+									</th>
+									<!-- <th rowspan="2" style="min-width: 135px" *ngIf="userRoles.canEditSubjectPaperPresets"></th> -->
+								</tr>
+								<tr>
+									<th *ngFor="let subjectPaper of subjectPapers">
+										{{
+											"exams.subjectPaperRatios.paperNumberOutOf"
+												| translate : { paperNumber: subjectPaper }
+										}}
+									</th>
+									<th
+										*ngFor="
+											let subjectPaper of subjectPapers;
+											let paperIndex = index
+										"
+									>
+										{{
+											"exams.subjectPaperRatios.paperNumberPercent"
+												| translate : { paperNumber: subjectPaper }
+										}}
+									</th>
+								</tr>
+							</thead>
+							<tbody class="m-t-md" formArrayName="subjectPaperRatios">
+								<ng-container
+									*ngFor="
+										let subjectPaperRatio of subjectPaperRatios;
+										let subjectPaperIndex = index
+									"
+								>
+									<tr [formGroupName]="subjectPaperIndex">
+										<td>{{ subjectPaperRatio.subjectName }}</td>
+
+										<ng-container
+											*ngIf="
+												!editSubjectPaperRatioRow[subjectPaperRatio.subjectId]
+											"
+										>
+											<!-- Paper Max Section -->
+											<td *ngFor="let subjectPaper of subjectPapers">
+												{{ subjectPaperRatio["paper" + subjectPaper + "Max"] }}
+											</td>
+
+											<!--Paper Ratio section-->
+											<td *ngFor="let subjectPaper of subjectPapers">
+												{{
+													subjectPaperRatio["paper" + subjectPaper + "Ratio"]
+												}}
+											</td>
+										</ng-container>
+
+										<ng-container
+											*ngIf="
+												editSubjectPaperRatioRow[subjectPaperRatio.subjectId]
+											"
+										>
+											<!-- Paper Max Section -->
+											<td *ngFor="let subjectPaper of subjectPapers">
+												<app-input
+													type="number"
+													formControlName="paper{{ subjectPaper }}Max"
+												>
+												</app-input>
+											</td>
+
+											<!--Paper Ratio section-->
+											<td *ngFor="let subjectPaper of subjectPapers">
+												<app-input
+													type="number"
+													formControlName="paper{{ subjectPaper }}Ratio"
+												>
+												</app-input>
+											</td>
+										</ng-container>
+
+										<td>
+											<button
+												*ngIf="
+													!editSubjectPaperRatioRow[subjectPaperRatio.subjectId]
+												"
+												(click)="
+													enableEditSubjectPaperPreset(
+														subjectPaperRatio.subjectId
+													)
+												"
+												class="btn btn-light btn-sm"
+											>
+												<!-- Edit -->
+												{{ "exams.subjectPaperRatios.btnTextEdit" | translate }}
+											</button>
+
+											<div
+												*ngIf="
+													editSubjectPaperRatioRow[subjectPaperRatio.subjectId]
+												"
+												class="btn-group"
+											>
+												<button
+													*ngIf="
+														!updatingSubjectPaperPresetRow[
+															subjectPaperRatio.subjectId
+														]
+													"
+													class="btn btn-sm btn-light"
+													(click)="
+														enableEditSubjectPaperPreset(
+															subjectPaperRatio.subjectId
+														)
+													"
+												>
+													<!-- Cancel -->
+													{{
+														"exams.subjectPaperRatios.btnTextCancel" | translate
+													}}
+												</button>
+												<button
+													class="btn btn-sm btn-info no-wrap"
+													[disabled]="
+														updatingSubjectPaperPresetRow[
+															subjectPaperRatio.subjectId
+														]
+													"
+													(click)="saveEditPaperPreset(subjectPaperIndex)"
+												>
+													<!-- Save -->
+													<span
+														*ngIf="
+															updatingSubjectPaperPresetRow[
+																subjectPaperRatio.subjectId
+															]
+														"
+														class="spinner-border spinner-border-sm"
+														role="status"
+														aria-hidden="true"
+													>
+													</span>
+													{{
+														updatingSubjectPaperPresetRow[
+															subjectPaperRatio.subjectId
+														]
+															? ("exams.subjectPaperRatios.btnTextSaving"
+															  | translate)
+															: ("exams.subjectPaperRatios.btnTextSave"
+															  | translate)
+													}}
+												</button>
+											</div>
+										</td>
+									</tr>
+								</ng-container>
+							</tbody>
+						</table>
+					</div>
+				</form>
+			</ng-template>
+		</div>
+	</div>
+</section>

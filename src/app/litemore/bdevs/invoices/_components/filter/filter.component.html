@@ -1,0 +1,309 @@
+<div class="box box-widget">
+	<div
+		class="box-header py-2 d-flex justify-content-between align-items-baseline">
+		<span class="box-title">
+			<!--Filters -->
+			{{ "litemore.bdevs.invoices.components.filter.filters" | translate }}
+		</span>
+		<ul class="box-controls pull-right position-static">
+			<li><a class="box-btn-slide" href="#"></a></li>
+		</ul>
+	</div>
+
+	<div class="box-body py-2">
+		<app-submit-form
+			[formGroup]="filterForm"
+			(onSubmit)="schoolProformaSearch()">
+			<section class="mb-2">
+				<div class="row">
+					<ul class="box-controls">
+						<li class="dropdown">
+							<button
+								type="button"
+								class="dropdown-toggle btn btn-md btn-success px-10"
+								data-bs-toggle="dropdown">
+								<!--Filter By: -->
+								{{
+									"litemore.bdevs.invoices.components.filter.filterBy"
+										| translate
+								}}
+							</button>
+							<div class="dropdown-menu dropdown-menu-start">
+								<div
+									*ngFor="let filter of filters; let i = index"
+									class="dropdown-item">
+									<input
+										type="checkbox"
+										class="filled-in chk-col-success"
+										[value]="filter.value"
+										(change)="onCheckboxChange($event)"
+										[checked]="
+											filterForm.value.checkArray.includes(filter.value)
+										"
+										id="md_{{ filter.value }}" />
+									<label for="md_{{ filter.value }}">{{ filter.name }}</label>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</section>
+
+			<section class="mb-0">
+				<div class="row">
+					<!-- regions -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="filterForm.value.checkArray.includes('region')">
+						<label class="form-label">
+							<!--Regions -->
+							{{
+								"litemore.bdevs.invoices.components.filter.regions" | translate
+							}}
+						</label>
+						<ng-select
+							[items]="regions"
+							placeholder="{{
+								'litemore.bdevs.invoices.components.filter.selectRegion'
+									| translate
+							}}"
+							formControlName="selectedRegion"
+							bindValue="regionId"
+							[compareWith]="compareRegions"
+							[loading]="isLoadingRegions"
+							(change)="onRegionChange($event)">
+							<ng-template ng-label-tmp let-item="item">
+								{{ item.name }} ({{ item.regionalManagerName }})
+							</ng-template>
+							<ng-template
+								ng-option-tmp
+								let-item="item"
+								let-index="index"
+								let-search="searchTerm">
+								<span>{{ item.name }} ({{ item.regionalManagerName }})</span>
+							</ng-template>
+						</ng-select>
+						<app-field-errors
+							[control]="selectedRegion!"
+							[label]="'Region'"></app-field-errors>
+					</div>
+					<!-- county -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="filterForm.value.checkArray.includes('counties')">
+						<label class="form-label">
+							<!-- County-->
+							{{
+								"litemore.bdevs.invoices.components.filter.county" | translate
+							}}
+						</label>
+						<ng-select
+							[items]="counties"
+							placeholder="{{
+								'litemore.bdevs.invoices.components.filter.selectCounty'
+									| translate
+							}}"
+							formControlName="selectedCounty"
+							bindValue="countyId"
+							bindLabel="name"
+							[loading]="
+								(getRegionCountiesStatus$ | async) === APIStatus.LOADING
+							">
+						</ng-select>
+						<app-field-errors
+							[control]="selectedCounty!"
+							[label]="'County'"></app-field-errors>
+					</div>
+					<!-- School Name -->
+					<div
+						*ngIf="filterForm.value.checkArray.includes('schoolName')"
+						class="form-group col-md-6 col-lg-4">
+						<label class="form-label">
+							<!-- School Name-->
+							{{
+								"litemore.bdevs.invoices.components.filter.schoolName"
+									| translate
+							}}
+						</label>
+						<input
+							type="text"
+							class="form-control"
+							placeholder="{{
+								'litemore.bdevs.invoices.components.filter.findSchoolByNameOrSchoolCode'
+									| translate
+							}}"
+							formControlName="selectedSchoolName"
+							name="startDate" />
+						<app-field-errors
+							[control]="selectedSchoolName!"
+							[label]="'School name'"></app-field-errors>
+					</div>
+					<!-- Proforma invoice due -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="
+							!filterForm.value.checkArray.includes('withProformaInvoices')
+						">
+						<label class="form-label">
+							<!--Proforma Invoice Due In x Days -->
+							{{
+								"litemore.bdevs.invoices.components.filter.proformaInvoiceDueInXDays"
+									| translate
+							}}
+						</label>
+						<ng-select
+							[items]="invoiceRange"
+							placeholder="{{
+								'litemore.bdevs.invoices.components.filter.selectProformaRange'
+									| translate
+							}}"
+							formControlName="selectedProformaDayRange"
+							bindValue="value"
+							bindLabel="name"
+							[clearable]="false">
+						</ng-select>
+						<app-field-errors
+							[control]="selectedProformaDayRange!"
+							[label]="'Proforma Invoice range'"></app-field-errors>
+					</div>
+					<!-- Invoice due -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="
+							!filterForm.value.checkArray.includes('withInvoices') &&
+							!filterForm.value.checkArray.includes('withProformaInvoices')
+						">
+						<label class="form-label">
+							<!-- Invoices Due In x Days-->
+							{{
+								"litemore.bdevs.invoices.components.filter.invoiceDueInXDays"
+									| translate
+							}}
+						</label>
+						<ng-select
+							[items]="invoiceRange"
+							placeholder="{{
+								'litemore.bdevs.invoices.components.filter.selectInvoiceRange'
+									| translate
+							}}"
+							formControlName="selectedInvoiceDayRange"
+							bindValue="value"
+							bindLabel="name"
+							[clearable]="false">
+						</ng-select>
+						<app-field-errors
+							[control]="selectedInvoiceDayRange!"
+							[label]="'Invoice range'"></app-field-errors>
+					</div>
+					<!-- Relationship Manager -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="filterForm.value.checkArray.includes('relationshipManager')">
+						<label class="form-label">
+							<!--Relationship Manager -->
+							{{
+								"litemore.bdevs.invoices.components.filter.relationshipManager"
+									| translate
+							}}
+						</label>
+						<ng-select
+							[items]="bdevs"
+							placeholder="{{
+								'litemore.bdevs.invoices.components.filter.selectRelationshipManager'
+									| translate
+							}}"
+							formControlName="selectedRelationshipManager"
+							bindValue="userId"
+							bindLabel="name"
+							[loading]="isLoadingBdevs">
+						</ng-select>
+						<app-field-errors
+							[control]="selectedRelationshipManager!"
+							[label]="'Relationship Manager'"></app-field-errors>
+					</div>
+					<!-- Product -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="filterForm.value.checkArray.includes('product')">
+						<label class="form-label">
+							<!--Product -->
+							{{
+								"litemore.bdevs.invoices.components.filter.product" | translate
+							}}
+						</label>
+						<ng-select
+							[items]="zerakiProducts"
+							placeholder="{{
+								'litemore.bdevs.invoices.components.filter.selectProduct'
+									| translate
+							}}"
+							formControlName="selectedProduct"
+							[loading]="
+								(getSchoolsTypesStatus$ | async) === APIStatus.LOADING
+							">
+						</ng-select>
+						<app-field-errors
+							[control]="selectedProduct!"
+							[label]="'Product'"></app-field-errors>
+					</div>
+
+					<!-- Start Date -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="
+							filterForm.value.checkArray.includes('product') &&
+							selectedProduct?.value == 'Finance'
+						">
+						<label class="form-label">{{
+							"litemore.invoices.collectionsStartDate" | translate
+						}}</label>
+						<input
+							type="date"
+							class="form-control"
+							formControlName="startDate"
+							[placeholder]="'common.startDate' | translate"
+							[ngClass]="{
+								'is-invalid': filterForm.isSubmitted && startDate?.invalid
+							}" />
+						<app-field-errors [control]="startDate!" [label]="'Start Date'">
+						</app-field-errors>
+					</div>
+
+					<!-- End Date -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="
+							filterForm.value.checkArray.includes('product') &&
+							selectedProduct?.value == 'Finance'
+						">
+						<label class="form-label">{{
+							"litemore.invoices.collectionsEndDate" | translate
+						}}</label>
+						<input
+							type="date"
+							class="form-control"
+							formControlName="endDate"
+							[placeholder]="'common.endDate' | translate"
+							[ngClass]="{
+								'is-invalid': filterForm.isSubmitted && endDate?.invalid
+							}" />
+						<app-field-errors [control]="endDate!" [label]="'End Date'">
+						</app-field-errors>
+					</div>
+				</div>
+
+				<!-- Search btn -->
+				<div class="form-group mb-0 text-end">
+					<div class="saveButton">
+						<button class="btn btn-success btn-sm" type="submit">
+							<!--Search -->
+							{{
+								"litemore.bdevs.invoices.components.filter.search" | translate
+							}}
+						</button>
+					</div>
+				</div>
+			</section>
+		</app-submit-form>
+	</div>
+</div>

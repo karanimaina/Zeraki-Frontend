@@ -1,0 +1,11 @@
+export enum LitemoreUserRole {
+	SUPER_ADMIN = "SUPER_ADMIN",
+	LITEMORE_ADMIN = "LITEMORE_ADMIN", // regional manager
+	BDEV_MANAGER = "BDEV_MANAGER",
+	BDEV = "BDEV", // relationship manager
+	CX_MANAGER = "CX_MANAGER",
+	CX = "CX",
+	FINANCE_MANAGER = "FINANCE_MANAGER",
+	FINANCE = "FINANCE",
+	TECH_SUPPORT = "TECH_SUPPORT",
+}

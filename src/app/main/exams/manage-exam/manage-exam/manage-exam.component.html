@@ -1,0 +1,116 @@
+<span *ngIf="isSelectedExam; then editExams; else manageExams"></span>
+<ng-template #editExams>
+	<app-edit-exam
+		(editing)="toggleSelected($event)"
+		[selectedExamForEdit]="selectedExamForEdit"
+		[forms]="forms"
+		[schoolData]="schoolTypeData"></app-edit-exam>
+</ng-template>
+
+<!-- Section Manage Exams -->
+<ng-template #manageExams>
+	<!-- Exams Top Nav -->
+	<app-exams-top-nav></app-exams-top-nav>
+
+	<!-- Main content -->
+	<section class="content mt-config">
+		<div>
+			<!--
+        ==============================================
+            Select academic Year section
+        ==============================================
+        -->
+			<!-- <app-spinning-loader style="width: 25px;height:25px;"></app-spinning-loader> -->
+			<ng-container
+				*ngIf="
+					isLoadingSearchExamDetails;
+					then isLoading;
+					else isLoadingComplete
+				"></ng-container>
+			<!-- Loading data -->
+			<ng-template #isLoading>
+				<div class="box">
+					<div class="box-body">
+						<app-loader-div [height]="37"></app-loader-div>
+					</div>
+				</div>
+			</ng-template>
+			<!-- Loading is complete -->
+			<ng-template #isLoadingComplete>
+				<ng-container *ngIf="!examList || noExams; else hasData">
+					<div class="box">
+						<div class="box-body">
+							<p>
+								<!-- No exams found for the current year -->
+								{{ "exams.myClasses.textNoExamsFound" | translate }}
+							</p>
+						</div>
+					</div>
+				</ng-container>
+				<ng-template #hasData>
+					<div class="box">
+						<div class="box-body">
+							<form [formGroup]="academicYearForm" class="form">
+								<div class="form-group mb-none">
+									<label class="form-label fw-600">
+										<!-- Academic Year  -->
+										{{ "exams.manageExams.textAcademicYear" | translate }}
+										<span
+											class="fa fa-spinner fa-spin"
+											*ngIf="isLoadingExamList"></span>
+									</label>
+									<ng-select
+										[notFoundText]="'common.noItemsFound' | translate"
+										[items]="academicYears"
+										bindLabel="name"
+										bindValue="ayid"
+										placeholder="Select academic year"
+										class="form-control-dropdown"
+										[dropdownPosition]="'bottom'"
+										[clearable]="false"
+										formControlName="selectedYear"
+										required>
+									</ng-select>
+								</div>
+							</form>
+						</div>
+					</div>
+				</ng-template>
+			</ng-template>
+
+			<!--
+        ==============================================
+            Select List Exam Content
+        ==============================================
+        -->
+			<div
+				*ngIf="
+					isLoadingSearchExamDetails;
+					then isLoadingExamDetails;
+					else isLoadingExamComplete
+				"></div>
+			<!-- is Loading Data -->
+			<ng-template #isLoadingExamDetails>
+				<div class="box">
+					<div class="box-body">
+						<!-- <app-loader-pulse></app-loader-pulse> -->
+						<app-loader-div [height]="35"></app-loader-div>
+						<p></p>
+						<app-loader-div [height]="150"></app-loader-div>
+					</div>
+				</div>
+			</ng-template>
+			<!-- Loading data complete -->
+			<ng-template #isLoadingExamComplete>
+				<app-exams-list
+					[schoolTypeData]="schoolTypeData"
+					[examList]="examList"
+					[isReleaseExamEnabled]="isReleaseExamEnabled"
+					(onSelectedExam)="onSelectExam($event)"
+					(onLoadExamList)="loadExamList()"
+					(onAcademicYearChange)="academicYearChange()">
+				</app-exams-list>
+			</ng-template>
+		</div>
+	</section>
+</ng-template>

@@ -1,0 +1,23 @@
+// .top-wrapper{
+//     margin-top: 80px;
+// }
+
+@media (max-width: 767.98px) {
+    .nav-link {
+        padding: 0.1rem 1rem;
+    }
+}
+
+.fixed-top{
+    z-index: 5;
+}
+
+// .t-nav {
+//     padding: 0rem 1rem;
+// }
+
+@media (min-width: 992px){
+    .nav-filled > .nav-link, .nav-filled .nav-item {
+        width: 180px;
+    }
+}

@@ -1,0 +1,28 @@
+<div [ngClass]="{'form-group': label}">
+	<label *ngIf="label" class="form-label">
+		{{ label }}
+		<span *ngIf="control?.hasValidator(requiredValidator)" class="text-danger">*</span>
+	</label>
+	<ng-select [formControl]="control!"
+	           [notFoundText]="'common.noItemsFound' | translate"
+	           [loading]="loading"
+	           [items]="items"
+	           [multiple]="multiple"
+	           [bindLabel]="bindLabel"
+	           [bindValue]="bindValue"
+	           [clearable]="clearable"
+	           [searchable]="searchable"
+	           [placeholder]="placeholder"
+	           [virtualScroll]="virtualScroll"
+	           [groupBy]="groupBy"
+	           [selectableGroup]="selectableGroup"
+	           [selectOnTab]="selectOnTab"
+	           [compareWith]="compareWith"
+			   [loadingText]="loadingText"
+	           [ngClass]="{ 'is-invalid': hasErrors }">
+	</ng-select>
+	<app-input-error-message
+	  [control]="control!"
+	  [labelText]="label">
+	</app-input-error-message>
+</div>

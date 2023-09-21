@@ -1,0 +1,133 @@
+<!-- Classes Top Nav -->
+<app-classes-top-nav></app-classes-top-nav>
+
+<div class="mt-config content">
+  <div class="row">
+    <div class="col-md-10 mx-auto">
+      <div class="h3 pb-3 fw-bolder">
+        <span>{{subjectName}} {{ 'classes.commonAttr.topics' | translate }} <span class="hidden-xs-down">- {{ levelName }} {{ selectedLevel }}</span></span>
+        <button class="btn btn-sm btn-secondary pull-right hidden-xs-down" (click)="navigateBack()">
+          <i class="fa fa-arrow-left"></i>
+          {{ 'classes.commonAttr.back' | translate }}
+        </button>
+      </div>
+      <div class="box">
+        <div class="box-body">
+          <div class="mb-4 d-flex flex-row justify-content-between align-items-center">
+            <div class="form-group">
+              <label for="filter-by" class="mb-2 hidden-sm-down">{{ 'classes.manageSubject.filterByClassLevel' | translate }}</label>
+              <ng-select [(ngModel)]="selectedLevel"
+                         id="filter-by"
+                         class="w-121 w-md-150"
+                         [placeholder]="'classes.manageSubject.selectClassLevel' | translate"
+                         (ngModelChange)="onLevelChange($event)">
+                <ng-option *ngFor="let level of classLevels" [value]="level">
+                  {{ levelName }} {{ level }}
+                </ng-option>
+              </ng-select>
+            </div>
+
+            <button type="button" class="btn btn-primary pull-right btn-sm open-modal mb-3 mb-sm-0" data-bs-toggle="modal" data-bs-target="#modal-center">
+              <i class="fa fa-plus"></i>
+              {{ 'classes.manageSubject.addNew' | translate }}
+            </button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>{{ 'classes.commonAttr.subject' | translate }}</th>
+                <th class="text-center text-sm-start">{{ 'classes.commonAttr.competencies' | translate }}</th>
+                <th class="text-center text-sm-start">{{ 'classes.commonAttr.action' | translate }}</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngIf="loading" class="text-center">
+                <td colspan="5" class="p-4">
+                  <app-loader-pulse></app-loader-pulse>
+                </td>
+              </tr>
+              <tr *ngIf="!loading && !topics.length">
+                <td colspan="5" class="text-center p-4 text-warning">
+                  {{ 'classes.manageSubject.noTopics' | translate }}
+                </td>
+              </tr>
+              <ng-container *ngIf="!loading">
+                <tr *ngFor="let topic of topics; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{topic.topicName}}</td>
+                  <td class="text-center text-sm-start">{{topic.numberOfCompetencies}}</td>
+                  <td>
+                    <div class="d-flex flex-row">
+                      <button class="btn btn-primary btn-sm no-wrap" (click)="viewCompetencies(topic.topicId, topic.topicName)">
+                        <i class="fa fa-eye"></i>
+                        {{ 'classes.commonAttr.competencies' | translate }}
+                      </button>
+                      <button class="btn btn-info-light btn-sm ms-2" (click)="editTopic(topic)">
+                        <i class="fa fa-pencil"></i>
+                      </button>
+                      <button class="btn btn-danger-light btn-sm ms-2" (click)="confirmDelete(topic.topicId)">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal center-modal fade" id="modal-center" tabindex="-1">
+  <div class="modal-dialog">
+    <form [formGroup]="newTopicForm" (ngSubmit)="addNewTopic()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ 'classes.manageSubject.newTopic' | translate }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+          <button type="button" hidden class="btn-close modal-dismiss" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-2">
+            <label for="classLevel" class="mb-2">{{ 'classes.manageSubject.selectLevelLabel' | translate : {levelName: levelName} }}</label>
+            <ng-select id="classLevel"
+                       formControlName="classLevel"
+                       [ngClass]="{'is-invalid': submitted && f['classLevel'].errors}"
+                       [placeholder]="'classes.manageSubject.selectLevelLabel' | translate : {levelName: levelName} ">
+              <ng-option *ngFor="let level of classLevels" [value]="level">
+                {{levelName}} {{ level }}
+              </ng-option>
+            </ng-select>
+            <div *ngIf="submitted && f['classLevel'].errors" class="invalid-feedback">
+              <div *ngIf="f['classLevel'].errors['required']">{{ 'classes.manageSubject.classLevelError' | translate }}</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="competency" class="mb-2">{{ 'classes.manageSubject.topicName' | translate }}</label>
+            <input type="text"
+                   formControlName="topicName"
+                   class="form-control"
+                   id="competency"
+                   [ngClass]="{'is-invalid': submitted && f['topicName'].errors}"
+                   [placeholder]="'classes.manageSubject.topicName' | translate">
+            <div *ngIf="submitted && f['topicName'].errors" class="invalid-feedback">
+              <div *ngIf="f['topicName'].errors['required']">{{ 'classes.manageSubject.topicNameError' | translate }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer modal-footer-uniform">
+          <button type="button" class="btn btn-danger btn-sm" (click)="closeModal()">{{ 'classes.commonAttr.close' | translate }}</button>
+          <button type="submit" class="btn btn-primary float-end btn-sm pull-right">{{ 'classes.commonAttr.saveChanges' | translate }}</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
+<!-- /.modal -->

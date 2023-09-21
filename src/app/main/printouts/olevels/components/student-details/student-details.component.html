@@ -1,0 +1,14 @@
+<div [ngClass]="{'d-flex justify-content-between' : !showAttendanceReport}">
+	<div class="h5 fw-bolder d-flex flex-column">
+		<span class="py-1">{{ 'printouts.studentReport.name' | translate }}: {{ studentName }}</span>
+		<span class="py-1">{{ 'printouts.studentReport.admNo' | translate }}: {{ studentAdmNo }}</span>
+		<ng-container *ngIf="showAttendanceReport">
+			<span class="py-1 text-uppercase">{{ formOrYear }} {{ streamName }}</span>
+			<span class="py-1">{{ 'printouts.studentReport.term' | translate }} {{term}} {{year}}</span>
+		</ng-container>
+	</div>
+	<div *ngIf="!showAttendanceReport" class="h5 fw-bolder d-flex flex-column">
+		<span class="py-1 text-uppercase">{{ formOrYear }} {{streamName}}</span>
+		<span class="py-1">{{ 'printouts.studentReport.term' | translate }} {{term}} {{year}}</span>
+	</div>
+</div>

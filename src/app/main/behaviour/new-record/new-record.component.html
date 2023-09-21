@@ -1,0 +1,307 @@
+<section class="content mt-config">
+    <div class="row">
+        <div class="col-sm-12" style="min-height: 400px;">
+            <!--
+            ============================
+            THIS SECTION A. SELECT YEAR
+            ============================
+            -->
+            <div class="box">
+                <div class="box-body">
+                    <!-- <pre>{{streams|json}}</pre> -->
+                    <form>
+                        <div class="form-group mb-0">
+                            <label for="" class="form-label fw-600">
+                                <!-- First, select the form the student(s) belong to -->
+                                {{"behaviour.newRecord.textSelectStudentsForm"|translate}}
+                            </label>
+                            <select name="intakes" [(ngModel)]="selectedIntake" id="intakesId" (change)="intakeChange()"
+                                class="form-select">
+                                <option value="">
+                                    <!-- Select form -->
+                                {{"behaviour.newRecord.textSelectForm"|translate}}
+                                </option>
+                                <option *ngFor="let i of streams?.intakes" [value]="i.intakeid">{{i.label}}</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--
+            ============================
+            THIS SECTION B. SELECT STUDENTS
+            ============================
+            -->
+            <div class="box" *ngIf="selectedIntake !==''">
+                <div class="box-body">
+                    <!-- <pre>{{selectedStudents|json}}</pre> -->
+                    <form>
+                        <div class="form-group mb-0">
+                            <label for="" class="form-label fw-600">
+                                <!-- Secondly, select the student(s) -->
+                                {{"behaviour.newRecord.textSelectStudents"|translate}}
+                            </label>
+                            <ng-select [notFoundText]="'common.noItemsFound' | translate" name="students" [(ngModel)]="selectedStudents" [multiple]="true">
+                                <ng-option *ngFor="let student of students.students" [value]="student.userid">
+                                    {{student.admno}} - {{student.name}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--
+            ============================
+            THIS SECTION C. BEHAVIOUR SPECIFY
+            ============================
+            -->
+            <div class="box" *ngIf="selectedStudents.length>0">
+                <div class="box-body">
+                    <!-- <pre>{{type|json}}</pre> -->
+                    <form #addForm="ngForm" (ngSubmit)="saveNewRecord()">
+                        <div class="form-group ">
+                            <label class="fw-600 mb-5">
+                                <!-- Lastly, specify the student(s) behaviour -->
+                                {{"behaviour.newRecord.textSpecifyStudents"|translate}}
+                            </label>
+                            <br>
+                            <div class="radio-group">
+                                <input name="type" [(ngModel)]="type" value="1" [checked]="isInfraction" (click)="infractionClick()" type="radio"
+                                    id="infraction" class="with-gap radio-col-info">
+                                <label for="infraction">
+                                    <!-- Infraction -->
+                                    {{"behaviour.newRecord.textInfraction"|translate}}
+                                </label>
+
+                                <input name="type" [(ngModel)]="type" value="2" type="radio" (click)="recentRecordClick()"
+                                    [checked]="isRecentRecord" id="merit" class="with-gap radio-col-info">
+                                <label for="merit">
+                                    <!-- Recent Records -->
+                                    {{"behaviour.newRecord.textRecentRecords"|translate}}
+                                </label>
+
+                                <input name="type" [(ngModel)]="type" value="3" type="radio" (click)="leadershipClick()"
+                                    [checked]="isLeadershipPosition" id="leadershipPosition"
+                                    class="with-gap radio-col-info">
+                                <label for="leadershipPosition">
+                                    <!-- Leadership Position -->
+                                    {{"behaviour.newRecord.textLeadershipPositions"|translate}}
+                                </label>
+
+                                <input name="type" [(ngModel)]="type" value="4" (click)="claireClick()" [checked]="isClaire" type="radio"
+                                    id="cliare" class="with-gap radio-col-info">
+                                <label for="cliare" class="text-capitalize">
+                                    <!-- CLIARE -->
+                                    {{"behaviour.newRecord.textClaire"|translate}}
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- infraction selected -->
+                        <div class="row" *ngIf="isInfraction">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">
+                                        <!-- Infraction level -->
+                                        {{"behaviour.newRecord.textInfractionLevel"|translate}}
+                                    </label>
+                                    <select name="infractionLevelName" id="infractionLevelId" [required]="isInfraction"
+                                        [(ngModel)]='behaviourForm.infractionLevel' #infractionLevel="ngModel"
+                                        [ngClass]="{
+                                            'is-invalid':(isInfraction && infractionLevel.invalid && addForm.submitted)
+                                        }" (change)="selectInfraction()" class="form-select">
+                                        <option value="">
+                                            <!-- Infraction level -->
+                                            {{"behaviour.newRecord.textInfractionLevel"|translate}}
+                                        </option>
+                                        <option *ngFor="let a of infractions.list;let i = index" [value]="i">
+                                            {{a.description}}</option>
+                                    </select>
+                                    <div *ngIf="isInfraction && infractionLevel.invalid && addForm.submitted"
+                                        class="text-danger">
+                                        <div *ngIf="infractionLevel.errors?.['required']">
+                                            <!-- Select infraction level -->
+                                            {{"behaviour.newRecord.textClaire"|translate}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">
+                                        <!-- Infraction -->
+                                        {{"behaviour.newRecord.textInfraction"|translate}}
+                                    </label>
+                                    <select name="infractionName" id="infractionNameId" [required]="isInfraction"
+                                        [(ngModel)]="behaviourForm.infraction" #infraction="ngModel" class="form-select"
+                                        [ngClass]="{'is-invalid':(isInfraction && infraction.invalid && addForm.submitted)}">
+                                        <option value="">
+                                            <!-- Infraction -->
+                                            {{"behaviour.newRecord.textInfraction"|translate}}
+                                        </option>
+                                        <option *ngFor="let a of selectedInfraction?.infraction_items"
+                                            [value]="a.itemid">{{a.description}}</option>
+                                    </select>
+                                    <div *ngIf="isInfraction && infraction.invalid && addForm.submitted"
+                                        class="text-danger">
+                                        <div *ngIf="infraction.errors?.['required']">
+                                            <!-- Select infraction -->
+                                            {{"behaviour.newRecord.textSelectInfraction"|translate}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- merit selected -->
+                        <div class="row" *ngIf="isRecentRecord">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="" class="form-label">
+                                        <!-- Merit -->
+                                        {{"behaviour.newRecord.textMerit"|translate}}
+                                    </label>
+                                    <select name="meritName" id="meritId" [(ngModel)]="behaviourForm.merit"
+                                        #merit="ngModel" [required]="isRecentRecord" class="form-select"
+                                        [ngClass]="{'is-invalid':(isRecentRecord && merit.invalid && addForm.submitted)}">
+                                        <option value="">
+                                            <!-- Select Positive Behaviour -->
+                                            {{"behaviour.newRecord.textSelectPositiveBehaviour"|translate}}
+                                        </option>
+                                        <option *ngFor="let a of merits.list" [value]="a.meritid">{{a.description}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="isRecentRecord && merit.invalid && addForm.submitted"
+                                        class="text-danger">
+                                        <div *ngIf="merit.errors?.['required']">
+                                            <!-- Select Positive Behaviour -->
+                                            {{"behaviour.newRecord.textSelectPositiveBehaviour"|translate}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- leadership selected -->
+                        <div class="row" *ngIf="isLeadershipPosition">
+                            <!-- <pre>{{leadershipPosition|json}}</pre> -->
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="" class="form-label">
+                                        <!-- Leadership Position -->
+                                        {{"behaviour.newRecord.leadershipPosition"|translate}}
+                                    </label>
+                                    <select name="lPositionName" id="lPositionId"
+                                        [(ngModel)]="behaviourForm.leadershipPosition" #lposition="ngModel"
+                                        class="form-select" [required]="isLeadershipPosition"
+                                        [ngClass]="{'is-invalid':(isLeadershipPosition && lposition.invalid && addForm.submitted)}"
+                                        >
+                                        <option value="">
+                                            <!-- Select Leadership Position -->
+                                            {{"behaviour.newRecord.textSelectLeadershiPosition"|translate}}
+                                        </option>
+                                        <option *ngFor="let a of leadershipPosition.list" [value]="a.meritid">
+                                            {{a.description}}</option>
+                                    </select>
+                                    <div *ngIf="isLeadershipPosition && addForm.submitted && lposition.invalid"
+                                        class="text-danger">
+                                        <div *ngIf="lposition.errors?.['required']">
+                                            <!-- Select Leadership position -->
+                                            {{"behaviour.newRecord.textSelectLeadershiPosition"|translate}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- claire selected -->
+                        <div class="row" *ngIf="isClaire">
+                            <!-- <pre>{{selectedClaire|json}}</pre> -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">
+                                        <!-- Claire Value -->
+                                        {{"behaviour.newRecord.textClaireValue"|translate}}
+                                    </label>
+                                    <select name="claireValueName" id="claireValueId"
+                                        [(ngModel)]="behaviourForm.claireValue" #claireValue="ngModel"
+                                        (change)="selectClaire()" class="form-select" [required]="isClaire"
+                                        [ngClass]="{'is-invalid':(isClaire && claireValue.invalid && addForm.submitted)}"
+                                        >
+                                        <option value="">
+                                            <!-- Select CLAIRE Value -->
+                                            {{"behaviour.newRecord.textSelectClaireValue"|translate}}
+                                        </option>
+                                        <option *ngFor="let a of claires.list; let i = index" [value]="i">
+                                            {{a.description}}</option>
+                                    </select>
+                                    <div *ngIf="isClaire && addForm.submitted && claireValue.invalid"
+                                        class="text-danger">
+                                        <div *ngIf="claireValue.errors?.['required']">
+                                            <!-- Select Claire Value -->
+                                            {{"behaviour.newRecord.textSelectClaireValue"|translate}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">
+                                        <!-- Item -->
+                                        {{"behaviour.newRecord.textItem"|translate}}
+                                    </label>
+                                    <select name="claireItemName" id="claireItemId"
+                                        [(ngModel)]="behaviourForm.claireItem" #claireItem="ngModel"
+                                        [ngClass]="{'is-invalid':(isClaire && claireItem.invalid && addForm.submitted)}"
+                                        class="form-select">
+                                        <option value="">
+                                            <!-- Select Item -->
+                                            {{"behaviour.newRecord.textSelectItem"|translate}}
+                                        </option>
+                                        <option *ngFor="let a of selectedClaire?.claire_items" [value]="a.itemid">
+                                            {{a.description}}</option>
+                                    </select>
+                                    <div *ngIf="isClaire && addForm.submitted && claireItem.invalid"
+                                        class="text-danger">
+                                        <div *ngIf="claireItem.errors?.['required']">
+                                            <!-- Select Claire Item -->
+                                            {{"behaviour.newRecord.textSelectClaireItem"|translate}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- comment section -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="" class="form-label">
+                                        <!-- Comment -->
+                                        {{"behaviour.newRecord.textComment"|translate}}
+                                    </label>
+                                    <textarea name="commentName" id="commentId" [(ngModel)]="behaviourForm.comment"
+                                        placeholder='{{"behaviour.newRecord.textComment"|translate}}' rows="5"
+                                        class="form-control"
+
+                                        ></textarea>
+
+                                </div>
+
+
+                                <div class="form-group text-end mb-0">
+                                    <button class="btn btn-info btn-sm waves-effect waves-light">
+                                        <!-- Save Record -->
+                                        {{"behaviour.newRecord.btnTextSaveRecord"|translate}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>

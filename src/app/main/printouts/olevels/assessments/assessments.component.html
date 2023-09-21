@@ -1,0 +1,370 @@
+<div class="mt-config content">
+  <div class="row">
+    <div class="col-12">
+      <div class="box box-widget" [ngClass]="{'box-slided-up': assessmentReport}">
+        <div class="box-header with-border p-header">
+          <div class="user-block">
+            <h4 class="box-title">
+              {{ 'printouts.oLevelRForm.options.assessments.title' | translate }}
+            </h4>
+          </div>
+          <ul class="box-controls pull-right">
+            <li><a class="box-btn-slide text-dark fs-16" href="#"></a></li>
+          </ul>
+        </div>
+        <div class="box-body">
+          <form [formGroup]="assessmentForm" class="form" (ngSubmit)="onAssessmentFormSubmit()">
+            <div class="row">
+              <!-- assessment type -->
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label class="form-label">{{ 'evaluation.create.assessmentTypeLabel' | translate }}</label>
+                  <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="assessmentTypes" [selectOnTab]="true" appendTo="body"
+                             [dropdownPosition]="'bottom'" required
+                             formControlName="assessmentType"
+                             [clearable]="false"
+                             bindLabel="name"
+                             bindValue="value"
+                             placeholder="{{ 'evaluation.create.assessmentTypeLabel' | translate }}"
+                             [ngClass]="{'is-invalid': f['assessmentType'].errors && (f['assessmentType'].dirty || f['assessmentType'].touched)}"
+                             (change)="onAssessmentTypeChanged($event)">
+                  </ng-select>
+                  <div *ngIf="f['assessmentType'].errors && (f['assessmentType'].dirty || f['assessmentType'].touched)" class="invalid-feedback">
+                    <div *ngIf="f['assessmentType'].errors['required']">
+                      {{ 'evaluation.create.selectAssessmentTypeError' | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- year -->
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label class="form-label">{{ 'printouts.evaluationReport.evalForm.year.label' | translate }}</label>
+                  <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="academicYears" [selectOnTab]="true" appendTo="body"
+                             [dropdownPosition]="'bottom'" required
+                             formControlName="year"
+                             [clearable]="false"
+                             [loading]="isRetrievingAcademicYears"
+                             [loadingText]="'common.loading' | translate"
+                             bindLabel="name"
+                             bindValue="ayid"
+                             placeholder="{{ 'printouts.evaluationReport.evalForm.year.placeholder' | translate }}"
+                             [ngClass]="{'is-invalid': f['year'].errors && (f['year'].dirty || f['year'].touched)}"
+                             (change)="onAcademicYearOrTermChanged()">
+                  </ng-select>
+                  <div *ngIf="f['year'].errors && (f['year'].dirty || f['year'].touched)" class="invalid-feedback">
+                    <div *ngIf="f['year'].errors['required']">{{ 'printouts.evaluationReport.evalForm.year.yearError' | translate }}</div>
+                  </div>
+                </div>
+              </div>
+              <!-- term -->
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label class="form-label">{{ 'printouts.evaluationReport.evalForm.term.label' | translate }}</label>
+                  <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="[1, 2, 3]" [selectOnTab]="true" appendTo="body"
+                             [dropdownPosition]="'bottom'" required
+                             formControlName="term"
+                             [clearable]="false"
+                             placeholder="{{ 'printouts.evaluationReport.evalForm.term.placeholder' | translate }}"
+                             [ngClass]="{'is-invalid': f['term'].errors && (f['term'].dirty || f['term'].touched)}"
+                             (change)="onAcademicYearOrTermChanged()">
+                  </ng-select>
+                  <div *ngIf="f['term'].errors && (f['term'].dirty || f['term'].touched)" class="invalid-feedback">
+                    <div *ngIf="f['term'].errors['required']">{{ 'printouts.evaluationReport.evalForm.term.termError' | translate }}</div>
+                  </div>
+                </div>
+              </div>
+              <!-- intake -->
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label class="form-label">{{schoolTypeData?.formoryear | formOrYear}}</label>
+                  <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="currentIntakeList" [selectOnTab]="true"
+                             appendTo="body" [dropdownPosition]="'bottom'"
+                             required
+                             formControlName="intakeId"
+                             [clearable]="false"
+                             bindLabel="classlevel"
+                             bindValue="intakeid"
+                             placeholder="{{ 'printouts.evaluationReport.evalForm.level.placeholder' | translate:{level: schoolTypeData?.formoryear | formOrYear} }}"
+                             [ngClass]="{'is-invalid': f['intakeId'].errors && (f['intakeId'].dirty || f['intakeId'].touched)}"
+                             (change)="onIntakeChanged($event)">
+                  </ng-select>
+                  <div *ngIf="f['intakeId'].errors && (f['intakeId'].dirty || f['intakeId'].touched)" class="invalid-feedback">
+                    <div *ngIf="f['intakeId'].errors['required']">{{ schoolTypeData?.formoryear | formOrYear }} {{ 'printouts.evaluationReport.evalForm.level.levelError' | translate }}</div>
+                  </div>
+                </div>
+              </div>
+              <!-- stream and exam -->
+              <ng-container *ngIf="showExamAdditionalFields">
+                <form [formGroup]="assessmentForm2">
+                  <div class="row">
+                    <!-- stream -->
+                    <div class="col-12 col-sm-6">
+                      <div class="form-group">
+                        <label class="form-label">{{ 'printouts.evaluationReport.evalForm.stream.label' | translate }}</label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="intakeStreams" [selectOnTab]="true" appendTo="body"
+                                   [dropdownPosition]="'bottom'"
+                                   formControlName="stream"
+                                   bindLabel="name"
+                                   bindValue="streamid"
+                                   placeholder="{{ 'printouts.evaluationReport.evalForm.stream.placeholder' | translate }}"
+                                   [ngClass]="{'is-invalid': f2['stream'].invalid && (f2['stream'].dirty || f2['stream'].touched)}"
+                                   (change)="onIntakeStreamChanged($event)"
+                                   (clear)="onIntakeStreamCleared()">
+                        </ng-select>
+                        <div *ngIf="f2['stream'].errors && (f2['stream'].dirty || f2['stream'].touched)" class="invalid-feedback">
+                          <div *ngIf="f2['stream'].errors['required']">{{ 'printouts.evaluationReport.evalForm.stream.streamError' | translate }}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- exam -->
+                    <div class="col-12 col-sm-6">
+                      <div class="form-group">
+                        <label class="form-label">{{ 'printouts.evaluationReport.evalForm.exam.label' | translate }}</label>
+                        <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="examSeries" [selectOnTab]="true" appendTo="body"
+                                   [dropdownPosition]="'bottom'" required
+                                   [loading]="isLoadingStreamExamSeries"
+                                   [loadingText]="'common.loading' | translate"
+                                   formControlName="exam"
+                                   bindLabel="seriesName"
+                                   bindValue="seriesId"
+                                   placeholder="{{ 'printouts.evaluationReport.evalForm.exam.placeholder' | translate }}"
+                                   [ngClass]="{'is-invalid': f2['exam'].errors && (f2['exam'].dirty || f2['exam'].touched)}">
+                        </ng-select>
+                        <div *ngIf="f2['exam'].errors && (f2['exam'].dirty || f2['exam'].touched)" class="invalid-feedback">
+                          <div *ngIf="f2['exam'].errors['required']">{{ 'printouts.evaluationReport.evalForm.exam.examError' | translate }}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </ng-container>
+            </div>
+            <button type="submit"
+                    [hidden]="loading || isRetrievingExamReport"
+                    class="btn btn-sm btn-info pull-right">
+              {{ (selectedAssessmentType == AssessmentType.EVALUATION
+              ? 'printouts.evaluationReport.evalForm.getEvaluationBtn'
+              : 'printouts.evaluationReport.evalForm.getProjectBtn') | translate }}
+            </button>
+            <button type="button"
+                    hidden
+                    class="assessments-btn">
+            </button>
+            <div *ngIf="loading || isRetrievingExamReport" class="pull-right">
+              {{ 'printouts.evaluationReport.evalForm.generating' | translate }}
+              <img src="../../../../../assets/img/loading-bars.svg" alt="Loading-bars">
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- evaluations and projects -->
+  <div *ngIf="assessmentReport && selectedAssessmentType !== AssessmentType.EXAM" class="row animated bounceInUp">
+    <div class="col-12">
+      <div class="box">
+        <div class="h4 fw-bold box-header text-uppercase">
+          {{ selectedAssessmentTypeTranslated }}
+           - {{ schoolTypeData?.formoryear | formOrYear }} {{ assessmentReport?.classLevel }} ({{ 'common.term' | translate }} {{ assessmentReport?.term }} {{ assessmentReport?.year }})
+        </div>
+        <div class="box-body">
+          <ng-container *ngIf="assessmentReport.subjects.length === 0; else subjectsPresent">
+            <div>
+              <span>No subjects found</span>
+            </div>
+          </ng-container>
+
+          <ng-template #subjectsPresent>
+            <div class="table-responsive">
+              <table class="table table-hover animate-appear">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th style="width: 30%">{{ 'classes.commonAttr.subject' | translate }}</th>
+                  <th class="text-center text-sm-start">{{ selectedAssessmentTypeTranslated }}</th>
+                  <th class="text-center">{{ 'classes.commonAttr.action' | translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let subject of assessmentReport.subjects; let i = index">
+                  <tr class="main" [ngClass]="{'row-active' : activeSubject === subject.subjectId}" (click)="showAssessments(subject.subjectId)">
+                    <td>{{ i + 1 }}</td>
+                    <td>
+                      {{ subject.subjectName }}
+                    </td>
+                    <td class="text-center text-sm-start">
+                      <ng-container [ngSwitch]="selectedAssessmentType">
+                        <ng-container *ngSwitchCase="AssessmentType.EVALUATION">{{ subject.totalEvaluations }}</ng-container>
+                        <ng-container *ngSwitchCase="AssessmentType.PROJECT">{{ subject.totalProjects }}</ng-container>
+                        <ng-container *ngSwitchDefault>
+                          {{ 'N/A' }}
+                        </ng-container>
+                      </ng-container>
+                    </td>
+                    <td class="text-center">
+                      <i class="fa fa-angle-down show-icon" [ngClass]="{'active-icon' : activeSubject === subject.subjectId}"></i>
+                    </td>
+                  </tr>
+                  <ng-container>
+                    <tr [ngClass]="{'active' : activeSubject === subject.subjectId}">
+                      <td colspan="4" class="d-streams" [ngClass]="{'d-streams-active': activeSubject == subject.subjectId}">
+                        <div class="border-left border-success border-fade subject-classes {{ activeSubject===subject.subjectId ? 'show':''}}">
+                          <table class="table table-hover">
+                            <thead>
+                            <tr>
+                              <th style="width: 6.3%"></th>
+                              <th class="text-secondary" style="width: 31%">{{ 'common.streams' | translate }}</th>
+                              <th class="text-secondary text-center text-sm-start">{{ 'printouts.assessments.perStream' | translate }}</th>
+                              <th class="text-secondary text-center text-sm-start">{{ 'printouts.studentReport.teacher' | translate }}</th>
+                              <th class="text-secondary text-center text-sm-start" style="width: 13%">{{ 'classes.commonAttr.action' | translate }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="main" *ngFor="let stream of subject.streams; let streamIndex = index">
+                              <td></td>
+                              <td>
+                                {{ stream.streamName }}
+                              </td>
+                              <td class="text-center text-sm-start">
+                                <ng-container [ngSwitch]="selectedAssessmentType">
+                                  <ng-container *ngSwitchCase="AssessmentType.EVALUATION">
+                                    {{ stream.evaluations }}
+                                  </ng-container>
+                                  <ng-container *ngSwitchCase="AssessmentType.PROJECT">
+                                    {{ stream.projects }}
+                                  </ng-container>
+                                  <ng-container *ngSwitchDefault>
+                                    {{ 'N/A' }}
+                                  </ng-container>
+                                </ng-container>
+                              </td>
+                              <td class="text-center text-sm-start">{{ stream.teacherName }}</td>
+                              <td>
+
+                                <button class="btn btn-sm"
+                                        *ngIf="selectedAssessmentType == AssessmentType.EVALUATION"
+                                        [ngClass]=" stream.evaluations < 1 ? 'btn-secondary disabled' : 'btn-success'"
+                                        (click)="viewClassAssessment(stream.classId, stream.projectId, stream.subjectTeacher, stream.streamId)">
+                                  {{ 'common.view' | translate }}
+                                </button>
+
+                                <button class="btn btn-sm"
+                                        *ngIf="selectedAssessmentType == AssessmentType.PROJECT"
+                                        [ngClass]=" stream.projects < 1 ? 'btn-secondary disabled' : 'btn-success'"
+                                        (click)="viewClassAssessment(stream.classId, stream.projectId, stream.subjectTeacher, stream.streamId)">
+                                  {{ 'printouts.assessments.latestProject' | translate }}
+                                </button>
+                              </td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- exam report -->
+  <ng-container *ngIf="selectedAssessmentType === AssessmentType.EXAM">
+    <ng-container *ngIf="!isRetrievingExamReport">
+      <!-- DOWNLOAD BTN -->
+      <div class="d-flex justify-content-end">
+        <div class="btn-group">
+          <button class="btn btn-sm btn-dark rounded-3" type="button" data-bs-toggle="dropdown" [disabled]="studentResultsAbsent || isDownloadingReport">
+            <i *ngIf="!isDownloadingReport">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                <path
+                  d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+              </svg>
+            </i>
+            <span *ngIf="isDownloadingReport" class="btn btn-dark btn-sm p-0" [class.disabled]="isDownloadingReport">
+              <i class="fa fa-spin fa-spinner"></i>
+            </span>
+            {{ isDownloadingReport ? ('printouts.commonAttr.download.action' | translate) : ('printouts.commonAttr.download.title' | translate) }}
+          </button>
+          <!-- btn dropdown items -->
+          <div class="dropdown-menu bg-active">
+            <!-- spreadsheet -->
+            <a class="dropdown-item" (click)="downloadExamReportAsExcel()">
+              <i class="me-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-table"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z" />
+                </svg>
+              </i>
+              {{ 'printouts.meritList.asSpreadSheet' | translate }}
+            </a>
+            <!-- pdf -->
+            <a class="dropdown-item my-0" (click)="exportExamReportToPDF('download')">
+              <i class="fa fa-file-pdf-o me-1" style="font-size: 1.25rem;"></i>
+              {{ 'printouts.meritList.asPdf' | translate }}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row animates bounceInUp mt-3">
+        <div class="col-12">
+          <div class="box">
+            <div class="box-body">
+              <div class="row">
+                <!-- header text -->
+                <h6 class="col-12 text-uppercase">
+                  {{ examReportTableHeader }}
+                </h6>
+
+                <div class="table-responsive">
+                  <ng-container *ngIf="studentResultsAbsent; else studentResultsAvailable">
+                    {{ 'printouts.assessments.reportNotFound' | translate }}
+                  </ng-container>
+
+                  <ng-template #studentResultsAvailable>
+                    <table class="table  table-sm table-bordered table-condensed mb-0">
+                      <thead>
+                        <tr class="text-uppercase">
+                          <th scope="col">#</th>
+                          <ng-container *ngFor="let columnLabel of examReport?.columnLabels">
+                            <th scope="col" style="min-width: 10px;">
+                              {{ columnLabel }}
+                            </th>
+                          </ng-container>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let studentResult of examReport?.studentsResults; index as i">
+                          <th scope="row">{{ i + 1 }}</th>
+                          <ng-container *ngFor="let columnLabel of examReport?.columnLabels">
+                            <td>
+                              <span class="td-fit-nowrap">
+                                {{ studentResult[columnLabel] }}
+                              </span>
+                            </td>
+                          </ng-container>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
+

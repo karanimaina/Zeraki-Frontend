@@ -1,0 +1,35 @@
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="box bg-primary-light">
+                <div class="box-body d-flex px-0">
+                    <div class="flex-grow-1 p-30 bg-img dask-bg bg-none-md"
+                        style="background-repeat:no-repeat; background-position: right bottom; background-size: auto 100%; background-image: url(../../../assets/img/custom-1.svg)">
+                        <div class="row">
+                            <div class="col-12 col-xl-7">
+                                <h2>{{ 'learning.welcomeBack' | translate }}, <strong>{{userInfo.name}}!</strong></h2>
+
+                                <p class="text-dark my-10 font-size-16">
+                                    {{ 'learning.loginText' | translate }}
+                                    <a [href]="'learning.learningLink' | translate" target="_blank" rel="noopener noreferrer">
+                                      {{ 'learning.zerakiLearning' | translate }}
+                                    </a>
+                                </p>
+                                <p class="text-dark my-10 font-size-16">
+                                    {{ 'learning.using' | translate }}
+                                    <strong class="text-warning">{{ 'learning.username' | translate }}</strong>
+                                    {{ 'learning.and' | translate }}
+                                    <strong class="text-warning">{{ 'learning.password' | translate }}</strong>!
+                                </p>
+                            </div>
+                            <div class="col-12 col-xl-5"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

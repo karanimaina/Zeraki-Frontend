@@ -1,0 +1,29 @@
+.avatar-lg {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 1.286rem;
+}
+.desktop-view{
+ display: initial;
+}
+
+.mobile-view{
+    display: none;
+}
+
+@media  (max-width:768px) {
+    .desktop-view{
+        display: none;
+       }
+       
+       .mobile-view{
+           display: initial;
+       }
+       .avatar-lg {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 0.643rem;
+    }
+}

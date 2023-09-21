@@ -1,0 +1,26 @@
+.fixed-top{
+  z-index: 5;
+}
+
+@media (max-width: 767.98px) {
+  .nav-link {
+      padding: 0.1rem 1rem;
+  }
+}
+
+@media (min-width: 1085px) {
+  .nav-filled > .nav-link, .nav-filled .nav-item {
+      width: 170px;
+  }
+}
+
+
+@media (max-width: 1084.97px) {
+  .nav-filled > .nav-link, .nav-filled .nav-item {
+      width: auto;
+  }
+}
+
+.nav-link {
+  padding: 0.5rem 0.3rem;
+}

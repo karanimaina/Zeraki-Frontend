@@ -1,0 +1,17 @@
+@media (max-width: 767px) {
+    .content-wrapper {
+      padding-top: 75px; 
+      padding-bottom: 50px;
+    }
+}
+
+@media (min-width: 768px) {
+  .students-router{
+    margin-top: 50px;
+  }
+}
+
+.btn .badge {
+  position: relative;
+  top: -65px;
+}

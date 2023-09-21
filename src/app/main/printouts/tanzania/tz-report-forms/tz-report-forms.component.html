@@ -1,0 +1,1206 @@
+<!--  For KCSE and other schools-->
+<ng-container *ngIf="schoolTypeData && !schoolTypeData.isOLevelSchool && !(user_roles$ | async)?.isSchoolAdmin">
+  <!-- PRINTOUTS TOP NAV FOR NON-ADMINS -->
+  <div class="navbar-light top-wrapper fixed-top bg-primary">
+    <ul class="nav nav-pill customtab2 nav-filled text-center">
+      <li class="nav-item">
+        <a class="nav-link active">
+          <span class="me-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+              <path
+                d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z" />
+            </svg>
+          </span>
+          <span>{{ 'printouts.topNav.report' | translate }} {{ 'printouts.topNav.forms' | translate }} </span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</ng-container>
+
+<section class="content mt-config">
+  <div class="row">
+    <div class="col-12">
+      <!-- selections (intake, stream, exam) -->
+      <div class="box box-widget" [ngClass]="{'box-slided-up': paramsPresent == true}"
+        *ngIf="!(user_roles$ | async)?.isStudent">
+        <div class="box-header with-border">
+          <h4 class="box-title">{{ 'printouts.reportForms.reportForms' | translate}}
+          </h4>
+          <ul class="box-controls pull-right">
+            <li><a class="box-btn-slide text-dark fs-16" href="#"></a></li>
+          </ul>
+        </div>
+
+        <div class="box-body">
+          <form #rfForm="ngForm" class="form" (ngSubmit)="rfForm.form.valid && getStudentReportForms()">
+            <div class="row">
+              <!-- intake -->
+              <div class="col-md-6 form-group">
+                <label class="form-label">{{schoolTypeData?.formoryear?.includes('Form') ?
+                  ('common.form' | translate) :
+                  schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) :
+                  schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) :
+                  ('common.class' |
+                  translate)}}</label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate"
+                  [items]="schoolTypeData?.current_forms_list" [selectOnTab]="true" appendTo="body"
+                  [dropdownPosition]="'bottom'" required name="rform" [(ngModel)]="selected.intake"
+                  (ngModelChange)="invalidateStreams();fetchIntakeStreamExams(selected.intake, null)"
+                  bindLabel="classlevel" [disabled]="fetching_examsList_inprogress || fetching_examsData_inprogress"
+                  [placeholder]="'printouts.reportForms.rForm.level.placeholder' | translate: { level:(schoolTypeData?.formoryear | formOrYear) }">
+                </ng-select>
+              </div>
+              <!-- stream -->
+              <div class="col-md-6 form-group">
+                <label class="form-label">{{ 'printouts.reportForms.rForm.stream.label' | translate
+                  }}</label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="selected.intake?.streams"
+                  [selectOnTab]="true" appendTo="body" [dropdownPosition]="'bottom'" required name="stream"
+                  [(ngModel)]="selected.stream"
+                  (ngModelChange)="fetchIntakeStreamExams(selected.intake, selected.stream)" bindLabel="name"
+                  [disabled]="fetching_examsList_inprogress || fetching_examsData_inprogress"
+                  [placeholder]="'printouts.reportForms.rForm.stream.placeholder' | translate">
+                </ng-select>
+              </div>
+              <!-- exam -->
+              <div *ngIf="!fetching_examsList_inprogress && exams.length > 0" class="col-md-12 form-group">
+                <label class="form-label">{{ 'printouts.reportForms.rForm.exam.label' | translate
+                  }}</label>
+                <ng-select [notFoundText]="'common.noItemsFound' | translate" [items]="exams" appendTo="body"
+                  [dropdownPosition]="'bottom'" bindLabel="name" [disabled]="fetching_examsData_inprogress"
+                  name="selectedAccount" groupBy="term" [(ngModel)]="selected.exam">
+                  <ng-template ng-optgroup-tmp let-item="item">
+                    {{item.term || 'Unnamed group'}}
+                  </ng-template>
+                </ng-select>
+              </div>
+
+              <!-- no exams found -->
+              <div *ngIf="!(exams.length > 0) && no_exams_msg.length > 0" class="col-12 form-group bg-warning">
+                <h5 class="my-5">{{no_exams_msg}}</h5>
+              </div>
+
+              <!-- action btn -->
+              <div class="form-group mb-0 text-end">
+                <button
+                  *ngIf="selected?.exam?.name?.length > 0 && (selected.intake.intakeid > 0 && selected.stream.streamid > 0) && !fetching_examsData_inprogress"
+                  type="submit" class="btn btn-sm btn-info waves-effect waves-light box-btn-slide-close">
+                  {{ 'printouts.reportForms.rForm.reportFormsBtn' | translate }}
+                </button>
+                <div *ngIf="fetching_examsData_inprogress">
+                  <img src="../../../../../assets/img/loading-bars.svg" alt="Loading-bars">
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div *ngIf="!finally.show && !no_data && !(user_roles$ | async)?.isStudent && !isCompleteRenderReportform"
+        class="mt-40 text-center">
+        <h4 *ngIf="recentPerf?.list?.length > 1">
+          {{ 'printouts.reportForms.generatingReports' | translate:{count: recentPerf?.list?.length} }}
+        </h4>
+        <h4 *ngIf="recentPerf?.list?.length == 1">
+          {{ 'printouts.reportForms.generatingReport' | translate:{count: recentPerf?.list?.length} }}
+        </h4>
+        <div *ngIf="!no_data && !report_displayed && !finally.show">
+          <img src="../../../../../assets/img/loading-bars.svg" height="70" width="100" alt="Loading-bars">
+        </div>
+      </div>
+
+      <!-- no data -->
+      <div *ngIf="no_data && itemsFound" class="animated bounceInLeft">
+        <div class="box box-widget bg-warning">
+          <div class="box-header">
+            <h4 class="text-center">{{ 'printouts.reportForms.noData' | translate }}</h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- options -->
+      <div *ngIf="finally.show && !no_data && !(user_roles$ | async)?.isStudent && isCompleteRenderReportform"
+        class="box box-widget animated bounceInUp">
+        <div class="box-header with-border">
+          <h4 class="box-title">{{ 'printouts.reportForms.options' | translate }}</h4>
+          <ul class="box-controls pull-right">
+            <li><a class="box-btn-slide" href="#"></a></li>
+          </ul>
+        </div>
+        <div class="box-body">
+          <form class="form">
+            <div class="row">
+              <div class="col-md-10 col-sm-12 mx-auto">
+
+                <!-- closing and opening dates -->
+                <div class="row">
+                  <!-- closing date -->
+                  <ng-container *ngIf="isTzPrimary">
+                    <div class="col-md-6 form-group">
+                      <label for="example-date-input" class="form-label">
+                        {{'printouts.reportForms.schoolClosedOn' | translate }}
+                      </label>
+
+                      <div class="input-group">
+                        <input [owlDateTime]="dt1" class="form-control" id="example-date-input" type="text"
+                          data-inputmask="'alias': 'mm/dd/yyyy'" data-mask name="closingDate" [(ngModel)]="closingDate"
+                          [placeholder]="'mm/dd/yyyy'" />
+                        <div [owlDateTimeTrigger]="dt1" class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <owl-date-time #dt1 [pickerType]="'calendar'" (dateSelected)="setClosingDate($event)">
+                        </owl-date-time>
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <!-- opening date -->
+                  <div class="col-md-6 form-group">
+                    <label for="opening-date" class="form-label">
+                      {{'printouts.reportForms.nextTermBegins' | translate }}
+                    </label>
+
+                    <div class="input-group">
+                      <input [owlDateTime]="dt2" class="form-control" id="opening-date" type="text"
+                        data-inputmask="'alias': 'mm/dd/yyyy'" data-mask name="openingDate" [(ngModel)]="openingDate"
+                        [min]="closingDate" [placeholder]="'mm/dd/yyyy'" />
+                      <div [owlDateTimeTrigger]="dt2" class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <owl-date-time #dt2 [pickerType]="'calendar'" (dateSelected)="setOpeningDate($event)">
+                      </owl-date-time>
+                    </div>
+                  </div>
+
+                  <ng-container *ngIf="isTzSecondary">
+                    <div class="col-md-6 form-group">
+                      <label for="example-date-input" class="form-label">
+                        {{'printouts.tzReportForm.schoolDates.reportingTime' | translate }}:
+                      </label>
+
+                      <div class="input-group">
+                        <input [owlDateTime]="dt2" class="form-control" id="reporting-time" type="text"
+                          data-inputmask="'alias': 'hours:minutes'" data-mask name="reportingTime" [(ngModel)]="reportingTime"
+                          [placeholder]="'hours:minutes'" />
+                        <div [owlDateTimeTrigger]="dt2" class="input-group-addon">
+                          <i class="fa fa-clock-o"></i>
+                        </div>
+                        <owl-date-time #dt2 [pickerType]="'timer'" (dateSelected)="setReportingTime($event)">
+                        </owl-date-time>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+
+                <!-- option items -->
+                <div class="row">
+                  <!-- remarks -->
+                  <div class="col-md-6">
+                    <ng-container>
+                      <h6 class="text-bold">{{ 'printouts.reportForms.remarks' | translate}}</h6>
+                      <!-- house teacher (home room teacher) -->
+                      <div>
+                        <input type="checkbox" id="show_house_teacher_remarks" class="filled-in chk-col-info"
+                          name="show_house_teacher_remarks" [checked]="show_houseteachers_comments"
+                          [(ngModel)]="show_houseteachers_comments" />
+                        <label for="show_house_teacher_remarks">{{ 'printouts.tzReportForm.showHomeRoomTeacherRemarks' |
+                          translate }}</label>
+                      </div>
+
+                      <!-- deputy h/m academic -->
+                      <div *ngIf="isTzSecondary">
+                        <input type="checkbox" id="show_dep_academic_remarks" class="filled-in chk-col-info" name="show_dep_academic_remarks"
+                          [checked]="show_deputy_hm_academic_comments" [(ngModel)]="show_deputy_hm_academic_comments" />
+                        <label for="show_dep_academic_remarks">{{ 'printouts.tzReportForm.showDeputyHMAcademicRemarks' |
+                          translate }}</label>
+                      </div>
+
+                      <!-- head teacher (principal) -->
+                      <div>
+                        <input type="checkbox" id="show_p_remarks" class="filled-in chk-col-info" name="show_p_remarks"
+                          [checked]="show_principal_comments" [(ngModel)]="show_principal_comments" />
+                        <label for="show_p_remarks">
+                          {{ 'printouts.reportForms.show' | translate }}
+                          <span class="text-lowercase"
+                            *ngIf="school_profile?.principal !== null || school_profile?.principal?.title !== undefined || school_profile?.principal?.title !== null">{{school_profile?.principal?.title}}</span>
+                          <span
+                            *ngIf="school_profile?.principal === null || school_profile?.principal?.title === undefined || school_profile?.principal?.title === null">{{
+                            'printouts.reportForms.principal' | translate }}</span>'s
+                          {{ 'printouts.reportForms.remarksLower' | translate }}
+                        </label>
+                      </div>
+                    </ng-container>
+                  </div>
+
+                  <!-- signatures -->
+                  <div class="col-md-6">
+                    <h6 class="text-bold">{{ 'printouts.reportForms.signatures' | translate }}</h6>
+                    <!-- house teacher -->
+                    <div>
+                      <input type="checkbox" id="show_house_teacher_sig" class="filled-in chk-col-info" name="show_house_teacher_sig"
+                        [checked]="show_houseteachers_signature" [(ngModel)]="show_houseteachers_signature" />
+                      <label for="show_house_teacher_sig">{{ 'printouts.tzReportForm.showHomeRoomSignature' |
+                        translate }}</label>
+                    </div>
+                    <!-- deputy h/m academic -->
+                    <div *ngIf="isTzSecondary">
+                      <input type="checkbox" id="show_dep_hm_academic_sig" class="filled-in chk-col-info" name="show_dep_hm_academic_sig"
+                        [checked]="show_deputy_hm_academic_signature" [(ngModel)]="show_deputy_hm_academic_signature" />
+                      <label for="show_dep_hm_academic_sig">{{ 'printouts.tzReportForm.showDeputyHMAcademicSignature' |
+                        translate }}</label>
+                    </div>
+                    <!-- headteacher (principal) -->
+                    <div>
+                      <input type="checkbox" id="show_p_sig" class="filled-in chk-col-info" name="show_p_sig"
+                        [checked]="show_principal_signature" [(ngModel)]="show_principal_signature" />
+                      <label for="show_p_sig">
+                        {{ 'printouts.reportForms.show' | translate }}
+                        <span class="text-lowercase"
+                          *ngIf="school_profile?.principal !== null || school_profile?.principal?.title !== undefined || school_profile?.principal?.title !== null">{{school_profile?.principal?.title}}</span>
+                        <span
+                          *ngIf="school_profile?.principal === null || school_profile?.principal?.title === undefined || school_profile?.principal?.title === null">{{
+                          'printouts.reportForms.principal' | translate }}</span>'s
+                        {{ 'printouts.reportForms.signatureLower' | translate }}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- DOWNLOAD AND PRINT BTN -->
+      <div *ngIf="finally.show && !no_data && isCompleteRenderReportform" [attr.disabled]="isDownloading"
+        class="text-end my-10">
+
+        <!-- download -->
+        <!-- <app-report-forms-download [reportForms]="reportForms" [schoolProfile]="school_profile"
+          [formOrYear]="schoolTypeData?.formoryear" [showClassTeacherRemarks]="show_classteachers_comments"
+          [showPrincipalRemarks]="show_principal_comments" [showClassTeacherSignature]="show_classteachers_signature"
+          [showPrincipalSignature]="show_principal_signature" [showParentSignatureSlot]="show_parent_signature"
+          [showOverallStudentRank]="show_student_overall_rank" [showStreamStudentRank]="show_student_stream_rank"
+          [closingDate]="(closingDate| date:'dd-MMMM-yyyy')!" [openingDate]="(openingDate | date:'dd-MMMM-yyyy')!"
+          [feeData]="feeData">
+        </app-report-forms-download> -->
+
+          <!-- print -->
+        <button class="btn btn-sm btn-dark waves-effect waves-light me-5 d-none d-md-inline-block" type="button"
+          [disabled]="isPrinting"
+          styleSheetFile="assets/css/print-report.css"
+				[useExistingCss]="true"
+				[printStyle]="{ '@page': { margin: '.2cm !important'}, '.card': {padding: '0 !important' }}"
+          printSectionId="print-report" ngxPrint>
+          <span *ngIf="!isPrinting">
+            <i>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer"
+                viewBox="0 0 16 16">
+                <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+                <path
+                  d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
+              </svg>
+            </i>
+            {{ 'printouts.commonAttr.printBtn' | translate }}
+          </span>
+          <span *ngIf="isPrinting">{{ 'printouts.commonAttr.generating' | translate }}</span>
+        </button>
+      </div>
+
+      <div *ngIf="finally.show && !no_data" [attr.disabled]="isDownloading"
+        class="animated bounceInUp d-none d-md-block">
+        <div class="d-flex justify-content-center">
+          <div *ngIf="isCompleteRenderReportform" infinite-scroll (scrolled)="onScrollDown()" id="print-report"
+            style="width: 100%;">
+            <div class="zreport-page"
+              *ngFor="let rp of recentPerf.list; index as index; trackBy:trackByFn ">
+              <div class="card">
+				  <div class="row">
+					  <div class=" mx-auto">
+
+						  <div class="zreportcontent" style="font-weight: bold;color: black; padding: 0px 20px 20px 20px;">
+							  <!--Report form header section-->
+							  <div class="row">
+								  <div *ngIf="school_logo_path !== undefined" class="col-12">
+									  <div class="d-flex justify-content-between">
+										  <div class="text-start">
+											  <h3 class="fw-bold mt-0">{{school_profile?.name}}
+											  </h3>
+											  <div *ngIf="school_profile?.address.length > 0" class="fw-bold">
+												  {{school_profile?.address}}</div>
+											  <div *ngIf="school_profile?.phone.length > 0" class="fw-bold">
+												  {{school_profile?.phone}}</div>
+											  <div *ngIf="school_profile?.email.length > 0" class="fw-bold"
+												   style="padding-bottom: 5px">
+												  {{school_profile?.email}}</div>
+										  </div>
+										  <div>
+											  <img src="{{school_logo_path}}" height="100" width="100" alt="School image"
+												   class="school-image" style="display: block;margin: auto;background-color: #F1F3F6;">
+											  <!-- <img src="../../../../assets/img/default-logo.png" height="100"
+																				width="100" alt="School logo"> -->
+										  </div>
+									  </div>
+									  <p style="border-bottom: 2px solid #62cb31;margin-bottom: 0.5rem;"></p>
+								  </div>
+
+								  <div *ngIf="school_logo_path === undefined"
+									   class="text-center col-md-12 col-sm-12 text-center" style="display: block">
+									  <div>
+										  <h3 class="fw-bold mt-0">{{school_profile?.name}}</h3>
+										  <div *ngIf="school_profile?.address.length > 0" class="fw-bold">
+											  {{school_profile?.address}}</div>
+										  <div *ngIf="school_profile?.phone.length > 0" class="fw-bold">
+											  {{school_profile?.phone}}</div>
+										  <div *ngIf="school_profile?.email.length > 0" class="fw-bold" style="padding-bottom: 5px">
+											  {{school_profile?.email}}</div>
+										  <p style="border-bottom: 2px solid #62cb31;margin-bottom: 0.5rem;"></p>
+									  </div>
+								  </div>
+							  </div>
+
+							  <!-- Student details -->
+							  <div class="d-flex flex-row mt-2 fw-bold">
+								  <!-- name -->
+								  <div class="col-4 text-uppercase">
+                            <span>
+                              {{ 'common.name' | translate }}: {{ rp.studentname }}
+                            </span>
+								  </div>
+
+								  <!-- intake, term and year -->
+								  <div class="col-4">
+									  <div class="d-flex justify-content-between text-uppercase">
+										  <!-- intake -->
+										  <span>
+                                {{ schoolTypeData?.formoryear | formOrYear }}: {{ rp.examclassname }}
+                              </span>
+										  <!-- term -->
+										  <span>
+                                {{ 'common.term' | translate }}: {{ rp.term }}
+                              </span>
+										  <!-- year -->
+										  <span>
+                                {{ 'common.year' | translate }}: {{ rp.year }}
+                              </span>
+									  </div>
+								  </div>
+
+								  <!-- date -->
+								  <div class="col-4 d-flex justify-content-end text-uppercase">
+                            <span>
+                              {{ 'common.date' | translate }}: {{ dateNow | date:'MMMM d, y' | uppercase }}
+                            </span>
+								  </div>
+							  </div>
+
+							  <!-- Part A: Academic Assessment (Primary) and Academic Performance (Secondary) -->
+							  <div class="row mt-3">
+								  <ng-container *ngIf="isTzPrimary; else tzSecPartA">
+									  <div class="col-12">
+                              <span class="text-uppercase">
+                                {{ 'printouts.tzReportForm.parts.partA' | translate }}: {{
+								  'printouts.tzReportForm.assessmentType.academic' | translate }}
+                              </span>
+									  </div>
+
+									  <div class="col-12">
+										  <div class="table-responsive">
+											  <!-- ordinary exams -->
+											  <table *ngIf="rp.subjects.additional_exams.length == 0"
+													 class="table table-bordered  table-condensed print-table fw-bold"
+													 style="padding-bottom: 0px;margin-bottom: 0px;border-collapse: collapse;;">
+												  <thead>
+												  <tr>
+													  <th style="">
+                                        <span class="text-uppercase zreport-table-contents">{{
+											'printouts.tzReportForm.academicAssessmentTable.subjects' |
+												translate
+											}}</span>
+													  </th>
+													  <th style="">
+                                        <span
+											class="zreport-table-contents font-uppercase">{{rp.subjects.value_type | translateSubjectValue}}
+                                        </span>
+													  </th>
+													  <th style="">
+                                        <span class="zreport-table-contents">{{
+											'printouts.reportForms.dev' |
+												translate
+											}}</span>
+													  </th>
+													  <th style="">
+                                        <span class="zreport-table-contents">{{
+											'printouts.reportForms.grade' |
+												translate
+											}}</span>
+													  </th>
+													  <th *ngIf="show_student_overall_rank || show_student_stream_rank"
+														  style="">
+                                        <span class="zreport-table-contents">{{
+											'printouts.reportForms.rank' |
+												translate
+											}}</span>
+													  </th>
+													  <th *ngIf="!(show_custom_comments == true)"
+														  style="">
+                                        <span class="zreport-table-contents">{{
+											'printouts.reportForms.comment' |
+												translate
+											}}</span>
+													  </th>
+													  <th style="">
+                                        <span class="zreport-table-contents">{{
+											'printouts.reportForms.teacher' |
+												translate
+											}}</span>
+													  </th>
+												  </tr>
+												  </thead>
+												  <tbody>
+												  <tr *ngFor="let s of rp.subjects.list trackBy:trackByFnSubjects">
+													  <td style="">
+														  <div class="zreport-table-contents">
+															  {{s.subject}}
+														  </div>
+													  </td>
+													  <td style="">
+														  <span class="zreport-table-contents">{{s.value}}{{rp.subjects.suffix}}</span>
+													  </td>
+													  <td style="">
+                                        <span class="zreport-table-contents">
+                                          <span *ngIf="s.change > 0">+</span>{{s.change}}
+                                        </span>
+														  <span class="pull-right"><i *ngIf="s.change > 0"
+																					  class="fa fa-level-up text-success"></i>
+                                          <i *ngIf="s.change < 0" class="fa fa-level-down text-info"></i>
+                                          <i *ngIf="s.change == 0" class="fa fa-long-arrow-right text-warning"></i>
+                                        </span>
+													  </td>
+													  <td style="">
+														  <span class="zreport-table-contents">{{s.grade}}</span>
+													  </td>
+													  <td *ngIf="show_student_overall_rank || show_student_stream_rank"
+														  style="">
+                                        <span class="zreport-table-contents">{{s.sbj_rank
+										+ "
+										/ " +
+											s.sbj_rank_outof}}</span>
+													  </td>
+													  <td *ngIf="!(show_custom_comments == true)"
+														  style="">
+														  <span class="zreport-table-contents">{{s.comment}}</span>
+													  </td>
+													  <td style="">
+														  <span class="zreport-table-contents">{{s.st}}</span>
+													  </td>
+												  </tr>
+												  </tbody>
+											  </table>
+
+											  <!-- consolidated exams -->
+											  <table *ngIf="rp.subjects.additional_exams.length > 0"
+													 class="table table-bordered table-condensed print-table"
+													 style="padding-bottom: 0px;margin-bottom: 0px;border-collapse: collapse;;">
+												  <thead>
+												  <tr>
+													  <!-- subjects -->
+													  <th colspan="1" rowspan="2" class="td-fit-nowrap"
+														  style="">
+                                        <span class="text-uppercase zreport-table-contents">{{
+											'printouts.tzReportForm.academicAssessmentTable.subjects' |
+												translate
+											}}</span>
+													  </th>
+
+													  <!-- ordinary exams marks -->
+													  <th colspan="1" rowspan="2" class="td-fit-nowrap"
+														  *ngFor="let s of rp.subjects.additional_exams; index as index"
+														  style="">
+                                        <span class="zreport-table-contents">
+                                          <span class="d-block">{{s.name}}</span>
+                                          <span>{{ s.percentage }}%</span>
+                                        </span>
+													  </th>
+
+													  <!-- subject average (consolidated exam) -->
+													  <th colspan="1" style="">
+                                        <span class="d-block">
+                                          {{ 'printouts.tzReportForm.academicAssessmentTable.subjectAverage' | translate |
+											uppercase }}
+                                        </span>
+														  <!-- {{ '100%' }} -->
+													  </th>
+
+													  <!-- grade -->
+													  <th rowspan="1" colspan="1" class="td-fit-nowrap"
+														  style="">
+                                        <span class="text-uppercase zreport-table-contents">
+                                          {{ 'common.grade' | translate }}
+                                        </span>
+													  </th>
+
+													  <!-- position -->
+													  <th rowspan="2" colspan="1" class="td-fit-nowrap"
+														  *ngIf="show_student_overall_rank || show_student_stream_rank"
+														  style="">
+                                        <span class="text-uppercase zreport-table-contents">
+                                          {{ 'common.position' | translate }}
+                                        </span>
+													  </th>
+
+													  <!-- comments -->
+													  <th rowspan="2" colspan="1" class="td-fit-nowrap"
+														  *ngIf="!(show_custom_comments == true)"
+														  style="">
+                                        <span class="text-uppercase zreport-table-contents">
+                                          {{ 'common.comments' | translate }}
+                                        </span>
+													  </th>
+
+													  <!-- subject teacher -->
+													  <th rowspan="2" colspan="1" class="td-fit-nowrap"
+														  style="">
+                                        <span class="text-uppercase zreport-table-contents">
+                                          {{ 'common.subjectTeacher' | translate }}
+                                        </span>
+													  </th>
+												  </tr>
+												  </thead>
+												  <tbody>
+												  <tr *ngFor="let s of rp.subjects.list">
+													  <!-- subject -->
+													  <td class="td-fit-nowrap" style="">
+														  <div class="zreport-table-contents">
+															  {{s.subject}}
+														  </div>
+													  </td>
+
+													  <!-- ordinary exam marks -->
+													  <td class="td-fit-nowrap" *ngFor="let ss of rp.subjects.additional_exams"
+														  style="">
+                                        <span class="zreport-table-contents">
+                                          <span *ngIf="s.additional_results[ss.seriesid] >= 0">
+                                            {{s.additional_results[ss.seriesid]}}<span
+											  *ngIf="ss.percentage == 100">%</span>
+                                          </span>
+                                          <span *ngIf="s.additional_results[ss.seriesid] === undefined">-</span>
+                                        </span>
+													  </td>
+
+													  <!-- subject average (consolidated exam) -->
+													  <td class="td-fit-nowrap" style="">
+														  <span class="zreport-table-contents">{{s.value}}{{rp.subjects.suffix}}</span>
+													  </td>
+
+													  <!-- grade -->
+													  <td class="td-fit-nowrap" style="">
+														  <span class="zreport-table-contents">{{s.grade}}</span>
+													  </td>
+
+													  <!-- position -->
+													  <td class="td-fit-nowrap"
+														  *ngIf="show_student_overall_rank || show_student_stream_rank"
+														  style="">
+                                        <span class="zreport-table-contents">{{s.sbj_rank
+										+ "
+										/ " +
+											s.sbj_rank_outof}}</span>
+													  </td>
+
+													  <!-- comments -->
+													  <td class="td-fit-nowrap" *ngIf="!(show_custom_comments == true)"
+														  style="">
+														  <span class="zreport-table-contents">{{s.comment}}</span>
+													  </td>
+
+													  <!-- subject teacher -->
+													  <td class="td-fit-nowrap" style="">
+														  <span class="zreport-table-contents">{{s.st}}</span>
+													  </td>
+												  </tr>
+
+												  <!-- overall student average -->
+												  <tr>
+													  <td [attr.colspan]="rp.subjects.additional_exams.length + 1" class="td-fit-nowrap"
+														  style="">
+                                        <span class="text-uppercase zreport-table-contents">
+                                          {{ 'printouts.tzReportForm.overallStudentAverage' | translate }}
+                                        </span>
+													  </td>
+
+													  <!-- subject average -->
+													  <td class="td-fit-nowrap" style="">
+                                        <span class="text-uppercase zreport-table-contents">
+                                          {{ rp.aggregate_stats['second'].value }}
+											{{ rp.aggregate_stats['second'].suffix }}
+                                        </span>
+													  </td>
+
+													  <!-- grade -->
+													  <td class="td-fit-nowrap" style="">
+                                        <span class="text-uppercase zreport-table-contents">
+                                          {{ rp.aggregate_stats['fourth'].value }}
+                                        </span>
+													  </td>
+
+													  <td colspan="3" style=""></td>
+												  </tr>
+
+												  <!-- overall position -->
+												  <tr>
+													  <td [attr.colspan]="rp.subjects.additional_exams.length + 1" class="td-fit-nowrap"
+														  style="">
+                                        <span class="text-uppercase zreport-table-contents">
+                                          {{ 'printouts.tzReportForm.overallPosition' | translate }}
+                                        </span>
+													  </td>
+
+													  <td colspan="5" style="">
+                                        <span class="zreport-table-contents">
+                                          {{ rp.aggregate_stats['fifth'].value }}
+                                        </span>
+													  </td>
+												  </tr>
+												  </tbody>
+											  </table>
+										  </div>
+									  </div>
+								  </ng-container>
+
+								  <ng-template #tzSecPartA>
+									  <app-tz-sec-perf
+										  [rp]="rp"
+										  [show_student_overall_rank]="show_student_overall_rank"
+										  [show_student_stream_rank]="show_student_stream_rank"
+										  [show_custom_comments]="show_custom_comments">
+									  </app-tz-sec-perf>
+								  </ng-template>
+							  </div>
+
+							  <!-- Academic Grades -->
+							  <ng-container *ngIf="isTzSecondary">
+								  <div class="row mt-3">
+									  <app-tz-sec-grades></app-tz-sec-grades>
+								  </div>
+							  </ng-container>
+
+							  <!-- Part B: Behaviour Assessment -->
+							  <ng-container *ngIf="isTzPrimary; else tzSecPartB">
+								  <div class="row mt-3">
+									  <div class="col-12">
+                              <span class="text-uppercase">
+                                {{ 'printouts.tzReportForm.parts.partB' | translate }}: {{
+								  'printouts.tzReportForm.assessmentType.behaviour' | translate }}
+                              </span>
+									  </div>
+
+									  <div class="col-12">
+										  <div class="table-responsive">
+											  <table class="table table-bordered table-condensed print-table fw-bold"
+													 style="padding-bottom: 0px;margin-bottom: 0px;border-collapse: collapse;;">
+												  <thead>
+												  <tr>
+													  <th class="td-fit-nowrap" style="">
+                                        <span class="text-uppercase zreport-table-contents">
+                                          {{ 'printouts.tzReportForm.behaviourTable.sn' | translate }}
+                                        </span>
+													  </th>
+													  <th class="td-fit-nowrap" style="">
+                                        <span class="text-uppercase zreport-table-contents">
+                                          {{ 'printouts.tzReportForm.behaviourTable.valuesAndAtt' | translate }}
+                                        </span>
+													  </th>
+													  <th class="td-fit-nowrap" style="">
+                                        <span class="text-uppercase zreport-table-contents">
+                                          {{ 'common.grade' | translate }}
+                                        </span>
+													  </th>
+												  </tr>
+												  </thead>
+												  <tbody>
+												  <tr *ngFor="let behaviour of behaviours">
+													  <td class="td-fit-nowrap" style="">
+                                        <span class="text-uppercase zreport-table-contents">
+                                          {{ behaviour.id }}
+                                        </span>
+													  </td>
+													  <td class="td-fit-nowrap" style="">
+                                        <span class="text-uppercase zreport-table-contents">
+                                          {{ behaviour.description }}
+                                        </span>
+													  </td>
+													  <td class="td-fit-nowrap" style="">
+                                        <span class="text-uppercase zreport-table-contents">
+                                          {{ behaviour.grade }}
+                                        </span>
+													  </td>
+												  </tr>
+												  </tbody>
+											  </table>
+										  </div>
+									  </div>
+
+								  </div>
+							  </ng-container>
+							  <ng-template #tzSecPartB>
+								  <div class="row mt-3">
+									  <app-tz-sec-behaviour></app-tz-sec-behaviour>
+								  </div>
+							  </ng-template>
+
+							  <!-- Part C: Comments -->
+							  <ng-container *ngIf="isTzPrimary; else tzSecPartC">
+								  <div class="row mt-3">
+									  <div class="col-12">
+                              <span class="text-uppercase">
+                                {{ 'printouts.tzReportForm.parts.partC' | translate }}: {{
+								  'printouts.tzReportForm.assessmentType.comments' | translate }}
+                              </span>
+									  </div>
+
+									  <div class="col-12">
+										  <!-- homeroom teacher -->
+										  <ng-template [ngTemplateOutlet]="comments"
+													   [ngTemplateOutletContext]="{
+                                  commentPersonKey: ('printouts.tzReportForm.comments.homeroomTeacher' | translate),
+                                  name: rp.studentComment.houseTeacherName,
+                                  showComment: show_houseteachers_comments,
+                                  comment: rp.studentComment.houseTeacherComment,
+                                  showSignature: show_houseteachers_signature,
+                                  signatureURL: rp.studentComment.houseTeacherSignature }">
+										  </ng-template>
+
+										  <!-- academic deputy -->
+										  <ng-template [ngTemplateOutlet]="comments"
+													   [ngTemplateOutletContext]="{
+                                  commentPersonKey: ('printouts.tzReportForm.comments.academicDeputy' | translate),
+                                  name: null,
+                                  showComment: false,
+                                  comment: null,
+                                  showSignature: false,
+                                  signatureURL: null }">
+										  </ng-template>
+
+										  <!-- headteacher -->
+										  <ng-template [ngTemplateOutlet]="comments"
+													   [ngTemplateOutletContext]="{
+                                  commentPersonKey: ('printouts.tzReportForm.comments.headTeacher' | translate),
+                                  name: rp.studentComment.principalName,
+                                  showComment: show_principal_comments,
+                                  comment: rp.studentComment.principalComment,
+                                  showSignature: show_principal_signature,
+                                  signatureURL: rp.studentComment.principalSignature }">
+										  </ng-template>
+									  </div>
+								  </div>
+							  </ng-container>
+							  <ng-template #tzSecPartC>
+								  <app-tz-sec-comments
+									  [rp]="rp"
+									  [show_houseteachers_comments]="show_houseteachers_comments"
+									  [show_houseteachers_signature]="show_houseteachers_signature"
+									  [show_deputy_hm_academic_comments]="show_deputy_hm_academic_comments"
+									  [show_deputy_hm_academic_signature]="show_deputy_hm_academic_signature"
+									  [show_principal_comments]="show_principal_comments"
+									  [show_principal_signature]="show_principal_signature">
+								  </app-tz-sec-comments>
+							  </ng-template>
+
+							  <!-- Part D: School Events -->
+							  <ng-container *ngIf="isTzSecondary">
+								  <app-events></app-events>
+							  </ng-container>
+
+							  <!-- Academic Percentages, Grades and Comments -->
+							  <ng-container *ngIf="isTzPrimary">
+								  <div class="row mt-3" style="page-break-before: always;break-before: always;">
+									  <div class="col-12">
+                              <span class="text-uppercase">
+                                {{ 'printouts.tzReportForm.academicPercentageGradesKey' | translate }}
+                              </span>
+									  </div>
+
+									  <div class="col-12">
+										  <table class="table table-bordered table-condensed print-table"
+												 style="padding-bottom: 0px;margin-bottom: 0px;border-collapse: collapse;;">
+											  <thead>
+											  <tr>
+												  <th class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'common.percentage' | translate}}
+                                      </span>
+												  </th>
+												  <th class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'common.grade' | translate}}
+                                      </span>
+												  </th>
+												  <th class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'common.comments' | translate}}
+                                      </span>
+												  </th>
+											  </tr>
+											  </thead>
+											  <tbody>
+											  <tr>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        81 - 100
+                                      </span>
+												  </td>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchGrades.a' | translate }}
+                                      </span>
+												  </td>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchGradeComments.gradeAComment' | translate }}
+                                      </span>
+												  </td>
+											  </tr>
+											  <tr>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        61 - 80
+                                      </span>
+												  </td>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchGrades.b' | translate }}
+                                      </span>
+												  </td>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchGradeComments.gradeBComment' | translate }}
+                                      </span>
+												  </td>
+											  </tr>
+											  <tr>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        41 - 60
+                                      </span>
+												  </td>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchGrades.c' | translate }}
+                                      </span>
+												  </td>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchGradeComments.gradeCComment' | translate }}
+                                      </span>
+												  </td>
+											  </tr>
+											  <tr>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        21 - 40
+                                      </span>
+												  </td>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchGrades.d' | translate }}
+                                      </span>
+												  </td>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchGradeComments.gradeDComment' | translate }}
+                                      </span>
+												  </td>
+											  </tr>
+											  <tr>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        0 - 20
+                                      </span>
+												  </td>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchGrades.f' | translate }}
+                                      </span>
+												  </td>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchGradeComments.gradeFComment' | translate }}
+                                      </span>
+												  </td>
+											  </tr>
+											  </tbody>
+										  </table>
+									  </div>
+								  </div>
+							  </ng-container>
+
+							  <!-- Values & Attitude -->
+							  <ng-container *ngIf="isTzPrimary">
+								  <div class="row mt-3">
+									  <div class="col-12">
+                              <span class="text-uppercase">
+                                {{ 'printouts.tzReportForm.valuesAndAttitudeKey' | translate }}
+                              </span>
+									  </div>
+
+									  <div class="col-12">
+										  <table class="table table-bordered table-condensed print-table"
+												 style="padding-bottom: 0px;margin-bottom: 0px;border-collapse: collapse;;">
+											  <thead>
+											  <tr>
+												  <th class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.valuesAndAttitude' | translate}}
+                                      </span>
+												  </th>
+												  <th class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'common.grade' | translate}}
+                                      </span>
+												  </th>
+											  </tr>
+											  </thead>
+											  <tbody>
+											  <tr>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchValuesAndAtt.excellent' | translate }}
+                                      </span>
+												  </td>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchGrades.a' | translate }}
+                                      </span>
+												  </td>
+											  </tr>
+											  <tr>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchValuesAndAtt.veryGood' | translate }}
+                                      </span>
+												  </td>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchGrades.b' | translate }}
+                                      </span>
+												  </td>
+											  </tr>
+											  <tr>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchValuesAndAtt.average' | translate }}
+                                      </span>
+												  </td>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchGrades.c' | translate }}
+                                      </span>
+												  </td>
+											  </tr>
+											  <tr>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchValuesAndAtt.poor' | translate }}
+                                      </span>
+												  </td>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchGrades.d' | translate }}
+                                      </span>
+												  </td>
+											  </tr>
+											  <tr>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchValuesAndAtt.veryPoor' | translate }}
+                                      </span>
+												  </td>
+												  <td class="td-fit-nowrap" style="">
+                                      <span class="text-uppercase zreport-table-contents">
+                                        {{ 'printouts.tzReportForm.primarySchGrades.f' | translate }}
+                                      </span>
+												  </td>
+											  </tr>
+											  </tbody>
+										  </table>
+									  </div>
+								  </div>
+							  </ng-container>
+
+							  <!-- Closing and Opening Dates -->
+							  <div class="row mt-3">
+								  <ng-container *ngIf="isTzPrimary; else tzSecDates">
+									  <div class="col-12 d-flex justify-content-center">
+                              <span>
+                                {{ 'common.nb' | translate }}:
+                              </span>
+
+										  <!-- closing date -->
+										  <span>
+                                <span>
+                                  {{ 'printouts.tzReportForm.schoolDates.closesOn' | translate }}
+                                </span>
+                                <span style="display: inline-block;">
+                                  <span class="d-flex justify-content-center">
+                                    <span *ngIf="closingDate" class="ms-2">{{ closingDate | date:'MMMM d, y' }}</span>
+                                  </span>
+                                  <span class="ms-2"
+										style="border-bottom: 2px solid black; display: block; width: 250px;"></span>
+                                </span>
+                              </span>
+
+										  <!-- opening date -->
+										  <span class="ms-2">
+                                <span>
+                                  {{ 'printouts.tzReportForm.schoolDates.resumesOn' | translate }}
+                                </span>
+
+                                <span style="display: inline-block;">
+                                  <span class="d-flex justify-content-center">
+                                    <span *ngIf="openingDate" class="ms-2">{{ openingDate | date:'MMMM d, y' }}</span>
+                                  </span>
+                                  <span class="ms-2"
+										style="border-bottom: 2px solid black; display: block; width: 250px;"></span>
+                                </span>
+                              </span>
+									  </div>
+								  </ng-container>
+
+								  <ng-template #tzSecDates>
+									  <app-open-date
+										  [reportingTime]="reportingTime"
+										  [openingDate]="openingDate">
+									  </app-open-date>
+								  </ng-template>
+							  </div>
+						  </div>
+
+					  </div>
+				  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div style="height: 0; overflow: hidden" hidden>
+  <img src="../../../../../assets/img/rforms/deviation-plain.png" alt="" id="dev_plain" />
+  <img src="../../../../../assets/img/rforms/deviation-plus.png" alt="" id="dev_plus" />
+  <img src="../../../../../assets/img/rforms/deviation-minus.png" alt="" id="dev_minus" />
+  <img src="../../../../../assets/img/rforms/avatar_blue.png" alt="" id="student_logo" />
+  <img src="../../../../../assets/img/rforms/bar-graph.png" alt="" id="gt_logo" />
+  <img style="display: block; margin: auto; height: 120px; background-color: #F1F3F6; margin-bottom: 0.2cm;"
+    src="{{school_logo_path}}?cacheblock=true" crossorigin="anonymous" alt="School logo" id="sch_logo" />
+  <img src="{{school_profile?.principal?.signature}}?cacheblock=true" alt="P signature" crossorigin="anonymous"
+    id="p_signature" />
+  <img *ngIf="option_signatures?.cteacher.hasLogo" src="{{option_signatures?.cteacher.logoUrl}}?cacheblock=true"
+    crossorigin="anonymous" alt="Ct logo" id="ct_signature" />
+  <div id="canvas_for_icon_widgets"></div>
+  <div id="wrapper_line" style="
+       position: absolute;
+       width: 1000px;
+       height: 1000px;
+       visibility: collapse;
+       z-index: 1
+       "> <canvas id="line_graph_canvas" width="365" style="display: none" height="250"></canvas></div>
+  <div id="wrapper_bar" style="position: absolute;
+       width: 1000px;
+       height: 1000px;
+       visibility: collapse;
+       z-index: 1
+       "> <canvas id="bar_graph_canvas" width="365" style="display: none" height="250"></canvas></div>
+  <div id="image_viewer" style="position: absolute;
+       width: 1000px;
+       height: 1000px;
+       visibility: collapse;
+       z-index: 1"></div>
+  <div id="timeline_div" style="
+       position: absolute;
+       width: 1000px;
+       height: 1000px;
+       visibility: collapse;
+       z-index: 1
+       "></div>
+  <div id="subject_div" style="
+       position: absolute;
+       width: 1200px;
+       height: 1000px;
+       visibility: collapse;
+       z-index: 1
+       "></div>
+  <div id="line_svg" style="
+       position: absolute;
+       width: 1000px;
+       height: 1000px;
+       visibility: collapse;
+       z-index: 1
+       "></div>
+  <div id="bar_svg" style="
+       position: absolute;
+       width: 1000px;
+       height: 1000px;
+       visibility: collapse;
+       z-index: 1
+       "></div>
+</div>
+
+<!-- TZ PRIMARY -->
+<!-- Comments Template -->
+<ng-template #comments let-commentPersonKey="commentPersonKey" let-name="name" let-showComment="showComment"
+  let-comment="comment" let-showSignature="showSignature" let-signatureURL="signatureURL">
+  <div class="mb-3">
+    <!-- comment -->
+    <div class="px-1 mb-1" style="border: 2px solid black !important;"
+      [ngStyle]="{'padding-bottom': (showComment && comment?.length > 0) ? '0px' : '30px'}">
+      <!-- title -->
+      <span class="text-uppercase">
+        {{ commentPersonKey }}:
+      </span>
+      <!-- comment text -->
+      <span *ngIf="showComment" class="d-block">
+        {{ comment ?? '' }}
+      </span>
+    </div>
+
+    <!-- name and signature -->
+    <div class="d-flex justify-content-between mt-2">
+      <!-- name -->
+      <div>
+        <p class="d-flex align-items-end"
+          [class.mt-2]="signatureURL && showSignature && !(user_roles$ | async)?.isStudent">
+          <span class="text-uppercase">{{ 'common.name' | translate }}:</span>
+          <span style="display: inline-block;">
+            <span class="d-flex justify-content-center">
+              <span *ngIf="name" class="ms-2">{{ name ?? '' }}</span>
+            </span>
+            <span class="ms-2" style="border-bottom: 2px solid black; display: block; width: 250px;"></span>
+          </span>
+        </p>
+      </div>
+      <!-- signature -->
+      <div>
+        <p class="d-flex align-items-end">
+          <span class="text-uppercase">{{ 'common.signature' | translate }}:</span>
+          <span style="display: inline-block;">
+            <ng-container *ngIf="signatureURL && showSignature && !(user_roles$ | async)?.isStudent">
+              <span class="d-flex justify-content-center">
+                <img [src]="signatureURL" [alt]="'common.signature' | translate" class="ms-2" style="height: 30px;">
+              </span>
+            </ng-container>
+            <span class="ms-2" style="border-bottom: 2px solid black; display: block; width: 125px;">
+            </span>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</ng-template>
+

@@ -1,0 +1,32 @@
+<!-- Main content -->
+<section class="content mt-config">
+  <div class="row">
+    <!-- <div class="col-12 col-lg-6"></div> -->
+    <div class="col-12">
+      <div class="box">
+        <div class="box-header with-border">
+			<div *ngIf="isLoadingTrackUsages; then showHeaderLoading else showHeaderContent"></div>
+			<ng-template #showHeaderLoading>
+				<app-loader-div [height]="45"></app-loader-div>
+			</ng-template>
+			<ng-template #showHeaderContent>
+				<h5 class="box-title">{{ 'messages.track.remaining' | translate }}</h5>
+				<h3 class="subtitle text-success fw-900">{{ credits|number:'0.0-0' }} {{ 'messages.track.texts' | translate }}</h3>
+			</ng-template>
+		</div>
+        <div class="box-body">
+
+			<div *ngIf="isLoadingTrackUsages; then showTitleLoading else showTitleContent"></div>
+			<ng-template #showTitleLoading>
+				<app-loader-div [height]="35"></app-loader-div>
+			</ng-template>
+			<ng-template #showTitleContent>
+				<h5 class="fw-900">{{ 'messages.track.sms' | translate }}</h5>
+			</ng-template>
+			<app-new-track (updateLoadingTrackUsage)="updateLoadingTrackUsage($event)" (balanceSms)="setBalance($event)"></app-new-track>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

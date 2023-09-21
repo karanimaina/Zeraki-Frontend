@@ -1,0 +1,98 @@
+<div *ngIf="isLoadingAccountDetails; then showLoading else showContent"></div>
+<ng-template #showLoading>
+    <app-loader-div [height]="400"></app-loader-div>
+</ng-template>
+<ng-template #showContent>
+    <form #form="ngForm" (ngSubmit)="updateAccountDetails(form)">
+        <div class="form-group">
+            <label class="form-label">
+                <!-- KRA PIN -->
+                {{'zerakiPartner.accountDetails.kraPin'|translate}}
+
+            </label>
+            <input type="text" name="kra" [(ngModel)]="accountDetails.kra" #kraPin="ngModel" class="form-control" 
+            placeholder="{{'zerakiPartner.accountDetails.kraPin'|translate}}" required
+                appEmptyStringValidator [ngClass]="{'is-invalid':form.submitted && kraPin.invalid}">
+
+            <div *ngIf="form.submitted && accountName.invalid">
+                <div class="text-danger" *ngIf="kraPin?.errors?.required || kraPin?.errors?.appEmptyStringValidator">
+                    <!-- KRA Pin is required -->
+                    {{'zerakiPartner.accountDetails.kraPin'|translate}} {{'zerakiPartner.accountDetails.isRequired'|translate}}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">
+                <!-- Account Name (Owner's name) -->
+                {{'zerakiPartner.accountDetails.accountName'|translate}}
+            </label>
+            <input type="text" class="form-control"
+             placeholder=" {{'zerakiPartner.accountDetails.accountName'|translate}}"
+              name="accountname" [(ngModel)]="accountDetails.accountname"
+                #accountName="ngModel" [ngClass]="{'is-invalid':form.submitted && accountName.invalid}" required
+                appEmptyStringValidator>
+            <div *ngIf="form.submitted && accountName.invalid">
+                <div class="text-danger"
+                    *ngIf="accountName?.errors?.required || accountName?.errors?.appEmptyStringValidator">
+                    <!-- Account Name is required -->
+                    {{'zerakiPartner.accountDetails.accountName'|translate}} {{'zerakiPartner.accountDetails.isRequired'|translate}}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">
+                <!-- Account Number -->
+                {{'zerakiPartner.accountDetails.accountNumber'|translate}}
+            </label>
+            <input type="text" class="form-control" placeholder=" {{'zerakiPartner.accountDetails.accountNumber'|translate}}" name="accountnumber" [(ngModel)]="accountDetails.accountnumber"
+                #accountNumber="ngModel" [ngClass]="{'is-invalid':form.submitted && accountNumber.invalid}" required
+                appEmptyStringValidator>
+            <div *ngIf="form.submitted && accountNumber.invalid">
+                <div class="text-danger"
+                    *ngIf="accountNumber?.errors?.required || accountNumber?.errors?.appEmptyStringValidator">
+                    <!-- Account Number is required -->
+                    {{'zerakiPartner.accountDetails.accountNumber'|translate}} {{'zerakiPartner.accountDetails.isRequired'|translate}}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">
+                <!-- Bank name -->
+                {{'zerakiPartner.accountDetails.bankName'|translate}}
+            </label>
+            <input type="text" class="form-control" placeholder=" {{'zerakiPartner.accountDetails.bankName'|translate}}" name="bankname" [(ngModel)]="accountDetails.bankname" #bankName="ngModel"
+                [ngClass]="{'is-invalid':form.submitted && bankName.invalid}" required appEmptyStringValidator>
+            <div *ngIf="form.submitted && bankName.invalid">
+                <div class="text-danger"
+                    *ngIf="bankName?.errors?.required || bankName?.errors?.appEmptyStringValidator">
+                    <!-- Bank name is required -->
+                    {{'zerakiPartner.accountDetails.bankName'|translate}} {{'zerakiPartner.accountDetails.isRequired'|translate}}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">
+                <!-- Branch name -->
+                {{'zerakiPartner.accountDetails.branchName'|translate}}
+            </label>
+            <input type="text" class="form-control" placeholder=" {{'zerakiPartner.accountDetails.branchName'|translate}}" name="branchname" [(ngModel)]="accountDetails.branchname"
+                #branchName="ngModel" [ngClass]="{'is-invalid':form.submitted && branchName.invalid}" required
+                appEmptyStringValidator>
+            <div *ngIf="form.submitted && branchName.invalid">
+                <div class="text-danger"
+                    *ngIf="branchName?.errors?.required || branchName?.errors?.appEmptyStringValidator">
+                    <!-- Branch name is required -->
+                    {{'zerakiPartner.accountDetails.branchName'|translate}} {{'zerakiPartner.accountDetails.isRequired'|translate}}
+                </div>
+            </div>
+        </div>
+        <div class="form-group mb-0">
+            <button [hidden]="isUpdatingAccountDetails" class="btn btn-sm btn-info waves-effect waves-light pull-right">
+                <!-- Update -->
+                {{'zerakiPartner.accountDetails.update'|translate}}
+            </button>
+            <app-loader-pulse [hidden]="!isUpdatingAccountDetails" class="pull-right mt-10"
+                style="display: inline-block;"></app-loader-pulse>
+        </div>
+    </form>
+</ng-template>

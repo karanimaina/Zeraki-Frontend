@@ -1,0 +1,189 @@
+<!-- assessment creation modal trigger -->
+<div class="box p-30 justify-content-center rounded-3 b-1 border-secondary cursor-pointer assessment-addition"
+  [ngClass]="{'p-md-40 p-lg-25 pb-lg-30': isEvaluation, 'pb-25': isProject, 'p-md-25 p-lg-20 pb-lg-5 p-xl-30': isExam}"
+  data-bs-toggle="modal" data-bs-target="#assessment-creation-modal">
+  <div class="box-title bb-0 h3 d-flex justify-content-center align-items-center">
+    <span class="text-center">
+      <span>{{ 'evaluation.create.createAssessmentText' | translate:{assessmentName} }}</span>
+      <div class="row mt-2">
+        <span class="text-center assessment-addition-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+          </svg>
+        </span>
+      </div>
+    </span>
+  </div>
+</div>
+
+<!-- assessment creation modal -->
+<div class="modal fade" id="assessment-creation-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="assessment-creation-modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-3">
+      <div class="modal-header">
+        <h5 class="modal-title" id="assessment-creation-modalLabel">
+          {{ 'evaluation.create.createAssessmentText' | translate:{assessmentName} }}
+          <span *ngIf="evaluationData">({{ evaluationData.classLevel + " " + evaluationData.streamName }} - {{ evaluationData.subjectName }})</span>
+        </h5>
+        <button
+          type="button"
+          id="btn-assessment-creation-modal"
+          class="btn-close"
+          #btnDismissModal
+          data-bs-dismiss="modal"
+          aria-label="Close">
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="evaluationCreationForm" (ngSubmit)="onSubmit()">
+          <!-- Year and Term selection -->
+          <div class="box">
+            <div class="row p-3">
+              <div class="col-md-6 form-group">
+                <label class="control-label mb-1" for="year">
+                  {{ 'evaluation.create.yearLabel' | translate }}
+                </label>
+                <ng-select
+                  [notFoundText]="'common.noItemsFound' | translate"
+                  id="year"
+                  placeholder="{{ 'evaluation.create.yearPlaceholder' | translate }}"
+                  formControlName="year"
+                  (change)="updateSubjectTopics($event)"
+                  [items]="otherYears"
+                  [ngClass]="{'is-invalid': submitted && formControl['year'].errors}">
+                </ng-select>
+                <div *ngIf="submitted && formControl['year'].errors" class="invalid-feedback">
+                  <div *ngIf="formControl['year'].errors['required']">
+                    {{ 'evaluation.create.yearRequiredError' | translate }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label mb-1" for="term">
+                  {{ 'evaluation.create.termLabel' | translate }}
+                </label>
+                <ng-select
+                  [notFoundText]="'common.noItemsFound' | translate" id="term"
+                  placeholder="{{ 'evaluation.create.termPlaceholder' | translate }}"
+                  bindLabel="label"
+                  bindValue="value"
+                  formControlName="term"
+                  [items]="terms"
+                  [ngClass]="{'is-invalid': submitted && formControl['term'].errors}">
+                </ng-select>
+                <div *ngIf="submitted && formControl['term'].errors" class="invalid-feedback">
+                  <div *ngIf="formControl['term'].errors['required']">
+                    {{ 'evaluation.create.termRequiredError' | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Assessment Type selection -->
+          <div class="box p-3">
+            <div class="h6 fw-bold mb-3">{{ 'evaluation.create.assessmentTypeLabel' | translate }}</div>
+            <span *ngIf="submitted && !selectedAssessmentType" class="text-danger mb-3">
+              <i class="si si-info me-1" style="font-size: 0.875em;"></i>
+              <span style="font-size: 0.875em;">
+                {{ 'evaluation.create.selectAssessmentTypeError' | translate }}
+              </span>
+            </span>
+            <div class="row evaluation-types">
+              <div *ngFor="let evaluationType of evaluationTypes" class="col-12 col-md-4 mb-2 mb-md-0">
+                <input type="checkbox" (change)="changeEvaluationType(evaluationType.typeId, $event)"
+                  [checked]="selectedEvaluationType === evaluationType.typeId"
+                  id="basic_checkbox_1_{{evaluationType.typeId}}" class="filled-in chk-col-info">
+                <label for="basic_checkbox_1_{{evaluationType.typeId}}">{{ evaluationType.typeName }}</label>
+              </div>
+              <div *ngFor="let assessment of assessmentTypes" class="col-12 col-md-4 mb-2 mb-md-0">
+                <input type="checkbox" (change)="changeAssessmentType(assessment.value, $event)"
+                  [checked]="selectedAssessmentType === assessment.value" id="basic_checkbox_0_{{assessment.value}}"
+                  class="filled-in chk-col-info">
+                <label for="basic_checkbox_0_{{assessment.value}}">{{ assessment.name }}</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity of Integration (topics) -->
+          <div *ngIf="selectedAssessmentType == 2 && selectedEvaluationType == 1" class="box p-3">
+            <div class="h6 fw-bold mb-3">{{ 'evaluation.create.topicLabel' | translate }}</div>
+
+            <!-- Loader -->
+            <div class="text-center" *ngIf="topicsLoading">
+              <app-loader-pulse></app-loader-pulse>
+            </div>
+
+            <span *ngIf="submitted && !selectedTopic" class="text-danger mb-3">
+              <i class="fa fa-info-circle me-1" style="font-size: 0.875em;"></i>
+              <span style="font-size: 0.875em;">{{ 'evaluation.create.selectTopicError' | translate }}</span>
+            </span>
+            <div *ngIf="subjectTopics && subjectTopics.topics.length == 0 "
+              class="d-flex flex-row justify-content-center ">
+              <div class="text-info">{{ 'evaluation.create.noTopicsError' | translate }}</div>
+            </div>
+            <div *ngIf="subjectTopics" class="row evaluation-types">
+              <div *ngFor="let topic of subjectTopics.topics" class="col-12 col-sm-6 mb-2 mb-md-0 py-1">
+                <input type="checkbox" (change)="changeSelectedTopic(topic.topicId, $event)"
+                  [checked]="selectedTopic === topic.topicId" id="basic_checkbox_t_{{topic.topicId}}"
+                  class="filled-in chk-col-info">
+                <label for="basic_checkbox_t_{{topic.topicId}}">{{ topic.topicName }}</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity of Integration (competency areas) -->
+          <div
+            *ngIf="competencyAreas.length > 0 && selectedAssessmentType == 2 && selectedEvaluationType == 1 && selectedTopic"
+            class="box p-3">
+            <div class="h6 fw-bold mb-3">{{ 'evaluation.create.competencyAreasLabel' | translate }}</div>
+            <span *ngIf="submitted && !selectedCompetencyArea" class="text-danger mb-3">
+              <i class="fa fa-info-circle me-1" style="font-size: 0.875em;"></i>
+              <span style="font-size: 0.875em;">{{ 'evaluation.create.selectCompetencyAreaError' | translate }}</span>
+            </span>
+            <div *ngIf="competencyAreas.length == 0" class="d-flex flex-row justify-content-center ">
+              <div class="text-info">{{ 'evaluation.create.noCompetencyAreasError' | translate }}</div>
+            </div>
+            <div class="d-flex flex-column  flex-md-row flex-wrap evaluation-types">
+              <div class="mb-2 py-2 mb-md-0" *ngFor="let competency of competencyAreas">
+                <input type="checkbox" (change)="changeCompetencyTypes(competency.competencyAreaId, $event)"
+                  [checked]="selectedCompetencyArea === competency.competencyAreaId"
+                  id="basic_checkbox_1_c_{{competency.competencyAreaId}}" class="filled-in chk-col-info">
+                <label style="padding-left: 26px" for="basic_checkbox_1_c_{{competency.competencyAreaId}}">{{
+                  competency.name }}</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project (project title) -->
+          <div class="box p-3" *ngIf="selectedAssessmentType == 2 && selectedEvaluationType == 2">
+            <div class="co-12 form-group">
+              <label class="control-label mb-1" [ngClass]="{'is-invalid' : submitted && !projectTitle }"
+                for="projectTitle">{{ 'evaluation.create.titleLabel' | translate }}</label>
+              <input class="form-control" id="projectTitle"
+                [placeholder]="'evaluation.create.titlePlaceholder' | translate" [(ngModel)]="projectTitle"
+                [ngModelOptions]="{standalone: true}" />
+              <div *ngIf="submitted && !projectTitle" class="invalid-feedback">
+                <div>{{ 'evaluation.create.titleRequired' | translate }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">
+              <span *ngIf="isCreatingAssessment" class="spinner-border spinner-border-sm" role="status"
+                aria-hidden="true"></span>
+              {{ 'evaluation.create.createBtn' | translate: {type: assessmentName} }}
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

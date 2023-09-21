@@ -1,0 +1,18 @@
+<!-- Main content -->
+<app-progress-micropayment [stage]="payment.stage" [payment]="true"
+    *ngIf="payment.stage < 3"></app-progress-micropayment>
+<app-add-payment-details 
+    *ngIf="payment.stage == 1"
+    [payment]="payment"
+    [studentAdm]="studentAdm"
+    (stage)="OStage($event)" 
+    (closeModal)="closeModal()"
+    (stkPayload)="passStkPayload($event)">
+</app-add-payment-details>
+<app-payment-confirmation 
+    *ngIf="payment.stage == 2"
+    [stkPayload]="stkPayload"
+    [payment]="payment"
+    (success)="onSuccess($event)"
+    (stage)="OStage($event)" 
+    (closeModal)="closeModal()"></app-payment-confirmation>

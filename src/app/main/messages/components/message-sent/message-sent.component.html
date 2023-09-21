@@ -1,0 +1,23 @@
+<div class="box animated bounceInUp box-shadowed">
+  <div class="box-body">
+    <div class="text-success fw-bold">
+      <i class="fa fa-bolt me-2"></i>
+      <span>{{ 'messages.compose.messageSent' | translate }}</span>
+    </div>
+    <div class="pt-2 ps-3 mt-3 pb-1 mb-3 border-left border-success">
+      <p>{{ 'messages.compose.messageSentSuccess' | translate }}</p>
+    </div>
+    <div class="d-flex flex-row justify-content-between hidden-xs-down">
+      <button class="btn btn-sm btn-secondary" (click)="closeDialog()">
+        <i class="bi bi-arrow-left"></i>
+        {{ 'common.back' | translate }}
+      </button>
+    </div>
+    <div class="d-flex flex-row justify-content-between hidden-sm-up">
+      <button class="btn btn-sm btn-secondary" (click)="closeDialog()">
+        <i class="bi bi-arrow-left"></i>
+        {{ 'common.back' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

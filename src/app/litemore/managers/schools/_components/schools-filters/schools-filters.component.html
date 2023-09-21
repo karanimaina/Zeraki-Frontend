@@ -1,0 +1,340 @@
+<div class="box box-widget">
+	<div
+		class="box-header py-2 d-flex justify-content-between align-items-baseline">
+		<span class="box-title">{{
+			"litemore.managers.schools.components.schoolFilters.filters" | translate
+		}}</span>
+		<ul class="box-controls pull-right position-static">
+			<li><a class="box-btn-slide" href="#"></a></li>
+		</ul>
+	</div>
+
+	<div class="box-body py-2">
+		<app-submit-form [formGroup]="filterForm" (onSubmit)="onFilterFormSubmit()">
+			<!-- filters btn and dropdown -->
+			<section class="mb-0">
+				<div class="row">
+					<ul
+						class="box-controls flex-row justify-content-between justify-content-md-start">
+						<!-- schools (Analytics) type filters -->
+						<ng-container *ngIf="product === 'Analytics'">
+							<li class="dropdown">
+								<button
+									type="button"
+									class="dropdown-toggle btn btn-md btn-success px-10"
+									data-bs-toggle="dropdown">
+									{{ activeSchoolType }}
+								</button>
+								<div class="dropdown-menu dropdown-menu-start border-fade">
+									<div
+										*ngFor="
+											let schoolTypeFilter of schoolTypeFilters;
+											let i = index
+										"
+										class="dropdown-item"
+										[class.active]="schoolTypeFilter === activeSchoolType"
+										(click)="changeActiveSchoolType(schoolTypeFilter)">
+										<span>{{ schoolTypeFilter }}</span>
+									</div>
+								</div>
+							</li>
+						</ng-container>
+
+						<!-- other filters -->
+						<li class="dropdown">
+							<button
+								type="button"
+								class="dropdown-toggle btn btn-md btn-success px-10"
+								data-bs-toggle="dropdown">
+								{{
+									"litemore.managers.schools.components.schoolFilters.filterBy"
+										| translate
+								}}:
+							</button>
+							<div class="dropdown-menu dropdown-menu-start border-fade">
+								<div
+									*ngFor="let filter of filters; let i = index"
+									class="dropdown-item">
+									<input
+										type="checkbox"
+										class="filled-in chk-col-success"
+										[value]="filter.value"
+										(change)="onFilterCheckboxChange($event)"
+										[checked]="
+											filterForm.value.checkArray.includes(filter.value)
+										"
+										id="sch_filter_{{ filter.value }}" />
+									<label for="sch_filter_{{ filter.value }}">{{
+										filter.name
+									}}</label>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</section>
+
+			<section class="mb-0 mt-2">
+				<!-- selected filters input fields -->
+				<div class="row">
+					<!-- school name -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="filterForm.value.checkArray.includes('schoolName')">
+						<label class="form-label">{{
+							"litemore.managers.schools.components.schoolFilters.schoolName"
+								| translate
+						}}</label>
+						<div class="input-group">
+							<input
+								type="text"
+								class="form-control"
+								formControlName="schoolName"
+								placeholder="{{
+									'litemore.managers.schools.components.schoolFilters.schoolName'
+										| translate
+								}}"
+								(change)="onSchoolNameChange($event)" />
+							<span
+								class="input-group-text"
+								style="cursor: pointer"
+								(click)="resetSearchFilter()">
+								<i class="fa fa-times"></i>
+							</span>
+						</div>
+						<app-field-errors
+							[control]="schoolName!"
+							[label]="
+								'litemore.managers.schools.components.schoolFilters.schoolName'
+									| translate
+							"></app-field-errors>
+					</div>
+					<!-- region -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="filterForm.value.checkArray.includes('region')">
+						<label class="form-label">{{
+							"litemore.managers.schools.components.schoolFilters.region"
+								| translate
+						}}</label>
+						<ng-select
+							[items]="regions"
+							placeholder="{{
+								'litemore.managers.schools.components.schoolFilters.selectRegion'
+									| translate
+							}}"
+							formControlName="selectedRegion"
+							bindValue="regionId"
+							bindLabel="name"
+							[loading]="(getRegionsStatus$ | async) === APIStatus.LOADING"
+							(change)="onRegionChange($event)">
+						</ng-select>
+						<app-field-errors
+							[control]="selectedRegion!"
+							[label]="
+								'litemore.managers.schools.components.schoolFilters.region'
+									| translate
+							"></app-field-errors>
+					</div>
+					<!-- county -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="filterForm.value.checkArray.includes('county')">
+						<label class="form-label">{{
+							"litemore.managers.schools.components.schoolFilters.county"
+								| translate
+						}}</label>
+						<ng-select
+							[items]="counties"
+							placeholder="{{
+								'litemore.managers.schools.components.schoolFilters.selectCounty'
+									| translate
+							}}"
+							formControlName="selectedCounty"
+							bindValue="countyId"
+							bindLabel="name"
+							[loading]="
+								(getRegionCountiesStatus$ | async) === APIStatus.LOADING
+							"
+							(change)="onCountyChange($event)">
+						</ng-select>
+						<app-field-errors
+							[control]="selectedCounty!"
+							[label]="
+								'litemore.managers.schools.components.schoolFilters.county'
+									| translate
+							"></app-field-errors>
+					</div>
+					<!-- Subcounty -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="filterForm.value.checkArray.includes('subcounty')">
+						<label class="form-label">Sub-county</label>
+						<ng-select
+							placeholder="Select sub-county"
+							[items]="subCounties || []"
+							[clearable]="false"
+							[loading]="(getSubCountiesStatus$ | async) === APIStatus.LOADING"
+							formControlName="selectedSubcounty"
+							bindLabel="subCountyName"
+							bindValue="subCountyId"
+							(change)="onSubCountyChange($event)">
+						</ng-select>
+						<app-field-errors
+							[control]="selectedSubcounty!"
+							[label]="'Sub-county'"></app-field-errors>
+					</div>
+					<!-- Regional level -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="filterForm.value.checkArray.includes('schoolRegionalLevel')">
+						<label class="form-label">{{
+							"litemore.createSchool.schoolRegionalLevel" | translate
+						}}</label>
+						<ng-select
+							[items]="regionalLevel"
+							placeholder="Select level"
+							formControlName="schoolRegionalLevel"
+							bindLabel="name"
+							bindValue="value"
+							[clearable]="false"
+							(change)="onRegionalLevelChange($event)">
+						</ng-select>
+						<app-field-errors
+							[control]="schoolRegionalLevel!"
+							[label]="'School level'"></app-field-errors>
+					</div>
+					<!-- Ownership type -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="filterForm.value.checkArray.includes('schoolOwnershipType')">
+						<label class="form-label">{{
+							"litemore.createSchool.schoolOwnership" | translate
+						}}</label>
+						<ng-select
+							[items]="ownershipTypes"
+							placeholder="Select Ownership"
+							formControlName="schoolOwnershipType"
+							bindLabel="name"
+							bindValue="value"
+							[clearable]="false"
+							(change)="onOwnershipTypeChange($event)">
+						</ng-select>
+						<app-field-errors
+							[control]="schoolOwnershipType!"
+							[label]="'Ownership type'"></app-field-errors>
+					</div>
+					<!-- education system -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="filterForm.value.checkArray.includes('educationSystem')">
+						<label class="form-label">{{
+							"litemore.managers.schools.components.schoolFilters.educationSystem"
+								| translate
+						}}</label>
+						<ng-select
+							[items]="educationSystems"
+							placeholder="{{
+								'litemore.managers.schools.components.schoolFilters.selectEducationSystem'
+									| translate
+							}}"
+							formControlName="selectedEducationSystem"
+							bindValue="educationSystemId"
+							bindLabel="name"
+							[loading]="
+								(getCountryDetailsStatus$ | async) === APIStatus.LOADING
+							"
+							(change)="onEducationSystemChange($event)">
+						</ng-select>
+						<app-field-errors
+							[control]="selectedEducationSystem!"
+							[label]="
+								'litemore.managers.schools.components.schoolFilters.educationSystem'
+									| translate
+							"></app-field-errors>
+					</div>
+					<!-- setup stage -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="filterForm.value.checkArray.includes('setupStage')">
+						<label class="form-label">{{
+							"litemore.managers.schools.components.schoolFilters.setupStage"
+								| translate
+						}}</label>
+						<ng-select
+							[items]="setupStages"
+							placeholder="{{
+								'litemore.managers.schools.components.schoolFilters.selectSetupStage'
+									| translate
+							}}"
+							formControlName="selectedSetupStage"
+							(change)="onSetupStageChange($event)">
+						</ng-select>
+						<app-field-errors
+							[control]="selectedSetupStage!"
+							[label]="
+								'litemore.managers.schools.components.schoolFilters.setupStage'
+									| translate
+							"></app-field-errors>
+					</div>
+					<!-- start date -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="filterForm.value.checkArray.includes('startDate')">
+						<label class="form-label">{{
+							"litemore.managers.schools.components.schoolFilters.startDate"
+								| translate
+						}}</label>
+						<input
+							type="date"
+							class="form-control"
+							id="startDate"
+							formControlName="startDate"
+							placeholder="dd-mm-yyyy"
+							(change)="onStartDateChange($event)" />
+						<app-field-errors
+							[control]="startDate!"
+							[label]="
+								'litemore.managers.schools.components.schoolFilters.startDate'
+									| translate
+							"></app-field-errors>
+					</div>
+					<!-- end date -->
+					<div
+						class="form-group col-md-6 col-lg-4"
+						*ngIf="filterForm.value.checkArray.includes('endDate')">
+						<label class="form-label">{{
+							"litemore.managers.schools.components.schoolFilters.endDate"
+								| translate
+						}}</label>
+						<input
+							type="date"
+							class="form-control"
+							id="endDate"
+							formControlName="endDate"
+							placeholder="dd-mm-yyyy"
+							(change)="onEndDateChange($event)" />
+						<app-field-errors
+							[control]="endDate!"
+							[label]="
+								'litemore.managers.schools.components.schoolFilters.endDate'
+									| translate
+							"></app-field-errors>
+					</div>
+				</div>
+
+				<!-- submit btn -->
+				<div class="form-group mb-0 text-end">
+					<div *ngIf="displaySearchBtn" class="searchBtn">
+						<button class="btn btn-success btn-sm" type="submit">
+							{{
+								"litemore.managers.schools.components.schoolFilters.search"
+									| translate
+							}}
+						</button>
+					</div>
+				</div>
+			</section>
+		</app-submit-form>
+	</div>
+</div>

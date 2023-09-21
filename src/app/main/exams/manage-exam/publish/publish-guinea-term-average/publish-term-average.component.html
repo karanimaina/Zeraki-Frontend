@@ -1,0 +1,174 @@
+<section class="mt-config content">
+  <div *ngIf="isLoading; then loadingSection else completeSection"></div>
+  <!-- Loading Section -->
+  <ng-template #loadingSection>
+    <div class="box">
+      <div class="box-body">
+        <div class="row">
+          <div class="col-sm-12">
+            <app-loader-div [height]="70"></app-loader-div>
+            <p></p>
+          </div>
+          <div class="col-sm-12">
+            <app-loader-div [height]="150"></app-loader-div>
+            <p></p>
+          </div>
+          <div class="col-sm-12">
+            <app-loader-div [height]="100"></app-loader-div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Loading complete Section -->
+  <ng-template #completeSection>
+    <div class="row">
+      <div class="col-12">
+        <!--      section Selected exam-->
+        <p class="fw-600">
+          Publish {{(pathParams.type == 1) ? 'Term Average':'Year Average'}} Exam
+        </p>
+        <div class="box">
+          <div class="box-body">
+            <!--          select exam section-->
+            <div class="form-group">
+                <select (change)="selectExam()" [(ngModel)]="selectExamIndex" id="" class="form-select">
+                  <option *ngFor="let exam of list.list; let i = index" [value]="i">{{exam["examname"]}}</option>
+                </select>
+            </div>
+
+            <!-- section show exams taken-->
+            <div class="form-group">
+              <div class="table-responsive">
+                <table class="table table-bordered table-striped mb-0 table-hover">
+                  <thead>
+                  <tr>
+                    <th>
+                      Exam
+                    </th>
+                    <th *ngIf="pathParams.type == 1">
+                      Ratio
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody *ngIf="pathParams.type == 1">
+                  <tr *ngFor="let exam of selectedListExam?.series">
+                    <td>{{exam.examname}}</td>
+                    <td>{{exam.ratio}}</td>
+                  </tr>
+                  </tbody>
+                  <tbody *ngIf="pathParams.type == 2">
+                  <tr *ngFor="let exam of selectedListExam?.egroups">
+                    <td>{{exam.examname}}</td>
+<!--                    <td>{{exam.ratio}}</td>-->
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!--  section overall mention-->
+            <div class="form-group">
+				<ng-template #overallMentionGuinea>
+					{{"exams.publishExamsConsolidated.textMention"|translate}}
+				</ng-template>
+				<ng-template #overallMentionIvory>
+					{{"exams.publishExamsConsolidated.textAppreciation"|translate}}
+				</ng-template>
+
+              <label for="selectOverallMention" class="control-label fw-600">
+                <b>
+					<ng-template [ngTemplateOutlet]="schoolData?.isGuineaSchool ? overallMentionGuinea : overallMentionIvory"></ng-template>
+				</b>
+              </label>
+              <select name="overallMention" [(ngModel)]="selectedMention"
+                      class="form-select"  id="selectOverallMention"
+                      [ngClass]="{'is-invalid':(buttonClicked && selectedMention == -1)}">
+                <option value="-1">
+                  <!-- Select Mention System -->
+					<ng-template [ngTemplateOutlet]="schoolData?.isGuineaSchool ? selectMentionGuinea : selectMentionIvory"></ng-template>
+                </option>
+                <option *ngFor="let mention of mentions" [value]="mention.mentionSystemId">{{mention.title}}</option>
+              </select>
+				<ng-template #selectMentionGuinea>
+					{{"exams.publishExamsConsolidated.textSelectMention"|translate}}
+				</ng-template>
+				<ng-template #selectMentionIvory>
+					{{"exams.publishExamsConsolidated.textSelectAppreciation"|translate}}
+				</ng-template>
+				<ng-template #selectAMentionGuinea>
+					{{"exams.publishExamsConsolidated.textSelectAMention"|translate}}
+				</ng-template>
+				<ng-template #selectAMentionIvory>
+					{{"exams.publishExamsConsolidated.textSelectAnAppreciation"|translate}}
+				</ng-template>
+              <div class="text-danger" *ngIf="buttonClicked && selectedMention == -1">
+                <!-- Select a Mention System -->
+				  <ng-template [ngTemplateOutlet]="schoolData?.isGuineaSchool ? selectAMentionGuinea : selectAMentionIvory"></ng-template>
+                {{"exams.publishExamsConsolidated.textSelectAMention"|translate:{mention:schoolData.mentionLabel} }}
+              </div>
+            </div>
+
+            <!--  Subject  Mention-->
+            <div class="form-group">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped table-bordered mb-0">
+                  <thead>
+                  <tr>
+                    <th>
+						<!-- Subject -->
+						{{"exams.publishExams.textSubject"|translate}}
+					</th>
+                    <th>
+                      <!--  Mention-->
+						<ng-template [ngTemplateOutlet]="schoolData?.isGuineaSchool ? overallMentionGuinea : overallMentionIvory"></ng-template>
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let subject of selectedListExamSubjects; let i = index">
+                    <td>{{subject.name}}
+                    </td>
+                    <td>
+                      <select name="name" id="selectName" class="form-select" [(ngModel)]="subject.msid"
+                              [ngClass]="{'is-invalid':(buttonClicked && subject.gsid==-1)}">
+                        <option value="-1">
+													{{ schoolData.mentionLabel }}
+                        </option>
+                        <option *ngFor="let mention of mentions"
+                                [value]="mention.mentionSystemId">{{mention.title}}</option>
+                      </select>
+                      <div class="text-danger" *ngIf="buttonClicked && subject?.gsid==-1">
+                        <!-- Select a Grading System -->
+                        {{"exams.publishExamsConsolidated.textSelectAMention"|translate:{mention:schoolData.mentionLabel} }}
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!--  publish section-->
+            <div class="form-group mb-0">
+              <div *ngIf="showLoading;then showPublishing else showButton"></div>
+              <ng-template #showPublishing>
+                <app-loader-pulse style="float: right;"></app-loader-pulse>
+              </ng-template>
+              <ng-template #showButton>
+                <button (click)="publishTermAverage()"
+                        class="btn pull-right btn-info btn-sm waves-effect waves-light">
+                  <i class="fa fa-newspaper-o"></i>
+                  <!-- Publish Results -->
+                  {{"exams.publishExamsConsolidated.btnTextPublishResults"|translate}}
+                </button>
+              </ng-template>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</section>

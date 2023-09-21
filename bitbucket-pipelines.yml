@@ -1,0 +1,94 @@
+image: node:16.17.1
+
+definitions:
+    steps:
+        - step: &Install-dependencies
+              name: Install Dependencies
+              caches:
+                  - node
+              script:
+                  - npm install
+              artifacts:
+                  - node_modules/**
+        - step: &Manual-build
+              name: Build
+              size: 2x
+              trigger: manual
+              max-time: 7
+              artifacts:
+                  - dist/**
+        - step: &Auto-build
+              name: Build
+              size: 2x
+              trigger: automatic
+              max-time: 7
+              artifacts:
+                  - dist/**
+        - step: &Deploy-to-s3
+              name: Deploy To S3
+              deployment: test
+              image: atlassian/pipelines-awscli
+              script:
+                  - pipe: atlassian/aws-s3-deploy:1.1.0
+                    variables:
+                       LOCAL_PATH: dist/zeraki-analytics
+                       S3_BUCKET: $S3_BUCKET
+                  - pipe: atlassian/aws-cloudfront-invalidate:0.1.1
+                    variables:
+                       AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                       AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                       AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+                       DISTRIBUTION_ID: $DISTRIBUTION_ID
+
+pipelines:
+    branches:
+        develop:
+            - step: *Install-dependencies
+            - step:
+                <<: *Auto-build
+                script:
+                    - npm run build-test
+            - step:
+                <<: *Deploy-to-s3
+                name: Deploy to test.analytics.zeraki.co.ke
+                deployment: test
+            - step:
+                <<: *Manual-build
+                script:
+                    - npm run build-top-level
+            - step:
+                <<: *Deploy-to-s3
+                name: Deploy to analytics.zeraki.co
+                deployment: production-top-level
+                trigger: manual
+
+        release/staging:
+            - step: *Install-dependencies
+            - step:
+                <<: *Manual-build
+                script:
+                    - npm run build-staging
+            - step:
+                <<: *Deploy-to-s3
+                name: Deploy to staging.zeraki.co.ke
+                deployment: staging
+            - step:
+                <<: *Manual-build
+                script:
+                    - npm run build
+            - step:
+                <<: *Deploy-to-s3
+                name: Deploy to analytics.zeraki.co.ke
+                deployment: production-kenya
+                trigger: manual
+        main:
+            - step: *Install-dependencies
+            - step:
+                <<: *Manual-build
+                script:
+                    - npm run build
+            - step:
+                <<: *Deploy-to-s3
+                name: Deploy to analytics.zeraki.co.ke
+                deployment: production-kenya
+                trigger: manual

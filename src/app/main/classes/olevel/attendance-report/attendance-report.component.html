@@ -1,0 +1,97 @@
+<!-- Classes Top Nav -->
+<app-classes-top-nav></app-classes-top-nav>
+
+<section class="content mt-config">
+
+  <div class="d-flex flex-row justify-content-between mb-3">
+    <div class="h4 fw-bold">{{ schoolTypeData?.formoryear?.includes('Form') ? ('common.form' | translate) : schoolTypeData?.formoryear?.includes('Senior') ? ('common.senior' | translate) : schoolTypeData?.formoryear?.includes('Year') ? ('common.year' | translate) : ('common.class' | translate) }} {{ attendanceReport?.form }} {{ attendanceReport?.stream }} - {{ 'classes.attendanceReport.title' | translate }}</div>
+    <div>
+      <button class="btn btn-secondary btn-sm pull-right no-wrap" (click)="navigateBack()">
+        <i class="si si-arrow-left-circle"></i>
+        {{ 'classes.attendanceReport.backBtn' | translate }}
+      </button>
+    </div>
+  </div>
+  <div class="box">
+    <div class="box-body">
+      <div class="mb-2">{{ 'classes.attendanceReport.filterBy' | translate }}</div>
+      <div class="d-flex flex-row mb-3 mt-3">
+        <div class="fw-700 me-3">
+          <input type="checkbox" [checked]="!filterByDate" (click)="updateFilter(false, $event)" id="term-select" class="filled-in chk-col-info">
+          <label for="term-select" class="fw-500">{{ 'classes.attendanceReport.filterByOptions.term.label' | translate }}</label>
+        </div>
+        <div class="fw-700">
+          <input type="checkbox" [checked]="filterByDate" (click)="updateFilter(true, $event)" id="date-select" class="filled-in chk-col-info">
+          <label for="date-select" class="fw-500">{{ 'classes.attendanceReport.filterByOptions.date.label' | translate }}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4" *ngIf="!filterByDate">
+          <div class="form-group">
+            <ng-select [notFoundText]="'common.noItemsFound' | translate" placeholder="{{ 'classes.attendanceReport.filterByOptions.term.placeholder' | translate }}"
+                       [(ngModel)]="selectedTerm"
+                       id="term">
+              <ng-option *ngFor="let term of terms_years" [value]="term">{{ term.label }}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+        <ng-container *ngIf="filterByDate">
+          <div class="col-md-4">
+            <div class="form-group">
+              <input type="text" [(ngModel)]="startDate" [matDatepicker]="picker" (click)="picker.open()" (ngModelChange)="endDate = null" class="form-control" id="start-date" placeholder="{{ 'classes.attendanceReport.filterByOptions.date.startDate' | translate }}">
+              <mat-datepicker-toggle hidden matSuffix [for]="picker" class="calender-btn mt-3"></mat-datepicker-toggle>
+              <mat-datepicker #picker class="calender-btn"></mat-datepicker>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <input type="text" [(ngModel)]="endDate" [matDatepicker]="endDatePicker" [min]="startDate" (click)="endDatePicker.open()" class="form-control" id="end-date" placeholder="{{ 'classes.attendanceReport.filterByOptions.date.endDate' | translate }}">
+              <mat-datepicker-toggle hidden matSuffix [for]="picker" class="calender-btn mt-3"></mat-datepicker-toggle>
+              <mat-datepicker #endDatePicker class="calender-btn"></mat-datepicker>
+            </div>
+          </div>
+        </ng-container>
+
+        <div class="col-md-4">
+          <button class="btn btn-primary btn-sm" (click)="filter()">
+            <i *ngIf="!loading" class="fa fa-filter"></i>
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            {{ 'classes.attendanceReport.filterByBtn' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-sm table-striped table-bordered table-hover mb-0">
+            <thead>
+            <tr>
+              <th scope="col" style="width: 10%;">#</th>
+              <th scope="col" style="width: 15%;">{{ 'classes.attendanceReport.table.admNo' | translate }}</th>
+              <th scope="col">{{ 'classes.attendanceReport.table.name' | translate }}</th>
+              <th scope="col">{{ 'classes.attendanceReport.table.daysPresent' | translate }}</th>
+              <th scope="col">{{ 'classes.attendanceReport.table.daysAbsent' | translate }}</th>
+              <th scope="col">{{ 'classes.attendanceReport.table.totalDays' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngIf="attendanceReport?.students?.length == 0" class="text-center text-danger">
+              <td colspan="6">{{ 'classes.attendanceReport.table.noDataFound' | translate }}</td>
+            </tr>
+            <tr *ngFor="let stud of attendanceReport?.students; index as i" [routerLink]="'/main/students/analytics/'+stud.userid" [queryParams]="{term: attendanceReport?.term, rYear: attendanceReport?.year}">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ stud.admno }}</td>
+              <td>{{ stud.name }}</td>
+              <td>{{ stud.present }}</td>
+              <td>{{ stud.absent }}</td>
+              <td>{{ stud.present + stud.absent }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,75 @@
+<div class="box box-widget animated bounceInUp" *ngIf="schoolInfo$ | async as schoolInfo">
+	<div class="box-header with-border p-header">
+		<div class="user-block">
+			<h4 class="box-title">{{ 'printouts.oLevelRForm.options.title' | translate }}</h4>
+		</div>
+		<ul class="box-controls pull-right">
+			<li><a class="box-btn-slide" href="#"></a></li>
+		</ul>
+	</div>
+	<div class="box-body">
+		<form [formGroup]="transcriptOptionsForm">
+			<div class="row">
+				<div class="col-md-9 mx-auto">
+					<div class="row">
+						<div class="col-md-6">
+							<!-- report -->
+							<h6 class="text-bold text-muted">{{ 'printouts.oLevelRForm.options.report.title' | translate }}</h6>
+							<!-- Attendance Report -->
+							<div class="col-12">
+								<app-checkbox
+									formControlName="attendanceReport"
+									[label]="'printouts.oLevelRForm.options.assessments.label5'  | translate">
+								</app-checkbox>
+							</div>
+							<!-- Grade descriptor -->
+							<div class="col-12">
+								<app-checkbox
+									formControlName="gradeDescriptor"
+									[label]="'printouts.oLevelRForm.options.assessments.gradeDescriptor'  | translate">
+								</app-checkbox>
+							</div>
+
+							<!-- remarks -->
+							<h6 class="text-bold text-muted mt-1">{{ 'printouts.oLevelRForm.options.remarks.title' | translate }}</h6>
+							<!-- class teacher remarks -->
+							<div class="col-12">
+								<app-checkbox
+									formControlName="classTeacherComments"
+									[label]="'printouts.oLevelRForm.options.remarks.classTeacher' | translate">
+								</app-checkbox>
+							</div>
+							<!-- principal remarks -->
+							<div class="col-12 mb-3" *ngIf="schoolInfo && schoolInfo.principal">
+								<app-checkbox
+									formControlName="principalComments"
+									[label]="'printouts.oLevelRForm.options.remarks.principal' | translate">
+								</app-checkbox>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<!-- signatures -->
+							<h6 class="text-bold text-muted">{{ 'printouts.oLevelRForm.options.signature.title' | translate }}</h6>
+							<!-- class teacher signature -->
+							<div class="col-12">
+								<app-checkbox
+									formControlName="classTeacherSignature"
+									[label]="'printouts.oLevelRForm.options.signature.label' | translate">
+								</app-checkbox>
+							</div>
+							<!-- principal signature -->
+							<div class="col-12" *ngIf="schoolInfo && schoolInfo.principal">
+								<app-checkbox
+									formControlName="principalSignature"
+									[label]="'printouts.oLevelRForm.options.signature.principal' | translate">
+								</app-checkbox>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

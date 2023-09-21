@@ -1,0 +1,247 @@
+<!-- Classes Top Nav -->
+<app-classes-top-nav></app-classes-top-nav>
+
+<!-- Loader -->
+<ng-container *ngIf="!streams; then showLoading else showContent"></ng-container>
+
+<ng-template #showLoading>
+
+	<section class="content mt-config">
+		<div class="box">
+			<div class="box-body">
+				<app-loader-div [height]="50"></app-loader-div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<div class="box">
+					<div class="box-body">
+						<app-loader-div [height]="150"></app-loader-div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</ng-template>
+<!-- Main content -->
+<ng-template #showContent>
+	<section class="content mt-config">
+		<div *ngIf="!showClassListUI else displayClasslist" class="row">
+			<div class="col-12">
+				<div class="box">
+					<div class="box-header with-border">
+						<h4 class="box-title">{{ 'classes.commonAttr.streams' | translate }} - {{ schoolTypeData?.formoryear}}
+							{{streams[0]?.form}}</h4>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<div class="table-responsive">
+							<table class="table  table-sm table-striped table-bordered  table-hover text-center"
+								   [ngClass]="{'table-padding': !canManageStream}">
+								<thead>
+									<tr>
+										<th style="width: 5%;">{{ schoolTypeData?.formoryear }}</th>
+										<th style="width: 10%;">{{ 'classes.commonAttr.stream' | translate }}</th>
+										<th *ngIf="streamsObj.is_mixed_school" style="width: 5%;">
+											{{ 'classes.streams.table.boys' | translate }}
+										</th>
+										<th *ngIf="streamsObj.is_mixed_school" style="width: 5%;">
+											{{ 'classes.streams.table.girls' | translate }}
+										</th>
+										<th style="width: 10%;">{{ 'classes.streams.table.students' | translate }}</th>
+										<th style="width: 15%;">{{ 'classes.streams.table.classTeacher' | translate }}</th>
+										<th *ngIf="canManageStream" colspan="5" style="width: 50%;">{{ 'classes.streams.table.actions' | translate }}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let classStream of streams;" [ngSwitch]="( classStream === selectedForm )">
+										<th scope="row" routerLink="../../classes/{{classStream.streamid}}">{{ classStream.form }}</th>
+										<td *ngSwitchCase="false" routerLink="../../classes/{{classStream.streamid}}">
+											{{ classStream.stream }}
+										</td>
+										<td class="text-start" *ngSwitchCase="true">
+											<input type="text" name="value" autofocus [(ngModel)]="pendingValue"
+												(keydown.Enter)="processChanges()" (keydown.Meta.Enter)="processChanges()"
+												(keydown.Escape)="cancel()" style="width: 90%" />
+										</td>
+										<td *ngIf="streamsObj.is_mixed_school" routerLink="../../classes/{{classStream.streamid}}">{{ classStream.boys }}</td>
+										<td *ngIf="streamsObj.is_mixed_school" routerLink="../../classes/{{classStream.streamid}}">{{ classStream.girls }}</td>
+										<td routerLink="../../classes/{{classStream.streamid}}">{{ classStream.population }}</td>
+										<td>
+											<ng-container *ngIf="classStream.ct">
+												<span>{{ classStream.ct.name }}</span>
+												<span class="pull-right" *ngIf="canManageStream">
+													<a (click)="removeClassTeacher(classStream.streamid)" class="text-danger" style="cursor: pointer;"
+													   title="{{ 'classes.streams.table.removeClassTeacher' | translate }}">
+														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+															 class="bi bi-trash" viewBox="0 0 16 16">
+															<path
+																d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+															<path fill-rule="evenodd"
+																  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+														</svg>
+													</a>
+												</span>
+											</ng-container>
+											<ng-container *ngIf="canManageStream && !classStream.ct">
+												<ng-select [notFoundText]="'common.noItemsFound' | translate" size="1" appendTo="body"
+														   [items]="teachers" [closeOnSelect]="true" [searchable]="true" bindLabel="name"
+														   (change)="assignClassTeacher(classStream.streamid, $event)"
+														   placeholder="{{ 'classes.streams.table.selectCt' | translate }}">
+												</ng-select>
+											</ng-container>
+										</td>
+										<ng-container *ngIf="canManageStream">
+											<td>
+												<button *ngSwitchCase="false" (click)="edit(classStream)" type="button"
+														class="waves-effect waves-light btn btn-dark btn-sm" title="Edit name">
+												<span>
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+														 class="bi bi-pen" viewBox="0 0 16 16">
+														<path
+															d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+													</svg>
+												</span>
+													<span class="ms-1">{{ 'classes.streams.table.editName' | translate }}</span>
+												</button>
+												<span *ngSwitchCase="true">
+												<button (click)="cancel()" type="button"
+														class="waves-effect waves-light btn btn-secondary btn-sm">
+													<i class="me-lg-1">
+														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+															 class="bi bi-x" viewBox="0 0 16 16">
+															<path
+																d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+														</svg>
+													</i>
+													<span class="hidden-md-down">{{ 'classes.streams.table.cancelBtn' | translate }}</span>
+												</button>
+												<button type="button" (click)="processChanges()"
+														class="waves-effect waves-light btn btn-info btn-sm ms-2">
+													<i class="me-lg-1">
+														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+															 class="bi bi-sd-card" viewBox="0 0 16 16">
+															<path
+																d="M6.25 3.5a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2zm2 0a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2zm2 0a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2zm2 0a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2z" />
+															<path fill-rule="evenodd"
+																  d="M5.914 0H12.5A1.5 1.5 0 0 1 14 1.5v13a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5V3.914c0-.398.158-.78.44-1.06L4.853.439A1.5 1.5 0 0 1 5.914 0zM13 1.5a.5.5 0 0 0-.5-.5H5.914a.5.5 0 0 0-.353.146L3.146 3.561A.5.5 0 0 0 3 3.914V14.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-13z" />
+														</svg>
+													</i>
+													<span class="hidden-md-down">{{ 'classes.streams.table.saveBtn' | translate }}</span>
+												</button>
+											</span>
+											</td>
+											<td>
+												<button routerLink="../../classes/{{classStream.streamid}}" type="button"
+														class="waves-effect waves-light btn btn-dark btn-sm">
+													<i class="fa fa-cogs"></i>
+													<span class="ms-1">{{ 'classes.commonAttr.manage' | translate }}</span>
+												</button>
+											</td>
+											<td>
+												<button [routerLink]="['/main/classes/myclass/attendance', classStream.streamid]" type="button"
+														class="waves-effect waves-light btn btn-secondary btn-sm">
+													<svg _ngcontent-xce-c214="" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+														 fill="currentColor" viewBox="0 0 16 16" class="bi bi-card-checklist me-2">
+														<path _ngcontent-xce-c214=""
+															  d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z">
+														</path>
+														<path _ngcontent-xce-c214=""
+															  d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z">
+														</path>
+													</svg>
+
+													<span class="ms-1">{{ 'classes.commonAttr.attendance' | translate }}</span>
+												</button>
+											</td>
+											<td class="text-center">
+												<button type="button" class="waves-effect waves-light btn btn-success btn-sm"
+														(click)="showClassListDisplay({ intakeid: +routeId, streamId: classStream.streamid })">
+													<i>
+														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+															 class="bi bi-card-list" viewBox="0 0 16 16">
+															<path
+																d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
+															<path
+																d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z" />
+														</svg>
+													</i>
+													{{"common.classlist" | translate}}
+												</button>
+											</td>
+											<td class="text-center">
+												<button (click)="deleteStream(classStream.form, classStream.stream, classStream.streamid)" type="button"
+														class="waves-effect waves-light btn btn-danger btn-sm">
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+														 class="bi bi-trash" viewBox="0 0 16 16">
+														<path
+															d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+														<path fill-rule="evenodd"
+															  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+													</svg>
+													<span class="ms-1">{{ 'classes.streams.table.deleteBtn' | translate }}</span>
+												</button>
+											</td>
+										</ng-container>
+									</tr>
+								</tbody>
+								<tfoot *ngIf="streamsObj.is_mixed_school">
+									<tr>
+										<th colspan="2" scope="row" class="text-start">{{ 'classes.streams.table.total' | translate }}</th>
+										<td>{{ streamsObj?.total_boys }}</td>
+										<td>{{ streamsObj?.total_girls }}</td>
+										<td>{{ streamsObj?.total_population }}</td>
+										<td colspan="6"></td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+						<div class="">
+							<button (click)="location.back()" type="button" class="waves-effect waves-light btn btn-secondary btn-sm">
+								<i>
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+										class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+										<path fill-rule="evenodd"
+											d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+									</svg>
+								</i>
+								{{ 'classes.commonAttr.back' | translate }}
+							</button>
+						</div>
+					</div>
+					<!-- /.box-body -->
+				</div>
+				<!-- /.box -->
+
+			</div>
+		</div>
+		<!-- Class list UI -->
+		<ng-template #displayClasslist>
+			<div class="px-xl-20">
+				<div class="d-flex justify-content-between">
+					<h3 class="fs-20 fw-bold">
+						{{ 'printouts.classList.title' | translate }}
+					</h3>
+
+					<button class="btn btn-sm btn-secondary mb-3" (click)="hideClassListDisplay()">
+						<i>
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+								<path fill-rule="evenodd"
+									d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+							</svg>
+						</i>
+						{{ 'common.close' | translate }}
+					</button>
+				</div>
+
+				<app-class-list [classId]="classDetails?.classid ?? -1" [egroupId]="classDetails?.egroupId ?? -1"
+					[intakeId]="classDetails?.intakeid ?? -1" [streamId]="classDetails?.streamId ?? classDetails?.streamid ?? -1"
+					[subjectId]="classDetails?.subject?.subjectId ?? -1" [seriesId]="classDetails?.seriesId ?? -1">
+				</app-class-list>
+			</div>
+		</ng-template>
+	</section>
+</ng-template>

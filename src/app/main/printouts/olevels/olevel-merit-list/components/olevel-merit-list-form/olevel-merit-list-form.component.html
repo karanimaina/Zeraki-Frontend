@@ -1,0 +1,67 @@
+<div class="box box-widget">
+	<div class="box-header with-border p-header">
+		<h4 class="box-title">{{ 'printouts.meritList.title' | translate}}
+		</h4>
+		<ul class="box-controls pull-right">
+			<li><a class="box-btn-slide text-dark fs-16" href="#"></a></li>
+		</ul>
+	</div>
+
+
+	<div class="box-body">
+		<form [formGroup]="meritListForm" (ngSubmit)="submitForm()">
+			<div class="row">
+				<div class="col-md-6">
+					<app-ng-select
+						[label]="'common.term' | translate"
+						formControlName="term"
+						[placeholder]="'common.term' | translate"
+						[items]="[1,2,3]">
+					</app-ng-select>
+				</div>
+
+				<div class="col-md-6">
+					<app-ng-select
+						[label]="'common.year' | translate"
+						formControlName="academicYear"
+						[placeholder]="'common.year' | translate"
+						[items]="academicYears$ | async"
+						bindLabel="beginYear"
+						bindValue="academicYearId">
+					</app-ng-select>
+				</div>
+
+				<div class="col-md-6">
+					<app-ng-select
+						[label]="(formOrYear$ | async) || ''"
+						formControlName="intakeId"
+						[placeholder]="(formOrYear$ | async) || ''"
+						[items]="currentFormList$ | async"
+						bindLabel="classlevel"
+						bindValue="intakeid">
+					</app-ng-select>
+				</div>
+
+				<div class="col-md-6">
+					<app-ng-select
+						[label]="'common.stream' | translate"
+						formControlName="streamId"
+						[placeholder]="'common.stream' | translate"
+						[items]="currentStreamList$ | async"
+						bindLabel="name"
+						bindValue="streamid">
+					</app-ng-select>
+				</div>
+			</div>
+
+			<div class="mt-2">
+				<button
+					type="submit"
+					class="btn btn-sm btn-info waves-effect waves-light  pull-right"
+					[class.box-btn-slide-close]="meritListForm.valid">
+					{{ 'printouts.meritList.mlForm.meritListBtn' | translate }}
+				</button>
+			</div>
+		</form>
+	</div>
+</div>

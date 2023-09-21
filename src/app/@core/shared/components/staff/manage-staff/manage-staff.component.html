@@ -1,0 +1,329 @@
+<section class="content mt-config" *ngIf="!viewPrintFormat">
+
+	<div *ngIf="!showProfile" class="row">
+		<div class="col-12">
+			<app-search-teachers [staffName]="staffName" [teacherListError]="staffListError" [searchText]="searchText"
+				(togglePrint)="togglePrintFormat()" (filterBy)="applyFilter($event)"></app-search-teachers>
+
+			<div *ngIf="staffListError">
+				<div class="box div box-body alert-danger">
+					<p class="mb-0">{{ 'teachers.manageTeachers.teacherList.error' | translate }}</p>
+				</div>
+			</div>
+
+			<div *ngIf="!loading && !staffListError && filteredStaffList?.length == 0">
+				<div class="box div box-body alert-info">
+					<p class="mb-0">{{ 'common.groups.list.noRecords' | translate:{ name: staffName } }}</p>
+				</div>
+			</div>
+		</div>
+
+		<div>
+			<app-list-teachers [staffType]="staff" [loading]="loading" [loadingError]="staffListError"
+				[teachers]="filteredStaffList" [userRoles]="userRoles" [userInfo]="loggedInUser"
+				(showProfile)="showUserTeacherProfile($event)"></app-list-teachers>
+		</div>
+	</div>
+
+	<div *ngIf="showProfile">
+		<app-edit-teacher [userInfo]="loggedInUser" [userRoles]="userRoles" [staff]="selectedStaff"
+			[teacherGroups]="staffGroups" [staffType]="staff" (closeProfileView)="updateShowProfile()"
+			(teacherUpdated)="updateTeacherDetails($event)" (staffDeleted)="removeDeletedTeacher($event)">
+		</app-edit-teacher>
+	</div>
+</section>
+
+<!--
+------------------------------------
+VIEW PRINT FORMAT
+------------------------------------
+-->
+
+<section class="content mt-config" *ngIf="viewPrintFormat">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="box">
+				<div class="box-body">
+					<div class="fw-600 mb-3">
+						{{ 'staff.manageStaff.printFormat.options.headerText' | translate}}
+					</div>
+					<div class="row">
+						<!-- phone numbers -->
+						<div class="col-sm-2">
+							<input name="phoneNumbers" [(ngModel)]="showPhoneNumbers" [checked]="showPhoneNumbers"
+								type="checkbox" id="radio_32" class="filled-in chk-col-info">
+							<label for="radio_32">
+								{{'staff.manageStaff.printFormat.options.showPhoneNumbersOption' | translate}}
+							</label>
+						</div>
+						<!-- username -->
+						<div class="col-sm-2" *ngIf="optionalColumns.includes('username')">
+							<input [(ngModel)]="showUsernames" [checked]="showUsernames" name="usernames"
+								type="checkbox" id="radio_33" class="filled-in chk-col-info">
+							<label for="radio_33">
+								{{ 'staff.manageStaff.printFormat.options.showUsername' |translate }}
+							</label>
+						</div>
+						<!-- national id number -->
+						<div class="col-sm-2">
+							<input name="nationalIdNo" [(ngModel)]="showNationalIds" [checked]="showNationalIds"
+								type="checkbox" id="radio_35" class="filled-in chk-col-info">
+							<label for="radio_35">
+								{{ 'staff.manageStaff.printFormat.options.showNationalIdNumberOption' | translate }}
+							</label>
+						</div>
+						<!-- gender -->
+						<div class="col-sm-2" *ngIf="optionalColumns.includes('gender')">
+							<input name="gender" [(ngModel)]="showGender" [checked]="showGender" type="checkbox"
+								id="gender" class="filled-in chk-col-info">
+							<label for="gender">
+								{{ 'staff.manageStaff.printFormat.options.showGender' | translate }}
+							</label>
+						</div>
+						<!-- tsc number -->
+						<div class="col-sm-2" *ngIf="optionalColumns.includes('tscNumber')">
+							<input name="tscNumber" [(ngModel)]="showTscNumber" [checked]="showTscNumber"
+								type="checkbox" id="tscNumber" class="filled-in chk-col-info">
+							<label for="tscNumber">
+								<ng-container *ngTemplateOutlet="countriesTSCNumberText"></ng-container>
+							</label>
+						</div>
+						<!-- groups -->
+						<div class="col-sm-2">
+							<input name="groups" type="checkbox" [(ngModel)]="showGroups" id="radio_30"
+								class="filled-in chk-col-info" [checked]="showGroups">
+							<label for="radio_30">
+								{{ 'staff.manageStaff.printFormat.options.showGroupsOption' | translate }}
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12" style="display:flex; justify-content:space-between">
+			<button class="btn btn-sm waves-effect waves-light btn-secondary" (click)="togglePrintFormat()">
+				{{ 'teachers.manageTeachers.printFormat.closePrintFormatBtn' | translate }}
+			</button>
+			<div style="display:inline-block">
+				<!-- print action -->
+				<button class="btn waves-effect waves-light btn-sm btn-dark m-1 d-none d-md-inline-block" ngxPrint
+					printSectionId="printthis" [useExistingCss]="true" styleSheetFile="assets/css/print-staff-list.css">
+					<i>
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							class="bi bi-printer" viewBox="0 0 16 16">
+							<path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+							<path
+								d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
+						</svg>
+					</i>
+					{{ 'teachers.manageTeachers.printFormat.printBtn' | translate }}
+				</button>
+				<!-- download action -->
+				<div class="btn-group">
+					<button data-bs-toggle="dropdown" class="btn waves-effect waves-light btn-sm btn-dark">
+						<i>
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+								<path
+									d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+							</svg>
+						</i>
+						{{ 'teachers.manageTeachers.printFormat.downloadBtn' | translate }}
+					</button>
+					<!-- excel download -->
+					<div class="dropdown-menu bg-active">
+						<a class="dropdown-item" (click)="exportTeacherListAsExcel()"><i class="fa fa-file excel-o"></i>
+							{{ 'teachers.manageTeachers.printFormat.downloadExcelBtn' | translate }}
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12">
+			<div class="box" style="margin-top: 20px;">
+				<div class="box-body">
+					<!-- top section -->
+					<div class="row mb-10">
+						<div class="col-sm-3">
+							<img class="img" height="120" [src]="schoolProfile?.logo"
+								(error)="schoolProfile.logo = 'assets/img/logos/z-ws-logo.jpg'"
+								[alt]="'teachers.manageTeachers.printFormat.schoolLogoAltText' | translate">
+						</div>
+						<div class="col-sm-5 text-center m-auto">
+							<h2 class="fw-600">{{ schoolProfile?.name }}</h2>
+							<h4>{{ staffName }} {{ 'teachers.manageTeachers.printFormat.tableHeaderText' | translate }}
+							</h4>
+						</div>
+						<div class="col-sm-4 text-end">
+							<p class="fw-600 mb-5">{{ schoolProfile?.address }}</p>
+							<p class="fw-600 mb-5">{{ schoolProfile?.phone }}</p>
+							<p class="fw-600 mb-5">{{ schoolProfile?.email }}</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="table-responsive">
+								<table class="table table-bordered table-striped table-hover mb-0">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>
+												{{ 'teachers.manageTeachers.printFormat.tableColumnHeaders.name' |
+												translate }}
+											</th>
+											<th *ngIf="showUsernames && optionalColumns.includes('username')">
+												{{ 'teachers.manageTeachers.printFormat.tableColumnHeaders.username' |
+												translate }}
+											</th>
+											<th *ngIf="showPhoneNumbers">
+												{{ 'teachers.manageTeachers.printFormat.tableColumnHeaders.phone' |
+												translate }}
+											</th>
+											<th *ngIf="showGender && optionalColumns.includes('gender')">
+												{{ 'teachers.manageTeachers.printFormat.tableColumnHeaders.gender' |
+												translate }}
+											</th>
+											<th *ngIf="showTscNumber && optionalColumns.includes('tscNumber')">
+												<ng-container *ngTemplateOutlet="countriesTSCNumberText"></ng-container>
+											</th>
+											<th *ngIf="showNationalIds">
+												{{
+												'teachers.manageTeachers.printFormat.tableColumnHeaders.nationalIdNumber'
+												| translate }}
+											</th>
+											<th *ngIf="showGroups">
+												{{ 'teachers.manageTeachers.printFormat.tableColumnHeaders.groups' |
+												translate }}
+											</th>
+										</tr>
+									</thead>
+									<tbody *ngIf="staffGroupsMap">
+										<tr *ngFor="let teacher of staffList ;let i = index">
+											<td>
+												{{i+1}}
+											</td>
+											<td>{{teacher.name}}</td>
+											<td *ngIf="showUsernames && optionalColumns.includes('username')">
+												{{teacher.email}}</td>
+											<td *ngIf="showPhoneNumbers">{{teacher.phone}}</td>
+											<td *ngIf="showGender && optionalColumns.includes('gender')">
+												{{teacher.gender}}</td>
+											<td *ngIf="showTscNumber && optionalColumns.includes('tscNumber')">
+												{{teacher.tscNo }}</td>
+											<td *ngIf="showNationalIds">{{teacher.nationalIdNo}}</td>
+											<td *ngIf="showGroups">
+												<small *ngFor="let group of teacher.groups"
+													class="badge badge-light m-1 text-fade w-p85 mx-auto">
+													{{ staffGroupsMap[group] | titlecase }}
+												</small>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--
+------------------------------------
+PRINT FORMAT
+------------------------------------
+-->
+
+<div id="printthis" style="display: none">
+	<!-- top section -->
+	<div class="my-20 d-flex justify-content-between">
+		<div>
+			<img class="img" height="70" [src]="schoolProfile?.logo"
+				(error)="schoolProfile.logo = 'assets/img/logos/z-ws-logo.jpg'" alt="">
+		</div>
+		<div class="text-center">
+			<h2 class="fw-600">{{ schoolProfile?.name }}</h2>
+			<h4>{{ staffName }} {{ 'teachers.manageTeachers.printFormat.tableHeaderText' | translate }}</h4>
+		</div>
+		<div class="text-end">
+			<p class="fw-600">{{ schoolProfile?.address }}</p>
+			<p class="fw-600">{{ schoolProfile?.phone }}</p>
+			<p class="fw-600">{{ schoolProfile?.email }}</p>
+		</div>
+	</div>
+	<div>
+		<div>
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped table-hover mb-0">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>{{ 'teachers.manageTeachers.printFormat.tableColumnHeaders.name' | translate }}</th>
+							<th *ngIf="showUsernames && optionalColumns.includes('username')">
+								{{ 'teachers.manageTeachers.printFormat.tableColumnHeaders.username' | translate }}
+							</th>
+							<th *ngIf="showPhoneNumbers">
+								{{ 'teachers.manageTeachers.printFormat.tableColumnHeaders.phone' | translate }}
+							</th>
+							<th *ngIf="showGender && optionalColumns.includes('gender')">
+								{{ 'teachers.manageTeachers.printFormat.tableColumnHeaders.gender' | translate }}
+							</th>
+							<th *ngIf="showTscNumber && optionalColumns.includes('tscNumber')">
+								<ng-container *ngTemplateOutlet="countriesTSCNumberText"></ng-container>
+							</th>
+							<th *ngIf="showNationalIds">{{
+								'teachers.manageTeachers.printFormat.tableColumnHeaders.nationalIdNumber' | translate }}
+							</th>
+							<th *ngIf="showGroups">
+								{{ 'teachers.manageTeachers.printFormat.tableColumnHeaders.groups' | translate }}
+							</th>
+						</tr>
+					</thead>
+					<tbody *ngIf="staffGroupsMap">
+						<tr *ngFor="let teacher of staffList;let i = index">
+							<td>
+								{{i+1}}
+							</td>
+							<td>{{teacher.name}}</td>
+							<td *ngIf="showUsernames && optionalColumns.includes('username')">{{teacher.email}}</td>
+							<td *ngIf="showPhoneNumbers">{{teacher.phone}}</td>
+							<td *ngIf="showGender && optionalColumns.includes('gender')">{{teacher.gender}}</td>
+							<td *ngIf="showTscNumber && optionalColumns.includes('tscNumber')">{{teacher.tscNo }}</td>
+							<td *ngIf="showNationalIds">{{teacher.nationalIdNo}}</td>
+							<td *ngIf="showGroups">
+								<small *ngFor="let group of teacher.groups">
+									{{ staffGroupsMap[group] | titlecase }}
+								</small>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- TSC number implementation for various countries -->
+<ng-template #countriesTSCNumberText>
+	<ui-kenyan-school [template]="tscNumber"></ui-kenyan-school>
+	<ui-zimbabwe-school [template]="ecNumber"></ui-zimbabwe-school>
+	<ui-zambia-school [template]="ecNumber"></ui-zambia-school>
+	<ui-uganda-school [template]="regNumber"></ui-uganda-school>
+	<ui-tanzania-school [template]="regNumber"></ui-tanzania-school>
+	<ui-guinea-school [template]="regNumber"></ui-guinea-school>
+	<ui-ivory-coast-school [template]="regNumber"></ui-ivory-coast-school>
+	<ui-south-africa-school [template]="regNumber"></ui-south-africa-school>
+	<ui-ghana-school [template]="regNumber"></ui-ghana-school>
+
+	<ng-template #regNumber>
+		{{ 'common.regNumberShort' | translate }}
+	</ng-template>
+	<ng-template #tscNumber>
+		{{ 'common.tscNumberShort' | translate }}
+	</ng-template>
+	<ng-template #ecNumber>
+		{{ 'common.ecNumberShort' | translate }}
+	</ng-template>
+</ng-template>

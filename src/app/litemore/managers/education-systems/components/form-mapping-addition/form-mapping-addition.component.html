@@ -1,0 +1,114 @@
+<div class="box-body pt-3 pb-0">
+	<div class="col-md-12 col-xs-12 help-block small">
+		<!-- Form Mappings (Start with the lowest)  -->
+		{{ "litemore.formMapping.addition.helperText" | translate }}
+	</div>
+
+	<div class="col-md-12 col-xs-12 p-0 mb-15">
+		<div class="table-responsive text-left m-0">
+			<form #formMappingAdditionForm="ngForm" (ngSubmit)="addFormMapping(formMappingAdditionForm)">
+				<table class="table table-sm table-striped table-hover table-bordered">
+					<thead>
+						<tr>
+							<th>#</th>
+							<!-- form key -->
+							<th scope="col" class="text-uppercase">
+								{{ 'litemore.formMapping.formKey' | translate }}
+							</th>
+							<!-- form value -->
+							<th scope="col" class="text-uppercase max-w-lg-60 max-w-xl-50">
+								{{ 'litemore.formMapping.formValue' | translate }}
+							</th>
+							<!-- actions -->
+							<th scope="col" colspan="2" class="text-uppercase text-center">
+								{{ 'common.action' | translate }}
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let formMapping of formMappings; let i = index; let last = last">
+							<th>{{ i + 1 }}</th>
+							<!-- form key -->
+							<td>
+								<input style="min-width: 4em" type="number" name="formKey_{{ formMapping.id }}"
+									[(ngModel)]="formMapping.formKey" required
+									[min]="(i == 0 ? 1 : formMappings[i - 1]['formKey']! + 1)"
+									[max]="(formMappings[i + 1] && formMappings[i + 1]['formKey'] ? formMappings[i + 1]['formKey']! - 1 : null!)"
+									[ngClass]="{'is-invalid': checkInputValidation(formMappingAdditionForm, 'formKey_' + formMapping.id)}"
+									class="form-control">
+								<small class="text-danger"
+									*ngIf="checkInputValidation(formMappingAdditionForm, 'formKey_' + formMapping.id)">
+									{{ checkInputValidation(formMappingAdditionForm, 'formKey_' + formMapping.id) }}
+								</small>
+							</td>
+							<!-- form value -->
+							<td>
+								<input style="min-width: 4em" type="text" title="Please enter the form value" required
+									[(ngModel)]="formMapping.formValue" name="formvalue_{{ formMapping.id }}"
+									class="form-control"
+									[ngClass]="{'is-invalid': checkInputValidation(formMappingAdditionForm, 'formvalue_' + formMapping.id)}">
+								<small class="text-danger"
+									*ngIf="checkInputValidation(formMappingAdditionForm, 'formvalue_' + formMapping.id)">
+									{{ checkInputValidation(formMappingAdditionForm, 'formvalue_' + formMapping.id) }}
+								</small>
+							</td>
+							<!-- action (add) -->
+							<td class="text-center">
+								<button type="button" class="btn btn-secondary btn-sm" [disabled]="!last"
+									(click)="addFormMappingItemRow(formMapping.formKey)">
+									<i class="me-1">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+											fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+											<path
+												d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+										</svg>
+									</i>
+									<span>
+										<!-- Add -->
+										{{ 'common.add' | translate }}
+									</span>
+								</button>
+							</td>
+							<!-- action (remove) -->
+							<td class="text-center">
+								<button type="button" class="btn btn-danger btn-sm"
+									(click)="removeFormMappingItemRow(formMapping.id, formMappingAdditionForm)">
+									<i class="me-1">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+											fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+											<path
+												d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+											<path fill-rule="evenodd"
+												d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+										</svg>
+									</i>
+									<span>
+										<!-- Remove -->
+										{{ 'common.remove' | translate }}
+									</span>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- save form mappings btn -->
+				<button type="submit" class="pull-right waves-effect waves-light btn btn-info btn-sm"
+					[disabled]="isAddingFormMapping">
+					<i *ngIf="isAddingFormMapping" class="fa fa-spinner fa-spin"></i>
+					<i *ngIf="!isAddingFormMapping">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							class="bi bi-check2-all" viewBox="0 0 16 16">
+							<path
+								d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z" />
+							<path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z" />
+						</svg>
+					</i>
+					<span class="ms-5 text-capitalize">{{
+						'litemore.managers.educationSystems.components.formMappingAddition.saveFormMappings'|translate
+						}}</span>
+				</button>
+			</form>
+		</div>
+	</div>
+</div>

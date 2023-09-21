@@ -1,0 +1,28 @@
+<div class="content mt-config">
+	<app-olevel-transcripts-form (onFormSubmit)="fetchTranscripts($event)"></app-olevel-transcripts-form>
+
+	<div class="row" *ngIf="loadingTranscripts">
+		<div class="col-12 justify-content-center">
+			<div class="text-center">
+				<img src="assets/img/loading-bars.svg" height="70" width="100" alt="Loading-bars">
+				<h5>{{ 'printouts.transcripts.generatingTranscriptsInProgress' | translate }}</h5>
+			</div>
+		</div>
+	</div>
+	<div *ngIf="olevelTranscript$ | async as olevelTranscript">
+		<ng-container *ngIf="!loadingTranscripts">
+			<div class="box" *ngIf="!olevelTranscript || !olevelTranscript.transcripts.length; else showTranscripts">
+				<div class="box-body">
+					<h5>{{ 'printouts.transcripts.noData' | translate }}</h5>
+				</div>
+			</div>
+			<ng-template #showTranscripts>
+				<div class="d-flex flex-column justify-content-end animated bounceInUp mb-20">
+					<app-student-transcript
+						[olevelTranscript]="olevelTranscript">
+					</app-student-transcript>
+				</div>
+			</ng-template>
+		</ng-container>
+	</div>
+</div>

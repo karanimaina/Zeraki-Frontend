@@ -1,0 +1,244 @@
+<!-- Student Top Nav -->
+<app-students-top-nav></app-students-top-nav>
+
+<!-- Main content -->
+<section class="content mt-config">
+	<div class="col-12">
+		<div class="box">
+			<!-- header -->
+			<div class="box-header with-border">
+				<h4 class="box-title">{{ "students.residences.title" | translate }}</h4>
+				<div class="pull-right">
+					<button
+						type="button"
+						(click)="showAddNewResidenceInput()"
+						class="waves-effect waves-light btn btn-info btn-sm"
+						[disabled]="isRetrievingStudentResidences">
+						{{ "common.add" | translate }}
+					</button>
+				</div>
+			</div>
+
+			<ng-container
+				*ngIf="
+					isRetrievingStudentResidences;
+					else retrievingResidencesComplete
+				">
+				<div class="box-body">
+					<app-loader-div [height]="250"></app-loader-div>
+				</div>
+			</ng-container>
+
+			<ng-template #retrievingResidencesComplete>
+				<!-- residences found -->
+				<div class="box-body" *ngIf="residences.length > 0">
+					<div class="table-responsive">
+						<table
+							class="table table-sm table-striped table-bordered table-hover mb-0">
+							<thead>
+								<tr>
+									<th scope="col" style="width: 5%">#</th>
+									<th scope="col" style="width: 40%">
+										{{ "common.name" | translate }}
+									</th>
+									<th scope="col" style="width: 40%">
+										{{ "common.supervisor" | translate }}
+									</th>
+									<th scope="col" colspan="3" class="text-center">
+										{{ "common.actions" | translate }}
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr
+									*ngFor="let residence of residences; let i = index"
+									[ngSwitch]="residence === selectedResidence">
+									<td>{{ i + 1 }}</td>
+									<td>
+										<div *ngSwitchCase="true">
+											<input
+												class="form-control"
+												type="text"
+												name="value"
+												autofocus
+												[(ngModel)]="pendingValue"
+												(keydown.Enter)="processChanges()"
+												(keydown.Meta.Enter)="processChanges()"
+												(keydown.Escape)="cancel()"
+												style="width: 90%" />
+										</div>
+										<div *ngSwitchCase="false">
+											{{ residence.name }}
+										</div>
+									</td>
+									<!-- residence teacher -->
+									<td>
+										<!-- display -->
+										<ng-container
+											*ngIf="
+												residence.residenceTeacherId;
+												else residenceTeacherUpdate
+											">
+											<span>{{
+												residence?.residenceTeacherName ||
+													("common.na" | translate)
+											}}</span>
+											<span class="pull-right">
+												<a
+													class="text-danger"
+													(click)="removeResidenceTeacher(residence)"
+													style="cursor: pointer"
+													[title]="
+														'students.residences.table.removeSupervisorPlaceholder'
+															| translate
+													">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														width="16"
+														height="16"
+														fill="currentColor"
+														class="bi bi-trash"
+														viewBox="0 0 16 16">
+														<path
+															d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+														<path
+															fill-rule="evenodd"
+															d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+													</svg>
+												</a>
+											</span>
+										</ng-container>
+
+										<!-- update -->
+										<ng-template #residenceTeacherUpdate>
+											<ng-select
+												[notFoundText]="'common.noItemsFound' | translate"
+												size="1"
+												[placeholder]="
+													'students.residences.table.assignSupervisorPlaceholder'
+														| translate
+												"
+												[items]="residenceTeachers"
+												[closeOnSelect]="true"
+												[searchable]="true"
+												[dropdownPosition]="'bottom'"
+												appendTo="body"
+												bindLabel="name"
+												bindValue="id"
+												(change)="onResidenceTeacherChange($event, residence)">
+											</ng-select>
+										</ng-template>
+									</td>
+
+									<!-- actions -->
+									<td class="text-center">
+										<button
+											(click)="getResidentList(residence)"
+											class="btn btn-sm btn-primary no-wrap waves-effect waves-light">
+											<i class="fa fa-eye"></i> {{ "common.view" | translate }}
+											{{ "students.students" | translate }}
+										</button>
+									</td>
+									<td class="text-center">
+										<!-- edit -->
+										<button
+											*ngSwitchCase="false"
+											(click)="edit(residence)"
+											type="button"
+											class="waves-effect waves-light btn btn-secondary btn-sm no-wrap">
+											<i class="me-1">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													width="16"
+													height="16"
+													fill="currentColor"
+													class="bi bi-pen"
+													viewBox="0 0 16 16">
+													<path
+														d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+												</svg>
+											</i>
+											<span>{{ "common.edit" | translate }}</span>
+										</button>
+										<!-- cancel -->
+										<button
+											*ngSwitchCase="true"
+											(click)="cancel()"
+											type="button"
+											class="waves-effect waves-light btn btn-secondary btn-sm no-wrap">
+											<i class="me-1">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													width="16"
+													height="16"
+													fill="currentColor"
+													class="bi bi-x"
+													viewBox="0 0 16 16">
+													<path
+														d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+												</svg>
+											</i>
+											<span>{{ "common.cancel" | translate }}</span>
+										</button>
+									</td>
+									<td class="text-center">
+										<!-- delete -->
+										<button
+											*ngSwitchCase="false"
+											type="button"
+											(click)="removeResidence(residence, i)"
+											class="waves-effect waves-light btn btn-danger btn-sm no-wrap">
+											<i class="me-1">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													width="16"
+													height="16"
+													fill="currentColor"
+													class="bi bi-trash"
+													viewBox="0 0 16 16">
+													<path
+														d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+													<path
+														fill-rule="evenodd"
+														d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+												</svg>
+											</i>
+											<span>{{ "common.delete" | translate }}</span>
+										</button>
+										<!-- save -->
+										<button
+											*ngSwitchCase="true"
+											type="button"
+											(click)="processChanges()"
+											class="waves-effect waves-light btn btn-info btn-sm no-wrap">
+											<i class="me-1">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													width="16"
+													height="16"
+													fill="currentColor"
+													class="bi bi-sd-card"
+													viewBox="0 0 16 16">
+													<path
+														d="M6.25 3.5a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2zm2 0a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2zm2 0a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2zm2 0a.75.75 0 0 0-1.5 0v2a.75.75 0 0 0 1.5 0v-2z" />
+													<path
+														fill-rule="evenodd"
+														d="M5.914 0H12.5A1.5 1.5 0 0 1 14 1.5v13a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5V3.914c0-.398.158-.78.44-1.06L4.853.439A1.5 1.5 0 0 1 5.914 0zM13 1.5a.5.5 0 0 0-.5-.5H5.914a.5.5 0 0 0-.353.146L3.146 3.561A.5.5 0 0 0 3 3.914V14.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-13z" />
+												</svg>
+											</i>
+											<span>{{ "common.save" | translate }}</span>
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- no residences found -->
+				<div class="box-body" *ngIf="residences.length === 0">
+					<h4>{{ "students.residences.noResidenceFound" | translate }}</h4>
+				</div>
+			</ng-template>
+		</div>
+	</div>
+</section>

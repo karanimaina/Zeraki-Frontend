@@ -1,0 +1,14 @@
+<div class="d-flex flex-row">
+	<div class="col-6 me-2" *ngIf="closingDate">
+		<div class="d-flex flex-column flex-md-row">
+			<span class="fw-bolder no-wrap" style="width: 35%">{{ 'printouts.studentReport.schoolClosedOn' | translate }}</span>
+			<div class="school-dates dotted-border fw-bolder text-center" style="width: 100%; margin-top: 0"><span class="text-dark">{{ closingDate }}</span></div>
+		</div>
+	</div>
+	<div class="col-6" *ngIf="openingDate">
+		<div class="d-flex flex-column flex-md-row">
+			<span class="fw-bolder no-wrap" style="width: 35%">{{ 'printouts.studentReport.nextTermBegins' | translate }}</span>
+			<div class="school-dates dotted-border fw-bolder text-center text-dark" style="width: 100%; margin-top: 0"><span class="text-dark">{{ openingDate }}</span></div>
+		</div>
+	</div>
+</div>

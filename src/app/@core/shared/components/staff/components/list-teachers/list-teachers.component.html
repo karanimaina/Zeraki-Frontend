@@ -1,0 +1,118 @@
+<div class="row">
+	<ng-container *ngIf="!loadingError && loading">
+		<div *ngFor="let repeat of [1,2,3,4,5,6]" class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-4">
+			<app-loader-div [height]="305">
+			</app-loader-div>
+		</div>
+	</ng-container>
+
+	<div *ngFor="let teacher of teachers;let teacherIndex = index" class="col-12 col-sm-6 col-lg-4 col-xl-3">
+
+		<div class="box ribbon-box">
+			<div class="ribbon-two" [ngClass]="
+					teacher.isPrincipal ? 'ribbon-two-purple'
+					: teacher.isDeputyPrincipal ? 'ribbon-two-dark'
+					: teacher.isDos ? 'ribbon-two-danger'
+					: teacher.superAdmin ? 'ribbon-two-warning'
+					: 'ribbon-two-success'">
+				<span *ngIf="teacher.admin">
+					{{ 'teachers.manageTeachers.teacherListItem.adminRibbon' | translate}}
+				</span>
+				<span *ngIf="teacher.superAdmin" class="fs-11">
+					{{ 'teachers.manageTeachers.teacherListItem.superAdminRibbon' | translate}}
+				</span>
+				<span *ngIf="teacher.isDos" class="fs-10">
+					{{ 'teachers.manageTeachers.teacherListItem.dosRibbon' | translate }}
+				</span>
+				<span *ngIf="teacher.isDeputyPrincipal" class="fs-10">
+					{{ 'teachers.manageTeachers.teacherListItem.deputyPrincipalRibbon' | translate }}
+				</span>
+				<span *ngIf="teacher.isPrincipal">
+					{{ 'teachers.manageTeachers.teacherListItem.principalRibbon' | translate }}
+				</span>
+			</div>
+			<div class="box-header no-border p-0 text-center mt-20">
+				<img class="rounded-circle" [src]="teacher?.imageUrl"
+					(error)="teacher.imageUrl = 'assets/img/avatar/p_avatar_blue.png'" height="150" width="150"
+					[alt]="'teachers.manageTeachers.teacherListItem.imageAltText' | translate">
+			</div>
+			<div class="box-body">
+				<div style="min-height: 45px;" class="user-contact list-inline text-center">
+
+					<button (click)="viewProfile(teacher);" *ngIf="isAdmin"
+						class="btn btn-circle btn-sm mb-5 btn-success ms-1 lead"
+						[title]="'teachers.manageTeachers.teacherListItem.editBtn' | translate">
+						<i class="m-auto">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-pencil-square" viewBox="0 0 16 16">
+								<path
+									d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+								<path fill-rule="evenodd"
+									d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+							</svg>
+						</i>
+					</button>
+
+					<button *ngIf="!teacher.admin && isAdmin && staffType == staffTypes.TEACHERS"
+						(click)="addAdmin(teacher)" class="btn btn-circle btn-sm mb-5 btn-info ms-1 lead"
+						[disabled]="updatingRights[teacher.userid]">
+
+						<span *ngIf="updatingRights[teacher.userid]" class="spinner-border spinner-border-sm"
+							role="status" aria-hidden="true"></span>
+
+						<i *ngIf="!updatingRights[teacher.userid]"
+							[title]="'teachers.manageTeachers.teacherListItem.makeAdminBtn' | translate">
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+								class="bi bi-person-plus" viewBox="0 0 16 16">
+								<path
+									d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+								<path fill-rule="evenodd"
+									d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+							</svg>
+						</i>
+					</button>
+
+					<button *ngIf="adminRightsCanBeRevoked(teacher)" (click)="removeAdmin(teacher)"
+						class="btn btn-circle btn-sm mb-5 ms-1 lead btn-revoke-admin"
+						[disabled]="updatingRights[teacher.userid]">
+
+						<span *ngIf="updatingRights[teacher.userid]" class="spinner-border spinner-border-sm"
+							role="status" aria-hidden="true"></span>
+
+						<i *ngIf="!updatingRights[teacher.userid]"
+							[title]="'teachers.manageTeachers.teacherListItem.revokeAdminBtn' | translate">
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+								class="bi bi-person-dash" viewBox="0 0 16 16">
+								<path
+									d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+								<path fill-rule="evenodd"
+									d="M11 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z" />
+							</svg>
+						</i>
+					</button>
+
+					<button *ngIf="staffType == staffTypes.TEACHERS"
+						class="btn btn-circle btn-sm mb-5 btn-warning ms-1 lead"
+						[title]="'teachers.manageTeachers.teacherListItem.teacherClassesBtn' | translate"
+						(click)="goToTeacherClasses(teacher.userid)">
+						<i>
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-building" viewBox="0 0 16 16">
+								<path fill-rule="evenodd"
+									d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z" />
+								<path
+									d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z" />
+							</svg>
+						</i>
+					</button>
+
+				</div>
+				<div class="text-center">
+					<h3 class="my-10">{{ teacher.name }}</h3>
+					<h6 class="my-5">{{ teacher.email}} </h6>
+					<a href="tel:{{teacher.phone}}" class="user-info mt-0 mb-10 text-info fs-6">{{teacher.phone}}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

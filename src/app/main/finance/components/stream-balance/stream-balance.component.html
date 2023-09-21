@@ -1,0 +1,76 @@
+<div class="box rounded mt-xs-15">
+    <!-- <div class="box-header px-0"> -->
+        <!-- <input type="text" class="search-field col-12" name="seachStudent" id="seachStudent"
+            placeholder="Search students"> -->
+        <!-- <table style="width: 100%;">
+            <tr>
+                <td>
+                    <ng-select class="form-control" [notFoundText]="'common.noItemsFound' | translate"
+                        [items]="financeStudents$ | async"
+                        [placeholder]="'messages.compose.studentsPlaceholder' | translate" class="form-control-dropdown"
+                        [dropdownPosition]="'bottom'" appendTo="body" name="sAdmNo" [searchFn]="customSearchFn"
+                        bindLabel="studentNames" [(ngModel)]="studentData.balanceSummary"
+                        (ngModelChange)="getStudentData(studentData.balanceSummary.id)">
+                        <ng-template ng-option-tmp let-item="item">
+                            <span class="pull-right text-success">{{item.admNo}}</span>
+                            <span class="text-success">{{item.studentNames}}</span>
+                        </ng-template>
+                    </ng-select>
+                </td>
+                <td style="width: 36px;">
+                    <button class="btn waves-effect waves-light btn-sm btn-dark" style="height: 36px; width: 36px;"
+                        (click)="toggleBalanceView()">
+                        <i>
+                            &times; -->
+                            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+                            </svg> -->
+                        <!-- </i>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div> -->
+
+
+
+    <ng-container *ngIf="isLoadingBalances; then dataLoading else dataLoaded"></ng-container>
+    <ng-template #dataLoading>
+        <div class="box-body">
+            <app-loader-div [height]="180"></app-loader-div>
+        </div>
+    </ng-template>
+    <ng-template #dataLoaded>
+        <!-- <div class="custom-box-header"
+            style="margin: 0.5rem;padding: 0.5rem;border-bottom: none;border-radius: 10px;">
+            <small style="display: block;">TOTAL BALANCE</small>
+            <h5 class="box-title" style="display: block;">
+                <span class="text-capitalize fs-14 fw-bolder">{{stream?.intakeName + " " + stream?.streamName}}</span>
+                <span class="text-danger fs-14 pull-right">
+                    <!-- <span class="fw-bolder">Ksh</span> -->
+                    <!-- {{ stream?.balanceDue | currency}}
+                </span>
+            </h5>
+        </div> -->
+        <!-- <div style="padding: 0 1rem 0 1rem;">
+            <hr style="height:4px; color:#000; margin: 0.3rem 0;">
+        </div> -->
+        <div class="custom-box-body p-0" style="padding: 0 1rem 1rem 1rem;">
+            <div style="max-height: 22rem;overflow-y: scroll;">
+                <ul class="nav nav-pills text-capitalize fs-12 flex-column" style="padding-left: 0.8rem;padding-right: 0.8rem;">
+                    <li *ngFor="let student of studentList" class="nav-item bbs-4"
+                        style="line-height: 25px;cursor: pointer;"
+                         (click)="getStudentData(student.id)">
+                        <div class="text-capitalize fw-light py-5">
+                            <span class="pull-right">{{student?.totalBalance | currency}}</span>
+                            <span>{{student?.studentName}} <br />
+                                {{student?.admissionNo}}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </ng-template>
+</div>

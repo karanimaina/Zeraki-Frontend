@@ -1,0 +1,5102 @@
+{
+  "currency": {
+    "code": "Ksh",
+    "name": "Shilingi ya Kenya"
+  },
+  "homePage": {
+    "header": "Zaidi ya Madarasa tu",
+    "subHeader": "Zeraki Analytics hutoa maarifa unayohitaji kufanya maamuzi",
+    "subHeader2": "kuhusu mtoto wako, darasa lako au shule yako.",
+    "topNav": {
+      "features": "Vipengele",
+      "testimonial": "Ushuhuda",
+      "about": "Kuhusu",
+      "contact": "Wasiliana"
+    },
+    "login": {
+      "button": "Ingia",
+      "username": "Jina la mtumiaji",
+      "usernamePlaceholder": "kiingilio@msimbo wa shule",
+      "continueBtn": "Endelea",
+      "forgotUser": "Umesahau Jina la mtumiaji",
+      "forgotPass": "Umesahau nywila",
+      "verifyingBtn": "Inathibitisha",
+      "invalidUsername": "Ikiwa shule yako haitumii Zeraki Analytics, tafadhali wasiliana nasi kwa +254798 666 000 au info@zeraki.co.ke na tutakujibu hivi karibuni. Unaweza pia kuchagua kuingia ikiwa tayari una akaunti.",
+      "password": "Nenosiri",
+      "continue": "Endelea",
+      "signing_in": "Kuingia",
+      "change_user": "Badilisha mtumiaji",
+      "remember_password": "Kumbuka nenosiri",
+      "usernameSent": "{{message}}",
+      "initErrors": {
+        "activtion_message": "Angalia barua pepe yako ili kuamilisha akaunti yako",
+        "connectionerror_message": "Tafadhali angalia muunganisho wako wa intaneti"
+      },
+      "errors": {
+        "below": "chini",
+        "invalidUsername": {
+          "label": "Jina la mtumiaji si sahihi",
+          "text": "Hatuwezi kupata akaunti yenye jina hilo la mtumiaji. Tafadhali wasiliana na mwalimu wa darasa/Dean of Studies kwa usaidizi, au ubofye"
+        }
+      },
+      "login_options": {
+        "invalidUsername": "{{invalidUsername}}"
+      },
+      "check_email_response": {
+        "title": "{{title}}",
+        "message": "{{message}}"
+      },
+      "auth_options": {
+        "login_error_data": {
+          "message": "{{message}}",
+          "authFailed": "Uthibitishaji Umeshindwa",
+          "content1": "Nenosiri lako si sahihi. Ikiwa umesahau nenosiri lako, bofya",
+          "strong": " Umesahau nywila",
+          "below": " chini"
+        },
+        "login_error_msg": "Tafadhali angalia stakabadhi zako na ujaribu tena"
+      },
+      "check_em_response": {
+        "email": "{{email}}",
+        "school_name": "{{school_name}}"
+      },
+      "forgot_username": {
+        "find_username": {
+          "label": "Tafuta Jina la mtumiaji",
+          "content": "Tumia nambari yako ya simu kupata jina lako la mtumiaji"
+        },
+        "error": {
+          "label": "Hitilafu",
+          "content": "{{message}}",
+          "phoneNumberNotFound": "Hakuna akaunti za Zeraki zilizounganishwa na {{phoneNumber }}"
+        },
+        "phone": {
+          "label": "Nambari yako ya Simu",
+          "placeholder": "0700000000"
+        },
+        "submit": {
+          "continue": "Endelea",
+          "sending": "Inatuma"
+        },
+        "back": "Badilisha mtumiaji",
+        "usernameSent": "Jina la mtumiaji limetumwa kwa simu"
+      },
+      "forgot_password": {
+        "reset_password": {
+          "enterPhone": "Enter phone number",
+          "title": "{{title}}",
+          "label": "{{label}}",
+          "content": "{{message}}"
+        },
+        "error_reset_msg": {
+          "title": "{{title}}",
+          "message1": "{{message1}}",
+          "message2": "{{message2}}"
+        },
+        "input": {
+          "label": "{{phoneLabel}}",
+          "label2": "Weka nambari yako ya simu inayoisha na {{ digits }}",
+          "labelDefault": "Nambari ya simu",
+          "placeholder": "{{phone_placeholder}}",
+          "placeholderDefault": "0700000000",
+          "title": "Tafadhali weka nambari yako ya simu"
+        },
+        "submit_error": {
+          "connectionerror_msg": "{{connectionerror_msg}}"
+        },
+        "button": {
+          "connectionerror_msg": "{{connectionerror_msg}}",
+          "continue": "Endelea",
+          "back": "Badilisha mtumiaji"
+        }
+      },
+      "reset_unsuccessful": {
+        "check_phone_response": {
+          "title": "{{title}}",
+          "message1": "{{message1}}",
+          "message2": "{{message2}}"
+        },
+        "reset_input": {
+          "label": "Weka upya Msimbo",
+          "title": "Tafadhali weka msimbo wako wa kuweka upya",
+          "placeholder": "*****"
+        },
+        "new_password": {
+          "label": "Nenosiri Mpya",
+          "title": "Tafadhali weka nenosiri jipya",
+          "placeholder": "******"
+        },
+        "retype_password": {
+          "label": "Andika Upya Nenosiri Jipya",
+          "title": "Tafadhali thibitisha nenosiri jipya",
+          "placeholder": "******"
+        },
+        "connectionerror_msg": "{{connectionerror_msg}}",
+        "buttons": {
+          "continue": "Endelea",
+          "back": "Rudi kwa Kuingia"
+        }
+      },
+      "reset_password": "Weka upya Nenosiri",
+      "reset_successful": "{{reset_pass_message}}",
+      "reset_pass_message": "Imeweka upya. Inaelekeza..."
+    },
+    "register": {
+      "button": "Sajili",
+      "info1": "Ikiwa shule yako haitumii Zeraki Analytics, tafadhali wasiliana nasi kwa",
+      "number": "+254798 666 000",
+      "info3": "au",
+      "info5": "na tutarudi kwako hivi karibuni. Unaweza pia kuchagua",
+      "info6": "Ingia",
+      "info7": "ikiwa tayari unayo akaunti",
+      "toastMessages": {
+        "passwordChangeSuccess": "Nenosiri lako limebadilishwa"
+      }
+    },
+    "inaccessible": {
+      "title": "{{msg_title}}",
+      "body": "{{msg_body}}"
+    },
+    "features": {
+      "heading": "Kwa Nini Unapaswa Kuchagua",
+      "content1": "Mfumo wa haraka na unaofikika kwa urahisi ambao unaweza kutumika popote pale",
+      "content2": "Uchanganuzi angavu ambao unajua kile unachotafuta haswa",
+      "content3": "Rahisi kusanidi na usitumie maarifa yoyote ya teknolojia yanayohitajika",
+      "content4": "Mafunzo ya uwanjani kwa walimu na utawala",
+      "content5": "Ufikiaji wa saa nzima kwa timu ya usaidizi kwa wateja iliyobobea",
+      "content6": "Inapangishwa kwenye seva za wingu bila kuhakikisha kupoteza data"
+    },
+    "testimonial": {
+      "header": "Ushuhuda",
+      "sub_header": "Wateja wetu wanatupenda! Soma wanachosema hapa chini",
+      "content1": "Mojawapo ya sababu kuu tulizotumia kutumia Zeraki ni jinsi ilivyo rahisi kutumia, na hata ukikwama, timu yao ya huduma kwa wateja itakurejesha kwenye mstari baada ya dakika chache.",
+      "content2": "Uchanganuzi wa Zeraki unafaa sana kwa darasa la kesho. Ni chombo muhimu kabisa mikononi mwa mwalimu kwa uchambuzi wa mitihani yote miwili",
+      "content2_1": " usimamizi wa wanafunzi",
+      "content3": "Zeraki imenisaidia sana kuokoa muda mwingi- Ninaweza kuchambua mitihani yangu, kutuma maandishi kwa wazazi na kuweka alama zote kutoka kwa jukwaa moja, Asante Zeraki kwa bidhaa yako nzuri."
+    },
+    "satisfied_schools": {
+      "header": "Shule Zilizoridhika"
+    },
+    "about": {
+      "header": "Sisi ni Nani",
+      "content": "Zeraki inahusu kutumia teknolojia kutatua baadhi ya changamoto kali zaidi zinazopatikana katika kutoa elimu bora barani Afrika. Masuluhisho yetu ya hali ya juu, hutoa maarifa ambayo huwezesha kufanya maamuzi kwa ufahamu, kutoa ufikiaji wa maagizo ya ubora na kuondoa mkazo wa majukumu ya kila siku ya usimamizi. Tunajitahidi kuboresha maisha ya waelimishaji na wanafunzi katika kila hatua na katika kila mpangilio. Bidhaa yetu ya Msingi, uchanganuzi wa Zeraki, inabadilisha jinsi data ya elimu inavyokusanywa, kuchambuliwa na kutumiwa."
+    },
+    "faq": {
+      "header": "Maswali Yanayoulizwa Mara kwa Mara",
+      "admin": {
+        "title": "Mimi ni Admin",
+        "faqTitle": "Ninaulizaje maswali ya kuvutia zaidi?",
+        "faqBody": "Haya ndiyo maudhui msingi ya kidirisha."
+      },
+      "parent": {
+        "title": "Mimi ni Mzazi"
+      },
+      "new": {
+        "title": "Mimi ni Mpya"
+      },
+      "teacher": {
+        "title": "Mimi ni Mwalimu"
+      }
+    },
+    "contact": {
+      "header": "Wasiliana",
+      "contact_us": "Wasiliana nasi",
+      "input_name": {
+        "label": "Jina",
+        "error": "Tafadhali toa jina lako"
+      },
+      "input_email": {
+        "label": "Barua pepe",
+        "placeholder": "mfano@gmail.com",
+        "error": "Tafadhali toa barua pepe yako"
+      },
+      "input_mobile": {
+        "label": "Rununu",
+        "placeholder": "07########",
+        "error": "Tafadhali toa nambari yako"
+      },
+      "input_message": {
+        "label": "Ujumbe",
+        "placeholder": "Ujumbe wako hapa...",
+        "error": "Tafadhali weka ujumbe"
+      },
+      "button": {
+        "text": "Tuma Ujumbe"
+      },
+      "toastMessages": {
+        "success": "Ujumbe wako umetumwa kwa ufanisi",
+        "error": "Hitilafu ilitokea wakati wa kutuma ujumbe"
+      }
+    },
+    "footer": {
+      "products": "Bidhaa",
+      "about": "Kuhusu Zeraki",
+      "text": "Zeraki inahusu kutumia teknolojia kutatua baadhi ya changamoto kali zaidi zinazopatikana katika kutoa elimu bora barani Afrika",
+      "text2": "Masuluhisho yetu ya hali ya juu, hutoa maarifa ambayo huwezesha kufanya maamuzi kwa ufahamu, kutoa ufikiaji wa maagizo bora na kuondoa mafadhaiko ya majukumu ya kila siku ya usimamizi.",
+      "copyright": "Haki zote zimehifadhiwa",
+      "text3": "Imetengenezwa Na"
+    },
+    "app_info": {
+      "label": "Tafadhali chagua chaguo hapa chini",
+      "teacher": "Mimi ni mwalimu",
+      "t_content": "Ningependa kufikia maelezo ya shule yangu",
+      "parent": "Mimi ni mzazi",
+      "p_content": "Ningependa kufikia maelezo ya mtoto wangu",
+      "next": "INAYOFUATA",
+      "continue": "ENDELEA"
+    }
+  },
+  "behaviour": {
+    "topNav": {
+      "textClassBehaviour": "Tabia ya darasa",
+      "textClass": "Darasa",
+      "textBehaviour": "Tabia",
+      "textResidenceBehaviour": "Tabia ya Makazi",
+      "textResidence": "Makazi",
+      "textNewRecord": "Rekodi Mpya",
+      "textNew": "Mpya",
+      "textRecord": "Rekodi",
+      "textInfractionsApproval": "Uidhinishaji wa Ukiukaji",
+      "textInfractions": "Ukiukaji",
+      "textApproval": "Ruhusa",
+      "textManageBehaviour": "Dhibiti Tabia",
+      "textManage": "Dhibiti"
+    },
+    "classBehaviour": {
+      "textAcademicYear": "Mwaka wa Masomo",
+      "textTerm": "Muda",
+      "textMeanPoints": "Pointi za Maana",
+      "textStudents": "Wanafunzi",
+      "textRecentRecords": "Rekodi za Hivi Punde",
+      "textStudentPoints": "Alama za Wanafunzi",
+      "textAwards": "Tuzo",
+      "textAward": "Tuzo",
+      "textOf": "Ya",
+      "textNoRecordsFound": "Hakuna rekodi zilizopatikana",
+      "textAdmno": "Nambari ya kiingilio",
+      "textName": "Jina",
+      "textDetails": "Maelezo",
+      "textType": "Aina",
+      "textPoints": "Pointi",
+      "textClass": "Darasa",
+      "textResidence": "Makazi",
+      "textAddedOn": "Imeongezwa",
+      "textAddedBy": "Imeongezwa na",
+      "textComment": "Maoni",
+      "btnTextView": "Tazama",
+      "textNoPointsFound": "Hakuna pointi zilizopatikana",
+      "textGender": "Jinsia",
+      "textStatus": "Hali",
+      "textNoAwardsFound": "Hakuna tuzo zilizopatikana",
+      "textNoDataFound": "Hakuna data iliyopatikana",
+      "toastMessages": {
+        "loadBehaviourTimeline": {
+          "error": "Hitilafu imetokea"
+        },
+        "loadStatisctics": {
+          "error": "Hitilafu imetokea"
+        },
+        "loadClassRecent": {
+          "error": "Hitilafu imetokea"
+        },
+        "loadClassStudentPoints": {
+          "error": "Hitilafu imetokea"
+        },
+        "loadAwards": {
+          "error": "Hitilafu imetokea"
+        }
+      }
+    },
+    "infractionsApproval": {
+      "textMyClassPendingApproval": "Darasa Langu linasubiri idhini",
+      "textMyPendingApproval": "Idhini Zinazosubiri za Darasa Langu",
+      "textAllPendingApproval": "Idhini zote zinazosubiri",
+      "textOf": "Ya",
+      "textNoRecordsFound": "Hakuna rekodi zilizopatikana",
+      "textAdmno": "Nambari ya kiingilio",
+      "textName": "Jina",
+      "textDetails": "Maelezo",
+      "textPoints": "Pointi",
+      "textClass": "Darasa",
+      "textResidence": "Makazi",
+      "textAddedOn": "Imeongezwa",
+      "textAddedBy": "Imeongezwa na",
+      "textComment": "Maoni",
+      "btnTextApprove": "Idhinisha",
+      "btnTextView": "Tazama",
+      "toastMessages": {
+        "saveSuccess": "Rekodi ya ukiukaji imehifadhiwa"
+      },
+      "swal": {
+        "titleApprove": "Idhinisha Rekodi ya Ukiukaji",
+        "titleReject": "Kataa Rekodi ya Ukiukaji",
+        "textApprove": "Je, una uhakika ungependa kuidhinisha rekodi ya ukiukaji iliyobainishwa?",
+        "textReject": "Je, una uhakika ungependa kukataa rekodi maalum ya ukiukaji?"
+      }
+    },
+    "intakeBehavoiur": {
+      "textTerm": "Muda",
+      "textAcademicYear": "Mwaka wa Masomo",
+      "textMeanPoints": "Pointi za Maana",
+      "textStudents": "Wanafunzi",
+      "textRecentRecords": "Rekodi za Hivi Punde",
+      "textStudentPoints": "Alama za Wanafunzi",
+      "textAwards": "Tuzo",
+      "textOf": "Ya",
+      "textNoRecordsFound": "Hakuna rekodi zilizopatikana",
+      "textAdmno": "Nambari ya kiingilio",
+      "textName": "Jina",
+      "textDetails": "Maelezo",
+      "textType": "Aina",
+      "textPoints": "Pointi",
+      "textClass": "Darasa",
+      "textResidence": "Makazi",
+      "textAddedOn": "Imeongezwa",
+      "textAddedBy": "Imeongezwa na",
+      "textComment": "Maoni",
+      "btnTextView": "Tazama",
+      "textNoPointsFound": "Hakuna pointi zilizopatikana",
+      "textGender": "Jinsia",
+      "textStatus": "Hali",
+      "textNoDataFound": "Hakuna data iliyopatikana",
+      "toastMessages": {
+        "loadBehaviourTimeline": {
+          "error": "Hitilafu imetokea"
+        },
+        "loadStatisctics": {
+          "error": "Hitilafu imetokea"
+        },
+        "loadClassRecent": {
+          "error": "Hitilafu imetokea"
+        },
+        "loadClassStudentPoints": {
+          "error": "Hitilafu imetokea"
+        },
+        "loadAwards": {
+          "error": "Hitilafu imetokea"
+        }
+      }
+    },
+    "manageBehaviour": {
+      "textBehaviourType": "Aina ya Tabia",
+      "textInfractions": "Ukiukaji",
+      "textMerits": "Sifa",
+      "textLeadershipPositions": "Nafasi za uongozi",
+      "textClaireValues": "Maadili ya CLAIRE",
+      "btnTextAdd": "Ongeza",
+      "inputPlaceHolderLevel": "Kiwango",
+      "textFieldRequired": "Sehemu hii inahitajika",
+      "textDescription": "Maelezo",
+      "textPoints": "Pointi",
+      "btnTextClose": "Funga",
+      "textInfractionLevelsNotFound": "Hakuna viwango vya ukiukaji vilivyopatikana",
+      "textLevel": "Kiwango",
+      "textTitle": "Kichwa",
+      "textUpdatedOn": "Imesasishwa Imewashwa",
+      "textUpdatedBy": "Imesasishwa Na",
+      "textAction": "Kitendo",
+      "btnTextViewInfractions": "Tazama ukiukaji",
+      "btnTextEdit": "Hariri",
+      "btnTextSave": "Hifadhi",
+      "textInfractionLevel": "Kiwango cha Ukiukaji",
+      "btnTextBack": "Nyuma",
+      "btnTextAddInfraction": "Ongeza Ukiukaji",
+      "textInfractionRequired": "Ukiukaji unahitajika",
+      "textInfractionActionRequired": "Kitendo cha ukiukaji kinahitajika",
+      "textNoInfractionsFound": "Hakuna ukiukaji uliopatikana",
+      "btnTextDelete": "Futa",
+      "btnTextCancel": "Ghairi",
+      "textDescriptionRequired": "Desription inahitajika",
+      "textPointsRequired": "Alama zinahitajika",
+      "textFrequency": "Mzunguko",
+      "textSelectFrequency": "Chagua marudio",
+      "textFrequencyRequired": "Frequency inahitajika",
+      "textAward": "Tuzo",
+      "textAwardRequired": "Tuzo inahitajika",
+      "textNoMeritsFound": "Hakuna sifa zilizopatikana",
+      "textMeritDetails": "Maelezo ya sifa",
+      "textNoLeadershipPositionsFound": "Hakuna nafasi za uongozi zilizopatikana",
+      "textPositionDetails": "Maelezo ya msimamo",
+      "textNoClaireFound": "Hakuna Claires aliyepatikana",
+      "btnTextViewItems": "Tazama vitu",
+      "textClaire": "Claire",
+      "btnTextAddClaire": "Ongeza Claire",
+      "toastMessages": {
+        "addInfractionSuccess": "Ukiukaji umeongezwa",
+        "updateInfractionSuccess": "Ukiukaji umerekebishwa",
+        "deleteInfractionSuccess": "Ukiukaji umefutwa",
+        "addInfractionItemSuccess": "Kipengee cha ukiukaji kimeongezwa",
+        "updateInfractionItemSuccess": "Kipengee cha ukiukaji kimesasishwa",
+        "deleteInfractionItemSuccess": "Kipengee cha ukiukaji kimefutwa",
+        "addMeritSuccess": "Ustahili umeongezwa",
+        "updateMeritSuccess": "Ubora umesasishwa",
+        "deleteMeritSuccess": "Ubora umefutwa",
+        "addLeadershipSuccess": "Uongozi umeongezwa kwa mafanikio",
+        "deleteLeadershipSuccess": "Uongozi umefutwa",
+        "addClaireSuccess": "Claire aliongeza kwa ufanisi",
+        "updateClaireSuccess": "Claire alisasisha",
+        "deleteClaireSuccess": "Claire amefutwa",
+        "addClaireItemSuccess": "Kipengee cha Claire kimeongezwa",
+        "updateClaireItemSuccess": "Kipengee cha Claire kimesasishwa",
+        "deleteClaireItemSuccess": "Kipengee cha Claire kimefutwa"
+      },
+      "swal": {
+        "titleDeleteInfraction": "Futa Kiwango cha Ukiukaji!",
+        "textDeleteInfraction": "Je, una uhakika ungependa kufuta kiwango cha ukiukaji {{ description }}?",
+        "titleDeleteInfractionItem": "Futa Ukiukaji!",
+        "textDeleteInfractionItem": "Je, una uhakika kuwa ungependa kufuta ukiukaji {{ description }}?",
+        "titleDeleteMerit": "Futa Tabia Chanya!",
+        "textDeleteMerit": "Je, una uhakika ungependa kufuta tabia chanya {{ description }}?",
+        "titleDeleteLeadership": "Futa Nafasi ya Uongozi!",
+        "textDeleteLeadership": "Je, una uhakika ungependa kufuta nafasi ya uongozi {{ description }}?",
+        "titleDeleteClaire": "Futa Thamani ya CLAIRE!",
+        "textDeleteClaire": "Je, una uhakika ungependa kufuta thamani ya Claire {{ description }}?",
+        "titleDeleteClaireItem": "Futa Kipengee cha CLAIRE!",
+        "textDeleteClaireItem": "Je, una uhakika ungependa kufuta kipengee cha Claire {{ description }}?"
+      }
+    },
+    "newRecord": {
+      "textSelectStudentsForm": "Kwanza, chagua fomu ambayo mwanafunzi/wanafunzi wamo",
+      "textSelectForm": "Chagua Fomu",
+      "textSelectStudents": "Pili, chagua wanafunzi",
+      "textSpecifyStudents": "Mwishowe, taja tabia ya wanafunzi",
+      "textInfraction": "Ukiukaji",
+      "textRecentRecords": "Rekodi za Hivi Punde",
+      "textLeadershipPosition": "Nafasi ya uongozi",
+      "textClaire": "CLAIRE",
+      "textInfractionLevel": "Kiwango cha Ukiukaji",
+      "textSelectInfractionLevel": "Chagua kiwango cha ukiukaji",
+      "textSelectInfraction": "Chagua Ukiukaji",
+      "textMerit": "Sifa",
+      "textSelectPoitiveBehaviour": "Chagua tabia nzuri",
+      "textClaireValue": "thamani ya Claire",
+      "textSelectClaireValue": "Chagua Thamani ya Claire",
+      "textItem": "Kipengee",
+      "textSelectItem": "Chagua kipengee",
+      "textSelectClaireItem": "Chagua kipengee cha claire",
+      "textComment": "Maoni",
+      "btnTextSaveRecord": "Hifadhi rekodi",
+      "toastMessages": {
+        "saveSuccess": "Tabia ya wanafunzi imehifadhiwa"
+      },
+      "swal": {
+        "title": "Ongeza Rekodi ya Tabia!",
+        "text": "Je, una uhakika ungependa kuongeza rekodi hii ya tabia kwa wanafunzi waliobainishwa?"
+      }
+    },
+    "residenceBehaviour": {
+      "textTerm": "Muda",
+      "textAcademicYear": "Mwaka wa Masomo",
+      "textMeanPoints": "Pointi za Maana",
+      "textStudents": "Wanafunzi"
+    },
+    "residenceStudentBehaviour": {
+      "textTerm": "Muda",
+      "textAcademicYear": "Mwaka wa Masomo",
+      "textRecentRecords": "Rekodi za Hivi Punde",
+      "textStudentPoints": "Alama za Wanafunzi",
+      "textAwards": "Tuzo",
+      "textOf": "Ya",
+      "textNoRecordsFound": "Hakuna rekodi zilizopatikana",
+      "textAdmno": "Nambari ya kiingilio",
+      "textName": "Jina",
+      "textDetails": "Maelezo",
+      "textType": "Aina",
+      "textPoints": "Pointi",
+      "textClass": "Darasa",
+      "textResidence": "Makazi",
+      "textAddedOn": "Imeongezwa",
+      "textAddedBy": "Imeongezwa na",
+      "textComment": "Maoni",
+      "btnTextView": "Tazama",
+      "textNoPointsFound": "Hakuna pointi zilizopatikana",
+      "textGender": "Jinsia",
+      "textStatus": "Hali"
+    },
+    "streamBehaviour": {
+      "textTerm": "Muda",
+      "textAcademicYear": "Mwaka wa Masomo",
+      "textRecentRecords": "Rekodi za Hivi Punde",
+      "textStudentPoints": "Alama za Wanafunzi",
+      "textAwards": "Tuzo",
+      "textOf": "Ya",
+      "textNoRecordsFound": "Hakuna rekodi zilizopatikana",
+      "textAdmno": "Nambari ya kiingilio",
+      "textName": "Jina",
+      "textDetails": "Maelezo",
+      "textType": "Aina",
+      "textPoints": "Pointi",
+      "textClass": "Darasa",
+      "textResidence": "Makazi",
+      "textAddedOn": "Imeongezwa",
+      "textAddedBy": "Imeongezwa na",
+      "textComment": "Maoni",
+      "btnTextView": "Tazama",
+      "textNoPointsFound": "Hakuna pointi zilizopatikana",
+      "textGender": "Jinsia",
+      "textStatus": "Hali",
+      "textNoDataFound": "Hakuna data iliyopatikana"
+    },
+    "studentBehaviour": {
+      "textAnalytics": "Uchanganuzi",
+      "textProfile": "Wasifu",
+      "textMessage": "Ujumbe",
+      "textTerm": "Muda",
+      "textAcademicYear": "Mwaka wa Masomo",
+      "textRecentRecords": "Rekodi za Hivi Punde",
+      "textOf": "Ya",
+      "textNoRecordsFound": "Hakuna rekodi zilizopatikana",
+      "textDetails": "Maelezo",
+      "textType": "Aina",
+      "textPoints": "Pointi",
+      "textClass": "Darasa",
+      "textResidence": "Makazi",
+      "textAddedOn": "Imeongezwa",
+      "textAddedBy": "Imeongezwa na",
+      "swal": {
+        "title": "Futa Rekodi!",
+        "text": "Je, una uhakika ungependa kufuta rekodi iliyobainishwa?"
+      },
+      "toastMessages": {
+        "deleteSuccess": "Rekodi ya tabia ya wanafunzi imefutwa!",
+        "deleteError": "Tabia ya wanafunzi haikuweza kufutwa. Tafadhali jaribu tena baadae"
+      }
+    }
+  },
+  "bom": {
+    "add": {
+      "options": {
+        "headerText": "Chaguzi",
+        "keyInOption": "Muhimu katika maelezo ya mwanachama wa BOM/PA",
+        "uploadFromSpreadSheetOption": "Pakia wanachama wa BOM/PA kutoka lahajedwali"
+      },
+      "keyInOptionForm": {
+        "title": "Kichwa",
+        "fullName": "Jina kamili",
+        "phoneNumber": "Nambari ya simu",
+        "phoneNumberPlaceholderText": "07########",
+        "nationalIdNumber": "Kitambulisho cha Taifa Na.",
+        "group": "Kikundi",
+        "groups": "Vikundi",
+        "addBtn": "Ongeza"
+      },
+      "keyInOptionFormErrors": {
+        "title": "Kichwa kinahitajika",
+        "fullName": "Jina linahitajika"
+      },
+      "uploadFromSpreadSheetOptionForm": {
+        "fileInputLabel": {
+          "downloadText": "Pakua",
+          "remainingText": "na ujaze kiolezo kisha ukipakie hapa chini. (Tafadhali acha vichwa vya safu wima vikiwa sawa)"
+        },
+        "excelTemplateDownload": {
+          "fileName": "Pakia BOM-PA - Kiolezo",
+          "workSheetName": "Pakia BOM-PA - Kiolezo",
+          "workSheetColumnHeaders": {
+            "name": "jina",
+            "title": "kichwa",
+            "phone": "simu",
+            "nationalIdNumber": "kitambulisho_cha_kitaifa",
+            "group": "kikundi"
+          }
+        },
+        "tableSectionHeaders": {
+          "name": "Jina",
+          "title": "Kichwa",
+          "phone": "Simu",
+          "nationalIdNumber": "Kitambulisho cha Taifa Na.",
+          "group": "Kikundi"
+        },
+        "uploadBtn": "Pakia"
+      },
+      "uploadFromSpreadSheetOptionFormErrors": {
+        "fileInput": "Chagua lahajedwali iliyo na orodha ya wafanyikazi"
+      },
+      "toastMessages": {
+        "addSuccess": "BOM/PA imeongezwa kwa mafanikio!"
+      }
+    },
+    "groups": {
+      "title": "Vikundi vya BOM/PA",
+      "addBtn": "Ongeza Kikundi cha BOM/PA",
+      "notFound": "Hakuna Vikundi vya BOM/PA vilivyopatikana",
+      "addForm": {
+        "name": "Ingiza Jina la Kikundi cha Bom",
+        "namePlaceholder": "Kikundi cha Bom",
+        "cancelBtn": "Ghairi",
+        "saveBtn": "Hifadhi"
+      },
+      "addFormErrors": {
+        "name": "Jina la kikundi linahitajika",
+        "unableToUpload": "Haiwezi kupakia Vikundi vya Bom/Pa"
+      },
+      "tableHeaders": {
+        "name": "Jina",
+        "action": "Kitendo"
+      },
+      "listItem": {
+        "editBtn": "Hariri",
+        "editCancelBtn": "Ghairi",
+        "editSaveBtn": "Hifadhi",
+        "deleteBtn": "Futa",
+        "deleteConfirmationModal": {
+          "title": "Futa Kikundi cha BOM/PA!",
+          "text": "Je, una uhakika ungependa kuondoa kikundi cha {{groupName }}?",
+          "cancelButtonText": "Ghairi",
+          "confirmButtonText": "Sawa"
+        }
+      },
+      "toastMessages": {
+        "addSuccess": "Kikundi cha watumiaji kimeongezwa!",
+        "updateSuccess": "Kikundi cha watumiaji kimesasishwa!",
+        "deleteSuccess": "Kikundi cha watumiaji kimefutwa!"
+      }
+    },
+    "topNav": {
+      "manage": "Dhibiti",
+      "view": "Tazama",
+      "add": "Ongeza",
+      "groups": "Vikundi",
+      "bom": "BOM/PA",
+      "manageBom": "Dhibiti BOM/PA",
+      "viewBom": "Tazama BOM/PA",
+      "addBom": "Ongeza BOM/PA",
+      "bomGroups": "Vikundi vya BOM/PA"
+    },
+    "manageBom": {
+      "title": "BOM/PA",
+      "searchPlaceholder": "Tafuta",
+      "viewPrintFormatBtn": "Tazama Umbizo la Kuchapisha",
+      "noBomFound": "Hakuna rekodi za BOM/PA zilizopatikana",
+      "printFormat": {
+        "options": {
+          "headerText": "Chaguzi",
+          "showGroupsOption": "Onyesha Vikundi",
+          "showPhoneNumbersOption": "Onyesha Nambari za Simu",
+          "showNationalIdNumberOption": "Onyesha Kitambulisho cha Taifa Na."
+        },
+        "closePrintFormatBtn": "Funga umbizo la Kuchapisha",
+        "printBtn": "Chapisha",
+        "downloadBtn": "Pakua",
+        "downloadPDFBtn": "Pakua PDF",
+        "downloadExcelBtn": "Pakua Excel",
+        "excelDownload": {
+          "fileName": "BOM_PA",
+          "workSheetName": "karatasi1",
+          "workSheetColumnHeaders": {
+            "name": "jina",
+            "phone": "simu",
+            "nationalIdNumber": "kitambulisho_cha_kitaifa",
+            "group": "kikundi"
+          }
+        },
+        "schoolLogoAltText": "Nembo ya shule",
+        "tableHeaderText": "Orodha ya BOM/PA",
+        "tableColumnHeaders": {
+          "name": "Jina",
+          "phone": "Simu",
+          "nationalIdNumber": "Kitambulisho cha Taifa Na.",
+          "groups": "Vikundi"
+        }
+      },
+      "bomListItem": {
+        "imageAltText": "Picha ya mwalimu",
+        "editBtn": "Tazama"
+      },
+      "bomListItemUpdate": {
+        "profilePhoneNumber": "Simu",
+        "profileSignatureAltText": "Sahihi",
+        "profileDeleteBtn": "Futa",
+        "profileDeleteConfirmationModal": {
+          "title": "Futa Mwanachama wa BOM/PA!",
+          "text": "Je, una uhakika ungependa kumwondoa {{ name }} kutoka shuleni?",
+          "cancelButtonText": "Ghairi",
+          "confirmButtonText": "Sawa"
+        },
+        "form": {
+          "headerText": "Sasisha Maelezo ya Bom/Pa",
+          "name": "Jina",
+          "username": "Jina la mtumiaji",
+          "phoneNumber": "Nambari ya simu",
+          "phoneNumberPlaceholderText": "07########",
+          "title": "Kichwa",
+          "idNumber": "Nambari ya kitambulisho",
+          "groups": "Vikundi",
+          "groupsEmpty": "Hakuna vikundi vilivyopatikana",
+          "bio": "Wasifu",
+          "closeBtn": "Funga",
+          "saveBtn": "Hifadhi",
+          "editBtn": "Hariri"
+        }
+      },
+      "toastMessages": {
+        "updateSuccess": "Mtumiaji amesasishwa!",
+        "deleteSuccess": "Mtumiaji amefutwa kwa mafanikio"
+      }
+    }
+  },
+  "dashboard": {
+    "topNav": {
+      "dashboard": "Dashibodi",
+      "global": "Ulimwenguni",
+      "view": "Tazama",
+      "my": "Yangu",
+      "subjects": "Masomo",
+      "mySubjects": "Masomo Yangu",
+      "graduate": "Hitimu",
+      "classes": "Madarasa",
+      "graduatedClasses": "Madarasa ya Wahitimu"
+    },
+    "global": {
+      "className": "{{classname}}",
+      "examName": "{{examname}}",
+      "aggregate_stats": {
+        "first": {
+          "label": "{{label}}"
+        },
+        "second": {
+          "label": "{{label}}"
+        },
+        "third": {
+          "label": "{{label}}"
+        },
+        "fourth": {
+          "label": "{{label}}"
+        }
+      }
+    },
+    "mySubjects": {
+      "classOf": "Darasa la",
+      "graduationYear": "{{graduation_year}}",
+      "examName": "{{examname}}",
+      "aggregate_stats": {
+        "first": {
+          "label": "{{label}}"
+        },
+        "second": {
+          "label": "{{label}}"
+        },
+        "third": {
+          "label": "{{label}}"
+        },
+        "fourth": {
+          "label": "{{label}}"
+        }
+      }
+    },
+    "myClasses": {
+      "title": "{{classname}} - {{subject}}",
+      "examname": "{{examname}}",
+      "aggregate_stats": {
+        "first": {
+          "label": "{{label}}"
+        },
+        "second": {
+          "label": "{{label}}"
+        },
+        "third": {
+          "label": "{{label}}"
+        },
+        "fourth": {
+          "label": "{{label}}"
+        }
+      },
+      "noSubject": "Hakuna data ya darasa la mada iliyopatikana",
+      "noData": "Hakuna data ya darasa iliyopatikana",
+      "ct": {
+        "classname": "{{classname}}",
+        "examname": "{{examname}}",
+        "aggregate_stats": {
+          "first": {
+            "label": "{{label}}"
+          },
+          "second": {
+            "label": "{{label}}"
+          },
+          "third": {
+            "label": "{{label}}"
+          },
+          "fourth": {
+            "label": "{{label}}"
+          }
+        }
+      },
+      "cs": {
+        "classname": "{{classname}}",
+        "examname": "{{examname}}",
+        "aggregate_stats": {
+          "first": {
+            "label": "{{label}}"
+          },
+          "second": {
+            "label": "{{label}}"
+          },
+          "third": {
+            "label": "{{label}}"
+          },
+          "fourth": {
+            "label": "{{label}}"
+          }
+        }
+      }
+    },
+    "welcome": {
+      "new": "Mpya",
+      "bannerTitle": "{{title}}",
+      "bannerDescription": "{{description}}",
+      "welcome": "Karibu",
+      "view": "Tazama",
+      "manage": "Dhibiti",
+      "exams": "Mitihani",
+      "from": "kutoka kwa faraja",
+      "of": "yako ya",
+      "mobile": "Simu ya rununu",
+      "latest": "Matokeo ya Hivi Punde",
+      "classes": "Madarasa Yangu",
+      "teachers": "Walimu",
+      "students": "Wanafunzi",
+      "staff": "Wafanyakazi",
+      "streams": "Mipasho",
+      "addEvent": "Ongeza Tukio",
+      "upcomingEv": "Matukio Yajayo",
+      "viewAll": "Tazama Matukio Yote",
+      "noEvs": "Hakuna matukio yanayokuja",
+      "createEv": "Unda Tukio",
+      "eventName": "Jina la Tukio",
+      "eventNameErrMes": "Kichwa hakiwezi kuwa tupu",
+      "evParticipants": "Washiriki wa Tukio",
+      "selParticipants": "Chagua washiriki",
+      "evParticipantsErrMes": "Washiriki hawawezi kuwa tupu",
+      "evFormErrMes": "haiwezi kuwa tupu",
+      "specific": "Maalum",
+      "evDates": "Tarehe za Tukio",
+      "single": "Mtu mmoja",
+      "range": "Masafa",
+      "enterRange": "Weka kipindi",
+      "pickDate": "Chagua tarehe",
+      "pickDatePlaceholder": "Chagua tarehe/saa",
+      "dateErrMes": "Tarehe haiwezi kuwa tupu",
+      "close": "Funga",
+      "viewEv": "Tazama Tukio",
+      "eventDetails": "Maelezo ya Tukio",
+      "editEv": "Hariri Tukio",
+      "evName": "Jina la Tukio",
+      "participants": "Washiriki",
+      "partsErrMes": "Washiriki hawawezi kuwa tupu",
+      "specErrMes": "Vikundi haviwezi kuwa tupu",
+      "evDate": "Tarehe ya Tukio",
+      "evDateErrMes": "Tarehe haiwezi kuwa tupu",
+      "delEvent": "Futa Tukio",
+      "saveEv": "Hifadhi Tukio",
+      "toastMessages": {
+        "addEventSuccess": "Tukio limeongezwa kwa mafanikio",
+        "updateEventSuccess": "Tukio limesasishwa kwa mafanikio",
+        "deleteEventSuccess": "Tukio limefutwa",
+        "addEventSessionSuccess": "Kipindi cha tukio kimeongezwa kwa mafanikio",
+        "updateEventSessionSuccess": "Kipindi cha tukio kimesasishwa kwa mafanikio",
+        "deleteEventSessionSuccess": "Kipindi cha tukio kimefutwa"
+      }
+    },
+    "attendanceReport": {
+      "title": "Ripoti ya mahudhurio",
+      "term": "Muda",
+      "loadingMessage": "Inaleta ripoti ya mahudhurio...",
+      "charts": {
+        "category1": "Mwandamizi 1",
+        "category2": "Mwandamizi 2",
+        "category3": "Mwandamizi 3",
+        "category4": "Mwandamizi 4"
+      },
+      "toastMessages": {
+        "error": "Imeshindwa kupata ripoti ya mahudhurio shuleni: Sababu: {{ reason }}"
+      }
+    },
+    "intakeAttendaceReport": {
+      "title": "Ripoti ya mahudhurio",
+      "term": "Muda",
+      "loadingMessage": "Inaleta ripoti ya mahudhurio...",
+      "filterBy": "Chuja Kwa",
+      "allStreams": "Mitiririko Yote",
+      "selectStreamPlaceholder": "Chagua Tiririsha",
+      "noAttendanceTaken": "Hakuna mahudhurio yamechukuliwa kwa mwanafunzi yeyote katika darasa hili",
+      "tableHeaders": {
+        "admno": "Adm No",
+        "name": "Jina",
+        "stream": "Tiririsha",
+        "daysPresent": "Siku Zilizopo",
+        "daysAbsent": "Siku Kutokuwepo",
+        "totalDays": "Jumla ya Siku"
+      },
+      "studentName": "Jina la Mwanafunzi",
+      "toastMessages": {
+        "error": "Imeshindwa kuleta ripoti ya mahudhurio ya ulaji. Sababu: {{ reason }}"
+      }
+    },
+    "olevelSummary": {
+      "errorOccurred": "Hitilafu fulani imetokea wakati wa kuleta ripoti ya msimamizi. Sababu: {{ reason }}"
+    }
+  },
+  "classes": {
+    "commonAttr": {
+      "my": "Yangu",
+      "attendance": "Mahudhurio",
+      "classes": "Madarasa",
+      "subjects": "Masomo",
+      "subject": "Somo",
+      "stream": "Tiririsha",
+      "streams": "Mipasho",
+      "manage": "Dhibiti",
+      "manageSubjects": "Dhibiti Masomo",
+      "delete": "Futa",
+      "back": "Nyuma",
+      "code": "Kanuni",
+      "action": "Kitendo",
+      "topics": "Mada",
+      "competency": "Umahiri",
+      "competencies": "Umahiri",
+      "close": "Funga",
+      "noStudentsFound": "Hakuna wanafunzi waliopatikana",
+      "saveChanges": "Hifadhi mabadiliko"
+    },
+    "attendanceReport": {
+      "backBtn": "Nyuma",
+      "title": "Ripoti ya mahudhurio",
+      "filterBy": "Chuja Kwa",
+      "filterByOptions": {
+        "term": {
+          "label": "Muda",
+          "placeholder": "Chagua Muda"
+        },
+        "date": {
+          "label": "Tarehe",
+          "startDate": "Tarehe ya Kuanza",
+          "endDate": "Tarehe ya mwisho"
+        }
+      },
+      "filterByBtn": "Chuja Mahudhurio",
+      "table": {
+        "admNo": "Adm No",
+        "name": "Jina",
+        "daysPresent": "Siku Zilizopo",
+        "daysAbsent": "Siku Kutokuwepo",
+        "totalDays": "Jumla ya Siku",
+        "noDataFound": "Hakuna data iliyopatikana"
+      }
+    },
+    "topNav": {
+      "my": "Yangu",
+      "class": "Darasa",
+      "addNew": "Ongeza Mpya",
+      "myClasses": "Madarasa Yangu",
+      "manageClasses": "Dhibiti Madarasa",
+      "manageSubjects": "Dhibiti Masomo",
+      "addNewClass": "Ongeza Darasa Jipya"
+    },
+    "manage": {
+      "table": {
+        "boys": "Wavulana",
+        "girls": "Wasichana",
+        "students": "Wanafunzi",
+        "classSupervisor": "Msimamizi wa darasa",
+        "action": "Kitendo",
+        "total": "Jumla"
+      }
+    },
+    "manageStream": {
+      "title": "Masomo",
+      "addSubjectBtn": "Ongeza Mada",
+      "table": {
+        "stream": "Tiririsha",
+        "subject": "Somo",
+        "boys": "Wavulana",
+        "girls": "Wasichana",
+        "students": "Wanafunzi",
+        "subjectTeacher": "Mwalimu wa somo (1)",
+        "subjectTeacher2": "Mwalimu wa somo (2)",
+        "subjectTeacher3": "Mwalimu wa somo (3)",
+        "subjectTeacher4": "Mwalimu wa somo (4)",
+        "subjectTeacher5": "Mwalimu wa somo (5)",
+        "assignTeacherPlaceholder": "Mpe Mwalimu",
+        "removeTeacherPlaceholder": "Ondoa Mwalimu wa Somo",
+        "total": "Jumla",
+        "swal": {
+          "titleDeleteSubjectClass": "Futa Mada!",
+          "textDeleteSubjectClass": "Je, una uhakika ungependa kufuta {{ formOrYear }} {{ form }} {{ stream }} {{ subjectName }}?",
+          "confirmButtonText": "Ndiyo, ifute!",
+          "titleDeleteSubjectClassSuccess": "Imefutwa!",
+          "textDeleteSubjectClassSuccess": "{{ subjectName }} imefutwa!",
+          "titleDeleteSubjectClassError": "Haikuweza kufuta!"
+        }
+      }
+    },
+    "manageSubject": {
+      "addNew": "Ongeza Mpya",
+      "newTopic": "Mada Mpya",
+      "noTopics": "Hakuna mada zilizopatikana. Bofya kwenye kitufe cha Ongeza Mpya ili kuongeza mada mpya.",
+      "noCompetencies": "Hakuna vipengele vilivyopatikana vya mada hii. Bofya kwenye kitufe cha Ongeza Mpya ili kuongeza moja.",
+      "selectLevelLabel": "Chagua {{ levelName }}",
+      "topicName": "Jina la Mada",
+      "topicNameError": "Jina la mada linahitajika",
+      "classLevel": "Kiwango cha Darasa",
+      "classLevelError": "Kiwango kinahitajika",
+      "topicAdded": "Mada imeongezwa kwa mafanikio",
+      "topicEdited": "Mada imehaririwa",
+      "topicDeleted": "Mada imefutwa",
+      "newCompetency": "Uwezo Mpya",
+      "competencyName": "Jina la Ufanisi",
+      "competencyNameError": "Jina la umahiri linahitajika",
+      "competencyAdded": "Uwezo umeongezwa",
+      "competencyUpdated": "Uwezo umesasishwa",
+      "competencyDeleted": "Uwezo umefutwa",
+      "filterByClassLevel": "Chuja Kwa Kiwango cha Darasa",
+      "selectClassLevel": "Chagua Kiwango cha Darasa",
+      "table": {
+        "admNo": "Adm No",
+        "name": "Jina",
+        "teacher": "Mwalimu",
+        "removeSubjectTeacher": "Ondoa mwalimu wa somo",
+        "assignTeacher": "Mpe Mwalimu",
+        "removeSelectedStudents": "Ondoa Wanafunzi Waliochaguliwa"
+      },
+      "swal": {
+        "titleRemoveClassMemberTeacher": "Mwondoe kazi Mwalimu!",
+        "textRemoveClassMemberTeacher": "Je, una uhakika ungependa kutendua mgawo wa {{ teacher }} kutoka kwa {{ student }}?",
+        "confirmButtonTextRemoveClassMemberTeacher": "Ndiyo, Batilisha kukabidhiwa!",
+        "titleRemoveClassMemberTeacherSuccess": "Imefutwa!",
+        "textRemoveClassMemberTeacherSuccess": "Mwalimu ameondolewa kutoka kwa mwanafunzi.",
+        "titleRemoveStudents": "Ondoa Wanafunzi!",
+        "textRemoveStudents": "Je, una uhakika ungependa kuwaondoa wanafunzi waliochaguliwa kutoka {{ className }}?",
+        "confirmButtonTextRemoveStudents": "Ndiyo, Ondoa!"
+      }
+    },
+    "myClasses": {
+      "mySubjects": "Masomo ninayofundisha",
+      "noClasses": "Hakuna darasa ambalo umekabidhiwa.",
+      "noSubjects": "Hakuna somo ambalo umekabidhiwa.",
+      "students": "Wanafunzi",
+      "newAssessment": "Tathmini Mpya",
+      "viewAssessments": "Tazama Tathmini",
+      "table": {
+        "name": "Jina",
+        "actions": "Vitendo",
+        "comments": "Maoni"
+      },
+      "classesSupervised": "Madarasa Yanayosimamiwa"
+    },
+    "new": {
+      "successClassAddition": "Darasa Limeongezwa Kwa Mafanikio",
+      "successSubjectAddition": "Masomo Yameongezwa Kwa Mafanikio",
+      "successSubjectAdditionToStream": "Masomo Yameongezwa Kwa Mafanikio",
+      "addClass": "Ongeza Darasa Lingine",
+      "addStudents": "Ongeza Wanafunzi",
+      "newStudent": "Mwanafunzi Mpya",
+      "newStudents": "Wanafunzi Wapya",
+      "classForm": {
+        "title": "Ongeza Masomo",
+        "selectForm": {
+          "placeholder": "Chagua"
+        },
+        "graduationYear": {
+          "label": "Mwaka wa Kuhitimu",
+          "placeholder": "Chagua Mwaka wa Kuhitimu"
+        },
+        "stream": {
+          "label": "Tiririsha",
+          "placeholder": "Kaskazini",
+          "title": "Tafadhali weka jina la mtiririko",
+          "requiredError": "Mtiririko hauwezi kuwa tupu"
+        },
+        "subject": {
+          "label": "Chagua masomo yanayofanywa na darasa hili",
+          "addedInfo": "Chagua mada za kuongeza",
+          "placeholder": "Chagua Mada",
+          "requiredError": "Mada haiwezi kuwa tupu"
+        }
+      },
+      "addBtn": "Ongeza",
+      "toastMessages": {
+        "saveSuccess": "Darasa limehifadhiwa"
+      }
+    },
+    "streams": {
+      "title": "Mitiririko",
+      "table": {
+        "boys": "Wavulana",
+        "girls": "Wasichana",
+        "students": "Wanafunzi",
+        "classTeacher": "Mwalimu wa darasa",
+        "actions": "Vitendo",
+        "removeClassTeacher": "Ondoa mwalimu wa darasa",
+        "selectSupervisor": "Chagua msimamizi",
+        "editName": "Hariri Jina",
+        "cancelBtn": "Ghairi",
+        "saveBtn": "Hifadhi",
+        "deleteBtn": "Futa",
+        "total": "Jumla"
+      },
+      "swal": {
+        "titleDeleteStream": "Ungependa kufuta {{ formOrYear }} {{ form }} {{ stream }}?",
+        "textDeleteStream": "Hutaweza kurejesha hii!",
+        "confirmButtonTextDeleteStream": "Ndiyo, ifute!",
+        "titleRemoveDeleteStreamSuccess": "Imefutwa!",
+        "titleRemoveDeleteStreamError": "Haikuweza kufuta!"
+      }
+    },
+    "subjectComments": {
+      "title": "Maoni ya Mada",
+      "printFormat": "Umbizo la Kuchapisha",
+      "printBtn": "Tazama Umbizo la Kuchapisha",
+      "editBtn": "Hariri Zote",
+      "cancelBtn": "Ghairi",
+      "saveBtn": "Hifadhi",
+      "commentInput": "Weka Maoni..."
+    },
+    "takeAttendance": {
+      "title": "Tazama Ripoti ya Mahudhurio",
+      "subTitle": "Chukua Mahudhurio",
+      "table": {
+        "admNo": "Adm No",
+        "name": "Jina"
+      },
+      "saveBtn": "Okoa Mahudhurio",
+      "saving": "Kuokoa Mahudhurio",
+      "toastMessages": {
+        "saveSuccess": "Hudhurio limerekodiwa"
+      },
+      "swal": {
+        "titleSaveAtendance": "Je, ungependa kuwasilisha mahudhurio?",
+        "textSaveAtendance": "Je, una uhakika unataka kuwasilisha rekodi hii ya mahudhurio?"
+      }
+    }
+  },
+  "evaluation": {
+    "all": {
+      "backBtn": "Nyuma",
+      "noData": "Hakuna tathmini zilizopatikana kwa mwaka uliochaguliwa ({{ year }})",
+      "acadYearLabel": "Mwaka wa Masomo",
+      "acadYearPlaceholder": "Chagua mwaka wa masomo",
+      "termLabel": "Muda {{term}}",
+      "pageTitle": "Ripoti ya Tathmini (Muda {{term}})",
+      "singleEvaluation": {
+        "evaluationName": "{{evaluationName}}",
+        "evaluationTitle": "{{title}}",
+        "withMarksLabel": "Wanafunzi wenye Alama:",
+        "totalStudents": "Jumla ya Wanafunzi:",
+        "uploadResultsBtn": "Pakia Matokeo",
+        "viewBtn": "Tazama {{type}}",
+        "deleteBtn": "Futa"
+      },
+      "toastMessages": {
+        "deleteSuccess": "Tathmini imefutwa",
+        "deleteExamSuccess": "Mtihani umefutwa",
+        "deleteProjectSuccess": "Mradi umefutwa"
+      },
+      "swal": {
+        "title1": "Una uhakika?",
+        "text1": "Hutaweza kurejesha hii!",
+        "confirmButtonText1": "Ndiyo, ifute!",
+        "cancelButtonText1": "Hapana, ghairi!",
+        "title2": "Futa Tathmini",
+        "text2": "Tathmini hii ina matokeo ya mwanafunzi. <br> Ili kuifuta, andika: <b> {{ evaluationName }} </b>",
+        "inputPlaceholder": "Andika jina la tathmini",
+        "inputValidatorText": "Jina si sahihi"
+      }
+    },
+    "create": {
+      "backBtn": "Nyuma",
+      "createNewLabel": "Unda Mpya",
+      "assessmentTypeLabel": "Aina ya Tathmini",
+      "selectAssessmentTypeError": "Tafadhali chagua aina ya tathmini",
+      "evaluationTypesLabel": "Aina za Tathmini",
+      "topicLabel": "Mada",
+      "selectEvaluationTypeError": "Tafadhali chagua aina ya tathmini",
+      "selectTopicError": "Tafadhali chagua mada",
+      "noEvaluationTypesError": "Hakuna aina za tathmini zilizowekwa kwa sasa. Tafadhali jaribu tena baadae",
+      "noTopicsError": "Hakuna mada zilizowekwa kwa mada hii kwa sasa. Tafadhali jaribu tena baadae",
+      "competencyAreasLabel": "Maeneo ya Uwezo",
+      "selectCompetencyAreaError": "Tafadhali chagua angalau eneo moja la umahiri",
+      "noCompetencyAreasError": "Somo hili halina eneo lolote la umahiri kwa sasa, tafadhali jaribu tena baadaye",
+      "titleLabel": "Kichwa cha Mradi",
+      "titlePlaceholder": "Weka kichwa cha mradi",
+      "titleRequired": "Kichwa cha mradi kinahitajika",
+      "termLabel": "Muda",
+      "termPlaceholder": "Chagua neno",
+      "termRequiredError": "Muda unahitajika",
+      "yearLabel": "Mwaka",
+      "yearPlaceholder": "Chagua mwaka",
+      "yearRequiredError": "Mwaka unahitajika",
+      "createBtn": "Unda {{type}}",
+      "toastMessages": {
+        "createExamError": "Hitilafu katika kuunda mtihani: {{ examName }}",
+        "createEvaluationError": "Imeshindwa kuunda tathmini. Sababu: {{ reason }}"
+      },
+      "swal": {
+        "exam": "Mtihani",
+        "evaluation": "Tathmini",
+        "titleOption1": "Mtihani umeundwa!",
+        "titleOption2": "Tathmini imeundwa!",
+        "title": "Ungependa kutuma Ujumbe?",
+        "text": "Sasa unaweza kuongeza alama za wanafunzi kwenye {{ type }}",
+        "confirmButtonText": "Pakia Matokeo",
+        "cancelButtonText": "Rudi kwa Masomo"
+      }
+    },
+    "topNav": {
+      "evaluations": "Tathmini",
+      "exams": "Mitihani",
+      "projects": "Miradi"
+    },
+    "manage": {
+      "backBtn": "Nyuma",
+      "assessmentTitle": "{{assessmentName}} Matokeo",
+      "evaluationNameLabel": "Jina la Tathmini",
+      "evaluationNamePlaceholder": "Jina la tathmini",
+      "maximumMarksLabel": "Alama za Juu",
+      "studentsLabel": "Wanafunzi",
+      "noStudentSelected": "Hakuna mwanafunzi aliyechaguliwa",
+      "table": {
+        "admNo": "Adm No",
+        "name": "Jina",
+        "marks": "Alama (x/{{maxMarks}})",
+        "calculatedScore": "Alama Iliyohesabiwa",
+        "comment": "Maoni",
+        "actions": "Vitendo",
+        "maxMarksError": "Alama haziwezi kuwa hasi",
+        "maxValueExceeded": "Thamani ya juu zaidi imepitwa",
+        "marksRequired": "Alama zinahitajika",
+        "saveAllBtn": "Okoa Zote"
+      },
+      "toastMessages": {
+        "deleteMarksError": "Alama hazijafutwa. Sababu: {{sababu }}",
+        "uploadResultsSuccess": "Matokeo yalisasishwa kwa ufanisi",
+        "uploadProjectResultsSuccess": "Matokeo ya mradi yamepakiwa",
+        "uploadExamsSuccess": "Mitihani imepakiwa",
+        "deleteSuccess": "Alama zimefutwa",
+        "studentAdded": "Mwanafunzi aliongezwa kwa mafanikio"
+      }
+    },
+    "uploadResults": {
+      "linkTitle": "Pakia Matokeo",
+      "backBtn": "Nyuma",
+      "pageTitle": "Pakia Matokeo ya {{assessmentType}}",
+      "maxMarksLabel": "Alama za Juu",
+      "maxMarksPlaceholder": "Alama za juu zaidi",
+      "maxMarksError": "Alama ya juu inapaswa kuwa kubwa kuliko sifuri",
+      "maxScoreExceeded": "Upeo wa alama umepitwa",
+      "studentsLabel": "Wanafunzi",
+      "uploading": "Inapakia...",
+      "uploadBtn": "Pakia Matokeo",
+      "table": {
+        "admNo": "Adm No",
+        "name": "Jina",
+        "marks": "Alama"
+      },
+      "toastMessages": {
+        "uploadSuccess": "Matokeo yamepakiwa"
+      }
+    }
+  },
+  "events": {
+    "topNav": {
+      "manage": "Dhibiti Matukio",
+      "newsLetters": "Vijarida"
+    },
+    "manage": {
+      "addEvent": "Ongeza Tukio",
+      "upcomingEv": "Matukio Yajayo",
+      "viewAll": "Tazama Matukio Yote",
+      "noEvs": "Hakuna matukio yanayokuja",
+      "createEv": "Unda Tukio",
+      "eventName": "Jina la Tukio",
+      "eventNameErrMes": "Kichwa hakiwezi kuwa tupu",
+      "evParticipants": "Washiriki wa Tukio",
+      "selParticipants": "Chagua washiriki",
+      "evParticipantsErrMes": "Washiriki hawawezi kuwa tupu",
+      "evFormErrMes": "haiwezi kuwa tupu",
+      "specific": "Maalum",
+      "evDates": "Tarehe za Tukio",
+      "single": "Mtu mmoja",
+      "range": "Masafa",
+      "enterRange": "Weka kipindi",
+      "pickDate": "Chagua tarehe",
+      "pickDatePlaceholder": "Chagua tarehe/saa",
+      "dateErrMes": "Tarehe haiwezi kuwa tupu",
+      "close": "Funga",
+      "viewEv": "Tazama Tukio",
+      "eventDetails": "Maelezo ya Tukio",
+      "editEv": "Hariri Tukio",
+      "evName": "Jina la Tukio",
+      "participants": "Washiriki",
+      "partsErrMes": "Washiriki hawawezi kuwa tupu",
+      "specErrMes": "Vikundi haviwezi kuwa tupu",
+      "evDate": "Tarehe ya Tukio",
+      "evDateErrMes": "Tarehe haiwezi kuwa tupu",
+      "delEvent": "Futa Tukio",
+      "saveEv": "Hifadhi Tukio",
+      "startDate": "Tarehe ya Kuanza",
+      "endDate": "Tarehe ya mwisho",
+      "handleDateSelectTitle": "Tafadhali weka kichwa kipya cha tukio lako",
+      "toastMessages": {
+        "addSuccess": "Tukio limeongezwa!",
+        "updateSuccess": "Tukio limesasishwa!",
+        "deleteSuccess": "Tukio limefutwa!",
+        "deleteSessionSuccess": "Kipindi cha tukio kimefutwa!"
+      }
+    },
+    "newsletter": {
+      "newsletters": "Jarida",
+      "newsletter": "Jarida",
+      "add": "Ongeza Jarida",
+      "createdBy": "Imetengenezwa na",
+      "createdOn": "Imeundwa Juu",
+      "view": "Tazama",
+      "edit": "Hariri",
+      "delete": "Futa",
+      "noNewsletters": "Hakuna Jarida lililopatikana",
+      "close": "Funga",
+      "newsletterContent": "{{newsletterContent}}",
+      "create": "Unda jarida",
+      "upload": "Pakia jarida",
+      "document": "hati",
+      "title": "Kichwa",
+      "titlePlaceholder": "Kichwa cha Jarida",
+      "titleErrMes": "Kichwa kinahitajika",
+      "noneSelected": "Hakuna Jarida lililochaguliwa",
+      "pdfErr": "Tafadhali pakia katika umbizo la pdf",
+      "description": "Maelezo",
+      "descErrMes": "Ufafanuzi unahitajika",
+      "submit": "Wasilisha",
+      "update": "Sasisha",
+      "editNewsletter": "Hariri Jarida",
+      "toastMessages": {
+        "deleteError": "Haikuweza kufuta jarida"
+      },
+      "swal": {
+        "title": "Ungependa kufuta Jarida?",
+        "text": "Je, una uhakika ungependa kufuta Jarida : {{ title }}?",
+        "text2": "Jarida limefutwa"
+      }
+    }
+  },
+  "exams": {
+    "publishResults": "Chapisha Matokeo",
+    "results": "Matokeo",
+    "exam": "Mtihani",
+    "selectExam": "Chagua Mtihani",
+    "status": "Hali",
+    "downloadResults": "Pakua Matokeo",
+    "noResultsToPub": "Hakuna Matokeo Ya Kuchapisha",
+    "noResultsToPub2": "Hakuna matokeo yaliyopatikana ya kuchapishwa",
+    "publishCs": {
+      "swal1": {
+        "title": "Una uhakika?",
+        "text": "Baada ya kuchapisha matokeo hayatapatikana kwa msimamizi wa darasa ili kuyahariri."
+      },
+      "swal2": {
+        "title": "Matokeo Yamechapishwa",
+        "text": "Matokeo ya fomu yamechapishwa kwa ufanisi"
+      }
+    },
+    "addIntake": {
+      "headerH4": "Ongeza {{formoryear}} kwenye mtihani",
+      "closeBtn": "Funga",
+      "intakeFormTitle": "Ongeza {{formoryear}} iliyofanya mtihani",
+      "intakeFormIntakes": "{{formoryear}} {{form}}",
+      "intakeFormPlaceHolder": "Kima cha chini cha Masomo yanayoweza kuchukuliwa",
+      "cancelBtn": "Ghairi",
+      "createBtn": "Unda",
+      "allIntakesTakingExamMsg": "Wote {{formoryear}}s wanafanya mtihani huu",
+      "toastMessages": {
+        "formErrors": {
+          "minSubjectsMissing": "Weka Idadi ya Chini ya masomo ya : {{ formOrYear }} {{ form }}",
+          "minSubjectsLess": "Kima cha chini cha masomo kwa : {{ formOrYear }} {{ form }} haiwezi kuwa chini ya {{ minSubjects }}",
+          "noFormSelected": "Chagua angalau fomu moja"
+        }
+      }
+    },
+    "analysis": {
+      "className": "{{classname}}",
+      "examName": "{{examname}}",
+      "aggregateStats": {
+        "first": {
+          "name": "{{name}}",
+          "value": "{{value}}",
+          "suffix": "{{suffix}}",
+          "change": "{{change}}"
+        },
+        "second": {
+          "name": "{{name}}",
+          "value": "{{value}}",
+          "suffix": "{{suffix}}",
+          "change": "{{change}}"
+        },
+        "meanGrade": {
+          "label": "Wastani wa Daraja",
+          "value": "{{value}}"
+        },
+        "labelClassAverages": "Wastani wa darasa"
+      },
+      "kcseMeanChange": "{{kcse_mean_change}}",
+      "performanceStreamsTitle": "Utendaji wa mitiririko ya {{classname}}",
+      "labelChangeExam": "Badilisha Mtihani",
+      "labelChangeStream": "Badilisha Mtiririko",
+      "labelStreamComparison": "Ulinganisho wa Mtiririko",
+      "labelStudentsWhoSatForTheExam": "Wanafunzi waliofanya mtihani",
+      "studentEntries": "{{entries}} Wanafunzi",
+      "btnTextMeritList": "Orodha ya sifa",
+      "btnTextMostImproved": "Orodha iliyoboreshwa zaidi",
+      "btnTextReportForms": "Fomu za Ripoti",
+      "textSubjectPerformance": "Utendaji wa Somo",
+      "tableTextPerformance": {
+        "head": {
+          "name": "jina",
+          "points": "pointi",
+          "change": "mabadiliko",
+          "grade": "daraja"
+        }
+      },
+      "textSubjectPerformanceOverTime": "Utendaji kwa muda",
+      "textGradeBreakdown": "Uchanganuzi wa daraja",
+      "btnTextViewPrintFormat": "Tazama umbizo la kuchapisha",
+      "toastMessages": {
+        "error": "Haiwezi kuzalisha lahajedwali kwa wakati huu"
+      }
+    },
+    "analysisSubject": {
+      "className": "{{classname}}",
+      "subjectName": "{{subjectname}}",
+      "examName": "{{examname}}",
+      "aggregateStats": {
+        "first": {
+          "name": "{{name}}",
+          "value": "{{value}}",
+          "suffix": "{{suffix}}",
+          "change": "{{change}}"
+        },
+        "second": {
+          "name": "{{name}}",
+          "value": "{{value}}",
+          "suffix": "{{suffix}}",
+          "change": "{{change}}"
+        },
+        "meanGrade": {
+          "label": "Wastani wa Daraja",
+          "value": "{{value}}"
+        },
+        "labelClassAverages": "Wastani wa darasa"
+      },
+      "streamMean": "Tiririsha Maana",
+      "kcseMeanChange": "{{kcse_mean_change}}",
+      "performanceStreamsTitle": "Utendaji wa mitiririko ya {{classname}}",
+      "labelChangeExam": "Badilisha Mtihani",
+      "labelChangeStream": "Badilisha Mtiririko",
+      "labelStreamComparison": "Ulinganisho wa Mtiririko",
+      "labelStudentsWhoSatForTheExam": "Wanafunzi waliofanya mtihani",
+      "studentEntries": "{{entries}} Wanafunzi",
+      "btnTextViewStudentResults": "Tazama matokeo ya wanafunzi",
+      "textSubjectPerformanceOverTime": "Utendaji kwa muda",
+      "textGradeBreakdown": "Uchanganuzi wa daraja",
+      "btnTextViewPrintFormat": "Tazama umbizo la kuchapisha"
+    },
+    "analysisSubjectMeritList": {
+      "subjectMeritListTitle": "{{formoryear}} {{form}} {{stream}} - {{subject}} - {{examname}}",
+      "admNo": "Admno",
+      "total": "Jumla",
+      "name": "Jina",
+      "grade": "Daraja",
+      "targetGrade": "Daraja lengwa",
+      "btnTextDownloadAsSpreedsheet": "Pakua kama lahajedwali",
+      "excelDownload": {
+        "workSheetColumnHeaders": {
+          "admno": "admno",
+          "name": "jina",
+          "marks": "alama",
+          "grade": "daraja"
+        },
+        "markList": "Orodha ya alama"
+      }
+    },
+    "classAnalysis": {
+      "btnTextClosePrintFormat": "Funga umbizo la kuchapisha",
+      "btnTextPrint": "Chapisha",
+      "btnTextPrinting": "Uchapishaji",
+      "btnTextDownload": "Pakua",
+      "btnTextSpreadsheet": "Lahajedwali",
+      "btnDownloadSpreadsheet": "Download spreadsheet",
+      "downloadText": "The analysis report is ready. Click the button below to download",
+      "titleTextNoReportsFound": "Hakuna ripoti zilizopatikana",
+      "titleTextOptions": "Chaguzi",
+      "titleTextTopStudents": "Wanafunzi bora",
+      "labelTextShowSubjectTopStudents": "Onyesha wanafunzi bora wa masomo",
+      "labelTextShowTopStudentsOnly": "onyesha wanafunzi bora pekee",
+      "labelTextKCSEYearToCompareWith": "Mwaka wa KCSE kulinganisha nao",
+      "titleTextSchoolName": "{{schoolname}}",
+      "titleTextExamName": "{{examname}}",
+      "titleTextClassName": "{{classname}}",
+      "textSchoolAddress": "{{address}}",
+      "labelTextTopStudents": "Wanafunzi wa Juu",
+      "labelTextReport": "Ripoti",
+      "labelTextComparedToKcse": "Ikilinganishwa na KCSE",
+      "labelTextMeanGrade": "Wastani wa Daraja",
+      "textStudentsWhoSatForTheExam": "Wanafunzi waliofanya mtihani",
+      "textPerformanceOfStreams": "Utendaji wa mitiririko ya {{examform}}",
+      "textStudentsWhoSatForExam": "Wanafunzi waliofanya mtihani",
+      "textStudentPopulation": "{{students}}",
+      "titleTextStudents": "Wanafunzi",
+      "labelTextSubjectStatistics": "Takwimu za mada",
+      "tableHeaderTextName": "Jina",
+      "tableHeaderTextPrevious": "Iliyotangulia {{valueType}}",
+      "tableHeaderTextSubjectType": "{{valueType}}",
+      "tableHeaderTextChange": "Badilika",
+      "tableHeaderTextGrade": "Daraja",
+      "tableHeaderTextTrend": "Mwenendo",
+      "labelTextClassGradeSummary": "Muhtasari wa daraja la darasa",
+      "labelTextClassSubjectMeans": "Mada ya darasa ina maana",
+      "labelTextOverallClassStatistics": "Takwimu za Jumla za Madarasa",
+      "labelTextGradeSummary": "Muhtasari wa Daraja - {{subject}}",
+      "labelTextTopStudent": "Wanafunzi Maarufu - {{subject}}",
+      "labelTextTopStudentCategory": "Juu {{topStudentCategory}} - {{subject}}",
+      "labelTextGradeSummaryByGender": "Muhtasari wa Daraja - {{subject}} - Kwa Jinsia",
+      "labelTextHouseAverages": "Wastani wa nyumba",
+      "labelTextPerformanceOverTime": "Utendaji kwa muda",
+      "toastMessages": {
+        "fetchContentError": "Haiwezi kuzalisha lahajedwali kwa wakati huu"
+      }
+    },
+    "configExam": {
+      "titleTextExamName": "{{examname}}",
+      "titleTextSubjectPapers": "Nyaraka za Mada",
+      "tableHeaderTextName": "Jina",
+      "tableHeaderTextPapers": "Karatasi",
+      "btnTextEnableAll": "Washa zote",
+      "tableHeaderTextPaperName": "Jina la karatasi",
+      "tableHeaderTextRatio": "Uwiano",
+      "tableHeaderTextStatus": "Hali",
+      "inputPlaceHolderRatio": "Uwiano",
+      "labelTextUnset": "haijawekwa",
+      "labelTextActive": "Inayotumika",
+      "labelTextDisabled": "Imezimwa",
+      "tableBodyTextPaperOne": "Karatasi ya 1",
+      "tableBodyTextPaperTwo": "Karatasi ya 2",
+      "tableBodyTextPaperThree": "Karatasi ya 3",
+      "btnTextSave": "Hifadhi",
+      "btnTextEdit": "Hariri",
+      "btnTextClose": "Funga",
+      "btnTextBack": "Nyuma",
+      "btnTextEditAddPaper": "Hariri / Ongeza Karatasi",
+      "toastMessages": {
+        "saveForDefaultPaperErrorRatiosError": "Haikuweza kuhifadhi chaguomsingi",
+        "enableAllPaperErrorRatiosError": "Haikuweza kuwezesha karatasi zote",
+        "savePapersForm": {
+          "invalidPaperNames": "Tafadhali taja majina halali ya karatasi. Kila jina la karatasi lazima liwe na angalau vibambo 2",
+          "invalidRatios": "Tafadhali bainisha uwiano halali. Uwiano lazima uwe mkubwa kuliko 0"
+        },
+        "papersModifiedSuccess": "Karatasi zimerekebishwa",
+        "newDefaultsSavedSuccess": "Mipangilio mipya imehifadhiwa kwa mafanikio",
+        "papersActivatedSuccess": "Karatasi zote zimewashwa kwa mafanikio",
+        "paperDeletedSuccess": "Karatasi zimerekebishwa"
+      },
+      "swal": {
+        "textSavePaperRatio": "Je, ungependa kuhifadhi uwiano huu mpya ili uwe chaguomsingi mpya?",
+        "confirmButtonText": "Kwa mtihani huu pekee",
+        "cancelButtonText": "Weka kama Chaguomsingi",
+        "titleSavePaperRatio2": "Weka kama Chaguomsingi",
+        "textSavePaperRatio2": "Unakaribia kuweka maadili chaguo-msingi. Kuendelea na hatua?",
+        "textSavePaperRatio3": "Unakaribia kuamilisha uwiano wa karatasi za mada. Kuendelea na hatua?",
+        "textSavePaperRatio4": "Je, ungependa {{ name }} uwiano huu mpya uwe chaguomsingi mpya?"
+      }
+    },
+    "consolidatedExams": {
+      "labelTextExamName": "Jina la Mtihani",
+      "textExamNameRequired": "Jina la mtihani linahitajika",
+      "labelTextTerm": "Muda",
+      "optionTextSelectTerm": "Chagua Muda",
+      "textTermRequired": "Muda unahitajika",
+      "textYear": "Mwaka",
+      "optionTextAcademicYear": "Mwaka wa Masomo",
+      "textYearIsRequired": "Mwaka unahitajika",
+      "textNoExamsWereFound": "Hakuna mitihani iliyopatikana",
+      "textSpecifyClasses": "Bainisha Madarasa",
+      "textFormsThatSatForExam": "{{formoryear}} iliyofanya mtihani",
+      "btnTextCreate": "Unda",
+      "alertTitleSuccess": "Unda Mafanikio ya Mtihani",
+      "alertBodyText": "Mtihani wa pamoja umeundwa kwa ufanisi",
+      "alertBtnConfirmText": "Sawa",
+      "toastMessages": {
+        "topErrorMsg": "Hakuna mitihani iliyopatikana",
+        "addGroupForm": {
+          "atLeastTwoExamsError": "Tafadhali chagua angalau mitihani miwili katika {{ formOrYear }} {{ form }}",
+          "noFormSelected": "Tafadhali chagua angalau fomu moja",
+          "incorrectRatio": "Tafadhali bainisha uwiano sahihi wa {{ examName }} katika {{ formOrYear }} {{ form }}"
+        }
+      }
+    },
+    "createExam": {
+      "labelTextExamType": "Aina ya Mtihani",
+      "labelTextOrdinaryExam": "Mtihani wa Kawaida",
+      "labelTextConsolidatedExam": "Mtihani uliojumuishwa",
+      "labelTextYearAverage": "Wastani wa Mwaka",
+      "labelTextKcse": "KCSE",
+      "labelTextExamName": "Jina la Mtihani",
+      "labelTextExamIsRequired": "Jina la mtihani linahitajika",
+      "labelTextTerm": "Muda",
+      "labelTextSelectTerm": "Chagua Muda",
+      "optionTextOne": "1",
+      "optionTextTwo": "2",
+      "optionTextThree": "3",
+      "textTermIsRequired": "Muda unatakiwa",
+      "labelTextYear": "Mwaka",
+      "optionTextSelectYear": "Chagua Mwaka",
+      "textYearIsRequired": "Mwaka unahitajika",
+      "textFormsThatSatForExam": "{{formoryear}} iliyofanya mtihani",
+      "textForm": "Fomu",
+      "inputPlaceholderMinNumberOfExams": "Idadi ya chini ya mitihani kwa {{formoryear}}",
+      "textMinNumberOfExams": "Ingiza idadi ya chini ya mitihani kwa fomu",
+      "textMin": "Thamani lazima iwe kubwa kuliko au sawa na 7",
+      "btnTextCreate": "Unda",
+      "alertTitleSuccess": "Unda Mafanikio ya Mtihani",
+      "alertBodyText": "Mtihani umeundwa",
+      "alertBtnConfirmText": "Sawa",
+      "toastMessages": {
+        "createExamForm": {
+          "subjectsWaning": "Weka Masomo uliyokamilisha kwa fomu: {{ form }}",
+          "formSelectionWarning": "Chagua angalau fomu moja"
+        }
+      },
+      "kcseResutsUploadPreviousExcelTemplate": {
+        "fileName": "Pakia Mada Iliyotangulia ya KCSE - Kiolezo",
+        "workSheetName": "Pakia Mada Iliyotangulia ya KCSE",
+        "workSheetColumnHeaders": {
+          "subject": "somo",
+          "year1": "2010",
+          "year2": "2022",
+          "year3": "2013"
+        }
+      },
+      "kcseResutsUploadExcelTemplate": {
+        "fileName": "Pakia Matokeo ya KCSE - Kiolezo",
+        "workSheetName": "Pakia Matokeo ya KCSE",
+        "workSheetColumnHeaders": {
+          "indexNumber": "index_no",
+          "name": "jina",
+          "totalPoints": "jumla_alama",
+          "meanGrade": "wastani_daraja"
+        }
+      }
+    },
+    "deletedExams": {
+      "textDeletedExams": "Mitihani Iliyofutwa",
+      "textOrdinaryExams": "Mitihani ya Kawaida",
+      "textName": "Jina",
+      "textAcademicYear": "Mwaka wa Masomo",
+      "textTerm": "Muda",
+      "textOfferedInForm": "Inapatikana katika {{formoryear}}",
+      "textNoOrdinaryExamsFound": "Hakuna Mitihani ya Kawaida Iliyopatikana",
+      "textClass": "Darasa",
+      "textDeletedBy": "Imefutwa na",
+      "textDeletionDate": "Tarehe ya Kufutwa",
+      "textAction": "Kitendo",
+      "btnTextRecover": "Pata nafuu",
+      "btnTextDelete": "Futa",
+      "textKCSEExams": "Mitihani ya KCSE",
+      "textNoKcseExamsFound": "Hakuna mitihani ya KCSE iliyopatikana",
+      "alertConfirmDeleteTitle": "Je, ungependa kufuta Mtihani kabisa?",
+      "alertConfirmDeleteText": "Unakaribia kufuta mitihani '{{exam}}'. Kuendelea na hatua?",
+      "alertConfirmRecoverTitle": "Rejesha Mtihani?",
+      "alertConfirmRecoverText": "Unakaribia kurejesha mtihani '{{exam}}'. Kuendelea na hatua?",
+      "toastMessages": {
+        "recoverExamError": "Imeshindwa kurejesha {{examName }}",
+        "deleteExamError": "Imeshindwa kufuta {{ examName }}",
+        "recoverExamSuccess": "Mtihani umerejeshwa",
+        "deleteExamSuccess": "Mtihani umefutwa"
+      }
+    },
+    "editExams": {
+      "textEditExam": "Hariri Mtihani",
+      "btnTextAdd": "Ongeza {{formoryear}}",
+      "textExamName": "Jina la Mtihani",
+      "textExamNameRequired": "Jina la mtihani linahitajika",
+      "btnTextBack": "Nyuma",
+      "btnTextUpdate": "Sasisha",
+      "btnTextEdit": "Hariri",
+      "toastMessages": {
+        "examNotChangedWarning": "Jina la mtihani halijabadilika!",
+        "updateSuccess": "Mtihani umesasishwa!"
+      }
+    },
+    "editTopNav": {
+      "textEditExam": "Hariri Mtihani",
+      "textExam": "Mtihani",
+      "textEdit": "Hariri"
+    },
+    "examsTopNav": {
+      "textMy": "Yangu",
+      "textClasses": "Madarasa",
+      "textMyClasses": "Madarasa Yangu",
+      "textManage": "Dhibiti",
+      "textExams": "Mitihani",
+      "textExam": "Mtihani",
+      "textManageExams": "Dhibiti Mitihani",
+      "textCreate": "Unda",
+      "textCreateExam": "Tengeneza Mtihani",
+      "textGrading": "Kuweka alama",
+      "textSystems": "Mifumo",
+      "textGradingSystems": "Mifumo ya Uainishaji",
+      "textSubjectPaperRatios": "Viwango vya Karatasi ya Mada",
+      "textSubjectPaper": "Karatasi ya Mada",
+      "textRatio": "Uwiano",
+      "textDeletedExams": "Mitihani Iliyofutwa",
+      "textDeleted": "Imefutwa"
+    },
+    "gradingSystem": {
+      "textName": "Jina",
+      "textAction": "Kitendo",
+      "btnTextView": "Tazama",
+      "btnTextDelete": "Futa",
+      "noneFound": "No grading systems found",
+      "textGsName": "Jina la Mfumo wa Kupanga",
+      "textGsNameRequired": "Jina la mfumo wa daraja linahitajika",
+      "textGsGrid": "Gridi ya Kupanga (Anza na ya chini kabisa)",
+      "textLow": "Chini",
+      "textHigh": "Juu",
+      "textGrade": "Daraja",
+      "textPoints": "Pointi",
+      "textActions": "Vitendo",
+      "btnTextAdd": "Ongeza",
+      "btnTextRemove": "Ondoa",
+      "btnTextSaveGs": "Hifadhi Mfumo wa Kukadiria",
+      "toastMessages": {
+        "repeatedPointsWarning": "Alama {{ pointi }} zimerudiwa",
+        "repeatedGradeWarning": "Daraja {{ grade }} limerudiwa",
+        "invalidHighValueEntry": "Thamani ya juu si sahihi kwenye ingizo {{ value }}",
+        "invalidLowEntryValueEntry": "Thamani ya chini si sahihi kwenye ingizo {{ value }}",
+        "atLeastTwoGradesWarning": "Mfumo wa upangaji madaraja lazima uwe na angalau madaraja mawili",
+        "missingGradingSystemWarning": "Toa jina la mfumo wa kuweka alama!",
+        "deleteSuccess": "Mfumo wa Kuweka alama umefutwa!"
+      },
+      "swal": {
+        "titleDelete": "Futa Mfumo wa Kukadiria!",
+        "textDelete": "Je, una uhakika ungependa kufuta {{ title }}?",
+        "titleAddSuccess": "Mfumo wa Kupanga Umeundwa kwa ufanisi",
+        "textAddSuccess": "Mfumo wa kuweka alama <b> {{ title }} </b> umeundwa kwa ufanisi"
+      }
+    },
+    "kcseExams": {
+      "textForm": "Fomu",
+      "textName": "Jina",
+      "textSelectForm": "Chagua Fomu",
+      "textExam": "Mtihani",
+      "textYear": "Mwaka",
+      "textUploadPrevious": "Pakia alama za wastani za somo la KCSE katika darasa la awali",
+      "textFollowingFormat": "umbizo lifuatalo",
+      "textUploadResults": "Pakia Matokeo ya KCSE hapa chini kwenye",
+      "btnTextUpload": "Pakia Matokeo ya KCSE",
+      "btnTextLoading": "Inapakia",
+      "textError": "Hitilafu",
+      "textFollowingErrors": "Hitilafu zifuatazo zilipatikana",
+      "textAllowedColumns": "Safu wima zinazoruhusiwa",
+      "textColumn": "Safu",
+      "textMeaning": "Maana",
+      "swal": {
+        "title": "Mchakato mrefu!",
+        "text": "Kitendo hiki kinaweza kuchukua muda. Tafadhali kuwa na subira.",
+        "title2": "Upakiaji umefanikiwa!"
+      }
+    },
+    "manageExams": {
+      "textAcademicYear": "Mwaka wa Masomo",
+      "textExam": "Mtihani",
+      "textClass": "Darasa",
+      "textStatus": "Hali",
+      "textAction": "Kitendo",
+      "btnTextEditExam": "Hariri Mtihani",
+      "btnTextSubjectPapers": "Nyaraka za Mada",
+      "btnTextUploadResults": "Pakia Matokeo",
+      "btnTextPublishResults": "Chapisha Matokeo",
+      "btnTextAnalyzeResults": "Chambua Matokeo",
+      "btnTextDelete": "Futa",
+      "btnTextSendResults": "Tuma Matokeo",
+      "btnTextUnpublishResults": "Batilisha uchapishaji wa Matokeo",
+      "alertTitle": "Ungependa kufuta Mtihani?",
+      "alertText": "Je, una uhakika ungependa kufuta {{exam}} ?",
+      "toastMessages": {
+        "unpublishSuccess": "Mtihani umebatilishwa kuchapishwa",
+        "isDeleteSuccess": "Utendaji wa kufuta umefaulu"
+      },
+      "swal": {
+        "title": "Futa Mtihani",
+        "text": "Je, una uhakika ungependa kufuta {{ name }}?",
+        "title2": "Batilisha uchapishaji wa Mtihani!",
+        "text2": "Je, una uhakika ungependa kubatilisha uchapishaji {{ name }}?"
+      }
+    },
+    "markList": {
+      "btnTextDownload": "Pakua",
+      "btnTextPdf": "Pdf",
+      "btnTextSpreadsheet": "Lahajedwali",
+      "textMarkList": "Orodha ya Alama",
+      "textAdmno": "Admno",
+      "textName": "Jina",
+      "textStream": "Tiririsha",
+      "excelDownload": {
+        "workSheetName": "Orodha ya Alama",
+        "workSheetColumnHeaders": {
+          "admno": "admno",
+          "name": "jina",
+          "stream": "mkondo"
+        },
+        "markList": "Orodha ya alama"
+      },
+      "toastMessages": {
+        "excelDownloadSuccess": "Pakua Mafanikio"
+      }
+    },
+    "myClasses": {
+      "textExam": "Mtihani",
+      "textNoExamsFound": "Hakuna mitihani iliyopatikana kwa mwaka huu",
+      "textSubjectClasses": "Madarasa ya Mada",
+      "textName": "Jina",
+      "textStatus": "Hali",
+      "textAction": "Kitendo",
+      "btnTextUpload": "Pakia",
+      "btnTextPublish": "Kuchapisha",
+      "btnTextAnalyze": "Chambua",
+      "btnTextView": "Tazama",
+      "textStreams": "Mipasho",
+      "textClassesSupervised": "Madarasa Yanayosimamiwa",
+      "swal": {
+        "title": "Una uhakika?",
+        "text": "Mara tu unapopakia matokeo ya somo ulilochagua, mwalimu wa darasa atalazimika kuchapisha tena mtihani."
+      }
+    },
+    "publishExamsConsolidated": {
+      "textPublishConsolidatedExamForm": "Chapisha Mtihani wa Kuunganisha - Fomu",
+      "textExam": "Mtihani",
+      "textRatio": "Uwiano",
+      "textRankingCriteria": "Vigezo vya Nafasi",
+      "textRankByMeanMarks": "Cheo kwa Alama za Wastani",
+      "textRankByKcsePoints": "Nafasi kwa pointi za KCSE",
+      "textRankByMeanPoints": "Weka alama kwa wastani",
+      "textGs": "Mfumo wa Kukadiria",
+      "textSelectGs": "Chagua mfumo wa kuweka alama",
+      "textSelectAGs": "chagua mfumo wa kuweka alama",
+      "textSubject": "Somo",
+      "textPreviewGs": "Hakiki mfumo wa kuweka alama",
+      "textPreviewGrades": "Hakiki Madarasa",
+      "btnTextPublishResults": "Chapisha Matokeo",
+      "swal": {
+        "title": "Mchakato mrefu!",
+        "text": "Kitendo hiki kinaweza kuchukua muda mrefu zaidi data inapokokotolewa.",
+        "title2": "Mafanikio ya Uchapishaji wa Mtihani!",
+        "text2": "Matokeo ya mitihani yamechapishwa kwa ufanisi"
+      }
+    },
+    "publishExams": {
+      "textPublishExam": "Chapisha Matokeo {{formoryear}} {{form}}",
+      "textExam": "Mtihani",
+      "textStatusClassResults": "Hali ya matokeo ya darasa",
+      "textClass": "Darasa",
+      "textStatus": "Hali",
+      "btnTextView": "Tazama",
+      "btnTextEdit": "Hariri",
+      "btnTextCancel": "Ghairi",
+      "btnTextSave": "Hifadhi",
+      "btnTextAction": "Kitendo",
+      "btnDownloadResults": "Pakua Matokeo",
+      "textMinNumberSubject": "Idadi ya chini ya masomo ambayo yanaweza kuchukuliwa",
+      "titleTextMinimum": "Tafadhali weka kiwango cha chini",
+      "textRankingCriteria": "Vigezo vya Nafasi",
+      "textRankByMeanMarks": "Cheo kwa alama za wastani",
+      "textRankByKcsePoints": "Nafasi kwa pointi za KCSE",
+      "textRankByMeanPoints": "Weka alama kwa wastani",
+      "textOverallGs": "Mfumo wa Uainishaji wa Jumla",
+      "textSelectGs": "Chagua Mfumo wa Kukadiria",
+      "textSubjectGs": "Mfumo wa kupanga mada",
+      "textSubject": "Somo",
+      "textGs": "Mfumo wa Kukadiria",
+      "textCombineSocialandRe": "Unganisha Mafunzo ya Jamii na Elimu ya Dini",
+      "textRatio": "Uwiano",
+      "textSocialStudies": "Masomo ya kijamii",
+      "textReligiousEducation": "Elimu ya Dini",
+      "inputTitleText": "Tafadhali weka uwiano",
+      "btnTextBack": "Nyuma",
+      "btnTextPublishResults": "Chapisha Matokeo",
+      "textReminderSubjectTeacher": "Mawaidha - Mwalimu wa Somo",
+      "btnTextDiscardReminders": "Tupa Vikumbusho",
+      "btnTextSendReminders": "Tuma Vikumbusho",
+      "textNoResultsToPublish": "Hakuna Matokeo ya kuchapisha",
+      "textDescribeNoResultsToPublish": "Hakuna matokeo yaliyopatikana ya kuchapishwa",
+      "toastMessages": {
+        "sendRemindersSuccess": "Vikumbusho vimetumwa kwa mafanikio",
+        "saveMinSubjectsSuccess": "Masomo ya chini kabisa yamehifadhiwa"
+      },
+      "swal": {
+        "title": "Una uhakika?",
+        "text": "Baada ya kuchapisha matokeo hayatapatikana kwa kuhaririwa. Kitendo hiki kinaweza kuchukua muda mrefu zaidi data inapokokotolewa.",
+        "title2": "Mafanikio ya Uchapishaji wa Mtihani!",
+        "text2": "Matokeo ya mitihani yamechapishwa kwa ufanisi"
+      }
+    },
+    "publishStatus": {
+      "textResultPublishSuccess": "Matokeo Yamechapishwa",
+      "textExamPublishSuccess": "Matokeo ya mitihani yamechapishwa kwa ufanisi",
+      "btnTextBack": "Nyuma",
+      "textExamPublishing": "Uchapishaji wa Mtihani",
+      "textsubjectWithoutResults": "Mada bila matokeo",
+      "textSeletSubjectAccess": "Chagua masomo ili kutoa fursa kwa walimu wa somo husika",
+      "textClass": "Darasa",
+      "textSubject": "Somo",
+      "textSubjectTeacher": "Mwalimu wa Somo",
+      "textStudentWithoutMarks": "Mwanafunzi Bila Alama",
+      "textStatus": "Hali",
+      "textDontHaveMarks": "Usiwe na alama",
+      "textAllHaveMarks": "{{students}} zote zina alama",
+      "textPendingPublishingBy": "Inasubiri kuchapishwa na",
+      "textSubjectTeacjer": "Mwalimu wa Somo",
+      "textClassTeacher": "Mwalimu wa darasa",
+      "textClassSupervisor": "Msimamizi wa darasa",
+      "textDean": "Dean",
+      "btnTextView": "Tazama",
+      "btnTextUpload": "Pakia",
+      "textSubjectWithoutResults": "Mada bila matokeo",
+      "textStudents": "Wanafunzi",
+      "btnTextUploadResults": "Pakia Matokeo",
+      "btnTextCancel": "Ghairi",
+      "btnTextDownloadResults": "Pakua Matokeo",
+      "btnTextGrantAccessToTeachers": "Ruhusu upatikanaji wa walimu wa masomo",
+      "textAllHaveNoResults": "Masomo yote hayana matokeo",
+      "btnTextPublishResults": "Chapisha Matokeo",
+      "publishinfo": "*Baadhi ya walimu wa somo tayari wamechapisha matokeo yao ya somo, kwa hivyo hawataweza kuongeza matokeo mapya. Ili kuruhusu walimu wa somo kuingiza matokeo, bofya kitufe cha 'Ruhusu Walimu wa Kufikia Masomo' hapo juu.",
+      "toastMessages": {
+        "unpublishSuccess": "Mtihani umebatilishwa kuchapishwa",
+        "unpublishSeriesSuccess": "Mfululizo wa mitihani umebatilishwa kuchapishwa"
+      },
+      "swal": {
+        "title": "Una uhakika?",
+        "text": "Mara tu unapopakia matokeo ya somo ulilochagua, mwalimu wa darasa atalazimika kuchapisha tena mtihani.",
+        "text2": "Baada ya kuchapisha matokeo hayatapatikana kwa mwalimu wa darasa ili kuyahariri.",
+        "text3": "Hatua hii itawapa walimu wa somo uwezo wa kufikia, kuwaruhusu kuandika matokeo."
+      }
+    },
+    "publishSubjectStatus": {
+      "textSubjectPaper": "Karatasi ya Mada",
+      "btnTextBack": "Nyuma",
+      "textView": "Tazama",
+      "textEdit": "Hariri",
+      "textViewBy": "Tazama Na",
+      "textEditBy": "Hariri Na",
+      "textAdmissionNumber": "Nambari ya Kuingia",
+      "textIndexNumber": "Nambari ya Fahirisi",
+      "textSelectExam": "Chagua Mtihani",
+      "textMaximumMarks": "Alama za Juu",
+      "btnTextCancel": "Ghairi",
+      "btnTextSave": "Hifadhi",
+      "textNewResults": "Matokeo Mapya",
+      "btnTextSubjectPaper": "Karatasi ya Mada",
+      "textName": "Jina",
+      "textScore": "Alama",
+      "textAtion": "Kitendo",
+      "textGradeX": "Daraja la X",
+      "textGradeY": "Daraja la Y",
+      "btnTextDelete": "Futa",
+      "btnTextSaveNewResults": "Hifadhi matokeo mapya",
+      "textAddResults": "Ongeza Matokeo",
+      "textDownloadResults": "Pakua Matokeo",
+      "textDeleteResults": "Futa matokeo",
+      "textPublish": "Kuchapisha",
+      "textPublishAllPapers": "Chapisha karatasi zote",
+      "btnTextCancelDelete": "Ghairi Kufuta",
+      "btnTextDeleteSelected": "Futa Zilizochaguliwa",
+      "toastMessages": {
+        "uspecifiedValueWarning": "Tafadhali bainisha thamani halali",
+        "invalidMarksWarning": "Alama zisizo sahihi. Alama zinapaswa kuwa chini ya {{ max }}",
+        "resultsAddSuccess": "Matokeo yameongezwa kwa mafanikio",
+        "marksUpdateSuccess": "Alama zimesasishwa",
+        "deleteResultsSuccess": "Matokeo yamefutwa",
+        "saveOutOfSuccess": "Imehifadhiwa",
+        "saveNewResultsSuccess": "Matokeo mapya yamehifadhiwa"
+      },
+      "swal": {
+        "title": "Futa Matokeo!",
+        "text": "Je, una uhakika ungependa kufuta matokeo yaliyochaguliwa? Kitendo hakiwezi kutenduliwa.",
+        "title2": "Una uhakika?",
+        "text2": "Baada ya kuchapisha matokeo hayatapatikana kwa mwalimu wa somo ili kuhaririwa.",
+        "title3": "Matokeo Yamechapishwa",
+        "text3": "Matokeo ya somo yamechapishwa kwa ufanisi",
+        "noResultsFoundTitle": "Hakuna matokeo yaliyopatikana",
+        "noResultsFoundMsg": "Hakuna matokeo yaliyopatikana ya kuchapishwa"
+      }
+    },
+    "sendResults": {
+      "textSendResults": "Tuma Matokeo",
+      "textSendResultsTo": "Tuma Matokeo Kwa",
+      "textAll": "Wote",
+      "textSpecificStream": "Mtiririko Maalum",
+      "textSpecificStudent": "Mwanafunzi maalum",
+      "textStream": "Tiririsha",
+      "textSelectStream": "Chagua Tiririsha",
+      "textStudent": "Mwanafunzi",
+      "textSendToSelectedGrades": "Tuma kwa wanafunzi walio na alama ulizochagua",
+      "textOptionalMessage": "Ujumbe wa Hiari",
+      "textOnlySendOptionalMsg": "Tuma ujumbe wa hiari pekee (matokeo ya mtihani hayatatumwa pamoja)",
+      "btnTextSend": "Tuma",
+      "textSendingMessages": "Kutuma ujumbe",
+      "toastMessages": {
+        "optionalMessageWarning": "Tafadhali bainisha ujumbe wa hiari",
+        "minGradeWarning": "Tafadhali chagua angalau daraja moja"
+      }
+    },
+    "sendResultsConsolidated": {
+      "textSendResults": "Tuma Matokeo",
+      "textSendResultsTo": "Tuma Matokeo Kwa",
+      "textAll": "Wote",
+      "textSpecificStream": "Mtiririko Maalum",
+      "textSpecificStudent": "Mwanafunzi maalum",
+      "textStream": "Tiririsha",
+      "textSelectStream": "Chagua Tiririsha",
+      "textStudent": "Mwanafunzi",
+      "textSendToSelectedGrades": "Tuma kwa wanafunzi walio na alama ulizochagua",
+      "textOptionalMessage": "Ujumbe wa Hiari",
+      "textOnlySendOptionalMsg": "Tuma ujumbe wa hiari pekee (matokeo ya mtihani hayatatumwa pamoja)",
+      "btnTextSend": "Tuma",
+      "textSendingMessages": "Kutuma ujumbe",
+      "toastMessages": {
+        "optionalMessageWarning": "Tafadhali bainisha ujumbe wa hiari",
+        "minGradeWarning": "Tafadhali chagua angalau daraja moja"
+      },
+      "swal": {
+        "title": "Utumaji SMS Umefaulu",
+        "text": "Matokeo yametumwa kwa mafanikio"
+      }
+    },
+    "subjectPaperRatios": {
+      "textSubjectPaperRatios": "Viwango vya Karatasi ya Mada",
+      "textPaperOutOf": "Karatasi nje ya",
+      "textSubject": "Somo",
+      "textPaperContributionPercentage": "Asilimia ya Mchango wa Karatasi",
+      "paperOutOf": "karatasiOutOf",
+      "paper1OutOf": "Karatasi ya 1 (Kati ya X)",
+      "paper2OutOf": "Karatasi ya 2 (Kati ya Y)",
+      "paper3OutOf": "Karatasi ya 3 (Kati ya z)",
+      "paper1Percent": "Karatasi ya 1 (%)",
+      "paper2Percent": "Karatasi ya 2 (%)",
+      "paper3Percent": "Karatasi ya 3 (%)",
+      "btnTextEdit": "Hariri",
+      "btnTextCancel": "Ghairi",
+      "btnTextSave": "Hifadhi",
+      "toastMessages": {
+        "noChangesMadeWarning": "Hakuna mabadiliko yaliyofanywa",
+        "submitEditPaperPresetsSuccess": "Imewasilishwa kwa ufanisi"
+      }
+    },
+    "uploadExams": {
+      "textExam": "Mtihani",
+      "textForm": "Fomu",
+      "textTerm": "Muda",
+      "textYear": "Mwaka",
+      "textDownload": "Pakua",
+      "textDocumentDescribe": "na ujaze kiolezo kisha ukipakie hapa chini. (Unaweza kufuta masomo ambayo hayajachukuliwa. Tafadhali acha vichwa vingine vya safu wima vikiwa sawa.)",
+      "excelTemplateDownload": {
+        "fileName": "Pakia Matokeo - Kiolezo",
+        "workSheetName": "Pakia Matokeo - Kiolezo",
+        "workSheetColumnHeaders": {
+          "admissionNumber": "admno",
+          "name": "jina",
+          "stream": "mkondo"
+        }
+      },
+      "btnTextBack": "Nyuma",
+      "btnTextLoading": "Inapakia",
+      "btnTextUploadClassResults": "Pakia Matokeo ya Darasa",
+      "textError": "Hitilafu",
+      "textErrorList": "Hitilafu zifuatazo zilipatikana",
+      "textAllowedColumns": "Safu wima zinazoruhusiwa",
+      "textColumn": "Safu",
+      "textMeaning": "Maana",
+      "toastMessages": {
+        "formSubmissionError": "Pakia faili bora kwanza"
+      },
+      "swal": {
+        "title": "Mitiririko inayokosekana!",
+        "text": "Teua kisanduku cha kuteua kilicho chini ya ukurasa huu ili kuunda kiotomatiki mitiririko inayokosekana",
+        "title2": "Mchakato mrefu!",
+        "text2": "Kitendo hiki kinaweza kuchukua muda. Tafadhali kuwa na subira.",
+        "title3": "Upakiaji umefanikiwa!"
+      }
+    },
+    "uploadedExamsSubject": {
+      "textResultsUploadSuccess": "Matokeo yamepakiwa kwa mafanikio",
+      "btnTextBack": "Nyuma",
+      "textUploadResults": "Pakia Matokeo",
+      "textUploadType": "Aina ya Upakiaji",
+      "textKeyInMarks": "Muhimu katika alama",
+      "textUploadResultsFromSpreadsheet": "Pakia matokeo kutoka lahajedwali",
+      "textUploadBy": "Pakia Kwa",
+      "textIndexNumber": "Nambari ya Fahirisi",
+      "textAdmissionNumber": "Nambari ya Kuingia",
+      "textExam": "Mtihani",
+      "textMaximumMarks": "Alama za Juu",
+      "textUnamedTerm": "Neno lisilo na jina",
+      "textStudentsWithResults": "Wanafunzi wenye matokeo",
+      "inputPlaceHolderMaximumMarks": "'nje ya' thamani k.m. 30",
+      "textMaximumNotEmpty": "Alama za juu zaidi haziwezi kuwa tupu",
+      "textMaximumNotGreaterThan1000": "Alama za juu zaidi haziwezi kuwa > 1000",
+      "textSubjectPaper": "Karatasi ya Mada",
+      "textSubjectPaperNotEmpty": "Karatasi ya mada haiwezi kuwa tupu",
+      "textTerm": "Muda",
+      "textYear": "Mwaka",
+      "textStudentWithResults": "Wanafunzi wenye matokeo",
+      "textAdmno": "Nambari ya kiingilio",
+      "textName": "Jina",
+      "textMarks": "Alama",
+      "textDownload": "Pakua",
+      "textFillTemplate": "na ujaze kiolezo kisha ukipakie hapa chini. (Tafadhali acha vichwa vya safu wima vikiwa sawa)",
+      "excelTemplateDownload": {
+        "fileName": "Pakia Matokeo ya Somo - Kiolezo",
+        "workSheetName": "Karatasi 1",
+        "workSheetColumnHeaders": {
+          "indexNumber": "indexno",
+          "admissionNumber": "admno",
+          "name": "jina",
+          "marks": "alama"
+        }
+      },
+      "textStudentWithoutResults": "Wanafunzi Bila Matokeo",
+      "textAllStudentsHaveResults": "Wanafunzi wote wana matokeo",
+      "textGradeX": "Daraja la X",
+      "textGradeY": "Daraja la Y",
+      "textNewStudents": "Wanafunzi Wapya",
+      "btnTextDelete": "Futa",
+      "btnTextAddStudent": "Ongeza Mwanafunzi",
+      "btnTextUploadSubjectResults": "Pakia matokeo ya somo",
+      "toastMessages": {
+        "invalidFormFieldsWarning": "Tafadhali suluhisha sehemu za fomu zisizo sahihi"
+      },
+      "swal": {
+        "title": "Mchakato mrefu!",
+        "text": "Kitendo hiki kinaweza kuchukua muda. Tafadhali kuwa na subira.",
+        "title2": "Upakiaji wa Matokeo!",
+        "text2": "Je, una uhakika ungependa kupakia matokeo haya?"
+      }
+    },
+    "yearAverageExams": {
+      "textForm": "{{formoryear}}",
+      "textSelectForm": "Chagua {{formoryear}}",
+      "textAcademicYear": "Mwaka wa Masomo",
+      "textSelectAcademicYear": "Chagua Mwaka wa Masomo",
+      "textSelectExams": "Chagua Mitihani",
+      "textTerm": "Muda",
+      "textExams": "Mitihani",
+      "textSelectExam": "Chagua Mtihani",
+      "textRankingCriteria": "Vigezo vya Nafasi",
+      "textRankByMeanMarks": "Cheo kwa alama za wastani",
+      "textRankByKcsePoints": "Nafasi kwa pointi za KCSE",
+      "textRankByMeanPoints": "Weka alama kwa wastani",
+      "textMinimumSubjectsTaken": "Idadi ya chini ya masomo ambayo yanaweza kuchukuliwa",
+      "inputMinimumTitle": "Tafadhali weka kiwango cha chini",
+      "textOverallGs": "Mfumo wa Uainishaji wa Jumla",
+      "textSelectGs": "Chagua Mfumo wa Kukadiria",
+      "textSubjectGs": "Mfumo wa kupanga mada",
+      "textSubject": "Somo",
+      "textGs": "Mfumo wa Kukadiria",
+      "textSelect": "Chagua",
+      "textGenerateYearAverage": "Tengeneza Wastani wa Mwaka",
+      "textGenerating": "Inazalisha",
+      "alertConfirmTitle": "Una uhakika ?",
+      "alertConfirmText": "Je, una uhakika ungependa kuundaYearAverage?",
+      "alertSuccessTitle": "Unda Mafanikio ya Mtihani",
+      "alertSuccessText": "Mtihani wa wastani wa mwaka umeundwa kwa ufanisi",
+      "toastMessages": {
+        "atLeastTwoEamsWarning": "Chagua angalau mitihani miwili",
+        "missingGradingSystemWarning": "Chagua mfumo wa kuweka alama",
+        "missingSubjectGradingSystemWarning": "Chagua mfumo wa kuweka alama kwa somo {{ subject }}"
+      }
+    },
+    "mentions":{
+      "mentions": "Taja",
+      "addMention": "Ongeza Taja",
+      "createMention": "Ongeza Taja",
+      "noMentionsFound": "Hakuna mtaji uliopatikana",
+      "low": "Chini",
+      "high": "Juu",
+      "mention": "Taja",
+      "comment": "Maoni",
+      "actions": "Vitendo",
+      "edit": "Hariri",
+      "view": "Ongeza Taja0",
+      "add": "Ongeza Taja1",
+      "mentionName": "Ongeza Taja2",
+      "name": "Ongeza Taja3",
+      "cancel": "Ongeza Taja4",
+      "remove": "Ongeza Taja5",
+      "saveMention": "Ongeza Taja6",
+      "close": "Ongeza Taja7",
+      "mentionGrid": "Ongeza Taja8",
+      "points": "Ongeza Taja9",
+      "mentionCreateSuccess": "Ongeza Taja0",
+      "mentionCreateSuccessMsg": "Ongeza Taja1",
+      "mentionCouldntCreate": "Ongeza Taja2",
+      "deleteMention": "Ongeza Taja3",
+      "confirmDeleteMentionText": "Ongeza Taja4",
+      "textProceed": "Ongeza Taja5",
+      "textCancel": "Ongeza Taja4",
+      "textAnErrorOccured": "Ongeza Taja6",
+      "textFailed": "Ongeza Taja7",
+      "textFailedComment": "Ongeza Taja8",
+      "textSufficient": "Ongeza Taja9",
+      "textSufficientComment": "Hakuna mtaji uliopatikana0",
+      "textSatisfactory": "Hakuna mtaji uliopatikana1",
+      "textSatisfactoryComment": "Hakuna mtaji uliopatikana2",
+      "textGood": "Hakuna mtaji uliopatikana3",
+      "textGoodComment": "Hakuna mtaji uliopatikana4",
+      "textVeryGood": "Hakuna mtaji uliopatikana5",
+      "textVeryGoodComment": "Hakuna mtaji uliopatikana6",
+      "textExcellent": "Hakuna mtaji uliopatikana7",
+      "textExcellentComment": "Hakuna mtaji uliopatikana6",
+      "textFieldIsRequired": "Hakuna mtaji uliopatikana8",
+      "textMentionGrid": "Hakuna mtaji uliopatikana9",
+      "textEnterAValue": "Chini0",
+      "textProvideComment": "Chini1"
+    }
+  },
+  "invoice": {
+    "accountLock": {
+      "countDown": {
+        "days": "Siku",
+        "hours": "Saa",
+        "minutes": "Dakika",
+        "seconds": "Sekunde"
+      },
+      "viewProformaInvoiceBtn": "Tazama ankara ya Proforma",
+      "contactUsBtn": "Wasiliana nasi",
+      "contactUs": "Wasiliana Nasi: {{phoneNumber}}"
+    },
+    "invoiceTopNav": {
+      "school": "shule {{ docType }}"
+    },
+    "invoice": {
+      "topNav": {
+        "invoice": "ankara"
+      },
+      "noInvoiceFound": "Hakuna ankara iliyopatikana",
+      "backBtn": "Nyuma",
+      "printBtn": "Chapisha",
+      "kraPin": "PIN ya KRA",
+      "billTo": "BILI KWA",
+      "dueDate": "TAREHE YA KUKAMILISHA",
+      "description": "MAELEZO",
+      "netAmount": "PESA NET",
+      "vat": "VAT (16%)",
+      "grossAmount": "KIASI CHA PATO",
+      "total": "JUMLA",
+      "paymentDate": "SIKU YA MALIPO",
+      "amount": "KIASI",
+      "totalDue": "JUMLA YA MALIPO"
+    },
+    "proformaInvoice": {
+      "topNav": {
+        "proformaInvoice": "ankara ya Proforma"
+      },
+      "noInvoiceFound": "Hakuna ankara iliyopatikana",
+      "backBtn": "Nyuma",
+      "printBtn": "Chapisha",
+      "kraPin": "PIN ya KRA",
+      "billTo": "BILI KWA",
+      "dueDate": "TAREHE YA KUKAMILISHA",
+      "description": "MAELEZO",
+      "netAmount": "PESA NET",
+      "vat": "VAT (16%)",
+      "grossAmount": "KIASI CHA PATO",
+      "total": "JUMLA",
+      "paymentDate": "SIKU YA MALIPO",
+      "amount": "KIASI",
+      "totalDue": "JUMLA YA MALIPO"
+    }
+  },
+  "finance": {
+    "commonAttr": {
+      "fee": "Ada",
+      "statement": "Kauli",
+      "balance": "Mizani",
+      "structure": "Muundo",
+      "school": "Shule",
+      "finance": "Fedha",
+      "student": "Mwanafunzi"
+    },
+    "topNav": {
+      "pledges": "Ahadi"
+    },
+    "feeBalance": {
+      "searchBox": {
+        "title": "Tafuta Kwa",
+        "admNo": "Nambari ya Kuingia",
+        "student": "Mwanafunzi",
+        "name": "Jina",
+        "form": "Fomu",
+        "amountAbove": "Kiasi Juu",
+        "amountBelow": "Kiasi Chini"
+      },
+      "searchForm": {
+        "admNo": {
+          "label": "Nambari ya kiingilio",
+          "admError": "Nambari ya kiingilio haiwezi kuwa tupu."
+        },
+        "student": {
+          "label": "Mwanafunzi",
+          "studError": "Sehemu haiwezi kuwa tupu."
+        },
+        "name": {
+          "label": "Jina",
+          "nameError": "Jina haliwezi kuwa tupu."
+        },
+        "form": {
+          "label": "Fomu",
+          "placeholder": "Chagua Fomu",
+          "formError": "Fomu haiwezi kuwa tupu."
+        },
+        "stream": {
+          "label": "Tiririsha",
+          "placeholder": "Chagua Tiririsha",
+          "streamError": "Mtiririko hauwezi kuwa tupu."
+        },
+        "amountAbove": {
+          "label": "Kiasi hapo juu",
+          "amountError": "Kiasi kilicho hapo juu hakiwezi kuwa tupu."
+        },
+        "amountBelow": {
+          "label": "Kiasi Chini",
+          "amountError": "Kiasi kilicho hapa chini hakiwezi kuwa tupu."
+        }
+      },
+      "searchBtn": "Tafuta",
+      "table": {
+        "noData": "Hakuna mwanafunzi aliyepatikana",
+        "admNo": "Adm No",
+        "name": "Jina",
+        "class": "Darasa",
+        "stream": "Tiririsha",
+        "amount": "Kiasi",
+        "action": "Kitendo",
+        "viewBtn": "Onyesha Zaidi",
+        "pagination": "Ukurasa {{pageNumber}} wa {{totalPages}}",
+        "fPagination": "Inaonyesha maingizo {{start}} hadi {{last}}"
+      },
+      "collections": {
+        "refDate": "Tarehe ya Marejeleo",
+        "receiptDate": "Tarehe ya Kupokea",
+        "paymentMode": "Njia ya malipo",
+        "receiptNo": "Risiti Na.",
+        "txnCode": "Msimbo wa Muamala",
+        "bbcollection": "Sawazisha Kabla ya Kukusanya",
+        "bacollection": "Salio Baada ya Mkusanyiko"
+      },
+      "pledges": {
+        "dueDate": "Tarehe ya kukamilisha",
+        "pleaderName": "Jina la Mwombezi",
+        "pleaderRship": "Uhusiano wa Mwombezi",
+        "contactInfo": "Maelezo ya Mawasiliano",
+        "overdue": "Imepitwa na wakati",
+        "pending": "Inasubiri"
+      }
+    },
+    "feeStructure": {
+      "searchForm": {
+        "year": {
+          "label": "Mwaka",
+          "placeholder": "Chagua Mwaka"
+        },
+        "term": {
+          "label": "Muda",
+          "placeholder": "Chagua Muda"
+        },
+        "searchBtn": "Tafuta"
+      },
+      "noData": "Hakuna muundo wa ada uliopatikana",
+      "form": "Fomu",
+      "term": "Muda",
+      "bTotal": "Jumla ya Mipaka",
+      "beginDate": "Tarehe ya Kuanza kwa Muda",
+      "endDate": "Tarehe ya Mwisho wa Muda",
+      "voteHead": "Piga kura Mkuu",
+      "amount": "Kiasi",
+      "boardingOrDay": "Bweni/Siku",
+      "all": "Wote",
+      "dayScholars": "Siku Wasomi",
+      "boarding": "Kupanda"
+    },
+    "pFeeBalance": {
+      "studProfile": "Wasifu wa Mwanafunzi"
+    },
+    "pFeeStatement": {
+      "noData": "Hakuna Rekodi zilizopatikana!",
+      "admNo": "Adm No",
+      "class": "Darasa",
+      "issuedOn": "Imetolewa On",
+      "date": "Tarehe",
+      "title": "Kichwa",
+      "description": "Maelezo",
+      "amount": "Kiasi"
+    },
+    "pFeeStructure": {
+      "noData": "Hakuna Rekodi Zilizopatikana",
+      "form": {
+        "year": {
+          "label": "Mwaka",
+          "placeholder": "Chagua Mwaka"
+        },
+        "term": {
+          "label": "Chagua Muda"
+        },
+        "classListBtn": "Pata Orodha ya Madarasa"
+      },
+      "feeStructure": "Muundo wa ada",
+      "term": "Muda",
+      "year": "Mwaka",
+      "admNo": "Adm No",
+      "voteHead": "Piga kura Mkuu",
+      "amount": "Kiasi",
+      "status": "Hali",
+      "statusTypes": {
+        "deleted": "Imefutwa",
+        "active": "Inayotumika",
+        "awaitingApproval": "Inasubiri Kuidhinishwa",
+        "approved": "Imeidhinishwa",
+        "invoiced": "Ankara",
+        "closed": "Imefungwa"
+      }
+    },
+    "schoolFinance": {
+      "dayDropdown": {
+        "today": "Leo",
+        "thisTerm": "Muda Huu",
+        "lastTerm": "Muhula wa Mwisho",
+        "monthsAgo": "miezi 6",
+        "yearsAgo": "1 Mwaka"
+      },
+      "expected": "Inatarajiwa",
+      "collected": "Imekusanywa",
+      "balance": "Mizani",
+      "toastMessages": {
+        "getFinanceStatsError": "Hitilafu imetokea"
+      }
+    }
+  },
+  "layout": {
+    "home": "Nyumbani",
+    "dashboard": "Dashibodi",
+    "exams": "Mitihani",
+    "calendar": "Kalenda",
+    "messages": "Ujumbe",
+    "more": "Zaidi",
+    "menu_items": "Vipengee vya Menyu",
+    "classes": "Madarasa",
+    "students": "Wanafunzi",
+    "teachers": "Walimu",
+    "staff": "Wafanyakazi",
+    "bom": "BOM/PA",
+    "printouts": "Machapisho",
+    "products": "Bidhaa za Zeraki",
+    "finance": "Fedha",
+    "timetable": "Ratiba",
+    "learning": "Kujifunza",
+    "shop": "Duka",
+    "others": "Wengine",
+    "opportunities": "Fursa",
+    "behaviour": "Tabia",
+    "top": {
+      "userInfo": {
+        "schoolname_short": "{{schoolname_short}}",
+        "schoolName": "{{schoolname}}",
+        "name": "{{name}}",
+        "email": "{{email}}"
+      },
+      "searchStudent": "Tafuta mwanafunzi",
+      "unreadReadMessages": "ujumbe ambao haujasomwa",
+      "messages": "Ujumbe",
+      "clearAll": "Futa Zote",
+      "notTitle": "{{title}}",
+      "noUnreadMessages": "Hakuna ujumbe ambao haujasomwa",
+      "viewAll": "Tazama zote",
+      "profile": "Wasifu",
+      "changePassword": "Badilisha neno la siri",
+      "settings": "Mipangilio",
+      "logout": "Ondoka",
+      "toastMessages": {
+        "logoutSuccess": "Mafanikio ya Kuondoka",
+        "noMessagesPreset": "Hakuna ujumbe uliopo"
+      }
+    }
+  },
+  "learning": {
+    "welcomeBack": "Karibu tena",
+    "loginText": "Sasa unaweza kuingia kwenye",
+    "zerakiLearning": "Kujifunza kwa Zeraki",
+    "learningLink": "https://learning.zeraki.co.ke",
+    "using": "Kwa kutumia Zeraki yako",
+    "username": "jina la mtumiaji",
+    "and": "na",
+    "password": "nenosiri"
+  },
+  "messages": {
+    "commonAttr": {
+      "back": "Nyuma",
+      "messages": "Ujumbe"
+    },
+    "buy": {
+      "noData": "Hakuna ununuzi wa SMS uliopatikana",
+      "texts": "Maandishi",
+      "remaining": "Iliyosalia",
+      "smsCredits": "Mikopo ya SMS",
+      "purchases": {
+        "info": "Ili kununua salio la SMS kupitia MPESA, tumia maelezo yaliyo hapa chini:",
+        "paybill": "Nambari ya malipo",
+        "account": "Nambari ya Akaunti",
+        "note": "Tafadhali kumbuka",
+        "noteText1": "1) Ingiza kiasi kikubwa kuliko Ksh. 50/-",
+        "noteText2": "2) Hakikisha kwamba nambari ya akaunti unayobainisha katika MPESA ni kama ilivyoonyeshwa hapo juu, yaani, SMS{{smsCode}}. Ukipuuza barua au nambari yoyote, malipo yatakataliwa",
+        "noteText3": "3) Mara tu utakapofanya malipo, Safaricom itakujulisha kuwa malipo yamefanywa kwa {{paybillName}}",
+        "charges": "Gharama za SMS ni Ksh. 1/- kwa kila SMS"
+      },
+      "smsPurchases": "Ununuzi wa SMS",
+      "date": "Tarehe",
+      "phone": "Nambari ya simu",
+      "mpesaCode": "Msimbo wa MPESA",
+      "amount": "Kiasi",
+      "viewReceipt": "Tazama Risiti"
+    },
+    "compose": {
+      "completeMessage": "Kamilisha Ujumbe...",
+      "recipients": {
+        "title": "Wapokeaji",
+        "students": "Wanafunzi",
+        "teachers": "Walimu",
+        "boms": "BOM/PA",
+        "staff": "Wafanyakazi",
+        "alumni": "Wahitimu",
+        "others": "Wengine"
+      },
+      "next": "Inayofuata",
+      "messageType": "Aina ya Ujumbe",
+      "allStudents": "Wanafunzi Wote",
+      "specificStudents": "Wanafunzi Maalum",
+      "specificClasses": "Madarasa Maalum",
+      "examResults": "Matokeo ya Mitihani",
+      "levelPlaceholder": "Chagua {{level}}",
+      "noStudents": "Hakuna wanafunzi waliopatikana ndani",
+      "students": "Wanafunzi",
+      "studentsPlaceholder": "Chagua wanafunzi",
+      "selectStreams": "Chagua Mitiririko (Mitiririko yote imechaguliwa kwa chaguomsingi)",
+      "selectStream": "Chagua Tiririsha",
+      "streamsPlaceholder": "Chagua mtiririko...",
+      "noExams": "Hakuna mitihani iliyopatikana",
+      "exam": "Mtihani",
+      "examPlaceholder": "Chagua mtihani",
+      "noTeachers": "Hakuna walimu waliopatikana",
+      "allTeachers": "Walimu Wote",
+      "specificTeachers": "Walimu Maalum",
+      "teacherGroups": "Vikundi vya Walimu",
+      "teachers": "Walimu",
+      "teachersPlaceholder": "Chagua walimu",
+      "teacherGroupsPlaceholder": "Chagua vikundi vya walimu",
+      "noBom": "Hakuna wanachama wa Bom waliopatikana",
+      "allBom": "Wanachama wote wa BOM/PA",
+      "specificBom": "Wanachama mahususi wa BOM/PA",
+      "bomGroups": "Vikundi vya BOM/PA",
+      "bomMembers": "Wanachama wa BOM/PA",
+      "bomMembersPlaceholder": "Chagua wanachama wa BOM/PA",
+      "bomGroupsPlaceholder": "Chagua vikundi vya BOM/PA",
+      "allStaff": "Wafanyakazi wote",
+      "specificStaff": "Watumishi mahususi",
+      "staffGroups": "Vikundi vya Wafanyakazi",
+      "staffMembers": "Wajumbe wa Wafanyakazi",
+      "staffMembersPlaceholder": "Chagua wafanyikazi",
+      "staffGroupsPlaceholder": "Chagua vikundi vya wafanyikazi",
+      "graduationClass": "Darasa la Wahitimu",
+      "graduationClassPlaceholder": "Chagua darasa la kuhitimu",
+      "finalStep": "Hatua ya Mwisho",
+      "info1": "Inayoonyeshwa hapa chini ni kiolezo cha ujumbe utakaotumwa kwa wazazi. Maelezo ya kuingia yanayoonyeshwa ni maelezo ya sampuli, na ujumbe halisi utakuwa na kitambulisho halisi kwa kila mwanafunzi.",
+      "info2": "Mzazi mpendwa, tumeshirikiana na Zeraki ili kutoa nyenzo za kidijitali za kujifunzia kwa wanafunzi wetu ili kuwaruhusu kuendelea kujifunza wakiwa nyumbani.",
+      "info3": "Ili kupata nyenzo, tafadhali bofya kiungo kilicho hapa chini na upakue Zeraki Learning kutoka Play Store: https://bit.ly/ZerakiLearning",
+      "info4": "Tumia kitambulisho kifuatacho kuingia:",
+      "username": "Jina la mtumiaji: XXXX@msimbo wa shule",
+      "password": "Nenosiri: XXXX",
+      "info5": "Kwa changamoto yoyote, wasiliana na Zeraki kwa 0790 493 495",
+      "send": "Tuma",
+      "processing": "Inachakata",
+      "subject": "Somo",
+      "subjectPlaceholder": "Mada ya Ujumbe",
+      "subjectError": "Mada haiwezi kuwa tupu",
+      "category": "Kategoria",
+      "categoryPlaceholder": "Kategoria ya ujumbe",
+      "message": "Ujumbe",
+      "messagePlaceholder": "Maudhui ya Ujumbe",
+      "messageError": "Ujumbe hauwezi kuwa tupu",
+      "messageCount": "Idadi ya Ujumbe: {{msgCount}} ({{msgCharacterCount}} herufi)",
+      "senderIDError": "(Jina la shule litaambatishwa hadi mwisho wa kila ujumbe kwa sababu shule haina Kitambulisho cha kipekee cha Mtumaji)",
+      "sendTextMessage": "Tuma Ujumbe wa maandishi",
+      "sendEmail": "Kutuma barua pepe",
+      "noStudentsFound": "Hakuna wanafunzi waliopatikana",
+      "noExamResults": "Hakuna matokeo ya mitihani yaliyopatikana",
+      "sendResultsTo": "Tuma Matokeo Kwa",
+      "specificClass": " Wanafunzi wote {{level}}",
+      "specificStream": "Mtiririko Maalum",
+      "specificStudent": "Mwanafunzi Maalum",
+      "noExamGrades": "Hakuna alama za mtihani zilizopatikana",
+      "sendWithSelectedGrade": "Tuma kwa wanafunzi walio na alama ulizochagua",
+      "optionalMessage": "Ujumbe wa Hiari",
+      "optionalMessagePlaceholder": "Ujumbe wa hiari utumwe pamoja na matokeo ya mitihani",
+      "onlySendOptionalMessage": "Tuma ujumbe wa hiari pekee (matokeo ya mtihani hayatatumwa pamoja)",
+      "phoneNumber": "Nambari ya simu",
+      "phoneNumberError": "Andika nambari halali kisha ubofye ingiza",
+      "email": "Barua pepe",
+      "emailError": "Andika barua pepe halali kisha ubofye ingiza",
+      "toastMessages": {
+        "missingPhoneOrEmailWarning": "Tafadhali toa nambari ya simu au barua pepe ya mpokeaji",
+        "unspecifiedStudentsWarning": "Tafadhali taja wanafunzi",
+        "unspecifiedClassesWarning": "Tafadhali bainisha madarasa",
+        "unspecifiedTeachersWarning": "Tafadhali taja walimu",
+        "unspecifiedTeacherGroupsWarning": "Tafadhali taja vikundi vya walimu",
+        "unspecifiedOfficialsWarning": "Tafadhali bainisha maafisa",
+        "unspecifiedBomWarning": "Tafadhali bainisha vikundi vya BOM/PA",
+        "unspecifiedGraduatedClassWarning": "Tafadhali bainisha darasa la waliohitimu",
+        "unspecifiedStaffGroupsWarning": "Tafadhali taja vikundi vya wafanyikazi",
+        "messageSentSuccess": "Ujumbe umetumwa",
+        "messageSentError": "Ujumbe haukuweza kutumwa. Tafadhali jaribu tena baadae"
+      },
+      "swal": {
+        "title": "Ungependa kutuma Ujumbe?",
+        "text": "Je, una uhakika ungependa kutuma ujumbe huu kwa wapokeaji waliochaguliwa?",
+        "title2": "Ungependa kutuma Vitambulisho vya Kujifunza vya Zeraki?",
+        "text2": "Je, una uhakika ungependa kutuma vitambulisho vya Zeraki Learning kwa wanafunzi wote?",
+        "title3": "Ungependa kutuma Matokeo?",
+        "text3": "Je, una uhakika ungependa kutuma matokeo ya mtihani kwa wapokeaji waliochaguliwa?"
+      }
+    },
+    "inbox": {
+      "from": "Kutoka",
+      "type": "Aina",
+      "subject": "Somo",
+      "date": "Tarehe",
+      "noMessages": "Hakuna ujumbe"
+    },
+    "topNav": {
+      "view": "Tazama",
+      "inbox": "Kikasha",
+      "read": "Soma",
+      "compose": "Tunga",
+      "message": "Ujumbe",
+      "trackSmsUsage": "Fuatilia Matumizi ya SMS",
+      "trackSms": "Fuatilia SMS",
+      "usage": "Matumizi",
+      "buy": "Nunua",
+      "sms": "SMS"
+    },
+    "group": {
+      "subject": "Somo",
+      "info": "Habari",
+      "sender": "Mtumaji",
+      "date": "Tarehe",
+      "message": "Ujumbe",
+      "recipients": "Wapokeaji",
+      "intendedRecipients": "Wapokeaji Waliokusudiwa",
+      "delivered": "Imewasilishwa",
+      "failed": "Imeshindwa",
+      "smsCredits": "Mikopo ya SMS",
+      "from": "Kutoka",
+      "admNo": "Adm No",
+      "to": "Kwa",
+      "type": "Aina",
+      "name": "Jina",
+      "status": "Hali",
+      "resend": "Tuma tena",
+      "resendMessage": "Tuma Ujumbe tena",
+      "deliveryInfo": "Maelezo ya Uwasilishaji",
+      "credit": "Mikopo",
+      "credits": "Mikopo",
+      "smsSummaryUsage": "Matumizi ya Muhtasari wa SMS",
+      "hideMessage": "Ficha Ujumbe",
+      "viewMessage": "Tazama Ujumbe",
+      "noMessages": "Hakuna Ujumbe wa Maandishi",
+      "toastMessages": {
+        "resendMessageSuccess": "Ujumbe umetumwa tena"
+      },
+      "swal": {
+        "title": "Tuma Ujumbe tena",
+        "text": "Je, una uhakika ungependa kutuma ujumbe tena kwa {{ name }}?"
+      }
+    },
+    "receipt": {
+      "receiptNo": "Risiti Na.",
+      "print": "Chapisha",
+      "to": "Kwa",
+      "phone": "Simu",
+      "receiptDate": "Tarehe ya Kupokea",
+      "description": "Maelezo",
+      "purchaser": "Mnunuzi",
+      "mpesaCode": "Kanuni ya MPesa",
+      "date": "Tarehe",
+      "cost": "Gharama",
+      "purchaseOfSmsCredits": "Ununuzi wa Mikopo ya SMS",
+      "total": "Jumla",
+      "comments": "Maoni",
+      "smsCharges": "Ada za SMS ni KSH. 1/- kwa kila SMS"
+    },
+    "track": {
+      "remaining": "Salio za SMS Zilizosalia",
+      "texts": "Maandishi",
+      "sms": "Matumizi ya SMS",
+      "title": "Kichwa",
+      "sender": "Mtumaji",
+      "type": "Aina",
+      "intendedRecipients": "Wapokeaji Waliokusudiwa",
+      "delivered": "Imewasilishwa",
+      "failed": "Imeshindwa",
+      "smsCredits": "Mikopo ya SMS",
+      "date": "Tarehe",
+      "view": "Tazama",
+      "credit": "Mikopo",
+      "credits": "Mikopo",
+      "noMessages": "Hakuna Ujumbe wa Maandishi"
+    }
+  },
+  "opportunities": {
+    "topNav": {
+      "vacancies": "Nafasi za kazi",
+      "swap": "Badilika"
+    },
+    "vacancies": {
+      "teachingStaffBtn": "Wafanyakazi wa kufundisha",
+      "nonTeachingStaffBtn": "Watumishi wasio walimu",
+      "addBtn": "Ongeza",
+      "title": "Nafasi za kazi",
+      "searchPlaceholderText": "Tafuta Kichwa/Kichwa",
+      "addVacancy": {
+        "vacancy": {
+          "headerText": "Nafasi",
+          "teachingStaffOption": "Wafanyakazi wa kufundisha",
+          "nonTeachingStaffOption": "Watumishi wasio walimu",
+          "nextBtn": "Inayofuata"
+        },
+        "details": {
+          "headerText": "Maelezo",
+          "form": {
+            "title": "Kichwa",
+            "titlePlaceholderText": "Ongeza kichwa cha habari",
+            "deadlineDate": "Tarehe ya mwisho",
+            "deadlineDateHelperText": "dd/mm/yyyy",
+            "description": {
+              "headerText": "Maelezo",
+              "textOption": "Maandishi",
+              "fileOption": "Faili",
+              "fileOptionHelperText": "Tumia muundo wa pdf",
+              "cancelBtn": "Ghairi",
+              "downloadBtn": "Pakua",
+              "reuploadBtn": "Pakia upya",
+              "toEditText": "kuhariri"
+            }
+          },
+          "formErrors": {
+            "title": "Kichwa hakiwezi kuwa tupu",
+            "deadlineDate": "Omba kulingana na tarehe haiwezi kuwa tupu",
+            "description": {
+              "fileOption": "Faili haiwezi kuwa tupu",
+              "description": "Maelezo hayawezi kuwa tupu"
+            }
+          },
+          "subjectCombinations": {
+            "headerText": "Mchanganyiko wa Mada",
+            "backBtn": "Nyuma",
+            "nextBtn": "Inayofuata"
+          },
+          "subjectCombinationsErrors": {
+            "maximumSubjects": "Idadi ya juu zaidi ya masomo yaliyochaguliwa"
+          }
+        },
+        "posting": {
+          "headerText": "Inachapisha",
+          "form": {
+            "schoolInfo": "Shule",
+            "schoolInfoPlaceholderText": "Ingiza jina la shule",
+            "county": "Wilaya",
+            "countyPlaceholderText": "Chagua kata",
+            "subCounty": "Kaunti Ndogo",
+            "subCountyPlaceholderText": "Chagua kaunti ndogo",
+            "backBtn": "Nyuma",
+            "nextBtn": "Inayofuata"
+          },
+          "formErrors": {
+            "schoolInfo": "Shule haiwezi kuwa tupu",
+            "county": "Kaunti haiwezi kuwa tupu"
+          }
+        },
+        "userDetails": {
+          "headerText": "Maliza: Maelezo ya Mtumiaji",
+          "form": {
+            "displayName": "Jina la kuonyesha",
+            "displayNamePlaceholderText": "Ongeza jina la onyesho",
+            "displayNameHelperText": "Inaweza kubadilishwa katika mipangilio",
+            "phoneNumber": "Nambari ya simu",
+            "phoneNumberPlaceholderText": "Ongeza nambari ya simu",
+            "phoneNumberHelperText": "Inaweza kubadilishwa katika mipangilio",
+            "showPhoneNumber": "Onyesha nambari ya simu",
+            "showPhoneNumberHelperText": "Nambari ya simu itaonyeshwa kwenye orodha ya nafasi za kazi",
+            "resetBtn": "Weka upya",
+            "backBtn": "Nyuma",
+            "saveBtn": "Hifadhi"
+          },
+          "formErrors": {
+            "displayName": "Jina haliwezi kuwa tupu",
+            "phoneNumber": "Nambari ya simu haiwezi kuwa tupu"
+          },
+          "backToVacanciesBtn": "Rudi kwa Nafasi za Kazi"
+        }
+      },
+      "tableHeaders": {
+        "title": "Kichwa",
+        "subjectCombination": "Mchanganyiko wa Mada",
+        "school": "Shule",
+        "postedBy": "Imetumwa Na",
+        "datePosted": "Tarehe Iliyotumwa",
+        "actions": "Vitendo"
+      },
+      "vacancy": {
+        "viewBtn": "Tazama",
+        "editBtn": "Hariri",
+        "deleteBtn": "Futa",
+        "details": {
+          "headerText": "{{ type }} nafasi",
+          "title": "Kichwa",
+          "subjectCombinations": "Mchanganyiko wa Mada",
+          "description": {
+            "headerText": "Maelezo",
+            "downloadText": "Pakua",
+            "remainingText": "faili kutazama maelezo"
+          },
+          "deadlineDate": "Tarehe ya mwisho",
+          "schoolInfo": "Shule",
+          "county": "Wilaya",
+          "subCounty": "Kaunti ndogo",
+          "contactDetails": "Maelezo ya Mawasiliano",
+          "closeBtn": "Funga"
+        }
+      },
+      "paginationInfo": "Ukurasa wa {{ currentPage }} kati ya {{ totalPages }}",
+      "emptyList": "Hakuna nafasi zilizopo",
+      "toastMessages": {
+        "saveSuccess": "Nafasi imehifadhiwa",
+        "updateSuccess": "Nafasi imesasishwa",
+        "deleteSuccess": "Nafasi imefutwa"
+      },
+      "swal": {
+        "title": "Futa Nafasi!",
+        "text": "Je, una uhakika ungependa kufuta nafasi - {{ title }}",
+        "confirmButtonText": "Ndiyo, ifute!"
+      }
+    },
+    "swap": {
+      "title": "Maombi",
+      "searchPlaceholderText": "Tafuta Mada/Kaunti hadi",
+      "searchPlaceholderTextMobile": "Tafuta",
+      "addBtn": "Ongeza",
+      "addSwap": {
+        "from": {
+          "headerText": "Kutoka",
+          "form": {
+            "schoolInfo": "Shule",
+            "schoolInfoPlaceholderText": "Ingiza jina la shule",
+            "county": "Wilaya",
+            "countyPlaceholderText": "Chagua kata",
+            "subCounty": "Kaunti Ndogo",
+            "subCountyPlaceholderText": "Chagua kaunti ndogo",
+            "backBtn": "Nyuma",
+            "nextBtn": "Inayofuata"
+          },
+          "formErrors": {
+            "schoolInfo": "Shule haiwezi kuwa tupu",
+            "county": "Kaunti haiwezi kuwa tupu"
+          }
+        },
+        "to": {
+          "headerText": "Kwa",
+          "form": {
+            "county": "Wilaya",
+            "countyPlaceholderText": "Chagua kata",
+            "subCounty": "Kaunti Ndogo",
+            "subCountyPlaceholderText": "Chagua kaunti ndogo",
+            "backBtn": "Nyuma",
+            "nextBtn": "Inayofuata"
+          },
+          "formErrors": {
+            "county": "Kaunti haiwezi kuwa tupu"
+          }
+        },
+        "subjectCombinations": {
+          "headerText": "Mchanganyiko wa Mada",
+          "backBtn": "Nyuma",
+          "nextBtn": "Inayofuata"
+        },
+        "subjectCombinationsErrors": {
+          "maximumSubjects": "Idadi ya juu zaidi ya masomo yaliyochaguliwa"
+        },
+        "userDetails": {
+          "headerText": "Maliza: Maelezo ya Mtumiaji",
+          "form": {
+            "displayName": "Jina la kuonyesha",
+            "displayNamePlaceholderText": "Ongeza jina la onyesho",
+            "displayNameHelperText": "Inaweza kubadilishwa katika mipangilio",
+            "phoneNumber": "Nambari ya simu",
+            "phoneNumberPlaceholderText": "Ongeza nambari ya simu",
+            "phoneNumberHelperText": "Inaweza kubadilishwa katika mipangilio",
+            "showPhoneNumber": "Onyesha nambari ya simu",
+            "showPhoneNumberHelperText": "Nambari ya simu itaonyeshwa kwenye orodha ya kubadilishana",
+            "resetBtn": "Weka upya",
+            "backBtn": "Nyuma",
+            "saveBtn": "Hifadhi"
+          },
+          "formErrors": {
+            "displayName": "Jina haliwezi kuwa tupu",
+            "phoneNumber": "Nambari ya simu haiwezi kuwa tupu"
+          },
+          "backToSwapListBtn": "Rudi kwa Orodha ya Kubadilishana"
+        }
+      },
+      "tableHeaders": {
+        "name": "Jina",
+        "subjectCombination": "Mchanganyiko wa Mada",
+        "school": "Shule",
+        "from": "Kutoka",
+        "to": "Kwa",
+        "datePosted": "Tarehe Iliyotumwa",
+        "actions": "Vitendo"
+      },
+      "application": {
+        "viewBtn": "Tazama",
+        "editBtn": "Hariri",
+        "deleteBtn": "Futa",
+        "swapDetails": {
+          "headerText": "Badilisha Maelezo",
+          "from": "Kutoka",
+          "to": "Kwa",
+          "subjectCombination": "Mchanganyiko wa Mada",
+          "contactDetails": "Maelezo ya Mawasiliano",
+          "closeBtn": "Funga"
+        }
+      },
+      "paginationInfo": "Ukurasa wa {{ currentPage }} kati ya {{ totalPages }}",
+      "emptyList": "Hakuna ubadilishaji uliopo",
+      "toastMessages": {
+        "saveSuccess": "Ubadilishanaji umehifadhiwa",
+        "updateSuccess": "Ubadilishanaji umesasishwa",
+        "deleteSuccess": "Ubadilishanaji umefutwa",
+        "deleteSwapError": "Hitilafu wakati wa kufuta!"
+      },
+      "swal": {
+        "title": "Futa Ubadilishanaji!",
+        "text": "Je, una uhakika ungependa kufuta ubadilishaji - {{ name1 }}, {{ name2 }}",
+        "confirmButtonText": "Ndiyo, ifute!"
+      }
+    },
+    "match": {
+      "fromNairobiBtn": {
+        "text": "Kutoka: Nairobi",
+        "option1": "Nakuru",
+        "option2": "Mombasa",
+        "option3": "Kisumu"
+      },
+      "requestsFromNairobi": "Maombi Kutoka: Nairobi",
+      "johnDoe": "John doe",
+      "pick": "Chagua",
+      "date1": "12 Des",
+      "date2": "2020 9:00 AM",
+      "has": "Imefanya",
+      "twoSubjects": "2 Masomo",
+      "mollyDoe": "Molly doe",
+      "date3": "18 Des",
+      "fourSubjects": "4 Masomo",
+      "akonDoe": "Akon Doe",
+      "date4": "22 Des",
+      "oneSubject": "1 Somo",
+      "maicalDoe": "Maical Doe",
+      "date5": "23 Des",
+      "threeSubject": "3 Masomo",
+      "molly": {
+        "name": "Jina la Molly",
+        "tscNumber": "Nambari ya TSC: 05023"
+      },
+      "johen": {
+        "name": "Jina: John",
+        "tscNumber": "Nambari ya TSC: 001001"
+      },
+      "approveBtn": "Idhinisha",
+      "toKisumuBtn": {
+        "text": "Kwa: Kisumu",
+        "option1": "Nakuru",
+        "option2": "Mombasa",
+        "option3": "Kisumu"
+      },
+      "requestsToKisumu": "Maombi Kwa: Kisumu",
+      "johenDoe": "John doe"
+    }
+  },
+  "printouts": {
+    "commonAttr": {
+      "stream": "Tiririsha",
+      "exam": "Mtihani",
+      "students": "Wanafunzi",
+      "printBtn": "Chapisha",
+      "landscape": "Mandhari",
+      "portrait": "Picha",
+      "editBtn": "Hariri",
+      "saveBtn": "Hifadhi",
+      "backBtn": "Nyuma",
+      "printing": "Inachapisha...",
+      "generating": "Inazalisha...",
+      "download": {
+        "title": "Pakua",
+        "action": "Inapakua",
+        "pdf": "PDF",
+        "excel": "Lahajedwali"
+      }
+    },
+    "analysisReport": {
+      "title": "Ripoti ya Uchambuzi",
+      "classPlaceholder": "Chagua {{class}}",
+      "streamPlaceholder": "Chagua mtiririko (Si lazima)",
+      "examPlaceholder": "Chagua Mtihani",
+      "reportBtn": "Pata Ripoti za Uchambuzi",
+      "noReport": "Hakuna Ripoti Zilizopatikana",
+      "options": "Chaguzi",
+      "top": "Juu",
+      "topStudents": "Wanafunzi wa Juu",
+      "showSubjectTopStudents": "Onyesha wanafunzi bora wa masomo",
+      "showTopStudentsOnly": "Onyesha wanafunzi bora pekee",
+      "kcseYear": {
+        "label": "Mwaka wa Kcse Kulinganisha Na:",
+        "placeholder": "Chagua Mwaka wa KCSE"
+      },
+      "report": "Ripoti",
+      "meanGrade": "Wastani wa Daraja",
+      "comparedToKcse": "Ikilinganishwa na KCSE {{year}})",
+      "classPerformance": "Utendaji wa mitiririko ya {{class}}",
+      "students": "Wanafunzi waliofanya mtihani",
+      "subjectStatistics": "Takwimu za Mada",
+      "name": "Jina",
+      "previous": "Iliyotangulia",
+      "change": "Badilika",
+      "trend": "Mwenendo",
+      "grade": "Daraja",
+      "gradeSummary": "Muhtasari wa Darasa",
+      "gradeSummary2": "Muhtasari wa Daraja",
+      "subjectMean": "Njia za Mada ya Darasa",
+      "overallStatistics": "Takwimu za Jumla za Hatari",
+      "houseAverages": "Wastani wa Nyumba",
+      "performanceOverTime": "Utendaji Kwa Muda",
+      "toastMessages": {
+        "fetchContentError": "Haiwezi kutengeneza lahajedwali kwa wakati huu"
+      }
+    },
+    "classList": {
+      "title": "Orodha ya darasa",
+      "noData": "Hakuna wanafunzi waliopatikana",
+      "studentImg": "Picha ya Mwanafunzi",
+      "clForm": {
+        "class": {
+          "placeholder": "Chagua {{formoryear}}"
+        },
+        "stream": {
+          "label": "Tiririsha",
+          "placeholder": "Chagua Tiririsha (Si lazima)"
+        },
+        "subject": {
+          "label": "Somo",
+          "placeholder": "Chagua Mada (Si lazima)"
+        },
+        "classListBtn": "Pata Orodha ya Madarasa"
+      },
+      "options": {
+        "title": "Chaguzi",
+        "listType": "Aina ya Orodha",
+        "basic": "Msingi",
+        "custom": "Desturi",
+        "optionsInfo": "Chagua vipengee ambavyo ungependa vionekane kwenye orodha ya darasa:"
+      },
+      "showMoreBtn": "Onyesha Zaidi",
+      "excelDownload": {
+        "workSheetColumnHeaders": {
+          "phone": "simu"
+        }
+      }
+    },
+    "evaluationReport": {
+      "title": "Ripoti ya Tathmini",
+      "noData": "Hakuna Ripoti ya Tathmini Imepatikana",
+      "comment": "Weka Maoni ya Jumla Hapa",
+      "filterColumns": "Chuja Safu",
+      "evalForm": {
+        "term": {
+          "label": "Muda",
+          "placeholder": "Chagua Muda",
+          "termError": "Muda unahitajika"
+        },
+        "year": {
+          "label": "Mwaka",
+          "placeholder": "Chagua Mwaka",
+          "yearError": "Mwaka unahitajika"
+        },
+        "level": {
+          "placeholder": "Chagua {{level}}",
+          "levelError": "kiwango kinahitajika"
+        },
+        "stream": {
+          "label": "Tiririsha",
+          "placeholder": "Chagua Tiririsha",
+          "streamError": "Utiririshaji unahitajika"
+        },
+        "subject": {
+          "label": "Somo",
+          "placeholder": "Chagua Mada",
+          "subjectError": "Mada inahitajika"
+        },
+        "getEvaluationBtn": "Pata Ripoti ya Tathmini",
+        "getProjectBtn": "Pata Ripoti ya Mradi",
+        "generating": "Inazalisha Ripoti"
+      },
+      "table": {
+        "admNo": "Adm No",
+        "name": "Jina",
+        "eval": "Eval",
+        "average": "Wastani",
+        "descriptor": "Kifafanuzi",
+        "comment": "Maoni ya Jumla",
+        "subjectComment": "Maoni ya Mada",
+        "action": "Kitendo",
+        "classAverage": "Wastani wa darasa"
+      },
+      "toastMessages": {
+        "saveStudentCommentWarning": "Tafadhali hifadhi maoni ya mwanafunzi wa sasa kabla ya kuongeza maoni ya mwanafunzi mwingine",
+        "saveRemarkSuccess": "Maoni yamehifadhiwa"
+      }
+    },
+    "leavingCerts": {
+      "title": "Kuacha Vyeti",
+      "noData": "Hakuna wanafunzi waliopatikana!",
+      "lcForm": {
+        "graduatedClass": {
+          "label": "Chagua Mwaka wa Kuhitimu wa Darasa",
+          "placeholder": "Waliohitimu Mwaka wa Darasa"
+        },
+        "stream": {
+          "label": "Tiririsha",
+          "placeholder": "Chagua Tiririsha",
+          "streamError": "Mtiririko hauwezi kuwa tupu"
+        },
+        "searchBtn": "Tafuta"
+      },
+      "table": {
+        "title": "Orodha ya Wanafunzi",
+        "admNo": "Adm No",
+        "name": "Jina",
+        "stream": "Tiririsha",
+        "action": "Kitendo",
+        "viewCert": "Angalia Cheti",
+        "pagination": "Ukurasa {{page}} wa {{total}}"
+      },
+      "country": "JAMHURI YA KENYA",
+      "ministry": "WIZARA YA ELIMU",
+      "certTitle": "CHETI CHA KUACHA SHULE YA SEKONDARI",
+      "admNoOrSerial": "Kiingilio/Seri No.",
+      "upi": "Nambari ya UPI.",
+      "certifyInfo": "Hii ni kuthibitisha kuwa",
+      "certifyInfo2": "Aliingia shule hii",
+      "certifyInfo3": "na aliandikishwa kwa fomu",
+      "certifyInfo4": "na kuondoka ndani",
+      "from": "kutoka",
+      "form": "fomu",
+      "certifyInfo5a": "baada ya kukamilika kwa kuridhisha",
+      "certifyInfo5b": "kozi iliyoidhinishwa kwa",
+      "dob": "Tarehe ya kuzaliwa",
+      "inAdmReg": "(Katika Daftari la Kuandikishwa)",
+      "certifyInfo6": "{{headTitle}} juu ya uwezo wa mwanafunzi, tasnia na mwenendo wake.",
+      "studSignature": "Sahihi ya Mwanafunzi",
+      "dateOfIssue": "Tarehe ya Toleo",
+      "signature": "Sahihi",
+      "certifyInfo7": "Cheti hiki kilitolewa bila kufutwa au mabadiliko yoyote",
+      "toastMessages": {
+        "showDocumentError": "Tafadhali weka mkuu wa shule katika wasifu wa shule"
+      },
+      "swal": {
+        "admissionNumber": "Nambari ya Kuingia",
+        "admissionDate": "tarehe ya kuingia",
+        "enrollmentForm": "fomu ya kujiandikisha",
+        "graduationDate": "tarehe ya kuhitimu",
+        "graduationForm": "fomu ya kuhitimu",
+        "dateOfBirth": "Tarehe ya kuzaliwa",
+        "issueDate": "Tarehe ya Toleo",
+        "generalComments": "Maoni ya Jumla",
+        "title": "Imeshindwa kuona Cheti !",
+        "sms1": "Taarifa Ifuatayo haijatolewa",
+        "sms2": "Ungependa kuendelea kuongeza maelezo?"
+      }
+    },
+    "meritList": {
+      "title": "Orodha ya sifa",
+      "noData": "Hakuna data iliyopatikana",
+      "mlForm": {
+        "class": {
+          "placeholder": "Chagua {{class}}"
+        },
+        "stream": {
+          "label": "Tiririsha",
+          "placeholder": "Chagua Tiririsha (Si lazima)"
+        },
+        "exam": {
+          "label": "Mtihani",
+          "placeholder": "Chagua Mtihani"
+        },
+        "meritListBtn": "Pata Orodha ya Kustahili"
+      },
+      "downloadBtn": "Pakua Orodha ya Kustahili",
+      "asSpreadSheet": "Kama Lahajedwali",
+      "excelTemplateDownload": {
+        "workSheetName": "matokeo"
+      },
+      "asPdf": "Kama PDF",
+      "printFormat": "Umbizo la Kuchapisha",
+      "hidePrintFormat": "Ficha Umbizo la Kuchapisha",
+      "firstPage": "Kwanza",
+      "lastPage": "Mwisho",
+      "gradeBreakdown": "Uchanganuzi wa Daraja",
+      "gradeSummary": "Muhtasari wa Daraja",
+      "classGradeSummary": "Muhtasari wa Darasa",
+      "toastMessages": {
+        "generatePdfSuccess": "{{ title }} imepakuliwa",
+        "generatePdfError": "Hitilafu imetokea: haiwezi kupakua {{ title }}"
+      }
+    },
+    "oLevelRForm": {
+      "title": "Fomu za Ripoti",
+      "noData": "Hakuna Ripoti ya Tathmini Imepatikana",
+      "rForm": {
+        "term": {
+          "label": "Muda",
+          "placeholder": "Chagua Muda",
+          "termError": "Muda unahitajika"
+        },
+        "year": {
+          "label": "Mwaka",
+          "placeholder": "Chagua Mwaka",
+          "yearError": "Mwaka wa masomo unahitajika"
+        },
+        "level": {
+          "placeholder": "Chagua {{level}}",
+          "levelError": "kiwango kinahitajika"
+        },
+        "stream": {
+          "label": "Tiririsha",
+          "placeholder": "Chagua Tiririsha",
+          "streamError": "Utiririshaji unahitajika"
+        },
+        "getRFormsBtn": "Pata Fomu za Ripoti",
+        "generating": "Inazalisha Ripoti..."
+      },
+      "options": {
+        "title": "Chaguzi",
+        "fee": {
+          "label": "Taarifa za Ada",
+          "info": "na ujaze kiolezo cha ada kisha ukipakie hapa chini. (Tafadhali acha vichwa vya safu wima vingine vikiwa sawa.)",
+          "chooseFile": "Chagua Faili"
+        },
+        "excelTemplateDownload": {
+          "fileName": "Ada za Wanafunzi - Kiolezo",
+          "workSheetName": "Karatasi 1",
+          "workSheetColumnHeaders": {
+            "admno": "admno",
+            "name": "jina",
+            "termBalance": "usawa_wa_muda",
+            "nextTermFees": "ada_ya_muhula_ujao"
+          }
+        },
+        "closedOn": "Shule Imefungwa",
+        "nextTermBeginsOn": "Muda Ujao Unaanza",
+        "assessments": {
+          "title": "Tathmini",
+          "label1": "Onyesha matokeo ya mitihani",
+          "label2": "Onyesha maeneo ya uwezo",
+          "label3": "Onyesha shughuli na maadili",
+          "label4": "Onyesha miradi",
+          "label5": "Onyesha ripoti ya mahudhurio"
+        },
+        "remarks": {
+          "title": "Maoni",
+          "label1": "Onyesha",
+          "label2": "mkuu",
+          "label3": "maoni",
+          "classTeacher": "Onyesha maoni ya mwalimu wa darasa",
+          "subjectTeacher": "Onyesha maoni ya mwalimu wa somo"
+        },
+        "signature": {
+          "title": "Sahihi",
+          "label": "Onyesha saini ya mwalimu wa darasa",
+          "label1": "Onyesha",
+          "label2": "mkuu",
+          "label3": "Sahihi"
+        }
+      }
+    },
+    "studentReport": {
+      "name": "NAME",
+      "admNo": "ADM NO",
+      "term": "MUDA",
+      "attendanceReport": "Ripoti ya mahudhurio",
+      "assessmentReport": "Ripoti ya Tathmini",
+      "daysPresent": "Siku Zilizopo",
+      "daysAbsent": "Siku Kutokuwepo",
+      "total": "Jumla",
+      "subject": "Somo",
+      "chapter": "Sura",
+      "competencies": "Umahiri",
+      "totalPoints": "Jumla ya Alama",
+      "average": "Wastani",
+      "score": "Alama",
+      "rawScore": "Alama Mbichi",
+      "comment": "Maoni",
+      "exam": "Mtihani",
+      "examComment": "Maoni ya mtihani",
+      "teacher": "Mwalimu",
+      "generalSkills": "Ujuzi wa Jumla",
+      "genericSkills": "Ujuzi wa Jumla",
+      "facilitatorRemarks": "Maneno ya Mwezeshaji",
+      "averagePoints": "Wastani wa Alama Ulizopata",
+      "identifier": "Kitambulisho",
+      "scoreRange": "Kiwango cha Alama",
+      "descriptor": "Kifafanuzi",
+      "classTComment": "Maoni ya Mwalimu wa darasa",
+      "keyWords": "Maneno muhimu yaliyotumika/ Maelezo ya istilahi.",
+      "signature": "Sahihi",
+      "headTComment": "Maoni ya Mwalimu Mkuu",
+      "feeBalance": "Mizani ya Ada",
+      "nextTermFees": "Ada za Muda Ujao",
+      "totalPayable": "Jumla ya Kulipwa",
+      "schoolClosedOn": "Shule Imefungwa",
+      "nextTermBegins": "Muda Ujao Unaanza",
+      "avr": "AVR",
+      "tp": "TP",
+      "remarks": "Maoni",
+      "projects": "Miradi",
+      "projectTitle": "Kichwa cha Mradi",
+      "activities": "Shughuli",
+      "activitiesAndValues": "Shughuli na Maadili",
+      "valuesExhibited": "Maadili Yameonyeshwa",
+      "outstanding": "Bora",
+      "moderate": "Wastani",
+      "basic": "Msingi",
+      "keyWordsList": {
+        "competency": "Umahiri",
+        "competencyDesc": "Uwezo wa jumla unaotarajiwa wa mwanafunzi mwishoni mwa mada, muhula au mwaka, baada ya kuonyeshwa maarifa, ujuzi na maadili.",
+        "descriptorDesc": "Hutoa maelezo juu ya kiwango ambacho mwanafunzi mwembamba amepata matokeo ya kujifunza yaliyoainishwa katika mada husika",
+        "genericSkillsDesc": "Hizi ni ujuzi laini unaoweza kuhamishwa wa hali ya juu ambao unatumika kwa masomo yote na hutafutwa sana katika Karne ya 21 na ulimwengu wa kazi.",
+        "identifierDesc": "Ni lebo/daraja linalowatofautisha wanafunzi kulingana na ufaulu wao wa kujifunza wa umahiri uliowekwa",
+        "scoreDesc": "Inarejelea wastani wa alama zilizopatikana kwa matokeo tofauti ya kujifunza ambayo yanaunda umahiri",
+        "score1": "Hasara chache zimepatikana, lakini hazitoshi kwa mafanikio ya jumla",
+        "score2": "LOs nyingi zilizopatikana, za kutosha kwa mafanikio ya jumla",
+        "score3": "Mengi au Los zote zilizofikiwa kwa mafanikio ya jumla"
+      }
+    },
+    "topNav": {
+      "class": "Darasa",
+      "lists": "Orodha",
+      "evaluations": "Tathmini",
+      "report": "Ripoti",
+      "forms": "Fomu",
+      "analysis": "Uchambuzi",
+      "merit": "Sifa",
+      "transcripts": "Nakala",
+      "leavingCert": "Kuacha Vyeti",
+      "more": "Zaidi"
+    },
+    "reportForms": {
+      "noData": "Hakuna ripoti zilizopatikana",
+      "completePercentage": "{{response}}% Imekamilika",
+      "reportForms": "Fomu za Ripoti",
+      "rForm": {
+        "level": {
+          "placeholder": "Chagua {{level}}"
+        },
+        "stream": {
+          "label": "Tiririsha",
+          "placeholder": "Chagua Tiririsha"
+        },
+        "exam": {
+          "label": "Mtihani",
+          "placeholder": "Chagua Mtihani"
+        },
+        "reportFormsBtn": "Pata Fomu za Ripoti"
+      },
+      "generatingReport": "Inazalisha Ripoti ya {{count}}...",
+      "generatingReports": "Inazalisha Ripoti za {{count}}...",
+      "options": "Chaguzi",
+      "feeStatements": {
+        "title": "Taarifa za Ada",
+        "info": "na ujaze kiolezo cha ada kisha ukipakie hapa chini. (Tafadhali acha vichwa vya safu wima vingine vikiwa sawa.)",
+        "chooseFile": "Chagua Faili"
+      },
+      "excelTemplateDownload": {
+        "fileName": "Ada za Wanafunzi - Kiolezo",
+        "workSheetName": "Karatasi 1",
+        "workSheetColumnHeaders": {
+          "admno": "admno",
+          "name": "jina",
+          "termBalance": "usawa_wa_muda",
+          "nextTermFees": "ada_ya_muhula_ujao"
+        }
+      },
+      "closedOn": "Shule Imefungwa",
+      "nextTermBeginsOn": "Muda Ujao Unaanza",
+      "remarks": "Maoni",
+      "showCTRemarks": "Onyesha maoni ya mwalimu wa darasa",
+      "show": "Onyesha",
+      "remarksLower": "maoni",
+      "principal": "mkuu",
+      "customComments": "Maoni Maalum",
+      "showCustomComments": "Onyesha Maoni Maalum",
+      "showParentSignature": "Onyesha nafasi ya sahihi ya mzazi",
+      "name": "NAME",
+      "admNo": "ADMNO",
+      "upi": "UPI",
+      "kcpe": "KCPE",
+      "vap": "VAP",
+      "subjectPerfVsClass": "Utendaji wa Somo - Mwanafunzi dhidi ya Darasa",
+      "subject": "SOMO",
+      "dev": "DEV.",
+      "grade": "DARAJA",
+      "rank": "CHEO",
+      "comment": "MAONI",
+      "teacher": "MWALIMU",
+      "subjectMarks": "(X/{{subjectMaxMarks}})",
+      "gr": "GR.",
+      "studPerformance": "Utendaji wa {{studentName}} kwa Muda",
+      "classTRemarks": "Maneno ya Mwalimu wa darasa",
+      "showClassTSignature": "Onyesha saini ya mwalimu wa darasa",
+      "signature": "Sahihi",
+      "signatureLower": "Sahihi",
+      "signatures": "Sahihi",
+      "headTRemarks": "Maelezo ya {{principal}}",
+      "termBalance": "Salio la Muda Huu:",
+      "nextTermFees": "Ada za Muda Ujao:",
+      "totalPayable": "Jumla ya Ada Zinazolipwa:",
+      "schoolClosedOn": "Shule Imefungwa:",
+      "nextTermBegins": "Muda Ufuatao Unaanza Kwa:",
+      "parentSignature": "Sahihi ya Mzazi:",
+      "subjectRemarks": "Maoni ya Somo",
+      "toastMessages": {
+        "downloadSuccess": "Upakuaji umekamilika!"
+      },
+      "swal": {
+        "title": "Mchakato Mrefu Umeanzishwa!",
+        "text": "Hii inaweza kuchukua muda kukamilika, kuendelea na hatua?"
+      }
+    },
+    "transcripts": {
+      "title": "Nakala",
+      "noData": "Hakuna manukuu yaliyopatikana",
+      "noExams": "Hakuna Mitihani Imepatikana",
+      "levelPlaceholder": "Chagua {{level}}",
+      "stream": {
+        "label": "Tiririsha",
+        "placeholder": "Chagua Tiririsha"
+      },
+      "getTranscriptsBtn": "Pata Nakala",
+      "generatingTranscript": "Inazalisha manukuu ya {{count}}. Tafadhali subiri...",
+      "generatingTranscripts": "Inazalisha nakala za {{count}}. Tafadhali subiri...",
+      "options": "Chaguzi",
+      "showMarks": "Onyesha Alama/Alama",
+      "showRank": "Onyesha Cheo cha Mwanafunzi",
+      "showGradeDesc": "Onyesha Maelezo ya Daraja",
+      "academicTranscript": "Nakala ya Kiakademia",
+      "name": "NAME",
+      "admNo": "NAMBA YA KIINGILIO",
+      "current": "SASA",
+      "upi": "UPI NUMBER",
+      "subject": "SOMO",
+      "kcpe": "Alama ya KCPE",
+      "mean": "ALAMA ZA MAANA",
+      "total": "ALAMA JUMLA",
+      "totalPoints": "HOJA JUMLA",
+      "overallRank": "CHEO CHA UJUMLA",
+      "overallGrade": "DARAJA LA UJUMLA",
+      "grades": {
+        "title": "Madarasa",
+        "a": "A Bora",
+        "a_": "A- Nzuri sana",
+        "b": "B+ Nzuri",
+        "b_": "B Mzuri Sana",
+        "b__": "B- Juu ya Wastani",
+        "c": "C+ Wastani",
+        "c_": "C wastani",
+        "c__": "C- Lengo Juu",
+        "d": "D+ Chini ya Wastani",
+        "d_": "D dhaifu",
+        "d__": "D - dhaifu",
+        "e": "E Maskini",
+        "x": "X Hayupo",
+        "y": "Y isiyo ya kawaida"
+      },
+      "hod": "H.O.D ACADEMICS / D.O.S",
+      "principal": "MKUU"
+    },
+    "assessments": {
+      "latestProject": "Mradi wa Hivi Punde",
+      "perStream": "Kwa Mtiririko"
+    }
+  },
+  "school": {
+    "chooseSchool": "Chagua Shule"
+  },
+  "settings": {
+    "topNav": {
+      "schoolInfo": "Shule",
+      "profile": "Wasifu",
+      "options": "Chaguzi",
+      "user": "Mtumiaji",
+      "roles": "Majukumu"
+    },
+    "schoolInfoProfile": {
+      "messages": "Ujumbe",
+      "profileForm": {
+        "headerText": "Wasifu wa Shule",
+        "schoolName": "Jina la Shule",
+        "schoolNamePlaceholderText": "Jina Kamili la Shule",
+        "schoolNameShortVersion": "Jina la Shule (Toleo fupi)",
+        "phoneNumber": "Nambari ya simu",
+        "phoneNumberPlaceholderText": "07********",
+        "emailAddress": "Barua pepe",
+        "headOfSchool": "Mkuu wa Shule",
+        "headOfSchoolTitle": "Kichwa cha Mkuu wa Shule",
+        "hodAcademics": "H.O.D. Masomo / D.O.S.",
+        "postalAddress": "Anuani ya posta",
+        "genderType": "Aina ya Jinsia",
+        "updateBtn": "Sasisha"
+      },
+      "toastMessages": {
+        "updateSuccess": "Wasifu wa Shule umesasishwa!",
+        "updateLogoSuccess": "Nembo ya Shule imesasishwa!"
+      }
+    },
+    "schoolInfoOptions": {
+      "toastMessages": {
+        "processChangeSuccess": "Mchakato umebadilishwa!",
+        "updateLogoSuccess": "Nembo ya Shule imesasishwa!"
+      }
+    },
+    "userProfile": {
+      "topNav": {
+        "updateProfile": "Sasisha Wasifu"
+      },
+      "email": "Barua pepe",
+      "username": "USERNAME",
+      "groups": "Vikundi",
+      "signature": "Sahihi",
+      "updateForm": {
+        "headerText": "Wasifu wa Mtumiaji",
+        "name": "Jina",
+        "phoneNumber": "Nambari ya simu",
+        "phoneNumberPlaceholderText": "07########",
+        "personalEmail": "Barua pepe ya kibinafsi",
+        "personalEmailPlaceholderText": "Anwani ya Barua Pepe ya Kibinafsi",
+        "gender": "Jinsia",
+        "genderPlaceholderText": "Chagua Jinsia...",
+        "genderMaleOption": "Mwanaume",
+        "genderFemaleOption": "Mwanamke",
+        "genderUnspecifiedOption": "Haijabainishwa",
+        "tscNumber": "Nambari ya TSC",
+        "idNumber": "Nambari ya kitambulisho",
+        "bio": "Wasifu",
+        "cancelBtn": "Ghairi",
+        "saveBtn": "Hifadhi",
+        "editBtn": "Hariri"
+      },
+      "updateFormErrors": {
+        "name": "Jina haliwezi kuwa tupu",
+        "phoneNumber": "Nambari ya simu haiwezi kuwa tupu"
+      },
+      "toastMessages": {
+        "updateTeacherProfileSuccess": "Wasifu wa mtumiaji umesasishwa",
+        "updateTeacherProfileError": "Wasifu wa mtumiaji haukuweza kusasishwa kwa sasa. Tafadhali jaribu tena baadae",
+        "deletePhotoSuccess": "Picha imefutwa",
+        "updateLogoSuccess": "Nembo imesasishwa",
+        "invalidForm": "Fomu batili"
+      },
+      "swal": {
+        "title1": "Futa Picha ya Wasifu!",
+        "text1": "Je, una uhakika ungependa kufuta picha yako ya wasifu?",
+        "title2": "Futa Sahihi!",
+        "text2": "Je, una uhakika ungependa kufuta sahihi yako?"
+      }
+    },
+    "userRoles": {
+      "breadcrumbs": {
+        "title": "Majukumu ya Ujumbe",
+        "roles": "Majukumu",
+        "messaging": "Kutuma ujumbe"
+      },
+      "showRolesFalseAndAssignRoleFalse": {
+        "headerText": "Ujumbe",
+        "description": "Watumiaji wanaweza kutuma ujumbe"
+      },
+      "showRolesAndAssignRoleFalse": {
+        "headerText": "Wanachama wa Shule Wanaoweza Kutuma Ujumbe",
+        "assignRoleBtn": "Peana Wajibu",
+        "tableHeaders": {
+          "name": "Jina",
+          "role": "Jukumu",
+          "email": "Barua pepe",
+          "phoneNumber": "Nambari ya simu"
+        },
+        "adminOption": "Msimamizi",
+        "teacherOption": "Mwalimu",
+        "staffOption": "Wafanyakazi",
+        "revokeBtn": "Batilisha"
+      },
+      "showRolesAndAssignRole": {
+        "headerText": "Peana Jukumu kwa",
+        "description": "Watumiaji wanaweza kutuma ujumbe",
+        "toggle": {
+          "teachers": "Walimu",
+          "selectTeachers": "Chagua Walimu",
+          "staffMembers": "Wajumbe wa Wafanyakazi",
+          "selectStaff": "Chagua Wafanyakazi"
+        },
+        "cancelBtn": "Ghairi",
+        "saveBtn": "Hifadhi"
+      },
+      "toastMessages": {
+        "assignMembersSuccess": "Jukumu limekabidhiwa",
+        "assignMembersError": "Jukumu halikuweza kupewa. Tafadhali jaribu tena baadae",
+        "revokeRoleSuccess": "Jukumu la mtumiaji limebatilishwa",
+        "revokeRoleError": "Jukumu la mtumiaji halikuweza kubatilishwa. Tafadhali jaribu tena baadae"
+      },
+      "swal": {
+        "title": "Batilisha Rekodi ya Wajibu!",
+        "text": "Je, ungependa kuondoa {{ name }} kwenye orodha ya wajumbe?"
+      }
+    }
+  },
+  "shop": {
+    "topNav": {
+      "zerakiShop": "Duka la Zeraki"
+    },
+    "greetings": {
+      "firstPart": "Habari {{ name }}",
+      "secondPart": "Karibu kwenye Duka la Zeraki!"
+    },
+    "description": {
+      "youCanOrder": "Unaweza kuagiza",
+      "textBooks": "vitabu vya kiada",
+      "revisionMaterials": "nyenzo za marekebisho",
+      "and": "na",
+      "otherSchoolSupplies": "vifaa vingine vya shule",
+      "forYourChild": "kwa mtoto wako na uwaletee",
+      "directly": "moja kwa moja",
+      "toYou": "kwako",
+      "weDeliverWithin": "Tunatuma ndani",
+      "deliveryLocation": "Nairobi na viunga vyake!"
+    },
+    "shopNowBtn": "Nunua Sasa",
+    "swal": {
+      "fieldName": "Barua pepe ya Mlezi",
+      "fieldName2": "Anwani ya Barua Pepe ya Kibinafsi",
+      "title": "Barua pepe Haijawekwa",
+      "text": "Ili kutumia Zeraki Shop, unahitaji kuwa na barua pepe inayofanya kazi. Ongeza barua pepe yako katika sehemu ya {{ fieldName }}.",
+      "confirmButtonText": "Ongeza Barua pepe",
+      "title2": "Barua pepe Haijathibitishwa",
+      "text2": "Ili kutumia Zeraki Shop, unahitaji kuthibitisha anwani yako ya barua pepe. Je, ungependa kutumwa barua pepe ya uthibitishaji?",
+      "title3": "Tatizo la mtandao",
+      "text3": "Hitilafu imetokea, tafadhali jaribu tena baadaye",
+      "title4": "Barua pepe Haijathibitishwa",
+      "text4": "Tulituma barua pepe kwa {{ email }}. Tafadhali bofya kiungo ili kuthibitisha barua pepe yako.\n\nHukupata barua pepe ya uthibitishaji? Bonyeza Tuma Barua pepe tena",
+      "confirmButtonText4": "Tuma Barua pepe tena"
+    }
+  },
+  "staff": {
+    "add": {
+      "options": {
+        "headerText": "Chaguzi",
+        "keyInOption": "Muhimu katika maelezo ya Mfanyikazi",
+        "uploadFromSpreadSheetOption": "Pakia Wafanyikazi kutoka lahajedwali"
+      },
+      "keyInOptionForm": {
+        "title": "Kichwa",
+        "fullName": "Jina kamili",
+        "phoneNumber": "Nambari ya simu",
+        "phoneNumberPlaceholderText": "07########",
+        "nationalIdNumber": "Kitambulisho cha Taifa Na.",
+        "group": "Kikundi",
+        "groups": "Vikundi",
+        "addBtn": "Ongeza"
+      },
+      "keyInOptionFormErrors": {
+        "title": "Kichwa kinahitajika",
+        "fullName": "Jina linahitajika"
+      },
+      "uploadFromSpreadSheetOptionForm": {
+        "fileInputLabel": {
+          "downloadText": "Pakua",
+          "remainingText": "na ujaze kiolezo kisha ukipakie hapa chini. (Tafadhali acha vichwa vya safu wima vikiwa sawa)"
+        },
+        "excelTemplateDownload": {
+          "fileName": "Pakia Wafanyakazi - Kiolezo",
+          "workSheetName": "Pakia Wafanyakazi - Kiolezo",
+          "workSheetColumnHeaders": {
+            "name": "jina",
+            "title": "kichwa",
+            "phone": "simu",
+            "nationalIdNumber": "kitambulisho_cha_kitaifa",
+            "group": "kikundi"
+          }
+        },
+        "tableSectionHeaders": {
+          "name": "Jina",
+          "title": "Kichwa",
+          "phone": "Simu",
+          "nationalIdNumber": "Kitambulisho cha Taifa Na.",
+          "group": "Kikundi"
+        },
+        "uploadBtn": "Pakia"
+      },
+      "uploadFromSpreadSheetOptionFormErrors": {
+        "fileInput": "Chagua lahajedwali iliyo na orodha ya wafanyikazi"
+      },
+      "toastMessages": {
+        "success": "Wafanyakazi wameongezwa"
+      }
+    },
+    "groups": {
+      "title": "Vikundi vya Wafanyakazi",
+      "addBtn": "Ongeza Kikundi cha Wafanyakazi",
+      "addForm": {
+        "name": "Weka Jina la Kikundi cha Wafanyakazi",
+        "namePlaceholder": "Kikundi cha Wafanyakazi",
+        "cancelBtn": "Ghairi",
+        "saveBtn": "Hifadhi"
+      },
+      "addFormErrors": {
+        "name": "Jina la kikundi linahitajika",
+        "unableToUpload": "Haiwezi kupakia Vikundi vya Wafanyakazi"
+      },
+      "tableHeaders": {
+        "name": "Jina",
+        "action": "Kitendo"
+      },
+      "listItem": {
+        "editBtn": "Hariri",
+        "editCancelBtn": "Ghairi",
+        "editSaveBtn": "Hifadhi",
+        "deleteBtn": "Futa",
+        "deleteConfirmationModal": {
+          "title": "Futa Kikundi cha Wafanyakazi!",
+          "text": "Je, una uhakika ungependa kuondoa kikundi cha {{groupName }}?",
+          "cancelButtonText": "Ghairi",
+          "confirmButtonText": "Sawa"
+        }
+      },
+      "toastMessages": {
+        "addSuccess": "Kikundi cha wafanyikazi kimeongezwa!",
+        "updateSuccess": "Kikundi cha wafanyakazi kimesasishwa!",
+        "deleteSuccess": "Kikundi cha wafanyakazi kimefutwa!"
+      }
+    },
+    "topNav": {
+      "manage": "Dhibiti",
+      "view": "Tazama",
+      "add": "Ongeza",
+      "groups": "Vikundi",
+      "staff": "Wafanyakazi",
+      "manageStaff": "Dhibiti Wafanyakazi",
+      "viewStaff": "Tazama Wafanyakazi",
+      "addStaff": "Ongeza Wafanyakazi",
+      "staffGroups": "Vikundi vya Wafanyakazi"
+    },
+    "manageStaff": {
+      "title": "Wafanyakazi",
+      "searchPlaceholder": "Tafuta",
+      "viewPrintFormatBtn": "Tazama Umbizo la Kuchapisha",
+      "printFormat": {
+        "options": {
+          "headerText": "Chaguzi",
+          "showGroupsOption": "Onyesha Vikundi",
+          "showPhoneNumbersOption": "Onyesha Nambari za Simu",
+          "showNationalIdNumberOption": "Onyesha Kitambulisho cha Taifa Na."
+        },
+        "closePrintFormatBtn": "Funga umbizo la Kuchapisha",
+        "printBtn": "Chapisha",
+        "downloadBtn": "Pakua",
+        "downloadPDFBtn": "Pakua PDF",
+        "downloadExcelBtn": "Pakua Excel",
+        "excelDownload": {
+          "fileName": "Orodha ya Watumishi",
+          "workSheetName": "wafanyakazi",
+          "workSheetColumnHeaders": {
+            "name": "jina",
+            "phone": "simu",
+            "nationalIdNumber": "kitambulisho_cha_kitaifa",
+            "group": "kikundi"
+          }
+        },
+        "schoolLogoAltText": "Nembo ya shule",
+        "tableHeaderText": "Orodha ya WAFANYAKAZI",
+        "tableColumnHeaders": {
+          "name": "Jina",
+          "phone": "Simu",
+          "nationalIdNumber": "Kitambulisho cha Taifa Na.",
+          "groups": "Vikundi"
+        }
+      },
+      "staffList": {
+        "noRecords": "Hakukuwa na rekodi za Wafanyakazi zilizopatikana"
+      },
+      "staffListItem": {
+        "imageAltText": "Picha ya mwalimu",
+        "editBtn": "Tazama"
+      },
+      "staffListItemUpdate": {
+        "profilePhoneNumber": "Simu",
+        "profileSignatureAltText": "Sahihi",
+        "profileDeleteBtn": "Futa",
+        "profileDeleteConfirmationModal": {
+          "title": "Thibitisha Futa",
+          "text": "Je, una uhakika ungependa kumwondoa {{ name }} kutoka shuleni?",
+          "cancelButtonText": "Ghairi",
+          "confirmButtonText": "Sawa"
+        },
+        "form": {
+          "headerText": "Sasisha Maelezo ya Wafanyakazi",
+          "name": "Jina",
+          "username": "Jina la mtumiaji",
+          "phoneNumber": "Nambari ya simu",
+          "phoneNumberPlaceholderText": "07########",
+          "gender": "Jinsia",
+          "genderPlaceholderText": "Chagua Jinsia...",
+          "genderMaleOption": "Mwanaume",
+          "genderFemaleOption": "Mwanamke",
+          "genderUnspecifiedOption": "Haijabainishwa",
+          "idNumber": "Nambari ya kitambulisho",
+          "groups": "Vikundi",
+          "groupsEmpty": "Hakuna vikundi vilivyopatikana",
+          "bio": "Wasifu",
+          "closeBtn": "Funga",
+          "saveBtn": "Hifadhi",
+          "editBtn": "Hariri"
+        }
+      },
+      "staffAddition": {
+        "form": {
+          "headerText": "Taarifa za Wafanyakazi",
+          "name": "Jina",
+          "username": "Jina la mtumiaji",
+          "phoneNumber": "Nambari ya simu",
+          "phoneNumberPlaceholderText": "07########",
+          "gender": "Jinsia",
+          "genderPlaceholderText": "Chagua Jinsia...",
+          "genderMaleOption": "Mwanaume",
+          "genderFemaleOption": "Mwanamke",
+          "genderUnspecifiedOption": "Haijabainishwa",
+          "idNumber": "Nambari ya kitambulisho",
+          "groups": "Vikundi",
+          "bio": "Wasifu",
+          "closeBtn": "Funga",
+          "saveBtn": "Hifadhi",
+          "editBtn": "Hariri"
+        }
+      },
+      "toastMessages": {
+        "updateStaffSuccess": "Wafanyakazi wamesasishwa!",
+        "updateStaffError": "Hatukuweza kusasisha wafanyikazi {{ staffName }} kwa wakati huu. Tafadhali jaribu tena baadae",
+        "deleteStaffSuccess": "Wafanyakazi wamefutwa!",
+        "deleteStaffError": "Hatukuweza kufuta wafanyakazi {{ staffName }} kwa wakati huu. Tafadhali jaribu tena baadae"
+      },
+      "swal": {
+        "title": "Thibitisha Futa",
+        "text": "Je, una uhakika ungependa kumwondoa {{ name }} kutoka shuleni?"
+      }
+    }
+  },
+  "students": {
+    "behaviour": "Tabia",
+    "disc": "Nidhamu",
+    "exActs": "Shughuli za Ziada",
+    "notes": "Vidokezo",
+    "studAnalysis": "Uchambuzi wa Mwanafunzi",
+    "student": "Mwanafunzi",
+    "students": "Wanafunzi",
+    "notExist": "Mwanafunzi huyu hayupo",
+    "currStudent": "Mwanafunzi wa Sasa",
+    "kcpeIndex": "Kielezo cha KCPE",
+    "kcpeScore": "Alama ya KCPE",
+    "kcpeYear": "Mwaka wa KCPE",
+    "guardianName": "Jina la Mlezi",
+    "primGuardianPhone": "Simu ya Mlezi wa Msingi",
+    "secGuardianPhone": "Simu ya Mlezi wa Sekondari",
+    "guardEmail": "Barua pepe ya Mlezi",
+    "guardRelation": "Uhusiano wa Mlezi",
+    "guardRelationTo": "Uhusiano wa Mlezi na Mwanafunzi",
+    "homeAddress": "Anwani ya nyumbani",
+    "errorList": "Hitilafu zifuatazo zilipatikana",
+    "photos": "Picha",
+    "uploadFeeStmts": "Taarifa za Ada ya Kupakia",
+    "instructions1": "na ujaze kiolezo kisha ukipakie hapa chini. (Tafadhali acha vichwa vya safu wima vikiwa sawa)",
+    "topNav": {
+      "searchStudent": "Tafuta Mwanafunzi",
+      "addNewStudent": "Ongeza Mwanafunzi Mpya",
+      "updateProfiles": "Sasisha Wasifu",
+      "updatePhotos": "Sasisha Picha",
+      "moveStudents": "Sogeza Wanafunzi",
+      "uploadFeeStmts": "Taarifa za Ada ya Kupakia",
+      "studentResidences": "Makazi ya Wanafunzi"
+    },
+    "discipline": {
+      "nav": "Nidhamu ya Mwanafunzi",
+      "deleted": "Mwanafunzi huyu hayupo",
+      "profile": "Wasifu",
+      "analytics": "Uchanganuzi",
+      "message": "Ujumbe",
+      "notes": "Vidokezo",
+      "exActivities": "Shughuli za Ziada",
+      "new": "Kesi Mpya ya Nidhamu",
+      "noCase": "Hakuna Kesi ya Nidhamu",
+      "recordedBy": "Imerekodiwa Na",
+      "type": "Aina",
+      "caseTitle": "Kichwa cha Kesi",
+      "date": "Tarehe",
+      "title": "Kichwa",
+      "description": "Maelezo",
+      "cancel": "Ghairi",
+      "saveCase": "Hifadhi Kesi ya Nidhamu",
+      "caseDescription": "Maelezo ya kesi",
+      "back": "Nyuma",
+      "toastMessages": {
+        "caseSaveSuccess": "Kesi ya Nidhamu Imehifadhiwa kwa Mafanikio."
+      },
+      "swal": {
+        "title": "Hifadhi Kesi ya Nidhamu!",
+        "text": "Je, una uhakika ungependa kuhifadhi kesi hii ya nidhamu?",
+        "confirmButtonText": "Pakia Matokeo",
+        "cancelButtonText": "Rudi kwa Masomo"
+      }
+    },
+    "move": {
+      "moveStudents": "Sogeza Wanafunzi",
+      "stream": "Tiririsha",
+      "select": "Chagua Mwanafunzi wa Kusogeza",
+      "cancelMove": "Ghairi Hoja",
+      "noStuds": "Hakuna wanafunzi waliopatikana ndani",
+      "admno": "Admno",
+      "name": "Jina",
+      "moveTo": "Hamisha hadi",
+      "destination": "Lengwa",
+      "destStream": "Mtiririko Lengwa",
+      "move": "Sogeza",
+      "pendingTransfers": "Maombi ya Uhamisho Yanayosubiri",
+      "studsAwaiting": "Wanafunzi Wanaosubiri Kuidhinishwa",
+      "back": "Nyuma",
+      "noStudsAwaiting": "Hakuna wanafunzi wanaosubiri idhini yako",
+      "current": "Sasa",
+      "actions": "Vitendo",
+      "reject": "Kataa",
+      "accept": "Kubali",
+      "rejectAll": "Kataa Yote",
+      "acceptAll": "Kubali Yote",
+      "cancelRequest": "Ghairi Ombi",
+      "noStudentsSelectedError": "Tafadhali chagua angalau mwanafunzi mmoja",
+      "toastMessages": {
+        "moveSuccess": "Mwanafunzi alisogezwa vyema!",
+        "moveError": "Hitilafu ilitokea wakati wa kuhamisha mwanafunzi!",
+        "moveCancelError": "Hitilafu imetokea wakati wa kughairi kuhamisha!"
+      },
+      "swal": {
+        "title": "Sogeza Wanafunzi!",
+        "keyWordAccept": "kukubali",
+        "keyWordReject": "kukataa",
+        "text1": "Je, una uhakika ungependa {{ keyword }} maombi haya ya uhamisho?",
+        "text2": "Je, una uhakika ungependa {{ keyWord }} ombi hili la uhamisho?",
+        "title2": "Imefanikiwa!",
+        "text3": "Je, una uhakika ungependa kughairi ombi hili la uhamisho?",
+        "text4": "Je, una uhakika ungependa kuhamisha wanafunzi uliochaguliwa hadi {{ formOrYear }} {{ form }} {{ stream }}?"
+      }
+    },
+    "new": {
+      "title": "Ongeza Mwanafunzi Mpya",
+      "addNew": "Ongeza Mpya",
+      "options": "Chaguzi",
+      "keyIn": "Muhimu katika maelezo ya mwanafunzi",
+      "uploadFrmSheet": "Pakia wanafunzi kutoka lahajedwali",
+      "admnoErrMes": "Nambari ya kiingilio haiwezi kuwa tupu",
+      "name": "Jina kamili",
+      "nameErrMes": "Jina haliwezi kuwa tupu",
+      "notEmpty": "haiwezi kuwa tupu",
+      "form": "Fomu",
+      "formPlaceholder": "Chagua {{formoryear}}",
+      "formErrMes": "{{formoryear}} haiwezi kuwa tupu",
+      "streamPlaceholder": "Chagua Tiririsha",
+      "dateValidation": "Tafadhali hakikisha Tarehe ya Kuzaliwa na Tarehe ya Kuandikishwa ziko katika muundo",
+      "admnoShort": "Adm No",
+      "admDate": "Tarehe ya Adm",
+      "birthCertNo": "Cheti cha Kuzaliwa Na",
+      "primarySchool": "Shule ya msingi",
+      "genderHelperText": "Imechaguliwa kutoka kwa mipangilio ya shule",
+      "upi": "UPI",
+      "excelTemplateDownload": {
+        "fileName": "Pakia-Wanafunzi",
+        "workSheetName": "Pakia Wanafunzi",
+        "workSheetColumnHeaders": {
+          "admno": "admno",
+          "name": "jina",
+          "gender": "jinsia",
+          "form": "fomu",
+          "stream": "mkondo",
+          "upi": "upi",
+          "admissionDate": "tarehe_ya_kuingia",
+          "dob": "tarehe ya kuzaliwa",
+          "birthCertNumber": "nambari_ya_cheti_cha_kuzaliwa",
+          "primarySchool": "Shule ya msingi",
+          "kcpeIndex": "faharisi_ya_kcpe",
+          "kcpeScore": "kcpe_alama",
+          "kcpeYear": "kcpe_mwaka",
+          "guardianName": "jina_la_mlezi",
+          "primaryGuardianPhone": "simu_ya_mlezi_msingi",
+          "secondaryGuardianPhone": "simu_ya_mlezi_wa_pili",
+          "guardianEmail": "barua pepe_ya_mlezi",
+          "guardianRelation": "uhusiano_wa_mlezi",
+          "homeAddress": "anwani ya nyumbani",
+          "generalComments": "Maoni ya jumla"
+        }
+      },
+      "toastMessages": {
+        "addError": "Hitilafu imetokea wakati wa kuongeza mwanafunzi!"
+      },
+      "swal": {
+        "title": "Kuongeza Wanafunzi",
+        "text": "Kitendo hiki kinaweza kuchukua muda. Tafadhali kuwa na subira.",
+        "title2": "Wanafunzi Wameongezwa Kwa Mafanikio!",
+        "message1": "Wanafunzi {{ number }} wameongezwa",
+        "message2": "Mwanafunzi {{ number }} ameongezwa"
+      }
+    },
+    "search": {
+      "title": "Tafuta Mwanafunzi",
+      "by": "Tafuta Kwa",
+      "admnoErrMes": "Nambari ya kiingilio haiwezi kuwa tupu",
+      "searchRes": "Matokeo ya Utafutaji",
+      "admno": "Admno",
+      "noRes": "Hakuna matokeo yaliyopatikana na",
+      "name": "Jina",
+      "nameErrMes": "Jina haliwezi kuwa tupu",
+      "form": "Fomu",
+      "formErrMes": "Fomu haiwezi kuwa tupu"
+    },
+    "activities": {
+      "title": "Shughuli za ziada",
+      "studentLeft": "Mwanafunzi huyu hayupo",
+      "studActs": "Shughuli za Wanafunzi",
+      "new": "Shughuli Mpya ya Ziada",
+      "noActs": "Hakuna Shughuli za Ziada",
+      "actName": "Jina la Shughuli",
+      "posHeld": "Cheo Ulicho nacho, Heshima Zilizoshinda, au Barua Zilizopatikana",
+      "actDesc": "Maelezo ya Shughuli",
+      "descPlaceholder": "Maelezo ya Shughuli",
+      "actType": "Aina ya Shughuli",
+      "save": "Hifadhi Shughuli",
+      "selectActType": "Chagua aina ya shughuli",
+      "posPlaceholder": "Ongeza nafasi uliyonayo, tuzo ulizoshinda au barua ulizopata",
+      "toastMessages": {
+        "addSuccess": "Shughuli imehifadhiwa!",
+        "addError": "Hitilafu imetokea wakati wa kuhifadhi shughuli!",
+        "deleteSuccess": "Shughuli imefutwa!",
+        "deleteError": "Hitilafu imetokea wakati wa kufuta shughuli!"
+      },
+      "swal": {
+        "title": "Ungependa Kuongeza Shughuli za Ziada?",
+        "text": "Je, una uhakika ungependa kuongeza shughuli hii kwa {{ name }}",
+        "title2": "Futa Shughuli za Ziada!",
+        "text2": "Je, una uhakika ungependa kufuta shughuli hii?"
+      }
+    },
+    "analytics": {
+      "noRes": "Hakuna matokeo ya wanafunzi",
+      "examPerf": "Utendaji wa Mtihani",
+      "changeExam": "Badilisha Mtihani",
+      "subPerfomance": "Utendaji wa Somo",
+      "gr": "Gr",
+      "tgGrade": "Trgt. Gr",
+      "feeStatement": "Taarifa ya Ada",
+      "feeBal": "Mizani ya Ada",
+      "termFees": "Ada za Muda",
+      "totalPayable": "Jumla ya Kulipwa",
+      "outstandingBal": "Usawa Bora",
+      "transcript": "Nakala",
+      "reportForm": "Fomu ya Ripoti",
+      "transcripts": "Nakala",
+      "currentStudent": "Mwanafunzi wa Sasa",
+      "reportForms": "Fomu za Ripoti",
+      "perfOverTime": "Utendaji Kwa Muda",
+      "meanMarks": "Alama za Maana",
+      "totalPoints": "Jumla ya Alama",
+      "overallPosition": "Nafasi ya Jumla",
+      "streamPosition": "Nafasi ya Tiririsha",
+      "meanGrade": "Wastani wa Daraja"
+    },
+    "messages": {
+      "studInbox": "Kikasha cha Mwanafunzi",
+      "new": "Ujumbe Mpya",
+      "noMes": "Hakuna Ujumbe",
+      "from": "Kutoka",
+      "type": "Aina",
+      "subject": "Somo",
+      "mesSubject": "Mada ya ujumbe",
+      "selCategory": "Chagua kategoria",
+      "mesContent": "Maudhui ya ujumbe",
+      "sendText": "Tuma Ujumbe wa maandishi",
+      "sendEmail": "Kutuma barua pepe",
+      "sendMes": "Tuma Ujumbe",
+      "mesDescription": "Maelezo ya Ujumbe",
+      "toastMessages": {
+        "messageSentSuccess": "Ujumbe umetumwa kwa mafanikio!"
+      },
+      "swal": {
+        "title": "Ungependa kutuma Ujumbe?",
+        "text": "Je, una uhakika ungependa kutuma ujumbe huu kwa {{ studentName }}"
+      }
+    },
+    "ol-profile": {
+      "avgPoints": "Wastani wa Alama Ulizopata",
+      "changeAcYear": "Badilisha Mwaka wa Masomo",
+      "genReport": "Inazalisha Ripoti",
+      "attReport": "Ripoti ya mahudhurio",
+      "noAnalysis": "Hakuna uchanganuzi uliopo kwa",
+      "forTerm": "kwa muda",
+      "asstResults": "Matokeo ya Tathmini",
+      "toastMessages": {
+        "error": "Hitilafu ilitokea {{ error }}"
+      }
+    },
+    "profile": {
+      "title": "Wasifu wa Mwanafunzi",
+      "doa": "Tarehe ya Kuandikishwa",
+      "bCertNo": "Nambari ya Kuingia Cheti cha Kuzaliwa",
+      "pName": "Jina la Shule ya Msingi",
+      "house": "Nyumba",
+      "selHouse": "Chagua nyumba",
+      "genComments": "Maoni ya Jumla",
+      "genCPlaceholder": "Andika maoni kuhusu uwezo na mwenendo wa mwanafunzi",
+      "ofChar": "ya wahusika 400",
+      "photo": "Picha",
+      "profiles": "Wasifu",
+      "delStudent": "Futa Mwanafunzi",
+      "update": "Sasisha",
+      "uProfiles": "Sasisha Wasifu",
+      "excelTemplateDownload": {
+        "fileName": "Pakia Wasifu wa Wanafunzi",
+        "workSheetName": "Karatasi 1",
+        "workSheetColumnHeaders": {
+          "admno": "admno",
+          "indexNumber": "index_nambari",
+          "upi": "upi",
+          "name": "jina",
+          "gender": "jinsia",
+          "house": "nyumba",
+          "dateOfAdmission": "tarehe_ya_kuandikishwa",
+          "dob": "dob",
+          "birthCertNumber": "nambari_ya_cheti_cha_kuzaliwa",
+          "primarySchool": "Shule ya msingi",
+          "kcpeIndex": "faharisi_ya_kcpe",
+          "kcpeScore": "kcpe_alama",
+          "kcpeYear": "kcpe_mwaka",
+          "guardianName": "jina_la_mlezi",
+          "primaryGuardianPhone": "simu_ya_mlezi_msingi",
+          "secondaryGuardianPhone": "simu_ya_mlezi_wa_pili",
+          "guardianEmail": "barua pepe_ya_mlezi",
+          "guardianRelation": "uhusiano_wa_mlezi",
+          "homeAddress": "anwani ya nyumbani",
+          "isDayScholar": "ni_msomi_wa_siku",
+          "generalComments": "Maoni ya jumla"
+        }
+      },
+      "instructions": "Tafadhali hakikisha Tarehe ya Kuzaliwa na Tarehe ya Kuandikishwa ziko katika muundo",
+      "toastMessages": {
+        "updateSuccess": "Wasifu wa mwanafunzi umesasishwa",
+        "deletePhotoSuccess": "Picha ya mwanafunzi imefutwa"
+      },
+      "swal": {
+        "title": "Mchakato mrefu!",
+        "text": "Kitendo hiki kinaweza kuchukua muda. Tafadhali kuwa na subira.",
+        "title2": "Wanafunzi Walisasishwa Kwa Mafanikio!",
+        "message1": "Wasifu wa wanafunzi {{ number }} umepakiwa kwa ufanisi",
+        "message2": "wasifu wa wanafunzi wa {{ number }} umepakiwa",
+        "title3": "Futa Mwanafunzi!",
+        "text3": "Je, una uhakika ungependa kufuta mwanafunzi huyu?",
+        "title4": "Wanafunzi Wamefutwa!",
+        "text4": "Mwanafunzi huyo aliondolewa shuleni. Matokeo ya mwanafunzi hata hivyo yamehifadhiwa na mfumo",
+        "title5": "Futa Picha ya Wasifu!",
+        "text5": "Je, una uhakika ungependa kufuta picha ya wasifu ya mwanafunzi?"
+      }
+    },
+    "residences": {
+      "title": "Makazi ya Wanafunzi",
+      "toastMessages": {
+        "updateDetailsError": "Tafadhali taja jina halali",
+        "updateDetailsError2": "Hitilafu imetokea wakati wa kusasisha",
+        "residenceUpdateSuccess": "Makao ya wanafunzi yamesasishwa",
+        "residenceAddSuccess": "Makazi ya wanafunzi yameongezwa kwa mafanikio"
+      }
+    },
+    "up_Photo": {
+      "instructions": "Bofya kitufe kilicho hapa chini na uchague picha (Kila faili linapaswa kupewa jina kutokana na nambari ya shule ya mwanafunzi husika, nambari ya faharasa au nambari ya UPI)",
+      "option": "Chaguo",
+      "selOption": "Chagua Chaguo",
+      "valText": "Ongeza sifa kwenye sehemu kwa uthibitisho unaohitajika",
+      "selImage": "Chagua Picha",
+      "image": "Picha",
+      "progress": "Maendeleo",
+      "status": "Hali",
+      "complete": "Kamilisha",
+      "success": "MAFANIKIO",
+      "fail": "KUSHINDWA"
+    },
+    "up_fee": {
+      "title": "Salio la Ada/Taarifa za Pakia",
+      "feeSum": "Muhtasari wa Ada Kama Saa",
+      "feeOptions": "Chaguzi za Ada",
+      "curFeeBal": "Mizani ya ada ya sasa",
+      "upcomingFees": "Taarifa za ada ya muda ujao",
+      "sendSummary": "Tuma Muhtasari wa Ada Kupitia SMS/Barua pepe",
+      "sendFees": "Tuma ada",
+      "feePlaceholder": "Ujumbe wa hiari utatumwa pamoja na taarifa ya ada",
+      "multipleFilesError": "Haiwezi kutumia faili nyingi",
+      "forbiddenCols": "Nguzo Zilizokatazwa",
+      "forbiddenColsError": "Hati iliyopakiwa ina safu wima zifuatazo zilizokatazwa:",
+      "excelTemplateDownload": {
+        "fileName": "Pakia Ada za Wanafunzi - Kiolezo",
+        "workSheetName": "Ada za Kupakia",
+        "workSheetColumnHeaders": {
+          "admno": "admno",
+          "admnoMeaning": "Nambari ya Kuingia",
+          "name": "jina",
+          "nameMeaning": "Jina la Mwanafunzi",
+          "termBalance": "usawa_wa_muda",
+          "termBalanceMeaning": "Mizani ya Wanafunzi",
+          "nextTermFees": "ada_ya_muhula_ujao",
+          "nextTermFeesMeaning": "Ada za Wanafunzi"
+        }
+      },
+      "toastMessages": {
+        "success": "Taarifa ya ada imepakiwa",
+        "error": "Hitilafu ilitokea wakati wa kupakia taarifa ya ada. Tafadhali jaribu tena baadae"
+      }
+    },
+    "up_target": {
+      "excelTemplateDownload": {
+        "fileName": "Pakia Malengo ya Wanafunzi",
+        "workSheetName": "Madaraja yalengwa",
+        "workSheetColumnHeaders": {
+          "admno": "admno",
+          "admnoMeaning": "Nambari ya Kuingia",
+          "name": "jina",
+          "nameMeaning": "Jina la Mwanafunzi"
+        }
+      },
+      "swal": {
+        "title": "Pakia Madaraja Unayolengwa!",
+        "text": "Je, una uhakika ungependa kupakia alama lengwa zilizobainishwa?",
+        "title2": "Wanafunzi Walisasishwa Kwa Mafanikio!"
+      }
+    }
+  },
+  "teachers": {
+    "add": {
+      "options": {
+        "headerText": "Chaguzi",
+        "keyInOption": "Muhimu katika maelezo ya mwalimu",
+        "uploadFromSpreadSheetOption": "Pakia walimu kutoka lahajedwali"
+      },
+      "keyInOptionForm": {
+        "fullName": "Jina kamili",
+        "phoneNumber": "Nambari ya simu",
+        "phoneNumberPlaceholderText": "07########",
+        "tscNumber": "Nambari ya TSC",
+        "gender": "Jinsia",
+        "genderPlaceholderText": "Chagua Jinsia...",
+        "genderMaleOption": "Mwanaume",
+        "genderFemaleOption": "Mwanamke",
+        "genderUnspecifiedOption": "Haijabainishwa",
+        "nationalIdNumber": "Kitambulisho cha Taifa Na.",
+        "group": "Kikundi",
+        "groupPlaceholderText": "Chagua Kikundi",
+        "addBtn": "Ongeza"
+      },
+      "keyInOptionFormErrors": {
+        "fullName": "Sehemu hii inahitajika"
+      },
+      "uploadFromSpreadSheetOptionForm": {
+        "fileInputLabel": {
+          "downloadText": "Pakua",
+          "remainingText": "na ujaze kiolezo kisha ukipakie hapa chini. (Tafadhali acha vichwa vya safu wima vikiwa sawa)"
+        },
+        "excelTemplateDownload": {
+          "fileName": "Pakia Walimu - Kiolezo",
+          "workSheetName": "Pakia Walimu - Kiolezo",
+          "workSheetColumnHeaders": {
+            "name": "jina",
+            "phone": "simu",
+            "tscNumber": "tsc_no",
+            "nationalIdNumber": "kitambulisho_cha_kitaifa",
+            "gender": "jinsia",
+            "group": "kikundi"
+          }
+        },
+        "tableSectionHeaders": {
+          "name": "Jina",
+          "title": "Kichwa",
+          "phone": "Simu",
+          "nationalIdNumber": "Kitambulisho cha Taifa Na.",
+          "group": "Kikundi"
+        },
+        "uploadBtn": "Pakia"
+      },
+      "uploadFromSpreadSheetOptionFormErrors": {
+        "fileInput": "Chagua lahajedwali iliyo na orodha ya walimu"
+      },
+      "swal": {
+        "title": "Unda Mafanikio!",
+        "title2": "Upakiaji Umefanikiwa!"
+      }
+    },
+    "groups": {
+      "title": "Vikundi vya Walimu",
+      "addBtn": "Ongeza Kikundi cha Walimu",
+      "addForm": {
+        "name": "Weka Jina la Kikundi cha Walimu",
+        "namePlaceholder": "Kikundi cha Walimu",
+        "cancelBtn": "Ghairi",
+        "saveBtn": "Hifadhi"
+      },
+      "addFormErrors": {
+        "name": "Jina la kikundi linahitajika",
+        "unableToUpload": "Haiwezi kupakia Vikundi vya Walimu"
+      },
+      "tableHeaders": {
+        "name": "Jina",
+        "action": "Kitendo"
+      },
+      "list": {
+        "noRecords": "Hakuna rekodi kwenye vikundi vya walimu zilizopatikana"
+      },
+      "listItem": {
+        "editBtn": "Hariri",
+        "editCancelBtn": "Ghairi",
+        "editSaveBtn": "Hifadhi",
+        "deleteBtn": "Futa",
+        "deleteConfirmationModal": {
+          "title": "Ungependa kufuta {{ name }} ?",
+          "text": "Hili haliwezi kutenduliwa",
+          "cancelButtonText": "Ghairi",
+          "confirmButtonText": "Sawa"
+        }
+      },
+      "toastMessages": {
+        "addGroupSuccess": "Kikundi cha walimu kimeongezwa",
+        "addGroupError": "Imeshindwa kuongeza Kikundi cha walimu, tafadhali angalia mtandao na ujaribu tena!",
+        "updateGroupSuccess": "Kikundi cha walimu kimesasishwa",
+        "updateGroupError": "Imeshindwa kusasisha Kikundi cha walimu, tafadhali angalia mtandao na ujaribu tena!",
+        "deleteGroupSuccess": "Kikundi cha walimu kimefutwa",
+        "deleteGroupError": "Imeshindwa kufuta Kikundi cha walimu, tafadhali angalia mtandao na ujaribu tena"
+      }
+    },
+    "topNav": {
+      "manage": "Dhibiti",
+      "view": "Tazama",
+      "addNew": "Ongeza Mpya",
+      "groups": "Vikundi",
+      "teacher": "Mwalimu",
+      "teachers": "Walimu",
+      "manageTeachers": "Dhibiti Walimu",
+      "viewTeachers": "Tazama Walimu",
+      "addNewTeacher": "Ongeza Mwalimu Mpya",
+      "teachersGroups": "Vikundi vya Walimu"
+    },
+    "manageTeachers": {
+      "title": "Walimu",
+      "searchPlaceholder": "Tafuta",
+      "viewPrintFormatBtn": "Tazama Umbizo la Kuchapisha",
+      "genderRequired": "Jinsia inahitajika",
+      "groupsRequired": "Kikundi kinahitajika",
+      "printFormat": {
+        "options": {
+          "headerText": "Chaguzi",
+          "showGroupsOption": "Onyesha Vikundi",
+          "showPhoneNumbersOption": "Onyesha Nambari za Simu",
+          "showUsernamesOption": "Onyesha Majina ya Watumiaji",
+          "showNationalIdNumbersOption": "Onyesha Kitambulisho cha Taifa Na"
+        },
+        "closePrintFormatBtn": "Funga umbizo la Kuchapisha",
+        "printBtn": "Chapisha",
+        "downloadBtn": "Pakua",
+        "downloadPDFBtn": "Pakua PDF",
+        "downloadExcelBtn": "Pakua Excel",
+        "excelDownload": {
+          "fileName": "Walimu",
+          "workSheetName": "Walimu",
+          "workSheetColumnHeaders": {
+            "name": "jina",
+            "username": "jina la mtumiaji",
+            "phone": "simu",
+            "tscNumber": "tsc_no",
+            "nationalIdNumber": "kitambulisho_cha_kitaifa",
+            "gender": "jinsia",
+            "group": "kikundi"
+          }
+        },
+        "schoolLogoAltText": "Nembo ya shule",
+        "tableHeaderText": "Orodha ya Walimu",
+        "tableColumnHeaders": {
+          "name": "Jina",
+          "username": "Jina la mtumiaji",
+          "phone": "Simu",
+          "gender": "Jinsia",
+          "tscNumber": "Nambari ya TSC",
+          "nationalIdNumber": "Kitambulisho cha Taifa Na.",
+          "groups": "Vikundi"
+        }
+      },
+      "teacherList": {
+        "noRecords": "Hakukuwa na rekodi za Walimu zilizopatikana"
+      },
+      "teacherListItem": {
+        "adminRibbon": "Msimamizi",
+        "principalRibbon": "Mkuu wa shule",
+        "imageAltText": "Picha ya mwalimu",
+        "editBtn": "Hariri",
+        "makeAdminBtn": "Ongeza Msimamizi",
+        "makeAdminModal": {
+          "title": "Fanya Admin!",
+          "text": "Je, una uhakika ungependa kufanya {{ name }} kuwa msimamizi?",
+          "cancelButtonText": "Ghairi",
+          "confirmButtonText": "Sawa"
+        },
+        "revokeAdminBtn": "Batilisha Admin",
+        "revokeAdminModal": {
+          "title": "Batilisha Haki za Msimamizi!",
+          "text": "Je, una uhakika ungependa kuondoa haki za msimamizi kutoka kwa mwalimu {{ name }}?",
+          "cancelButtonText": "Ghairi",
+          "confirmButtonText": "Sawa"
+        }
+      },
+      "teacherListItemUpdate": {
+        "profilePhoneNumber": "Simu",
+        "profileSignatureAltText": "Sahihi",
+        "profileDeleteBtn": "Futa",
+        "profileDeleteConfirmationModal": {
+          "title": "Futa Mwalimu!",
+          "text": "Je, una uhakika ungependa kumwondoa {{ name }} shuleni?",
+          "cancelButtonText": "Ghairi",
+          "confirmButtonText": "Sawa"
+        },
+        "form": {
+          "headerText": "Sasisha Maelezo ya Mwalimu",
+          "name": "Jina",
+          "personalEmail": "Barua pepe ya kibinafsi",
+          "phoneNumber": "Nambari ya simu",
+          "phoneNumberPlaceholderText": "07########",
+          "gender": "Jinsia",
+          "genderPlaceholderText": "Chagua Jinsia...",
+          "genderMaleOption": "Mwanaume",
+          "genderFemaleOption": "Mwanamke",
+          "genderUnspecifiedOption": "Haijabainishwa",
+          "tscNumber": "Nambari ya TSC",
+          "idNumber": "Nambari ya kitambulisho",
+          "groups": "Vikundi",
+          "groupsEmpty": "Hakuna vikundi vilivyopatikana",
+          "bio": "Wasifu",
+          "closeBtn": "Funga",
+          "saveBtn": "Hifadhi",
+          "editBtn": "Hariri"
+        },
+        "formErrors": {
+          "name": "Jina linahitajika"
+        }
+      },
+      "teacherAddition": {
+        "form": {
+          "headerText": "Taarifa za Mwalimu",
+          "name": "Jina",
+          "username": "Jina la mtumiaji",
+          "phoneNumber": "Nambari ya simu",
+          "phoneNumberPlaceholderText": "07########",
+          "gender": "Jinsia",
+          "genderPlaceholderText": "Chagua Jinsia...",
+          "genderMaleOption": "Mwanaume",
+          "genderFemaleOption": "Mwanamke",
+          "genderUnspecifiedOption": "Haijabainishwa",
+          "idNumber": "Nambari ya kitambulisho",
+          "groups": "Vikundi",
+          "bio": "Wasifu",
+          "closeBtn": "Funga",
+          "saveBtn": "Hifadhi",
+          "editBtn": "Hariri"
+        }
+      },
+      "toastMessages": {
+        "addAdminRightSuccess": "{{ teacherName }} sasa ni msimamizi",
+        "addAdminRightError": "Hatukuweza kumfanya mwalimu kuwa msimamizi kwa wakati huu. Tafadhali jaribu tena baadae",
+        "revokeAdminRightSuccess": "Haki za msimamizi zimebatilishwa",
+        "revokeAdminRightError": "Hatukuweza kubatilisha haki za msimamizi kutoka kwa mwalimu kwa wakati huu. Tafadhali jaribu tena baadae",
+        "actionDeniedWarning": "Kwa sasa umeingia kama {{ teacherName }}. Huwezi kutekeleza kitendo hiki",
+        "updateTeacherSuccess": "Maelezo ya mwalimu yalisasishwa",
+        "updateTeacherError": "Hatukuweza kusasisha mwalimu. Tafadhali jaribu tena baadae",
+        "deleteTeacherSuccess": "Mwalimu amefutwa",
+        "deleteTeacherError": "Hatukuweza kufuta mwalimu {{ teacherName }} kwa wakati huu. Tafadhali jaribu tena baadae"
+      }
+    },
+    "teacherClasses": {
+      "headerText": "Madarasa ya Walimu"
+    }
+  },
+  "timetable": {
+    "commonAttr": {
+      "loading": "Inapakia Ratiba",
+      "showTTBtn": "Onyesha Ratiba"
+    },
+    "classTimetable": {
+      "ctForm": {
+        "form": {
+          "label": "Fomu",
+          "placeholder": "Chagua Fomu"
+        },
+        "stream": {
+          "label": "Tiririsha",
+          "placeholder": "Chagua Tiririsha"
+        }
+      },
+      "timetable": "Ratiba",
+      "toastMessages": {
+        "loadWarning": "Imeshindwa kupakia ratiba, tafadhali angalia muunganisho wako wa intaneti kisha ujaribu tena"
+      }
+    },
+    "teacherTimetable": {
+      "title": "Ratiba ya Mwalimu",
+      "selectTeacher": "Chagua Mwalimu",
+      "toastMessages": {
+        "getTimetableError": "Imeshindwa kupakia ratiba."
+      }
+    },
+    "topNav": {
+      "teacher": "Mwalimu",
+      "timetable": "Ratiba",
+      "classTimetable": "Ratiba ya Darasa",
+      "class": "Darasa"
+    }
+  },
+  "changePassword": {
+    "topNav": {
+      "changePassword": "Badilisha neno la siri",
+      "change": "Badilika",
+      "password": "Nenosiri"
+    },
+    "resetCodeConfirmation": {
+      "title": "Je, una msimbo wa kuweka upya?",
+      "yes": "Ndiyo",
+      "no": "Hapana"
+    },
+    "resetCodeSent": "Msimbo wa kuweka upya umetumwa kwa nambari yako ya simu. Itumie hapa chini kubadilisha nenosiri lako",
+    "form": {
+      "newPassword": "Nenosiri Mpya",
+      "confirmPassword": "Thibitisha Nenosiri",
+      "resetCode": "Weka upya Msimbo",
+      "btnBack": "Nyuma",
+      "btnSubmit": "Wasilisha"
+    },
+    "formErrors": {
+      "requiredField": "Sehemu hii inahitajika",
+      "passwordMinimum": "Nenosiri lazima liwe na angalau vibambo 5",
+      "passwordsNotMatching": "Manenosiri hayalingani"
+    },
+    "toastMessages": {
+      "passwordChangeSuccess": "Nenosiri lako limebadilishwa"
+    }
+  },
+  "common": {
+    "title": "Kichwa",
+    "figure": "Kielelezo",
+    "description": "Maelezo",
+    "allRightsReserved": "Haki zote zimehifadhiwa",
+    "actions": "Vitendo",
+    "add": "Ongeza",
+    "adding": "Kuongeza",
+    "admno": "Nambari ya Kuingia",
+    "adm": "Adm",
+    "analytics": "Uchanganuzi",
+    "back": "Nyuma",
+    "cancel": "Ghairi",
+    "cannotBeEmpty": "haiwezi kuwa tupu",
+    "chooseFile": "Chagua Faili",
+    "change": "Badilika",
+    "changeTerm": "Badilisha Muda",
+    "class": "Darasa",
+    "county": "Wilaya",
+    "selectCounty": "Chagua Kata",
+    "region": "Mkoa",
+    "registration": "Usajili",
+    "registrationCode": "Msimbo wa Usajili",
+    "date": "Tarehe",
+    "dateFormat": "DD/MM/YYYY",
+    "delete": "Futa",
+    "dob": "Tarehe ya kuzaliwa",
+    "download": "Pakua",
+    "downloadExcelReamainingText": "na ujaze kiolezo kisha ukipakie hapa chini. (Tafadhali acha vichwa vya safu wima vikiwa sawa)",
+    "downloadExcel": "Pakua Excel",
+    "discard": "Tupa",
+    "edit": "Hariri",
+    "error": "Hitilafu",
+    "email": "Barua pepe",
+    "emailPlaceholderText": "mfano@zerakischool.ac.ke",
+    "form": "Fomu",
+    "formPlaceholder": "Chagua {{formoryear}}",
+    "formErrMes": "{{formoryear}} haiwezi kuwa tupu",
+    "invalidForm": "Tafadhali jaza fomu inavyohitajika.",
+    "female": "Mwanamke",
+    "fileEmpty": "Faili haiwezi kuwa tupu",
+    "gender": "Jinsia",
+    "genderType": "Aina ya Jinsia",
+    "genderTypePlaceholderText": "Chagua Aina ya Jinsia",
+    "genderPlaceholderText": "Chagua Jinsia...",
+    "grade": "Daraja",
+    "indexNo": "Nambari ya Fahirisi",
+    "name": "Jina",
+    "namePlaceholderText": "John Doe",
+    "message": "Ujumbe",
+    "male": "Mwanaume",
+    "more": "Zaidi",
+    "notes": "Vidokezo",
+    "one": "Moja",
+    "optMes": "Ujumbe wa Hiari",
+    "rank": "Cheo",
+    "rforms": "Fomu za Ripoti",
+    "phone": "Nambari ya simu",
+    "phonePlaceholderText": "07########",
+    "phonePlaceholderText2": "0712 345 678",
+    "perfOverTime": "Utendaji Kwa Muda",
+    "profile": "Wasifu",
+    "print": "Chapisha",
+    "paginationInfo": "Ukurasa {{ currentPage }} wa {{ totalPages }}",
+    "save": "Hifadhi",
+    "school": "Shule",
+    "schoolName": "Jina la Shule",
+    "schoolNamePlaceholderText": "Shule ya Zeraki",
+    "schoolType": "Aina ya Shule",
+    "schoolTypePlaceholderText": "Chagua Aina ya Shule",
+    "schoolCode": "Kanuni ya Shule",
+    "schoolCodePlaceholderText": "zerakischool",
+    "schoolPopulationCategory": "Kitengo cha Idadi ya Watu wa Shule",
+    "schoolPopulationCategoryPlaceholderText": "Chagua Kitengo cha Idadi ya Watu wa Shule",
+    "search": "Tafuta",
+    "searching": "Inatafuta",
+    "selectTerm": "Chagua Muda",
+    "selectYear": "Chagua Mwaka",
+    "select": "Chagua",
+    "senior": "Mwandamizi",
+    "sessionExpired": "Kipindi kimekwisha",
+    "stream": "Tiririsha",
+    "streams": "Mipasho",
+    "streamErrMes": "Mtiririko hauwezi kuwa tupu",
+    "streamPlaceholder": "Chagua Tiririsha",
+    "students": "Wanafunzi",
+    "submit": "Wasilisha",
+    "term": "Muda",
+    "teachers": "Walimu",
+    "teachersPlaceholder": "Chagua Walimu",
+    "three": "Tatu",
+    "two": "Mbili",
+    "noItemsFound": "Hakuna vipengee vilivyopatikana",
+    "selectSupervisor": "Chagua msimamizi",
+    "indexNumber": "Nambari ya Fahirisi",
+    "examMean": "Maana ya mtihani",
+    "streamMean": "Tiririsha Maana",
+    "marks": "Alama",
+    "totalMarks": "Jumla ya Alama",
+    "meanMarks": "Alama za Maana",
+    "totalPoints": "Jumla ya Alama",
+    "overallPosition": "Nafasi ya Jumla",
+    "streamPosition": "Nafasi ya Tiririsha",
+    "meanGrade": "Wastani wa Daraja",
+    "unspecified": "Haijabainishwa",
+    "upload": "Pakia",
+    "upi": "UPI",
+    "username": "Jina la mtumiaji",
+    "year": "Mwaka",
+    "termAverage": "Wastani wa Muda",
+    "classOfYear": "Darasa la {{ yearAndStream }}",
+    "kcpeAverage": "Wastani wa KCPE",
+    "unnamedTerm": "Muda Usio na Jina",
+    "amount": "Kiasi",
+    "finance": "Fedha",
+    "timetable": "Ratiba",
+    "action": "Kitendo",
+    "requiredError": "Sehemu hii inahitajika",
+    "percent100": "100%",
+    "enabled": "Imewashwa",
+    "disabled": "Imezimwa",
+    "validate": "Kuhalalisha",
+    "invalidate": "Batilisha",
+    "done": "Imekamilika",
+    "verify": "Thibitisha",
+    "formErrors": {
+      "requiredError": "Sehemu hii inahitajika",
+      "invalidEmail": "Barua pepe ni batili"
+    },
+    "view": "Tazama",
+    "subjects": {
+      "eng": "Kiingereza",
+      "kisw": "Kiswahili",
+      "math": "Hisabati",
+      "bio": "Biolojia",
+      "phyc": "Fizikia",
+      "chem": "Kemia",
+      "hist": "Historia na Serikali",
+      "geog": "Jiografia",
+      "cre": "Elimu ya Dini ya Kikristo",
+      "comp": "Mafunzo ya Kompyuta"
+    },
+    "forms": {
+      "form1": "Kidato cha 1",
+      "form2": "Kidato cha 2",
+      "form3": "Kidato cha 3",
+      "form4": "Kidato cha 4"
+    },
+    "classes": {
+      "class1": "Darasa la 1",
+      "class2": "Darasa la 2",
+      "class3": "Darasa la 3",
+      "class4": "Darasa la 4",
+      "class5": "Darasa la 5",
+      "class6": "Darasa la 6",
+      "class7": "Darasa la 7",
+      "class8": "Darasa la 8"
+    },
+    "terms": {
+      "term1": "Muhula wa 1",
+      "term2": "Muhula wa 2",
+      "term3": "Muhula wa 3"
+    },
+    "languages": {
+      "english": "Kiingereza",
+      "french": "Kifaransa",
+      "swahili": "Swahili",
+      "rwandese": "Kinyarwanda",
+      "amharic": "Kiamhari"
+    },
+    "fullcalendar": {
+      "buttonText": {
+        "prev": "Iliyotangulia",
+        "next": "Inayofuata",
+        "today": "Leo",
+        "year": "Mwaka",
+        "month": "Mwezi",
+        "week": "Wiki",
+        "day": "Siku",
+        "list": "Orodha"
+      },
+      "weekText": "Wiki",
+      "allDayText": "Siku nzima",
+      "moreLinkText": "Zaidi",
+      "noEventsText": "Hakuna matukio"
+    },
+    "owlDateTime": {
+      "cancelBtnLabel": "Ghairi",
+      "setBtnLabel": "Weka"
+    },
+    "toastMessages": {
+      "anErrorOccurred": "Hitilafu imetokea",
+      "anErrorOccurred2": "Hitilafu imetokea. Tafadhali jaribu tena baadae",
+      "searchError": "Hitilafu ya utafutaji",
+      "excelDownloadSuccess": "Hati ya Excel imepakuliwa"
+    },
+    "swal": {
+      "confirmButtonTextProceed": "Endelea",
+      "cancelButtonTextCancel": "Ghairi",
+      "confirmButtonTextYes": "Ndiyo",
+      "cancelButtonTextNo": "Hapana",
+      "confirmButtonTextClose": "Funga",
+      "confirmButtonTextOkay": "sawa",
+      "titleSuccess": "Mafanikio!",
+      "titleError": "Hitilafu!",
+      "titleConfirmAction": "Thibitisha Kitendo"
+    }
+  },
+  "shared": {
+    "feedback": {
+      "headerText": "Tuma Maoni kwa Zeraki",
+      "message": {
+        "greetings": "habari",
+        "body": "Ikiwa ungependa kushiriki maoni yako, una swali lolote, pendekeza kipengele au unahitaji usaidizi wa kusuluhisha suala, tafadhali liweke hapa na timu yetu itakujibu."
+      },
+      "inputFieldPlaceholderText": "Tuma ujumbe...",
+      "toastMessages": {
+        "success": "Maoni yamewasilishwa"
+      },
+      "sendFeedbackErrorMsg": {
+        "serverError": "Hitilafu ya Seva"
+      }
+    },
+    "whatsappDialog": {
+      "headerText": "Zeraki",
+      "alwaysActive": "Inatumika kila wakati",
+      "message": {
+        "greetings": "habari",
+        "body": "Bonyeza kitufe hapa chini ili kuwasiliana nasi moja kwa moja kupitia whatsapp"
+      },
+      "startChat": "Anzisha Gumzo"
+    },
+    "telDialog": {
+      "headerText": "Piga simu Zeraki",
+      "message": {
+        "greetings": "habari",
+        "body": "Bofya kitufe kilicho hapa chini ili kuwasiliana nasi moja kwa moja kwenye {{ contactNumber }}"
+      },
+      "callBtn": "Wito"
+    },
+    "teamProfile": {
+      "imageAltText": "Alex Nyangolo",
+      "closeBtn": "Funga"
+    }
+  },
+  "litemore": {
+    "accept": "Kubali",
+    "admins": "Wasimamizi",
+    "accManager": "Meneja akaunti",
+    "accOwner": "Mmiliki wa Akaunti",
+    "clearCache": "Futa Cache",
+    "creator": "Muumba",
+    "code": "Kanuni",
+    "registrationCode": "Msimbo wa Usajili",
+    "registrationDate": "Tarehe ya Usajili",
+    "registrationNo": "Nambari ya Usajili",
+    "region": "Mkoa",
+    "regionError": "Mkoa unahitajika",
+    "regionPlaceholder": "Ingiza eneo",
+    "reject": "Kataa",
+    "schoolName": "Jina la Shule",
+    "school": "Shule",
+    "searchSchools": "Tafuta Shule",
+    "senderID": "Kitambulisho cha mtumaji",
+    "smsBalance": "Mizani ya SMS",
+    "subEndDate": "Tarehe ya Mwisho ya Usajili",
+    "type": "Aina",
+    "zerakiPartner": "Mshirika wa Zeraki",
+    "valid": {
+      "title": "Shule Halali",
+      "emptyList": "Hakuna shule halali",
+      "showMore": "Onyesha shule zaidi halali"
+    },
+    "invalid": {
+      "title": "Shule Batili",
+      "emptyList": "Hakuna shule batili"
+    },
+    "unverified": {
+      "title": "Shule ambazo hazijathibitishwa",
+      "emptyList": "Hakuna shule ambazo hazijathibitishwa",
+      "showMore": "Onyesha Shule zaidi Zisizothibitishwa"
+    },
+    "joint": {
+      "title": "Shule za Pamoja",
+      "emptyList": "Hakuna shule za pamoja",
+      "showMore": "Onyesha shule zaidi za pamoja"
+    },
+    "demo": {
+      "title": "Shule za maonyesho",
+      "emptyList": "Hakuna shule za maonyesho",
+      "showMore": "Onyesha shule zaidi za maonyesho"
+    },
+    "partner": {
+      "add": "Ongeza Mshirika Mpya",
+      "title": "Washirika",
+      "titleReq": "Maombi ya Washirika",
+      "emptyList": "Hakuna washirika waliopatikana",
+      "emptyListReq": "Hakuna maombi ya washirika yaliyopatikana",
+      "teachersName": "Jina la mwalimu",
+      "createPartner": "Unda Mshirika",
+      "createTeacher": "Mfanye mwalimu kuwa mshirika",
+      "createExternal": "Ongeza mshirika wa nje",
+      "teachersNamePlaceholder": "John Doe",
+      "teachersNameError": "Jina la mwalimu linahitajika",
+      "schoolName": "Jina la Shule",
+      "schoolPlaceholder": "Chagua shule",
+      "teachersSchoolError": "Hitilafu ya shule",
+      "showPartners": "Onyesha Washirika",
+      "savePartner": "Hifadhi Mshirika",
+      "info": "Habari",
+      "infoError": "Taarifa inahitajika",
+      "infoPlaceholder": "Weka maelezo",
+      "isPartner": "Ni Mshirika",
+      "isNotPartner": "Sio Mshirika",
+      "makePartner": "Fanya Mshirika",
+      "externalNameError": "Jina linahitajika",
+      "phonePlaceholder": "07########",
+      "phoneError": "Simu inahitajika"
+    },
+    "feedback": {
+      "title": "Maoni",
+      "emptyList": "Hakuna maoni yaliyopatikana"
+    },
+    "shopPayments": {
+      "title": "Malipo ya duka",
+      "emptyList": "Hakuna rekodi ya malipo iliyopatikana",
+      "searchForm": {
+        "phoneNumberPlaceholder": "Nambari ya simu k.m 254...",
+        "transactionCodePlaceholder": "Msimbo wa muamala",
+        "orderNumberPlaceholder": "Nambari ya agizo",
+        "submitBtn": "Tafuta"
+      },
+      "tableHeaders": {
+        "orderId": "Agizo #",
+        "transactionCode": "Msimbo wa Muamala",
+        "paymentTime": "Muda wa Malipo"
+      }
+    },
+    "zlCreds": {
+      "title": "Vitambulisho vya ZL",
+      "emptyList": "Hakukuwa na rekodi zilizopatikana",
+      "searchForm": {
+        "placeholder": "Tafuta shule"
+      },
+      "tableHeaders": {
+        "sentCreds": "Hati za Utambulisho Zilizotumwa"
+      },
+      "excelDownload": {
+        "workSheetName": "Orodha ya Shule"
+      }
+    },
+    "zerakiProducts": {
+      "title": "Bidhaa za Zeraki",
+      "emptyList": "Hakuna shule zilizo na jina '{{ searchTerm }}' zilizopatikana",
+      "searchForm": {
+        "label": "Tafuta Shule",
+        "placeholder": "Jina la Shule"
+      },
+      "toastMessages": {
+        "nothingToUpdateMsg": "Hakuna cha kusasisha. Peana chaguo la shule ili kusasishwa",
+        "productUpdateSuccess": "Bidhaa za shule zimesasishwa"
+      }
+    },
+    "faqs": {
+      "addNew": "Ongeza Maswali Yanayoulizwa Mara kwa Mara Mpya",
+      "emptyList": "Hakuna Maswali Yanayoulizwa Mara kwa Mara yaliyopatikana",
+      "saveNew": "Hifadhi Maswali Yanayoulizwa Mara kwa Mara Mpya",
+      "faqCategory": "Aina ya Maswali Yanayoulizwa Mara kwa Mara",
+      "toastMessages": {
+        "addSuccess": "Maswali Yanayoulizwa Mara kwa Mara yameongezwa",
+        "deleteSuccess": "Maswali Yanayoulizwa Mara kwa Mara imeondolewa"
+      },
+      "swal": {
+        "deleteFaqTitle": "Futa Maswali Yanayoulizwa Mara kwa Mara!",
+        "deleteFaqText": "Je, una uhakika ungependa kufuta Maswali Yanayoulizwa Mara kwa Mara?"
+      },
+      "categories": {
+        "title": "Aina za Maswali Yanayoulizwa Mara kwa Mara",
+        "emptyList": "Hakuna kategoria za Maswali Yanayoulizwa Mara kwa Mara",
+        "addNew": "Ongeza Aina Mpya",
+        "viewFaqs": "Tazama Maswali Yanayoulizwa Mara kwa Mara",
+        "removeGroup": "Ondoa Kikundi",
+        "saveNewGroup": "Hifadhi Vikundi Vipya",
+        "details": {
+          "title": "Maelezo ya Aina ya Maswali Yanayoulizwa Mara kwa Mara"
+        },
+        "toastMessages": {
+          "addFaqCategory": "Kategoria zimeongezwa",
+          "deleteSuccess": "Maswali Yanayoulizwa Mara kwa Mara imeondolewa"
+        },
+        "swal": {
+          "deleteFaqCategoryTitle": "Futa Kitengo cha Maswali Yanayoulizwa Mara kwa Mara!",
+          "deleteFaqCategoryText": "Je, una uhakika ungependa kufuta Kitengo hiki cha Maswali Yanayoulizwa Mara kwa Mara?"
+        }
+      },
+      "list": {
+        "title": "Maswali Yanayoulizwa Mara kwa Mara",
+        "generalQuestions": "Maswali ya Jumla",
+        "generalQeustionsDescription": "Maswali yote ya jumla kuhusu Uchanganuzi wa Zeraki",
+        "emptyList": "Hakuna Maswali Yanayoulizwa Mara kwa Mara yaliyopatikana"
+      }
+    },
+    "selfSignup": {
+      "title": "Kujiandikisha",
+      "verified": "Imethibitishwa",
+      "unverified": "Haijathibitishwa",
+      "verifiedSchools": "Shule Zilizothibitishwa",
+      "myAccount": "Akaunti yangu",
+      "selectAccountManager": "Chagua Kidhibiti cha Akaunti",
+      "selectAccountOwner": "Chagua Mmiliki wa Akaunti",
+      "emptyList": "Hakuna rekodi zilizopatikana",
+      "noVerifiedSchools": "Hakuna shule zilizoidhinishwa zilizopatikana",
+      "noUnverifiedSchools": "Hakuna shule ambazo hazijathibitishwa zilizopatikana",
+      "tableHeaders": {
+        "contactPersonName": "Jina la Mtu wa Kuwasiliana",
+        "contactPersonPhone": "Nambari ya simu ya Mtu wa Kuwasiliana",
+        "accountManager": "Meneja wa akaunti",
+        "accountOwner": "Mmiliki wa Akaunti",
+        "verify": "Thibitisha",
+        "invalidate": "Batilisha"
+      },
+      "schoolDetails": {
+        "form": {
+          "headerText": "Kamilisha Maelezo ya Shule",
+          "zerakiAccManager": "Meneja wa Akaunti ya Zeraki",
+          "zerakiAccManagerPlaceholderText": "Chagua Kidhibiti cha Akaunti",
+          "contactPersonsName": "Jina la Mtu wa Kuwasiliana",
+          "contactPersonsPhone": "Nambari ya Simu ya Mtu wa Kuwasiliana"
+        }
+      },
+      "toastMessages": {
+        "updateSchoolCountySuccess": "Shule ya County imesasishwa",
+        "updateSchoolAccountManagerSuccess": "Kidhibiti cha Akaunti ya Shule kimesasishwa",
+        "updateSchoolAccountOwnerSuccess": "Mmiliki wa Akaunti ya Shule amesasishwa",
+        "rejectSchoolSuccess": "Shule imekataliwa",
+        "invalidateSchoolSuccess": "Shule imebatilishwa",
+        "registerSchoolSuccess": "Shule imesajiliwa kwa mafanikio",
+        "verifySelfSignUpSchoolSuccess": "Shule imethibitishwa"
+      },
+      "swal": {
+        "rejectSchoolTitle": "Ungependa kufuta {{ schoolName }}?",
+        "rejectSchoolText": "Hii ni hatua ya kudumu",
+        "invalidateSchoolTitle": "Batilisha {{ schoolName }}?",
+        "invalidateSchoolText": "Shule itaorodheshwa kuwa si sahihi"
+      }
+    }
+  },
+  "languages": {
+    "english": "Kiingereza",
+    "french": "Kifaransa",
+    "swahili": "Swahili",
+    "rwandese": "Kinyarwanda",
+    "amharic": "Kiamhari"
+  },
+  "zerakiPartner": {
+    "textMyZerakiPartner": "Washirika wa zeraki",
+    "zerakiPartnerTopNav": {
+      "mySchools": "Shule zangu",
+      "accountDetails": "Maelezo ya akaunti"
+    },
+    "mySchools": {
+      "noSchoolsFound": "Hakuna shule iliyopatikana",
+      "name": "Jina",
+      "registrationDate": "Tarehe ya Kujisajili",
+      "county": "Kaunti",
+      "accountManager": "Msimamizi wa Akaunti"
+    },
+    "accountDetails": {
+      "kraPin": "KRA PIN",
+      "accountName": "Jina la Akaunti (Jina la Mmiliki)",
+      "accountNumber": "Nambari ya Akaunti",
+      "bankName": "Jina la Benki",
+      "branchName": "Jina la Tawi",
+      "isRequired": "inahitajika",
+      "update": "Sasisho"
+    }
+  }
+}

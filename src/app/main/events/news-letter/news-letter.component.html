@@ -1,0 +1,328 @@
+<section class="mt-config content">
+
+    <!--
+    ==============================================
+    This is section list newsLetter
+    ==============================================
+    -->
+    <div class="box" *ngIf="!showAddView && !isViewNewsLetter && !showEditView">
+        <div class="box-header">
+            <h4 style="margin-top: 5px; margin-bottom: 5px;">{{ 'events.newsletter.newsletters' | translate }}</h4>
+            <div *ngIf="userRoles?.isSchoolAdmin" class="box-controls pull-right">
+                <button (click)="showAddView = true" class="btn btn-sm btn-info waves-effect waves-light" href="#">
+                    <i class="fa fa-plus"></i>
+                    {{ 'events.newsletter.add' | translate }}
+                </button>
+            </div>
+        </div>
+        <div class="box-body" *ngIf="newsLetters.length>0;">
+            <!-- <pre>{{newsLetters|json}}</pre> -->
+            <!--
+            ================================
+                Section list newsletters
+            ================================
+            -->
+            <!-- ------------------- -->
+            <!-- Mobile view -->
+            <!-- ------------------- -->
+            <div class="card border border-1 mobile-view" *ngFor="let l of newsLetters;let i = index">
+                <div class="card-body pb-0 pt-0">
+                    <h4
+                        class="card-title mb-0 justify-content-between d-flex align-items-center fw-600 text-capitalize">
+                        {{l.newsletterTitle}}
+                        <span class="avatar avatar-lg bg-primary-light mobile-view rounded" [ngClass]="{'ng-primary-light':(l.contentType == 1),
+                            'bg-info-light':(l.contentType == 2)}">
+                            <i class="fa" [ngClass]="{'fa-file-pdf-o':(l.contentType == 1),
+                        'fa-file-word-o':(l.contentType == 2)}"></i>
+                        </span>
+                    </h4>
+                    <div class="cour-stac d-flex align-items-center text-fade mt-5">
+                        <div class="text-fade">
+                            <table class="table table-borderless mb-0">
+                                <tr>
+                                    <td>{{ 'events.newsletter.createdBy' | translate }} :</td>
+                                    <td class="fw-600">{{l.createdBy}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'events.newsletter.createdOn' | translate }} :</td>
+                                    <td class="fw-600">{{l.createdOn | date}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="mt-1 text-end">
+                        <button (click)="viewNewsLetter(l)" class="btn btn-sm btn-secondary waves-effect waves-light">
+                            {{ 'events.newsletter.view' | translate }}
+                        </button>
+                        <button *ngIf="userRoles?.isSchoolAdmin" (click)="editNewsletter(l,i)"
+                            class="btn btn-sm btn-info waves-effect m-1 waves-light">
+                            {{ 'events.newsletter.edit' | translate }}
+                        </button>
+                        <button *ngIf="userRoles?.isSchoolAdmin" (click)="deleteNewsLetter(l,i)"
+                            class="btn btn-sm btn-danger waves-effect waves-light">
+                            {{ 'events.newsletter.delete' | translate }}
+                        </button>
+                    </div>
+
+                </div>
+                <hr class="mb-0" *ngIf="i != newsLetters.length">
+            </div>
+            <div class="media-list media-list-hover desktop-view">
+
+
+                <div *ngFor="let l of newsLetters;let i = index" class="media bar-0 ">
+
+                    <!-- ------------------- -->
+                    <!-- Desktop view -->
+                    <!-- ------------------- -->
+                    <span class="avatar avatar-lg bg-primary-light  rounded" [ngClass]="{'ng-primary-light':(l.contentType == 1),
+                         'bg-info-light':(l.contentType == 2)}">
+                        <!-- <i class="fa fa-file-pdf-o"></i> -->
+                        <i class="fa" [ngClass]="{'fa-file-pdf-o':(l.contentType == 1),
+                        'fa-file-word-o':(l.contentType == 2)}"></i>
+                    </span>
+
+                    <div class="media-body fw-500">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a class="hover-success " [ngClass]="{'hover-info':(l.contentType == 2),
+                                'hover-success':(l.contentType == 1)}" href="#">
+                                <strong class="text-capitalize"> {{ l.newsletterTitle }}</strong>
+                                <br>
+                                <div class="text-fade">
+                                    <table class="table table-borderless mb-0">
+                                        <tr>
+                                            <td>{{ 'events.newsletter.createdBy' | translate }} :</td>
+                                            <td class="fw-600">{{l.createdBy}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ 'events.newsletter.createdOn' | translate }} :</td>
+                                            <td class="fw-600">{{l.createdOn | date}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                            </a>
+                            <div style="display: inline-block;" class="mt-1">
+                                <button (click)="viewNewsLetter(l)"
+                                    class="btn btn-sm btn-secondary waves-effect waves-light">
+                                    {{ 'events.newsletter.view' | translate }}
+                                </button>
+                                <button *ngIf="userRoles?.isSchoolAdmin" (click)="editNewsletter(l,i)"
+                                    class="btn btn-sm btn-info waves-effect m-1 waves-light">
+                                    {{ 'events.newsletter.edit' | translate }}
+                                </button>
+                                <button *ngIf="userRoles?.isSchoolAdmin" (click)="deleteNewsLetter(l,i)"
+                                    class="btn btn-sm btn-danger waves-effect waves-light">
+                                    {{ 'events.newsletter.delete' | translate }}
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <p class="mb-0" *ngIf="newsLetters.length==0">
+                {{ 'events.newsletter.noNewsletters' | translate }}
+            </p>
+
+
+
+        </div>
+    </div>
+
+    <!--
+    ==============================================
+    This is section view single newsLetter
+    ==============================================
+    -->
+    <div class="box" *ngIf="isViewNewsLetter">
+        <div class="box-header">
+            <h4 style="margin-top: 5px; margin-bottom: 5px"> {{ 'events.newsletter.newsletter' | translate }} -
+                {{selectedNewsLetter.newsletterTitle}}</h4>
+            <div class="box-controls pull-right">
+                <button (click)="isViewNewsLetter = false" class="btn btn-sm btn-info waves-effect waves-light mx-1"
+                    href="#">
+                    <i class="fa fa-remove"></i>
+                    {{ 'events.newsletter.close' | translate }}
+                </button>
+                <button *ngIf="selectedNewsLetter.contentType == 1" (click)="downloadFile(selectedNewsLetter)" class="btn btn-sm btn-info waves-effect waves-light">
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-download" viewBox="0 0 16 16">
+                            <path
+                                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                            <path
+                                d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                        </svg>
+                    </i>
+                    {{ 'common.download' | translate }}
+                </button>
+                <button *ngIf="selectedNewsLetter.contentType == 2" (click)="printPage('print_this')" class="btn btn-sm btn-info waves-effect waves-light">
+                    <i class="fa fa-print"></i>
+                    {{ 'common.print' | translate }}
+                </button>
+            </div>
+        </div>
+        <!-- view pdf section -->
+        <div class="box-body" *ngIf="selectedNewsLetter.contentType==1">
+            <pdf-viewer [src]="selectedNewsLetter.newsletterContent" [render-text]="true" [original-size]="false" style="min-width: 78vw;
+            min-height: 74vh;">
+            </pdf-viewer>
+            <!-- <object data="{{f |safeHtml:'url'}}" width="100%" height="600px"></object> -->
+            <!-- {{f}} -->
+            <!-- <iframe src="{{f | safe}}"></iframe> -->
+            <!-- <object data="{{f}}" width="100%" height="600px"></object> -->
+        </div>
+        <!-- view word section -->
+        <div class="box-body bg-light border-1" style="border-radius: 0;" *ngIf="selectedNewsLetter.contentType == 2">
+            <div id="print_this" style="min-height: 550px;
+             width: 100%;
+             border-radius: 1px;border: 1px solid #d1d1d3 ;padding: 30px 20px;" class="bg-white"
+                [innerHtml]="'events.newsletter.newsletterContent' | translate: {newsletterContent: selectedNewsLetter.newsletterContent} ">
+            </div>
+        </div>
+    </div>
+
+    <!--
+    ==============================================
+    This is section add newsLetter
+    ==============================================
+    -->
+    <div class="box" *ngIf="showAddView && !isViewNewsLetter">
+        <div class="box-header">
+            <h4 style="margin-top: 5px; margin-bottom: 5px"> {{ 'events.newsletter.add' | translate }}</h4>
+            <div class="box-controls pull-right">
+                <button (click)="showAddView = false" class="btn btn-sm btn-info waves-effect waves-light" href="#">
+                    <i class="fa fa-remove"></i>
+                    {{ 'events.newsletter.close' | translate }}
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="demo-checkbox">
+                <input type="checkbox" id="createNewsLetter" class="filled-in chk-col-success"
+                    [checked]="!addViaDocument" (click)="toggleAddViaDoc()">
+                <label for="createNewsLetter">{{ 'events.newsletter.create' | translate }}</label>
+                <input type="checkbox" id="uploadNewsLetter" class="filled-in chk-col-success"
+                    [checked]="addViaDocument" (click)="toggleAddViaDoc()">
+                <label for="uploadNewsLetter">{{ 'events.newsletter.upload' | translate }} <b>{{
+                        'events.newsletter.document' | translate }}</b></label>
+            </div>
+            <form #aForm="ngForm" (ngSubmit)="onSubmit(aForm)">
+                <div class="form-group">
+                    <label for="name">{{ 'events.newsletter.title' | translate }}</label>
+                    <input [(ngModel)]="model.name" placeholder="{{ 'events.newsletter.titlePlaceholder' | translate }}"
+                        class="form-control" type="text" name="titleName" id="titleId" required #title="ngModel"
+                        [ngClass]="{
+                         'is-invalid':(aForm.submitted && title.invalid)
+                     }">
+                    <div class="text-danger" *ngIf="aForm.submitted && title.invalid">
+                        <div *ngIf="title.errors?.required">{{ 'events.newsletter.titleErrMes' | translate }}</div>
+                    </div>
+                </div>
+
+                <div *ngIf="addViaDocument" class="form-group">
+                    <label for="docFileId"></label>
+                    <input type="file" name="docFileName" id="docFileId" [required]="addViaDocument"
+                        class="form-control" [(ngModel)]="model.file" #file="ngModel" (change)="onPdfUpload($event)"
+                        accept=".pdf" [ngClass]="{'is-invalid':(aForm.submitted && file.invalid)}">
+                    <div class="text-danger" *ngIf="file.invalid && aForm.submitted">
+                        <div *ngIf="file.errors?.required">{{ 'events.newsletter.noneSelected' | translate }}</div>
+                        <div *ngIf="file.errors?.accept">{{ 'events.newsletter.pdfErr' | translate }}</div>
+                    </div>
+                </div>
+
+                <div *ngIf="!addViaDocument" class="form-group">
+                    <label for="description">{{ 'events.newsletter.description' | translate }}</label>
+                    <div [ngStyle]="{'border':(aForm.submitted && editor.invalid)? '1px solid #ff3f3f':'none'}">
+                        <ckeditor [(ngModel)]="model.description" id="description" [config]="{'height':480}"
+                            [required]="!addViaDocument" name="description" #editor="ngModel">
+                        </ckeditor>
+                    </div>
+                    <div class="text-danger" *ngIf="aForm.submitted && editor.invalid">
+                        <div *ngIf="editor.errors?.required">{{ 'events.newsletter.descErrMes' | translate }}</div>
+                    </div>
+
+                </div>
+
+                <div class="form-group text-end mb-0">
+                    <button class="btn btn-sm btn-info waves-effect waves-light" type="submit">{{
+                        'events.newsletter.submit' | translate }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--
+    ==============================================
+    This is section Edit newsLetter
+    ==============================================
+    -->
+    <div class="box" *ngIf="showEditView">
+        <div class="box-header">
+            <h4 style="margin-top: 5px; margin-bottom: 5px;">{{ 'events.newsletter.editNewsLetter' | translate }}</h4>
+            <div class="box-controls pull-right">
+                <button (click)="showEditView = false" class="btn btn-sm btn-info waves-effect waves-light" href="#">
+                    <i class="fa fa-remove"></i>
+                    {{ 'events.newsletter.close' | translate }}
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <!-- <pre>{{selectedNewsLetter|json}}</pre> -->
+            <!-- <div class="demo-checkbox">
+                <input type="checkbox" id="createNewsLetter" class="filled-in chk-col-success"
+                    [checked]="!editViaDocument" (click)="toggleAddViaDoc()">
+                <label for="createNewsLetter">Create a newsletter</label>
+                <input type="checkbox" id="uploadNewsLetter" class="filled-in chk-col-success"
+                    [checked]="editViaDocument" (click)="toggleAddViaDoc()">
+                <label for="uploadNewsLetter">Upload a newsletter <b>document</b></label>
+            </div> -->
+            <form #eForm="ngForm" (ngSubmit)="onSubmitUpdate(eForm)">
+                <div class="form-group">
+                    <label for="name">{{ 'events.newsletter.title' | translate }}</label>
+                    <input [(ngModel)]="selectedNewsLetter.title_temp"
+                        placeholder="{{ 'events.newsletter.titlePlaceholder' | translate }}" class="form-control"
+                        type="text" name="titleName" id="titleId" required #title="ngModel" [ngClass]="{
+                         'is-invalid':(eForm.submitted && title.invalid)
+                     }">
+                    <div class="text-danger" *ngIf="eForm.submitted && title.invalid">
+                        <div *ngIf="title.errors?.required">{{ 'events.newsletter.titleErrMes' | translate }}</div>
+                    </div>
+                </div>
+
+                <div *ngIf="editViaDocument" class="form-group">
+                    <label for="docFileId"></label>
+                    <input class="form-control" type="file" accept="application/pdf" name="docFileName" id="docFileId" (change)="onPdfUploadEdit($event)"
+                        [required]="editViaDocument" [(ngModel)]="selectedNewsLetter.file"
+                        #fileEdit="ngModel" [ngClass]="{'is-invalid':(eForm.submitted && fileEdit.invalid)}">
+                    <div class="text-danger" *ngIf="fileEdit.invalid && eForm.submitted">
+                        <div *ngIf="fileEdit.errors?.required">{{ 'events.newsletter.noneSelected' | translate }}</div>
+                        <div *ngIf="fileEdit.errors?.accept">{{ 'events.newsletter.pdfErr' | translate }}</div>
+                    </div>
+                </div>
+
+                <div *ngIf="!editViaDocument" class="form-group">
+                    <label for="descriptionEdit">{{ 'events.newsletter.description' | translate }}</label>
+                    <div [ngStyle]="{'border':(eForm.submitted && editorEdit.invalid)? '1px solid #ff3f3f':'none'}">
+                        <ckeditor [(ngModel)]="selectedNewsLetter.newsletterContent_temp" [config]="{height:550}"
+                            id="descriptionEdit" [required]="!editViaDocument" name="description" #editorEdit="ngModel">
+                        </ckeditor>
+                    </div>
+                    <div class="text-danger" *ngIf="eForm.submitted && editorEdit.invalid">
+                        <div *ngIf="editorEdit.errors?.required">{{ 'events.newsletter.descErrMes' | translate }}</div>
+                    </div>
+
+                </div>
+
+                <div class="form-group text-end mb-0">
+                    <button class="btn btn-sm btn-info waves-effect waves-light" type="submit">{{
+                        'events.newsletter.update' | translate }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</section>

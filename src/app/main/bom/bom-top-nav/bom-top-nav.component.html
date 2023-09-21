@@ -1,0 +1,232 @@
+<div class="navbar-light top-wrapper fixed-top bg-primary">
+
+    <!-- Admin view -->
+    <ul class="nav nav-pill customtab2 nav-filled text-center">
+        <li class="nav-item">
+            <a [routerLink]="['/main/bom/manage']" class="nav-link" routerLinkActive="active"
+                #manageOfficials="routerLinkActive" [ngClass]="manageOfficials.isActive ? 'active' : ''"
+                data-bs-toggle="tab" role="tab" aria-selected="true">
+                <span class="me-2 hidden-xs-down">
+                    <i class="fa fa-cog"></i>
+                </span>
+                <div class="hidden-sm-up text-center">
+                    <i class="fa fa-cog"></i>
+                </div>
+                <span  class="hidden-xs-down">
+                  <ng-container *ngIf="userRoles?.isSchoolAdmin">
+                    <ng-container *ngTemplateOutlet="countriesManageBOM"></ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="!userRoles?.isSchoolAdmin">
+										<ng-container *ngTemplateOutlet="countriesViewBOM"></ng-container>
+                  </ng-container>
+                </span>
+
+                <span class="hidden-sm-up fs-11 fw-bold">
+									<ng-container *ngIf="userRoles?.isSchoolAdmin">
+										<ng-container *ngTemplateOutlet="countriesManageBOMSmall"></ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="!userRoles?.isSchoolAdmin">
+										<ng-container *ngTemplateOutlet="countriesViewBOMSmall"></ng-container>
+                  </ng-container>
+                </span>
+            </a>
+        </li>
+
+        <li *ngIf="userRoles?.isSchoolAdmin" class="nav-item">
+            <a [routerLink]="['/main/bom/add/']" class="nav-link" routerLinkActive="active" data-bs-toggle="tab"
+                #addOfficial="routerLinkActive" [ngClass]="addOfficial.isActive ? 'active' : ''" role="tab"
+                aria-selected="true">
+                <span class="me-2 hidden-xs-down">
+                    <i class="fa fa-plus"></i>
+                </span>
+                <div class="hidden-sm-up text-center">
+                    <i class="fa fa-plus"></i>
+                </div>
+
+								<ng-container *ngTemplateOutlet="countriesAddBOM"></ng-container>
+
+								<ng-template #countriesAddBOM>
+									<ui-uganda-school [template]="bog"></ui-uganda-school>
+									<ui-kenyan-school [template]="bom"></ui-kenyan-school>
+									<ui-tanzania-school [template]="bom"></ui-tanzania-school>
+									<ui-guinea-school [template]="bom"></ui-guinea-school>
+									<ui-ivory-coast-school [template]="boi"></ui-ivory-coast-school>
+									<ui-zimbabwe-school [template]="bom"></ui-zimbabwe-school>
+									<ui-zambia-school [template]="bom"></ui-zambia-school>
+									<ui-south-africa-school [template]="bom"></ui-south-africa-school>
+									<ui-ghana-school [template]="bom"></ui-ghana-school>
+
+									<ng-template #bog>
+										<span class="hidden-xs-down">{{ 'bom.topNav.addBog' | translate }}</span>
+										<span class="hidden-sm-up fs-11 fw-bold">
+											<div *ngFor="let item of 'bom.topNav.addBog' | translate | splitNavText">
+												{{ item }}
+											</div>
+										</span>
+									</ng-template>
+									<ng-template #bom>
+										<span class="hidden-xs-down">{{ 'bom.topNav.addBom' | translate }}</span>
+										<span class="hidden-sm-up fs-11 fw-bold">
+											<div *ngFor="let item of 'bom.topNav.addBom' | translate | splitNavText">
+												{{ item }}
+											</div>
+										</span>
+									</ng-template>
+
+									<ng-template #boi>
+										<span class="hidden-xs-down"> {{ 'common.addBomPaIvory' | translate }}</span>
+										<span class="hidden-sm-up fs-11 fw-bold">
+											<div *ngFor="let item of 'common.addBomPaIvory' | translate | splitNavText">
+												{{ item }}
+											</div>
+										</span>
+									</ng-template>
+								</ng-template>
+            </a>
+        </li>
+        <li *ngIf="userRoles?.isSchoolAdmin" class="nav-item">
+            <a [routerLink]="['/main/bom/groups/']" class="nav-link" routerLinkActive="active" data-bs-toggle="tab"
+                #officialGroups="routerLinkActive" [ngClass]="officialGroups.isActive ? 'active' : ''" role="tab"
+                aria-selected="true">
+                <span class="me-2 hidden-xs-down">
+                    <i class="fa fa-group"></i>
+                </span>
+                <div class="hidden-sm-up text-center">
+                    <i class="fa fa-group"></i>
+                </div>
+
+								<ng-container *ngTemplateOutlet="countriesBOMGroupsText"></ng-container>
+
+								<ng-template #countriesBOMGroupsText>
+									<ui-uganda-school [template]="bog"></ui-uganda-school>
+									<ui-kenyan-school [template]="bom"></ui-kenyan-school>
+									<ui-tanzania-school [template]="bom"></ui-tanzania-school>
+									<ui-guinea-school [template]="bom"></ui-guinea-school>
+									<ui-ivory-coast-school [template]="boi"></ui-ivory-coast-school>
+									<ui-zimbabwe-school [template]="bom"></ui-zimbabwe-school>
+									<ui-zambia-school [template]="bom"></ui-zambia-school>
+									<ui-south-africa-school [template]="bom"></ui-south-africa-school>
+									<ui-ghana-school [template]="bom"></ui-ghana-school>
+
+									<ng-template #bog>
+										<span class="hidden-xs-down">{{ 'bom.topNav.bogGroups' | translate }}</span>
+										<span class="hidden-sm-up fs-11 fw-bold">
+											<div *ngFor="let item of 'bom.topNav.bogGroups' | translate | splitNavText">
+												{{ item }}
+											</div>
+										</span>
+									</ng-template>
+									<ng-template #bom>
+										<span class="hidden-xs-down">{{ 'bom.topNav.bomGroups' | translate }}</span>
+										<span class="hidden-sm-up fs-11 fw-bold">
+											<div *ngFor="let item of 'bom.topNav.bomGroups' | translate | splitNavText">
+												{{ item }}
+											</div>
+										</span>
+									</ng-template>
+									<ng-template #boi>
+										<span class="hidden-xs-down">{{ 'common.groupBomPaIvory' | translate }}</span>
+										<span class="hidden-sm-up fs-11 fw-bold">
+											<div *ngFor="let item of 'common.groupBomPaIvory' | translate | splitNavText">
+												{{ item }}
+											</div>
+										</span>
+									</ng-template>
+								</ng-template>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+<ng-template #countriesManageBOM>
+	<ui-uganda-school [template]="bog"></ui-uganda-school>
+	<ui-kenyan-school [template]="bom"></ui-kenyan-school>
+	<ui-tanzania-school [template]="bom"></ui-tanzania-school>
+	<ui-guinea-school [template]="bom"></ui-guinea-school>
+	<ui-ivory-coast-school [template]="boi"></ui-ivory-coast-school>
+	<ui-zimbabwe-school [template]="bom"></ui-zimbabwe-school>
+	<ui-zambia-school [template]="bom"></ui-zambia-school>
+	<ui-south-africa-school [template]="bom"></ui-south-africa-school>
+	<ui-ghana-school [template]="bom"></ui-ghana-school>
+
+	<ng-template #bog>
+		{{ 'bom.topNav.manageBog' | translate }}
+	</ng-template>
+	<ng-template #bom>
+		{{ 'bom.topNav.manageBom' | translate }}
+	</ng-template>
+	<ng-template #boi>
+		{{'common.manageBomPaIvory' |translate}}
+	</ng-template>
+</ng-template>
+
+<ng-template #countriesManageBOMSmall>
+	<ui-uganda-school [template]="bog"></ui-uganda-school>
+	<ui-kenyan-school [template]="bom"></ui-kenyan-school>
+	<ui-tanzania-school [template]="bom"></ui-tanzania-school>
+	<ui-guinea-school [template]="bom"></ui-guinea-school>
+	<ui-ivory-coast-school [template]="boi"></ui-ivory-coast-school>
+	<ui-zimbabwe-school [template]="bom"></ui-zimbabwe-school>
+	<ui-zambia-school [template]="bom"></ui-zambia-school>
+	<ui-south-africa-school [template]="bom"></ui-south-africa-school>
+	<ui-ghana-school [template]="bom"></ui-ghana-school>
+
+	<ng-template #boi>
+		<div *ngFor="let item of 'bom.topNav.manageBog' | translate | splitNavText">
+			{{ item }}
+		</div>
+	</ng-template>
+	<ng-template #bog>
+		<div *ngFor="let item of 'bom.topNav.manageBog' | translate | splitNavText">
+			{{ item }}
+		</div>
+	</ng-template>
+	<ng-template #bom>
+		<div *ngFor="let item of 'bom.topNav.manageBom' | translate | splitNavText">
+			{{ item }}
+		</div>
+	</ng-template>
+</ng-template>
+
+<ng-template #countriesViewBOM>
+	<ui-uganda-school [template]="bog"></ui-uganda-school>
+	<ui-kenyan-school [template]="bom"></ui-kenyan-school>
+	<ui-tanzania-school [template]="bom"></ui-tanzania-school>
+	<ui-guinea-school [template]="bom"></ui-guinea-school>
+	<ui-ivory-coast-school [template]="bom"></ui-ivory-coast-school>
+	<ui-zimbabwe-school [template]="bom"></ui-zimbabwe-school>
+	<ui-zambia-school [template]="bom"></ui-zambia-school>
+	<ui-south-africa-school [template]="bom"></ui-south-africa-school>
+	<ui-ghana-school [template]="bom"></ui-ghana-school>
+
+	<ng-template #bog>
+		{{ 'bom.topNav.viewBog' | translate }}
+	</ng-template>
+	<ng-template #bom>
+		{{ 'bom.topNav.viewBog' | translate }}
+	</ng-template>
+</ng-template>
+
+<ng-template #countriesViewBOMSmall>
+	<ui-uganda-school [template]="bog"></ui-uganda-school>
+	<ui-kenyan-school [template]="bom"></ui-kenyan-school>
+	<ui-tanzania-school [template]="bom"></ui-tanzania-school>
+	<ui-guinea-school [template]="bom"></ui-guinea-school>
+	<ui-ivory-coast-school [template]="bom"></ui-ivory-coast-school>
+	<ui-zimbabwe-school [template]="bom"></ui-zimbabwe-school>
+	<ui-zambia-school [template]="bom"></ui-zambia-school>
+	<ui-south-africa-school [template]="bom"></ui-south-africa-school>
+	<ui-ghana-school [template]="bom"></ui-ghana-school>
+
+	<ng-template #bog>
+		<div *ngFor="let item of 'bom.topNav.viewBog' | translate | splitNavText">
+			{{ item }}
+		</div>
+	</ng-template>
+	<ng-template #bom>
+		<div *ngFor="let item of 'bom.topNav.viewBom' | translate | splitNavText">
+			{{ item }}
+		</div>
+	</ng-template>
+</ng-template>

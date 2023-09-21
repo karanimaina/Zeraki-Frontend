@@ -1,0 +1,79 @@
+<div
+	class="fixed-bottom border-top rounded bg-secondary-light d-md-none d-lg-none d-xl-none shadow-lg">
+	<ul class="nav nav-fill d-flex flex-nowrap">
+
+		<li *ngFor="let menuItem of mainMenuItems" class="nav-item" routerLinkActive="active"
+			#rlaMenu="routerLinkActive" [ngClass]="rlaMenu.isActive ? 'bt-3 border-primary' : ''">
+			<ng-container *ngIf="menuItem.usesNormalLink else routerLinkTemplate">
+				<a [href]="menuItem.normalLink" target="_blank" class="nav-link active mobile-nav-collapsed">
+					<div class="text-center mb-1">
+						<i class="{{menuItem.icon}}"></i>
+					</div>
+					{{ menuItem.label }}
+				</a>
+			</ng-container>
+			<ng-template #routerLinkTemplate>
+				<a [routerLink]="menuItem.routerLink" class="nav-link active mobile-nav-collapsed" aria-current="page"
+					data-bs-target="#navbarScroll">
+					<div class="text-center mb-1">
+						<i class="{{menuItem.icon}}"></i>
+					</div>
+					{{ menuItem.label }}
+				</a>
+			</ng-template>
+		</li>
+
+		<ng-container *ngIf="moreMenuItems.length">
+			<li class="nav-item">
+				<a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll"
+					aria-expanded="false" aria-label="Toggle more">
+					<div class="text-center mb-1">
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+							class="bi bi-three-dots" viewBox="0 0 16 16">
+							<path
+								d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+						</svg>
+					</div>
+					{{ "layout.more" | translate }}
+				</a>
+			</li>
+		</ng-container>
+	</ul>
+
+	<div class="collapse" id="navbarScroll">
+		<hr>
+		<ul class="navbar-nav navbar-nav-scroll me-auto my-2 my-lg-0 p-10">
+			<ng-container *ngFor="let menu of moreMenuItems">
+				<li class="header text-muted">{{ menu.title }}</li>
+				<li *ngFor="let menuItem of menu.items" class="nav-item py-10" routerLinkActive="active"
+					#rlaMoreMenus="routerLinkActive"
+					[ngClass]="rlaMoreMenus.isActive ? 'text-decoration-underline' : ''">
+
+					<ng-container *ngIf="menuItem.usesNormalLink else routerLinkTemplate">
+						<a [href]="menuItem.normalLink" target="_blank">
+							<span class="me-2">
+								<i class="{{menuItem.icon}}"></i>
+							</span>
+							<span>{{ menuItem.label }}</span>
+						</a>
+					</ng-container>
+					<ng-template #routerLinkTemplate>
+						<a [routerLink]="menuItem.routerLink" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+							aria-expanded="true">
+							<span class="me-2">
+								<i class="{{menuItem.icon}}"></i>
+							</span>
+							<span>{{ menuItem.label }}</span>
+						</a>
+					</ng-template>
+				</li>
+				<br class="my-15" />
+			</ng-container>
+
+		</ul>
+		<div *ngIf="!isDesktopDevice" class="text-center" style="margin: 0.5em 0 0.5em 0;">
+			<a target="_blank" href="https://play.google.com/store/apps/details?id=ke.co.litemore.zanalytics">{{
+				"common.version"| translate:{version: appVersion} }}</a>
+		</div>
+	</div>
+</div>

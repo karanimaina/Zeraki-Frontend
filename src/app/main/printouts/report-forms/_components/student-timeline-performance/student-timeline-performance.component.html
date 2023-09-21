@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-12" style="float: none; margin: 0 auto;">
+        <div style="padding: 16px 0px 5px 4px">
+            <span class="zreport-label">
+                {{ 'printouts.reportForms.studPerformance' | translate:{studentName: studentReport.studentName} }}
+            </span>
+        </div>
+        <highcharts-chart
+                class="stud_series"
+				[id]="'performance-over-time-' + studentReport.userId"
+                id="chart3"
+                [Highcharts]="HighCharts!"
+                [options]="timeSeriesChart">
+        </highcharts-chart>
+    </div>
+</div>
